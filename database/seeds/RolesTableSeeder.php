@@ -9,7 +9,7 @@ class RolesTableSeeder extends Seeder
     {
         Role::create([
             'role' => 'admin',
-            'permission' => 'get-role save-role edit-role delete-role',
+            'permission' => 'get-role save-role edit-role delete-role get-task save-task edit-task delete-task',
         ]);
     }
 }

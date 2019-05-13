@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -11,6 +12,13 @@ class AuthController extends Controller
 {
     public function login(Request $request) 
     {
+        $user = User::where('email', $request->username)->get();
+        
+        if(count($user) > 0) {
+            $request->scope = Role::where('id', $user[0]['role_id'])->select('permission')->get()[0]['permission'];
+        } else {
+            $request->scope = '';
+        }
 
         $request->request->add([
             'grant_type' => 'password',
@@ -18,7 +26,7 @@ class AuthController extends Controller
             'client_secret' => config('services.passport.client_secret'),
             'username' => $request->username,
             'password' => $request->password,
-            'scope' => 'get-task save-task edit-task delete-task',
+            'scope' => $request->scope,
         ]);
 
         $tokenRequest = Request::create(

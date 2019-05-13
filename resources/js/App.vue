@@ -11,7 +11,7 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn to="/todo" flat>ToDo</v-btn>
+        <v-btn to="/task" flat>Task</v-btn>
         <v-btn @click="logout()" flat icon v-show="token !== null">
           <v-icon>fas fa-sign-out-alt</v-icon>
         </v-btn>
@@ -22,11 +22,7 @@
     <br>
 
     <v-content>
-      <v-layout justify-center>
-        <v-flex xs10 lg8>
-          <router-view/>
-        </v-flex>
-      </v-layout>  
+      <router-view/>  
     </v-content>
 
   </v-app>

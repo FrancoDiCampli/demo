@@ -2324,6 +2324,66 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TaskForm.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TaskForm.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'TaskForm',
+  data: function data() {
+    return {
+      rules: {
+        required: function required(value) {
+          return !!value || 'Este campo es obligatorio';
+        }
+      }
+    };
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])('crudx', ['form']))
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TaskIndex.vue?vue&type=script&lang=js&":
 /*!********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TaskIndex.vue?vue&type=script&lang=js& ***!
@@ -2333,6 +2393,13 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2373,28 +2440,60 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accsess_token');
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'TaskIndex',
   data: function data() {
     return {
-      tasks: []
+      dialog: false,
+      tasks: [],
+      task_id: null
     };
   },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])('crudx', ['inProcess', 'data'])),
   mounted: function mounted() {
-    this.index();
+    this.index({
+      url: 'api/task/index'
+    });
   },
-  methods: {
-    index: function index() {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])('crudx', ['index', 'destroy']), {
+    deleteTask: function deleteTask() {
+      this.destroy({
+        url: 'api/task/delete/' + this.task_id,
+        reload: 'api/task/index'
+      });
+    },
+    updateTask: function updateTask() {
       var _this = this;
 
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accsess_token');
-      axios.get('api/task/index').then(function (response) {
-        _this.tasks = response.data;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.put('api/task/edit/' + this.task_id).then(function (response) {
+        _this.index({
+          url: 'api/task/index'
+        });
       })["catch"](function (error) {
         console.log(error.response.data);
       });
     }
-  }
+  })
 });
 
 /***/ }),
@@ -2426,15 +2525,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'error',
-  data: function data() {
-    return {
-      det: {
-        'name': 'maxi'
-      }
-    };
-  },
   props: ['tag'],
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['errors']), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])('crudx', ['errors']), {
     error_messages: function error_messages() {
       return this.errors['errors'][this.tag];
     }
@@ -2472,7 +2564,34 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_TaskIndex_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/TaskIndex.vue */ "./resources/js/components/TaskIndex.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _components_TaskIndex_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/TaskIndex.vue */ "./resources/js/components/TaskIndex.vue");
+/* harmony import */ var _components_TaskForm_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/TaskForm.vue */ "./resources/js/components/TaskForm.vue");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2480,11 +2599,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Task',
+  data: function data() {
+    return {
+      dialog: false
+    };
+  },
   components: {
-    TaskIndex: _components_TaskIndex_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
-  }
+    TaskIndex: _components_TaskIndex_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    TaskForm: _components_TaskForm_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('crudx', ['save']), {
+    saveTask: function saveTask() {
+      if (this.$refs.taskForm.validate()) {
+        this.save({
+          url: 'api/task/save',
+          reload: 'api/task/index'
+        });
+        this.dialog = false;
+      }
+    }
+  })
 });
 
 /***/ }),
@@ -4004,9 +4142,21 @@ var render = function() {
           _c(
             "v-toolbar-items",
             [
-              _c("v-btn", { attrs: { to: "/task", flat: "" } }, [
-                _vm._v("Task")
-              ]),
+              _c(
+                "v-btn",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.token !== null,
+                      expression: "token !== null"
+                    }
+                  ],
+                  attrs: { to: "/task", flat: "" }
+                },
+                [_vm._v("Task")]
+              ),
               _vm._v(" "),
               _c(
                 "v-btn",
@@ -4796,6 +4946,91 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TaskForm.vue?vue&type=template&id=51f73658&":
+/*!***********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TaskForm.vue?vue&type=template&id=51f73658& ***!
+  \***********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "v-layout",
+        { attrs: { wrap: "", "justify-center": "" } },
+        [
+          _c(
+            "v-flex",
+            { attrs: { xs10: "" } },
+            [
+              _c("v-text-field", {
+                attrs: {
+                  rules: [_vm.rules.required],
+                  label: "Task",
+                  hint: "Task",
+                  color: "secondary",
+                  outline: "",
+                  "single-line": ""
+                },
+                model: {
+                  value: _vm.form.task,
+                  callback: function($$v) {
+                    _vm.$set(_vm.form, "task", $$v)
+                  },
+                  expression: "form.task"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-flex",
+            { attrs: { xs10: "" } },
+            [
+              _c("v-textarea", {
+                attrs: {
+                  rules: [_vm.rules.required],
+                  label: "Description",
+                  hint: "Description",
+                  color: "secondary",
+                  outline: "",
+                  "single-line": ""
+                },
+                model: {
+                  value: _vm.form.description,
+                  callback: function($$v) {
+                    _vm.$set(_vm.form, "description", $$v)
+                  },
+                  expression: "form.description"
+                }
+              })
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TaskIndex.vue?vue&type=template&id=702869f2&":
 /*!************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TaskIndex.vue?vue&type=template&id=702869f2& ***!
@@ -4817,7 +5052,7 @@ var render = function() {
       _c(
         "v-layout",
         { attrs: { "justify-center": "", wrap: "" } },
-        _vm._l(_vm.tasks, function(task) {
+        _vm._l(_vm.data, function(task) {
           return _c(
             "v-flex",
             { key: task.id, attrs: { xs10: "", sm5: "", lg3: "", "ma-2": "" } },
@@ -4845,55 +5080,59 @@ var render = function() {
                                 "v-layout",
                                 { attrs: { "justify-end": "" } },
                                 [
-                                  task.state
-                                    ? _c(
-                                        "div",
+                                  _c(
+                                    "div",
+                                    [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            flat: "",
+                                            icon: "",
+                                            color: task.state
+                                              ? "success"
+                                              : "warning"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.task_id = task.id
+                                              _vm.updateTask()
+                                            }
+                                          }
+                                        },
                                         [
-                                          _c(
-                                            "v-btn",
-                                            {
-                                              attrs: {
-                                                flat: "",
-                                                icon: "",
-                                                color: "success"
-                                              }
-                                            },
-                                            [
-                                              _c(
-                                                "v-icon",
-                                                { attrs: { size: "medium" } },
-                                                [_vm._v("fas fa-check")]
+                                          task.state
+                                            ? _c(
+                                                "div",
+                                                [
+                                                  _c(
+                                                    "v-icon",
+                                                    {
+                                                      attrs: { size: "medium" }
+                                                    },
+                                                    [_vm._v("fas fa-check")]
+                                                  )
+                                                ],
+                                                1
                                               )
-                                            ],
-                                            1
-                                          )
-                                        ],
-                                        1
+                                            : _c(
+                                                "div",
+                                                [
+                                                  _c(
+                                                    "v-icon",
+                                                    {
+                                                      attrs: { size: "medium" }
+                                                    },
+                                                    [_vm._v("fas fa-clock")]
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                        ]
                                       )
-                                    : _c(
-                                        "div",
-                                        [
-                                          _c(
-                                            "v-btn",
-                                            {
-                                              attrs: {
-                                                flat: "",
-                                                icon: "",
-                                                color: "warning"
-                                              }
-                                            },
-                                            [
-                                              _c(
-                                                "v-icon",
-                                                { attrs: { size: "medium" } },
-                                                [_vm._v("fas fa-clock")]
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        ],
-                                        1
-                                      ),
+                                    ],
+                                    1
+                                  ),
                                   _vm._v(" "),
                                   _c(
                                     "v-btn",
@@ -4902,6 +5141,12 @@ var render = function() {
                                         flat: "",
                                         icon: "",
                                         color: "error"
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.dialog = true
+                                          _vm.task_id = task.id
+                                        }
                                       }
                                     },
                                     [
@@ -4939,6 +5184,79 @@ var render = function() {
           )
         }),
         1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { width: "500", persistent: "" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-text", [_c("h2", [_vm._v("Are you sure?")])]),
+              _vm._v(" "),
+              _c("v-divider"),
+              _vm._v(" "),
+              _c(
+                "v-card-text",
+                [
+                  _c("p", [
+                    _vm._v("Are you sure you want to delete this task?")
+                  ]),
+                  _vm._v(" "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "v-layout",
+                    { attrs: { "justify-end": "", wrap: "" } },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { outline: "", color: "success" },
+                          on: {
+                            click: function($event) {
+                              _vm.dialog = false
+                              _vm.task_id = null
+                            }
+                          }
+                        },
+                        [_vm._v("NO! Cancel")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "error" },
+                          on: {
+                            click: function($event) {
+                              _vm.dialog = false
+                              _vm.deleteTask()
+                            }
+                          }
+                        },
+                        [_vm._v("YES! Delete")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
       )
     ],
     1
@@ -4970,10 +5288,10 @@ var render = function() {
     _vm.errors
       ? _c(
           "div",
-          { staticClass: "error--text" },
+          { staticStyle: { color: "#FF5252" } },
           _vm._l(_vm.error_messages, function(error) {
             return _c("div", { key: error.id }, [
-              _vm._v("\n            " + _vm._s(error) + "\n        ")
+              _vm._v("\n      " + _vm._s(error) + "\n    ")
             ])
           }),
           0
@@ -5027,7 +5345,96 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_c("TaskIndex")], 1)
+  return _c(
+    "div",
+    [
+      _c(
+        "v-btn",
+        {
+          attrs: {
+            dark: "",
+            fab: "",
+            fixed: "",
+            right: "",
+            bottom: "",
+            color: "secondary"
+          },
+          on: {
+            click: function($event) {
+              _vm.dialog = !_vm.dialog
+            }
+          }
+        },
+        [_c("v-icon", [_vm._v("fas fa-plus")])],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { width: "500" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-text", [_c("h2", [_vm._v("New Task")])]),
+              _vm._v(" "),
+              _c("v-divider"),
+              _vm._v(" "),
+              _c(
+                "v-card-text",
+                [
+                  _c(
+                    "v-form",
+                    {
+                      ref: "taskForm",
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.saveTask($event)
+                        }
+                      }
+                    },
+                    [
+                      _c("TaskForm"),
+                      _vm._v(" "),
+                      _c(
+                        "v-layout",
+                        { attrs: { "justify-center": "" } },
+                        [
+                          _c(
+                            "v-btn",
+                            { attrs: { type: "submit", color: "secondary" } },
+                            [_vm._v("Guardar")]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("TaskIndex")
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -47264,6 +47671,75 @@ var actions = {
 
 /***/ }),
 
+/***/ "./resources/js/components/TaskForm.vue":
+/*!**********************************************!*\
+  !*** ./resources/js/components/TaskForm.vue ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _TaskForm_vue_vue_type_template_id_51f73658___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TaskForm.vue?vue&type=template&id=51f73658& */ "./resources/js/components/TaskForm.vue?vue&type=template&id=51f73658&");
+/* harmony import */ var _TaskForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TaskForm.vue?vue&type=script&lang=js& */ "./resources/js/components/TaskForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _TaskForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _TaskForm_vue_vue_type_template_id_51f73658___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _TaskForm_vue_vue_type_template_id_51f73658___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/TaskForm.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/TaskForm.vue?vue&type=script&lang=js&":
+/*!***********************************************************************!*\
+  !*** ./resources/js/components/TaskForm.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TaskForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./TaskForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TaskForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TaskForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/TaskForm.vue?vue&type=template&id=51f73658&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/TaskForm.vue?vue&type=template&id=51f73658& ***!
+  \*****************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TaskForm_vue_vue_type_template_id_51f73658___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./TaskForm.vue?vue&type=template&id=51f73658& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TaskForm.vue?vue&type=template&id=51f73658&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TaskForm_vue_vue_type_template_id_51f73658___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TaskForm_vue_vue_type_template_id_51f73658___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/TaskIndex.vue":
 /*!***********************************************!*\
   !*** ./resources/js/components/TaskIndex.vue ***!
@@ -47347,23 +47823,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../router */ "./resources/js/router.js");
 
 
+axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accsess_token');
 var state = {
   inProcess: false,
   errors: null,
-  data: []
+  form: {},
+  data: [],
+  showData: []
 };
 var mutations = {
-  fillErrors: function fillErrors(state, data) {
-    state.errors = data;
+  fillForm: function fillForm(state, form) {
+    state.form = form;
+  },
+  fillErrors: function fillErrors(state, errors) {
+    state.errors = errors;
   },
   fillData: function fillData(state, data) {
     state.data = data;
+  },
+  fillShowData: function fillShowData(state, showData) {
+    state.showData = showData;
+  },
+  resetForm: function resetForm(state) {
+    state.form = {};
   },
   resetErrors: function resetErrors(state) {
     state.errors = null;
   },
   resetData: function resetData() {
-    state.errors = null;
+    state.data = [];
+  },
+  resetShowData: function resetShowData() {
+    state.showData = [];
   }
 };
 var actions = {
@@ -47382,8 +47873,74 @@ var actions = {
       state.inProcess = false;
     });
   },
-  redirect: function redirect(_ref2, params) {
-    var dispatch = _ref2.dispatch;
+  show: function show(_ref2, params) {
+    var state = _ref2.state,
+        commit = _ref2.commit,
+        dispatch = _ref2.dispatch;
+    state.inProcess = true;
+    commit('resetErrors');
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(params.url, {
+      params: params
+    }).then(function (response) {
+      commit('fillShowData', response.data);
+      state.inProcess = false;
+      dispatch('redirect', params);
+    })["catch"](function (error) {
+      commit('fillErrors', error.response.data);
+      state.inProcess = false;
+    });
+  },
+  save: function save(_ref3, params) {
+    var state = _ref3.state,
+        commit = _ref3.commit,
+        dispatch = _ref3.dispatch;
+    state.inProcess = true;
+    commit('resetErrors');
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(params.url, state.form).then(function (response) {
+      commit('resetForm');
+      state.inProcess = false;
+      dispatch('redirect', params);
+    })["catch"](function (error) {
+      commit('fillErrors', error.response.data);
+      state.inProcess = false;
+    });
+  },
+  edit: function edit(_ref4, params) {
+    var commit = _ref4.commit,
+        dispatch = _ref4.dispatch;
+    commit('fillForm', params.data);
+    dispatch('redirect', params);
+  },
+  update: function update(_ref5, params) {
+    var state = _ref5.state,
+        commit = _ref5.commit,
+        dispatch = _ref5.dispatch;
+    state.inProcess = true;
+    commit('resetErrors');
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(params.url, state.form).then(function (response) {
+      commit('formReset');
+      state.inProcess = false;
+      dispatch('redirect', params);
+    })["catch"](function (error) {
+      commit('fillErrors', error.response.data);
+      state.inProcess = false;
+    });
+  },
+  destroy: function destroy(_ref6, params) {
+    var commit = _ref6.commit,
+        dispatch = _ref6.dispatch;
+    state.inProcess = true;
+    commit('resetErrors');
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(params.url).then(function (response) {
+      state.inProcess = false;
+      dispatch('redirect', params);
+    })["catch"](function (error) {
+      commit('fillErrors', error.response.data);
+      state.inProcess = false;
+    });
+  },
+  redirect: function redirect(_ref7, params) {
+    var dispatch = _ref7.dispatch;
 
     if (params.goTo) {
       if (typeof params.goTo == 'string') {

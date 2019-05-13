@@ -18,7 +18,7 @@ class AuthController extends Controller
             'client_secret' => config('services.passport.client_secret'),
             'username' => $request->username,
             'password' => $request->password,
-            'scope' => 'get-task',
+            'scope' => 'get-task save-task edit-task delete-task',
         ]);
 
         $tokenRequest = Request::create(

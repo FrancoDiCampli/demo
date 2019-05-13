@@ -13,8 +13,8 @@ Route::middleware('auth:api')->group(function () {
     // Task Routes
     Route::middleware('scopes:get-task')->get('task/index', 'TaskController@index');
     Route::middleware('scopes:save-task')->post('task/save', 'TaskController@store');
-    Route::middleware('scopes:edit-task')->put('task/edit', 'TaskController@update');
-    Route::middleware('scopes:delete-task')->post('task/delete', 'TaskController@destroy');
+    Route::middleware('scopes:edit-task')->put('task/edit/{id}', 'TaskController@update');
+    Route::middleware('scopes:delete-task')->post('task/delete/{id}', 'TaskController@destroy');
 
 });
 

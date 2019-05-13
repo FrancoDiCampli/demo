@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers;
 
+use App\Task;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class TaskController extends Controller
 {
     public function index()
     {
-        //
+        $user_id = auth()->user()->id;
+        return Task::where('user_id', $user_id)->get();
     }
 
     public function store(Request $request)

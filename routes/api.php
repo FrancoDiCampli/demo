@@ -4,15 +4,17 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->group(function () {
 
+    // User Routes
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
     Route::post('/logout', 'AuthController@logout');
 
-    // Route::get('todo/index', 'TodoController@index');
-
-    // Route::middleware('scopes:edit-todo')->post('todo/edit', 'TodoController@edit');
-    // Route::middleware('scopes:delete-todo')->post('todo/delete', 'TodoController@delete');
+    // Task Routes
+    Route::middleware('scopes:get-task')->get('task/index', 'TaskController@index');
+    Route::middleware('scopes:save-task')->post('task/save', 'TaskController@store');
+    Route::middleware('scopes:edit-task')->put('task/edit', 'TaskController@update');
+    Route::middleware('scopes:delete-task')->post('task/delete', 'TaskController@destroy');
 
 });
 

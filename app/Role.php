@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class todo extends Model
+class Role extends Model
 {
     protected $fillable = [
-        'description', 'state',
+        'role', 'permission',
     ];
 }

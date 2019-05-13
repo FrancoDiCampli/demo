@@ -9,10 +9,10 @@ Route::middleware('auth:api')->group(function () {
     });
     Route::post('/logout', 'AuthController@logout');
 
-    Route::get('todo/index', 'TodoController@index');
+    // Route::get('todo/index', 'TodoController@index');
 
-    Route::middleware('scopes:edit-todo')->post('todo/edit', 'TodoController@edit');
-    Route::middleware('scopes:delete-todo')->post('todo/delete', 'TodoController@delete');
+    // Route::middleware('scopes:edit-todo')->post('todo/edit', 'TodoController@edit');
+    // Route::middleware('scopes:delete-todo')->post('todo/delete', 'TodoController@delete');
 
 });
 

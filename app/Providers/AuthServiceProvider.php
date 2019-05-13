@@ -31,8 +31,10 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Passport::tokensCan([
-            'edit-todo' => 'Edit ToDo`s',
-            'delete-todo' => 'Delete ToDo`s',
+            'get-role' => 'Get Role`s',
+            'save-role' => 'Save Role`s',
+            'edit-role' => 'Edit Role`s',
+            'delete-role' => 'Delete Role`s',
         ]);
     }
 }

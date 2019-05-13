@@ -4050,10 +4050,6 @@ var render = function() {
           _c(
             "v-toolbar-items",
             [
-              _c("v-btn", { attrs: { to: "/todo", flat: "" } }, [
-                _vm._v("ToDo")
-              ]),
-              _vm._v(" "),
               _c(
                 "v-btn",
                 {

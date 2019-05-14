@@ -48405,7 +48405,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /opt/lampp/htdocs/Laravel-Passport-Vue/resources/js/main.js */"./resources/js/main.js");
+module.exports = __webpack_require__(/*! /var/www/html/Laravel-Passport-Vue/resources/js/main.js */"./resources/js/main.js");
 
 
 /***/ })

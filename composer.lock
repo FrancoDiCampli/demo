@@ -4,8 +4,55 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dea87dd5fa06feeb9038c216bb7cca08",
+    "content-hash": "ad08c141b98a48828fff6386487d33bb",
     "packages": [
+        {
+            "name": "afipsdk/afip.php",
+            "version": "0.5.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/AfipSDK/afip.php.git",
+                "reference": "1b7f4c843b9f6a77e55fb48fefce0bbbddf4d3c7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/AfipSDK/afip.php/zipball/1b7f4c843b9f6a77e55fb48fefce0bbbddf4d3c7",
+                "reference": "1b7f4c843b9f6a77e55fb48fefce0bbbddf4d3c7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Afip.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ivan Muñoz",
+                    "email": "ivanalemunioz@gmail.com"
+                }
+            ],
+            "description": "Libreria para usar los Web Services de AFIP (Argentina) ",
+            "homepage": "https://github.com/ivanalemunioz/afip.php",
+            "keywords": [
+                "afip",
+                "cae",
+                "contribuyente",
+                "facturacion-electronica",
+                "gratis",
+                "libreria",
+                "padron",
+                "soap"
+            ],
+            "time": "2018-09-13T17:43:14+00:00"
+        },
         {
             "name": "defuse/php-encryption",
             "version": "v2.2.1",

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Cliente extends Model
 {
     protected $fillable = ['razonsocial','documentounico','direccion','telefono',
-                            'email','foto','codigopostal','localidad','provincia',
+                            'email','codigopostal','localidad','provincia',
                             'condicioniva'];
 
     public function scopeBuscar($query, $request)

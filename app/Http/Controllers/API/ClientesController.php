@@ -22,7 +22,15 @@ class ClientesController extends Controller
     public function store(StoreCliente $request)
     {
         $atributos = $request->validated();
+
+        $atributos['razonsocial'] = ucwords($atributos['razonsocial']);
+        $atributos['direccion'] = ucwords($atributos['direccion']);
+        $atributos['localidad'] = ucwords($atributos['localidad']);
+        $atributos['provincia'] = ucwords($atributos['provincia']);
+        $atributos['condicioniva'] = ucwords($atributos['condicioniva']);
+
         Cliente::create($atributos);
+        return ['message' => 'guardado'];
     }
 
     public function show($id)
@@ -35,12 +43,22 @@ class ClientesController extends Controller
     {
         $cliente = Cliente::find($id);
         $atributos = $request->validated();
+
+        $atributos['razonsocial'] = ucwords($atributos['razonsocial']);
+        $atributos['direccion'] = ucwords($atributos['direccion']);
+        $atributos['localidad'] = ucwords($atributos['localidad']);
+        $atributos['provincia'] = ucwords($atributos['provincia']);
+        $atributos['condicioniva'] = ucwords($atributos['condicioniva']);
+
         $cliente->update($atributos);
+        return ['message' => 'actualizado'];
     }
 
     public function destroy($id)
     {
-        //
+        $cliente = Cliente::findOrFail($id);
+        $cliente->delete();
+        return ['message' => 'eliminado'];
     }
     
     public function buscarAfip($num)

@@ -20,6 +20,8 @@ class CategoriasController extends Controller
         $data['categoria'] = ucwords($data['categoria']);
        
         $categoria = Categoria::create($data);
+
+        return ['message' => 'guardado'];
     }
 
     public function update(Request $request, $id)
@@ -31,11 +33,15 @@ class CategoriasController extends Controller
         $data['categoria'] = ucwords($data['categoria']);
        
         $categoria->update($data);
+
+        return ['message' => 'actualizado'];
     }
 
     public function destroy($id)
     {
         $categoria = Categoria::findOrFail($id);
         $categoria->delete();
+
+        return ['message' => 'eliminado'];
     }
 }

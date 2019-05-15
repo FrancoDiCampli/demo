@@ -19,23 +19,28 @@ class MarcasController extends Controller
 
         $data['marca'] = ucwords($data['marca']);
        
-        return $marca = Marca::create($data);
+        $marca = Marca::create($data);
+
+        return ['message' => 'guardado'];
     }
 
     public function update(Request $request, $id)
     {
         $marca = Marca::findOrFail($id); 
-        return $request;
-        $data = $request->validate(['marca'=>'required|min:1|max:190|unique:marcas,marca,'.$marca]);
+
+        $data = $request->validate(['marca'=>'required|min:1|max:190|unique:marcas,marca,'.$marca->id]);
 
         $data['marca'] = ucwords($data['marca']);
-       
-        return $marca->update($data);
+
+        $marca->update($data);
+
+        return ['message' => 'actualizado'];
     }
 
     public function destroy($id)
     {
         $marca = Marca::findOrFail($id);
         $marca->delete();
+        return ['message' => 'eliminado'];
     }
 }

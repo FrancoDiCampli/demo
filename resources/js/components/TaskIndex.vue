@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <v-layout justify-center wrap>
       <v-flex xs10 sm5 lg3 v-for="task in data" :key="task.id" ma-2>
         <v-card height="250" style="overflow: auto;">

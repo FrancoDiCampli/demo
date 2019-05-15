@@ -16,7 +16,13 @@ Route::middleware('auth:api')->group(function () {
     Route::middleware('scopes:edit-task')->put('task/edit/{id}', 'TaskController@update');
     Route::middleware('scopes:delete-task')->post('task/delete/{id}', 'TaskController@destroy');
 
+    Route::apiResource('categorias', 'API\CategoriasController');
+    Route::apiResource('marcas', 'API\MarcasController');
+    Route::apiResource('suppliers', 'API\SuppliersController');
+    Route::apiResource('articulos', 'API\ArticulosController');
+    Route::apiResource('clientes', 'API\ClientesController');
 });
 
 Route::post('/login', 'AuthController@login');
 Route::post('/register', 'AuthController@register');
+

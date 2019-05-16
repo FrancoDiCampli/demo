@@ -10,9 +10,16 @@ use App\Http\Requests\UpdateArticulo;
 
 class ArticulosController extends Controller
 {
-    public function index ()
+    public function index (Request $request)
     {
-        return $articulos = Articulo::get();
+        // $articulos = Articulo::orderBy('id')
+        //         ->buscar($request)
+        //         ->get();
+        // return $articulos;
+
+        $articulos = Articulo::get();
+
+        return $articulos->each->load('inventarios','stock');
     }
 
     public function store(StoreArticulo $request)
@@ -23,8 +30,7 @@ class ArticulosController extends Controller
         $data['descripcion'] = ucwords($data['descripcion']);
         $data['medida'] = ucwords($data['medida']);
         
-        Articulo::create($data);
-        return ['message' => 'guardado'];
+        return Articulo::create($data);
     }
 
     public function update(UpdateArticulo $request, $id)
@@ -46,5 +52,15 @@ class ArticulosController extends Controller
         $articulo->delete();
 
         return ['message' => 'eliminado'];
+    }
+
+    public function traerInventario($id)
+    {
+        $inventarios = Inventario::where('articulo_id', $id)->get();
+        $stock = $inventarios->sum('cantidad');
+        return response()->json([
+            'stock' => $stock,
+            'inventarios' => $inventarios
+        ]);
     }
 }

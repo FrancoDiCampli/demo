@@ -17,4 +17,48 @@ class Articulo extends Model
     {
         return $this->belongsTo('App\Marca', 'marca_id');
     }
+
+    public function stock()
+    {
+        return $this->hasMany('App\Inventario')
+            ->selectRaw('SUM(cantidad) as total')
+            ->addSelect('articulo_id')
+            ->groupBy('articulo_id');
+    }
+
+    public function inventarios()
+    {
+        return $this->hasMany('App\Inventario', 'articulo_id');
+    }
+
+    public function facturas()
+    {
+        return $this->belongsToMany('App\Factura')
+            ->withPivot('cantidad', 'medida', 'preciounitario', 'subtotal')
+            ->withTimestamps();
+    }
+
+    public function factus()
+    {
+        return $this->belongsToMany(Factura::class, 'articulo_factura');
+    }
+
+    public function remitos()
+    {
+        return $this->belongsToMany('App\Remito')
+            ->withPivot('lote', 'cantidad', 'medida', 'costo', 'subtotal')
+            ->withTimestamps();
+    }
+
+    public function scopeBuscar($query, $request)
+    {
+        $codarticulo = $request->get('codart');
+        $articulo = $request->get('art');
+        
+        if($codarticulo){
+            return $query->where('codarticulo', 'LIKE', "$codarticulo%");
+        } else if ($articulo) {
+            return $query->where('articulo', 'LIKE', "%$articulo%");
+        }
+    }
 }

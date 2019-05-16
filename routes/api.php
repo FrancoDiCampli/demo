@@ -21,6 +21,7 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('suppliers', 'API\SuppliersController');
     Route::apiResource('articulos', 'API\ArticulosController');
     Route::apiResource('clientes', 'API\ClientesController');
+    Route::apiResource('inventarios', 'API\InventariosController');
 });
 
 Route::post('/login', 'AuthController@login');

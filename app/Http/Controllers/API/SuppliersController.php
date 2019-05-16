@@ -8,9 +8,12 @@ use App\Http\Controllers\Controller;
 
 class SuppliersController extends Controller
 {
-    public function index ()
+    public function index (Request $request)
     {
-        return $suppliers = Supplier::get();
+        $suppliers = Supplier::orderBy('id')
+                ->buscar($request)
+                ->get();
+        return $suppliers;
     }
 
     public function store(Request $request)

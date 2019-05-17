@@ -22,6 +22,7 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('articulos', 'API\ArticulosController');
     Route::apiResource('clientes', 'API\ClientesController');
     Route::apiResource('inventarios', 'API\InventariosController');
+    Route::apiResource('facturas', 'API\FacturasController');
 });
 
 Route::post('/login', 'AuthController@login');

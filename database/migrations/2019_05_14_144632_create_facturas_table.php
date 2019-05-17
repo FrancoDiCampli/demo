@@ -23,10 +23,10 @@ class CreateFacturasTable extends Migration
             $table->decimal('recargo', 8, 2);
             $table->decimal('subtotal', 8, 2);
             $table->decimal('total', 8, 2);
-            $table->bigInteger('comprobanteafip');
-            $table->bigInteger('cae');
-            $table->string('fechavto');
-            $table->bigInteger('codbarra');
+            $table->bigInteger('comprobanteafip')->nullable();
+            $table->bigInteger('cae')->nullable();
+            $table->string('fechavto')->nullable();
+            $table->string('codbarra')->nullable();
             $table->unsignedBigInteger('cliente_id');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();

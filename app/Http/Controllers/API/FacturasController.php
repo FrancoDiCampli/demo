@@ -11,6 +11,7 @@ use App\Movimiento;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreFactura;
 use App\Http\Controllers\Controller;
+use function GuzzleHttp\json_encode;
 
 class FacturasController extends Controller
 {
@@ -21,7 +22,6 @@ class FacturasController extends Controller
 
     public function store(Request $request)
     {
-
         $atributos = $request;
         $cliente = Cliente::find($atributos['cliente_id']);
         $atributos['cuit'] = $cliente->documentounico;
@@ -29,8 +29,8 @@ class FacturasController extends Controller
         $detalle = Array();
         array_push($detalle, $atributos->detalle);
 
-        $factura = new Factura;
-        $factura->fill([
+        // $factura = new Factura;
+        $factura = Factura::create([
             "ptoventa" => $atributos['ptoventa'],
             "cuit" => $atributos['cuit'],
             "numfactura" => $atributos['numfactura'],
@@ -41,7 +41,8 @@ class FacturasController extends Controller
             "subtotal" => $atributos['subtotal'],
             "cliente_id" => $atributos['cliente_id'],
             "user_id" => $atributos['user_id'],
-        ])->save;
+            "total" => 0
+        ]);
 
         $total = 0;
 
@@ -57,7 +58,7 @@ class FacturasController extends Controller
                 'preciounitario' => $detail['preciounitario'],
                 'subtotal' => $detail['cantidad'] * $detail['preciounitario'],
                 'articulo_id' => $detail['articulo_id'],
-                'factura_id' => 1
+                'factura_id' => $factura->id
             );
             $total = $detalles['subtotal']+$total;
             $det[] = $detalles;
@@ -72,18 +73,18 @@ class FacturasController extends Controller
         }
 
         foreach ($detalle as $detail) {
-            $article = Inventario::find(1);
-                            // ->where('articulo_id',1)
-                            // ->where('cantidad','>=',1)
-                            // ->first();
+            $article = Inventario::orderBy('vencimiento', 'ASC')
+                            ->where('articulo_id',$detail['articulo_id'])
+                            ->where('cantidad','>=',$detail['cantidad'])
+                            ->first();
             
-            $article->cantidad = $article->cantidad - 1;
+            $article->cantidad = $article->cantidad - $detail['cantidad'];
             $article->save();
 
             Movimiento::create([
                 'inventario_id' => $article->id,
                 'tipo' => 2,
-                'cantidad' => 1,
+                'cantidad' => $detail['cantidad'],
                 'fecha' => now()->format('Y-m-d')
             ]);
         }
@@ -94,6 +95,9 @@ class FacturasController extends Controller
     public function update(Request $request, $id)
     {
         $factura = Factura::find($id);
+        if ( $request->get('solicitarCae') ) {
+            $this->solicitarCae($factura);
+        }
         return (['message' => 'actualizado']);
     }
 

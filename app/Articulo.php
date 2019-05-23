@@ -34,13 +34,7 @@ class Articulo extends Model
     public function facturas()
     {
         return $this->belongsToMany('App\Factura')
-            ->withPivot('cantidad', 'medida', 'preciounitario', 'subtotal')
-            ->withTimestamps();
-    }
-
-    public function factus()
-    {
-        return $this->belongsToMany(Factura::class, 'articulo_factura');
+                    ->withPivot('codarticulo', 'articulo', 'medida', 'cantidad', 'bonificacion', 'alicuota', 'preciounitario', 'subtotal');
     }
 
     public function remitos()

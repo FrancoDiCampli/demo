@@ -23,6 +23,7 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('clientes', 'API\ClientesController');
     Route::apiResource('inventarios', 'API\InventariosController');
     Route::apiResource('facturas', 'API\FacturasController');
+    Route::apiResource('remitos', 'API\RemitosController');
 });
 
 Route::post('/login', 'AuthController@login');

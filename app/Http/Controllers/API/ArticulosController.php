@@ -12,14 +12,10 @@ class ArticulosController extends Controller
 {
     public function index (Request $request)
     {
-        // $articulos = Articulo::orderBy('id')
-        //         ->buscar($request)
-        //         ->get();
-        // return $articulos;
-
-        $articulos = Articulo::get();
-
-        return $articulos->each->load('inventarios','stock');
+        $articulos = Articulo::orderBy('id')
+                ->buscar($request)
+                ->get();
+        return $articulos;
     }
 
     public function store(StoreArticulo $request)

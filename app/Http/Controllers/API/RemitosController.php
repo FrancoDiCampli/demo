@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Remito;
+use App\Articulo;
 use App\Supplier;
 use App\Inventario;
+use App\Movimiento;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -12,7 +14,9 @@ class RemitosController extends Controller
 {
     public function index()
     {
-        return $remitos = Remito::get();
+        $remitos = Remito::get();
+
+        return $remitos->each->articulos;
     }
 
     public function store(Request $request)
@@ -50,7 +54,7 @@ class RemitosController extends Controller
                 'preciounitario' => $detail['preciounitario'],
                 'subtotal' => $detail['cantidad'] * $detail['preciounitario'],
                 'articulo_id' => $detail['articulo_id'],
-                'factura_id' => $remito->id
+                'remito_id' => $remito->id
             );
             $total = $detalles['subtotal']+$total;
             $det[] = $detalles;
@@ -61,11 +65,6 @@ class RemitosController extends Controller
         $remito->save();
 
         foreach ($detalle as $detail) {
-            // $article = Inventario::orderBy('vencimiento', 'ASC')
-            //                 ->where('articulo_id',$detail['articulo_id'])
-            //                 ->where('cantidad','>=',$detail['cantidad'])
-            //                 ->first();
-
             $article = Inventario::where('articulo_id', '=', $detail['articulo_id'])
                                 ->where('lote', '=', $detail['lote'])->get()->first();
             
@@ -74,7 +73,7 @@ class RemitosController extends Controller
                 $article->save();
             } else {
                 $att['articulo_id'] = $detail['articulo_id'];
-                $att['proveedor_id'] = request()->proveedor_id;
+                $att['supplier_id'] = $remito->supplier_id;
                 $att['cantidad'] = $detail['cantidad'];
                 $att['stockminimo'] = 1;
                 $att['vencimiento'] = now();
@@ -84,7 +83,7 @@ class RemitosController extends Controller
             }
 
             Movimiento::create([
-                'inventario_id' => $article->id,
+                'inventario_id' => $detail['articulo_id'],
                 'tipo' => 1,
                 'cantidad' => $detail['cantidad'],
                 'fecha' => now()->format('Y-m-d')

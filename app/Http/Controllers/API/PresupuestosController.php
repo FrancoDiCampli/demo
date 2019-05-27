@@ -102,22 +102,44 @@ class PresupuestosController extends Controller
         ]);
 
         $total = 0;
+        $hoy = now()->format('Ymd');
 
-        for ($i=0; $i < count($arts); $i++) { 
-            $detalles = array(
-                'codarticulo' => $arts[$i]['codarticulo'],
-                'articulo' => $arts[$i]['articulo'],
-                'cantidad' => $arts[$i]['pivot']['cantidad'],
-                'medida' => $arts[$i]['pivot']['medida'],
-                'bonificacion' => $arts[$i]['pivot']['bonificacion'],
-                'alicuota' => $arts[$i]['pivot']['alicuota'],
-                'preciounitario' => $arts[$i]['pivot']['preciounitario'],
-                'subtotal' => $arts[$i]['pivot']['cantidad'] * $arts[$i]['pivot']['preciounitario'],
-                'articulo_id' => $arts[$i]['pivot']['articulo_id'],
-                'factura_id' => $factura->id
-            );
-            $total = $detalles['subtotal']+$total;
-            $det[] = $detalles;
+        // Si el presupuesto no venció
+        if ($presupuesto->vencimiento == $hoy || $presupuesto->vencimiento >= $hoy) {
+            for ($i=0; $i < count($arts); $i++) { 
+                $detalles = array(
+                    'codarticulo' => $arts[$i]['codarticulo'],
+                    'articulo' => $arts[$i]['articulo'],
+                    'cantidad' => $arts[$i]['pivot']['cantidad'],
+                    'medida' => $arts[$i]['pivot']['medida'],
+                    'bonificacion' => $arts[$i]['pivot']['bonificacion'],
+                    'alicuota' => $arts[$i]['pivot']['alicuota'],
+                    'preciounitario' => $arts[$i]['pivot']['preciounitario'],
+                    'subtotal' => $arts[$i]['pivot']['cantidad'] * $arts[$i]['pivot']['preciounitario'],
+                    'articulo_id' => $arts[$i]['pivot']['articulo_id'],
+                    'factura_id' => $factura->id
+                );
+                $total = $detalles['subtotal']+$total;
+                $det[] = $detalles;
+            }
+        } else { // Si venció
+            for ($i=0; $i < count($arts); $i++) { 
+                $arti = Articulo::find($arts[$i]['pivot']['articulo_id']);
+                $detalles = array(
+                    'codarticulo' => $arts[$i]['codarticulo'],
+                    'articulo' => $arts[$i]['articulo'],
+                    'cantidad' => $arts[$i]['pivot']['cantidad'],
+                    'medida' => $arts[$i]['pivot']['medida'],
+                    'bonificacion' => $arts[$i]['pivot']['bonificacion'],
+                    'alicuota' => $arts[$i]['pivot']['alicuota'],
+                    'preciounitario' => $arti->precio,
+                    'subtotal' => $arts[$i]['pivot']['cantidad'] * $arti->precio,
+                    'articulo_id' => $arts[$i]['pivot']['articulo_id'],
+                    'factura_id' => $factura->id
+                );
+                $total = $detalles['subtotal']+$total;
+                $det[] = $detalles;
+            }
         }
 
         $factura->articulos()->attach($det);

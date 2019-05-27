@@ -27,7 +27,7 @@ class PresupuestosController extends Controller
         $atributos['cuit'] = $cliente->documentounico;
         $atributos['total'] = 0;
         $atributos['fecha'] = now()->format('Ymd');
-        $vto = now()->addMonth(1)->format('Ymd');
+        $vto = $request->get('vto', now()->addMonth(1)->format('Ymd'));
         $atributos['vencimiento'] = $vto;
         
         $detalle = Array();

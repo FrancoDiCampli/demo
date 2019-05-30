@@ -1,63 +1,81 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Home from './views/Home.vue'
+import Vue from "vue";
+import Router from "vue-router";
+import Home from "./views/Home.vue";
+import NotFound from "./views/NotFound.vue";
 
-// Auth Views
-import Login from './auth/Login.vue'
-import Register from './auth/Register.vue'
-import User from './auth/User.vue'
+//Auth Views
+import Register from "./auth/views/Register.vue";
+import Login from "./auth/views/Login.vue";
+import Account from "./auth/views/Account.vue";
 
-// Task Views
-import Task from './views/Task.vue'
+//Roles Views
+import Roles from "./auth/views/Roles.vue";
 
-Vue.use(Router)
+//Users Views
+import Users from "./auth/views/Users.vue";
+
+Vue.use(Router);
 
 export default new Router({
-  // mode: 'history',
-  // base: process.env.BASE_URL,
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      meta: {
-        requiresAuth: true,
-      }
-    },
+    mode: "history",
+    routes: [
+        {
+            path: "/",
+            name: "home",
+            component: Home,
+            meta: {
+                requiresVisitor: true
+            }
+        },
+        {
+            path: "*",
+            component: NotFound
+        },
 
-    // Auth Routes
-    {
-      path: '/login',
-      name: 'login',
-      component: Login,
-      meta: {
-        requiresVisitor: true,
-      }
-    },
-    {
-      path: '/register',
-      name: 'register',
-      component: Register,
-      meta: {
-        requiresVisitor: true,
-      }
-    },
-    {
-      path: '/user',
-      name: 'user',
-      component: User,
-      meta: {
-        requiresAuth: true,
-      }
-    },
+        //Auth Routes
+        {
+            path: "/register",
+            name: "register",
+            component: Register,
+            meta: {
+                requiresVisitor: true
+            }
+        },
+        {
+            path: "/login",
+            name: "login",
+            component: Login,
+            meta: {
+                requiresVisitor: true
+            }
+        },
+        {
+            path: "/account",
+            name: "account",
+            component: Account,
+            meta: {
+                requiresAuth: true
+            }
+        },
 
-    // Task Routes
-    {
-      path: '/task',
-      name: 'task',
-      component: Task,
-      meta: {
-        requiresAuth: true,
-      }
-    },
-  ]
-})
+        //Roles Routes
+        {
+            path: "/roles",
+            name: "roles",
+            component: Roles,
+            meta: {
+                requiresAuth: true
+            }
+        },
+
+        //Users Routes
+        {
+            path: "/users",
+            name: "users",
+            component: Users,
+            meta: {
+                requiresAuth: true
+            }
+        }
+    ]
+});

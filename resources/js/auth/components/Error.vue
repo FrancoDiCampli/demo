@@ -15,7 +15,7 @@ export default {
     props: ["tag"],
 
     computed: {
-        ...mapState("crudx", ["errors"]),
+        ...mapState("auth", ["errors"]),
 
         error_messages: function() {
             return this.errors["errors"][this.tag];

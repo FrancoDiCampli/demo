@@ -47,4 +47,30 @@ class InventariosController extends Controller
 
         return (['message' => 'actualizado']);
     }
+
+    public function moverInventario(Request $request, $id)
+    {
+        $cantidad = 0;
+        $inventario = Inventario::find($request->id);
+        if ($request->movimiento === 2) {
+            $inventario->cantidad = $inventario->cantidad - $request->unidades;
+            $cantidad = $request->unidades;
+        }
+        if ($request->movimiento === 3) {
+            $inventario->cantidad = $inventario->cantidad + $request->unidades;
+            $cantidad = $request->unidades;
+        }
+        if ($request->movimiento === 4) {
+            $inventario->cantidad = 0;
+            $cantidad = $request->stock;
+        }
+        $inventario->update();
+        $mov = new Movimiento;
+        $mov->inventario_id = $id;
+        $mov->tipo = $request->movimiento;
+        $mov->cantidad = $cantidad;
+        $mov->fecha = now();
+        $mov->touch();
+        $mov->save();
+    }
 }

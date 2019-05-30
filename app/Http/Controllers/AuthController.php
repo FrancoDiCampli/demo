@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Role;
 use App\User;
+use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
@@ -12,10 +12,16 @@ class AuthController extends Controller
 {
     public function login(Request $request) 
     {
+        //return 'Hola Mundo';
         $user = User::where('email', $request->username)->get();
-        
+
         if(count($user) > 0) {
-            $request->scope = Role::where('id', $user[0]['role_id'])->select('permission')->get()[0]['permission'];
+            if($user[0]->role != null){
+                $request->scope = $user[0]->role->permission;
+            } else {
+                $request->scope = null;
+            }
+            
         } else {
             $request->scope = '';
         }
@@ -51,8 +57,63 @@ class AuthController extends Controller
         return User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => bcrypt($request->password),
         ]);
+    }
+
+    public function updateUser(Request $request)
+    {
+       $user = User::find(auth()->user()->id);
+
+        if($request->current_password) {
+            if(Hash::check($request->current_password, auth()->user()->password)){
+                if($request->password == $request->confirm_password) {
+                    $request->validate([
+                        'name' => 'required|string|max:255',
+                        'password' => 'required|string|min:6',
+                        'email' => 'required|string|max:255|unique:users,email,'.$user->id,
+                    ]);
+
+                    $user->name = $request->name;
+                    $user->email = $request->email;
+                    $user->password =  bcrypt($request->password);
+                    $user->save();
+                }
+            }
+        } else {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|max:255|unique:users,email,'.$user->id,
+            ]);
+
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->save();
+        }
+    }
+
+    public function user(Request $request)
+    {
+        $user = $request->user();
+
+        if($user->role_id) {
+            $rol = Role::where('id', $user->role_id)->get()[0];
+            $permission = explode(" ",$rol->permission);
+
+            return [
+                'user'=>$user,
+                'rol'=>$rol,
+                'permission'=>$permission
+            ];
+        } else {
+            return [
+                'user'=>$user,
+                'rol'=>'',
+                'permission'=>''
+            ];
+        }
+
+        
     }
 
     public function logout()
@@ -62,5 +123,15 @@ class AuthController extends Controller
         });
 
         return response()->json('Logged out Successfully', 200);
+    }
+
+    public function deleteUser()
+    {
+        auth()->user()->tokens->each(function ($token, $key) {
+            $token->delete();
+        });
+
+        $user = User::find(auth()->user()->id);
+        $user->delete();
     }
 }

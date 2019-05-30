@@ -9,7 +9,7 @@
                 </v-layout>
             </v-flex>
             <v-flex xs12>
-                <h1 class="text-xs-center display-2 font-weight-light">Passport Vue</h1>
+                <h1 class="text-xs-center display-2 font-weight-light primary--text">404 | Not Found</h1>
             </v-flex>
         </v-layout>
     </div>
@@ -17,6 +17,6 @@
 
 <script>
 export default {
-    name: "Home"
+    name: "NotFound"
 };
 </script>

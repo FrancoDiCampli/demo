@@ -79,7 +79,6 @@ class PresupuestosController extends Controller
 
     public function crearFactura(Request $request,$presupuesto)
     {
-        // Falta logica si el presupuesto vence
         $facturas = Factura::get();
         $ids = $facturas->keys();
         $numFac = $ids->max()+2;
@@ -98,7 +97,8 @@ class PresupuestosController extends Controller
             "subtotal" => $presupuesto->subtotal,
             "cliente_id" => $presupuesto->cliente_id,
             "user_id" => $presupuesto->user_id,
-            "total" => $presupuesto->total
+            "total" => $presupuesto->total,
+            'pagada' => $request->get('pagada')
         ]);
 
         $total = 0;

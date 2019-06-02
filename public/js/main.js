@@ -51896,11 +51896,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-<<<<<<< HEAD
 module.exports = __webpack_require__(/*! C:\xampp\htdocs\Gepetto-Point-Of-Sale\resources\js\main.js */"./resources/js/main.js");
-=======
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\LaravelProjects\PointOfSale\Gepetto-Point-Of-Sale\resources\js\main.js */"./resources/js/main.js");
->>>>>>> a20ced7559c4c61e963caf4670e9a955aec42bbc
 
 
 /***/ })

@@ -37,6 +37,7 @@ class FacturasController extends Controller
             "alicuota" => $atributos['alicuota'],
             "fecha" => $atributos['fecha'],
             "subtotal" => $atributos['subtotal'],
+            "pagada" => $atributos['pagada'],
             "cliente_id" => $atributos['cliente_id'],
             "user_id" => $atributos['user_id'],
             "total" => 0
@@ -67,7 +68,7 @@ class FacturasController extends Controller
         $factura->save();
 
         if ( $request->get('solicitarCae') ) {
-            $this->solicitarCae($factura);
+            $factura->solicitarCae($factura);
         }
 
         foreach ($detalle as $detail) {
@@ -93,8 +94,13 @@ class FacturasController extends Controller
     public function update(Request $request, $id)
     {
         $factura = Factura::find($id);
-        if ( $request->get('solicitarCae') ) {
-            $this->solicitarCae($factura);
+        
+        if ( $request->get('pagada') ) {
+            $factura->pagada = $request->get('pagada');
+        }
+        
+        if ( $request->get('solicitarCae') && $factura->pagada ) {
+            $factura->solicitarCae($factura);
         }
         return (['message' => 'actualizado']);
     }

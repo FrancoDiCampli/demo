@@ -10,6 +10,11 @@ class Pago extends Model
 
     public function ctacte()
     {
-        return $this->hasOne('App\Cuentacorriente', 'id', 'ctacte_id');
+        return $this->belongsTo('App\Cuentacorriente', 'ctacte_id');
+    }
+
+    public function recibos()
+    {
+        return $this->belongsToMany('App\Recibo');
     }
 }

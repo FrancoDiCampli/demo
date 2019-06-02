@@ -12,4 +12,14 @@ class Cuentacorriente extends Model
     {
         return $this->hasOne('App\Factura', 'id', 'factura_id');
     }
+
+    public function pagos()
+    {
+        return $this->hasMany('App\Pago');
+    }
+
+    public function movimientos()
+    {
+        return $this->hasMany('App\Movimientocuenta');
+    }
 }

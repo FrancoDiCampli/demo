@@ -11,7 +11,12 @@ class RoleController extends Controller
 {
     public function index()
     {
-        return Role::where('role', '!=', 'superAdmin')->get();
+        $user = User::find(auth()->user()->id);
+        if ($user->role == '1') {
+            return Role::get();
+        } else {
+            return Role::where('role', '!=', 'superAdmin')->get();
+        }
     }
 
     public function store(Request $request)
@@ -39,7 +44,6 @@ class RoleController extends Controller
         ]);
 
         $rol->update($attributes);
-
     }
 
     public function destroy($id)
@@ -53,6 +57,5 @@ class RoleController extends Controller
 
         $rol = Role::find($id);
         $rol->delete();
-        
     }
 }

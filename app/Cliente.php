@@ -6,19 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cliente extends Model
 {
-    protected $fillable = ['razonsocial','documentounico','direccion','telefono',
-                            'email','codigopostal','localidad','provincia',
-                            'condicioniva'];
+    protected $fillable = [
+        'razonsocial', 'documentounico', 'direccion', 'telefono',
+        'email', 'codigopostal', 'localidad', 'provincia',
+        'condicioniva'
+    ];
 
     public function scopeBuscar($query, $request)
     {
-        $documentoUnico = $request->get('dni');
+        $du = $request->get('documentounico');
         $razonsocial = $request->get('razonsocial');
-        
-        if($documentoUnico){
-            return $query->where('documentounico', "$documentoUnico");
-        } else if ($razonsocial) {
-            return $query->where('razonsocial', 'LIKE', "%$razonsocial%");
+
+        if ($du) {
+            return $query->where('documentounico', "du");
         }
     }
 }

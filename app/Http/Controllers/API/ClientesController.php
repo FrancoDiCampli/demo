@@ -12,10 +12,10 @@ use App\Http\Requests\UpdateCliente;
 class ClientesController extends Controller
 {
     public function index(Request $request)
-    {      
+    {
         $clientes = Cliente::orderBy('id')
-                ->buscar($request)
-                ->get();
+            ->buscar($request)
+            ->get();
         return $clientes;
     }
 
@@ -36,7 +36,6 @@ class ClientesController extends Controller
     public function show($id)
     {
         return $cliente = Cliente::find($id);
-        
     }
 
     public function update(UpdateCliente $request, $id)
@@ -60,10 +59,10 @@ class ClientesController extends Controller
         $cliente->delete();
         return ['message' => 'eliminado'];
     }
-    
+
     public function buscarAfip($num)
     {
-        $num = $num*1;
+        $num = $num * 1;
         $afip = new Afip(array('CUIT' => 20349590418));
         $contribuyente = $afip->RegisterScopeFour->GetTaxpayerDetails($num);
         return json_encode($contribuyente);

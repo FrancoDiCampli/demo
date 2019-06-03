@@ -30,16 +30,8 @@
                 </v-card-text>
             </v-card>
         </v-dialog>
-
-        <v-container>
-            <v-layout justify-center>
-                <v-flex xs12 sm10 lg8>
-                    <v-card>
-                        <RolesIndex></RolesIndex>
-                    </v-card>
-                </v-flex>
-            </v-layout>
-        </v-container>
+        
+        <RolesIndex></RolesIndex>
     </div>
 </template>
 

@@ -21,4 +21,8 @@ class Cliente extends Model
             return $query->where('documentounico', "du");
         }
     }
+
+    public function facturas(){
+        return $this->hasMany('App\Factura');
+    }
 }

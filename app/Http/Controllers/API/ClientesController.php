@@ -40,7 +40,11 @@ class ClientesController extends Controller
 
     public function show($id)
     {
-        return $cliente = Cliente::find($id);
+        $cliente = Cliente::find($id);
+
+        $cliente->facturas;
+
+        return $cliente;
     }
 
     public function update(UpdateCliente $request, $id)

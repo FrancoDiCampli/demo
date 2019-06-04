@@ -10,6 +10,7 @@ use App\Inventario;
 use App\Movimiento;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Movimientocuenta;
 
 class FacturasController extends Controller
 {
@@ -67,7 +68,20 @@ class FacturasController extends Controller
         $factura->total = $total;
         $factura->save();
 
-        if ( $request->get('solicitarCae') ) {
+        if ($factura->pagada == false){
+            $cuenta = Cuentacorriente::create([
+                'factura_id' => $factura->id,
+                'importe' => $factura->total,
+                'saldo' => $factura->total,
+                'inicio' => $factura->fecha,
+                'ultimo' => $factura->fecha
+            ]);
+            Movimientocuenta::create([
+                'ctacte_id' => $cuenta->id,
+                'tipo' => 'ALTA',
+                'fecha' => $cuenta->inicio
+            ]);
+        } else if ($request->get('solicitarCae')) {
             $factura->solicitarCae($factura);
         }
 

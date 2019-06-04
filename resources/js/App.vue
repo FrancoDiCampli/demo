@@ -52,6 +52,7 @@
                     </v-list-tile-content>
                 </v-list-tile>
                 <v-divider></v-divider>
+
                 <v-list-tile to="/users">
                     <v-list-tile-action>
                         <v-icon>fas fa-user</v-icon>
@@ -96,9 +97,7 @@
             <v-container>
                 <v-layout :justify-center="mini ? true : false" :justify-end="mini ? false : true">
                     <v-flex xs12 sm10 lg8>
-                        <v-card>
-                            <router-view/>
-                        </v-card>
+                        <router-view/>
                     </v-flex>
                 </v-layout>
             </v-container>
@@ -145,6 +144,8 @@ export default {
         exit: async function() {
             await this.logout();
             this.$router.push("/");
+            this.$user.set({ role: "visitor" });
+            this.mini = true;
         }
     }
 };

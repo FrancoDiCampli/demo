@@ -50,7 +50,11 @@
                 </v-card-text>
             </v-card>
         </v-dialog>
-        <ClientesIndex></ClientesIndex>
+        <v-card>
+            <v-card-text>
+                <ClientesIndex></ClientesIndex>
+            </v-card-text>
+        </v-card>
     </div>
 </template>
 

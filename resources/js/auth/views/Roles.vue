@@ -30,8 +30,11 @@
                 </v-card-text>
             </v-card>
         </v-dialog>
-        
-        <RolesIndex></RolesIndex>
+        <v-card>
+            <v-card-text>
+                <RolesIndex></RolesIndex>
+            </v-card-text>
+        </v-card>
     </div>
 </template>
 

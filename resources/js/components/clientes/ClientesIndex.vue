@@ -8,18 +8,28 @@
                     <td>{{ cliente.item.razonsocial }}</td>
                     <td class="hidden-sm-and-down">{{ cliente.item.condicioniva }}</td>
                     <td>
-                        <v-btn flat icon color="primary">
+                        <v-btn @click="showCliente(cliente.item.id)" flat icon color="primary">
                             <v-icon size="medium">fas fa-ellipsis-v</v-icon>
                         </v-btn>
                     </td>
                 </template>
             </v-data-table>
         </template>
+
+        <!-- Clientes Show -->
+        <v-dialog v-model="showClientesDialog" width="750">
+            <v-card>
+                <v-card-text>
+                    <ClientesShow></ClientesShow>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
+import ClientesShow from "./ClientesShow.vue";
 export default {
     name: "ClientesIndex",
 
@@ -34,8 +44,13 @@ export default {
                     class: "hidden-sm-and-down"
                 },
                 { text: "", sortable: false }
-            ]
+            ],
+            showClientesDialog: false
         };
+    },
+
+    components: {
+        ClientesShow
     },
 
     computed: {
@@ -47,7 +62,12 @@ export default {
     },
 
     methods: {
-        ...mapActions("crudx", ["index"])
+        ...mapActions("crudx", ["index", "show"]),
+
+        showCliente: async function(id) {
+            await this.show({ url: "api/clientes/" + id });
+            this.showClientesDialog = true;
+        }
     }
 };
 </script>

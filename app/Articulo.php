@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Articulo extends Model
 {
-    protected $fillable = ['codarticulo','articulo','descripcion','medida','costo','utilidades','precio','alicuota','estado','marca_id','categoria_id'];
+    protected $fillable = ['codprov','codarticulo','articulo','descripcion','medida','costo','utilidades','precio','alicuota','estado','marca_id','categoria_id'];
 
     public function categoria()
     {
@@ -47,10 +47,13 @@ class Articulo extends Model
     public function scopeBuscar($query, $request)
     {
         $codarticulo = $request->get('codart');
+        $codprov = $request->get('codprov');
         $articulo = $request->get('art');
         
         if($codarticulo){
             return $query->where('codarticulo', 'LIKE', "$codarticulo%");
+        } else if ($codprov) {
+            return $query->where('codprov', 'LIKE', "$codprov%");
         } else if ($articulo) {
             return $query->where('articulo', 'LIKE', "%$articulo%");
         }

@@ -14,14 +14,16 @@ class ClientesTableSeeder extends Seeder
     {
         Cliente::create([
             'razonsocial' => 'CONSUMIDOR FINAL',
-            'documentounico' => 0,
+            'documentounico' => 000000000000,
             'direccion' => 'N/D',
             'telefono' => 'N/D',
             'email' => 'N/D',
-            'codigopostal' => 0,
+            'codigopostal' => 0000,
             'localidad' => 'N/D',
             'provincia' => 'N/D',
             'condicioniva' => 'CONSUMIDOR FINAL'
         ]);
+
+        factory(Cliente::class, 9)->create();
     }
 }

@@ -15,20 +15,36 @@
         <v-dialog v-model="createClientesDialog" width="750" persistent>
             <v-card>
                 <v-card-text>
-                    <h2>Nuevo CLiente</h2>
+                    <v-layout justify-space-between>
+                        <h2>Nuevo CLiente</h2>
+                        <v-btn
+                            @click="createClientesDialog = false; $refs.clientesForm.reset();"
+                            flat
+                            icon
+                            style="margin: 0; padding: 0;"
+                        >
+                            <v-icon>fas fa-times</v-icon>
+                        </v-btn>
+                    </v-layout>
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-card-text>
-                    <v-form ref="roleForm" @submit.prevent="saveCliente">
-                        <br>
+                    <template>
+                        <div class="loading" v-show="inProcess">
+                            <v-layout justify-center>
+                                <v-progress-circular
+                                    :size="70"
+                                    :width="7"
+                                    color="primary"
+                                    indeterminate
+                                ></v-progress-circular>
+                            </v-layout>
+                        </div>
+                    </template>
+                    <v-form ref="clientesForm" @submit.prevent="saveCliente">
                         <ClientesForm></ClientesForm>
-                        <v-layout justify-end>
-                            <v-btn
-                                @click="createClientesDialog = false"
-                                outline
-                                color="error"
-                            >Cancelar</v-btn>
-                            <v-btn class="elevation-0" type="submit" color="primary">Guardar</v-btn>
+                        <v-layout justify-center>
+                            <v-btn :disabled="inProcess" type="submit" color="primary">Guardar</v-btn>
                         </v-layout>
                     </v-form>
                 </v-card-text>
@@ -41,6 +57,7 @@
 <script>
 import ClientesIndex from "../components/clientes/ClientesIndex.vue";
 import ClientesForm from "../components/clientes/ClientesForm.vue";
+import { mapState, mapActions } from "vuex";
 export default {
     name: "Cliente",
 
@@ -50,9 +67,26 @@ export default {
         };
     },
 
+    computed: {
+        ...mapState("crudx", ["inProcess"])
+    },
+
     components: {
         ClientesIndex,
         ClientesForm
+    },
+
+    methods: {
+        ...mapActions("crudx", ["index", "save"]),
+
+        saveCliente: async function() {
+            if (this.$refs.clientesForm.validate()) {
+                await this.save({ url: "api/clientes" });
+                await this.index({ url: "api/clientes" });
+                this.$refs.clientesForm.reset();
+                this.createClientesDialog = false;
+            }
+        }
     }
 };
 </script>

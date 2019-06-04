@@ -13,9 +13,14 @@ class ClientesController extends Controller
 {
     public function index(Request $request)
     {
-        $clientes = Cliente::orderBy('id')
-            ->buscar($request)
-            ->get();
+        $dni = $request->get('documentounico') * 1;
+
+        if (strlen($dni) >= 8) {
+            $clientes = Cliente::where('documentounico', $dni)->where('documentounico', '<>', 0)->get();
+        } else {
+            $clientes = Cliente::where('documentounico', '<>', 0)->get();
+        }
+
         return $clientes;
     }
 
@@ -63,7 +68,7 @@ class ClientesController extends Controller
     public function buscarAfip($num)
     {
         $num = $num * 1;
-        $afip = new Afip(array('CUIT' => 20349590418));
+        $afip = new Afip(array('CUIT' => 20417590200));
         $contribuyente = $afip->RegisterScopeFour->GetTaxpayerDetails($num);
         return json_encode($contribuyente);
     }

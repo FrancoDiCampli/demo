@@ -24,7 +24,8 @@ class StoreArticulo extends FormRequest
     public function rules()
     {
         return [
-            'codarticulo' => 'nullable|unique:articulos|min:1|max:10',
+            'codprov' => 'nullable|unique:articulos|min:1|max:10',
+            'codarticulo' => 'unique:articulos|min:1|max:10',
             'articulo' => 'required|unique:articulos|min:1',
             'descripcion' => 'required|min:1|max:190',
             'medida' => 'required|min:1|max:190',

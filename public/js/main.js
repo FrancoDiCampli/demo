@@ -4027,6 +4027,93 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ClientesShow",
@@ -4347,7 +4434,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "\n.profile-list {\r\n    border: solid 1.5px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\r\n    margin-top: 15px;\n}\n.profile-list span {\r\n    color: #26a69a;\n}\r\n", ""]);
+exports.push([module.i, "\n.profile-list {\n    border: solid 1.5px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n    margin-top: 15px;\n}\n.profile-list span {\n    color: #26a69a;\n}\n", ""]);
 
 // exports
 
@@ -4366,7 +4453,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.profile {\r\n    border: solid 3px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\r\n    color: #26a69a;\n}\r\n", ""]);
+exports.push([module.i, "\n.profile {\n    border: solid 3px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\n    color: #26a69a;\n}\n", ""]);
 
 // exports
 
@@ -4385,7 +4472,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.input-number input[type=\"number\"] {\r\n    -moz-appearance: textfield;\n}\n.input-number input::-webkit-outer-spin-button,\r\n.input-number input::-webkit-inner-spin-button {\r\n    -webkit-appearance: none;\n}\n.capitalize input[type] {\r\n    text-transform: capitalize;\n}\n.loading {\r\n    position: fixed;\r\n    z-index: 999999;\r\n    left: 47.3%;\r\n    top: 44%;\n}\r\n", ""]);
+exports.push([module.i, "\n.input-number input[type=\"number\"] {\n    -moz-appearance: textfield;\n}\n.input-number input::-webkit-outer-spin-button,\n.input-number input::-webkit-inner-spin-button {\n    -webkit-appearance: none;\n}\n.capitalize input[type] {\n    text-transform: capitalize;\n}\n.loading {\n    position: fixed;\n    z-index: 999999;\n    left: 47.3%;\n    top: 44%;\n}\n", ""]);
 
 // exports
 
@@ -4404,7 +4491,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.profile {\r\n    border: solid 3px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\r\n    color: #26a69a;\n}\r\n", ""]);
+exports.push([module.i, "\n.profile {\n    border: solid 3px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\n    color: #26a69a;\n}\n", ""]);
 
 // exports
 
@@ -9225,9 +9312,153 @@ var render = function() {
           ])
         ],
         1
-      )
+      ),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      [
+        _c(
+          "v-tabs",
+          { attrs: { "fixed-tabs": "", grow: "", "slider-color": "primary" } },
+          [
+            _c("v-tab", [_vm._v("Datos")]),
+            _vm._v(" "),
+            _c("v-tab", [_vm._v("Compras")]),
+            _vm._v(" "),
+            _c("v-tab", [_vm._v("Cuenta Corriente")]),
+            _vm._v(" "),
+            _c(
+              "v-tab-item",
+              [
+                _c("br"),
+                _vm._v(" "),
+                _c(
+                  "v-layout",
+                  { attrs: { wrap: "" } },
+                  [
+                    _c("v-flex", { attrs: { xs6: "" } }, [
+                      _c("p", { staticClass: "text-xs-right" }, [
+                        _c("b", [_vm._v("Documento Unico:")])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("v-flex", { attrs: { xs6: "" } }, [
+                      _c("p", { staticStyle: { "margin-left": "10px" } }, [
+                        _vm._v(_vm._s(_vm.showData.documentounico))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("v-flex", { attrs: { xs6: "" } }, [
+                      _c("p", { staticClass: "text-xs-right" }, [
+                        _c("b", [_vm._v("Condición Frente al Iva:")])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("v-flex", { attrs: { xs6: "" } }, [
+                      _c("p", { staticStyle: { "margin-left": "10px" } }, [
+                        _vm._v(_vm._s(_vm.showData.condicioniva))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("v-flex", { attrs: { xs6: "" } }, [
+                      _c("p", { staticClass: "text-xs-right" }, [
+                        _c("b", [_vm._v("Razón Social:")])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("v-flex", { attrs: { xs6: "" } }, [
+                      _c("p", { staticStyle: { "margin-left": "10px" } }, [
+                        _vm._v(_vm._s(_vm.showData.razonsocial))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("v-flex", { attrs: { xs6: "" } }, [
+                      _c("p", { staticClass: "text-xs-right" }, [
+                        _c("b", [_vm._v("Dirección:")])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("v-flex", { attrs: { xs6: "" } }, [
+                      _c("p", { staticStyle: { "margin-left": "10px" } }, [
+                        _vm._v(_vm._s(_vm.showData.direccion))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("v-flex", { attrs: { xs6: "" } }, [
+                      _c("p", { staticClass: "text-xs-right" }, [
+                        _c("b", [_vm._v("TEL/CEL:")])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("v-flex", { attrs: { xs6: "" } }, [
+                      _c("p", { staticStyle: { "margin-left": "10px" } }, [
+                        _vm._v(_vm._s(_vm.showData.telefono))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("v-flex", { attrs: { xs6: "" } }, [
+                      _c("p", { staticClass: "text-xs-right" }, [
+                        _c("b", [_vm._v("Email:")])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("v-flex", { attrs: { xs6: "" } }, [
+                      _c("p", { staticStyle: { "margin-left": "10px" } }, [
+                        _vm._v(_vm._s(_vm.showData.email))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("v-flex", { attrs: { xs6: "" } }, [
+                      _c("p", { staticClass: "text-xs-right" }, [
+                        _c("b", [_vm._v("Provincia:")])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("v-flex", { attrs: { xs6: "" } }, [
+                      _c("p", { staticStyle: { "margin-left": "10px" } }, [
+                        _vm._v(_vm._s(_vm.showData.provincia))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("v-flex", { attrs: { xs6: "" } }, [
+                      _c("p", { staticClass: "text-xs-right" }, [
+                        _c("b", [_vm._v("localidad:")])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("v-flex", { attrs: { xs6: "" } }, [
+                      _c("p", { staticStyle: { "margin-left": "10px" } }, [
+                        _vm._v(_vm._s(_vm.showData.localidad))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("v-flex", { attrs: { xs6: "" } }, [
+                      _c("p", { staticClass: "text-xs-right" }, [
+                        _c("b", [_vm._v("Codigo Postal:")])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("v-flex", { attrs: { xs6: "" } }, [
+                      _c("p", { staticStyle: { "margin-left": "10px" } }, [
+                        _vm._v(_vm._s(_vm.showData.codigopostal))
+                      ])
+                    ])
+                  ],
+                  1
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("v-tab-item", [_vm._v("compras del cliente")]),
+            _vm._v(" "),
+            _c("v-tab-item", [_vm._v("cuenta corriente del cliente")])
+          ],
+          1
+        )
+      ]
     ],
-    1
+    2
   )
 }
 var staticRenderFns = []
@@ -50485,7 +50716,7 @@ exports.default = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Store", function() { return Store; });
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Store", function() { return Store; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "install", function() { return install; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapState", function() { return mapState; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapMutations", function() { return mapMutations; });
@@ -50493,7 +50724,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapActions", function() { return mapActions; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createNamespacedHelpers", function() { return createNamespacedHelpers; });
 /**
- * vuex v3.1.0
+ * vuex v3.1.1
  * (c) 2019 Evan You
  * @license MIT
  */
@@ -50533,9 +50764,12 @@ function applyMixin (Vue) {
   }
 }
 
-var devtoolHook =
-  typeof window !== 'undefined' &&
-  window.__VUE_DEVTOOLS_GLOBAL_HOOK__;
+var target = typeof window !== 'undefined'
+  ? window
+  : typeof global !== 'undefined'
+    ? global
+    : {};
+var devtoolHook = target.__VUE_DEVTOOLS_GLOBAL_HOOK__;
 
 function devtoolPlugin (store) {
   if (!devtoolHook) { return }
@@ -50579,6 +50813,12 @@ function isPromise (val) {
 
 function assert (condition, msg) {
   if (!condition) { throw new Error(("[vuex] " + msg)) }
+}
+
+function partial (fn, arg) {
+  return function () {
+    return fn(arg)
+  }
 }
 
 // Base data struct for store's module, package with some attribute and method
@@ -51042,7 +51282,9 @@ function resetStoreVM (store, state, hot) {
   var computed = {};
   forEachValue(wrappedGetters, function (fn, key) {
     // use computed to leverage its lazy-caching mechanism
-    computed[key] = function () { return fn(store); };
+    // direct inline function use will lead to closure preserving oldVm.
+    // using partial to return function with only arguments preserved in closure enviroment.
+    computed[key] = partial(fn, store);
     Object.defineProperty(store.getters, key, {
       get: function () { return store._vm[key]; },
       enumerable: true // for local getters
@@ -51481,7 +51723,7 @@ function getModuleByNamespace (store, helper, namespace) {
 var index_esm = {
   Store: Store,
   install: install,
-  version: '3.1.0',
+  version: '3.1.1',
   mapState: mapState,
   mapMutations: mapMutations,
   mapGetters: mapGetters,
@@ -51492,6 +51734,7 @@ var index_esm = {
 /* harmony default export */ __webpack_exports__["default"] = (index_esm);
 
 
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -53572,7 +53815,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\LaravelProjects\PointOfSale\Gepetto-Point-Of-Sale\resources\js\main.js */"./resources/js/main.js");
+module.exports = __webpack_require__(/*! /opt/lampp/htdocs/Gepetto-Point-Of-Sale/resources/js/main.js */"./resources/js/main.js");
 
 
 /***/ })

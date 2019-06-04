@@ -17,8 +17,18 @@ class RolesTableSeeder extends Seeder
         }
 
         Role::create([
-            'role' => 'admin',
+            'role' => 'superAdmin',
             'permission' => $permission,
+        ]);
+
+        Role::create([
+            'role' => 'admin',
+            'permission' => 'get-users save-users edit-users delete-users',
+        ]);
+
+        Role::create([
+            'role' => 'seller',
+            'permission' => null,
         ]);
     }
 }

@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('role');
-            $table->text('permission');
+            $table->text('permission')->nullable();
             $table->timestamps();
         });
 

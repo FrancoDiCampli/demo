@@ -6,7 +6,7 @@ use App\Cliente;
 $factory->define(Cliente::class, function (Faker $faker) {
     return [
         'razonsocial' => $faker->name,
-        'documentounico' => $faker->numberBetween($min = 20100000009, $max = 20399999999),
+        'documentounico' => $faker->numberBetween($min = 10000000, $max = 99999999),
         'direccion' => $faker->streetAddress,
         'telefono' => $faker->tollFreePhoneNumber,
         'email' => $faker->freeEmail,

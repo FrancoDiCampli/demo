@@ -4,7 +4,6 @@ import Home from "./views/Home.vue";
 import NotFound from "./views/NotFound.vue";
 
 //Auth Views
-import Register from "./auth/views/Register.vue";
 import Login from "./auth/views/Login.vue";
 import Account from "./auth/views/Account.vue";
 
@@ -14,6 +13,9 @@ import Roles from "./auth/views/Roles.vue";
 //Users Views
 import Users from "./auth/views/Users.vue";
 
+//Clientes Views
+import Cliente from "./views/Cliente.vue";
+
 Vue.use(Router);
 
 export default new Router({
@@ -22,10 +24,7 @@ export default new Router({
         {
             path: "/",
             name: "home",
-            component: Home,
-            meta: {
-                requiresVisitor: true
-            }
+            component: Home
         },
         {
             path: "*",
@@ -34,19 +33,31 @@ export default new Router({
 
         //Auth Routes
         {
-            path: "/register",
-            name: "register",
-            component: Register,
-            meta: {
-                requiresVisitor: true
-            }
-        },
-        {
             path: "/login",
             name: "login",
             component: Login,
             meta: {
-                requiresVisitor: true
+                permissions: [
+                    {
+                        role: "visitor",
+                        access: true
+                    },
+                    {
+                        role: "superAdmin",
+                        access: false,
+                        redirect: "account"
+                    },
+                    {
+                        role: "admin",
+                        access: false,
+                        redirect: "account"
+                    },
+                    {
+                        role: "seller",
+                        access: false,
+                        redirect: "account"
+                    }
+                ]
             }
         },
         {
@@ -54,7 +65,25 @@ export default new Router({
             name: "account",
             component: Account,
             meta: {
-                requiresAuth: true
+                permissions: [
+                    {
+                        role: "visitor",
+                        access: false,
+                        redirect: "login"
+                    },
+                    {
+                        role: "superAdmin",
+                        access: true
+                    },
+                    {
+                        role: "admin",
+                        access: true
+                    },
+                    {
+                        role: "seller",
+                        access: true
+                    }
+                ]
             }
         },
 
@@ -64,7 +93,27 @@ export default new Router({
             name: "roles",
             component: Roles,
             meta: {
-                requiresAuth: true
+                permissions: [
+                    {
+                        role: "visitor",
+                        access: false,
+                        redirect: "login"
+                    },
+                    {
+                        role: "superAdmin",
+                        access: true
+                    },
+                    {
+                        role: "admin",
+                        access: false,
+                        redirect: "account"
+                    },
+                    {
+                        role: "seller",
+                        access: false,
+                        redirect: "account"
+                    }
+                ]
             }
         },
 
@@ -74,7 +123,54 @@ export default new Router({
             name: "users",
             component: Users,
             meta: {
-                requiresAuth: true
+                permissions: [
+                    {
+                        role: "visitor",
+                        access: false,
+                        redirect: "login"
+                    },
+                    {
+                        role: "superAdmin",
+                        access: true
+                    },
+                    {
+                        role: "admin",
+                        access: true
+                    },
+                    {
+                        role: "seller",
+                        access: false,
+                        redirect: "account"
+                    }
+                ]
+            }
+        },
+
+        //Clientes Routes
+        {
+            path: "/clientes",
+            name: "clientes",
+            component: Cliente,
+            meta: {
+                permissions: [
+                    {
+                        role: "visitor",
+                        access: false,
+                        redirect: "login"
+                    },
+                    {
+                        role: "superAdmin",
+                        access: true
+                    },
+                    {
+                        role: "admin",
+                        access: true
+                    },
+                    {
+                        role: "seller",
+                        access: true
+                    }
+                ]
             }
         }
     ]

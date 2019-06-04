@@ -30,16 +30,11 @@
                 </v-card-text>
             </v-card>
         </v-dialog>
-
-        <v-container>
-            <v-layout justify-center>
-                <v-flex xs12 sm10 lg8>
-                    <v-card>
-                        <UsersIndex></UsersIndex>
-                    </v-card>
-                </v-flex>
-            </v-layout>
-        </v-container>
+        <v-card>
+            <v-card-text>
+                <UsersIndex></UsersIndex>
+            </v-card-text>
+        </v-card>
     </div>
 </template>
 

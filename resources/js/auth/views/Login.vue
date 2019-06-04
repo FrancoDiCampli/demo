@@ -37,7 +37,6 @@
                                     <v-form ref="loginForm" @submit.prevent="loginValidate()">
                                         <LoginForm></LoginForm>
                                         <v-layout justify-center wrap>
-                                            <v-btn to="/register" outline color="primary">Sign Up</v-btn>
                                             <v-btn type class="elevation-0" color="primary">Log In</v-btn>
                                         </v-layout>
                                     </v-form>
@@ -67,10 +66,12 @@ export default {
     },
 
     methods: {
-        ...mapActions("auth", ["login"]),
+        ...mapActions("auth", ["login", "getUser"]),
         loginValidate: async function() {
             if (this.$refs.loginForm.validate()) {
                 await this.login();
+                let userData = await this.getUser();
+                this.$user.set({ role: userData.rol.role });
                 this.$router.push("/account");
             }
         }

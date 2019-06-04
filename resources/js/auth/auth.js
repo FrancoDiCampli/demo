@@ -71,22 +71,6 @@ const mutations = {
 };
 
 const actions = {
-    register: function({ state, commit, dispatch }) {
-        state.inProcess = true;
-        commit("resetErrors");
-        return new Promise(resolve => {
-            axios
-                .post("/api/register", state.form)
-                .then(response => {
-                    resolve(response.data);
-                })
-                .catch(error => {
-                    commit("fillErrors", error.response.data);
-                    throw new Error(error);
-                });
-        });
-    },
-
     editAccount: function({ state, commit }) {
         commit("fillForm", state.user);
     },
@@ -123,7 +107,6 @@ const actions = {
                     localStorage.setItem("accsess_token", token);
                     commit("fillToken", token);
                     commit("resetForm");
-                    dispatch("getUser");
                     state.inProcess = false;
                     resolve(response.data);
                 })

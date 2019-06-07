@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Recibo extends Model
 {
-    protected $fillable = ['fecha','total'];
+    protected $fillable = ['numrecibo','ctacte_id','fecha','total'];
 
     public function pagos()
     {

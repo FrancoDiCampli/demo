@@ -18,9 +18,11 @@ class CreateMovimientocuentasTable extends Migration
             $table->unsignedBigInteger('ctacte_id');
             $table->string('tipo');
             $table->string('fecha');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
             $table->foreign('ctacte_id')->references('id')->on('cuentacorrientes');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

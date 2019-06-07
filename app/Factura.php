@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Factura extends Model
 {
-    protected $fillable = ['ptoventa','numfactura','cuit','fecha','bonificacion','recargo','subtotal','total','pagada','comprobanteafip','cae','fechavto','codbarra','cliente_id','user_id'];
+    protected $fillable = ['ptoventa','numfactura','cuit','fecha','bonificacion','recargo','subtotal','total','estado','condicionventa','comprobanteafip','cae','fechavto','codbarra','cliente_id','user_id'];
 
     public function user()
     {
@@ -22,7 +22,11 @@ class Factura extends Model
 
     public function cliente()
     {
-        return $this->hasOne('App\Cliente', 'id', 'clienteid');
+        return $this->hasOne('App\Cliente');
+    }
+
+    public function cuenta(){
+        return $this->hasOne('App\Cuentacorriente');
     }
 
     public function solicitarCAE($factura)

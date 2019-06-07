@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\API;
 
-use Afip;
 use App\Cliente;
 use App\Factura;
 use App\Articulo;
 use App\Inventario;
 use App\Movimiento;
+use App\Cuentacorriente;
+use App\Movimientocuenta;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Movimientocuenta;
 
 class FacturasController extends Controller
 {
@@ -38,10 +38,11 @@ class FacturasController extends Controller
             "alicuota" => $atributos['alicuota'],
             "fecha" => $atributos['fecha'],
             "subtotal" => $atributos['subtotal'],
-            "pagada" => $atributos['pagada'],
+            "total" => 0,
+            "estado" => $atributos['estado'],
+            "condicionventa" => $atributos['condicionventa'],
             "cliente_id" => $atributos['cliente_id'],
-            "user_id" => $atributos['user_id'],
-            "total" => 0
+            "user_id" => auth()->user()->id,
         ]);
 
         $total = 0;
@@ -68,20 +69,21 @@ class FacturasController extends Controller
         $factura->total = $total;
         $factura->save();
 
-        if ($factura->pagada == false){
+        if ($factura->estado == 'CTACTE'){
             $cuenta = Cuentacorriente::create([
                 'factura_id' => $factura->id,
                 'importe' => $factura->total,
                 'saldo' => $factura->total,
-                'inicio' => $factura->fecha,
-                'ultimo' => $factura->fecha
+                'alta' => $factura->fecha,
+                'estado' => 'ACTIVA'
             ]);
             Movimientocuenta::create([
                 'ctacte_id' => $cuenta->id,
                 'tipo' => 'ALTA',
-                'fecha' => $cuenta->inicio
+                'fecha' => $cuenta->alta,
+                'user_id' => auth()->user()->id
             ]);
-        } else if ($request->get('solicitarCae')) {
+        } else if ($request->get('solicitarCae') && $factura->estado == 'PAGADA') {
             $factura->solicitarCae($factura);
         }
 
@@ -109,13 +111,14 @@ class FacturasController extends Controller
     {
         $factura = Factura::find($id);
         
-        if ( $request->get('pagada') ) {
-            $factura->pagada = $request->get('pagada');
+        if ( $request->get('estado') ) {
+            $factura->estado = $request->get('estado');
         }
         
-        if ( $request->get('solicitarCae') && $factura->pagada ) {
+        if ( $request->get('solicitarCae') && $factura->estado == 'PAGADA' ) {
             $factura->solicitarCae($factura);
         }
+
         return (['message' => 'actualizado']);
     }
 }

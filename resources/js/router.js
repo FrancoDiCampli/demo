@@ -16,6 +16,9 @@ import Users from "./auth/views/Users.vue";
 //Clientes Views
 import Cliente from "./views/Cliente.vue";
 
+//Facturas Views
+import Factura from "./views/Factura.vue";
+
 Vue.use(Router);
 
 export default new Router({
@@ -151,6 +154,34 @@ export default new Router({
             path: "/clientes",
             name: "clientes",
             component: Cliente,
+            meta: {
+                permissions: [
+                    {
+                        role: "visitor",
+                        access: false,
+                        redirect: "login"
+                    },
+                    {
+                        role: "superAdmin",
+                        access: true
+                    },
+                    {
+                        role: "admin",
+                        access: true
+                    },
+                    {
+                        role: "seller",
+                        access: true
+                    }
+                ]
+            }
+        },
+
+        //Facturas Routes
+        {
+            path: "/ventas",
+            name: "ventas",
+            component: Factura,
             meta: {
                 permissions: [
                     {

@@ -25,4 +25,12 @@ class Cliente extends Model
     public function facturas(){
         return $this->hasMany('App\Factura');
     }
+
+    public function ctacte()
+    {
+        return $this->hasManyThrough(
+            'App\Cuentacorriente',
+            'App\Factura'
+        );
+    }
 }

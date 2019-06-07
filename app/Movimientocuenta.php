@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Movimientocuenta extends Model
 {
-    protected $fillable = ['ctacte_id','tipo','fecha'];
+    protected $fillable = ['ctacte_id','tipo','fecha','user_id'];
 
     public function ctacte()
     {

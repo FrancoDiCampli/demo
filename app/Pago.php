@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pago extends Model
 {
-    protected $fillable = ['ctacte_id','importe','fecha'];
+    protected $fillable = ['ctacte_id','numpago','importe','fecha'];
 
     public function ctacte()
     {

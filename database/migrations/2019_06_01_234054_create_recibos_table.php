@@ -15,6 +15,7 @@ class CreateRecibosTable extends Migration
     {
         Schema::create('recibos', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('numrecibo');
             $table->string('fecha');
             $table->decimal('total', 8, 2);
             $table->timestamps();

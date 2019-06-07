@@ -33,6 +33,10 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('facturas', 'API\FacturasController');
     Route::apiResource('remitos', 'API\RemitosController');
     Route::apiResource('presupuestos', 'API\PresupuestosController');
+    Route::apiResource('cuentascorrientes', 'API\CuentacorrientesController');
+    Route::apiResource('movimientoscuentas', 'API\MovimientocuentasController');
+    Route::apiResource('pagos', 'API\PagosController');
+    Route::apiResource('recibos', 'API\RecibosController');
 
     //Afip Routes
     Route::get('/buscarAfip/{num}', 'API\ClientesController@buscarAfip');

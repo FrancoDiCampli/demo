@@ -18,15 +18,16 @@ class ArticulosController extends Controller
         return $articulos;
     }
 
-    public function store(StoreArticulo $request)
+    public function store(Request $request)
     {
-        $data = $request->validated();
+        return $request;
+        // $data = $request->validated();
 
-        $data['articulo'] = ucwords($data['articulo']);
-        $data['descripcion'] = ucwords($data['descripcion']);
-        $data['medida'] = ucwords($data['medida']);
-        
-        return Articulo::create($data);
+        // $data['articulo'] = ucwords($data['articulo']);
+        // $data['descripcion'] = ucwords($data['descripcion']);
+        // $data['medida'] = ucwords($data['medida']);
+
+        // return Articulo::create($data);
     }
 
     public function update(UpdateArticulo $request, $id)
@@ -37,7 +38,7 @@ class ArticulosController extends Controller
         $data['articulo'] = ucwords($data['articulo']);
         $data['descripcion'] = ucwords($data['descripcion']);
         $data['medida'] = ucwords($data['medida']);
-        
+
         $articulo->update($data);
         return ['message' => 'actualizado'];
     }

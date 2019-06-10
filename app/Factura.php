@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Factura extends Model
 {
-    protected $fillable = ['ptoventa','numfactura','cuit','fecha','bonificacion','recargo','subtotal','total','pagada','comprobanteafip','cae','fechavto','codbarra','cliente_id','user_id'];
+    protected $fillable = ['ptoventa','numfactura','cuit','fecha','bonificacion','recargo',
+    'subtotal','total','pagada','comprobanteafip',
+    'cae','fechavto','codbarra','cliente_id','user_id'];
 
     public function user()
     {
@@ -59,7 +61,7 @@ class Factura extends Model
             $data = array(
                 'CantReg' 		=> 1, // Cantidad de comprobantes a registrar
                 'PtoVta' 		=> $atributos['puntoventa'], // Punto de venta
-                'CbteTipo' 		=> $atributos['tipocomprobante'], // Tipo de comprobante (ver tipos disponibles) 
+                'CbteTipo' 		=> $atributos['tipocomprobante'], // Tipo de comprobante (ver tipos disponibles)
                 'Concepto' 		=> $atributos['concepto'], // Concepto del Comprobante: (1)Productos, (2)Servicios, (3)Productos y Servicios
                 'DocTipo' 		=> $atributos['tipo'], // Tipo de documento del comprador (ver tipos disponibles)
                 'DocNro' 		=> $atributos['documentounico'], // Numero de documento del comprador
@@ -75,15 +77,15 @@ class Factura extends Model
                 'FchServDesde' 	=> $atributos['fechaserviciodesde'], // (Opcional) Fecha de inicio del servicio (yyyymmdd), obligatorio para Concepto 2 y 3
                 'FchServHasta' 	=> $atributos['fechaserviciohasta'], // (Opcional) Fecha de fin del servicio (yyyymmdd), obligatorio para Concepto 2 y 3
                 'FchVtoPago' 	=> $atributos['fechavtopago'], // (Opcional) Fecha de vencimiento del servicio (yyyymmdd), obligatorio para Concepto 2 y 3
-                'MonId' 		=> 'PES', //Tipo de moneda usada en el comprobante (ver tipos disponibles)('PES' para pesos argentinos) 
-                'MonCotiz' 		=> 1, // Cotización de la moneda usada (1 para pesos argentinos)              
+                'MonId' 		=> 'PES', //Tipo de moneda usada en el comprobante (ver tipos disponibles)('PES' para pesos argentinos)
+                'MonCotiz' 		=> 1, // Cotización de la moneda usada (1 para pesos argentinos)
             );
-    
+
             $afip = new Afip(array('CUIT' => 20349590418));
-            
+
             $res = $afip->ElectronicBilling->CreateNextVoucher($data);
             $fec = str_replace('-','',$res['CAEFchVto']);
-    
+
             $nroCodBar = '203495904180'.$atributos['tipocomprobante'].'0000'.$atributos['puntoventa'].$res['CAE'].$fec;
             $codeBar = $this->digitoVerificador($nroCodBar);
             $factura->cae = $res['CAE'];
@@ -99,13 +101,13 @@ class Factura extends Model
         // $Numero = '0123456789';
         $j=strlen($nroCodBar);
         $par=0;$impar=0;
-        for ($i=0; $i < $j ; $i++) { 
+        for ($i=0; $i < $j ; $i++) {
             if ($i%2==0){
                 $par=$par+$nroCodBar[$i];
             }else{
                 $impar=$impar+$nroCodBar[$i];
             }
-            
+
         }
         $par=$par*3;
         $suma=$par+$impar;

@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <!-- Toolbar | Navbar -->
+        <!-- Navbar -->
         <v-toolbar color="secondary" class="elevation-0" v-show="token == null">
             <v-toolbar-title @click="$router.push('/')" style="cursor: pointer;">Gepetto</v-toolbar-title>
             <v-spacer></v-spacer>
@@ -9,17 +9,19 @@
             </v-toolbar-items>
         </v-toolbar>
         <v-divider></v-divider>
+        <!-- Sidenav -->
         <v-navigation-drawer
             v-show="token !== null"
             v-model="drawer"
-            :mini-variant.sync="mini"
+            :mini-variant="mini"
             hide-overlay
             stateless
             fixed
         >
+            <!-- Imagén de perfil y nombre de usuario -->
             <v-toolbar flat class="transparent">
                 <v-list class="pa-0">
-                    <v-list-tile avatar>
+                    <v-list-tile @click="mini = false" avatar>
                         <v-avatar class="profile-list" size="50">
                             <span class="title">{{ account.profile }}</span>
                         </v-avatar>
@@ -39,10 +41,13 @@
                 </v-list>
             </v-toolbar>
 
+            <!-- Lita de acciones -->
             <v-list class="pt-0" dense>
                 <br>
                 <v-divider></v-divider>
-                <v-list-tile v-for="item in selletItems" :key="item.title" :to="item.url">
+
+                <!-- Acciones del vendedor -->
+                <v-list-tile v-for="item in sellerItems" :key="item.title" :to="item.url">
                     <v-list-tile-action>
                         <v-icon>{{ item.icon }}</v-icon>
                     </v-list-tile-action>
@@ -51,9 +56,11 @@
                         <v-list-tile-title>{{ item.title }}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
+
                 <v-divider></v-divider>
 
-                <v-list-tile to="/users">
+                <!-- Acciones del admin -->
+                <v-list-tile to="/users" v-show="rol == 'admin' || rol == 'superAdmin'">
                     <v-list-tile-action>
                         <v-icon>fas fa-user</v-icon>
                     </v-list-tile-action>
@@ -62,7 +69,9 @@
                         <v-list-tile-title>Usuarios</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
-                <v-list-tile to="/roles">
+
+                <!-- Acciones del superAdmin -->
+                <v-list-tile to="/roles" v-show="rol == 'superAdmin'">
                     <v-list-tile-action>
                         <v-icon>fas fa-tag</v-icon>
                     </v-list-tile-action>
@@ -71,7 +80,10 @@
                         <v-list-tile-title>Roles</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
+
                 <v-divider></v-divider>
+
+                <!-- Acciones de todos los usuarios -->
                 <v-list-tile to="/account">
                     <v-list-tile-action>
                         <v-icon>fas fa-user-circle</v-icon>
@@ -93,6 +105,8 @@
             </v-list>
         </v-navigation-drawer>
         <br>
+
+        <!-- Router view -->
         <v-content>
             <v-container>
                 <v-layout :justify-center="mini ? true : false" :justify-end="mini ? false : true">
@@ -114,7 +128,7 @@ export default {
     data() {
         return {
             drawer: true,
-            selletItems: [
+            sellerItems: [
                 { title: "Ventas", icon: "fas fa-dollar-sign", url: "/ventas" },
                 { title: "Clientes", icon: "fas fa-users", url: "/clientes" },
                 {
@@ -135,12 +149,13 @@ export default {
     },
 
     computed: {
-        ...mapState("auth", ["token"]),
+        ...mapState("auth", ["rol", "token"]),
         ...mapGetters("auth", ["account"])
     },
 
     methods: {
         ...mapActions("auth", ["getUser", "logout"]),
+
         exit: async function() {
             await this.logout();
             this.$router.push("/");

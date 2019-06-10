@@ -2090,13 +2090,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "App",
   data: function data() {
     return {
       drawer: true,
-      selletItems: [{
+      sellerItems: [{
         title: "Ventas",
         icon: "fas fa-dollar-sign",
         url: "/ventas"
@@ -2118,7 +2132,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.getUser();
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])("auth", ["token"]), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])("auth", ["account"])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])("auth", ["rol", "token"]), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])("auth", ["account"])),
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])("auth", ["getUser", "logout"]), {
     exit: function () {
       var _exit = _asyncToGenerator(
@@ -4699,6 +4713,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // Vuex
  // Components
 
@@ -4775,6 +4798,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _components_facturas_FacturasIndex_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/facturas/FacturasIndex.vue */ "./resources/js/components/facturas/FacturasIndex.vue");
+//
+//
 //
 //
 //
@@ -7052,14 +7077,6 @@ var render = function() {
             stateless: "",
             fixed: ""
           },
-          on: {
-            "update:miniVariant": function($event) {
-              _vm.mini = $event
-            },
-            "update:mini-variant": function($event) {
-              _vm.mini = $event
-            }
-          },
           model: {
             value: _vm.drawer,
             callback: function($$v) {
@@ -7079,7 +7096,14 @@ var render = function() {
                 [
                   _c(
                     "v-list-tile",
-                    { attrs: { avatar: "" } },
+                    {
+                      attrs: { avatar: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.mini = false
+                        }
+                      }
+                    },
                     [
                       _c(
                         "v-avatar",
@@ -7143,7 +7167,7 @@ var render = function() {
               _vm._v(" "),
               _c("v-divider"),
               _vm._v(" "),
-              _vm._l(_vm.selletItems, function(item) {
+              _vm._l(_vm.sellerItems, function(item) {
                 return _c(
                   "v-list-tile",
                   { key: item.title, attrs: { to: item.url } },
@@ -7168,7 +7192,17 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-list-tile",
-                { attrs: { to: "/users" } },
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.rol == "admin" || _vm.rol == "superAdmin",
+                      expression: "rol == 'admin' || rol == 'superAdmin'"
+                    }
+                  ],
+                  attrs: { to: "/users" }
+                },
                 [
                   _c(
                     "v-list-tile-action",
@@ -7187,7 +7221,17 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-list-tile",
-                { attrs: { to: "/roles" } },
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.rol == "superAdmin",
+                      expression: "rol == 'superAdmin'"
+                    }
+                  ],
+                  attrs: { to: "/roles" }
+                },
                 [
                   _c(
                     "v-list-tile-action",

@@ -22,7 +22,7 @@ class Factura extends Model
 
     public function cliente()
     {
-        return $this->hasOne('App\Cliente');
+        return $this->belongsTo('App\Cliente');
     }
 
     public function cuenta(){

@@ -9674,7 +9674,20 @@ var render = function() {
             expression: "showClientesDialog"
           }
         },
-        [_c("v-card", [_c("v-card-text", [_c("ClientesShow")], 1)], 1)],
+        [
+          _c(
+            "v-card",
+            [
+              _c(
+                "v-card-text",
+                { staticStyle: { overflow: "hidden" } },
+                [_c("ClientesShow")],
+                1
+              )
+            ],
+            1
+          )
+        ],
         1
       )
     ],

@@ -19,7 +19,7 @@
         <!-- Clientes Show -->
         <v-dialog v-model="showClientesDialog" width="750">
             <v-card>
-                <v-card-text>
+                <v-card-text style="overflow: hidden;">
                     <ClientesShow></ClientesShow>
                 </v-card-text>
             </v-card>

@@ -131,6 +131,7 @@ export default {
             sellerItems: [
                 { title: "Ventas", icon: "fas fa-dollar-sign", url: "/ventas" },
                 { title: "Clientes", icon: "fas fa-users", url: "/clientes" },
+                { title: "Marcas", icon: "fas fa-tag", url: "/marcas" },
                 {
                     title: "Productos",
                     icon: "fas fa-box-open",

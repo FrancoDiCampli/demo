@@ -16,6 +16,7 @@ class CreatePagosTable extends Migration
         Schema::create('pagos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('ctacte_id');
+            $table->integer('numpago');
             $table->decimal('importe', 8, 2);
             $table->string('fecha');
             $table->timestamps();

@@ -16,7 +16,8 @@ import Users from "./auth/views/Users.vue";
 //Clientes Views
 import Cliente from "./views/Cliente.vue";
 
-import Marcas from "./views/Marcas.vue";
+//Facturas Views
+import Factura from "./views/Factura.vue";
 
 Vue.use(Router);
 
@@ -176,10 +177,11 @@ export default new Router({
             }
         },
 
+        //Facturas Routes
         {
-            path: "/marcas",
-            name: "marcas",
-            component: Marcas,
+            path: "/ventas",
+            name: "ventas",
+            component: Factura,
             meta: {
                 permissions: [
                     {

@@ -17,13 +17,14 @@ class CreateFacturasTable extends Migration
             $table->bigIncrements('id');
             $table->integer('ptoventa');
             $table->bigInteger('numfactura');
-            $table->bigInteger('cuit');
+            $table->bigInteger('cuit');//cliente
             $table->string('fecha');
             $table->decimal('bonificacion', 8, 2);
             $table->decimal('recargo', 8, 2);
             $table->decimal('subtotal', 8, 2);
             $table->decimal('total', 8, 2);
-            $table->boolean('pagada');
+            $table->string('estado');
+            $table->string('condicionventa');
             $table->bigInteger('comprobanteafip')->nullable();
             $table->bigInteger('cae')->nullable();
             $table->string('fechavto')->nullable();

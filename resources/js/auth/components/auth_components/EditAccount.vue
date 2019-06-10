@@ -5,11 +5,11 @@
                 <v-text-field
                     v-model="form.name"
                     :rules="[rules.required, rules.max]"
-                    label="Name"
-                    hint="Name"
+                    label="Nombre"
+                    hint="Nombre"
                     :persistent-hint="form.name ? true : false"
                     color="primary"
-                    outline
+                    box
                     single-line
                 ></v-text-field>
             </v-flex>
@@ -21,7 +21,7 @@
                     hint="Email"
                     :persistent-hint="form.name ? true : false"
                     color="primary"
-                    outline
+                    box
                     single-line
                 ></v-text-field>
             </v-flex>
@@ -33,11 +33,11 @@
                     :append-icon="currentPass ? 'fas fa-eye' : 'fas fa-eye-slash'"
                     @click:append="currentPass = !currentPass"
                     :type="currentPass ? 'text' : 'password'"
-                    label="Current Password"
-                    hint="Current Password"
+                    label="Contraseña Actual"
+                    hint="Contraseña Actual"
                     :persistent-hint="form.current_password ? true : false"
                     color="primary"
-                    outline
+                    box
                     single-line
                 ></v-text-field>
             </v-flex>
@@ -48,11 +48,11 @@
                     :append-icon="newPass ? 'fas fa-eye' : 'fas fa-eye-slash'"
                     @click:append="newPass = !newPass"
                     :type="newPass ? 'text' : 'password'"
-                    label="New Password"
-                    hint="New Password"
+                    label="Nueva Contraseña"
+                    hint="Nueva Contraseña"
                     :persistent-hint="form.password ? true : false"
                     color="primary"
-                    outline
+                    box
                     single-line
                 ></v-text-field>
             </v-flex>
@@ -63,11 +63,11 @@
                     :append-icon="confirmPass ? 'fas fa-eye' : 'fas fa-eye-slash'"
                     @click:append="confirmPass = !confirmPass"
                     :type="confirmPass ? 'text' : 'password'"
-                    label="Confirm Password"
-                    hint="Confirm Password"
+                    label="Cofirmar Contraseña"
+                    hint="Cofirmar Contraseña"
                     :persistent-hint="form.confirm_password ? true : false"
                     color="primary"
-                    outline
+                    box
                     single-line
                 ></v-text-field>
             </v-flex>

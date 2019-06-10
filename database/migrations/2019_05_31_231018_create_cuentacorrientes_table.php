@@ -18,8 +18,9 @@ class CreateCuentacorrientesTable extends Migration
             $table->unsignedBigInteger('factura_id');
             $table->decimal('importe', 8, 2);
             $table->decimal('saldo', 8, 2);
-            $table->string('inicio');
-            $table->string('ultimo');
+            $table->string('alta');
+            $table->string('ultimopago')->nullable();
+            $table->string('estado');
             $table->timestamps();
 
             $table->foreign('factura_id')->references('id')->on('facturas');

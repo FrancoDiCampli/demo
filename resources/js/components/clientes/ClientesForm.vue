@@ -125,7 +125,7 @@
                 <v-text-field
                     :disabled="process"
                     v-model="form.codigopostal"
-                    :rules="[rules.required, rules.minPostal, rules.maxPostal]"
+                    :rules="[rules.required]"
                     type="number"
                     class="input-number"
                     label="Codigo Postal"
@@ -159,13 +159,7 @@ export default {
                 required: value => !!value || "Este campo es obligatorio",
                 max: value =>
                     (value && value.length <= 190) ||
-                    "Este campo no puede contener mas de 11 digitos",
-                minPostal: value =>
-                    (value && value.length >= 4) ||
-                    "El campo Codigo Postal debe contener como minimo 6 digitos",
-                maxPostal: value =>
-                    (value && value.length <= 4) ||
-                    "El campo Codigo Postal no puede contener mas de 13 digitos"
+                    "Este campo no puede contener mas de 11 digitos"
             }
         };
     },

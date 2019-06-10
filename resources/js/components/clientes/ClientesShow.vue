@@ -1,6 +1,21 @@
 <template>
     <div>
-        <v-layout justify-center wrap>
+        <v-layout justify-center wrap v-show="mode != 'edit'">
+            <v-menu>
+                <template v-slot:activator="{ on }">
+                    <v-btn absolute right flat icon dark color="primary" v-on="on">
+                        <v-icon size="medium">fas fa-ellipsis-v</v-icon>
+                    </v-btn>
+                </template>
+                <v-list>
+                    <v-list-tile @click="editCliente()">
+                        <v-list-tile-title>Editar</v-list-tile-title>
+                    </v-list-tile>
+                    <v-list-tile @click="mode = 'delete'">
+                        <v-list-tile-title>Eliminar</v-list-tile-title>
+                    </v-list-tile>
+                </v-list>
+            </v-menu>
             <v-flex xs12>
                 <v-layout justify-center>
                     <v-avatar class="profile" size="86">
@@ -18,104 +33,85 @@
         </v-layout>
         <br>
         <template>
-            <v-tabs fixed-tabs grow slider-color="primary">
-                <v-tab>Datos</v-tab>
-                <v-tab>Compras</v-tab>
-                <v-tab>Cuenta Corriente</v-tab>
-                <v-tab-item>
-                    <br>
-                    <v-layout wrap>
-                        <v-flex xs6>
-                            <p class="text-xs-right">
-                                <b>Documento Unico:</b>
-                            </p>
-                        </v-flex>
-                        <v-flex xs6>
-                            <p style="margin-left: 10px;">{{ showData.documentounico }}</p>
-                        </v-flex>
-                        <v-flex xs6>
-                            <p class="text-xs-right">
-                                <b>Condición Frente al Iva:</b>
-                            </p>
-                        </v-flex>
-                        <v-flex xs6>
-                            <p style="margin-left: 10px;">{{ showData.condicioniva }}</p>
-                        </v-flex>
-                        <v-flex xs6>
-                            <p class="text-xs-right">
-                                <b>Razón Social:</b>
-                            </p>
-                        </v-flex>
-                        <v-flex xs6>
-                            <p style="margin-left: 10px;">{{ showData.razonsocial }}</p>
-                        </v-flex>
-                        <v-flex xs6>
-                            <p class="text-xs-right">
-                                <b>Dirección:</b>
-                            </p>
-                        </v-flex>
-                        <v-flex xs6>
-                            <p style="margin-left: 10px;">{{ showData.direccion }}</p>
-                        </v-flex>
-                        <v-flex xs6>
-                            <p class="text-xs-right">
-                                <b>TEL/CEL:</b>
-                            </p>
-                        </v-flex>
-                        <v-flex xs6>
-                            <p style="margin-left: 10px;">{{ showData.telefono }}</p>
-                        </v-flex>
-                        <v-flex xs6>
-                            <p class="text-xs-right">
-                                <b>Email:</b>
-                            </p>
-                        </v-flex>
-                        <v-flex xs6>
-                            <p style="margin-left: 10px;">{{ showData.email }}</p>
-                        </v-flex>
-                        <v-flex xs6>
-                            <p class="text-xs-right">
-                                <b>Provincia:</b>
-                            </p>
-                        </v-flex>
-                        <v-flex xs6>
-                            <p style="margin-left: 10px;">{{ showData.provincia }}</p>
-                        </v-flex>
-                        <v-flex xs6>
-                            <p class="text-xs-right">
-                                <b>localidad:</b>
-                            </p>
-                        </v-flex>
-                        <v-flex xs6>
-                            <p style="margin-left: 10px;">{{ showData.localidad }}</p>
-                        </v-flex>
-                        <v-flex xs6>
-                            <p class="text-xs-right">
-                                <b>Codigo Postal:</b>
-                            </p>
-                        </v-flex>
-                        <v-flex xs6>
-                            <p style="margin-left: 10px;">{{ showData.codigopostal }}</p>
-                        </v-flex>
+            <div v-if="mode == 'show'">
+                <v-tabs fixed-tabs grow slider-color="primary">
+                    <v-tab>Datos</v-tab>
+                    <v-tab>Compras</v-tab>
+                    <v-tab>Cuenta Corriente</v-tab>
+                    <v-tab-item>
+                        <DataIterator></DataIterator>
+                    </v-tab-item>
+                    <v-tab-item>
+                        <FacturasTable></FacturasTable>
+                    </v-tab-item>
+                    <v-tab-item>
+                        <CuentaTable></CuentaTable>
+                    </v-tab-item>
+                </v-tabs>
+            </div>
+            <div v-else-if="mode == 'edit'">
+                <v-form ref="clientesEditForm" @submit.prevent="updateCliente">
+                    <ClientesForm></ClientesForm>
+                    <v-layout justify-center>
+                        <v-btn @click="mode = 'show'" outline color="primary">Cancelar</v-btn>
+                        <v-btn :disabled="inProcess" type="submit" color="primary">Editar</v-btn>
                     </v-layout>
-                </v-tab-item>
-                <v-tab-item>compras del cliente</v-tab-item>
-                <v-tab-item>cuenta corriente del cliente</v-tab-item>
-            </v-tabs>
+                </v-form>
+            </div>
+            <div v-else-if="mode == 'delete'">
+                <v-alert :value="true" color="error">
+                    <h2 class="text-xs-center">¿Estas Seguro?</h2>
+                    <br>
+                    <v-divider dark></v-divider>
+                    <br>
+                    <p class="text-xs-center">¿Realmente deseas eliminar este Cliente?</p>
+                    <p class="text-xs-center">Este Cambio es Irreversible</p>
+                    <br>
+                    <v-layout justify-center>
+                        <v-btn
+                            @click="mode = 'show'"
+                            class="elevation-0 red--text"
+                            color="white"
+                        >Cancelar</v-btn>
+                        <v-btn @click="deleteCliente()" outline color="white">Eliminar</v-btn>
+                    </v-layout>
+                </v-alert>
+            </div>
         </template>
     </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+// Vuex
+import { mapState, mapMutations, mapActions } from "vuex";
+
+// Components
+import DataIterator from "./ClientesShowDataIterator.vue";
+import FacturasTable from "./ClientesShowFacturasTable.vue";
+import CuentaTable from "./ClientesShowCuentaTable.vue";
+import ClientesForm from "./ClientesForm.vue";
+
 export default {
     name: "ClientesShow",
 
+    data() {
+        return {
+            mode: "show"
+        };
+    },
+
+    components: {
+        DataIterator,
+        FacturasTable,
+        CuentaTable,
+        ClientesForm
+    },
+
     computed: {
-        ...mapState("crudx", ["showData"]),
+        ...mapState("crudx", ["showData", "form", "inProcess"]),
 
         clientProfile() {
-            if (this.showData.razonsocial) {
+            if (this.showData.razonsocial && this.mode != "edit") {
                 let arrayname = this.showData.razonsocial.split(" ");
                 let profile = "";
 
@@ -127,6 +123,32 @@ export default {
 
                 return profile;
             }
+        }
+    },
+
+    methods: {
+        ...mapMutations(["ClientesDialog"]),
+        ...mapActions("crudx", ["index", "show", "edit", "update", "destroy"]),
+
+        editCliente: async function() {
+            await this.edit({ data: this.showData });
+            this.mode = "edit";
+        },
+
+        updateCliente: async function() {
+            if (this.$refs.clientesEditForm.validate()) {
+                let id = this.form.id;
+                await this.update({ url: "api/clientes/" + id });
+                this.$refs.clientesEditForm.reset();
+                await this.show({ url: "api/clientes/" + id });
+                this.mode = "show";
+                this.index({ url: "api/clientes" });
+            }
+        },
+
+        deleteCliente: async function() {
+            this.mode = "show";
+            this.ClientesDialog();
         }
     }
 };

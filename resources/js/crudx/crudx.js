@@ -110,7 +110,10 @@ const actions = {
     },
 
     edit: function({ commit }, params) {
-        commit("fillForm", params.data);
+        return new Promise(resolve => {
+            commit("fillForm", params.data);
+            resolve();
+        });
     },
 
     update: function({ state, commit, dispatch }, params) {

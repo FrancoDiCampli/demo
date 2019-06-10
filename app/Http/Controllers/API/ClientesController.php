@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreCliente;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateCliente;
+use function GuzzleHttp\json_encode;
+use App\Factura;
 
 class ClientesController extends Controller
 {

@@ -7,6 +7,16 @@ import crudx from "./crudx/crudx";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+    state: {
+        showClientesDialog: false
+    },
+
+    mutations: {
+        ClientesDialog(state) {
+            state.showClientesDialog = !state.showClientesDialog;
+        }
+    },
+
     modules: {
         auth: auth,
         crudx: crudx

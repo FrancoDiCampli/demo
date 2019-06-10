@@ -73,7 +73,7 @@
                             class="elevation-0 red--text"
                             color="white"
                         >Cancelar</v-btn>
-                        <v-btn outline color="white">Eliminar</v-btn>
+                        <v-btn @click="deleteCliente()" outline color="white">Eliminar</v-btn>
                     </v-layout>
                 </v-alert>
             </div>
@@ -83,7 +83,7 @@
 
 <script>
 // Vuex
-import { mapState, mapActions } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 
 // Components
 import DataIterator from "./ClientesShowDataIterator.vue";
@@ -127,6 +127,7 @@ export default {
     },
 
     methods: {
+        ...mapMutations(["ClientesDialog"]),
         ...mapActions("crudx", ["index", "show", "edit", "update", "destroy"]),
 
         editCliente: async function() {
@@ -146,7 +147,8 @@ export default {
         },
 
         deleteCliente: async function() {
-            await this.destroy({ url: "api/clientes/" + this.showData.id });
+            this.mode = "show";
+            this.ClientesDialog();
         }
     }
 };

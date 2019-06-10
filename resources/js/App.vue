@@ -161,4 +161,12 @@ export default {
 .profile-list span {
     color: #26a69a;
 }
+
+body::-webkit-scrollbar {
+    width: 7px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: rgba(38, 166, 154, 0.75);
+}
 </style>

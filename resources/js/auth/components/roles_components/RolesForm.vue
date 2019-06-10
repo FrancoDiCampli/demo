@@ -6,10 +6,10 @@
                 <v-text-field
                     v-model="form.role"
                     :rules="[rules.required]"
-                    label="Role"
-                    hint="Role"
+                    label="Rol"
+                    hint="Rol"
                     color="primary"
-                    outline
+                    box
                     single-line
                 ></v-text-field>
             </v-flex>
@@ -20,10 +20,10 @@
                     :items="showData"
                     item-text="id"
                     item-value="id"
-                    label="Permission"
+                    label="Permisos"
                     color="primary"
                     multiple
-                    outline
+                    box
                     single-line
                 ></v-select>
             </v-flex>

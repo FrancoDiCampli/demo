@@ -8,7 +8,7 @@
                     <!-- Login card -->
                     <v-card style="width: 400px; min-height: 350px; height: auto;">
                         <v-card-title class="primary">
-                            <h1 class="white--text">Login</h1>
+                            <h1 class="white--text">Iniciar Sesión</h1>
                         </v-card-title>
                         <v-card-text style="padding: 0;">
                             <v-layout wrap align-center>

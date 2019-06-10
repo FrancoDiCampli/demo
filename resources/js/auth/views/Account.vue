@@ -11,17 +11,23 @@
                                 <!-- User View -->
                                 <v-flex xs12 pa-2>
                                     <v-layout justify-end>
-                                        <v-btn
-                                            flat
-                                            icon
-                                            color="success"
-                                            @click="editAccount(); editDialog = true"
-                                        >
-                                            <v-icon size="medium">fas fa-pen</v-icon>
-                                        </v-btn>
-                                        <v-btn flat icon color="error" @click="deleteDialog = true">
-                                            <v-icon size="medium">fas fa-trash</v-icon>
-                                        </v-btn>
+                                        <v-menu>
+                                            <template v-slot:activator="{ on }">
+                                                <v-btn flat icon dark color="primary" v-on="on">
+                                                    <v-icon size="medium">fas fa-ellipsis-v</v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <v-list>
+                                                <v-list-tile
+                                                    @click="editAccount(); editDialog = true"
+                                                >
+                                                    <v-list-tile-title>Editar Datos</v-list-tile-title>
+                                                </v-list-tile>
+                                                <v-list-tile @click="deleteDialog = true">
+                                                    <v-list-tile-title>Eliminar mi Cuenta</v-list-tile-title>
+                                                </v-list-tile>
+                                            </v-list>
+                                        </v-menu>
                                     </v-layout>
                                     <br>
                                     <br>
@@ -54,7 +60,7 @@
                         <v-card>
                             <v-form ref="edit_form" @submit.prevent="edit()">
                                 <v-card-text>
-                                    <h2>Edit User</h2>
+                                    <h2>Editar mi Cuenta</h2>
                                 </v-card-text>
                                 <v-divider></v-divider>
                                 <v-card-text>
@@ -67,12 +73,12 @@
                                             @click="editDialog = false;"
                                             outline
                                             color="error"
-                                        >Cancel</v-btn>
+                                        >Cancelar</v-btn>
                                         <v-btn
                                             type="submit"
                                             color="success"
                                             class="elevation-0"
-                                        >Update</v-btn>
+                                        >Editar</v-btn>
                                     </v-layout>
                                 </v-card-text>
                             </v-form>
@@ -82,10 +88,10 @@
                     <v-dialog v-model="deleteDialog" width="400" persistent>
                         <v-card>
                             <v-card-title>
-                                <h2>are you sure?</h2>
+                                <h2>¿Estás Seguro?</h2>
                             </v-card-title>
                             <v-divider></v-divider>
-                            <v-card-text>Are you sure you want to delete your account? this change is irreversible</v-card-text>
+                            <v-card-text>¿Estás seguro que deseas eliminar tu Cuenta? este cambio es irreversible</v-card-text>
                             <v-divider></v-divider>
                             <v-card-text>
                                 <v-layout justify-end wrap>
@@ -93,8 +99,8 @@
                                         @click="deleteDialog = false;"
                                         outline
                                         color="success"
-                                    >Cancel</v-btn>
-                                    <v-btn @click="erase()" color="error">Delete</v-btn>
+                                    >Cancelar</v-btn>
+                                    <v-btn @click="erase()" color="error">Eliminar</v-btn>
                                 </v-layout>
                             </v-card-text>
                         </v-card>

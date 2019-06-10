@@ -6,10 +6,10 @@
                 <v-text-field
                     v-model="form.name"
                     :rules="[rules.required]"
-                    label="Name"
-                    hint="Name"
+                    label="Nombre"
+                    hint="Nombre"
                     color="primary"
-                    outline
+                    box
                     single-line
                 ></v-text-field>
             </v-flex>
@@ -21,7 +21,7 @@
                     label="Email"
                     hint="Email"
                     color="primary"
-                    outline
+                    box
                     single-line
                 ></v-text-field>
             </v-flex>
@@ -33,10 +33,10 @@
                     :append-icon="password ? 'fas fa-eye' : 'fas fa-eye-slash'"
                     @click:append="password = !password"
                     :type="password ? 'text' : 'password'"
-                    label="Password"
-                    hint="Password"
+                    label="Contraseña"
+                    hint="Contraseña"
                     color="primary"
-                    outline
+                    box
                     single-line
                 ></v-text-field>
             </v-flex>
@@ -47,10 +47,10 @@
                     :append-icon="confirm_password ? 'fas fa-eye' : 'fas fa-eye-slash'"
                     @click:append="confirm_password = !confirm_password"
                     :type="confirm_password ? 'text' : 'password'"
-                    label="Confirm Password"
-                    hint="Confirm Password"
+                    label="Confirmar Contraseña"
+                    hint="Confirmar Contraseña"
                     color="primary"
-                    outline
+                    box
                     single-line
                 ></v-text-field>
             </v-flex>
@@ -61,9 +61,9 @@
                     :items="showData"
                     item-text="role"
                     item-value="id"
-                    label="Role"
+                    label="Rol"
                     color="primary"
-                    outline
+                    box
                     single-line
                 ></v-select>
             </v-flex>

@@ -23,15 +23,11 @@
             </v-flex>
         </v-layout>
         <div v-if="clientes != null">
-            <v-data-table
-                :headers="clientesFindHeaders"
-                :items="clientes"
-                hide-actions
-                hide-headers
-            >
+            <v-data-table :items="clientes" hide-actions hide-headers>
                 <template v-slot:items="cliente">
                     <tr
                         @click="selected = cliente.item.id"
+                        @dblclick="loadCliente(cliente.item)"
                         style="cursor: pointer;"
                         :style="selected == cliente.item.id ?
                         'background-color: #26A69A; color: white;' : ''"
@@ -46,7 +42,11 @@
 </template>
 
 <script>
+//Axios
 import axios from "axios";
+
+//Vuex
+import { mapState, mapMutations } from "vuex";
 
 export default {
     name: "FindCliente",
@@ -64,7 +64,13 @@ export default {
         };
     },
 
+    computed: {
+        ...mapState("crudx", ["form"])
+    },
+
     methods: {
+        ...mapMutations(["FindClientesDialog"]),
+
         find() {
             this.selected = null;
             if (
@@ -87,6 +93,13 @@ export default {
             } else {
                 this.clientes = null;
             }
+        },
+
+        loadCliente(cliente) {
+            this.form.cuit = cliente.documentounico;
+            this.form.razonsocial = cliente.razonsocial;
+            this.form.id = cliente.id;
+            this.FindClientesDialog();
         }
     }
 };

@@ -47,9 +47,15 @@ class ClientesController extends Controller
     {
         $cliente = Cliente::find($id);
 
-        $cliente->facturas;
+        $facturas = $cliente->facturas;
 
-        return $cliente;
+        foreach ($facturas as $fac) {
+            if ($fac->cuenta <> null) {
+                $cuentas[] = $fac->cuenta;
+            }
+        }
+
+        return compact('cliente','facturas','cuentas');
     }
 
     public function update(UpdateCliente $request, $id)

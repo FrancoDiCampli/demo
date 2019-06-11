@@ -1,0 +1,106 @@
+<template>
+    <div>
+        <v-layout justify-space-around>
+            <v-flex xs12 sm5>
+                <v-text-field
+                    v-model="cuit"
+                    @keyup="find()"
+                    label="Cuit"
+                    hint="Cuit"
+                    box
+                    single-line
+                ></v-text-field>
+            </v-flex>
+            <v-flex xs12 sm5>
+                <v-text-field
+                    v-model="razon"
+                    @keyup="find()"
+                    label="Razón Social"
+                    hint="Razón Social"
+                    box
+                    single-line
+                ></v-text-field>
+            </v-flex>
+        </v-layout>
+        <div v-if="clientes != null">
+            <v-data-table
+                :headers="clientesFindHeaders"
+                :items="clientes"
+                hide-actions
+                hide-headers
+            >
+                <template v-slot:items="cliente">
+                    <tr @click="selected = cliente.item.id">
+                        <td>
+                            <v-radio-group v-model="selected" style="margin-top: 20px;">
+                                <v-radio color="primary" :value="cliente.item.id"/>
+                            </v-radio-group>
+                        </td>
+                        <td class="hidden-xs-only">{{ cliente.item.documentounico }}</td>
+                        <td>{{ cliente.item.razonsocial }}</td>
+                        <td class="hidden-sm-and-down">{{ cliente.item.condicioniva }}</td>
+                    </tr>
+                </template>
+            </v-data-table>
+            <v-layout justify-center>
+                <v-btn :disabled="selected == null" color="primary">Aceptar</v-btn>
+            </v-layout>
+        </div>
+    </div>
+</template>
+
+<script>
+import axios from "axios";
+
+export default {
+    name: "FindCliente",
+
+    data() {
+        return {
+            cuit: null,
+            razon: null,
+            selected: null,
+            clientesFindHeaders: [
+                { text: "", sortable: false },
+                { text: "CUIL/CUIT", sortable: false, class: "hidden-xs-only" },
+                { text: "Apellido y Nombre", sortable: false },
+                {
+                    text: "Condición de IVA",
+                    sortable: false,
+                    class: "hidden-sm-and-down"
+                }
+            ],
+            clientes: null
+        };
+    },
+
+    methods: {
+        find() {
+            this.selected = null;
+            if (
+                (this.cuit != null && this.cuit != "") ||
+                (this.razon != null && this.razon != "")
+            ) {
+                axios
+                    .get("/api/clientes", {
+                        params: {
+                            cuit: this.cuit,
+                            razonsocial: this.razon
+                        }
+                    })
+                    .then(response => {
+                        this.clientes = response.data;
+                    })
+                    .catch(error => {
+                        console.log(error.response.data);
+                    });
+            } else {
+                this.clientes = null;
+            }
+        }
+    }
+};
+</script>
+
+<style>
+</style>

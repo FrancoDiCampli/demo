@@ -16,8 +16,7 @@
         </template>
     </div>
 </template>
-    </div>
-</template>
+
 
 <script>
 //Vuex

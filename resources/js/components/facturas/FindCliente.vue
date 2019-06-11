@@ -23,34 +23,30 @@
             </v-flex>
         </v-layout>
         <div v-if="clientes != null">
-            <v-data-table
-                :headers="clientesFindHeaders"
-                :items="clientes"
-                hide-actions
-                hide-headers
-            >
+            <v-data-table :items="clientes" hide-actions hide-headers>
                 <template v-slot:items="cliente">
-                    <tr @click="selected = cliente.item.id">
-                        <td>
-                            <v-radio-group v-model="selected" style="margin-top: 20px;">
-                                <v-radio color="primary" :value="cliente.item.id"/>
-                            </v-radio-group>
-                        </td>
+                    <tr
+                        @click="selected = cliente.item.id"
+                        @dblclick="loadCliente(cliente.item)"
+                        style="cursor: pointer;"
+                        :style="selected == cliente.item.id ?
+                        'background-color: #26A69A; color: white;' : ''"
+                    >
                         <td class="hidden-xs-only">{{ cliente.item.documentounico }}</td>
                         <td>{{ cliente.item.razonsocial }}</td>
-                        <td class="hidden-sm-and-down">{{ cliente.item.condicioniva }}</td>
                     </tr>
                 </template>
             </v-data-table>
-            <v-layout justify-center>
-                <v-btn :disabled="selected == null" color="primary">Aceptar</v-btn>
-            </v-layout>
         </div>
     </div>
 </template>
 
 <script>
+//Axios
 import axios from "axios";
+
+//Vuex
+import { mapState, mapMutations } from "vuex";
 
 export default {
     name: "FindCliente",
@@ -61,20 +57,20 @@ export default {
             razon: null,
             selected: null,
             clientesFindHeaders: [
-                { text: "", sortable: false },
                 { text: "CUIL/CUIT", sortable: false, class: "hidden-xs-only" },
-                { text: "Apellido y Nombre", sortable: false },
-                {
-                    text: "Condición de IVA",
-                    sortable: false,
-                    class: "hidden-sm-and-down"
-                }
+                { text: "Apellido y Nombre", sortable: false }
             ],
             clientes: null
         };
     },
 
+    computed: {
+        ...mapState("crudx", ["form"])
+    },
+
     methods: {
+        ...mapMutations(["FindClientesDialog"]),
+
         find() {
             this.selected = null;
             if (
@@ -97,6 +93,13 @@ export default {
             } else {
                 this.clientes = null;
             }
+        },
+
+        loadCliente(cliente) {
+            this.form.cuit = cliente.documentounico;
+            this.form.razonsocial = cliente.razonsocial;
+            this.form.id = cliente.id;
+            this.FindClientesDialog();
         }
     }
 };

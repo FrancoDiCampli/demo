@@ -2,10 +2,24 @@
     <div>
         <v-layout justify-space-around>
             <v-flex xs12 sm4 mx-1>
-                <v-text-field label="Cuit" hint="Cuit" box single-line @keyup.40="find()"></v-text-field>
+                <v-text-field
+                    v-model="form.cuit"
+                    label="Cuit"
+                    hint="Cuit"
+                    box
+                    single-line
+                    @keyup.40="find()"
+                ></v-text-field>
             </v-flex>
             <v-flex xs12 sm4 mx-1>
-                <v-text-field disabled label="Razón Social" hint="Razón Social" box single-line></v-text-field>
+                <v-text-field
+                    v-model="form.razonsocial"
+                    disabled
+                    label="Razón Social"
+                    hint="Razón Social"
+                    box
+                    single-line
+                ></v-text-field>
             </v-flex>
             <v-flex xs12 sm4 mx-1>
                 <v-select
@@ -17,6 +31,80 @@
                     label="Condición"
                     hint="Condición"
                 ></v-select>
+            </v-flex>
+        </v-layout>
+
+        <v-layout justify-space-around>
+            <v-flex xs12 sm6 mx-1>
+                <v-text-field
+                    v-model="form.codarticulo"
+                    @keyup="findArticulos()"
+                    label="Codigo Articulo"
+                    hint="Codigo Articulo"
+                    box
+                    single-line
+                    color="primary"
+                ></v-text-field>
+            </v-flex>
+            <v-flex xs12 sm6 mx-1>
+                <v-text-field
+                    v-model="form.articulo"
+                    @keyup="findArticulos()"
+                    label="Articulo"
+                    hint="Articulo"
+                    box
+                    single-line
+                    color="primary"
+                ></v-text-field>
+            </v-flex>
+        </v-layout>
+
+        <div v-if="articulos != null">
+            <v-data-table :items="articulos" hide-actions hide-headers>
+                <template v-slot:items="articulo">
+                    <tr
+                        @click="selected = articulo.item.id"
+                        @dblclick="loadArticulos(articulo.item)"
+                        style="cursor: pointer;"
+                        :style="selected == articulo.item.id ?
+                        'background-color: #26A69A; color: white;' : ''"
+                    >
+                        <td class="hidden-xs-only">{{ articulo.item.codarticulo }}</td>
+                        <td>{{ articulo.item.articulo }}</td>
+                    </tr>
+                </template>
+            </v-data-table>
+        </div>
+
+        <v-layout>
+            <v-flex xs12 sm4 mx-1>
+                <v-text-field
+                    v-model="form.cantidad"
+                    label="Cantidad"
+                    hint="Cantidad"
+                    box
+                    single-line
+                ></v-text-field>
+            </v-flex>
+            <v-flex xs12 sm4 mx-1>
+                <v-text-field
+                    v-model="form.precio"
+                    disabled
+                    label="Precio"
+                    hint="Precio"
+                    box
+                    single-line
+                ></v-text-field>
+            </v-flex>
+            <v-flex xs12 sm4 mx-1>
+                <v-text-field
+                    v-model="subtotal"
+                    disabled
+                    label="Subtotal"
+                    hint="Subtotal"
+                    box
+                    single-line
+                ></v-text-field>
             </v-flex>
         </v-layout>
 
@@ -46,6 +134,9 @@
 </template>
 
 <script>
+//Axios
+import axios from "axios";
+
 //Vuex
 import { mapState, mapMutations } from "vuex";
 
@@ -58,7 +149,9 @@ export default {
     data() {
         return {
             condiciones: ["Contado", "Credito - Debito", "Cuenta Corriente"],
-            condicion: "Contado"
+            condicion: "Contado",
+            articulos: null,
+            selected: null
         };
     },
 
@@ -67,13 +160,51 @@ export default {
     },
 
     computed: {
-        ...mapState(["findClienteDialog"])
+        ...mapState(["findClienteDialog"]),
+        ...mapState("crudx", ["form"]),
+
+        subtotal() {
+            return this.form.precio * this.form.cantidad;
+        }
     },
 
     methods: {
         ...mapMutations(["FindClientesDialog"]),
         find() {
             this.FindClientesDialog();
+        },
+
+        findArticulos() {
+            this.selected = null;
+            if (
+                (this.form.codarticulo != null &&
+                    this.form.codarticulo != "") ||
+                (this.form.articulo != null && this.form.articulo != "")
+            ) {
+                axios
+                    .get("/api/articulos", {
+                        params: {
+                            codarticulo: this.form.codarticulo,
+                            articulo: this.form.articulo
+                        }
+                    })
+                    .then(response => {
+                        this.articulos = response.data;
+                    })
+                    .catch(error => {
+                        console.log(error.response.data);
+                    });
+            } else {
+                this.articulos = null;
+            }
+        },
+
+        loadArticulos(articulo) {
+            this.form.codarticulo = articulo.codarticulo;
+            this.form.articulo = articulo.articulo;
+            this.form.precio = articulo.precio;
+            this.articulos = null;
+            this.selected = null;
         }
     }
 };

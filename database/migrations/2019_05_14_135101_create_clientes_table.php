@@ -25,6 +25,7 @@ class CreateClientesTable extends Migration
             $table->string('provincia');
             $table->string('condicioniva');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

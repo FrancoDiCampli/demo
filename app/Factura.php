@@ -20,6 +20,11 @@ class Factura extends Model
             ->withPivot('codarticulo', 'articulo', 'medida', 'cantidad', 'bonificacion', 'alicuota', 'preciounitario', 'subtotal');
     }
 
+    public function cuenta()
+    {
+        return $this->hasOne('App\Cuentacorriente');
+    }
+
     public function cliente()
     {
         return $this->belongsTo('App\Cliente');

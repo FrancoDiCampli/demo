@@ -14,6 +14,10 @@
                     <v-list-tile @click="mode = 'delete'">
                         <v-list-tile-title>Eliminar</v-list-tile-title>
                     </v-list-tile>
+                    <v-divider></v-divider>
+                    <v-list-tile @click="ClientesDialog()">
+                        <v-list-tile-title>Cerrar</v-list-tile-title>
+                    </v-list-tile>
                 </v-list>
             </v-menu>
             <v-flex xs12>

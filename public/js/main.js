@@ -4677,10 +4677,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "FindCliente",
@@ -4690,19 +4686,12 @@ __webpack_require__.r(__webpack_exports__);
       razon: null,
       selected: null,
       clientesFindHeaders: [{
-        text: "",
-        sortable: false
-      }, {
         text: "CUIL/CUIT",
         sortable: false,
         "class": "hidden-xs-only"
       }, {
         text: "Apellido y Nombre",
         sortable: false
-      }, {
-        text: "Condición de IVA",
-        sortable: false,
-        "class": "hidden-sm-and-down"
       }],
       clientes: null
     };
@@ -11617,6 +11606,11 @@ var render = function() {
                           _c(
                             "tr",
                             {
+                              staticStyle: { cursor: "pointer" },
+                              style:
+                                _vm.selected == cliente.item.id
+                                  ? "background-color: #26A69A; color: white;"
+                                  : "",
                               on: {
                                 click: function($event) {
                                   _vm.selected = cliente.item.id
@@ -11624,45 +11618,12 @@ var render = function() {
                               }
                             },
                             [
-                              _c(
-                                "td",
-                                [
-                                  _c(
-                                    "v-radio-group",
-                                    {
-                                      staticStyle: { "margin-top": "20px" },
-                                      model: {
-                                        value: _vm.selected,
-                                        callback: function($$v) {
-                                          _vm.selected = $$v
-                                        },
-                                        expression: "selected"
-                                      }
-                                    },
-                                    [
-                                      _c("v-radio", {
-                                        attrs: {
-                                          color: "primary",
-                                          value: cliente.item.id
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
                               _c("td", { staticClass: "hidden-xs-only" }, [
                                 _vm._v(_vm._s(cliente.item.documentounico))
                               ]),
                               _vm._v(" "),
                               _c("td", [
                                 _vm._v(_vm._s(cliente.item.razonsocial))
-                              ]),
-                              _vm._v(" "),
-                              _c("td", { staticClass: "hidden-sm-and-down" }, [
-                                _vm._v(_vm._s(cliente.item.condicioniva))
                               ])
                             ]
                           )
@@ -11672,27 +11633,9 @@ var render = function() {
                   ],
                   null,
                   false,
-                  4108556898
+                  849480064
                 )
-              }),
-              _vm._v(" "),
-              _c(
-                "v-layout",
-                { attrs: { "justify-center": "" } },
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: {
-                        disabled: _vm.selected == null,
-                        color: "primary"
-                      }
-                    },
-                    [_vm._v("Aceptar")]
-                  )
-                ],
-                1
-              )
+              })
             ],
             1
           )

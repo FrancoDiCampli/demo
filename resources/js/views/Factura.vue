@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- Boton para agregar una nueva factura (En proceso) -->
-        <v-btn dark fab fixed right bottom color="primary">
+        <v-btn dark fab fixed right bottom color="primary" @click="$router.push('/ventas/nueva')">
             <v-icon>fas fa-plus</v-icon>
         </v-btn>
         <!-- Index de factura -->

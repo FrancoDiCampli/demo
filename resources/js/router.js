@@ -18,6 +18,10 @@ import Cliente from "./views/Cliente.vue";
 
 //Facturas Views
 import Factura from "./views/Factura.vue";
+import FacturaNew from "./views/FacturaNew.vue";
+
+//Productos Views
+import Productos from "./views/Productos.vue";
 
 Vue.use(Router);
 
@@ -182,6 +186,61 @@ export default new Router({
             path: "/ventas",
             name: "ventas",
             component: Factura,
+            meta: {
+                permissions: [
+                    {
+                        role: "visitor",
+                        access: false,
+                        redirect: "login"
+                    },
+                    {
+                        role: "superAdmin",
+                        access: true
+                    },
+                    {
+                        role: "admin",
+                        access: true
+                    },
+                    {
+                        role: "seller",
+                        access: true
+                    }
+                ]
+            }
+        },
+
+        {
+            path: "/ventas/nueva",
+            name: "nuevaVenta",
+            component: FacturaNew,
+            meta: {
+                permissions: [
+                    {
+                        role: "visitor",
+                        access: false,
+                        redirect: "login"
+                    },
+                    {
+                        role: "superAdmin",
+                        access: true
+                    },
+                    {
+                        role: "admin",
+                        access: true
+                    },
+                    {
+                        role: "seller",
+                        access: true
+                    }
+                ]
+            }
+        },
+
+        //Productos Routes
+        {
+            path: "/productos",
+            name: "productos",
+            component: Productos,
             meta: {
                 permissions: [
                     {

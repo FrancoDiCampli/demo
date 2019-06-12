@@ -40,8 +40,15 @@ Route::middleware('auth:api')->group(function () {
 
     //Afip Routes
     Route::get('/buscarAfip/{num}', 'API\ClientesController@buscarAfip');
+
+    Route::get('estadisticas/vfecha','API\EstadisticasController@vfecha');
+
 });
 
 // Auth Routes
 Route::post('/login', 'AuthController@login');
 Route::post('/register', 'AuthController@register');
+
+
+Route::get('estadisticas/todas','API\EstadisticasController@todas');
+Route::get('estadisticas/xfecha','API\EstadisticasController@fecha');

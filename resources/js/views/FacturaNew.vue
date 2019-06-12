@@ -9,7 +9,6 @@
 </template>
 
 <script>
-//Components
 import FacturasForm from "../components/facturas/FacturasForm.vue";
 
 export default {

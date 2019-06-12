@@ -20,7 +20,7 @@ class ClientesController extends Controller
 
         if (strlen($dni) >= 8) {
             $clientes = Cliente::where('documentounico', $dni)->where('documentounico', '<>', 0)->get();
-        } else if(strlen($razon) >= 0) {
+        } else if (strlen($razon) >= 0) {
             $clientes = Cliente::where('razonsocial', 'LIKE', "$razon%")->where('documentounico', '<>', 0)->get();
         } else {
             $clientes = Cliente::where('documentounico', '<>', 0)->get();
@@ -55,7 +55,7 @@ class ClientesController extends Controller
             }
         }
 
-        return compact('cliente','facturas','cuentas');
+        return compact('cliente', 'facturas', 'cuentas');
     }
 
     public function update(UpdateCliente $request, $id)

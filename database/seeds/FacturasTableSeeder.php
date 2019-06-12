@@ -1,27 +1,22 @@
 <?php
-
 use App\Factura;
 use App\Articulo;
 use App\Inventario;
 use App\Movimiento;
 use Illuminate\Database\Seeder;
-
 class FacturasTableSeeder extends Seeder
 {
     public function run()
     {
-        factory(Factura::class, 5)->create();
-
+        factory(Factura::class, 7)->create();
         $facturas = Factura::all();
         $total = 0;
         $inventarios = Inventario::all();
-
         foreach ($facturas as $factura) {
             $entero = rand(1, count($inventarios));
             $inventario = Inventario::find($entero);
             $idaux = $inventario->articulo_id;
             $articulo = Articulo::find($idaux);
-
             $detalle = array(
                 'codarticulo' => $articulo['codarticulo'],
                 'articulo' => $articulo['articulo'],
@@ -34,16 +29,13 @@ class FacturasTableSeeder extends Seeder
                 'articulo_id' => $articulo['id'],
                 'factura_id' => $factura->id
             );
-
             $total = $detalle['subtotal'] + $total;
             $det[] = $detalle;
-
             $factura->articulos()->attach($det);
+            unset($det);
             $factura->total = $total;
             $factura->save();
-
             $inventario->cantidad = $inventario->cantidad - $detalle['cantidad'];
-
             Movimiento::create([
                 'inventario_id' => $inventario->id,
                 'tipo' => 'VENTA',

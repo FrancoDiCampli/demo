@@ -1,11 +1,8 @@
 <?php
-
 /* @var $factory \Illuminate\Database\Eloquent\Factory */
-
 use App\Cliente;
 use App\Factura;
 use Faker\Generator as Faker;
-
 $factory->define(Factura::class, function (Faker $faker) {
     $cliente = Cliente::all()->random();
     return [

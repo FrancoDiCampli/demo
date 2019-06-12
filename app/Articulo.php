@@ -46,10 +46,10 @@ class Articulo extends Model
 
     public function scopeBuscar($query, $request)
     {
-        $codarticulo = $request->get('codart');
-        $codprov = $request->get('codprov');
-        $articulo = $request->get('art');
-        
+        $codarticulo = $request->get('codarticulo');
+        $codprov = $request->get('codprovedor');
+        $articulo = $request->get('articulo');
+
         if($codarticulo){
             return $query->where('codarticulo', 'LIKE', "$codarticulo%");
         } else if ($codprov) {

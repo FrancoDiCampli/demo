@@ -1,9 +1,7 @@
 <template>
     <div>
         <v-card>
-            <v-card-text>
-                <FacturasForm></FacturasForm>
-            </v-card-text>
+            <FacturasForm></FacturasForm>
         </v-card>
     </div>
 </template>

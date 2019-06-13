@@ -15,18 +15,11 @@ class ClientesController extends Controller
 {
     public function index(Request $request)
     {
-        $dni = $request->get('cuit') * 1;
-        $razon = $request->get('razonsocial');
+        $clientes = Cliente::orderBy('razonsocial', 'asc')
+            ->where('documentounico', '<>', 0)
+            ->buscar($request);
 
-        if (strlen($dni) >= 8) {
-            $clientes = Cliente::where('documentounico', $dni)->where('documentounico', '<>', 0)->get();
-        } else if (strlen($razon) >= 0) {
-            $clientes = Cliente::where('razonsocial', 'LIKE', "$razon%")->where('documentounico', '<>', 0)->get();
-        } else {
-            $clientes = Cliente::where('documentounico', '<>', 0)->get();
-        }
-
-        return $clientes;
+        return $clientes->take($request->get('limit', null))->get();
     }
 
     public function store(StoreCliente $request)

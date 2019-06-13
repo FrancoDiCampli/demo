@@ -29,45 +29,52 @@ class FacturasController extends Controller
         $detalle = array();
         array_push($detalle, $atributos->detalle);
 
+        if ($atributos['condicionventa'] == 'Contado' || $atributos['condicionventa'] == 'Credito / Debito') {
+            $atributos['pagada'] = true;
+        } else {
+            $atributos['pagada'] = false;
+        }
+
+        if ($atributos['tipo'] != 'Remito X') {
+            $solicitarCAE = true;
+        } else {
+            $solicitarCAE = false;
+        }
+
         // $factura = new Factura;
         $factura = Factura::create([
-            "ptoventa" => $atributos['ptoventa'],
-            "cuit" => $atributos['cuit'],
-            "numfactura" => $atributos['numfactura'],
-            "bonificacion" => $atributos['bonificacion'],
-            "recargo" => $atributos['recargo'],
-            "alicuota" => $atributos['alicuota'],
-            "fecha" => $atributos['fecha'],
+            "ptoventa" => 1,
+            "cuit" => $atributos['cuit'], //cliente
+            "numfactura" => 1,
+            "bonificacion" => $atributos['bonificacion']*1,
+            "recargo" => $atributos['recargo']*1,
+            "fecha" => now()->format('Ymd'),
             "subtotal" => $atributos['subtotal'],
-            "total" => 0,
-            "estado" => $atributos['estado'],
+            "total" => $atributos['total'],
+            "pagada" => $atributos['pagada'],
             "condicionventa" => $atributos['condicionventa'],
             "cliente_id" => $atributos['cliente_id'],
             "user_id" => auth()->user()->id,
         ]);
 
-        $total = 0;
-
         foreach ($detalle as $detail) {
             $articulo = Articulo::find($detail['articulo_id'] * 1);
             $detalles = array(
-                'codarticulo' => $detail['codarticulo'],
-                'articulo' => $detail['articulo'],
-                'cantidad' => $detail['cantidad'],
-                'medida' => $detail['medida'],
-                'bonificacion' => $detail['bonificacion'],
-                'alicuota' => $detail['alicuota'],
-                'preciounitario' => $detail['preciounitario'],
-                'subtotal' => $detail['cantidad'] * $detail['preciounitario'],
+                'codarticulo' => $articulo['codarticulo'],
+                'articulo' => $articulo['articulo'],
+                'cantidad' => $detail['quantity'],
+                'medida' => $articulo['medida'],
+                'bonificacion' => 0,
+                'alicuota' => 0,
+                'preciounitario' => $articulo['precio'],
+                'subtotal' => $detail['quantity'] * $articulo['precio'],
                 'articulo_id' => $detail['articulo_id'],
                 'factura_id' => $factura->id
             );
-            $total = $detalles['subtotal'] + $total;
             $det[] = $detalles;
         }
 
         $factura->articulos()->attach($det);
-        $factura->total = $total;
         $factura->save();
 
         if ($factura->pagada == false) {
@@ -84,7 +91,7 @@ class FacturasController extends Controller
                 'fecha' => $cuenta->alta,
                 'user_id' => auth()->user()->id
             ]);
-        } else if ($request->get('solicitarCae') && $factura->estado == 'PAGADA') {
+        } else if ($solicitarCAE && $factura->estado) {
             $factura->solicitarCae($factura);
         }
 

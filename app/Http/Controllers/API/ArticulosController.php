@@ -12,10 +12,10 @@ class ArticulosController extends Controller
 {
     public function index (Request $request)
     {
-        $articulos = Articulo::orderBy('id')
-                ->buscar($request)
-                ->get();
-        return $articulos;
+        $articulos = Articulo::orderBy('articulo', 'asc')
+            ->buscar($request);
+
+        return $articulos->take($request->get('limit', null))->get();
     }
 
     public function store(Request $request)

@@ -1,15 +1,12 @@
 <template>
     <div>
         <v-card>
-            <v-card-text>
-                <FacturasForm></FacturasForm>
-            </v-card-text>
+            <FacturasForm></FacturasForm>
         </v-card>
     </div>
 </template>
 
 <script>
-//Components
 import FacturasForm from "../components/facturas/FacturasForm.vue";
 
 export default {

@@ -1,19 +1,22 @@
 <template>
     <div>
         <v-card>
-            <FacturasForm></FacturasForm>
+            <!-- <FacturasFormUnique></FacturasFormUnique> -->
+            <FacturasFormMultiple></FacturasFormMultiple>
         </v-card>
     </div>
 </template>
 
 <script>
-import FacturasForm from "../components/facturas/FacturasForm.vue";
+import FacturasFormUnique from "../components/facturas/FacturasFormUnique.vue";
+import FacturasFormMultiple from "../components/facturas/FacturasFormMultiple.vue";
 
 export default {
     name: "FacturaNew",
 
     components: {
-        FacturasForm
+        FacturasFormUnique,
+        FacturasFormMultiple
     }
 };
 </script>

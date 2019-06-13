@@ -21,12 +21,13 @@ class Cliente extends Model
 
         if (strlen($cliente)) {
             return $query->where('id', $cliente)
-                        ->orWhere('documentounico',$cliente)
-                        ->orWhere('razonsocial','LIKE',"$cliente%");
+                ->orWhere('documentounico', $cliente)
+                ->orWhere('razonsocial', 'LIKE', "$cliente%");
         }
     }
 
-    public function facturas(){
+    public function facturas()
+    {
         return $this->hasMany('App\Factura');
     }
 

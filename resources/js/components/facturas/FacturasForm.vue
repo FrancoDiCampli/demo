@@ -33,8 +33,9 @@ export default {
     methods: {
         ...mapActions("crudx", ["save"]),
 
-        saveFactura() {
-            this.save({ url: "/api/facturas" });
+        saveFactura: async function() {
+            let response = await this.save({ url: "/api/facturas" });
+            console.log(response);
         }
     }
 };

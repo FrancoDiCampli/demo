@@ -2,7 +2,9 @@
     <div>
         <v-card>
             <v-card-text>
-                <FacturasForm></FacturasForm>
+                <h2>Resumen</h2>
+                <!-- <FacturasForm></FacturasForm> -->
+                <FacturasResumen></FacturasResumen>
             </v-card-text>
         </v-card>
     </div>
@@ -10,13 +12,13 @@
 
 <script>
 //Components
-import FacturasForm from "../components/facturas/FacturasForm.vue";
-
+// import FacturasForm from "../components/facturas/FacturasForm.vue";
+import FacturasResumen from "../components/facturas/FacturasResumen.vue";
 export default {
     name: "FacturaNew",
 
     components: {
-        FacturasForm
+        FacturasResumen
     }
 };
 </script>

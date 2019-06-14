@@ -5453,10 +5453,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-<<<<<<< HEAD
-// module
-exports.push([module.i, "\n.profile-list {\r\n    border: solid 1.5px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\r\n    margin-top: 15px;\n}\n.profile-list span {\r\n    color: #26a69a;\n}\r\n", ""]);
-=======
 //
 //
 //
@@ -5528,7 +5524,6 @@ exports.push([module.i, "\n.profile-list {\r\n    border: solid 1.5px #26a69a;\r
 //
 // Vuex
  // Components
->>>>>>> a94803bfc263caa9a00bdf980f0ddf3577f09b17
 
 
 
@@ -5573,10 +5568,6 @@ exports.push([module.i, "\n.profile-list {\r\n    border: solid 1.5px #26a69a;\r
                 this.$refs.clientesForm.reset();
                 this.createClientesDialog = false;
 
-<<<<<<< HEAD
-// module
-exports.push([module.i, "\n.profile {\r\n    border: solid 3px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\r\n    color: #26a69a;\n}\r\n", ""]);
-=======
               case 7:
               case "end":
                 return _context.stop();
@@ -5584,7 +5575,6 @@ exports.push([module.i, "\n.profile {\r\n    border: solid 3px #26a69a;\r\n    b
           }
         }, _callee, this);
       }));
->>>>>>> a94803bfc263caa9a00bdf980f0ddf3577f09b17
 
       function saveCliente() {
         return _saveCliente.apply(this, arguments);
@@ -5597,8 +5587,6 @@ exports.push([module.i, "\n.profile {\r\n    border: solid 3px #26a69a;\r\n    b
 
 /***/ }),
 
-<<<<<<< HEAD
-=======
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Factura.vue?vue&type=script&lang=js&":
 /*!*************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Factura.vue?vue&type=script&lang=js& ***!
@@ -5919,7 +5907,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "\n.profile-list {\n    border: solid 1.5px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n    margin-top: 15px;\n}\n.profile-list span {\n    color: #26a69a;\n}\nbody::-webkit-scrollbar {\n    width: 7px;\n}\nbody::-webkit-scrollbar-thumb {\n    background-color: rgba(38, 166, 154, 0.75);\n}\n", ""]);
+exports.push([module.i, "\n.profile-list {\r\n    border: solid 1.5px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\r\n    margin-top: 15px;\n}\n.profile-list span {\r\n    color: #26a69a;\n}\nbody::-webkit-scrollbar {\r\n    width: 7px;\n}\nbody::-webkit-scrollbar-thumb {\r\n    background-color: rgba(38, 166, 154, 0.75);\n}\r\n", ""]);
 
 // exports
 
@@ -5938,14 +5926,13 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.profile {\n    border: solid 3px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\n    color: #26a69a;\n}\n", ""]);
+exports.push([module.i, "\n.profile {\r\n    border: solid 3px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\r\n    color: #26a69a;\n}\r\n", ""]);
 
 // exports
 
 
 /***/ }),
 
->>>>>>> a94803bfc263caa9a00bdf980f0ddf3577f09b17
 /***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/clientes/ClientesForm.vue?vue&type=style&index=0&lang=css&":
 /*!***************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/clientes/ClientesForm.vue?vue&type=style&index=0&lang=css& ***!
@@ -5958,11 +5945,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-<<<<<<< HEAD
 exports.push([module.i, "\n.input-number input[type=\"number\"] {\r\n    -moz-appearance: textfield;\n}\n.input-number input::-webkit-outer-spin-button,\r\n.input-number input::-webkit-inner-spin-button {\r\n    -webkit-appearance: none;\n}\n.capitalize input[type] {\r\n    text-transform: capitalize;\n}\n.loading {\r\n    position: fixed;\r\n    z-index: 999999;\r\n    left: 47.3%;\r\n    top: 44%;\n}\r\n", ""]);
-=======
-exports.push([module.i, "\n.input-number input[type=\"number\"] {\n    -moz-appearance: textfield;\n}\n.input-number input::-webkit-outer-spin-button,\n.input-number input::-webkit-inner-spin-button {\n    -webkit-appearance: none;\n}\n.capitalize input[type] {\n    text-transform: capitalize;\n}\n.loading {\n    position: fixed;\n    z-index: 999999;\n    left: 47.3%;\n    top: 44%;\n}\n", ""]);
->>>>>>> a94803bfc263caa9a00bdf980f0ddf3577f09b17
 
 // exports
 
@@ -6000,7 +5983,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.data {\n    font-size: 12px;\n    line-height: 5px;\n    margin-top: 8px;\n}\n.search-table {\n    border: solid 2px #26a69a;\n    margin-top: -30px;\n    border-top: none;\n    margin-bottom: 20px;\n    border-radius: 0px 0px 5px 5px;\n}\n.fade-enter-active,\n.fade-leave-active {\n    transition: opacity 0.5s;\n}\n.fade-enter {\n    transform: translateY(-60px);\n}\n.fade-leave-to {\n    opacity: 0;\n}\n.expansion-border {\n    border-bottom: 1px solid #aaaaaa;\n}\n", ""]);
+exports.push([module.i, "\n.data {\r\n    font-size: 12px;\r\n    line-height: 5px;\r\n    margin-top: 8px;\n}\n.search-table {\r\n    border: solid 2px #26a69a;\r\n    margin-top: -30px;\r\n    border-top: none;\r\n    margin-bottom: 20px;\r\n    border-radius: 0px 0px 5px 5px;\n}\n.fade-enter-active,\r\n.fade-leave-active {\r\n    transition: opacity 0.5s;\n}\n.fade-enter {\r\n    transform: translateY(-60px);\n}\n.fade-leave-to {\r\n    opacity: 0;\n}\n.expansion-border {\r\n    border-bottom: 1px solid #aaaaaa;\n}\r\n", ""]);
 
 // exports
 

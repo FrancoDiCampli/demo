@@ -14,10 +14,14 @@ use App\Http\Controllers\Controller;
 
 class FacturasController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $facturas = Factura::orderBy('id', 'DESC')->get();
-        return $facturas->each->articulos;
+        $facturas = Factura::orderBy('id', 'DESC');
+
+        return [
+            'facturas' => $facturas->take($request->get('limit', null))->get(),
+            'total' => $facturas->count()
+        ];
     }
 
     public function store(Request $request)
@@ -38,13 +42,13 @@ class FacturasController extends Controller
         } else {
             $solicitarCAE = false;
         }
-        
+
         $factura = Factura::create([
             "ptoventa" => 1,
             "cuit" => $atributos['cuit'], //cliente
             "numfactura" => 1,
-            "bonificacion" => $atributos['bonificacion']*1,
-            "recargo" => $atributos['recargo']*1,
+            "bonificacion" => $atributos['bonificacion'] * 1,
+            "recargo" => $atributos['recargo'] * 1,
             "fecha" => now()->format('Ymd'),
             "subtotal" => $atributos['subtotal'],
             "total" => $atributos['total'],
@@ -93,13 +97,13 @@ class FacturasController extends Controller
 
         $aux = collect($det);
 
-        for ($i=0; $i < count($aux); $i++) {
+        for ($i = 0; $i < count($aux); $i++) {
             $cond = true;
             $res = $aux[$i]['cantidad'];
             while ($cond) {
-               $article = Inventario::orderBy('vencimiento', 'ASC')
-                            ->where('cantidad', '>', 0)
-                            ->where('articulo_id', $aux[$i]['articulo_id'])->get();
+                $article = Inventario::orderBy('vencimiento', 'ASC')
+                    ->where('cantidad', '>', 0)
+                    ->where('articulo_id', $aux[$i]['articulo_id'])->get();
                 if ($article[0]->cantidad < $res) {
                     $res = $aux[$i]['cantidad'] - $article[0]->cantidad;
                     Movimiento::create([

@@ -2,7 +2,7 @@
     <div>
         <!-- Clientes Table -->
         <template>
-            <v-data-table hide-actions :headers="headers" :items="data">
+            <v-data-table hide-actions :headers="headers" :items="data.clientes">
                 <template v-slot:items="cliente">
                     <td class="hidden-xs-only">{{ cliente.item.documentounico }}</td>
                     <td>{{ cliente.item.razonsocial }}</td>
@@ -14,6 +14,15 @@
                     </td>
                 </template>
             </v-data-table>
+            <v-layout justify-center>
+                <v-btn
+                    :loading="loadingButton"
+                    :disabled="limit >= data.total || loadingButton"
+                    @click="loadMore()"
+                    color="primary"
+                    outline
+                >Cargar Más</v-btn>
+            </v-layout>
         </template>
 
         <!-- Clientes Show -->
@@ -35,6 +44,8 @@ export default {
 
     data() {
         return {
+            limit: 10,
+            loadingButton: false,
             headers: [
                 { text: "CUIL/CUIT", sortable: false, class: "hidden-xs-only" },
                 { text: "Apellido y Nombre", sortable: false },
@@ -58,16 +69,22 @@ export default {
     },
 
     mounted() {
-        this.index({ url: "api/clientes" });
+        this.index({ url: "api/clientes", limit: this.limit });
     },
 
     methods: {
         ...mapMutations(["ClientesDialog"]),
         ...mapActions("crudx", ["index", "show"]),
 
+        loadMore: async function() {
+            this.limit += this.limit;
+            this.loadingButton = true;
+            await this.index({ url: "api/clientes", limit: this.limit });
+            this.loadingButton = false;
+        },
+
         showCliente: async function(id) {
             let show = await this.show({ url: "api/clientes/" + id });
-            console.log(show);
             this.ClientesDialog();
         }
     }

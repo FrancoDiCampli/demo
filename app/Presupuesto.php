@@ -15,13 +15,13 @@ class Presupuesto extends Model
 
     public function cliente()
     {
-        return $this->hasOne('App\Cliente', 'id', 'clienteid');
+        return $this->belongsTo('App\Cliente');
     }
 
     public function articulos()
     {
         return $this->belongsToMany('App\Articulo')
-                    ->withPivot('codarticulo', 'articulo', 'medida', 'cantidad', 'bonificacion', 'alicuota', 'preciounitario', 'subtotal');
+            ->withPivot('codarticulo', 'articulo', 'medida', 'cantidad', 'bonificacion', 'alicuota', 'preciounitario', 'subtotal');
     }
 
     public function detalles()

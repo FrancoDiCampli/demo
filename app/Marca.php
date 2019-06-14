@@ -15,9 +15,19 @@ class Marca extends Model
 
     public function scopeBuscar($query, $request)
     {
-        $buscar = $request->get('buscar');
-        if ($buscar) {
-            return $marca = $query->where('marca','LIKE',"%$buscar%");
+        $marca = $request->get('buscarMarca');
+        
+        if(strlen($marca)){
+            return $query->where('marca', 'LIKE', "$marca%");
+        }
+    }
+
+    public function scopeBuscarExacto($query, $request)
+    {
+        $marca = $request->get('buscarExactoMarca');
+        
+        if(strlen($marca)){
+            return $query->where('marca',$marca);
         }
     }
 }

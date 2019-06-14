@@ -1,14 +1,19 @@
 <template>
     <div>
-        <v-layout justify-space-around>
-            <v-flex xs12 sm5>
+        <!-- Formulario -->
+        <v-layout justify-space-around wrap>
+            <v-flex xs11 sm5>
+                <!-- Input Clientes -->
                 <v-text-field
                     @keyup="findClient()"
                     v-model="client"
+                    :rules="[rules.required]"
                     label="Cliente"
                     box
                     single-line
                 ></v-text-field>
+
+                <!-- Tabla Clientes -->
                 <transition name="fade">
                     <v-data-table
                         v-show="client != null && client != '' && customers.length > 0"
@@ -20,10 +25,10 @@
                     >
                         <template v-slot:items="client">
                             <tr
-                                @click="selected = client.item.id"
+                                @click="clientSelected = client.item.id"
                                 @dblclick="selectClient(client.item)"
                                 style="cursor: pointer;"
-                                :style="selected == client.item.id ? 'background-color: #26A69A; color: #FFFFFF;' : ''"
+                                :style="clientSelected == client.item.id ? 'background-color: #26A69A; color: #FFFFFF;' : ''"
                             >
                                 <td>{{ client.item.documentounico }}</td>
                                 <td>{{ client.item.razonsocial }}</td>
@@ -32,10 +37,13 @@
                     </v-data-table>
                 </transition>
             </v-flex>
-            <v-flex xs12 sm5>
+
+            <!-- Input Condición de Venta -->
+            <v-flex xs11 sm5>
                 <v-select
                     v-model="form.condicion"
                     :items="terms"
+                    :rules="[rules.required]"
                     label="Condición"
                     hint="Condición"
                     box
@@ -43,34 +51,38 @@
                 ></v-select>
             </v-flex>
         </v-layout>
-        <v-layout v-if="detailClient.cliente">
-            <template>
-                <v-expansion-panel class="elevation-0 expansion-border">
-                    <v-expansion-panel-content>
-                        <template v-slot:header>
-                            <div>Más Detalles</div>
-                        </template>
-                        <v-card-text>
-                            <p>
-                                <b>CUIT:</b>
-                                {{detailClient.cliente.documentounico}}
-                            </p>
-                            <p>
-                                <b>Razón Social:</b>
-                                {{detailClient.cliente.razonsocial}}
-                            </p>
-                            <p>
-                                <b>Condición Frente al IVA:</b>
-                                {{detailClient.cliente.condicioniva}}
-                            </p>
-                            <p>
-                                <b>Domicilio:</b>
-                                {{detailClient.cliente.direccion}}
-                            </p>
-                        </v-card-text>
-                    </v-expansion-panel-content>
-                </v-expansion-panel>
-            </template>
+        <!-- Detalles Clientes -->
+        <v-layout v-if="detailClient.cliente" justify-space-around>
+            <v-flex xs11>
+                <template>
+                    <v-expansion-panel class="elevation-0 expansion-border">
+                        <v-expansion-panel-content>
+                            <template v-slot:header>
+                                <div>Más Detalles</div>
+                            </template>
+                            <v-card-text>
+                                <p>
+                                    <b>CUIT:</b>
+                                    {{detailClient.cliente.documentounico}}
+                                </p>
+                                <p>
+                                    <b>Razón Social:</b>
+                                    {{detailClient.cliente.razonsocial}}
+                                </p>
+                                <p>
+                                    <b>Condición Frente al IVA:</b>
+                                    {{detailClient.cliente.condicioniva}}
+                                </p>
+                                <p>
+                                    <b>Domicilio:</b>
+                                    {{detailClient.cliente.direccion}}
+                                </p>
+                            </v-card-text>
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
+                </template>
+                <br>
+            </v-flex>
         </v-layout>
     </div>
 </template>
@@ -83,15 +95,18 @@ import axios from "axios";
 import { mapState } from "vuex";
 
 export default {
-    name: "FacturasClientes",
+    name: "FacturasCliente",
 
     data() {
         return {
             client: null,
             detailClient: [],
             customers: [],
-            selected: null,
-            terms: ["Contado", "Credito / Debito", "Cuenta Corriente"]
+            clientSelected: null,
+            terms: ["CONTADO", "CREDITO / DEBITO", "CUENTA CORRIENTE"],
+            rules: {
+                required: value => !!value || "Este campo es obligatorio"
+            }
         };
     },
 
@@ -100,8 +115,9 @@ export default {
     },
 
     methods: {
+        // Buscar los clientes
         findClient() {
-            this.selected = null;
+            this.clientSelected = null;
             this.detailClient = [];
             axios
                 .get("/api/clientes", {
@@ -118,6 +134,7 @@ export default {
                 });
         },
 
+        // Seleccionar un Cliente
         selectClient(client) {
             this.customers = [];
             this.detailClient = [];
@@ -136,29 +153,3 @@ export default {
     }
 };
 </script>
-
-<style>
-.search-table {
-    border: solid 2px #26a69a;
-    margin-top: -30px;
-    border-top: none;
-    margin-bottom: 20px;
-    border-radius: 0px 0px 5px 5px;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 0.5s;
-}
-.fade-enter {
-    transform: translateY(-60px);
-}
-
-.fade-leave-to {
-    opacity: 0;
-}
-
-.expansion-border {
-    border-bottom: 1px solid #aaaaaa;
-}
-</style>

@@ -177,9 +177,9 @@ export default {
                 if (this.form.detalle) {
                     this.form.subtotal = this.subtotalFactura;
                     this.form.total = this.total;
-                    console.log(this.form);
+                    // console.log(this.form);
                 }
-                //this.save({ url: "/api/facturas" });
+                this.save({ url: "/api/facturas" });
             }
         },
 

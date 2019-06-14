@@ -4851,176 +4851,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-<<<<<<< HEAD
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _FacturasHeader_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FacturasHeader.vue */ "./resources/js/components/facturas/FacturasHeader.vue");
-/* harmony import */ var _FacturasClientes_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FacturasClientes.vue */ "./resources/js/components/facturas/FacturasClientes.vue");
-/* harmony import */ var _FacturasArticulos_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./FacturasArticulos.vue */ "./resources/js/components/facturas/FacturasArticulos.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//Components
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: "FacturasForm",
-  components: {
-    FacturasHeader: _FacturasHeader_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    FacturasClientes: _FacturasClientes_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    FacturasArticulos: _FacturasArticulos_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
-  },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapState"])("crudx", ["form"])),
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapActions"])("crudx", ["save"]), {
-    saveFactura: function () {
-      var _saveFactura = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return this.save({
-                  url: "/api/facturas"
-                });
-
-              case 2:
-                response = _context.sent;
-                console.log(response);
-
-              case 4:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function saveFactura() {
-        return _saveFactura.apply(this, arguments);
-      }
-
-      return saveFactura;
-    }()
-  })
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasHeader.vue?vue&type=script&lang=js&":
-/*!**********************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/facturas/FacturasHeader.vue?vue&type=script&lang=js& ***!
-  \**********************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: "FacturasHeader"
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasIndex.vue?vue&type=script&lang=js&":
-/*!*********************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/facturas/FacturasIndex.vue?vue&type=script&lang=js& ***!
-  \*********************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-=======
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _FacturasCliente_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FacturasCliente.vue */ "./resources/js/components/facturas/FacturasCliente.vue");
 /* harmony import */ var _FacturasArticulo_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./FacturasArticulo.vue */ "./resources/js/components/facturas/FacturasArticulo.vue");
->>>>>>> 67716be4e6ecbbe9a6988599958eee623dafbbae
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -5188,10 +5023,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.$refs.formFactura.validate()) {
         if (this.form.detalle) {
           this.form.subtotal = this.subtotalFactura;
-          this.form.total = this.total;
-          console.log(this.form);
-        } //this.save({ url: "/api/facturas" });
+          this.form.total = this.total; // console.log(this.form);
+        }
 
+        this.save({
+          url: "/api/facturas"
+        });
       }
     },
     cancelFactura: function cancelFactura() {
@@ -6064,64 +5901,16 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 // module
 exports.push([module.i, "\n.profile {\r\n    border: solid 3px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\r\n    color: #26a69a;\n}\r\n", ""]);
-<<<<<<< HEAD
 
 // exports
 
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasArticulos.vue?vue&type=style&index=0&lang=css&":
-/*!********************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/facturas/FacturasArticulos.vue?vue&type=style&index=0&lang=css& ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.search-table {\r\n    border: solid 2px #26a69a;\r\n    margin-top: -30px;\r\n    border-top: none;\r\n    margin-bottom: 20px;\r\n    border-radius: 0px 0px 5px 5px;\n}\n.fade-enter-active,\r\n.fade-leave-active {\r\n    transition: opacity 0.5s;\n}\n.fade-enter {\r\n    transform: translateY(-60px);\n}\n.fade-leave-to {\r\n    opacity: 0;\n}\r\n", ""]);
-=======
->>>>>>> 67716be4e6ecbbe9a6988599958eee623dafbbae
-
-// exports
-
-
-/***/ }),
-
-<<<<<<< HEAD
-/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasClientes.vue?vue&type=style&index=0&lang=css&":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/facturas/FacturasClientes.vue?vue&type=style&index=0&lang=css& ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.search-table {\r\n    border: solid 2px #26a69a;\r\n    margin-top: -30px;\r\n    border-top: none;\r\n    margin-bottom: 20px;\r\n    border-radius: 0px 0px 5px 5px;\n}\n.fade-enter-active,\r\n.fade-leave-active {\r\n    transition: opacity 0.5s;\n}\n.fade-enter {\r\n    transform: translateY(-60px);\n}\n.fade-leave-to {\r\n    opacity: 0;\n}\n.expansion-border {\r\n    border-bottom: 1px solid #aaaaaa;\n}\r\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasHeader.vue?vue&type=style&index=0&id=929a8ebe&scoped=true&lang=css&":
-/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/facturas/FacturasHeader.vue?vue&type=style&index=0&id=929a8ebe&scoped=true&lang=css& ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************************************************/
-=======
 /***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasForm.vue?vue&type=style&index=0&lang=css&":
 /*!***************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/facturas/FacturasForm.vue?vue&type=style&index=0&lang=css& ***!
   \***************************************************************************************************************************************************************************************************************************************************************************************/
->>>>>>> 67716be4e6ecbbe9a6988599958eee623dafbbae
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6130,11 +5919,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-<<<<<<< HEAD
-exports.push([module.i, "\n.companyName[data-v-929a8ebe] {\r\n    text-align: center;\n}\n.companyData[data-v-929a8ebe] {\r\n    font-size: 12px;\r\n    text-align: left;\r\n    line-height: 5px;\r\n    margin-left: 15px;\n}\n.clientData[data-v-929a8ebe] {\r\n    font-size: 12px;\r\n    text-align: right;\r\n    line-height: 5px;\r\n    margin: 0px 15px 0px 0px;\n}\r\n", ""]);
-=======
 exports.push([module.i, "\n.data {\r\n    font-size: 12px;\r\n    line-height: 5px;\r\n    margin-top: 8px;\n}\n.search-table {\r\n    border: solid 2px #26a69a;\r\n    margin-top: -30px;\r\n    border-top: none;\r\n    margin-bottom: 20px;\r\n    border-radius: 0px 0px 5px 5px;\n}\n.fade-enter-active,\r\n.fade-leave-active {\r\n    transition: opacity 0.5s;\n}\n.fade-enter {\r\n    transform: translateY(-60px);\n}\n.fade-leave-to {\r\n    opacity: 0;\n}\n.expansion-border {\r\n    border-bottom: 1px solid #aaaaaa;\n}\r\n", ""]);
->>>>>>> 67716be4e6ecbbe9a6988599958eee623dafbbae
 
 // exports
 
@@ -54611,7 +54396,7 @@ exports.default = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Store", function() { return Store; });
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Store", function() { return Store; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "install", function() { return install; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapState", function() { return mapState; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapMutations", function() { return mapMutations; });
@@ -54619,7 +54404,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapActions", function() { return mapActions; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createNamespacedHelpers", function() { return createNamespacedHelpers; });
 /**
- * vuex v3.1.0
+ * vuex v3.1.1
  * (c) 2019 Evan You
  * @license MIT
  */
@@ -54659,9 +54444,12 @@ function applyMixin (Vue) {
   }
 }
 
-var devtoolHook =
-  typeof window !== 'undefined' &&
-  window.__VUE_DEVTOOLS_GLOBAL_HOOK__;
+var target = typeof window !== 'undefined'
+  ? window
+  : typeof global !== 'undefined'
+    ? global
+    : {};
+var devtoolHook = target.__VUE_DEVTOOLS_GLOBAL_HOOK__;
 
 function devtoolPlugin (store) {
   if (!devtoolHook) { return }
@@ -54705,6 +54493,12 @@ function isPromise (val) {
 
 function assert (condition, msg) {
   if (!condition) { throw new Error(("[vuex] " + msg)) }
+}
+
+function partial (fn, arg) {
+  return function () {
+    return fn(arg)
+  }
 }
 
 // Base data struct for store's module, package with some attribute and method
@@ -55168,7 +54962,9 @@ function resetStoreVM (store, state, hot) {
   var computed = {};
   forEachValue(wrappedGetters, function (fn, key) {
     // use computed to leverage its lazy-caching mechanism
-    computed[key] = function () { return fn(store); };
+    // direct inline function use will lead to closure preserving oldVm.
+    // using partial to return function with only arguments preserved in closure enviroment.
+    computed[key] = partial(fn, store);
     Object.defineProperty(store.getters, key, {
       get: function () { return store._vm[key]; },
       enumerable: true // for local getters
@@ -55607,7 +55403,7 @@ function getModuleByNamespace (store, helper, namespace) {
 var index_esm = {
   Store: Store,
   install: install,
-  version: '3.1.0',
+  version: '3.1.1',
   mapState: mapState,
   mapMutations: mapMutations,
   mapGetters: mapGetters,
@@ -55618,6 +55414,7 @@ var index_esm = {
 /* harmony default export */ __webpack_exports__["default"] = (index_esm);
 
 
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -58633,11 +58430,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-<<<<<<< HEAD
 module.exports = __webpack_require__(/*! C:\xampp\htdocs\Gepetto-Point-Of-Sale\resources\js\main.js */"./resources/js/main.js");
-=======
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\LaravelProjects\PointOfSale\Gepetto-Point-Of-Sale\resources\js\main.js */"./resources/js/main.js");
->>>>>>> 67716be4e6ecbbe9a6988599958eee623dafbbae
 
 
 /***/ })

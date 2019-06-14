@@ -117,7 +117,7 @@
 import axios from "axios";
 
 //Vuex
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 
 export default {
     name: "FacturasArticulo",
@@ -161,7 +161,19 @@ export default {
         }
     },
 
+    updated() {
+        if (this.details.length > 0) {
+            let sub = 0;
+            for (let i = 0; i < this.details.length; i++) {
+                sub += this.details[i].subtotal * 1;
+            }
+            this.FillSubtotal({sub: sub});
+        }
+    },
+
     methods: {
+        ...mapMutations(["FillSubtotal"]),
+
         //Buscar Articulo
         findArticle() {
             this.$refs.formDetalles.resetValidation();

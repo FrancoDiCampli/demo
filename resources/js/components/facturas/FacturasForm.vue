@@ -20,10 +20,11 @@
         <v-form ref="formFactura" @submit.prevent="saveFactura">
             <FacturasCliente></FacturasCliente>
             <FacturasArticulo></FacturasArticulo>
-            <v-layout justify-space-around>
+            <br>
+            <v-layout justify-space-around wrap>
                 <v-flex xs12 sm5 mx-1>
-                    <v-layout wrap>
-                        <v-flex xs12>
+                    <v-layout justify-space-around wrap>
+                        <v-flex xs11>
                             <v-text-field
                                 v-model="form.bonificacion"
                                 label="Bonificacion"
@@ -32,7 +33,7 @@
                                 single-line
                             ></v-text-field>
                         </v-flex>
-                        <v-flex xs12>
+                        <v-flex xs11>
                             <v-text-field
                                 v-model="form.recargo"
                                 label="Recargo"
@@ -41,7 +42,7 @@
                                 single-line
                             ></v-text-field>
                         </v-flex>
-                        <v-flex xs12>
+                        <v-flex xs11>
                             <v-select
                                 v-model="form.tipo"
                                 :items="types"
@@ -55,10 +56,10 @@
                     </v-layout>
                 </v-flex>
                 <v-flex xs12 sm5 mx-1>
-                    <v-layout wrap>
-                        <v-flex xs12>
+                    <v-layout justify-space-around wrap>
+                        <v-flex xs11>
                             <v-text-field
-                                v-model="form.subtotal"
+                                v-model="subtotalFactura"
                                 disabled
                                 :rules="[rules.required]"
                                 label="Subtotal"
@@ -67,9 +68,9 @@
                                 single-line
                             ></v-text-field>
                         </v-flex>
-                        <v-flex xs12>
+                        <v-flex xs11>
                             <v-text-field
-                                v-model="form.total"
+                                v-model="total"
                                 disabled
                                 :rules="[rules.required]"
                                 label="Total"
@@ -77,6 +78,17 @@
                                 box
                                 single-line
                             ></v-text-field>
+                        </v-flex>
+                        <v-flex xs11>
+                            <v-layout justify-center>
+                                <v-btn
+                                    @click="cancelFactura()"
+                                    outline
+                                    large
+                                    color="primary"
+                                >Cancelar</v-btn>
+                                <v-btn type="submit" large color="primary">Guardar</v-btn>
+                            </v-layout>
                         </v-flex>
                     </v-layout>
                 </v-flex>
@@ -90,7 +102,7 @@
 import axios from "axios";
 
 //Vuex
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 
 //Components
 import FacturasCliente from "./FacturasCliente.vue";
@@ -114,51 +126,65 @@ export default {
     },
 
     computed: {
-        ...mapState("crudx", ["form"])
-    },
+        ...mapState("crudx", ["form"]),
 
-    updated() {
-        //Subtotal de la Factura
-        // if (this.details.length > 0) {
-        //     let sub = 0;
-        //     for (let i = 0; i < this.details.length; i++) {
-        //         sub += this.details[i].subtotal * 1;
-        //     }
-        //     this.form.subtotal = sub;
-        //     console.log("subtotal");
-        //     console.log(sub);
-        //     console.log(this.form.subtotal);
-        // } else {
-        //     this.form.subtotal = null;
-        // }
-        // //Total de la Factura
-        // if (this.details.length > 0) {
-        //     let sub = 0;
-        //     for (let i = 0; i < this.details.length; i++) {
-        //         sub += this.details[i].subtotal * 1;
-        //     }
-        //     let boni = 0;
-        //     let reca = 0;
-        //     if (this.form.bonificacion) {
-        //         boni = (this.form.bonificacion * sub) / 100;
-        //     }
-        //     if (this.form.recargo) {
-        //         reca = (this.form.recargo * sub) / 100;
-        //     }
-        //     sub = sub - boni + reca;
-        //     this.form.total = sub;
-        //     console.log("total");
-        //     console.log(sub);
-        //     console.log(this.form.total);
-        // } else {
-        //     this.form.total = null;
-        // }
+        subtotal: {
+            get() {
+                return this.$store.state.subtotal;
+            }
+        },
+
+        subtotalFactura() {
+            if (this.subtotal != null) {
+                return this.subtotal.sub;
+            } else {
+                return null;
+            }
+        },
+
+        total() {
+            if (this.subtotalFactura != null) {
+                if (this.form.bonificacion || this.form.recargo) {
+                    let boni = 0;
+                    let reca = 0;
+
+                    if (this.form.bonificacion) {
+                        boni =
+                            (this.form.bonificacion * this.subtotalFactura) /
+                            100;
+                    }
+
+                    if (this.form.recargo) {
+                        reca = (this.form.recargo * this.subtotalFactura) / 100;
+                    }
+
+                    return this.subtotalFactura - boni + reca;
+                } else {
+                    return this.subtotalFactura;
+                }
+            } else {
+                return null;
+            }
+        }
     },
 
     methods: {
+        ...mapMutations(["FillTotal"]),
         ...mapActions("crudx", ["save"]),
+
         saveFactura() {
-            this.save({ url: "/api/facturas" });
+            if (this.$refs.formFactura.validate()) {
+                if (this.form.detalle) {
+                    this.form.subtotal = this.subtotalFactura;
+                    this.form.total = this.total;
+                    console.log(this.form);
+                }
+                //this.save({ url: "/api/facturas" });
+            }
+        },
+
+        cancelFactura() {
+            this.$refs.formFactura.reset();
         }
     }
 };

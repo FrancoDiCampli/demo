@@ -4673,7 +4673,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     }
   }),
-  methods: {
+  updated: function updated() {
+    if (this.details.length > 0) {
+      var sub = 0;
+
+      for (var i = 0; i < this.details.length; i++) {
+        sub += this.details[i].subtotal * 1;
+      }
+
+      this.FillSubtotal({
+        sub: sub
+      });
+    }
+  },
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])(["FillSubtotal"]), {
     //Buscar Articulo
     findArticle: function findArticle() {
       var _this = this;
@@ -4727,7 +4740,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
       this.form.detalle = this.details;
     }
-  }
+  })
 });
 
 /***/ }),
@@ -4895,10 +4908,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasFormMultiple.vue?vue&type=script&lang=js&":
-/*!****************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/facturas/FacturasFormMultiple.vue?vue&type=script&lang=js& ***!
-  \****************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasForm.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/facturas/FacturasForm.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4913,6 +4926,18 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5023,553 +5048,55 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     FacturasCliente: _FacturasCliente_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     FacturasArticulo: _FacturasArticulo_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])("crudx", ["form"])),
-  updated: function updated() {//Subtotal de la Factura
-    // if (this.details.length > 0) {
-    //     let sub = 0;
-    //     for (let i = 0; i < this.details.length; i++) {
-    //         sub += this.details[i].subtotal * 1;
-    //     }
-    //     this.form.subtotal = sub;
-    //     console.log("subtotal");
-    //     console.log(sub);
-    //     console.log(this.form.subtotal);
-    // } else {
-    //     this.form.subtotal = null;
-    // }
-    // //Total de la Factura
-    // if (this.details.length > 0) {
-    //     let sub = 0;
-    //     for (let i = 0; i < this.details.length; i++) {
-    //         sub += this.details[i].subtotal * 1;
-    //     }
-    //     let boni = 0;
-    //     let reca = 0;
-    //     if (this.form.bonificacion) {
-    //         boni = (this.form.bonificacion * sub) / 100;
-    //     }
-    //     if (this.form.recargo) {
-    //         reca = (this.form.recargo * sub) / 100;
-    //     }
-    //     sub = sub - boni + reca;
-    //     this.form.total = sub;
-    //     console.log("total");
-    //     console.log(sub);
-    //     console.log(this.form.total);
-    // } else {
-    //     this.form.total = null;
-    // }
-  },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])("crudx", ["save"]), {
-    saveFactura: function saveFactura() {
-      this.save({
-        url: "/api/facturas"
-      });
-    }
-  })
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasFormUnique.vue?vue&type=script&lang=js&":
-/*!**************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/facturas/FacturasFormUnique.vue?vue&type=script&lang=js& ***!
-  \**************************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//Axios
- //Vuex
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: "FacturasForm",
-  data: function data() {
-    return {
-      //Data Clientes
-      client: null,
-      detailClient: [],
-      customers: [],
-      clientSelected: null,
-      terms: ["CONTADO", "CREDITO / DEBITO", "CUENTA CORRIENTE"],
-      //Data Articulos
-      article: null,
-      article_id: null,
-      quantity: null,
-      price: null,
-      products: [],
-      articleSelected: null,
-      details: [],
-      detailsHeader: [{
-        text: "Articulo",
-        sortable: false
-      }, {
-        text: "Cantidad",
-        sortable: false
-      }, {
-        text: "Precio",
-        sortable: false
-      }, {
-        text: "Subtotal",
-        sortable: false
-      }, {
-        text: "",
-        sortable: false
-      }],
-      //Data Resumen
-      types: ["REMITO X", "FACTURA C"],
-      //Data Global
-      rules: {
-        required: function required(value) {
-          return !!value || "Este campo es obligatorio";
-        }
-      }
-    };
-  },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])("crudx", ["form"]), {
-    subtotal: function subtotal() {
-      if (this.quantity != null && this.quantity != "" && this.price != null && this.price != "") {
-        return this.price * this.quantity;
+    subtotal: {
+      get: function get() {
+        return this.$store.state.subtotal;
+      }
+    },
+    subtotalFactura: function subtotalFactura() {
+      if (this.subtotal != null) {
+        return this.subtotal.sub;
+      } else {
+        return null;
+      }
+    },
+    total: function total() {
+      if (this.subtotalFactura != null) {
+        if (this.form.bonificacion || this.form.recargo) {
+          var boni = 0;
+          var reca = 0;
+
+          if (this.form.bonificacion) {
+            boni = this.form.bonificacion * this.subtotalFactura / 100;
+          }
+
+          if (this.form.recargo) {
+            reca = this.form.recargo * this.subtotalFactura / 100;
+          }
+
+          return this.subtotalFactura - boni + reca;
+        } else {
+          return this.subtotalFactura;
+        }
       } else {
         return null;
       }
     }
   }),
-  updated: function updated() {
-    //Subtotal de la Factura
-    if (this.details.length > 0) {
-      var sub = 0;
-
-      for (var i = 0; i < this.details.length; i++) {
-        sub += this.details[i].subtotal * 1;
-      }
-
-      this.form.subtotal = sub;
-      console.log("subtotal");
-      console.log(sub);
-      console.log(this.form.subtotal);
-    } else {
-      this.form.subtotal = null;
-    } // //Total de la Factura
-
-
-    if (this.details.length > 0) {
-      var _sub = 0;
-
-      for (var _i = 0; _i < this.details.length; _i++) {
-        _sub += this.details[_i].subtotal * 1;
-      }
-
-      var boni = 0;
-      var reca = 0;
-
-      if (this.form.bonificacion) {
-        boni = this.form.bonificacion * _sub / 100;
-      }
-
-      if (this.form.recargo) {
-        reca = this.form.recargo * _sub / 100;
-      }
-
-      _sub = _sub - boni + reca;
-      this.form.total = _sub;
-      console.log("total");
-      console.log(_sub);
-      console.log(this.form.total);
-    } else {
-      this.form.total = null;
-    }
-  },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])("crudx", ["save"]), {
-    //Metodos de Clientes
-    // Buscar los clientes
-    findClient: function findClient() {
-      var _this = this;
-
-      this.clientSelected = null;
-      this.detailClient = [];
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/clientes", {
-        params: {
-          buscarCliente: this.client,
-          limit: 5
-        }
-      }).then(function (response) {
-        _this.customers = response.data;
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    // Seleccionar un Cliente
-    selectClient: function selectClient(client) {
-      var _this2 = this;
-
-      this.customers = [];
-      this.detailClient = [];
-      this.client = client.razonsocial;
-      this.form.cliente_id = client.id;
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/clientes/" + client.id).then(function (response) {
-        _this2.detailClient = response.data;
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    //Metodos de Articulos
-    //Buscar Articulo
-    findArticle: function findArticle() {
-      var _this3 = this;
-
-      this.$refs.formDetalles.resetValidation();
-      this.articleSelected = null;
-      this.quantity = null;
-      this.price = null;
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/articulos", {
-        params: {
-          buscarArticulo: this.article,
-          limit: 5
-        }
-      }).then(function (response) {
-        _this3.products = response.data;
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    //Seleccionar Articulo
-    selectArticle: function selectArticle(article) {
-      this.products = [];
-      this.article_id = article.id;
-      this.article = article.articulo;
-      this.price = article.precio;
-    },
-    //LLenar Array de Detalles
-    fillDetails: function fillDetails() {
-      if (this.$refs.formDetalles.validate()) {
-        var detail = {
-          articulo_id: this.article_id,
-          articulo: this.article,
-          cantidad: this.quantity,
-          precio: this.price,
-          subtotal: this.subtotal
-        };
-        this.details.push(detail);
-        this.form.detalle = this.details;
-      }
-    },
-    //Borrar un Detalle del Array
-    removeDetail: function removeDetail(detail) {
-      var index = this.details.indexOf(detail);
-      this.details.splice(index, 1);
-      this.form.detalle = this.details;
-    },
-    //Actualizar cantidad y subtotal de un detalle
-    updateDetails: function updateDetails() {
-      this.details.forEach(function (detail) {
-        detail.subtotal = detail.quantity * detail.price;
-      });
-      this.form.detalle = this.details;
-    },
-    //Metodos Globales
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])(["FillTotal"]), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])("crudx", ["save"]), {
     saveFactura: function saveFactura() {
-      this.save({
-        url: "/api/facturas"
-      });
+      if (this.$refs.formFactura.validate()) {
+        if (this.form.detalle) {
+          this.form.subtotal = this.subtotalFactura;
+          this.form.total = this.total;
+          console.log(this.form);
+        } //this.save({ url: "/api/facturas" });
+
+      }
+    },
+    cancelFactura: function cancelFactura() {
+      this.$refs.formFactura.reset();
     }
   })
 });
@@ -6108,8 +5635,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_facturas_FacturasFormUnique_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/facturas/FacturasFormUnique.vue */ "./resources/js/components/facturas/FacturasFormUnique.vue");
-/* harmony import */ var _components_facturas_FacturasFormMultiple_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/facturas/FacturasFormMultiple.vue */ "./resources/js/components/facturas/FacturasFormMultiple.vue");
+/* harmony import */ var _components_facturas_FacturasForm_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/facturas/FacturasForm.vue */ "./resources/js/components/facturas/FacturasForm.vue");
 //
 //
 //
@@ -6118,14 +5644,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "FacturaNew",
   components: {
-    FacturasFormUnique: _components_facturas_FacturasFormUnique_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    FacturasFormMultiple: _components_facturas_FacturasFormMultiple_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    FacturasForm: _components_facturas_FacturasForm_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   }
 });
 
@@ -6448,29 +5971,10 @@ exports.push([module.i, "\n.profile {\n    border: solid 3px #26a69a;\n    backg
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasFormMultiple.vue?vue&type=style&index=0&lang=css&":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/facturas/FacturasFormMultiple.vue?vue&type=style&index=0&lang=css& ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.data {\n    font-size: 12px;\n    line-height: 5px;\n    margin-top: 8px;\n}\n.search-table {\n    border: solid 2px #26a69a;\n    margin-top: -30px;\n    border-top: none;\n    margin-bottom: 20px;\n    border-radius: 0px 0px 5px 5px;\n}\n.fade-enter-active,\n.fade-leave-active {\n    transition: opacity 0.5s;\n}\n.fade-enter {\n    transform: translateY(-60px);\n}\n.fade-leave-to {\n    opacity: 0;\n}\n.expansion-border {\n    border-bottom: 1px solid #aaaaaa;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasFormUnique.vue?vue&type=style&index=0&lang=css&":
-/*!*********************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/facturas/FacturasFormUnique.vue?vue&type=style&index=0&lang=css& ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasForm.vue?vue&type=style&index=0&lang=css&":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/facturas/FacturasForm.vue?vue&type=style&index=0&lang=css& ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7882,45 +7386,15 @@ if(false) {}
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasFormMultiple.vue?vue&type=style&index=0&lang=css&":
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/facturas/FacturasFormMultiple.vue?vue&type=style&index=0&lang=css& ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasForm.vue?vue&type=style&index=0&lang=css&":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/facturas/FacturasForm.vue?vue&type=style&index=0&lang=css& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--5-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--5-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./FacturasFormMultiple.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasFormMultiple.vue?vue&type=style&index=0&lang=css&");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasFormUnique.vue?vue&type=style&index=0&lang=css&":
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/facturas/FacturasFormUnique.vue?vue&type=style&index=0&lang=css& ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--5-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--5-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./FacturasFormUnique.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasFormUnique.vue?vue&type=style&index=0&lang=css&");
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--5-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--5-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./FacturasForm.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasForm.vue?vue&type=style&index=0&lang=css&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -12827,10 +12301,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasFormMultiple.vue?vue&type=template&id=76e6f088&":
-/*!********************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/facturas/FacturasFormMultiple.vue?vue&type=template&id=76e6f088& ***!
-  \********************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasForm.vue?vue&type=template&id=276c3e58&":
+/*!************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/facturas/FacturasForm.vue?vue&type=template&id=276c3e58& ***!
+  \************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -12903,831 +12377,11 @@ var render = function() {
           _vm._v(" "),
           _c("FacturasArticulo"),
           _vm._v(" "),
-          _c(
-            "v-layout",
-            { attrs: { "justify-space-around": "" } },
-            [
-              _c(
-                "v-flex",
-                { attrs: { xs12: "", sm5: "", "mx-1": "" } },
-                [
-                  _c(
-                    "v-layout",
-                    { attrs: { wrap: "" } },
-                    [
-                      _c(
-                        "v-flex",
-                        { attrs: { xs12: "" } },
-                        [
-                          _c("v-text-field", {
-                            attrs: {
-                              label: "Bonificacion",
-                              hint: "Bonificacion",
-                              box: "",
-                              "single-line": ""
-                            },
-                            model: {
-                              value: _vm.form.bonificacion,
-                              callback: function($$v) {
-                                _vm.$set(_vm.form, "bonificacion", $$v)
-                              },
-                              expression: "form.bonificacion"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-flex",
-                        { attrs: { xs12: "" } },
-                        [
-                          _c("v-text-field", {
-                            attrs: {
-                              label: "Recargo",
-                              hint: "Recargo",
-                              box: "",
-                              "single-line": ""
-                            },
-                            model: {
-                              value: _vm.form.recargo,
-                              callback: function($$v) {
-                                _vm.$set(_vm.form, "recargo", $$v)
-                              },
-                              expression: "form.recargo"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-flex",
-                        { attrs: { xs12: "" } },
-                        [
-                          _c("v-select", {
-                            attrs: {
-                              items: _vm.types,
-                              rules: [_vm.rules.required],
-                              label: "Tipo Comprobante",
-                              hint: "Tipo Comprobante",
-                              box: "",
-                              "single-line": ""
-                            },
-                            model: {
-                              value: _vm.form.tipo,
-                              callback: function($$v) {
-                                _vm.$set(_vm.form, "tipo", $$v)
-                              },
-                              expression: "form.tipo"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-flex",
-                { attrs: { xs12: "", sm5: "", "mx-1": "" } },
-                [
-                  _c(
-                    "v-layout",
-                    { attrs: { wrap: "" } },
-                    [
-                      _c(
-                        "v-flex",
-                        { attrs: { xs12: "" } },
-                        [
-                          _c("v-text-field", {
-                            attrs: {
-                              disabled: "",
-                              rules: [_vm.rules.required],
-                              label: "Subtotal",
-                              hint: "Subtotal",
-                              box: "",
-                              "single-line": ""
-                            },
-                            model: {
-                              value: _vm.form.subtotal,
-                              callback: function($$v) {
-                                _vm.$set(_vm.form, "subtotal", $$v)
-                              },
-                              expression: "form.subtotal"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-flex",
-                        { attrs: { xs12: "" } },
-                        [
-                          _c("v-text-field", {
-                            attrs: {
-                              disabled: "",
-                              rules: [_vm.rules.required],
-                              label: "Total",
-                              hint: "Total",
-                              box: "",
-                              "single-line": ""
-                            },
-                            model: {
-                              value: _vm.form.total,
-                              callback: function($$v) {
-                                _vm.$set(_vm.form, "total", $$v)
-                              },
-                              expression: "form.total"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasFormUnique.vue?vue&type=template&id=52fef46e&":
-/*!******************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/facturas/FacturasFormUnique.vue?vue&type=template&id=52fef46e& ***!
-  \******************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c(
-        "v-card-title",
-        [
-          _c(
-            "v-layout",
-            { attrs: { "justify-space-around": "", wrap: "" } },
-            [
-              _c("v-flex", { attrs: { xs12: "", sm5: "", "mx-1": "" } }, [
-                _c("h1", { staticClass: "text-xs-center text-sm-left" }, [
-                  _vm._v("Nueva Factura")
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "v-flex",
-                {
-                  staticClass: "data text-xs-center text-sm-right",
-                  attrs: { xs12: "", sm5: "", "mx-1": "" }
-                },
-                [
-                  _c("p", [
-                    _c("b", [_vm._v("Punto de Venta:")]),
-                    _vm._v(" 0003\n                ")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _c("b", [_vm._v("Comprobante Nº:")]),
-                    _vm._v(" 2\n                ")
-                  ])
-                ]
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("v-divider"),
-      _vm._v(" "),
-      _c("br"),
-      _vm._v(" "),
-      _c(
-        "v-form",
-        {
-          ref: "formFactura",
-          on: {
-            submit: function($event) {
-              $event.preventDefault()
-              return _vm.saveFactura($event)
-            }
-          }
-        },
-        [
-          _c(
-            "v-layout",
-            { attrs: { "justify-space-around": "", wrap: "" } },
-            [
-              _c(
-                "v-flex",
-                { attrs: { xs11: "", sm5: "" } },
-                [
-                  _c("v-text-field", {
-                    attrs: {
-                      rules: [_vm.rules.required],
-                      label: "Cliente",
-                      box: "",
-                      "single-line": ""
-                    },
-                    on: {
-                      keyup: function($event) {
-                        return _vm.findClient()
-                      }
-                    },
-                    model: {
-                      value: _vm.client,
-                      callback: function($$v) {
-                        _vm.client = $$v
-                      },
-                      expression: "client"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "transition",
-                    { attrs: { name: "fade" } },
-                    [
-                      _c("v-data-table", {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value:
-                              _vm.client != null &&
-                              _vm.client != "" &&
-                              _vm.customers.length > 0,
-                            expression:
-                              "client != null && client != '' && customers.length > 0"
-                          }
-                        ],
-                        staticClass: "search-table",
-                        attrs: {
-                          "no-data-text":
-                            "El cliente no se encuentra en la base de datos.",
-                          "hide-actions": "",
-                          "hide-headers": "",
-                          items: _vm.customers
-                        },
-                        scopedSlots: _vm._u([
-                          {
-                            key: "items",
-                            fn: function(client) {
-                              return [
-                                _c(
-                                  "tr",
-                                  {
-                                    staticStyle: { cursor: "pointer" },
-                                    style:
-                                      _vm.clientSelected == client.item.id
-                                        ? "background-color: #26A69A; color: #FFFFFF;"
-                                        : "",
-                                    on: {
-                                      click: function($event) {
-                                        _vm.clientSelected = client.item.id
-                                      },
-                                      dblclick: function($event) {
-                                        return _vm.selectClient(client.item)
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _c("td", [
-                                      _vm._v(_vm._s(client.item.documentounico))
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", [
-                                      _vm._v(_vm._s(client.item.razonsocial))
-                                    ])
-                                  ]
-                                )
-                              ]
-                            }
-                          }
-                        ])
-                      })
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-flex",
-                { attrs: { xs11: "", sm5: "" } },
-                [
-                  _c("v-select", {
-                    attrs: {
-                      items: _vm.terms,
-                      rules: [_vm.rules.required],
-                      label: "Condición",
-                      hint: "Condición",
-                      box: "",
-                      "single-line": ""
-                    },
-                    model: {
-                      value: _vm.form.condicion,
-                      callback: function($$v) {
-                        _vm.$set(_vm.form, "condicion", $$v)
-                      },
-                      expression: "form.condicion"
-                    }
-                  })
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _vm.detailClient.cliente
-            ? _c(
-                "v-layout",
-                { attrs: { "justify-space-around": "" } },
-                [
-                  _c(
-                    "v-flex",
-                    { attrs: { xs11: "" } },
-                    [
-                      [
-                        _c(
-                          "v-expansion-panel",
-                          { staticClass: "elevation-0 expansion-border" },
-                          [
-                            _c(
-                              "v-expansion-panel-content",
-                              {
-                                scopedSlots: _vm._u(
-                                  [
-                                    {
-                                      key: "header",
-                                      fn: function() {
-                                        return [
-                                          _c("div", [_vm._v("Más Detalles")])
-                                        ]
-                                      },
-                                      proxy: true
-                                    }
-                                  ],
-                                  null,
-                                  false,
-                                  1000769171
-                                )
-                              },
-                              [
-                                _vm._v(" "),
-                                _c("v-card-text", [
-                                  _c("p", [
-                                    _c("b", [_vm._v("CUIT:")]),
-                                    _vm._v(
-                                      "\n                                    " +
-                                        _vm._s(
-                                          _vm.detailClient.cliente
-                                            .documentounico
-                                        ) +
-                                        "\n                                "
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("p", [
-                                    _c("b", [_vm._v("Razón Social:")]),
-                                    _vm._v(
-                                      "\n                                    " +
-                                        _vm._s(
-                                          _vm.detailClient.cliente.razonsocial
-                                        ) +
-                                        "\n                                "
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("p", [
-                                    _c("b", [
-                                      _vm._v("Condición Frente al IVA:")
-                                    ]),
-                                    _vm._v(
-                                      "\n                                    " +
-                                        _vm._s(
-                                          _vm.detailClient.cliente.condicioniva
-                                        ) +
-                                        "\n                                "
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("p", [
-                                    _c("b", [_vm._v("Domicilio:")]),
-                                    _vm._v(
-                                      "\n                                    " +
-                                        _vm._s(
-                                          _vm.detailClient.cliente.direccion
-                                        ) +
-                                        "\n                                "
-                                    )
-                                  ])
-                                ])
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      _vm._v(" "),
-                      _c("br")
-                    ],
-                    2
-                  )
-                ],
-                1
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _c(
-            "v-form",
-            { ref: "formDetalles" },
-            [
-              _c(
-                "v-layout",
-                { attrs: { "justify-space-around": "", wrap: "" } },
-                [
-                  _c(
-                    "v-flex",
-                    { attrs: { xs11: "" } },
-                    [
-                      _c("v-text-field", {
-                        attrs: {
-                          rules: [_vm.rules.required],
-                          label: "Articulo",
-                          box: "",
-                          "single-line": ""
-                        },
-                        on: {
-                          keyup: function($event) {
-                            return _vm.findArticle()
-                          }
-                        },
-                        model: {
-                          value: _vm.article,
-                          callback: function($$v) {
-                            _vm.article = $$v
-                          },
-                          expression: "article"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "transition",
-                        { attrs: { name: "fade" } },
-                        [
-                          _c("v-data-table", {
-                            directives: [
-                              {
-                                name: "show",
-                                rawName: "v-show",
-                                value:
-                                  _vm.article != null &&
-                                  _vm.article != "" &&
-                                  _vm.products.length > 0,
-                                expression:
-                                  "article != null && article != '' && products.length > 0"
-                              }
-                            ],
-                            staticClass: "search-table",
-                            attrs: {
-                              "no-data-text":
-                                "El cliente no se encuentra en la base de datos.",
-                              "hide-actions": "",
-                              "hide-headers": "",
-                              items: _vm.products
-                            },
-                            scopedSlots: _vm._u([
-                              {
-                                key: "items",
-                                fn: function(article) {
-                                  return [
-                                    _c(
-                                      "tr",
-                                      {
-                                        staticStyle: { cursor: "pointer" },
-                                        style:
-                                          _vm.articleSelected == article.item.id
-                                            ? "background-color: #26A69A; color: #FFFFFF;"
-                                            : "",
-                                        on: {
-                                          click: function($event) {
-                                            _vm.articleSelected =
-                                              article.item.id
-                                          },
-                                          dblclick: function($event) {
-                                            return _vm.selectArticle(
-                                              article.item
-                                            )
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _c("td", [
-                                          _vm._v(
-                                            _vm._s(article.item.codarticulo)
-                                          )
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("td", [
-                                          _vm._v(_vm._s(article.item.articulo))
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("td", [
-                                          _vm._v(_vm._s(article.item.precio))
-                                        ])
-                                      ]
-                                    )
-                                  ]
-                                }
-                              }
-                            ])
-                          })
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-flex",
-                    { attrs: { xs11: "", sm3: "", "mx-1": "" } },
-                    [
-                      _c("v-text-field", {
-                        attrs: {
-                          disabled:
-                            _vm.article == null || _vm.article == ""
-                              ? true
-                              : false,
-                          rules: [_vm.rules.required],
-                          label: "Cantidad",
-                          hint: "Cantidad",
-                          box: "",
-                          "single-line": ""
-                        },
-                        on: {
-                          keyup: function($event) {
-                            if (
-                              !$event.type.indexOf("key") &&
-                              _vm._k(
-                                $event.keyCode,
-                                "enter",
-                                13,
-                                $event.key,
-                                "Enter"
-                              )
-                            ) {
-                              return null
-                            }
-                            return _vm.fillDetails()
-                          }
-                        },
-                        model: {
-                          value: _vm.quantity,
-                          callback: function($$v) {
-                            _vm.quantity = $$v
-                          },
-                          expression: "quantity"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-flex",
-                    { attrs: { xs11: "", sm3: "", "mx-1": "" } },
-                    [
-                      _c("v-text-field", {
-                        attrs: {
-                          rules: [_vm.rules.required],
-                          label: "Precio",
-                          disabled: "",
-                          box: "",
-                          "single-line": ""
-                        },
-                        model: {
-                          value: _vm.price,
-                          callback: function($$v) {
-                            _vm.price = $$v
-                          },
-                          expression: "price"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-flex",
-                    { attrs: { xs11: "", sm3: "", "mx-1": "" } },
-                    [
-                      _c("v-text-field", {
-                        attrs: {
-                          rules: [_vm.rules.required],
-                          label: "Subtotal",
-                          disabled: "",
-                          box: "",
-                          "single-line": ""
-                        },
-                        model: {
-                          value: _vm.subtotal,
-                          callback: function($$v) {
-                            _vm.subtotal = $$v
-                          },
-                          expression: "subtotal"
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-layout",
-            { attrs: { "justify-space-around": "" } },
-            [
-              _c(
-                "v-flex",
-                { attrs: { xs11: "" } },
-                [
-                  _c("v-data-table", {
-                    attrs: {
-                      headers: _vm.detailsHeader,
-                      items: _vm.details,
-                      "hide-actions": ""
-                    },
-                    scopedSlots: _vm._u([
-                      {
-                        key: "items",
-                        fn: function(detail) {
-                          return [
-                            _c("td", [_vm._v(_vm._s(detail.item.articulo))]),
-                            _vm._v(" "),
-                            _c(
-                              "td",
-                              [
-                                _c(
-                                  "v-edit-dialog",
-                                  {
-                                    attrs: {
-                                      "return-value": detail.item.cantidad,
-                                      lazy: ""
-                                    },
-                                    on: {
-                                      "update:returnValue": function($event) {
-                                        return _vm.$set(
-                                          detail.item,
-                                          "cantidad",
-                                          $event
-                                        )
-                                      },
-                                      "update:return-value": function($event) {
-                                        return _vm.$set(
-                                          detail.item,
-                                          "cantidad",
-                                          $event
-                                        )
-                                      }
-                                    },
-                                    scopedSlots: _vm._u(
-                                      [
-                                        {
-                                          key: "input",
-                                          fn: function() {
-                                            return [
-                                              _c("v-text-field", {
-                                                attrs: {
-                                                  label: "Cantidad",
-                                                  "single-line": ""
-                                                },
-                                                on: {
-                                                  keyup: function($event) {
-                                                    return _vm.updateDetails()
-                                                  }
-                                                },
-                                                model: {
-                                                  value: detail.item.cantidad,
-                                                  callback: function($$v) {
-                                                    _vm.$set(
-                                                      detail.item,
-                                                      "cantidad",
-                                                      $$v
-                                                    )
-                                                  },
-                                                  expression:
-                                                    "detail.item.cantidad"
-                                                }
-                                              })
-                                            ]
-                                          },
-                                          proxy: true
-                                        }
-                                      ],
-                                      null,
-                                      true
-                                    )
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                                " +
-                                        _vm._s(detail.item.cantidad) +
-                                        "\n                                "
-                                    )
-                                  ]
-                                )
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(detail.item.precio))]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(detail.item.subtotal))]),
-                            _vm._v(" "),
-                            _c(
-                              "td",
-                              [
-                                _c(
-                                  "v-btn",
-                                  {
-                                    attrs: {
-                                      flat: "",
-                                      icon: "",
-                                      color: "primary"
-                                    },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.removeDetail(detail.item)
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _c(
-                                      "v-icon",
-                                      { attrs: { size: "medium" } },
-                                      [_vm._v("fas fa-times")]
-                                    )
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          ]
-                        }
-                      }
-                    ])
-                  })
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
           _c("br"),
           _vm._v(" "),
           _c(
             "v-layout",
-            { attrs: { "justify-space-around": "" } },
+            { attrs: { "justify-space-around": "", wrap: "" } },
             [
               _c(
                 "v-flex",
@@ -13735,11 +12389,11 @@ var render = function() {
                 [
                   _c(
                     "v-layout",
-                    { attrs: { wrap: "" } },
+                    { attrs: { "justify-space-around": "", wrap: "" } },
                     [
                       _c(
                         "v-flex",
-                        { attrs: { xs12: "" } },
+                        { attrs: { xs11: "" } },
                         [
                           _c("v-text-field", {
                             attrs: {
@@ -13762,7 +12416,7 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "v-flex",
-                        { attrs: { xs12: "" } },
+                        { attrs: { xs11: "" } },
                         [
                           _c("v-text-field", {
                             attrs: {
@@ -13785,7 +12439,7 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "v-flex",
-                        { attrs: { xs12: "" } },
+                        { attrs: { xs11: "" } },
                         [
                           _c("v-select", {
                             attrs: {
@@ -13820,11 +12474,11 @@ var render = function() {
                 [
                   _c(
                     "v-layout",
-                    { attrs: { wrap: "" } },
+                    { attrs: { "justify-space-around": "", wrap: "" } },
                     [
                       _c(
                         "v-flex",
-                        { attrs: { xs12: "" } },
+                        { attrs: { xs11: "" } },
                         [
                           _c("v-text-field", {
                             attrs: {
@@ -13836,11 +12490,11 @@ var render = function() {
                               "single-line": ""
                             },
                             model: {
-                              value: _vm.form.subtotal,
+                              value: _vm.subtotalFactura,
                               callback: function($$v) {
-                                _vm.$set(_vm.form, "subtotal", $$v)
+                                _vm.subtotalFactura = $$v
                               },
-                              expression: "form.subtotal"
+                              expression: "subtotalFactura"
                             }
                           })
                         ],
@@ -13849,7 +12503,7 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "v-flex",
-                        { attrs: { xs12: "" } },
+                        { attrs: { xs11: "" } },
                         [
                           _c("v-text-field", {
                             attrs: {
@@ -13861,13 +12515,56 @@ var render = function() {
                               "single-line": ""
                             },
                             model: {
-                              value: _vm.form.total,
+                              value: _vm.total,
                               callback: function($$v) {
-                                _vm.$set(_vm.form, "total", $$v)
+                                _vm.total = $$v
                               },
-                              expression: "form.total"
+                              expression: "total"
                             }
                           })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-flex",
+                        { attrs: { xs11: "" } },
+                        [
+                          _c(
+                            "v-layout",
+                            { attrs: { "justify-center": "" } },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    outline: "",
+                                    large: "",
+                                    color: "primary"
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.cancelFactura()
+                                    }
+                                  }
+                                },
+                                [_vm._v("Cancelar")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    type: "submit",
+                                    large: "",
+                                    color: "primary"
+                                  }
+                                },
+                                [_vm._v("Guardar")]
+                              )
+                            ],
+                            1
+                          )
                         ],
                         1
                       )
@@ -14593,7 +13290,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_c("v-card", [_c("FacturasFormMultiple")], 1)], 1)
+  return _c("div", [_c("v-card", [_c("FacturasForm")], 1)], 1)
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -58484,18 +57181,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/facturas/FacturasFormMultiple.vue":
-/*!*******************************************************************!*\
-  !*** ./resources/js/components/facturas/FacturasFormMultiple.vue ***!
-  \*******************************************************************/
+/***/ "./resources/js/components/facturas/FacturasForm.vue":
+/*!***********************************************************!*\
+  !*** ./resources/js/components/facturas/FacturasForm.vue ***!
+  \***********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _FacturasFormMultiple_vue_vue_type_template_id_76e6f088___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FacturasFormMultiple.vue?vue&type=template&id=76e6f088& */ "./resources/js/components/facturas/FacturasFormMultiple.vue?vue&type=template&id=76e6f088&");
-/* harmony import */ var _FacturasFormMultiple_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FacturasFormMultiple.vue?vue&type=script&lang=js& */ "./resources/js/components/facturas/FacturasFormMultiple.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _FacturasFormMultiple_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FacturasFormMultiple.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/facturas/FacturasFormMultiple.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _FacturasForm_vue_vue_type_template_id_276c3e58___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FacturasForm.vue?vue&type=template&id=276c3e58& */ "./resources/js/components/facturas/FacturasForm.vue?vue&type=template&id=276c3e58&");
+/* harmony import */ var _FacturasForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FacturasForm.vue?vue&type=script&lang=js& */ "./resources/js/components/facturas/FacturasForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _FacturasForm_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FacturasForm.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/facturas/FacturasForm.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -58506,9 +57203,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
-  _FacturasFormMultiple_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _FacturasFormMultiple_vue_vue_type_template_id_76e6f088___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _FacturasFormMultiple_vue_vue_type_template_id_76e6f088___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _FacturasForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FacturasForm_vue_vue_type_template_id_276c3e58___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _FacturasForm_vue_vue_type_template_id_276c3e58___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -58518,141 +57215,54 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/facturas/FacturasFormMultiple.vue"
+component.options.__file = "resources/js/components/facturas/FacturasForm.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/facturas/FacturasFormMultiple.vue?vue&type=script&lang=js&":
+/***/ "./resources/js/components/facturas/FacturasForm.vue?vue&type=script&lang=js&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/facturas/FacturasForm.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./FacturasForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/facturas/FacturasForm.vue?vue&type=style&index=0&lang=css&":
 /*!********************************************************************************************!*\
-  !*** ./resources/js/components/facturas/FacturasFormMultiple.vue?vue&type=script&lang=js& ***!
+  !*** ./resources/js/components/facturas/FacturasForm.vue?vue&type=style&index=0&lang=css& ***!
   \********************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasFormMultiple_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./FacturasFormMultiple.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasFormMultiple.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasFormMultiple_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/facturas/FacturasFormMultiple.vue?vue&type=style&index=0&lang=css&":
-/*!****************************************************************************************************!*\
-  !*** ./resources/js/components/facturas/FacturasFormMultiple.vue?vue&type=style&index=0&lang=css& ***!
-  \****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasFormMultiple_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--5-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--5-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./FacturasFormMultiple.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasFormMultiple.vue?vue&type=style&index=0&lang=css&");
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasFormMultiple_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasFormMultiple_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasFormMultiple_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasFormMultiple_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasFormMultiple_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasForm_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--5-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--5-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./FacturasForm.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasForm.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasForm_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasForm_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasForm_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasForm_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasForm_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
-/***/ "./resources/js/components/facturas/FacturasFormMultiple.vue?vue&type=template&id=76e6f088&":
-/*!**************************************************************************************************!*\
-  !*** ./resources/js/components/facturas/FacturasFormMultiple.vue?vue&type=template&id=76e6f088& ***!
-  \**************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasFormMultiple_vue_vue_type_template_id_76e6f088___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./FacturasFormMultiple.vue?vue&type=template&id=76e6f088& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasFormMultiple.vue?vue&type=template&id=76e6f088&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasFormMultiple_vue_vue_type_template_id_76e6f088___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasFormMultiple_vue_vue_type_template_id_76e6f088___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
-
-/***/ }),
-
-/***/ "./resources/js/components/facturas/FacturasFormUnique.vue":
-/*!*****************************************************************!*\
-  !*** ./resources/js/components/facturas/FacturasFormUnique.vue ***!
-  \*****************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _FacturasFormUnique_vue_vue_type_template_id_52fef46e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FacturasFormUnique.vue?vue&type=template&id=52fef46e& */ "./resources/js/components/facturas/FacturasFormUnique.vue?vue&type=template&id=52fef46e&");
-/* harmony import */ var _FacturasFormUnique_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FacturasFormUnique.vue?vue&type=script&lang=js& */ "./resources/js/components/facturas/FacturasFormUnique.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _FacturasFormUnique_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FacturasFormUnique.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/facturas/FacturasFormUnique.vue?vue&type=style&index=0&lang=css&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
-  _FacturasFormUnique_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _FacturasFormUnique_vue_vue_type_template_id_52fef46e___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _FacturasFormUnique_vue_vue_type_template_id_52fef46e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/facturas/FacturasFormUnique.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/facturas/FacturasFormUnique.vue?vue&type=script&lang=js&":
+/***/ "./resources/js/components/facturas/FacturasForm.vue?vue&type=template&id=276c3e58&":
 /*!******************************************************************************************!*\
-  !*** ./resources/js/components/facturas/FacturasFormUnique.vue?vue&type=script&lang=js& ***!
+  !*** ./resources/js/components/facturas/FacturasForm.vue?vue&type=template&id=276c3e58& ***!
   \******************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasFormUnique_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./FacturasFormUnique.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasFormUnique.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasFormUnique_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/facturas/FacturasFormUnique.vue?vue&type=style&index=0&lang=css&":
-/*!**************************************************************************************************!*\
-  !*** ./resources/js/components/facturas/FacturasFormUnique.vue?vue&type=style&index=0&lang=css& ***!
-  \**************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasFormUnique_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--5-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--5-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./FacturasFormUnique.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasFormUnique.vue?vue&type=style&index=0&lang=css&");
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasFormUnique_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasFormUnique_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasFormUnique_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasFormUnique_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasFormUnique_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
-/***/ "./resources/js/components/facturas/FacturasFormUnique.vue?vue&type=template&id=52fef46e&":
-/*!************************************************************************************************!*\
-  !*** ./resources/js/components/facturas/FacturasFormUnique.vue?vue&type=template&id=52fef46e& ***!
-  \************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasFormUnique_vue_vue_type_template_id_52fef46e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./FacturasFormUnique.vue?vue&type=template&id=52fef46e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasFormUnique.vue?vue&type=template&id=52fef46e&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasFormUnique_vue_vue_type_template_id_52fef46e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasForm_vue_vue_type_template_id_276c3e58___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./FacturasForm.vue?vue&type=template&id=276c3e58& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasForm.vue?vue&type=template&id=276c3e58&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasForm_vue_vue_type_template_id_276c3e58___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasFormUnique_vue_vue_type_template_id_52fef46e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FacturasForm_vue_vue_type_template_id_276c3e58___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -59451,7 +58061,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     showClientesDialog: false,
-    findClienteDialog: false
+    findClienteDialog: false,
+    subtotal: null
   },
   mutations: {
     ClientesDialog: function ClientesDialog(state) {
@@ -59459,6 +58070,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     FindClientesDialog: function FindClientesDialog(state) {
       state.findClienteDialog = !state.findClienteDialog;
+    },
+    FillSubtotal: function FillSubtotal(state, sub) {
+      state.subtotal = sub;
     }
   },
   modules: {

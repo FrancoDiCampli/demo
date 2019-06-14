@@ -17,7 +17,7 @@ class FacturasController extends Controller
     public function index()
     {
         $facturas = Factura::orderBy('id', 'DESC')->get();
-        return $facturas->each->cliente;
+        return $facturas->each->articulos;
     }
 
     public function store(Request $request)
@@ -25,23 +25,20 @@ class FacturasController extends Controller
         $atributos = $request;
         $cliente = Cliente::find($atributos['cliente_id']);
         $atributos['cuit'] = $cliente->documentounico;
+        $atributos['condicionventa'] = $atributos['condicion'];
 
-        $detalle = array();
-        array_push($detalle, $atributos->detalle);
-
-        if ($atributos['condicionventa'] == 'Contado' || $atributos['condicionventa'] == 'Credito / Debito') {
+        if ($atributos['condicionventa'] == 'CONTADO' || $atributos['condicionventa'] == 'CREDITO / DEBITO') {
             $atributos['pagada'] = true;
         } else {
             $atributos['pagada'] = false;
         }
 
-        if ($atributos['tipo'] != 'Remito X') {
+        if ($atributos['tipo'] != 'REMITO X') {
             $solicitarCAE = true;
         } else {
             $solicitarCAE = false;
         }
-
-        // $factura = new Factura;
+        
         $factura = Factura::create([
             "ptoventa" => 1,
             "cuit" => $atributos['cuit'], //cliente
@@ -57,17 +54,17 @@ class FacturasController extends Controller
             "user_id" => auth()->user()->id,
         ]);
 
-        foreach ($detalle as $detail) {
+        foreach ($request->get('detalle') as $detail) {
             $articulo = Articulo::find($detail['articulo_id'] * 1);
             $detalles = array(
                 'codarticulo' => $articulo['codarticulo'],
                 'articulo' => $articulo['articulo'],
-                'cantidad' => $detail['quantity'],
+                'cantidad' => $detail['cantidad'],
                 'medida' => $articulo['medida'],
                 'bonificacion' => 0,
                 'alicuota' => 0,
                 'preciounitario' => $articulo['precio'],
-                'subtotal' => $detail['quantity'] * $articulo['precio'],
+                'subtotal' => $detail['cantidad'] * $articulo['precio'],
                 'articulo_id' => $detail['articulo_id'],
                 'factura_id' => $factura->id
             );
@@ -75,7 +72,6 @@ class FacturasController extends Controller
         }
 
         $factura->articulos()->attach($det);
-        $factura->save();
 
         if ($factura->pagada == false) {
             $cuenta = Cuentacorriente::create([
@@ -95,21 +91,24 @@ class FacturasController extends Controller
             $factura->solicitarCae($factura);
         }
 
-        foreach ($detalle as $detail) {
-            $article = Inventario::orderBy('vencimiento', 'ASC')
-                ->where('articulo_id', $detail['articulo_id'])
-                ->where('cantidad', '>=', $detail['cantidad'])
-                ->first();
+        $aux = collect($det);
 
-            $article->cantidad = $article->cantidad - $detail['cantidad'];
-            $article->save();
+        for ($i=0; $i < count($aux); $i++) { 
+            $article = Inventario::orderBy('vencimiento', 'ASC')
+                            ->where('articulo_id', $aux[$i]['articulo_id'])
+                            ->where('cantidad', '>=', $aux[$i]['cantidad'])->get();
+
+            $article[0]->cantidad = $article[0]->cantidad - $aux[$i]['cantidad'];
+            $article[0]->save();
 
             Movimiento::create([
-                'inventario_id' => $article->id,
-                'tipo' => 2,
-                'cantidad' => $detail['cantidad'],
+                'inventario_id' => $article[0]->id,
+                'tipo' => 'VENTA',
+                'cantidad' => $aux[$i]['cantidad'],
                 'fecha' => now()->format('Y-m-d')
             ]);
+
+            unset($article);
         }
 
         return (['message' => 'guardado']);

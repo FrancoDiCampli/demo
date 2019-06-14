@@ -13,7 +13,7 @@ class ArticulosController extends Controller
     public function index (Request $request)
     {
         $articulos = Articulo::orderBy('articulo', 'asc')
-            ->buscar($request);
+            ->buscar($request)->with('stock');
 
         return $articulos->take($request->get('limit', null))->get();
     }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Factura extends Model
 {
-    protected $fillable = ['ptoventa', 'numfactura', 'cuit', 'fecha', 'bonificacion', 'recargo', 'subtotal', 'total', 'pagada', 'comprobanteafip', 'cae', 'fechavto', 'codbarra', 'cliente_id', 'user_id'];
+    protected $fillable = ['ptoventa', 'numfactura', 'cuit', 'fecha', 'bonificacion', 'recargo', 'subtotal', 'total', 'pagada', 'condicionventa', 'comprobanteafip', 'cae', 'fechavto', 'codbarra', 'compago', 'cliente_id', 'user_id'];
 
     public function user()
     {

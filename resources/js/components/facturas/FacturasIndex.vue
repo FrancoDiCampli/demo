@@ -2,7 +2,7 @@
     <div>
         <!-- Facturas Table -->
         <template>
-            <v-data-table hide-actions :headers="headers" :items="data">
+            <v-data-table hide-actions :headers="headers" :items="data.facturas">
                 <template v-slot:items="factura">
                     <td>
                         <div v-if="factura.item.cae == null">
@@ -48,6 +48,15 @@
                     <td></td>
                 </template>
             </v-data-table>
+            <v-layout justify-center>
+                <v-btn
+                    :loading="loadingButton"
+                    :disabled="limit >= data.total || loadingButton"
+                    @click="loadMore()"
+                    color="primary"
+                    outline
+                >Cargar Más</v-btn>
+            </v-layout>
         </template>
     </div>
 </template>
@@ -59,6 +68,8 @@ export default {
 
     data() {
         return {
+            limit: 10,
+            loadingButton: false,
             headers: [
                 { text: "Tipo", sortable: false },
                 { text: "Nº Factura", sortable: false },
@@ -75,11 +86,18 @@ export default {
     },
 
     mounted() {
-        this.index({ url: "api/facturas" });
+        this.index({ url: "api/facturas", limit: this.limit });
     },
 
     methods: {
-        ...mapActions("crudx", ["index"])
+        ...mapActions("crudx", ["index"]),
+
+        loadMore: async function() {
+            this.limit += this.limit;
+            this.loadingButton = true;
+            await this.index({ url: "api/facturas", limit: this.limit });
+            this.loadingButton = false;
+        }
     }
 };
 </script>

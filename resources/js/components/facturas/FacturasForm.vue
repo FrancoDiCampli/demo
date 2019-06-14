@@ -466,7 +466,7 @@ export default {
                         }
                     })
                     .then(response => {
-                        this.customers = response.data;
+                        this.customers = response.data.clientes;
                     })
                     .catch(error => {
                         console.log(error);

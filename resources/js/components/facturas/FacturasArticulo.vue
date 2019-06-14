@@ -7,6 +7,7 @@
                     <!-- Input Buscar Articulos -->
                     <v-text-field
                         @keyup="findArticle()"
+                        autofocus
                         v-model="article"
                         :rules="[rules.required]"
                         label="Articulo"
@@ -45,7 +46,7 @@
                     <v-text-field
                         v-model="quantity"
                         :disabled="article == null || article == '' ? true : false"
-                        :rules="[rules.required]"
+                        :rules="[rules.required, rules.maxStock]"
                         @keyup.enter="fillDetails()"
                         label="Cantidad"
                         hint="Cantidad"
@@ -128,6 +129,7 @@ export default {
             article_id: null,
             quantity: null,
             price: null,
+            stock: 0,
             products: [],
             articleSelected: null,
             details: [],
@@ -139,7 +141,9 @@ export default {
                 { text: "", sortable: false }
             ],
             rules: {
-                required: value => !!value || "Este campo es obligatorio"
+                required: value => !!value || "Este campo es obligatorio",
+                maxStock: value =>
+                    value * 1 <= this.stock || "Stock Insuficiente"
             }
         };
     },
@@ -147,16 +151,20 @@ export default {
     computed: {
         ...mapState("crudx", ["form"]),
 
-        subtotal() {
-            if (
-                this.quantity != null &&
-                this.quantity != "" &&
-                this.price != null &&
-                this.price != ""
-            ) {
-                return this.price * this.quantity;
-            } else {
-                return null;
+        subtotal: {
+            set() {},
+
+            get() {
+                if (
+                    this.quantity != null &&
+                    this.quantity != "" &&
+                    this.price != null &&
+                    this.price != ""
+                ) {
+                    return this.price * this.quantity;
+                } else {
+                    return null;
+                }
             }
         }
     },
@@ -167,7 +175,7 @@ export default {
             for (let i = 0; i < this.details.length; i++) {
                 sub += this.details[i].subtotal * 1;
             }
-            this.FillSubtotal({sub: sub});
+            this.FillSubtotal({ sub: sub });
         }
     },
 
@@ -201,6 +209,7 @@ export default {
             this.article_id = article.id;
             this.article = article.articulo;
             this.price = article.precio;
+            this.stock = article.stock[0].total * 1;
         },
 
         //LLenar Array de Detalles
@@ -216,6 +225,8 @@ export default {
 
                 this.details.push(detail);
                 this.form.detalle = this.details;
+
+                this.$refs.formDetalles.reset();
             }
         },
 
@@ -224,7 +235,11 @@ export default {
             let index = this.details.indexOf(detail);
             this.details.splice(index, 1);
 
-            this.form.detalle = this.details;
+            if (this.details.length < 1) {
+                this.$store.state.subtotal == null;
+            } else {
+                this.form.detalle = this.details;
+            }
         },
 
         //Actualizar cantidad y subtotal de un detalle

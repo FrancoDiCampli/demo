@@ -99,7 +99,7 @@ export default {
 
     data() {
         return {
-            client: null,
+            client: "CONSUMIDOR FINAL",
             detailClient: [],
             customers: [],
             clientSelected: null,
@@ -114,24 +114,35 @@ export default {
         ...mapState("crudx", ["form"])
     },
 
+    mounted() {
+        this.form.cliente_id = 1;
+    },
+
     methods: {
         // Buscar los clientes
         findClient() {
             this.clientSelected = null;
             this.detailClient = [];
-            axios
-                .get("/api/clientes", {
-                    params: {
-                        buscarCliente: this.client,
-                        limit: 5
-                    }
-                })
-                .then(response => {
-                    this.customers = response.data;
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+            if (this.client == "0") {
+                this.customers = [];
+                this.detailClient = [];
+                this.client = "CONSUMIDOR FINAL";
+                this.form.cliente_id = 0;
+            } else {
+                axios
+                    .get("/api/clientes", {
+                        params: {
+                            buscarCliente: this.client,
+                            limit: 5
+                        }
+                    })
+                    .then(response => {
+                        this.customers = response.data;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
         },
 
         // Seleccionar un Cliente

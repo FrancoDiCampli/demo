@@ -81,13 +81,8 @@
                         </v-flex>
                         <v-flex xs11>
                             <v-layout justify-center>
-                                <v-btn
-                                    @click="cancelFactura()"
-                                    outline
-                                    large
-                                    color="primary"
-                                >Cancelar</v-btn>
-                                <v-btn type="submit" large color="primary">Guardar</v-btn>
+                                <v-btn @click="cancelFactura()" outline color="primary">Cancelar</v-btn>
+                                <v-btn type="submit" color="primary">Guardar</v-btn>
                             </v-layout>
                         </v-flex>
                     </v-layout>
@@ -134,36 +129,45 @@ export default {
             }
         },
 
-        subtotalFactura() {
-            if (this.subtotal != null) {
-                return this.subtotal.sub;
-            } else {
-                return null;
+        subtotalFactura: {
+            set() {},
+            get() {
+                if (this.subtotal != null) {
+                    return this.subtotal.sub;
+                } else {
+                    return null;
+                }
             }
         },
 
-        total() {
-            if (this.subtotalFactura != null) {
-                if (this.form.bonificacion || this.form.recargo) {
-                    let boni = 0;
-                    let reca = 0;
+        total: {
+            set() {},
+            get() {
+                if (this.subtotalFactura != null) {
+                    if (this.form.bonificacion || this.form.recargo) {
+                        let boni = 0;
+                        let reca = 0;
 
-                    if (this.form.bonificacion) {
-                        boni =
-                            (this.form.bonificacion * this.subtotalFactura) /
-                            100;
+                        if (this.form.bonificacion) {
+                            boni =
+                                (this.form.bonificacion *
+                                    this.subtotalFactura) /
+                                100;
+                        }
+
+                        if (this.form.recargo) {
+                            reca =
+                                (this.form.recargo * this.subtotalFactura) /
+                                100;
+                        }
+
+                        return this.subtotalFactura - boni + reca;
+                    } else {
+                        return this.subtotalFactura;
                     }
-
-                    if (this.form.recargo) {
-                        reca = (this.form.recargo * this.subtotalFactura) / 100;
-                    }
-
-                    return this.subtotalFactura - boni + reca;
                 } else {
-                    return this.subtotalFactura;
+                    return null;
                 }
-            } else {
-                return null;
             }
         }
     },
@@ -175,11 +179,11 @@ export default {
         saveFactura() {
             if (this.$refs.formFactura.validate()) {
                 if (this.form.detalle) {
-                    this.form.subtotal = this.subtotalFactura;
-                    this.form.total = this.total;
-                    // console.log(this.form);
+                    console.log(this.form.detalle);
+                    // this.form.subtotal = this.subtotalFactura;
+                    // this.form.total = this.total;
+                    // this.save({ url: "/api/facturas" });
                 }
-                this.save({ url: "/api/facturas" });
             }
         },
 

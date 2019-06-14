@@ -14,7 +14,7 @@ $factory->define(Factura::class, function (Faker $faker) {
         'recargo' => 0,
         'subtotal' => 0,
         'total' => 0,
-        'estado' => 'PAGADA',
+        'pagada' => true,
         'condicionventa' => 'CONTADO',
         'cliente_id' => $cliente->id,
         'user_id' => 1

@@ -93,24 +93,39 @@ class FacturasController extends Controller
 
         $aux = collect($det);
 
-        for ($i=0; $i < count($aux); $i++) { 
-            $article = Inventario::orderBy('vencimiento', 'ASC')
-                            ->where('articulo_id', $aux[$i]['articulo_id'])
-                            ->where('cantidad', '>=', $aux[$i]['cantidad'])->get();
-
-            $article[0]->cantidad = $article[0]->cantidad - $aux[$i]['cantidad'];
-            $article[0]->save();
-
-            Movimiento::create([
-                'inventario_id' => $article[0]->id,
-                'tipo' => 'VENTA',
-                'cantidad' => $aux[$i]['cantidad'],
-                'fecha' => now()->format('Y-m-d')
-            ]);
-
-            unset($article);
+        for ($i=0; $i < count($aux); $i++) {
+            $cond = true;
+            $res = $aux[$i]['cantidad'];
+            while ($cond) {
+               $article = Inventario::orderBy('vencimiento', 'ASC')
+                            ->where('cantidad', '>', 0)
+                            ->where('articulo_id', $aux[$i]['articulo_id'])->get();
+                if ($article[0]->cantidad < $res) {
+                    $res = $aux[$i]['cantidad'] - $article[0]->cantidad;
+                    Movimiento::create([
+                        'inventario_id' => $article[0]->id,
+                        'tipo' => 'VENTA',
+                        'cantidad' => $article[0]->cantidad,
+                        'fecha' => now()->format('Y-m-d')
+                    ]);
+                    $article[0]->cantidad = 0;
+                    if ($res <= 0) {
+                        $cond = false;
+                    }
+                } else {
+                    $article[0]->cantidad = $article[0]->cantidad - $res;
+                    $cond = false;
+                    Movimiento::create([
+                        'inventario_id' => $article[0]->id,
+                        'tipo' => 'VENTA',
+                        'cantidad' => $res,
+                        'fecha' => now()->format('Y-m-d')
+                    ]);
+                }
+                $article[0]->save();
+                unset($article);
+            }
         }
-
         return (['message' => 'guardado']);
     }
 

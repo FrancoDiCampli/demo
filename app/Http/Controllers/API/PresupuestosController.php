@@ -25,56 +25,47 @@ class PresupuestosController extends Controller
         $atributos = $request;
         $cliente = Cliente::find($atributos['cliente_id']);
         $atributos['cuit'] = $cliente->documentounico;
-        $atributos['total'] = 0;
-        $atributos['fecha'] = now()->format('Ymd');
-        $vto = $request->get('vto', now()->addMonth(1)->format('Ymd'));
+        $vto = $request->get('vto', now()->addMonth(1)->format('Y-m-d'));
         $atributos['vencimiento'] = $vto;
-        
-        $detalle = Array();
-        array_push($detalle, $atributos->detalle);
 
         $presupuesto = Presupuesto::create([
-            "ptoventa" => $atributos['ptoventa'],
+            "ptoventa" => 1,
             "cuit" => $atributos['cuit'],
-            "numpresupuesto" => $atributos['numpresupuesto'],
+            "numpresupuesto" => 1,
             "bonificacion" => $atributos['bonificacion'],
             "recargo" => $atributos['recargo'],
-            "alicuota" => $atributos['alicuota'],
-            "fecha" => $atributos['fecha'],
+            "fecha" => now()->format('Ymd'),
             "subtotal" => $atributos['subtotal'],
             "total" => $atributos['total'],
             "vencimiento" => $atributos['vencimiento'],
             "cliente_id" => $atributos['cliente_id'],
-            "user_id" => $atributos['user_id']
+            "user_id" => auth()->user()->id
         ]);
 
-        $total = 0;
-
-        foreach ($detalle as $detail) {
-            $articulo = Articulo::find($detail['articulo_id']*1);
+        foreach ($request->get('detalle') as $detail) {
+            $articulo = Articulo::find($detail['articulo_id'] * 1);
             $detalles = array(
-                'codarticulo' => $detail['codarticulo'],
-                'articulo' => $detail['articulo'],
+                'codarticulo' => $articulo['codarticulo'],
+                'articulo' => $articulo['articulo'],
                 'cantidad' => $detail['cantidad'],
-                'medida' => $detail['medida'],
-                'bonificacion' => $detail['bonificacion'],
-                'alicuota' => $detail['alicuota'],
-                'preciounitario' => $detail['preciounitario'],
-                'subtotal' => $detail['cantidad'] * $detail['preciounitario'],
+                'medida' => $articulo['medida'],
+                'bonificacion' => 0,
+                'alicuota' => 0,
+                'preciounitario' => $articulo['precio'],
+                'subtotal' => $detail['cantidad'] * $articulo['precio'],
                 'articulo_id' => $detail['articulo_id'],
                 'presupuesto_id' => $presupuesto->id
             );
-            $total = $detalles['subtotal']+$total;
             $det[] = $detalles;
         }
 
         $presupuesto->articulos()->attach($det);
-        $presupuesto->total = $total;
-        $presupuesto->save();
 
-        if ( $request->crearFactura ) {
-            $this->crearFactura($request,$presupuesto);
-        }
+        // if ( $request->crearFactura ) {
+        //     $this->crearFactura($request,$presupuesto);
+        // }
+
+        return ['msg' => 'presupuesto guardado'];
     }
 
     public function crearFactura(Request $request,$presupuesto)
@@ -92,12 +83,11 @@ class PresupuestosController extends Controller
             "numfactura" => $numFac,
             "bonificacion" => $presupuesto->bonificacion,
             "recargo" => $presupuesto->recargo,
-            "alicuota" => $presupuesto->alicuota,
             "fecha" => $presupuesto->fecha,
-            "subtotal" => $presupuesto->subtotal,
+            "subtotal" => 0,
             "cliente_id" => $presupuesto->cliente_id,
             "user_id" => $presupuesto->user_id,
-            "total" => $presupuesto->total,
+            "total" => 0,
             'pagada' => $request->get('pagada')
         ]);
 
@@ -176,5 +166,10 @@ class PresupuestosController extends Controller
             $this->crearFactura($request, $presupuesto);
         }
         return (['message' => 'factura creada']);
+    }
+
+    public function show($id)
+    {
+        $presupuesto = Presupuesto::find($id);
     }
 }

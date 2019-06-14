@@ -15,9 +15,19 @@ class Categoria extends Model
 
     public function scopeBuscar($query, $request)
     {
-        $buscar = $request->get('buscar');
-        if ($buscar) {
-            return $query->where('categoria','LIKE',"%$buscar%");
+        $categoria = $request->get('buscarCategoria');
+        
+        if(strlen($categoria)){
+            return $query->where('categoria', 'LIKE', "$categoria%");
+        }
+    }
+
+    public function scopeBuscarExacto($query, $request)
+    {
+        $categoria = $request->get('buscarExactoCategoria');
+        
+        if(strlen($categoria)){
+            return $query->where('categoria',$categoria);
         }
     }
 }

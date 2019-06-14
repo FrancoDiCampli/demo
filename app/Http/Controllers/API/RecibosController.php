@@ -30,7 +30,7 @@ class RecibosController extends Controller
 
         $recibo = Recibo::create([
             'fecha' => now()->format('Ymd'),
-            'total' => $atributos['total'],
+            'total' => 0,
             'numrecibo' => $atributos['numrecibo']
         ]);
 
@@ -43,37 +43,39 @@ class RecibosController extends Controller
             ]);
             $total = $pago->importe + $total;
             $aux[] = $pago->id;
-        }
-
-        $recibo->pagos()->attach($aux);
-
-        $cuenta = Cuentacorriente::find($pago->ctacte_id);
-        $cuenta->saldo = $cuenta->saldo - $pago->importe; // REVISAR
-        $cuenta->ultimopago = now()->format('Ymd');
-        $cuenta->save();
-
-        $movimiento = Movimientocuenta::create([
-            'ctacte_id' => $pago->ctacte_id,
-            'tipo' => 'PAGO',
-            'fecha' => now()->format('Ymd'),
-            'user_id' => auth()->user()->id
-        ]);
-
-        if ($cuenta->saldo == 0) {
-            $cuenta->estado = 'CANCELADA';
-            $cuenta->save();
-
-            $factura = Factura::find($cuenta->factura_id);
-            $factura->estado = 'PAGADA';
-            $factura->save();
 
             $movimiento = Movimientocuenta::create([
                 'ctacte_id' => $pago->ctacte_id,
-                'tipo' => 'CANCELADA',
+                'tipo' => 'PAGO',
                 'fecha' => now()->format('Ymd'),
                 'user_id' => auth()->user()->id
             ]);
+
+            $cuenta = Cuentacorriente::find($pago->ctacte_id);
+            $cuenta->saldo = $cuenta->saldo - $pago->importe; // REVISAR
+            $cuenta->ultimopago = now()->format('Ymd');
+            $cuenta->save();
+
+            if ($cuenta->saldo == 0) {
+                $cuenta->estado = 'CANCELADA';
+                $cuenta->save();
+    
+                $factura = Factura::find($cuenta->factura_id);
+                $factura->estado = 'PAGADA';
+                $factura->save();
+    
+                $movimiento = Movimientocuenta::create([
+                    'ctacte_id' => $pago->ctacte_id,
+                    'tipo' => 'CANCELADA',
+                    'fecha' => now()->format('Ymd'),
+                    'user_id' => auth()->user()->id
+                ]);
+            }
         }
+
+        $recibo->pagos()->attach($aux);
+        $recibo->total = $total;
+        $recibo->save();
 
         return [
             'msg' => 'cuenta actualizada'

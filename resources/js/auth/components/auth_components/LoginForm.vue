@@ -7,7 +7,7 @@
                     :rules="[rules.required]"
                     label="Email"
                     color="primary"
-                    outline
+                    box
                     single-line
                 ></v-text-field>
             </v-flex>
@@ -18,9 +18,9 @@
                     :append-icon="password_type ? 'fas fa-eye' : 'fas fa-eye-slash'"
                     @click:append="password_type = !password_type"
                     :type="password_type ? 'text' : 'password'"
-                    label="Password"
+                    label="Contraseña"
                     color="primary"
-                    outline
+                    box
                     single-line
                 ></v-text-field>
             </v-flex>

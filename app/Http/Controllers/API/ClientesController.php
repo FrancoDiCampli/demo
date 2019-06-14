@@ -8,20 +8,18 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreCliente;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateCliente;
+use function GuzzleHttp\json_encode;
+use App\Factura;
 
 class ClientesController extends Controller
 {
     public function index(Request $request)
     {
-        $dni = $request->get('documentounico') * 1;
+        $clientes = Cliente::orderBy('razonsocial', 'asc')
+            ->where('documentounico', '<>', 0)
+            ->buscar($request);
 
-        if (strlen($dni) >= 8) {
-            $clientes = Cliente::where('documentounico', $dni)->where('documentounico', '<>', 0)->get();
-        } else {
-            $clientes = Cliente::where('documentounico', '<>', 0)->get();
-        }
-
-        return $clientes;
+        return $clientes->take($request->get('limit', null))->get();
     }
 
     public function store(StoreCliente $request)
@@ -42,9 +40,15 @@ class ClientesController extends Controller
     {
         $cliente = Cliente::find($id);
 
-        $cliente->facturas;
+        $facturas = $cliente->facturas;
 
-        return $cliente;
+        foreach ($facturas as $fac) {
+            if ($fac->cuenta <> null) {
+                $cuentas[] = $fac->cuenta;
+            }
+        }
+
+        return compact('cliente', 'facturas', 'cuentas');
     }
 
     public function update(UpdateCliente $request, $id)

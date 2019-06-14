@@ -12,21 +12,22 @@ class ArticulosController extends Controller
 {
     public function index (Request $request)
     {
-        $articulos = Articulo::orderBy('id')
-                ->buscar($request)
-                ->get();
-        return $articulos;
+        $articulos = Articulo::orderBy('articulo', 'asc')
+            ->buscar($request);
+
+        return $articulos->take($request->get('limit', null))->get();
     }
 
-    public function store(StoreArticulo $request)
+    public function store(Request $request)
     {
-        $data = $request->validated();
+        return $request;
+        // $data = $request->validated();
 
-        $data['articulo'] = ucwords($data['articulo']);
-        $data['descripcion'] = ucwords($data['descripcion']);
-        $data['medida'] = ucwords($data['medida']);
-        
-        return Articulo::create($data);
+        // $data['articulo'] = ucwords($data['articulo']);
+        // $data['descripcion'] = ucwords($data['descripcion']);
+        // $data['medida'] = ucwords($data['medida']);
+
+        // return Articulo::create($data);
     }
 
     public function update(UpdateArticulo $request, $id)
@@ -37,7 +38,7 @@ class ArticulosController extends Controller
         $data['articulo'] = ucwords($data['articulo']);
         $data['descripcion'] = ucwords($data['descripcion']);
         $data['medida'] = ucwords($data['medida']);
-        
+
         $articulo->update($data);
         return ['message' => 'actualizado'];
     }

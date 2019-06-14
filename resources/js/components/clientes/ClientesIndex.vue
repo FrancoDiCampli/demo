@@ -17,9 +17,9 @@
         </template>
 
         <!-- Clientes Show -->
-        <v-dialog v-model="showClientesDialog" width="750">
+        <v-dialog v-model="showClientesDialog" width="750" persistent>
             <v-card>
-                <v-card-text>
+                <v-card-text style="overflow: hidden;">
                     <ClientesShow></ClientesShow>
                 </v-card-text>
             </v-card>
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 import ClientesShow from "./ClientesShow.vue";
 export default {
     name: "ClientesIndex",
@@ -44,8 +44,7 @@ export default {
                     class: "hidden-sm-and-down"
                 },
                 { text: "", sortable: false }
-            ],
-            showClientesDialog: false
+            ]
         };
     },
 
@@ -54,6 +53,7 @@ export default {
     },
 
     computed: {
+        ...mapState(["showClientesDialog"]),
         ...mapState("crudx", ["data"])
     },
 
@@ -62,11 +62,13 @@ export default {
     },
 
     methods: {
+        ...mapMutations(["ClientesDialog"]),
         ...mapActions("crudx", ["index", "show"]),
 
         showCliente: async function(id) {
-            await this.show({ url: "api/clientes/" + id });
-            this.showClientesDialog = true;
+            let show = await this.show({ url: "api/clientes/" + id });
+            console.log(show);
+            this.ClientesDialog();
         }
     }
 };

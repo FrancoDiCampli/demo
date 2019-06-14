@@ -18,7 +18,7 @@ class CategoriasController extends Controller
         $data = $request->validate(['categoria'=>'required|unique:categorias|min:1|max:190']);
 
         $data['categoria'] = ucwords($data['categoria']);
-       
+
         $categoria = Categoria::create($data);
 
         return ['message' => 'guardado'];
@@ -26,12 +26,12 @@ class CategoriasController extends Controller
 
     public function update(Request $request, $id)
     {
-        $categoria = Categoria::findOrFail($id); 
+        $categoria = Categoria::findOrFail($id);
 
         $data = $request->validate(['categoria'=>'required|min:1|max:190|unique:categorias,categoria,'.$categoria->id]);
 
         $data['categoria'] = ucwords($data['categoria']);
-       
+
         $categoria->update($data);
 
         return ['message' => 'actualizado'];

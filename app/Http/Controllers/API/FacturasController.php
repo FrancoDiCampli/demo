@@ -16,7 +16,8 @@ class FacturasController extends Controller
 {
     public function index()
     {
-        return $facturas = Factura::orderBy('id', 'DESC')->get();
+        $facturas = Factura::orderBy('id', 'DESC')->get();
+        return $facturas->each->cliente;
     }
 
     public function store(Request $request)
@@ -24,8 +25,8 @@ class FacturasController extends Controller
         $atributos = $request;
         $cliente = Cliente::find($atributos['cliente_id']);
         $atributos['cuit'] = $cliente->documentounico;
-        
-        $detalle = Array();
+
+        $detalle = array();
         array_push($detalle, $atributos->detalle);
 
         // $factura = new Factura;
@@ -48,7 +49,7 @@ class FacturasController extends Controller
         $total = 0;
 
         foreach ($detalle as $detail) {
-            $articulo = Articulo::find($detail['articulo_id']*1);
+            $articulo = Articulo::find($detail['articulo_id'] * 1);
             $detalles = array(
                 'codarticulo' => $detail['codarticulo'],
                 'articulo' => $detail['articulo'],
@@ -61,7 +62,7 @@ class FacturasController extends Controller
                 'articulo_id' => $detail['articulo_id'],
                 'factura_id' => $factura->id
             );
-            $total = $detalles['subtotal']+$total;
+            $total = $detalles['subtotal'] + $total;
             $det[] = $detalles;
         }
 
@@ -69,7 +70,7 @@ class FacturasController extends Controller
         $factura->total = $total;
         $factura->save();
 
-        if ($factura->estado == 'CTACTE'){
+        if ($factura->pagada == false) {
             $cuenta = Cuentacorriente::create([
                 'factura_id' => $factura->id,
                 'importe' => $factura->total,
@@ -89,10 +90,10 @@ class FacturasController extends Controller
 
         foreach ($detalle as $detail) {
             $article = Inventario::orderBy('vencimiento', 'ASC')
-                            ->where('articulo_id',$detail['articulo_id'])
-                            ->where('cantidad','>=',$detail['cantidad'])
-                            ->first();
-            
+                ->where('articulo_id', $detail['articulo_id'])
+                ->where('cantidad', '>=', $detail['cantidad'])
+                ->first();
+
             $article->cantidad = $article->cantidad - $detail['cantidad'];
             $article->save();
 
@@ -103,19 +104,19 @@ class FacturasController extends Controller
                 'fecha' => now()->format('Y-m-d')
             ]);
         }
-        
+
         return (['message' => 'guardado']);
     }
 
     public function update(Request $request, $id)
     {
         $factura = Factura::find($id);
-        
-        if ( $request->get('estado') ) {
-            $factura->estado = $request->get('estado');
+
+        if ($request->get('pagada')) {
+            $factura->pagada = $request->get('pagada');
         }
-        
-        if ( $request->get('solicitarCae') && $factura->estado == 'PAGADA' ) {
+
+        if ($request->get('solicitarCae') && $factura->pagada) {
             $factura->solicitarCae($factura);
         }
 

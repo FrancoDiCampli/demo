@@ -19,7 +19,10 @@ class ClientesController extends Controller
             ->where('documentounico', '<>', 0)
             ->buscar($request);
 
-        return $clientes->take($request->get('limit', null))->get();
+        return [
+            'clientes' => $clientes->take($request->get('limit', null))->get(),
+            'total' => $clientes->count()
+        ];
     }
 
     public function store(StoreCliente $request)

@@ -13,13 +13,13 @@
                                         </v-list-tile-content>
                                         <v-list-tile-content
                                             class="align-end"
-                                        >{{ showData.razonsocial }}</v-list-tile-content>
+                                        >{{ showData.cliente.razonsocial }}</v-list-tile-content>
                                     </v-list-tile>
                                     <v-list-tile>
                                         <v-list-tile-content>
                                             <b>CUIT:</b>
                                         </v-list-tile-content>
-                                        <v-list-tile-content class="align-end">{{ showData.cuit }}</v-list-tile-content>
+                                        <v-list-tile-content class="align-end">{{ showData.cliente.cuit }}</v-list-tile-content>
                                     </v-list-tile>
                                     <v-list-tile>
                                         <v-list-tile-content>
@@ -27,7 +27,7 @@
                                         </v-list-tile-content>
                                         <v-list-tile-content
                                             class="align-end"
-                                        >{{ showData.condicioniva }}</v-list-tile-content>
+                                        >{{ showData.cliente.condicioniva }}</v-list-tile-content>
                                     </v-list-tile>
                                 </v-list>
                             </v-card>
@@ -47,13 +47,13 @@
                                         </v-list-tile-content>
                                         <v-list-tile-content
                                             class="align-end"
-                                        >{{ showData.telefono }}</v-list-tile-content>
+                                        >{{ showData.cliente.telefono }}</v-list-tile-content>
                                     </v-list-tile>
                                     <v-list-tile>
                                         <v-list-tile-content>
                                             <b>Email:</b>
                                         </v-list-tile-content>
-                                        <v-list-tile-content class="align-end">{{ showData.email }}</v-list-tile-content>
+                                        <v-list-tile-content class="align-end">{{ showData.cliente.email }}</v-list-tile-content>
                                     </v-list-tile>
                                     <v-list-tile>
                                         <v-list-tile-content>
@@ -61,7 +61,7 @@
                                         </v-list-tile-content>
                                         <v-list-tile-content
                                             class="align-end"
-                                        >{{ showData.direccion }}</v-list-tile-content>
+                                        >{{ showData.cliente.direccion }}</v-list-tile-content>
                                     </v-list-tile>
                                     <v-list-tile>
                                         <v-list-tile-content>
@@ -69,7 +69,7 @@
                                         </v-list-tile-content>
                                         <v-list-tile-content
                                             class="align-end"
-                                        >{{ showData.codigopostal }}</v-list-tile-content>
+                                        >{{ showData.cliente.codigopostal }}</v-list-tile-content>
                                     </v-list-tile>
                                     <v-list-tile>
                                         <v-list-tile-content>
@@ -77,7 +77,7 @@
                                         </v-list-tile-content>
                                         <v-list-tile-content
                                             class="align-end"
-                                        >{{ showData.provincia }}</v-list-tile-content>
+                                        >{{ showData.cliente.provincia }}</v-list-tile-content>
                                     </v-list-tile>
                                     <v-list-tile>
                                         <v-list-tile-content>
@@ -85,7 +85,7 @@
                                         </v-list-tile-content>
                                         <v-list-tile-content
                                             class="align-end"
-                                        >{{ showData.localidad }}</v-list-tile-content>
+                                        >{{ showData.cliente.localidad }}</v-list-tile-content>
                                     </v-list-tile>
                                 </v-list>
                             </v-card>

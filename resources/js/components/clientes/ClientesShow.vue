@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="showData.cliente">
         <v-layout justify-center wrap v-show="mode != 'edit'">
             <v-menu>
                 <template v-slot:activator="{ on }">
@@ -29,10 +29,10 @@
             </v-flex>
             <v-flex xs12>
                 <br>
-                <h1 class="text-xs-center primary--text">{{ showData.razonsocial }}</h1>
+                <h1 class="text-xs-center primary--text">{{ showData.cliente.razonsocial }}</h1>
             </v-flex>
             <v-flex xs12>
-                <h3 class="text-xs-center primary--text">{{ showData.documentounico }}</h3>
+                <h3 class="text-xs-center primary--text">{{ showData.cliente.documentounico }}</h3>
             </v-flex>
         </v-layout>
         <br>
@@ -115,8 +115,8 @@ export default {
         ...mapState("crudx", ["showData", "form", "inProcess"]),
 
         clientProfile() {
-            if (this.showData.razonsocial && this.mode != "edit") {
-                let arrayname = this.showData.razonsocial.split(" ");
+            if (this.showData.cliente.razonsocial && this.mode != "edit") {
+                let arrayname = this.showData.cliente.razonsocial.split(" ");
                 let profile = "";
 
                 for (let i = 0; i < 2; i++) {
@@ -135,7 +135,7 @@ export default {
         ...mapActions("crudx", ["index", "show", "edit", "update", "destroy"]),
 
         editCliente: async function() {
-            await this.edit({ data: this.showData });
+            await this.edit({ data: this.showData.cliente });
             this.mode = "edit";
         },
 
@@ -151,6 +151,10 @@ export default {
         },
 
         deleteCliente: async function() {
+            await this.destroy({
+                url: "api/clientes/" + this.showData.cliente.id
+            });
+            await this.index({ url: "api/clientes" });
             this.mode = "show";
             this.ClientesDialog();
         }

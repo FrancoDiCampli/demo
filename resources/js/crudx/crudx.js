@@ -140,10 +140,9 @@ const actions = {
         commit("resetErrors");
         return new Promise(resolve => {
             axios
-                .post(params.url)
+                .delete(params.url)
                 .then(response => {
                     state.inProcess = false;
-                    console.log(response.data);
                     resolve(response.data);
                 })
                 .catch(error => {

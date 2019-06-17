@@ -205,7 +205,7 @@ class FacturasController extends Controller
                 'MonCotiz'         => 1, // Cotización de la moneda usada (1 para pesos argentinos)
             );
 
-            $afip = new Afip(array('CUIT' => 20417590200));
+            $afip = new Afip(array('CUIT' => 20349590418));
 
             $res = $afip->ElectronicBilling->CreateNextVoucher($data);
             $fec = str_replace('-', '', $res['CAEFchVto']);
@@ -247,5 +247,15 @@ class FacturasController extends Controller
             $digito = 0;
         }
         return $nroCodBar . $digito;
+    }
+
+    public function destroy($id)
+    {
+        $factura = Factura::findOrFail($id);
+
+        if (!($factura->cae && $factura->fechavto && $factura->comprobanteafip && $factura->codbarra)) {
+            $factura->delete();
+            // continuara...
+        }
     }
 }

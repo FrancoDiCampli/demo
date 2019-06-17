@@ -5233,7 +5233,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -5305,6 +5307,40 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//Axios
+ //Vuex
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ClientesIndex",
@@ -5331,17 +5367,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, {
         text: "",
         sortable: false
-      }]
+      }],
+      grabarFacturasDialog: false,
+      factura_id: null,
+      process: false
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])("crudx", ["data"])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("crudx", ["data"])),
   mounted: function mounted() {
     this.index({
       url: "api/facturas",
       limit: this.limit
     });
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])("crudx", ["index"]), {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index"]), {
     loadMore: function () {
       var _loadMore = _asyncToGenerator(
       /*#__PURE__*/
@@ -5374,7 +5413,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       return loadMore;
-    }()
+    }(),
+    grabarFactura: function grabarFactura() {
+      var _this = this;
+
+      this.process = true;
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/solicitarCae/" + this.factura_id).then(function (response) {
+        console.log(response.data);
+
+        _this.index({
+          url: "api/facturas",
+          limit: _this.limit
+        });
+
+        _this.process = false;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
   })
 });
 
@@ -12727,7 +12783,13 @@ var render = function() {
                                       value: factura.item.cae == null,
                                       expression: "factura.item.cae == null"
                                     }
-                                  ]
+                                  ],
+                                  on: {
+                                    click: function($event) {
+                                      _vm.factura_id = factura.item.id
+                                      _vm.grabarFacturasDialog = true
+                                    }
+                                  }
                                 },
                                 [_c("v-list-tile-title", [_vm._v("Grabar")])],
                                 1
@@ -12785,6 +12847,85 @@ var render = function() {
                 }
               },
               [_vm._v("Cargar Más")]
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "v-dialog",
+          {
+            attrs: { width: "750", persistent: "" },
+            model: {
+              value: _vm.grabarFacturasDialog,
+              callback: function($$v) {
+                _vm.grabarFacturasDialog = $$v
+              },
+              expression: "grabarFacturasDialog"
+            }
+          },
+          [
+            _c(
+              "v-card",
+              [
+                _c("v-card-title", [_c("h2", [_vm._v("¿Estás Seguro?")])]),
+                _vm._v(" "),
+                _c("v-divider"),
+                _vm._v(" "),
+                _c("v-card-text", [
+                  _vm._v(
+                    "¿Estás seguro que deseas grabar esta Factura? este cambio es irreversible"
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "v-card-text",
+                  [
+                    _c(
+                      "v-layout",
+                      { attrs: { "justify-end": "", wrap: "" } },
+                      [
+                        _c(
+                          "v-btn",
+                          {
+                            attrs: {
+                              outline: "",
+                              color: "primary",
+                              disabled: _vm.process
+                            },
+                            on: {
+                              click: function($event) {
+                                _vm.grabarFacturasDialog = false
+                              }
+                            }
+                          },
+                          [_vm._v("Cancelar")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-btn",
+                          {
+                            attrs: {
+                              loading: _vm.process,
+                              disabled: _vm.process,
+                              color: "primary"
+                            },
+                            on: {
+                              click: function($event) {
+                                return _vm.grabarFactura()
+                              }
+                            }
+                          },
+                          [_vm._v("Grabar")]
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
             )
           ],
           1

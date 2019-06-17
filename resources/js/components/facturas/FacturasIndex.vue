@@ -34,7 +34,10 @@
                                 <v-list-tile>
                                     <v-list-tile-title>Imprimir</v-list-tile-title>
                                 </v-list-tile>
-                                <v-list-tile v-show="factura.item.cae == null">
+                                <v-list-tile
+                                    v-show="factura.item.cae == null"
+                                    @click="factura_id = factura.item.id; grabarFacturasDialog = true;"
+                                >
                                     <v-list-tile-title>Grabar</v-list-tile-title>
                                 </v-list-tile>
                                 <v-list-tile v-show="factura.item.cae == null">
@@ -55,12 +58,45 @@
                     outline
                 >Cargar Más</v-btn>
             </v-layout>
+
+            <!-- Dialog Grabar -->
+            <v-dialog v-model="grabarFacturasDialog" width="750" persistent>
+                <v-card>
+                    <v-card-title>
+                        <h2>¿Estás Seguro?</h2>
+                    </v-card-title>
+                    <v-divider></v-divider>
+                    <v-card-text>¿Estás seguro que deseas grabar esta Factura? este cambio es irreversible</v-card-text>
+                    <v-card-text>
+                        <v-layout justify-end wrap>
+                            <v-btn
+                                @click="grabarFacturasDialog = false;"
+                                outline
+                                color="primary"
+                                :disabled="process"
+                            >Cancelar</v-btn>
+
+                            <v-btn
+                                :loading="process"
+                                :disabled="process"
+                                @click="grabarFactura()"
+                                color="primary"
+                            >Grabar</v-btn>
+                        </v-layout>
+                    </v-card-text>
+                </v-card>
+            </v-dialog>
         </template>
     </div>
 </template>
 
 <script>
+//Axios
+import axios from "axios";
+
+//Vuex
 import { mapState, mapMutations, mapActions } from "vuex";
+
 export default {
     name: "ClientesIndex",
 
@@ -75,7 +111,10 @@ export default {
                 { text: "Importe", sortable: false },
                 { text: "Fecha", sortable: false },
                 { text: "", sortable: false }
-            ]
+            ],
+            grabarFacturasDialog: false,
+            factura_id: null,
+            process: false
         };
     },
 
@@ -95,6 +134,20 @@ export default {
             this.loadingButton = true;
             await this.index({ url: "api/facturas", limit: this.limit });
             this.loadingButton = false;
+        },
+
+        grabarFactura() {
+            this.process = true;
+            axios
+                .get("/api/solicitarCae/" + this.factura_id)
+                .then(response => {
+                    console.log(response.data);
+                    this.index({ url: "api/facturas", limit: this.limit });
+                    this.process = false;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         }
     }
 };

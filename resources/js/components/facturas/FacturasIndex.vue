@@ -2,7 +2,13 @@
     <div>
         <!-- Facturas Table -->
         <template>
-            <v-data-table hide-actions :headers="headers" :items="data.facturas">
+            <v-data-table
+                hide-actions
+                :headers="headers"
+                :items="data.facturas"
+                :loading="inProcess"
+            >
+                <v-progress-linear v-slot:progress color="primary" indeterminate></v-progress-linear>
                 <template v-slot:items="factura">
                     <td>
                         <v-avatar class="type-item">
@@ -119,7 +125,7 @@ export default {
     },
 
     computed: {
-        ...mapState("crudx", ["data"])
+        ...mapState("crudx", ["data", "inProcess"])
     },
 
     mounted() {
@@ -143,7 +149,10 @@ export default {
                 .then(response => {
                     console.log(response.data);
                     this.index({ url: "api/facturas", limit: this.limit });
+                    this.factura_id = null;
+                    this.grabarFacturasDialog = false;
                     this.process = false;
+                    
                 })
                 .catch(error => {
                     console.log(error);

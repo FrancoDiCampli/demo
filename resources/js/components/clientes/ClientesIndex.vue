@@ -2,7 +2,13 @@
     <div>
         <!-- Clientes Table -->
         <template>
-            <v-data-table hide-actions :headers="headers" :items="data.clientes">
+            <v-data-table
+                hide-actions
+                :headers="headers"
+                :items="data.clientes"
+                :loading="inProcess"
+            >
+                <v-progress-linear v-slot:progress color="primary" indeterminate></v-progress-linear>
                 <template v-slot:items="cliente">
                     <td class="hidden-xs-only">{{ cliente.item.documentounico }}</td>
                     <td>{{ cliente.item.razonsocial }}</td>
@@ -65,7 +71,7 @@ export default {
 
     computed: {
         ...mapState(["showClientesDialog"]),
-        ...mapState("crudx", ["data"])
+        ...mapState("crudx", ["data", "inProcess"])
     },
 
     mounted() {

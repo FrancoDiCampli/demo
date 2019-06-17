@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 
-
 Route::middleware('auth:api')->group(function () {
 
     //Auth Routes
@@ -42,7 +41,6 @@ Route::middleware('auth:api')->group(function () {
     //Afip Routes
     Route::get('/buscarAfip/{num}', 'API\ClientesController@buscarAfip');
     Route::get('/solicitarCae/{id}', 'API\FacturasController@solicitarCAE');
-
     Route::get('estadisticas/vfecha', 'API\EstadisticasController@vfecha');
 });
 

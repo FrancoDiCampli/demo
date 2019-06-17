@@ -22,8 +22,8 @@
             <!-- Imagén de perfil y nombre de usuario -->
             <v-toolbar flat class="transparent">
                 <v-list class="pa-0">
-                    <v-list-tile @click="mini = false" avatar>
-                        <v-avatar class="profile-list" size="50">
+                    <v-list-tile avatar>
+                        <v-avatar @click="mini = false" class="profile-list" size="50">
                             <span class="title">{{ account.profile }}</span>
                         </v-avatar>
 
@@ -172,6 +172,7 @@ export default {
     border: solid 1.5px #26a69a;
     background-color: rgba(65, 184, 131, 0.25);
     margin-top: 15px;
+    cursor: pointer;
 }
 
 .profile-list span {

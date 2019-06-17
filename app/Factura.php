@@ -2,11 +2,13 @@
 
 namespace App;
 
-use Afip;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Factura extends Model
 {
+    use SoftDeletes;
+    
     protected $fillable = ['ptoventa', 'numfactura', 'cuit', 'fecha', 'bonificacion', 'recargo', 'subtotal', 'total', 'pagada', 'condicionventa', 'comprobanteafip', 'cae', 'fechavto', 'codbarra', 'compago', 'cliente_id', 'user_id'];
 
     public function user()

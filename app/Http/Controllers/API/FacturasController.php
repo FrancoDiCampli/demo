@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use Afip;
 use App\Cliente;
 use App\Factura;
 use App\Articulo;

@@ -3953,6 +3953,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3981,7 +3987,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   components: {
     ClientesShow: _ClientesShow_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(["showClientesDialog"]), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])("crudx", ["data"])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(["showClientesDialog"]), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])("crudx", ["data", "inProcess"])),
   mounted: function mounted() {
     this.index({
       url: "api/clientes",
@@ -5338,6 +5344,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 //Axios
  //Vuex
 
@@ -5373,7 +5385,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       process: false
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("crudx", ["data"])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("crudx", ["data", "inProcess"])),
   mounted: function mounted() {
     this.index({
       url: "api/facturas",
@@ -5426,6 +5438,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           limit: _this.limit
         });
 
+        _this.factura_id = null;
+        _this.grabarFacturasDialog = false;
         _this.process = false;
       })["catch"](function (error) {
         console.log(error);
@@ -10793,55 +10807,74 @@ var render = function() {
     "div",
     [
       [
-        _c("v-data-table", {
-          attrs: {
-            "hide-actions": "",
-            headers: _vm.headers,
-            items: _vm.data.clientes
-          },
-          scopedSlots: _vm._u([
-            {
-              key: "items",
-              fn: function(cliente) {
-                return [
-                  _c("td", { staticClass: "hidden-xs-only" }, [
-                    _vm._v(_vm._s(cliente.item.documentounico))
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(cliente.item.razonsocial))]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "hidden-sm-and-down" }, [
-                    _vm._v(_vm._s(cliente.item.condicioniva))
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "td",
-                    [
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { flat: "", icon: "", color: "primary" },
-                          on: {
-                            click: function($event) {
-                              return _vm.showCliente(cliente.item.id)
+        _c(
+          "v-data-table",
+          {
+            attrs: {
+              "hide-actions": "",
+              headers: _vm.headers,
+              items: _vm.data.clientes,
+              loading: _vm.inProcess
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "items",
+                fn: function(cliente) {
+                  return [
+                    _c("td", { staticClass: "hidden-xs-only" }, [
+                      _vm._v(_vm._s(cliente.item.documentounico))
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(cliente.item.razonsocial))]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "hidden-sm-and-down" }, [
+                      _vm._v(_vm._s(cliente.item.condicioniva))
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      [
+                        _c(
+                          "v-btn",
+                          {
+                            attrs: { flat: "", icon: "", color: "primary" },
+                            on: {
+                              click: function($event) {
+                                return _vm.showCliente(cliente.item.id)
+                              }
                             }
-                          }
-                        },
-                        [
-                          _c("v-icon", { attrs: { size: "medium" } }, [
-                            _vm._v("fas fa-ellipsis-v")
-                          ])
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ]
+                          },
+                          [
+                            _c("v-icon", { attrs: { size: "medium" } }, [
+                              _vm._v("fas fa-ellipsis-v")
+                            ])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ]
+                }
               }
-            }
-          ])
-        }),
+            ])
+          },
+          [
+            _c("v-progress-linear", {
+              attrs: { color: "primary", indeterminate: "" },
+              scopedSlots: _vm._u([
+                {
+                  key: "progress",
+                  fn: function() {
+                    return undefined
+                  },
+                  proxy: true
+                }
+              ])
+            })
+          ],
+          1
+        ),
         _vm._v(" "),
         _c(
           "v-layout",
@@ -12672,160 +12705,183 @@ var render = function() {
     "div",
     [
       [
-        _c("v-data-table", {
-          attrs: {
-            "hide-actions": "",
-            headers: _vm.headers,
-            items: _vm.data.facturas
-          },
-          scopedSlots: _vm._u([
-            {
-              key: "items",
-              fn: function(factura) {
-                return [
-                  _c(
-                    "td",
-                    [
-                      _c("v-avatar", { staticClass: "type-item" }, [
-                        factura.item.cae == null
-                          ? _c("div", [
-                              _c("p", { staticClass: "title type" }, [
-                                _vm._v("X")
+        _c(
+          "v-data-table",
+          {
+            attrs: {
+              "hide-actions": "",
+              headers: _vm.headers,
+              items: _vm.data.facturas,
+              loading: _vm.inProcess
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "items",
+                fn: function(factura) {
+                  return [
+                    _c(
+                      "td",
+                      [
+                        _c("v-avatar", { staticClass: "type-item" }, [
+                          factura.item.cae == null
+                            ? _c("div", [
+                                _c("p", { staticClass: "title type" }, [
+                                  _vm._v("X")
+                                ])
                               ])
-                            ])
-                          : _c("div", [
-                              _c("p", { staticClass: "title type" }, [
-                                _vm._v("C")
+                            : _c("div", [
+                                _c("p", { staticClass: "title type" }, [
+                                  _vm._v("C")
+                                ])
                               ])
-                            ])
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("td", [
-                    factura.item.comprobanteafip != null
-                      ? _c("div", [
-                          _vm._v(_vm._s(factura.item.comprobanteafip))
                         ])
-                      : _c("div", [_vm._v(_vm._s(factura.item.id))])
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "hidden-sm-and-down" }, [
-                    _vm._v(_vm._s(factura.item.cuit))
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(factura.item.total))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(factura.item.fecha))]),
-                  _vm._v(" "),
-                  _c(
-                    "td",
-                    [
-                      _c(
-                        "v-menu",
-                        {
-                          scopedSlots: _vm._u(
-                            [
-                              {
-                                key: "activator",
-                                fn: function(ref) {
-                                  var on = ref.on
-                                  return [
-                                    _c(
-                                      "v-btn",
-                                      _vm._g(
-                                        {
-                                          attrs: {
-                                            flat: "",
-                                            icon: "",
-                                            dark: "",
-                                            color: "primary"
-                                          }
-                                        },
-                                        on
-                                      ),
-                                      [
-                                        _c(
-                                          "v-icon",
-                                          { attrs: { size: "medium" } },
-                                          [_vm._v("fas fa-ellipsis-v")]
-                                        )
-                                      ],
-                                      1
-                                    )
-                                  ]
-                                }
-                              }
-                            ],
-                            null,
-                            true
-                          )
-                        },
-                        [
-                          _vm._v(" "),
-                          _c(
-                            "v-list",
-                            [
-                              _c(
-                                "v-list-tile",
-                                [_c("v-list-tile-title", [_vm._v("Imprimir")])],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-tile",
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("td", [
+                      factura.item.comprobanteafip != null
+                        ? _c("div", [
+                            _vm._v(_vm._s(factura.item.comprobanteafip))
+                          ])
+                        : _c("div", [_vm._v(_vm._s(factura.item.id))])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "hidden-sm-and-down" }, [
+                      _vm._v(_vm._s(factura.item.cuit))
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(factura.item.total))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(factura.item.fecha))]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      [
+                        _c(
+                          "v-menu",
+                          {
+                            scopedSlots: _vm._u(
+                              [
                                 {
-                                  directives: [
-                                    {
-                                      name: "show",
-                                      rawName: "v-show",
-                                      value: factura.item.cae == null,
-                                      expression: "factura.item.cae == null"
-                                    }
-                                  ],
-                                  on: {
-                                    click: function($event) {
-                                      _vm.factura_id = factura.item.id
-                                      _vm.grabarFacturasDialog = true
-                                    }
+                                  key: "activator",
+                                  fn: function(ref) {
+                                    var on = ref.on
+                                    return [
+                                      _c(
+                                        "v-btn",
+                                        _vm._g(
+                                          {
+                                            attrs: {
+                                              flat: "",
+                                              icon: "",
+                                              dark: "",
+                                              color: "primary"
+                                            }
+                                          },
+                                          on
+                                        ),
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { size: "medium" } },
+                                            [_vm._v("fas fa-ellipsis-v")]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ]
                                   }
-                                },
-                                [_c("v-list-tile-title", [_vm._v("Grabar")])],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-tile",
-                                {
-                                  directives: [
-                                    {
-                                      name: "show",
-                                      rawName: "v-show",
-                                      value: factura.item.cae == null,
-                                      expression: "factura.item.cae == null"
+                                }
+                              ],
+                              null,
+                              true
+                            )
+                          },
+                          [
+                            _vm._v(" "),
+                            _c(
+                              "v-list",
+                              [
+                                _c(
+                                  "v-list-tile",
+                                  [
+                                    _c("v-list-tile-title", [
+                                      _vm._v("Imprimir")
+                                    ])
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-list-tile",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "show",
+                                        rawName: "v-show",
+                                        value: factura.item.cae == null,
+                                        expression: "factura.item.cae == null"
+                                      }
+                                    ],
+                                    on: {
+                                      click: function($event) {
+                                        _vm.factura_id = factura.item.id
+                                        _vm.grabarFacturasDialog = true
+                                      }
                                     }
-                                  ]
-                                },
-                                [_c("v-list-tile-title", [_vm._v("Anular")])],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("td")
-                ]
+                                  },
+                                  [_c("v-list-tile-title", [_vm._v("Grabar")])],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-list-tile",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "show",
+                                        rawName: "v-show",
+                                        value: factura.item.cae == null,
+                                        expression: "factura.item.cae == null"
+                                      }
+                                    ]
+                                  },
+                                  [_c("v-list-tile-title", [_vm._v("Anular")])],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("td")
+                  ]
+                }
               }
-            }
-          ])
-        }),
+            ])
+          },
+          [
+            _c("v-progress-linear", {
+              attrs: { color: "primary", indeterminate: "" },
+              scopedSlots: _vm._u([
+                {
+                  key: "progress",
+                  fn: function() {
+                    return undefined
+                  },
+                  proxy: true
+                }
+              ])
+            })
+          ],
+          1
+        ),
         _vm._v(" "),
         _c(
           "v-layout",

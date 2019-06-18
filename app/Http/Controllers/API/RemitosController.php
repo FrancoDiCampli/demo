@@ -84,9 +84,10 @@ class RemitosController extends Controller
 
             Movimiento::create([
                 'inventario_id' => $detail['articulo_id'],
-                'tipo' => 1,
+                'tipo' => 'ALTA',
                 'cantidad' => $detail['cantidad'],
-                'fecha' => now()->format('Y-m-d')
+                'fecha' => now()->format('Y-m-d'),
+                'numcomprobante' => $remito->id
             ]);
         }
     }

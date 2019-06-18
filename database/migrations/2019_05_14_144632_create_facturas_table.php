@@ -32,6 +32,7 @@ class CreateFacturasTable extends Migration
             $table->unsignedBigInteger('cliente_id');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
+            $table->softDeletes();
             $table->string('compago')->nullable();
 
             $table->foreign('cliente_id')->references('id')->on('clientes');

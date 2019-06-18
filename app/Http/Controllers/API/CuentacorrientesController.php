@@ -3,14 +3,19 @@
 namespace App\Http\Controllers\API;
 
 use App\Cuentacorriente;
+use App\Movimientocuenta;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class CuentacorrientesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return $ctactes = Cuentacorriente::get();
+         $cuentas = Cuentacorriente::orderBy('id', 'DESC')->where('estado','ACTIVA');
+
+        return [
+            'cuentas' => $cuentas->take($request->get('limit', null))->get()
+        ];
     }
 
     public function store(Request $request)
@@ -29,5 +34,28 @@ class CuentacorrientesController extends Controller
             'alta' => $atributos['alta'],
             'estado' => 'ACTIVA'
         ]);
+    }
+
+
+    public function pagoTotal(Request $request,$id){
+
+       $cuenta =  Cuentacorriente::find($id);
+
+        $cuenta->ultimopago = now()->format('Ymd');
+        $cuenta->saldo = 0;
+        $cuenta->estado = "CANCELADA";
+
+        $cuenta->save();
+
+         $movimiento = Movimientocuenta::create([
+                'ctacte_id' => 1,
+                'tipo' => 'PAGO TOTAL',
+                'fecha' => now()->format('Ymd'),
+                'user_id' => auth()->user()->id
+            ]);
+
+
+
+
     }
 }

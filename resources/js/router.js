@@ -20,8 +20,8 @@ import Cliente from "./views/Cliente.vue";
 import Factura from "./views/Factura.vue";
 import FacturaNew from "./views/FacturaNew.vue";
 
-//Productos Views
-import Productos from "./views/Productos.vue";
+// Cuenta Corriente
+import Cuenta from "./views/Cuenta.vue";
 
 Vue.use(Router);
 
@@ -235,12 +235,10 @@ export default new Router({
                 ]
             }
         },
-
-        //Productos Routes
         {
-            path: "/productos",
-            name: "productos",
-            component: Productos,
+            path: "/cuenta",
+            name: "cuenta",
+            component: Cuenta,
             meta: {
                 permissions: [
                     {

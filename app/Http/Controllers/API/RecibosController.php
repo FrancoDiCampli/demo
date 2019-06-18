@@ -61,7 +61,7 @@ class RecibosController extends Controller
                 $cuenta->save();
     
                 $factura = Factura::find($cuenta->factura_id);
-                $factura->estado = 'PAGADA';
+                $factura->pagada = true;
                 $factura->save();
     
                 $movimiento = Movimientocuenta::create([

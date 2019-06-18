@@ -10,6 +10,12 @@ class Movimiento extends Model
         'inventario_id',
         'tipo',
         'cantidad',
-        'fecha'
+        'fecha',
+        'numcomprobante'
         ];
+
+    public function inventario()
+    {
+        return $this->belongsTo('App\Inventario');
+    }
 }

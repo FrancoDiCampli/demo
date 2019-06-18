@@ -111,7 +111,8 @@ class FacturasController extends Controller
                         'inventario_id' => $article[0]->id,
                         'tipo' => 'VENTA',
                         'cantidad' => $article[0]->cantidad,
-                        'fecha' => now()->format('Y-m-d')
+                        'fecha' => now()->format('Y-m-d'),
+                        'numcomprobante' => $factura->id
                     ]);
                     $article[0]->cantidad = 0;
                     if ($res <= 0) {
@@ -124,7 +125,8 @@ class FacturasController extends Controller
                         'inventario_id' => $article[0]->id,
                         'tipo' => 'VENTA',
                         'cantidad' => $res,
-                        'fecha' => now()->format('Y-m-d')
+                        'fecha' => now()->format('Y-m-d'),
+                        'numcomprobante' => $factura->id
                     ]);
                 }
                 $article[0]->save();
@@ -252,10 +254,45 @@ class FacturasController extends Controller
     public function destroy($id)
     {
         $factura = Factura::findOrFail($id);
+        $detalles = collect($factura->articulos);
+        $pivot = collect();
+        $inventarios = collect();
 
-        if (!($factura->cae && $factura->fechavto && $factura->comprobanteafip && $factura->codbarra)) {
+        if (!($factura->cae && $factura->fechavto && $factura->comprobanteafip && $factura->codbarra && $factura->pagada)) {
             $factura->delete();
-            // continuara...
+
+            foreach ($detalles as $art) {
+                $pivot = $pivot->push($art->pivot);
+            }
+            
+            foreach ($pivot as $piv) {
+                $art = Articulo::findOrFail($piv->articulo_id);
+                $aux = collect($art->inventarios);
+                foreach ($aux as $a) {
+                    $inventarios = $inventarios->push($a);
+                }
+            }
+            
+            unset($aux);
+            foreach ($inventarios as $inv) {
+                $aux = collect($inv->movimientos);
+                $aux = $aux->where('numcomprobante', $factura->id);
+                foreach ($aux as $a) {
+                    $inventario = $a->inventario;
+                    $inventario->cantidad = $inventario->cantidad + $a->cantidad;
+                    $inventario->save();
+                    Movimiento::create([
+                        'inventario_id' => $inventario->id,
+                        'tipo' => 'ANULACION',
+                        'cantidad' => $a->cantidad,
+                        'fecha' => now()->format('Y-m-d'),
+                        'numcomprobante' => $factura->id
+                    ]);
+                }
+            }
+        } else {
+            return ['msg' => 'No es posible eliminar esta factura'];
         }
+        return ['msg' => 'Factura Anulada'];
     }
 }

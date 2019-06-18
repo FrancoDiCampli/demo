@@ -34,15 +34,14 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('remitos', 'API\RemitosController');
     Route::apiResource('presupuestos', 'API\PresupuestosController');
     Route::apiResource('cuentascorrientes', 'API\CuentacorrientesController');
-    Route::apiResource('movimientoscuentas', 'API\MovimientocuentasController');
+    // Route::apiResource('movimientoscuentas', 'API\MovimientocuentasController');
     Route::apiResource('pagos', 'API\PagosController');
     Route::apiResource('recibos', 'API\RecibosController');
 
     //Afip Routes
     Route::get('/buscarAfip/{num}', 'API\ClientesController@buscarAfip');
 
-    Route::get('estadisticas/vfecha','API\EstadisticasController@vfecha');
-
+    Route::get('estadisticas/vfecha', 'API\EstadisticasController@vfecha');
 });
 
 // Auth Routes
@@ -50,5 +49,5 @@ Route::post('/login', 'AuthController@login');
 Route::post('/register', 'AuthController@register');
 
 
-Route::get('estadisticas/todas','API\EstadisticasController@todas');
-Route::get('estadisticas/xfecha','API\EstadisticasController@fecha');
+Route::get('estadisticas/todas', 'API\EstadisticasController@todas');
+Route::get('estadisticas/xfecha', 'API\EstadisticasController@fecha');

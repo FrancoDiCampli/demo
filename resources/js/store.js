@@ -9,7 +9,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         showClientesDialog: false,
-        findClienteDialog: false
+        findClienteDialog: false,
+        subtotal: null
     },
 
     mutations: {
@@ -19,6 +20,10 @@ export default new Vuex.Store({
 
         FindClientesDialog(state) {
             state.findClienteDialog = !state.findClienteDialog;
+        },
+
+        FillSubtotal(state, sub) {
+            state.subtotal = sub;
         }
     },
 

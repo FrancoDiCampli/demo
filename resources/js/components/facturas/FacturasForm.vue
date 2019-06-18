@@ -1,135 +1,99 @@
 <template>
     <div>
-        <v-layout justify-space-around>
-            <v-flex xs12 sm4 mx-1>
-                <v-text-field
-                    v-model="form.cuit"
-                    label="Cuit"
-                    hint="Cuit"
-                    box
-                    single-line
-                    @keyup.40="find()"
-                ></v-text-field>
-            </v-flex>
-            <v-flex xs12 sm4 mx-1>
-                <v-text-field
-                    v-model="form.razonsocial"
-                    disabled
-                    label="Razón Social"
-                    hint="Razón Social"
-                    box
-                    single-line
-                ></v-text-field>
-            </v-flex>
-            <v-flex xs12 sm4 mx-1>
-                <v-select
-                    :items="condiciones"
-                    v-model="condicion"
-                    disabled
-                    box
-                    single-line
-                    label="Condición"
-                    hint="Condición"
-                ></v-select>
-            </v-flex>
-        </v-layout>
-
-        <v-layout justify-space-around>
-            <v-flex xs12 sm6 mx-1>
-                <v-text-field
-                    v-model="form.codarticulo"
-                    @keyup="findArticulos()"
-                    label="Codigo Articulo"
-                    hint="Codigo Articulo"
-                    box
-                    single-line
-                    color="primary"
-                ></v-text-field>
-            </v-flex>
-            <v-flex xs12 sm6 mx-1>
-                <v-text-field
-                    v-model="form.articulo"
-                    @keyup="findArticulos()"
-                    label="Articulo"
-                    hint="Articulo"
-                    box
-                    single-line
-                    color="primary"
-                ></v-text-field>
-            </v-flex>
-        </v-layout>
-
-        <div v-if="articulos != null">
-            <v-data-table :items="articulos" hide-actions hide-headers>
-                <template v-slot:items="articulo">
-                    <tr
-                        @click="selected = articulo.item.id"
-                        @dblclick="loadArticulos(articulo.item)"
-                        style="cursor: pointer;"
-                        :style="selected == articulo.item.id ?
-                        'background-color: #26A69A; color: white;' : ''"
-                    >
-                        <td class="hidden-xs-only">{{ articulo.item.codarticulo }}</td>
-                        <td>{{ articulo.item.articulo }}</td>
-                    </tr>
-                </template>
-            </v-data-table>
-        </div>
-
-        <v-layout>
-            <v-flex xs12 sm4 mx-1>
-                <v-text-field
-                    v-model="form.cantidad"
-                    label="Cantidad"
-                    hint="Cantidad"
-                    box
-                    single-line
-                ></v-text-field>
-            </v-flex>
-            <v-flex xs12 sm4 mx-1>
-                <v-text-field
-                    v-model="form.precio"
-                    disabled
-                    label="Precio"
-                    hint="Precio"
-                    box
-                    single-line
-                ></v-text-field>
-            </v-flex>
-            <v-flex xs12 sm4 mx-1>
-                <v-text-field
-                    v-model="subtotal"
-                    disabled
-                    label="Subtotal"
-                    hint="Subtotal"
-                    box
-                    single-line
-                ></v-text-field>
-            </v-flex>
-        </v-layout>
-
-        <v-dialog v-model="findClienteDialog" width="750" persistent>
-            <v-card>
-                <v-card-text>
-                    <v-layout justify-space-between>
-                        <h2>Buscar Cliente</h2>
-                        <!-- Boton cerrar modal -->
-                        <v-btn
-                            @click="FindClientesDialog()"
-                            flat
-                            icon
-                            style="margin: 0; padding: 0;"
-                        >
-                            <v-icon>fas fa-times</v-icon>
-                        </v-btn>
+        <v-card-title>
+            <v-layout justify-space-around wrap>
+                <v-flex xs12 sm5 mx-1>
+                    <h1 class="text-xs-center text-sm-left">Nueva Factura</h1>
+                </v-flex>
+                <v-flex xs12 sm5 mx-1 class="data text-xs-center text-sm-right">
+                    <p>
+                        <b>Punto de Venta:</b> 0003
+                    </p>
+                    <p>
+                        <b>Comprobante Nº:</b> 2
+                    </p>
+                </v-flex>
+            </v-layout>
+        </v-card-title>
+        <v-divider></v-divider>
+        <br>
+        <v-form ref="formFactura" @submit.prevent="saveFactura">
+            <FacturasCliente></FacturasCliente>
+            <FacturasArticulo></FacturasArticulo>
+            <br>
+            <v-layout justify-space-around wrap>
+                <v-flex xs12 sm5 mx-1>
+                    <v-layout justify-space-around wrap>
+                        <v-flex xs11>
+                            <v-text-field
+                                v-model="form.bonificacion"
+                                label="Bonificacion"
+                                hint="Bonificacion"
+                                box
+                                single-line
+                            ></v-text-field>
+                        </v-flex>
+                        <v-flex xs11>
+                            <v-text-field
+                                v-model="form.recargo"
+                                label="Recargo"
+                                hint="Recargo"
+                                box
+                                single-line
+                            ></v-text-field>
+                        </v-flex>
+                        <v-flex xs11>
+                            <v-select
+                                v-model="form.tipo"
+                                :items="types"
+                                :rules="[rules.required]"
+                                label="Tipo Comprobante"
+                                hint="Tipo Comprobante"
+                                box
+                                single-line
+                            ></v-select>
+                        </v-flex>
                     </v-layout>
-                </v-card-text>
-                <v-divider></v-divider>
-                <v-card-text>
-                    <FindCliente></FindCliente>
-                </v-card-text>
-            </v-card>
-        </v-dialog>
+                </v-flex>
+                <v-flex xs12 sm5 mx-1>
+                    <v-layout justify-space-around wrap>
+                        <v-flex xs11>
+                            <v-text-field
+                                v-model="subtotalFactura"
+                                disabled
+                                :rules="[rules.required]"
+                                label="Subtotal"
+                                hint="Subtotal"
+                                box
+                                single-line
+                            ></v-text-field>
+                        </v-flex>
+                        <v-flex xs11>
+                            <v-text-field
+                                v-model="total"
+                                disabled
+                                :rules="[rules.required]"
+                                label="Total"
+                                hint="Total"
+                                box
+                                single-line
+                            ></v-text-field>
+                        </v-flex>
+                        <v-flex xs11>
+                            <v-layout justify-center>
+                                <v-btn
+                                    @click="cancelFactura()"
+                                    outline
+                                    large
+                                    color="primary"
+                                >Cancelar</v-btn>
+                                <v-btn type="submit" large color="primary">Guardar</v-btn>
+                            </v-layout>
+                        </v-flex>
+                    </v-layout>
+                </v-flex>
+            </v-layout>
+        </v-form>
     </div>
 </template>
 
@@ -138,77 +102,122 @@
 import axios from "axios";
 
 //Vuex
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 
 //Components
-import FindCliente from "./FindCliente.vue";
+import FacturasCliente from "./FacturasCliente.vue";
+import FacturasArticulo from "./FacturasArticulo.vue";
 
 export default {
     name: "FacturasForm",
 
     data() {
         return {
-            condiciones: ["Contado", "Credito - Debito", "Cuenta Corriente"],
-            condicion: "Contado",
-            articulos: null,
-            selected: null
+            types: ["REMITO X", "FACTURA C"],
+            rules: {
+                required: value => !!value || "Este campo es obligatorio"
+            }
         };
     },
 
     components: {
-        FindCliente
+        FacturasCliente,
+        FacturasArticulo
     },
 
     computed: {
-        ...mapState(["findClienteDialog"]),
         ...mapState("crudx", ["form"]),
 
-        subtotal() {
-            return this.form.precio * this.form.cantidad;
+        subtotal: {
+            get() {
+                return this.$store.state.subtotal;
+            }
+        },
+
+        subtotalFactura() {
+            if (this.subtotal != null) {
+                return this.subtotal.sub;
+            } else {
+                return null;
+            }
+        },
+
+        total() {
+            if (this.subtotalFactura != null) {
+                if (this.form.bonificacion || this.form.recargo) {
+                    let boni = 0;
+                    let reca = 0;
+
+                    if (this.form.bonificacion) {
+                        boni =
+                            (this.form.bonificacion * this.subtotalFactura) /
+                            100;
+                    }
+
+                    if (this.form.recargo) {
+                        reca = (this.form.recargo * this.subtotalFactura) / 100;
+                    }
+
+                    return this.subtotalFactura - boni + reca;
+                } else {
+                    return this.subtotalFactura;
+                }
+            } else {
+                return null;
+            }
         }
     },
 
     methods: {
-        ...mapMutations(["FindClientesDialog"]),
-        find() {
-            this.FindClientesDialog();
-        },
+        ...mapMutations(["FillTotal"]),
+        ...mapActions("crudx", ["save"]),
 
-        findArticulos() {
-            this.selected = null;
-            if (
-                (this.form.codarticulo != null &&
-                    this.form.codarticulo != "") ||
-                (this.form.articulo != null && this.form.articulo != "")
-            ) {
-                axios
-                    .get("/api/articulos", {
-                        params: {
-                            codarticulo: this.form.codarticulo,
-                            articulo: this.form.articulo
-                        }
-                    })
-                    .then(response => {
-                        this.articulos = response.data;
-                    })
-                    .catch(error => {
-                        console.log(error.response.data);
-                    });
-            } else {
-                this.articulos = null;
+        saveFactura() {
+            if (this.$refs.formFactura.validate()) {
+                if (this.form.detalle) {
+                    this.form.subtotal = this.subtotalFactura;
+                    this.form.total = this.total;
+                    // console.log(this.form);
+                }
+                this.save({ url: "/api/facturas" });
             }
         },
 
-        loadArticulos(articulo) {
-            this.form.codarticulo = articulo.codarticulo;
-            this.form.articulo = articulo.articulo;
-            this.form.precio = articulo.precio;
-            this.articulos = null;
-            this.selected = null;
+        cancelFactura() {
+            this.$refs.formFactura.reset();
         }
     }
 };
 </script>
 
 <style>
+.data {
+    font-size: 12px;
+    line-height: 5px;
+    margin-top: 8px;
+}
+
+.search-table {
+    border: solid 2px #26a69a;
+    margin-top: -30px;
+    border-top: none;
+    margin-bottom: 20px;
+    border-radius: 0px 0px 5px 5px;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s;
+}
+.fade-enter {
+    transform: translateY(-60px);
+}
+
+.fade-leave-to {
+    opacity: 0;
+}
+
+.expansion-border {
+    border-bottom: 1px solid #aaaaaa;
+}
 </style>

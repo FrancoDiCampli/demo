@@ -66,7 +66,8 @@ export default {
         ...mapActions("crudx", ["index", "show"]),
 
         showCliente: async function(id) {
-            await this.show({ url: "api/clientes/" + id });
+            let show = await this.show({ url: "api/clientes/" + id });
+            console.log(show);
             this.ClientesDialog();
         }
     }

@@ -17,6 +17,7 @@
             hide-overlay
             stateless
             fixed
+            class="hidden-xs-only"
         >
             <!-- Imagén de perfil y nombre de usuario -->
             <v-toolbar flat class="transparent">

@@ -17,15 +17,17 @@ class Cliente extends Model
 
     public function scopeBuscar($query, $request)
     {
-        $du = $request->get('documentounico');
-        $razonsocial = $request->get('razonsocial');
+        $cliente = $request->get('buscarCliente');
 
-        if ($du) {
-            return $query->where('documentounico', "du");
+        if (strlen($cliente)) {
+            return $query->where('id', $cliente)
+                ->orWhere('documentounico', $cliente)
+                ->orWhere('razonsocial', 'LIKE', "$cliente%");
         }
     }
 
-    public function facturas(){
+    public function facturas()
+    {
         return $this->hasMany('App\Factura');
     }
 

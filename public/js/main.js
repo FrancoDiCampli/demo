@@ -4597,6 +4597,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //Axios
  //Vuex
 
@@ -4607,6 +4625,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       limit: 10,
       loadingButton: false,
+      reducido: [{
+        text: "Id",
+        sortable: false
+      }, {
+        text: "Num Factura",
+        sortable: false
+      }, {
+        text: "Ultimo Pago",
+        sortable: false
+      }, {
+        text: "Saldo",
+        sortable: false
+      }, {
+        text: "Pago",
+        sortable: false
+      }],
       headers: [{
         text: "Id",
         sortable: false
@@ -4627,8 +4661,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         sortable: false
       }],
       pagarCuenta: false,
+      pagarCuentas: false,
       cuenta_id: null,
-      process: false
+      process: false,
+      cuentas_id: [],
+      seleccionadas: [{
+        id: "",
+        factura_id: "",
+        ultimopago: "",
+        saldo: "",
+        pago: ""
+      }]
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("crudx", ["data", "inProcess"])),
@@ -4686,6 +4729,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this.cuenta_id = null;
         _this.pagarCuenta = false;
         _this.process = false;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    buscarCuentas: function buscarCuentas() {
+      var _this2 = this;
+
+      //    Mandamos los id para buscar la info para pagar
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/buscarcuentas/" + this.cuentas_id).then(function (response) {
+        _this2.seleccionadas = response.data;
+        _this2.pagarCuentas = true;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    test: function test() {
+      var _this3 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/pagarcuentas/", {
+        params: {
+          pagos: this.seleccionadas
+        }
+      }).then(function (response) {
+        // this.seleccionadas = response.data;
+        console.log(response.data);
+        _this3.pagarCuentas = false;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -11935,7 +12004,46 @@ var render = function() {
                 key: "items",
                 fn: function(cuenta) {
                   return [
-                    _c("td", [_vm._v(_vm._s(cuenta.item.id))]),
+                    _c("td", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.cuentas_id,
+                            expression: "cuentas_id"
+                          }
+                        ],
+                        attrs: { type: "checkbox" },
+                        domProps: {
+                          value: cuenta.item.id,
+                          checked: Array.isArray(_vm.cuentas_id)
+                            ? _vm._i(_vm.cuentas_id, cuenta.item.id) > -1
+                            : _vm.cuentas_id
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.cuentas_id,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = cuenta.item.id,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 && (_vm.cuentas_id = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.cuentas_id = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.cuentas_id = $$c
+                            }
+                          }
+                        }
+                      })
+                    ]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(cuenta.item.factura_id))]),
                     _vm._v(" "),
@@ -12006,7 +12114,7 @@ var render = function() {
                                           }
                                         }
                                       },
-                                      [_vm._v("Imprimir")]
+                                      [_vm._v("Pago Total")]
                                     )
                                   ],
                                   1
@@ -12049,23 +12157,16 @@ var render = function() {
             _c(
               "v-btn",
               {
-                attrs: {
-                  loading: _vm.loadingButton,
-                  disabled: _vm.limit >= _vm.data.total || _vm.loadingButton,
-                  color: "primary",
-                  outline: ""
-                },
-                on: {
-                  click: function($event) {
-                    return _vm.loadMore()
-                  }
-                }
+                attrs: { color: "primary", outline: "" },
+                on: { click: _vm.buscarCuentas }
               },
-              [_vm._v("Cargar Más")]
+              [_vm._v("Pagar")]
             )
           ],
           1
         ),
+        _vm._v(" "),
+        _c("span", [_vm._v("Checked names: " + _vm._s(_vm.cuentas_id))]),
         _vm._v(" "),
         _c(
           "v-dialog",
@@ -12144,6 +12245,88 @@ var render = function() {
             )
           ],
           1
+        ),
+        _vm._v(" "),
+        _c(
+          "v-dialog",
+          {
+            model: {
+              value: _vm.pagarCuentas,
+              callback: function($$v) {
+                _vm.pagarCuentas = $$v
+              },
+              expression: "pagarCuentas"
+            }
+          },
+          [
+            [
+              _c("v-data-table", {
+                attrs: {
+                  headers: _vm.reducido,
+                  items: _vm.seleccionadas,
+                  "hide-actions": ""
+                },
+                scopedSlots: _vm._u([
+                  {
+                    key: "items",
+                    fn: function(cuenta) {
+                      return [
+                        _c("td", [_vm._v(_vm._s(cuenta.item.id))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(cuenta.item.factura_id))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(cuenta.item.ultimopago))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(cuenta.item.saldo))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: cuenta.item.pago,
+                                expression: "cuenta.item.pago"
+                              }
+                            ],
+                            attrs: { type: "number" },
+                            domProps: { value: cuenta.item.pago },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  cuenta.item,
+                                  "pago",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      ]
+                    }
+                  }
+                ])
+              }),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  attrs: { flat: "", icon: "", dark: "", color: "primary" },
+                  on: { click: _vm.test }
+                },
+                [
+                  _c("v-icon", { attrs: { size: "medium" } }, [
+                    _vm._v("check_circles")
+                  ])
+                ],
+                1
+              )
+            ]
+          ],
+          2
         )
       ]
     ],

@@ -58,4 +58,13 @@ class CuentacorrientesController extends Controller
 
 
     }
+
+    public function buscarCuentas($lista){
+        $lista = explode(",",$lista);
+        return $cuentas = Cuentacorriente::find($lista);
+    }
+
+    public function pagoParcial(Request $request){
+        return $request;
+    }
 }

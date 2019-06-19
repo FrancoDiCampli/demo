@@ -9,7 +9,10 @@
             >
                 <v-progress-linear v-slot:progress color="primary" indeterminate></v-progress-linear>
                 <template v-slot:items="cuenta">
-                    <td>{{ cuenta.item.id }}</td>
+                    <td>
+                        <input type="checkbox" :value="cuenta.item.id" v-model="cuentas_id">
+                    </td>
+
                     <td>{{ cuenta.item.factura_id }}</td>
                     <td>{{ cuenta.item.importe }}</td>
                     <td>{{ cuenta.item.saldo }}</td>
@@ -26,7 +29,7 @@
                                 <v-list-tile>
                                     <v-list-tile-title
                                         @click="cuenta_id = cuenta.item.id; pagarCuenta = true;"
-                                    >Imprimir</v-list-tile-title>
+                                    >Pago Total</v-list-tile-title>
                                 </v-list-tile>
                             </v-list>
                         </v-menu>
@@ -34,14 +37,10 @@
                 </template>
             </v-data-table>
             <v-layout justify-center>
-                <v-btn
-                    :loading="loadingButton"
-                    :disabled="limit >= data.total || loadingButton"
-                    @click="loadMore()"
-                    color="primary"
-                    outline
-                >Cargar Más</v-btn>
+                <v-btn color="primary" outline @click="buscarCuentas">Pagar</v-btn>
             </v-layout>
+
+            <span>Checked names: {{ cuentas_id }}</span>
 
             <!-- Dialog Grabar -->
 
@@ -71,6 +70,25 @@
                     </v-card-text>
                 </v-card>
             </v-dialog>
+
+            <v-dialog v-model="pagarCuentas">
+                <template>
+                    <v-data-table :headers="reducido" :items="seleccionadas" hide-actions>
+                        <template v-slot:items="cuenta">
+                            <td>{{ cuenta.item.id }}</td>
+                            <td>{{ cuenta.item.factura_id }}</td>
+                            <td>{{ cuenta.item.ultimopago }}</td>
+                            <td>{{ cuenta.item.saldo }}</td>
+                            <td>
+                                <input type="number" v-model="cuenta.item.pago">
+                            </td>
+                        </template>
+                    </v-data-table>
+                    <v-btn flat icon dark color="primary" @click="test">
+                        <v-icon size="medium">check_circles</v-icon>
+                    </v-btn>
+                </template>
+            </v-dialog>
         </template>
     </div>
 </template>
@@ -88,6 +106,14 @@ export default {
         return {
             limit: 10,
             loadingButton: false,
+            reducido: [
+                { text: "Id", sortable: false },
+                { text: "Num Factura", sortable: false },
+                { text: "Ultimo Pago", sortable: false },
+                { text: "Saldo", sortable: false },
+                { text: "Pago", sortable: false }
+            ],
+
             headers: [
                 { text: "Id", sortable: false },
                 { text: "Nº Factura", sortable: false },
@@ -100,8 +126,19 @@ export default {
                 { text: "", sortable: false }
             ],
             pagarCuenta: false,
+            pagarCuentas: false,
             cuenta_id: null,
-            process: false
+            process: false,
+            cuentas_id: [],
+            seleccionadas: [
+                {
+                    id: "",
+                    factura_id: "",
+                    ultimopago: "",
+                    saldo: "",
+                    pago: ""
+                }
+            ]
         };
     },
     computed: {
@@ -136,6 +173,35 @@ export default {
                     this.cuenta_id = null;
                     this.pagarCuenta = false;
                     this.process = false;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+        buscarCuentas() {
+            //    Mandamos los id para buscar la info para pagar
+
+            axios
+                .get("/api/buscarcuentas/" + this.cuentas_id)
+                .then(response => {
+                    this.seleccionadas = response.data;
+                    this.pagarCuentas = true;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+        test() {
+            axios
+                .get("/api/pagarcuentas/", {
+                    params: {
+                        pagos: this.seleccionadas
+                    }
+                })
+                .then(response => {
+                    // this.seleccionadas = response.data;
+                    console.log(response.data);
+                    this.pagarCuentas = false;
                 })
                 .catch(error => {
                     console.log(error);

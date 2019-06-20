@@ -136,6 +136,11 @@ export default {
                     title: "Productos",
                     icon: "fas fa-box-open",
                     url: "/productos"
+                },
+                {
+                    title: "Cuenta",
+                    icon: "fas fa-file-invoice-dollar",
+                    url: "/cuenta"
                 }
             ],
             right: null,

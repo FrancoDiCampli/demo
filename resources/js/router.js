@@ -20,6 +20,9 @@ import Cliente from "./views/Cliente.vue";
 import Factura from "./views/Factura.vue";
 import FacturaNew from "./views/FacturaNew.vue";
 
+// Cuenta Corriente
+import Cuenta from "./views/Cuenta.vue";
+
 Vue.use(Router);
 
 export default new Router({
@@ -210,6 +213,32 @@ export default new Router({
             path: "/ventas/nueva",
             name: "nuevaVenta",
             component: FacturaNew,
+            meta: {
+                permissions: [
+                    {
+                        role: "visitor",
+                        access: false,
+                        redirect: "login"
+                    },
+                    {
+                        role: "superAdmin",
+                        access: true
+                    },
+                    {
+                        role: "admin",
+                        access: true
+                    },
+                    {
+                        role: "seller",
+                        access: true
+                    }
+                ]
+            }
+        },
+        {
+            path: "/cuenta",
+            name: "cuenta",
+            component: Cuenta,
             meta: {
                 permissions: [
                     {

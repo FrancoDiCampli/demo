@@ -152,7 +152,6 @@ export default {
                     this.factura_id = null;
                     this.grabarFacturasDialog = false;
                     this.process = false;
-                    
                 })
                 .catch(error => {
                     console.log(error);

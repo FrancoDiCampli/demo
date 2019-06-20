@@ -15,9 +15,7 @@ class PresupuestosController extends Controller
 {
     public function index()
     {
-        $presupuestos = Presupuesto::orderBy('id','DESC')->get();
-
-        return $presupuestos->each->load('articulos');
+        return $presupuestos = Presupuesto::orderBy('id','DESC')->get();
     }
 
     public function store(Request $request)
@@ -171,5 +169,11 @@ class PresupuestosController extends Controller
     public function show($id)
     {
         $presupuesto = Presupuesto::find($id);
+        $articulos = collect($presupuesto->articulos);
+        $detalles = collect();
+        foreach ($articulos as $art) {
+            $detalles->push($art->pivot);
+        }
+        return $detalles;
     }
 }

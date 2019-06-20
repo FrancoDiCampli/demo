@@ -43,7 +43,10 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/solicitarCae/{id}', 'API\FacturasController@solicitarCAE');
     Route::get('estadisticas/vfecha', 'API\EstadisticasController@vfecha');
 
-    Route::post('/pagar', 'API\CuentacorrientesController@pagar');
+
+    Route::get('/pagartodo/{id}','API\CuentacorrientesController@pagoTotal');
+    Route::get('/buscarcuentas/{lista}','API\CuentacorrientesController@buscarCuentas');
+    Route::get('/pagarcuentas','API\CuentacorrientesController@pagoParcial');
 });
 
 // Auth Routes

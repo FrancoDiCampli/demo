@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Articulo extends Model
 {
-    protected $fillable = ['codprov','codarticulo','articulo','descripcion','medida','costo','utilidades','precio','alicuota','estado','marca_id','categoria_id'];
+    protected $fillable = ['codprov','codarticulo',
+    'articulo','descripcion','medida','costo',
+    'utilidades','precio','alicuota','estado',
+    'marca_id','categoria_id'];
 
     public function categoria()
     {

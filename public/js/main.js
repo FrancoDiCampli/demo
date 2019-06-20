@@ -2057,6 +2057,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         title: "Productos",
         icon: "fas fa-box-open",
         url: "/productos"
+      }, {
+        title: "Cuenta",
+        icon: "fas fa-file-invoice-dollar",
+        url: "/cuenta"
       }],
       right: null,
       mini: true
@@ -4492,6 +4496,274 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/cuenta/CuentaIndex.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/cuenta/CuentaIndex.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//Axios
+ //Vuex
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "CuentaIndex",
+  data: function data() {
+    return {
+      limit: 10,
+      loadingButton: false,
+      reducido: [{
+        text: "Id",
+        sortable: false
+      }, {
+        text: "Num Factura",
+        sortable: false
+      }, {
+        text: "Ultimo Pago",
+        sortable: false
+      }, {
+        text: "Saldo",
+        sortable: false
+      }, {
+        text: "Pago",
+        sortable: false
+      }],
+      headers: [{
+        text: "Id",
+        sortable: false
+      }, {
+        text: "Nº Factura",
+        sortable: false
+      }, {
+        text: "Importe",
+        sortable: false
+      }, {
+        text: "Saldo",
+        sortable: false
+      }, {
+        text: "Fecha Ultimo Pago",
+        sortable: false
+      }, {
+        text: "",
+        sortable: false
+      }],
+      pagarCuenta: false,
+      pagarCuentas: false,
+      cuenta_id: null,
+      process: false,
+      cuentas_id: [],
+      seleccionadas: [{
+        id: "",
+        factura_id: "",
+        ultimopago: "",
+        saldo: "",
+        pago: ""
+      }]
+    };
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("crudx", ["data", "inProcess"])),
+  mounted: function mounted() {
+    this.index({
+      url: "api/cuentascorrientes",
+      limit: this.limit
+    });
+  },
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index"]), {
+    loadMore: function () {
+      var _loadMore = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                this.limit += this.limit;
+                this.loadingButton = true;
+                _context.next = 4;
+                return this.index({
+                  url: "api/cuentascorrientes",
+                  limit: this.limit
+                });
+
+              case 4:
+                this.loadingButton = false;
+
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function loadMore() {
+        return _loadMore.apply(this, arguments);
+      }
+
+      return loadMore;
+    }(),
+    pagar: function pagar(cuenta_id) {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/pagartodo/" + this.cuenta_id).then(function (response) {
+        console.log(response.data);
+
+        _this.index({
+          url: "api/cuentascorrientes",
+          limit: _this.limit
+        });
+
+        _this.cuenta_id = null;
+        _this.pagarCuenta = false;
+        _this.process = false;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    buscarCuentas: function buscarCuentas() {
+      var _this2 = this;
+
+      //    Mandamos los id para buscar la info para pagar
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/buscarcuentas/" + this.cuentas_id).then(function (response) {
+        _this2.seleccionadas = response.data;
+        _this2.pagarCuentas = true;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    test: function test() {
+      var _this3 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/pagarcuentas/", {
+        params: {
+          pagos: this.seleccionadas
+        }
+      }).then(function (response) {
+        // this.seleccionadas = response.data;
+        console.log(response.data);
+        _this3.pagarCuentas = false;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  })
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasForm.vue?vue&type=script&lang=js&":
 /*!********************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/facturas/FacturasForm.vue?vue&type=script&lang=js& ***!
@@ -5573,6 +5845,47 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return saveCliente;
     }()
   })
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Cuenta.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Cuenta.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _components_cuenta_CuentaIndex_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/cuenta/CuentaIndex.vue */ "./resources/js/components/cuenta/CuentaIndex.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+ // Components
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "Cuenta",
+  data: function data() {
+    return {};
+  },
+  components: {
+    CuentaIndex: _components_cuenta_CuentaIndex_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  }
 });
 
 /***/ }),
@@ -11658,6 +11971,375 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/cuenta/CuentaIndex.vue?vue&type=template&id=6b57820e&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/cuenta/CuentaIndex.vue?vue&type=template&id=6b57820e& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      [
+        _c(
+          "v-data-table",
+          {
+            attrs: {
+              "hide-actions": "",
+              headers: _vm.headers,
+              items: _vm.data.cuentas,
+              loading: _vm.inProcess
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "items",
+                fn: function(cuenta) {
+                  return [
+                    _c("td", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.cuentas_id,
+                            expression: "cuentas_id"
+                          }
+                        ],
+                        attrs: { type: "checkbox" },
+                        domProps: {
+                          value: cuenta.item.id,
+                          checked: Array.isArray(_vm.cuentas_id)
+                            ? _vm._i(_vm.cuentas_id, cuenta.item.id) > -1
+                            : _vm.cuentas_id
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.cuentas_id,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = cuenta.item.id,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 && (_vm.cuentas_id = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.cuentas_id = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.cuentas_id = $$c
+                            }
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(cuenta.item.factura_id))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(cuenta.item.importe))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(cuenta.item.saldo))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(cuenta.item.ultimopago))]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      [
+                        _c(
+                          "v-menu",
+                          {
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "activator",
+                                  fn: function(ref) {
+                                    var on = ref.on
+                                    return [
+                                      _c(
+                                        "v-btn",
+                                        _vm._g(
+                                          {
+                                            attrs: {
+                                              flat: "",
+                                              icon: "",
+                                              dark: "",
+                                              color: "primary"
+                                            }
+                                          },
+                                          on
+                                        ),
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { size: "medium" } },
+                                            [_vm._v("fas fa-ellipsis-v")]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ]
+                                  }
+                                }
+                              ],
+                              null,
+                              true
+                            )
+                          },
+                          [
+                            _vm._v(" "),
+                            _c(
+                              "v-list",
+                              [
+                                _c(
+                                  "v-list-tile",
+                                  [
+                                    _c(
+                                      "v-list-tile-title",
+                                      {
+                                        on: {
+                                          click: function($event) {
+                                            _vm.cuenta_id = cuenta.item.id
+                                            _vm.pagarCuenta = true
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("Pago Total")]
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ]
+                }
+              }
+            ])
+          },
+          [
+            _c("v-progress-linear", {
+              attrs: { color: "primary", indeterminate: "" },
+              scopedSlots: _vm._u([
+                {
+                  key: "progress",
+                  fn: function() {
+                    return undefined
+                  },
+                  proxy: true
+                }
+              ])
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "v-layout",
+          { attrs: { "justify-center": "" } },
+          [
+            _c(
+              "v-btn",
+              {
+                attrs: { color: "primary", outline: "" },
+                on: { click: _vm.buscarCuentas }
+              },
+              [_vm._v("Pagar")]
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("span", [_vm._v("Checked names: " + _vm._s(_vm.cuentas_id))]),
+        _vm._v(" "),
+        _c(
+          "v-dialog",
+          {
+            attrs: { width: "750", persistent: "" },
+            model: {
+              value: _vm.pagarCuenta,
+              callback: function($$v) {
+                _vm.pagarCuenta = $$v
+              },
+              expression: "pagarCuenta"
+            }
+          },
+          [
+            _c(
+              "v-card",
+              [
+                _c("v-card-title", [_c("h2", [_vm._v("¿Estás Seguro?")])]),
+                _vm._v(" "),
+                _c("v-divider"),
+                _vm._v(" "),
+                _c("v-card-text", [
+                  _vm._v(
+                    "¿Estás seguro que deseas grabar esta Factura? este cambio es irreversible"
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "v-card-text",
+                  [
+                    _c(
+                      "v-layout",
+                      { attrs: { "justify-end": "", wrap: "" } },
+                      [
+                        _c(
+                          "v-btn",
+                          {
+                            attrs: {
+                              outline: "",
+                              color: "primary",
+                              disabled: _vm.process
+                            },
+                            on: {
+                              click: function($event) {
+                                _vm.pagarCuenta = false
+                              }
+                            }
+                          },
+                          [_vm._v("Cancelar")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-btn",
+                          {
+                            attrs: {
+                              loading: _vm.process,
+                              disabled: _vm.process,
+                              color: "primary"
+                            },
+                            on: {
+                              click: function($event) {
+                                return _vm.pagar(_vm.cuenta_id)
+                              }
+                            }
+                          },
+                          [_vm._v("Pagar")]
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "v-dialog",
+          {
+            model: {
+              value: _vm.pagarCuentas,
+              callback: function($$v) {
+                _vm.pagarCuentas = $$v
+              },
+              expression: "pagarCuentas"
+            }
+          },
+          [
+            [
+              _c("v-data-table", {
+                attrs: {
+                  headers: _vm.reducido,
+                  items: _vm.seleccionadas,
+                  "hide-actions": ""
+                },
+                scopedSlots: _vm._u([
+                  {
+                    key: "items",
+                    fn: function(cuenta) {
+                      return [
+                        _c("td", [_vm._v(_vm._s(cuenta.item.id))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(cuenta.item.factura_id))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(cuenta.item.ultimopago))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(cuenta.item.saldo))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: cuenta.item.pago,
+                                expression: "cuenta.item.pago"
+                              }
+                            ],
+                            attrs: { type: "number" },
+                            domProps: { value: cuenta.item.pago },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  cuenta.item,
+                                  "pago",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      ]
+                    }
+                  }
+                ])
+              }),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  attrs: { flat: "", icon: "", dark: "", color: "primary" },
+                  on: { click: _vm.test }
+                },
+                [
+                  _c("v-icon", { attrs: { size: "medium" } }, [
+                    _vm._v("check_circles")
+                  ])
+                ],
+                1
+              )
+            ]
+          ],
+          2
+        )
+      ]
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasForm.vue?vue&type=template&id=276c3e58&":
 /*!************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/facturas/FacturasForm.vue?vue&type=template&id=276c3e58& ***!
@@ -13129,6 +13811,57 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("v-card", [_c("v-card-text", [_c("ClientesIndex")], 1)], 1)
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Cuenta.vue?vue&type=template&id=745f6e27&":
+/*!****************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Cuenta.vue?vue&type=template&id=745f6e27& ***!
+  \****************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "v-btn",
+        {
+          attrs: {
+            dark: "",
+            fab: "",
+            fixed: "",
+            right: "",
+            bottom: "",
+            color: "primary"
+          },
+          on: {
+            click: function($event) {
+              return _vm.$router.push("/cuenta/nueva")
+            }
+          }
+        },
+        [_c("v-icon", [_vm._v("fas fa-plus")])],
+        1
+      ),
+      _vm._v(" "),
+      _c("v-card", [_c("v-card-text", [_c("CuentaIndex")], 1)], 1)
     ],
     1
   )
@@ -56818,6 +57551,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/cuenta/CuentaIndex.vue":
+/*!********************************************************!*\
+  !*** ./resources/js/components/cuenta/CuentaIndex.vue ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _CuentaIndex_vue_vue_type_template_id_6b57820e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CuentaIndex.vue?vue&type=template&id=6b57820e& */ "./resources/js/components/cuenta/CuentaIndex.vue?vue&type=template&id=6b57820e&");
+/* harmony import */ var _CuentaIndex_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CuentaIndex.vue?vue&type=script&lang=js& */ "./resources/js/components/cuenta/CuentaIndex.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _CuentaIndex_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _CuentaIndex_vue_vue_type_template_id_6b57820e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _CuentaIndex_vue_vue_type_template_id_6b57820e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/cuenta/CuentaIndex.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/cuenta/CuentaIndex.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/cuenta/CuentaIndex.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CuentaIndex_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./CuentaIndex.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/cuenta/CuentaIndex.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CuentaIndex_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/cuenta/CuentaIndex.vue?vue&type=template&id=6b57820e&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/cuenta/CuentaIndex.vue?vue&type=template&id=6b57820e& ***!
+  \***************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CuentaIndex_vue_vue_type_template_id_6b57820e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./CuentaIndex.vue?vue&type=template&id=6b57820e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/cuenta/CuentaIndex.vue?vue&type=template&id=6b57820e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CuentaIndex_vue_vue_type_template_id_6b57820e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CuentaIndex_vue_vue_type_template_id_6b57820e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/facturas/FacturasForm.vue":
 /*!***********************************************************!*\
   !*** ./resources/js/components/facturas/FacturasForm.vue ***!
@@ -57350,6 +58152,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_Cliente_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./views/Cliente.vue */ "./resources/js/views/Cliente.vue");
 /* harmony import */ var _views_Factura_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./views/Factura.vue */ "./resources/js/views/Factura.vue");
 /* harmony import */ var _views_FacturaNew_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./views/FacturaNew.vue */ "./resources/js/views/FacturaNew.vue");
+/* harmony import */ var _views_Cuenta_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./views/Cuenta.vue */ "./resources/js/views/Cuenta.vue");
 
 
 
@@ -57364,6 +58167,8 @@ __webpack_require__.r(__webpack_exports__);
 
  //Facturas Views
 
+
+ // Cuenta Corriente
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
@@ -57526,6 +58331,26 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
         access: true
       }]
     }
+  }, {
+    path: "/cuenta",
+    name: "cuenta",
+    component: _views_Cuenta_vue__WEBPACK_IMPORTED_MODULE_11__["default"],
+    meta: {
+      permissions: [{
+        role: "visitor",
+        access: false,
+        redirect: "login"
+      }, {
+        role: "superAdmin",
+        access: true
+      }, {
+        role: "admin",
+        access: true
+      }, {
+        role: "seller",
+        access: true
+      }]
+    }
   }]
 }));
 
@@ -57635,6 +58460,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Cliente_vue_vue_type_template_id_110d8d2b___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Cliente_vue_vue_type_template_id_110d8d2b___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/Cuenta.vue":
+/*!***************************************!*\
+  !*** ./resources/js/views/Cuenta.vue ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Cuenta_vue_vue_type_template_id_745f6e27___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Cuenta.vue?vue&type=template&id=745f6e27& */ "./resources/js/views/Cuenta.vue?vue&type=template&id=745f6e27&");
+/* harmony import */ var _Cuenta_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Cuenta.vue?vue&type=script&lang=js& */ "./resources/js/views/Cuenta.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Cuenta_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Cuenta_vue_vue_type_template_id_745f6e27___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Cuenta_vue_vue_type_template_id_745f6e27___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/Cuenta.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/Cuenta.vue?vue&type=script&lang=js&":
+/*!****************************************************************!*\
+  !*** ./resources/js/views/Cuenta.vue?vue&type=script&lang=js& ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Cuenta_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Cuenta.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Cuenta.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Cuenta_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/Cuenta.vue?vue&type=template&id=745f6e27&":
+/*!**********************************************************************!*\
+  !*** ./resources/js/views/Cuenta.vue?vue&type=template&id=745f6e27& ***!
+  \**********************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Cuenta_vue_vue_type_template_id_745f6e27___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Cuenta.vue?vue&type=template&id=745f6e27& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Cuenta.vue?vue&type=template&id=745f6e27&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Cuenta_vue_vue_type_template_id_745f6e27___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Cuenta_vue_vue_type_template_id_745f6e27___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -57923,7 +58817,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\Gepetto-Point-Of-Sale\resources\js\main.js */"./resources/js/main.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\temporal\Gepetto-Point-Of-Sale\resources\js\main.js */"./resources/js/main.js");
 
 
 /***/ })

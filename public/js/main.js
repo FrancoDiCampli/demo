@@ -58817,7 +58817,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\temporal\Gepetto-Point-Of-Sale\resources\js\main.js */"./resources/js/main.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\Gepetto-Point-Of-Sale\resources\js\main.js */"./resources/js/main.js");
 
 
 /***/ })

@@ -10,7 +10,16 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
-    name: "ClientesShowCuentaTable"
+    name: "ClientesShowCuentaTable",
+
+    computed:{
+        ...mapState('crudx',['showData'])
+    },
+
+    mounted(){
+        console.log(this.showData);
+    },
 };
 </script>

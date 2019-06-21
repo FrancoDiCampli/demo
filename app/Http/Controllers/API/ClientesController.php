@@ -48,6 +48,9 @@ class ClientesController extends Controller
         foreach ($facturas as $fac) {
             if ($fac->cuenta <> null) {
                 $cuentas[] = $fac->cuenta;
+                $cuentas[] = $fac->cuenta->factura;
+            } else {
+                $cuetas = [];
             }
         }
 

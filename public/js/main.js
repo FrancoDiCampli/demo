@@ -4366,7 +4366,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ClientesShowCuentaTable",
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("crudx", ["showData"])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])('crudx', ['showData'])),
   mounted: function mounted() {
     console.log(this.showData);
   }

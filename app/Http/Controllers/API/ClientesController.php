@@ -48,13 +48,16 @@ class ClientesController extends Controller
         foreach ($facturas as $fac) {
             if ($fac->cuenta <> null) {
                 $cuentas[] = $fac->cuenta;
-                $cuentas[] = $fac->cuenta->factura;
-            } else {
-                $cuetas = [];
+            } else $cuetas = [];
+        }
+
+        if(count($cuentas) > 0) {
+            for ($i=0; $i < count($cuentas); $i++) { 
+                $cuentas[$i]['numfactura'] = $cuentas[$i]->factura['numfactura'];
             }
         }
 
-        return compact('cliente', 'facturas', 'cuentas');
+        return compact('cliente','facturas','cuentas');
     }
 
     public function update(UpdateCliente $request, $id)

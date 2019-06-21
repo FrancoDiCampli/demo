@@ -7,6 +7,7 @@ use App\Recibo;
 use App\Cuentacorriente;
 use App\Movimientocuenta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
 
 class CuentacorrientesController extends Controller
@@ -66,78 +67,98 @@ class CuentacorrientesController extends Controller
         return $cuentas = Cuentacorriente::find($lista);
     }
 
-    public function pagoParcial(Request $request){
-        return $request;
-    }
+    // public function pagoParcial(Request $request){
+    //     return $request;
+    // }
 
-    public function pagar(Request $request)
+    public function pagoParcial(Request $request)
     {
-        $pagos = collect($request->get('pago'));
+
+
+        return $request[0]->id;
+
+
+        $collection = Collection::make($request);
+        $pagos = collect($request->get('pagos'));
         $total = 0;
 
-        foreach ($pagos as $pay) {
-            $cuenta = Cuentacorriente::find($pay->cuenta_id);
+        $pago = $collection->first();
 
-            if ($pay->pago < $cuenta->saldo) {
-                $cuenta->saldo = $cuenta->saldo - $pay->pago;
-                $cuenta->ultimopago = now()->format('Ymd');
-                $cuenta->update();
-                $total = $total + $pay->pago;
 
-                $numpago = Pago::all()->last()->id+1;
-                
-                $pago = Pago::create([
-                    'ctacte_id' => $cuenta->id,
-                    'importe' => $pay->pago,
-                    'fecha' => now()->format('Ymd'),
-                    'numpago' => $numpago,
-                ]);
+        foreach($pagos as $pago){
+            // $cuenta = Cuentacorriente::find($pago->id);
 
-                $aux[] = $pago->id;
+            // $cuenta->saldo = $cuenta->saldo - $pago->importe;
+            // $cuenta->ultimopago = now()->format('Ymd');
+            // $cuenta->update();
 
-                $movimiento = Movimientocuenta::create([
-                    'ctacte_id' => $cuenta->id,
-                    'tipo' => 'PAGO PARCIAL',
-                    'fecha' => now()->format('Ymd'),
-                    'user_id' => auth()->user()->id
-                ]);
-            } elseif ($pay->pago == $cuenta->saldo) {
-                $cuenta->saldo = 0;
-                $cuenta->ultimopago = now()->format('Ymd');
-                $cuenta->estado = 'CANCELADA';
-                $cuenta->update();
-                $total = $total + $pay->pago;
 
-                $numpago = Pago::all()->last()->id+1;
-
-                $pago = Pago::create([
-                    'ctacte_id' => $cuenta->id,
-                    'importe' => $pay->pago,
-                    'fecha' => now()->format('Ymd'),
-                    'numpago' => $numpago,
-                ]);
-
-                $aux[] = $pago->id;
-
-                $movimiento = Movimientocuenta::create([
-                    'ctacte_id' => $cuenta->id,
-                    'tipo' => 'PAGO TOTAL',
-                    'fecha' => now()->format('Ymd'),
-                    'user_id' => auth()->user()->id
-                ]);
-            }
         }
 
-        $numrecibo = Recibo::all()->last()->id+1;
-        $recibo = Recibo::create([
-            'fecha' => now()->format('Ymd'),
-            'total' => $total,
-            'numrecibo' => $numrecibo
-        ]);
-        $recibo->pagos()->attach($aux);
 
-        return [
-            'msg' => 'cuenta actualizada'
-        ];
+        // foreach ($pagos as $pay) {
+        //     $cuenta = Cuentacorriente::find($pay->id);
+
+        //     if ($pay->pago < $cuenta->saldo) {
+        //         $cuenta->saldo = $cuenta->saldo - $pay->pago;
+        //         $cuenta->ultimopago = now()->format('Ymd');
+        //         $cuenta->update();
+        //         $total = $total + $pay->pago;
+
+        //         $numpago = Pago::all()->last()->id+1;
+
+        //         $pago = Pago::create([
+        //             'ctacte_id' => $cuenta->id,
+        //             'importe' => $pay->pago,
+        //             'fecha' => now()->format('Ymd'),
+        //             'numpago' => $numpago,
+        //         ]);
+
+        //         $aux[] = $pago->id;
+
+        //         $movimiento = Movimientocuenta::create([
+        //             'ctacte_id' => $cuenta->id,
+        //             'tipo' => 'PAGO PARCIAL',
+        //             'fecha' => now()->format('Ymd'),
+        //             'user_id' => auth()->user()->id
+        //         ]);
+        //     } elseif ($pay->pago == $cuenta->saldo) {
+        //         $cuenta->saldo = 0;
+        //         $cuenta->ultimopago = now()->format('Ymd');
+        //         $cuenta->estado = 'CANCELADA';
+        //         $cuenta->update();
+        //         $total = $total + $pay->pago;
+
+        //         $numpago = Pago::all()->last()->id+1;
+
+        //         $pago = Pago::create([
+        //             'ctacte_id' => $cuenta->id,
+        //             'importe' => $pay->pago,
+        //             'fecha' => now()->format('Ymd'),
+        //             'numpago' => $numpago,
+        //         ]);
+
+        //         $aux[] = $pago->id;
+
+        //         $movimiento = Movimientocuenta::create([
+        //             'ctacte_id' => $cuenta->id,
+        //             'tipo' => 'PAGO TOTAL',
+        //             'fecha' => now()->format('Ymd'),
+        //             'user_id' => auth()->user()->id
+        //         ]);
+        //     }
+        // }
+
+        // $numrecibo = Recibo::all()->last()->id+1;
+        // $recibo = Recibo::create([
+        //     'fecha' => now()->format('Ymd'),
+        //     'total' => $total,
+        //     'numrecibo' => $numrecibo
+        // ]);
+        // $recibo->pagos()->attach($aux);
+
+        // return [
+        //     'msg' => 'cuenta actualizada'
+        // ];
     }
 }

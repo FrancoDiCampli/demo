@@ -47,6 +47,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/pagartodo/{id}','API\CuentacorrientesController@pagoTotal');
     Route::get('/buscarcuentas/{lista}','API\CuentacorrientesController@buscarCuentas');
     Route::get('/pagarcuentas','API\CuentacorrientesController@pagoParcial');
+
+    // Route::post();
 });
 
 // Auth Routes

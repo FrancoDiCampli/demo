@@ -26,10 +26,16 @@ class PresupuestosController extends Controller
         $vto = $request->get('vto', now()->addMonth(1)->format('Y-m-d'));
         $atributos['vencimiento'] = $vto;
 
+        if (Presupuesto::all()->last()) {
+            $id = Presupuesto::all()->last()->id+1;
+        } else {
+            $id = 1;
+        }
+
         $presupuesto = Presupuesto::create([
             "ptoventa" => 1,
             "cuit" => $atributos['cuit'],
-            "numpresupuesto" => 1,
+            "numpresupuesto" => $id,
             "bonificacion" => $atributos['bonificacion'],
             "recargo" => $atributos['recargo'],
             "fecha" => now()->format('Ymd'),

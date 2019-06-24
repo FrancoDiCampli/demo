@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateCliente;
 use function GuzzleHttp\json_encode;
 use App\Factura;
+use Carbon\Carbon;
 
 class ClientesController extends Controller
 {
@@ -54,6 +55,10 @@ class ClientesController extends Controller
         if(count($cuentas) > 0) {
             for ($i=0; $i < count($cuentas); $i++) { 
                 $cuentas[$i]['numfactura'] = $cuentas[$i]->factura['numfactura'];
+                $alta = new Carbon($cuentas[$i]['alta']);
+                $cuentas[$i]['alta'] = $alta->format('d-m-Y');
+                $ultimo = new Carbon($cuentas[$i]['ultimopago']);
+                $cuentas[$i]['ultimopago'] = $ultimo->format('d-m-Y');
             }
         }
 

@@ -21,11 +21,17 @@ class PagosController extends Controller
             'numpago' => 'required'
         ]);
 
+        if (Pago::all()->last()) {
+            $id = Pago::all()->last()->id+1;
+        } else {
+            $id = 1;
+        }
+
         $pago = Pago::create([
             'ctacte_id' => $atributos['ctacte_id'],
             'importe' => $atributos['importe'],
             'fecha' => now()->format('Ymd'),
-            'numpago' => $atributos['numpago']
+            'numpago' => $id
         ]);
     }
 }

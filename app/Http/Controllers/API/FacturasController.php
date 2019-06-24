@@ -44,10 +44,16 @@ class FacturasController extends Controller
             $solicitarCAE = false;
         }
 
+        if (Factura::all()->last()) {
+            $id = Factura::all()->last()->id+1;
+        } else {
+            $id = 1;
+        }
+
         $factura = Factura::create([
             "ptoventa" => 1,
             "cuit" => $atributos['cuit'], //cliente
-            "numfactura" => 1,
+            "numfactura" => $id,
             "bonificacion" => $atributos['bonificacion'] * 1,
             "recargo" => $atributos['recargo'] * 1,
             "fecha" => now()->format('Ymd'),
@@ -155,7 +161,7 @@ class FacturasController extends Controller
     {
         $factura = Factura::findOrFail($id);
 
-        if (!($factura->cae && $factura->fechavto && $factura->comprobanteafip && $factura->codbarra)) {
+        if (!($factura->cae && $factura->fechavto && $factura->comprobanteafip && $factura->codbarra) && $factura->pagada) {
             $atributos = array(
                 'puntoventa' => $factura->ptoventa,
                 'tipocomprobante' => 11,

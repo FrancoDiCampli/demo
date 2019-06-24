@@ -28,18 +28,29 @@ class RecibosController extends Controller
         array_push($pagos, $atributos->pago);
         $total = 0;
 
+        if (Recibo::all()->last()) {
+            $idrecibo = Recibo::all()->last()->id+1;
+        } else {
+            $idrecibo = 1;
+        }
+
         $recibo = Recibo::create([
             'fecha' => now()->format('Ymd'),
             'total' => 0,
-            'numrecibo' => $atributos['numrecibo']
+            'numrecibo' => $idrecibo
         ]);
 
         foreach ($pagos as $pay) {
+            if (Pago::all()->last()) {
+                $idpago = Pago::all()->last()->id+1;
+            } else {
+                $idpago = 1;
+            }
             $pago = Pago::create([
                 'ctacte_id' => $pay['ctacte_id'],
                 'importe' => $pay['importe'],
                 'fecha' => now()->format('Ymd'),
-                'numpago' => $pay['numpago'],
+                'numpago' => $idpago,
             ]);
             $total = $pago->importe + $total;
             $aux[] = $pago->id;

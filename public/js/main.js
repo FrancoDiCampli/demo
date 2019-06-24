@@ -4363,12 +4363,205 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ClientesShowCuentaTable",
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])('crudx', ['showData'])),
-  mounted: function mounted() {
-    console.log(this.showData);
+  data: function data() {
+    return {
+      headersCuentas: [{
+        text: "Nº Factura",
+        sortable: false,
+        "class": "hidden-xs-only"
+      }, {
+        text: "Importe",
+        sortable: false,
+        aling: "center"
+      }, {
+        text: "Debe",
+        sortable: false
+      }, {
+        text: "Estado",
+        sortable: false
+      }],
+      selected: [],
+      state: true
+    };
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("crudx", ["showData"]), {
+    saldo: {
+      set: function set() {},
+      get: function get() {
+        if (this.showData.cuentas.length > 0) {
+          var saldo = 0;
+
+          for (var i = 0; i < this.showData.cuentas.length; i++) {
+            saldo += this.showData.cuentas[i].saldo * 1;
+          }
+
+          return saldo;
+        } else {
+          return null;
+        }
+      }
+    },
+    pagar: function pagar() {
+      if (this.selected.length > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }),
+  methods: {
+    toggleAll: function toggleAll() {
+      if (this.selected.length) {
+        this.selected = [];
+      } else {
+        for (var i = 0; i < this.showData.cuentas.length; i++) {
+          if (this.showData.cuentas[i].saldo > 0) {
+            this.selected.push(this.showData.cuentas[i]);
+          }
+        }
+
+        for (var _i = 0; _i < this.selected.length; _i++) {
+          this.selected[_i].value = this.selected[_i].saldo;
+        }
+      }
+    }
   }
 });
 
@@ -6212,6 +6405,25 @@ exports.push([module.i, "\n.profile {\n    border: solid 3px #26a69a;\n    backg
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/clientes/ClientesShowCuentaTable.vue?vue&type=style&index=0&lang=css&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/clientes/ClientesShowCuentaTable.vue?vue&type=style&index=0&lang=css& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.input-pagos {\n    display: block;\n    margin-top: 8px;\n    padding: 10px 0px;\n    border: none;\n    border-bottom: 1px solid #9e9e9e;\n    transition: all 1s ease;\n}\n.input-pagos:focus {\n    outline: none;\n    border-bottom: 2px solid #26a69a;\n    transition: all 0.5s ease;\n}\n.pagos tbody tr {\n    border-bottom: none !important;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasForm.vue?vue&type=style&index=0&lang=css&":
 /*!***************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/facturas/FacturasForm.vue?vue&type=style&index=0&lang=css& ***!
@@ -7625,6 +7837,36 @@ if(false) {}
 
 
 var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--5-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--5-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./ClientesShow.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/clientes/ClientesShow.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/clientes/ClientesShowCuentaTable.vue?vue&type=style&index=0&lang=css&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/clientes/ClientesShowCuentaTable.vue?vue&type=style&index=0&lang=css& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--5-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--5-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./ClientesShowCuentaTable.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/clientes/ClientesShowCuentaTable.vue?vue&type=style&index=0&lang=css&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -11444,7 +11686,8 @@ var render = function() {
                         attrs: {
                           "fixed-tabs": "",
                           grow: "",
-                          "slider-color": "primary"
+                          "slider-color": "primary",
+                          "active-class": "primary--text"
                         }
                       },
                       [
@@ -11452,7 +11695,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("v-tab", [_vm._v("Compras")]),
                         _vm._v(" "),
-                        _c("v-tab", [_vm._v("Cuenta Corriente")]),
+                        _c("v-tab", [_vm._v("Resumen Corriente")]),
                         _vm._v(" "),
                         _c("v-tab-item", [_c("DataIterator")], 1),
                         _vm._v(" "),
@@ -11619,11 +11862,443 @@ var render = function() {
   return _c(
     "div",
     [
+      _c("br"),
+      _vm._v(" "),
       _c("v-layout", { attrs: { "justify-center": "" } }, [
-        _c("br"),
-        _vm._v(" "),
-        _c("h1", [_c("b", [_vm._v("Cuenta Corriente")])])
-      ])
+        _c("h2", [_vm._v("Saldo: " + _vm._s(_vm.saldo))])
+      ]),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c(
+        "v-tabs",
+        {
+          attrs: {
+            right: "",
+            "slider-color": "primary",
+            "active-class": "primary--text"
+          }
+        },
+        [
+          _c("v-tab", [_vm._v("Activas")]),
+          _vm._v(" "),
+          _c("v-tab", [_vm._v("Todas")]),
+          _vm._v(" "),
+          _c(
+            "v-tab-item",
+            [
+              _c(
+                "v-card",
+                { attrs: { flat: "" } },
+                [
+                  _c(
+                    "v-card-text",
+                    [
+                      _c(
+                        "v-layout",
+                        { attrs: { "justify-space-between": "" } },
+                        [
+                          _c(
+                            "v-flex",
+                            [
+                              _c("v-data-table", {
+                                attrs: {
+                                  "hide-actions": "",
+                                  headers: _vm.headersCuentas,
+                                  items: _vm.showData.cuentas
+                                },
+                                scopedSlots: _vm._u([
+                                  {
+                                    key: "headers",
+                                    fn: function(props) {
+                                      return [
+                                        _c(
+                                          "tr",
+                                          [
+                                            _c(
+                                              "th",
+                                              [
+                                                _c("v-checkbox", {
+                                                  attrs: {
+                                                    "input-value": props.all,
+                                                    indeterminate:
+                                                      _vm.selected.length > 0 &&
+                                                      _vm.selected.length <
+                                                        _vm.showData.cuentas
+                                                          .length,
+                                                    primary: "",
+                                                    "hide-details": ""
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      $event.stopPropagation()
+                                                      return _vm.toggleAll(
+                                                        $event
+                                                      )
+                                                    }
+                                                  }
+                                                })
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _vm._l(props.headers, function(
+                                              header
+                                            ) {
+                                              return _c(
+                                                "th",
+                                                { key: header.text },
+                                                [_vm._v(_vm._s(header.text))]
+                                              )
+                                            }),
+                                            _vm._v(" "),
+                                            _c("th", [_vm._v("Monto a pagar")])
+                                          ],
+                                          2
+                                        )
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    key: "items",
+                                    fn: function(cuenta) {
+                                      return [
+                                        _c(
+                                          "tr",
+                                          {
+                                            directives: [
+                                              {
+                                                name: "show",
+                                                rawName: "v-show",
+                                                value:
+                                                  cuenta.item.estado ==
+                                                  "ACTIVA",
+                                                expression:
+                                                  "cuenta.item.estado == 'ACTIVA'"
+                                              }
+                                            ]
+                                          },
+                                          [
+                                            _c(
+                                              "td",
+                                              {
+                                                on: {
+                                                  click: function($event) {
+                                                    if (cuenta.item.saldo > 0) {
+                                                      cuenta.selected = !cuenta.selected
+                                                      cuenta.item.value =
+                                                        cuenta.item.saldo
+                                                    }
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c("v-checkbox", {
+                                                  attrs: {
+                                                    "input-value":
+                                                      cuenta.selected,
+                                                    disabled:
+                                                      cuenta.item.saldo <= 0,
+                                                    color: "primary",
+                                                    "hide-details": ""
+                                                  }
+                                                })
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "td",
+                                              { staticClass: "hidden-xs-only" },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    cuenta.item.factura
+                                                      .numfactura
+                                                  )
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _vm._v(
+                                                _vm._s(cuenta.item.importe)
+                                              )
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _vm._v(_vm._s(cuenta.item.saldo))
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _vm._v(_vm._s(cuenta.item.estado))
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: cuenta.item.value,
+                                                    expression:
+                                                      "cuenta.item.value"
+                                                  }
+                                                ],
+                                                staticClass: "input-pagos",
+                                                attrs: {
+                                                  disabled:
+                                                    cuenta.item.saldo <= 0,
+                                                  type: "text"
+                                                },
+                                                domProps: {
+                                                  value: cuenta.item.value
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      cuenta.item,
+                                                      "value",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            ])
+                                          ]
+                                        )
+                                      ]
+                                    }
+                                  }
+                                ]),
+                                model: {
+                                  value: _vm.selected,
+                                  callback: function($$v) {
+                                    _vm.selected = $$v
+                                  },
+                                  expression: "selected"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-tab-item",
+            [
+              _c(
+                "v-card",
+                { attrs: { flat: "" } },
+                [
+                  _c(
+                    "v-card-text",
+                    [
+                      _c(
+                        "v-layout",
+                        { attrs: { "justify-space-between": "" } },
+                        [
+                          _c(
+                            "v-flex",
+                            [
+                              _c("v-data-table", {
+                                attrs: {
+                                  "hide-actions": "",
+                                  headers: _vm.headersCuentas,
+                                  items: _vm.showData.cuentas
+                                },
+                                scopedSlots: _vm._u([
+                                  {
+                                    key: "headers",
+                                    fn: function(props) {
+                                      return [
+                                        _c(
+                                          "tr",
+                                          [
+                                            _c(
+                                              "th",
+                                              [
+                                                _c("v-checkbox", {
+                                                  attrs: {
+                                                    "input-value": props.all,
+                                                    indeterminate:
+                                                      _vm.selected.length > 0 &&
+                                                      _vm.selected.length <
+                                                        _vm.showData.cuentas
+                                                          .length,
+                                                    primary: "",
+                                                    "hide-details": ""
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      $event.stopPropagation()
+                                                      return _vm.toggleAll(
+                                                        $event
+                                                      )
+                                                    }
+                                                  }
+                                                })
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _vm._l(props.headers, function(
+                                              header
+                                            ) {
+                                              return _c(
+                                                "th",
+                                                { key: header.text },
+                                                [_vm._v(_vm._s(header.text))]
+                                              )
+                                            })
+                                          ],
+                                          2
+                                        )
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    key: "items",
+                                    fn: function(cuenta) {
+                                      return [
+                                        _c("tr", [
+                                          _c(
+                                            "td",
+                                            {
+                                              on: {
+                                                click: function($event) {
+                                                  if (cuenta.item.saldo > 0) {
+                                                    cuenta.selected = !cuenta.selected
+                                                    cuenta.item.value =
+                                                      cuenta.item.saldo
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("v-checkbox", {
+                                                attrs: {
+                                                  "input-value":
+                                                    cuenta.selected,
+                                                  disabled:
+                                                    cuenta.item.saldo <= 0,
+                                                  color: "primary",
+                                                  "hide-details": ""
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "hidden-xs-only" },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  cuenta.item.factura.numfactura
+                                                )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(_vm._s(cuenta.item.importe))
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(_vm._s(cuenta.item.saldo))
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(_vm._s(cuenta.item.estado))
+                                          ]),
+                                          _vm._v(" "),
+                                          _vm.pagar
+                                            ? _c("td", [
+                                                _c("input", {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model",
+                                                      value: cuenta.item.value,
+                                                      expression:
+                                                        "cuenta.item.value"
+                                                    }
+                                                  ],
+                                                  staticClass: "input-pagos",
+                                                  attrs: {
+                                                    disabled:
+                                                      cuenta.item.saldo <= 0,
+                                                    type: "text"
+                                                  },
+                                                  domProps: {
+                                                    value: cuenta.item.value
+                                                  },
+                                                  on: {
+                                                    input: function($event) {
+                                                      if (
+                                                        $event.target.composing
+                                                      ) {
+                                                        return
+                                                      }
+                                                      _vm.$set(
+                                                        cuenta.item,
+                                                        "value",
+                                                        $event.target.value
+                                                      )
+                                                    }
+                                                  }
+                                                })
+                                              ])
+                                            : _vm._e()
+                                        ])
+                                      ]
+                                    }
+                                  }
+                                ]),
+                                model: {
+                                  value: _vm.selected,
+                                  callback: function($$v) {
+                                    _vm.selected = $$v
+                                  },
+                                  expression: "selected"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
     ],
     1
   )
@@ -57441,7 +58116,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ClientesShowCuentaTable_vue_vue_type_template_id_4071ef05___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ClientesShowCuentaTable.vue?vue&type=template&id=4071ef05& */ "./resources/js/components/clientes/ClientesShowCuentaTable.vue?vue&type=template&id=4071ef05&");
 /* harmony import */ var _ClientesShowCuentaTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ClientesShowCuentaTable.vue?vue&type=script&lang=js& */ "./resources/js/components/clientes/ClientesShowCuentaTable.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _ClientesShowCuentaTable_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ClientesShowCuentaTable.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/clientes/ClientesShowCuentaTable.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -57449,7 +58126,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _ClientesShowCuentaTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _ClientesShowCuentaTable_vue_vue_type_template_id_4071ef05___WEBPACK_IMPORTED_MODULE_0__["render"],
   _ClientesShowCuentaTable_vue_vue_type_template_id_4071ef05___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -57478,6 +58155,22 @@ component.options.__file = "resources/js/components/clientes/ClientesShowCuentaT
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientesShowCuentaTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ClientesShowCuentaTable.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/clientes/ClientesShowCuentaTable.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientesShowCuentaTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/clientes/ClientesShowCuentaTable.vue?vue&type=style&index=0&lang=css&":
+/*!*******************************************************************************************************!*\
+  !*** ./resources/js/components/clientes/ClientesShowCuentaTable.vue?vue&type=style&index=0&lang=css& ***!
+  \*******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientesShowCuentaTable_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--5-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--5-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./ClientesShowCuentaTable.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/clientes/ClientesShowCuentaTable.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientesShowCuentaTable_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientesShowCuentaTable_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientesShowCuentaTable_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientesShowCuentaTable_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientesShowCuentaTable_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 

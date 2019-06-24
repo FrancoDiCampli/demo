@@ -38,10 +38,10 @@
         <br>
         <template>
             <div v-if="mode == 'show'">
-                <v-tabs fixed-tabs grow slider-color="primary">
+                <v-tabs fixed-tabs grow slider-color="primary" active-class="primary--text">
                     <v-tab>Datos</v-tab>
                     <v-tab>Compras</v-tab>
-                    <v-tab>Cuenta Corriente</v-tab>
+                    <v-tab>Resumen Corriente</v-tab>
                     <v-tab-item>
                         <DataIterator></DataIterator>
                     </v-tab-item>

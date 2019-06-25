@@ -5,7 +5,11 @@
                 <v-data-iterator :items="personalData" content-tag="v-layout" hide-actions row wrap>
                     <template v-slot:item="props">
                         <v-flex xs12>
-                            <v-card height="250">
+                            <v-card height="315">
+                                <v-card-title>
+                                    <h4>{{ props.item.name }}</h4>
+                                </v-card-title>
+                                <v-divider></v-divider>
                                 <v-list dense>
                                     <v-list-tile>
                                         <v-list-tile-content>
@@ -19,7 +23,9 @@
                                         <v-list-tile-content>
                                             <b>CUIT:</b>
                                         </v-list-tile-content>
-                                        <v-list-tile-content class="align-end">{{ showData.cliente.cuit }}</v-list-tile-content>
+                                        <v-list-tile-content
+                                            class="align-end"
+                                        >{{ showData.cliente.cuit }}</v-list-tile-content>
                                     </v-list-tile>
                                     <v-list-tile>
                                         <v-list-tile-content>
@@ -39,7 +45,11 @@
                 <v-data-iterator :items="contactData" content-tag="v-layout" hide-actions row wrap>
                     <template v-slot:item="props">
                         <v-flex xs12>
-                            <v-card height="250">
+                            <v-card height="315">
+                                <v-card-title>
+                                    <h4>{{ props.item.name }}</h4>
+                                </v-card-title>
+                                <v-divider></v-divider>
                                 <v-list dense>
                                     <v-list-tile>
                                         <v-list-tile-content>
@@ -53,7 +63,9 @@
                                         <v-list-tile-content>
                                             <b>Email:</b>
                                         </v-list-tile-content>
-                                        <v-list-tile-content class="align-end">{{ showData.cliente.email }}</v-list-tile-content>
+                                        <v-list-tile-content
+                                            class="align-end"
+                                        >{{ showData.cliente.email }}</v-list-tile-content>
                                     </v-list-tile>
                                     <v-list-tile>
                                         <v-list-tile-content>

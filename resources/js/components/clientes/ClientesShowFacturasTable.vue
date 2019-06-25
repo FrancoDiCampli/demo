@@ -2,19 +2,17 @@
     <v-data-table hide-actions :headers="headers" :items="showData.facturas">
         <template v-slot:items="factura">
             <td>
-                <div v-if="factura.item.cae == null">
-                    <v-avatar style="margin-top: 5px;" color="teal lighten-5">
-                        <p class="title" style="margin-top: 12px;">X</p>
-                    </v-avatar>
-                </div>
-                <div v-else>
-                    <v-avatar style="margin-top: 5px;" color="teal lighten-5">
-                        <p class="title" style="margin-top: 12px;">C</p>
-                    </v-avatar>
-                </div>
+                <v-avatar class="type-item">
+                    <div v-if="factura.item.cae == null">
+                        <p class="title type">X</p>
+                    </div>
+                    <div v-else>
+                        <p class="title type">C</p>
+                    </div>
+                </v-avatar>
             </td>
             <td>{{factura.item.numfactura}}</td>
-            <td>{{factura.item.fecha}}</td>
+            <td class="hidden-xs-only">{{factura.item.fecha}}</td>
             <td>{{factura.item.total}}</td>
             <td></td>
         </template>
@@ -33,7 +31,7 @@ export default {
             headers: [
                 { text: "Tipo", sortable: false },
                 { text: "Nº Factura", sortable: false },
-                { text: "Fecha", sortable: false },
+                { text: "Fecha", sortable: false, class: "hidden-xs-only" },
                 { text: "Importe", sortable: false },
                 { text: "", sortable: false }
             ]
@@ -45,3 +43,16 @@ export default {
     }
 };
 </script>
+
+<style>
+.type-item {
+    margin: 5px 0px 5px -12px;
+    border: solid 1.5px #26a69a;
+    background-color: rgba(65, 184, 131, 0.25);
+}
+
+.type {
+    margin-top: 15px;
+    color: #26a69a;
+}
+</style>

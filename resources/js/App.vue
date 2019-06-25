@@ -59,6 +59,18 @@
                 </v-list-tile>
 
                 <v-divider></v-divider>
+                <!-- Reportes -->
+                <v-list-tile to="/reporte" v-show="rol == 'superAdmin'">
+                    <v-list-tile-action>
+                        <v-icon>fas fa-clipboard</v-icon>
+                    </v-list-tile-action>
+
+                    <v-list-tile-content>
+                        <v-list-tile-title>Roles</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+                <!-- End Reportes -->
+                <v-divider></v-divider>
 
                 <!-- Acciones del admin -->
                 <v-list-tile to="/users" v-show="rol == 'admin' || rol == 'superAdmin'">

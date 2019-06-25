@@ -1,61 +1,98 @@
 <template>
     <div>
-        <v-toolbar flat color="white">
-            <v-toolbar-title>Expandable Table</v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-btn
-                color="primary"
-                dark
-                @click="expand = !expand"
-            >{{ expand ? 'Close' : 'Keep' }} other rows</v-btn>
-        </v-toolbar>
-        <v-data-table
-            hide-actions
-            :headers="headers"
-            :items="data.cuentas"
-            :loading="inProcess"
-            :expand="expand"
-            item-key="id"
-        >
-            <template v-slot:items="cuenta">
-                <tr @click="cuenta.expanded = !cuenta.expanded;detallar(cuenta.item.id)">
-                    <td>
-                        <v-checkbox :value="cuenta.item.id" hide- v-model="cuentas_id"></v-checkbox>
-                    </td>
-                    <td class="text-xs-right">{{ cuenta.item.importe }}</td>
-                    <td class="text-xs-right">{{ cuenta.item.saldo }}</td>
-                    <td class="text-xs-right">{{ cuenta.item.factura_id }}</td>
-                    <td class="text-xs-right">{{ cuenta.item.ultimopago }}</td>
-                </tr>
-            </template>
-            <template v-slot:expand="seleccionadas">
-                <v-card flat>
-                    <v-card-text>
-                        <template>
-                            <v-data-table
-                                :items="movimientos"
-                                class="elevation-1"
-                                hide-actions
-                                hide-headers
-                            >
-                                <template v-slot:items="movimiento">
-                                    <td>{{ movimiento.item.id }}</td>
-                                    <td class="text-xs-right">{{ movimiento.item.ctacte_id }}</td>
-                                    <td class="text-xs-right">{{ movimiento.item.tipo }}</td>
-                                    <td class="text-xs-right">{{ movimiento.item.feha }}</td>
+        <template>
+            <v-data-table
+                hide-actions
+                :headers="headers"
+                :items="data.cuentas"
+                :loading="inProcess"
+            >
+                <v-progress-linear v-slot:progress color="primary" indeterminate></v-progress-linear>
+                <template v-slot:items="cuenta">
+                    <tr>
+                        <td>
+                            <input type="checkbox" :value="cuenta.item.id" v-model="cuentas_id">
+                        </td>
+
+                        <td>{{ cuenta.item.factura_id }}</td>
+                        <td>{{ cuenta.item.importe }}</td>
+                        <td>{{ cuenta.item.saldo }}</td>
+                        <td>{{ cuenta.item.ultimopago }}</td>
+
+                        <td>
+                            <v-menu>
+                                <template v-slot:activator="{ on }">
+                                    <v-btn flat icon dark color="primary" v-on="on">
+                                        <v-icon size="medium">fas fa-ellipsis-v</v-icon>
+                                    </v-btn>
                                 </template>
-                            </v-data-table>
-                        </template>
-                    </v-card-text>
-                </v-card>
+                                <v-list>
+                                    <v-list-tile>
+                                        <v-list-tile-title
+                                            @click="cuenta_id = cuenta.item.id; pagarCuenta = true;"
+                                        >Pago Total</v-list-tile-title>
+                                    </v-list-tile>
+                                </v-list>
+                            </v-menu>
+                        </td>
+                    </tr>
+                </template>
+            </v-data-table>
+        </template>
+
+        <v-layout justify-center>
+            <v-btn color="primary" outline @click="buscarCuentas">Pagar</v-btn>
+        </v-layout>
+
+        <span>Checked names: {{ cuentas_id }}</span>
+
+        <!-- Dialog Grabar -->
+
+        <v-dialog v-model="pagarCuenta" width="750" persistent>
+            <v-card>
+                <v-card-title>
+                    <h2>¿Estás Seguro?</h2>
+                </v-card-title>
+                <v-divider></v-divider>
+                <v-card-text>¿Estás seguro que deseas grabar esta Factura? este cambio es irreversible</v-card-text>
+                <v-card-text>
+                    <v-layout justify-end wrap>
+                        <v-btn
+                            @click="pagarCuenta = false;"
+                            outline
+                            color="primary"
+                            :disabled="process"
+                        >Cancelar</v-btn>
+
+                        <v-btn
+                            :loading="process"
+                            :disabled="process"
+                            @click="pagar(cuenta_id)"
+                            color="primary"
+                        >Pagar</v-btn>
+                    </v-layout>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
+
+        <v-dialog v-model="pagarCuentas">
+            <template>
+                <v-data-table :headers="reducido" :items="seleccionadas" hide-actions>
+                    <template v-slot:items="cuenta">
+                        <td>{{ cuenta.item.id }}</td>
+                        <td>{{ cuenta.item.factura_id }}</td>
+                        <td>{{ cuenta.item.ultimopago }}</td>
+                        <td>{{ cuenta.item.saldo }}</td>
+                        <td>
+                            <input type="number" v-model="cuenta.item.pago">
+                        </td>
+                    </template>
+                </v-data-table>
+                <v-btn flat icon dark color="primary" @click="test">
+                    <v-icon size="medium">check_circles</v-icon>
+                </v-btn>
             </template>
-        </v-data-table>
-    </div>
-</template>
-                    </v-card-text>
-                </v-card>
-            </template>
-        </v-data-table>
+        </v-dialog>
     </div>
 </template>
 
@@ -70,8 +107,6 @@ export default {
     name: "CuentaIndex",
     data() {
         return {
-            expand: false,
-            selected: [],
             limit: 10,
             loadingButton: false,
             reducido: [
@@ -107,7 +142,7 @@ export default {
                     pago: ""
                 }
             ],
-            movimientos: []
+            movimientos: {}
         };
     },
     computed: {
@@ -177,6 +212,7 @@ export default {
                 });
         },
         detallar($id) {
+            console.log($id);
             axios
                 .get("/api/movimientos/" + $id)
                 .then(response => {

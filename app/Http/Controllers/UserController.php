@@ -29,7 +29,7 @@ class UserController extends Controller
             ]);
 
             $attributes['password'] = bcrypt($attributes['password']);
-    
+
             User::create($attributes);
         }
     }
@@ -60,4 +60,6 @@ class UserController extends Controller
         $user = User::find($id);
         $user->delete();
     }
+
+
 }

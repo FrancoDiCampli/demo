@@ -18,6 +18,7 @@ class CreateMovimientocuentasTable extends Migration
             $table->unsignedBigInteger('ctacte_id');
             $table->string('tipo');
             $table->string('fecha');
+            $table->float('importe');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 

@@ -25,8 +25,7 @@ class EstadisticasController extends Controller
 
         $from = $request->get('from');
         $to = $request->get('to');
-        // $from = new Carbon('2019-06-04');
-        // $to = new Carbon('2019-06-04');
+
 
         if($from <> null && $to <> null) {
             return $facturas = Factura::whereBetween('created_at', array($from, $to))->get();
@@ -52,26 +51,12 @@ class EstadisticasController extends Controller
 
     public function articulos(Request $request){
 
-
         return $orders = DB::table('articulo_factura')
                 ->whereIn('articulo_id',[$request->articulo])
                 ->get();
 
 
     }
-
-    public function vfecha(){
-
-        $from = new Carbon('2019-06-04');
-        $to = new Carbon('2019-06-05');
-        $id = auth()->user()->id;
-
-        return $facturas = Factura::where('user_id','=',$id)->
-                whereBetween('created_at', array($from, $to))->get();
-
-
-    }
-
 
 
     public function usuarios(){

@@ -5893,83 +5893,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         console.log(error);
       });
     },
-    fechadas: function () {
-      var _fechadas = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var _response, _response2, _response3;
-
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                if (!this.datos.includes("fechas")) {
-                  _context.next = 6;
-                  break;
-                }
-
-                _context.next = 3;
-                return this.index({
-                  url: "api/estadisticas/xfecha",
-                  from: this.desde,
-                  to: this.hasta
-                });
-
-              case 3:
-                _response = _context.sent;
-                _context.next = 16;
-                break;
-
-              case 6:
-                if (!(datos.includes("fechas") && datos.includes("vendedores"))) {
-                  _context.next = 12;
-                  break;
-                }
-
-                _context.next = 9;
-                return this.index({
-                  url: "api/estadisticas/xfecha",
-                  from: this.desde,
-                  to: this.hasta
-                });
-
-              case 9:
-                _response2 = _context.sent;
-                _context.next = 16;
-                break;
-
-              case 12:
-                if (!this.datos.includes("vendedores")) {
-                  _context.next = 16;
-                  break;
-                }
-
-                _context.next = 15;
-                return this.index({
-                  url: "api/estadisticas/xvendedor",
-                  vendedores: this.usuarios
-                });
-
-              case 15:
-                _response3 = _context.sent;
-
-              case 16:
-                console.log(response);
-
-              case 17:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function fechadas() {
-        return _fechadas.apply(this, arguments);
-      }
-
-      return fechadas;
-    }(),
     findArticle: function findArticle() {
       var _this2 = this;
 
@@ -6001,37 +5924,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     traer: function () {
       var _traer = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var _response4, _response5, _response6;
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var response, _response, _response2;
 
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
                 if (!this.datos.includes("vendedores")) {
-                  _context2.next = 7;
+                  _context.next = 7;
                   break;
                 }
 
-                _context2.next = 3;
+                _context.next = 3;
                 return this.index({
                   url: "api/estadisticas/xvendedor",
                   vendedores: this.user
                 });
 
               case 3:
-                _response4 = _context2.sent;
-                console.log(_response4);
-                _context2.next = 19;
+                response = _context.sent;
+                console.log(response);
+                _context.next = 19;
                 break;
 
               case 7:
                 if (!this.datos.includes("fecha")) {
-                  _context2.next = 14;
+                  _context.next = 14;
                   break;
                 }
 
-                _context2.next = 10;
+                _context.next = 10;
                 return this.index({
                   url: "api/estadisticas/xfecha",
                   from: this.desde,
@@ -6039,33 +5962,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 });
 
               case 10:
-                _response5 = _context2.sent;
-                console.log(_response5);
-                _context2.next = 19;
+                _response = _context.sent;
+                console.log(_response);
+                _context.next = 19;
                 break;
 
               case 14:
                 if (!this.datos.includes("producto")) {
-                  _context2.next = 19;
+                  _context.next = 19;
                   break;
                 }
 
-                _context2.next = 17;
+                _context.next = 17;
                 return this.index({
                   url: "api/estadisticas/xarticulo",
                   articulo: this.article_id
                 });
 
               case 17:
-                _response6 = _context2.sent;
-                console.log(_response6);
+                _response2 = _context.sent;
+                console.log(_response2);
 
               case 19:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee, this);
       }));
 
       function traer() {

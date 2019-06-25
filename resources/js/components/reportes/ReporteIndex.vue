@@ -207,31 +207,7 @@ export default {
                     console.log(error);
                 });
         },
-        fechadas: async function() {
-            if (this.datos.includes("fechas")) {
-                let response = await this.index({
-                    url: "api/estadisticas/xfecha",
-                    from: this.desde,
-                    to: this.hasta
-                });
-            } else if (
-                datos.includes("fechas") &&
-                datos.includes("vendedores")
-            ) {
-                let response = await this.index({
-                    url: "api/estadisticas/xfecha",
-                    from: this.desde,
-                    to: this.hasta
-                });
-            } else if (this.datos.includes("vendedores")) {
-                let response = await this.index({
-                    url: "api/estadisticas/xvendedor",
-                    vendedores: this.usuarios
-                });
-            }
 
-            console.log(response);
-        },
         findArticle() {
             this.articleSelected = null;
 

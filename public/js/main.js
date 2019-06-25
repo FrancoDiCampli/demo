@@ -2105,12 +2105,111 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "App",
   data: function data() {
     return {
       drawer: true,
+      drawerMobile: false,
       sellerItems: [{
         title: "Ventas",
         icon: "fas fa-dollar-sign",
@@ -4487,16 +4586,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ClientesShowCuentaTable",
@@ -4508,11 +4597,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         "class": "hidden-xs-only"
       }, {
         text: "Importe",
-        sortable: false,
-        aling: "center"
+        sortable: false
       }, {
         text: "Debe",
         sortable: false
+      }, {
+        text: "Alta",
+        sortable: false,
+        "class": "hidden-sm-and-down"
+      }, {
+        text: "Ultimo Pago",
+        sortable: false,
+        "class": "hidden-sm-and-down"
       }, {
         text: "Estado",
         sortable: false
@@ -4680,6 +4776,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // Vuex
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4734,8 +4842,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 // Vuex
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4750,7 +4856,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         sortable: false
       }, {
         text: "Fecha",
-        sortable: false
+        sortable: false,
+        "class": "hidden-xs-only"
       }, {
         text: "Importe",
         sortable: false
@@ -5824,7 +5931,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 //Axios
  //Vuex
 
@@ -6418,6 +6524,25 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 // module
 exports.push([module.i, "\n.input-pagos {\n    display: block;\n    margin-top: 8px;\n    padding: 10px 0px;\n    border: none;\n    border-bottom: 1px solid #9e9e9e;\n    transition: all 1s ease;\n}\n.input-pagos:focus {\n    outline: none;\n    border-bottom: 2px solid #26a69a;\n    transition: all 0.5s ease;\n}\n.pagos tbody tr {\n    border-bottom: none !important;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/clientes/ClientesShowFacturasTable.vue?vue&type=style&index=0&lang=css&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/clientes/ClientesShowFacturasTable.vue?vue&type=style&index=0&lang=css& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.type-item {\n    margin: 5px 0px 5px -12px;\n    border: solid 1.5px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.type {\n    margin-top: 15px;\n    color: #26a69a;\n}\n", ""]);
 
 // exports
 
@@ -7888,6 +8013,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/clientes/ClientesShowFacturasTable.vue?vue&type=style&index=0&lang=css&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/clientes/ClientesShowFacturasTable.vue?vue&type=style&index=0&lang=css& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--5-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--5-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./ClientesShowFacturasTable.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/clientes/ClientesShowFacturasTable.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/facturas/FacturasForm.vue?vue&type=style&index=0&lang=css&":
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/facturas/FacturasForm.vue?vue&type=style&index=0&lang=css& ***!
@@ -8694,6 +8849,253 @@ var render = function() {
                             },
                             [_c("v-icon", [_vm._v("fas fa-angle-left")])],
                             1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-list",
+            { staticClass: "pt-0", attrs: { dense: "" } },
+            [
+              _c("br"),
+              _vm._v(" "),
+              _c("v-divider"),
+              _vm._v(" "),
+              _vm._l(_vm.sellerItems, function(item) {
+                return _c(
+                  "v-list-tile",
+                  { key: item.title, attrs: { to: item.url } },
+                  [
+                    _c(
+                      "v-list-tile-action",
+                      [_c("v-icon", [_vm._v(_vm._s(item.icon))])],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-list-tile-content",
+                      [_c("v-list-tile-title", [_vm._v(_vm._s(item.title))])],
+                      1
+                    )
+                  ],
+                  1
+                )
+              }),
+              _vm._v(" "),
+              _c("v-divider"),
+              _vm._v(" "),
+              _c(
+                "v-list-tile",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.rol == "admin" || _vm.rol == "superAdmin",
+                      expression: "rol == 'admin' || rol == 'superAdmin'"
+                    }
+                  ],
+                  attrs: { to: "/users" }
+                },
+                [
+                  _c(
+                    "v-list-tile-action",
+                    [_c("v-icon", [_vm._v("fas fa-user")])],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-list-tile-content",
+                    [_c("v-list-tile-title", [_vm._v("Usuarios")])],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-list-tile",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.rol == "superAdmin",
+                      expression: "rol == 'superAdmin'"
+                    }
+                  ],
+                  attrs: { to: "/roles" }
+                },
+                [
+                  _c(
+                    "v-list-tile-action",
+                    [_c("v-icon", [_vm._v("fas fa-tag")])],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-list-tile-content",
+                    [_c("v-list-tile-title", [_vm._v("Roles")])],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("v-divider"),
+              _vm._v(" "),
+              _c(
+                "v-list-tile",
+                { attrs: { to: "/account" } },
+                [
+                  _c(
+                    "v-list-tile-action",
+                    [_c("v-icon", [_vm._v("fas fa-user-circle")])],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-list-tile-content",
+                    [_c("v-list-tile-title", [_vm._v("Mi cuenta")])],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-list-tile",
+                {
+                  on: {
+                    click: function($event) {
+                      return _vm.exit()
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "v-list-tile-action",
+                    [_c("v-icon", [_vm._v("fas fa-sign-out-alt")])],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-list-tile-content",
+                    [_c("v-list-tile-title", [_vm._v("Cerrar Sesión")])],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            2
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-toolbar",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.token !== null,
+              expression: "token !== null"
+            }
+          ],
+          staticClass: "elevation-0 hidden hidden-sm-and-up",
+          attrs: { color: "primary", dark: "" }
+        },
+        [
+          _c(
+            "v-toolbar-items",
+            [
+              _c(
+                "v-btn",
+                {
+                  attrs: { flat: "", icon: "" },
+                  on: {
+                    click: function($event) {
+                      $event.stopPropagation()
+                      _vm.drawerMobile = !_vm.drawerMobile
+                    }
+                  }
+                },
+                [_c("v-icon", [_vm._v("fas fa-bars")])],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("v-divider"),
+      _vm._v(" "),
+      _c(
+        "v-navigation-drawer",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.token !== null,
+              expression: "token !== null"
+            }
+          ],
+          attrs: { absolute: "", temporary: "" },
+          model: {
+            value: _vm.drawerMobile,
+            callback: function($$v) {
+              _vm.drawerMobile = $$v
+            },
+            expression: "drawerMobile"
+          }
+        },
+        [
+          _c(
+            "v-toolbar",
+            { staticClass: "transparent", attrs: { flat: "" } },
+            [
+              _c(
+                "v-list",
+                { staticClass: "pa-0" },
+                [
+                  _c(
+                    "v-list-tile",
+                    { attrs: { avatar: "" } },
+                    [
+                      _c(
+                        "v-avatar",
+                        { staticClass: "profile-list", attrs: { size: "50" } },
+                        [
+                          _c("span", { staticClass: "title" }, [
+                            _vm._v(_vm._s(_vm.account.profile))
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-tile-content",
+                        { staticStyle: { margin: "15px 0 0 15px" } },
+                        [
+                          _c(
+                            "v-list-tile-title",
+                            { staticClass: "primary--text" },
+                            [_c("b", [_vm._v(_vm._s(_vm.account.user.name))])]
                           )
                         ],
                         1
@@ -11875,7 +12277,7 @@ var render = function() {
         {
           attrs: {
             right: "",
-            "slider-color": "primary",
+            "hide-slider": "",
             "active-class": "primary--text"
           }
         },
@@ -11904,7 +12306,6 @@ var render = function() {
                               _c("v-data-table", {
                                 attrs: {
                                   "hide-actions": "",
-                                  headers: _vm.headersCuentas,
                                   items: _vm.showData.cuentas
                                 },
                                 scopedSlots: _vm._u([
@@ -11912,50 +12313,94 @@ var render = function() {
                                     key: "headers",
                                     fn: function(props) {
                                       return [
-                                        _c(
-                                          "tr",
-                                          [
-                                            _c(
-                                              "th",
-                                              [
-                                                _c("v-checkbox", {
-                                                  attrs: {
-                                                    "input-value": props.all,
-                                                    indeterminate:
-                                                      _vm.selected.length > 0 &&
-                                                      _vm.selected.length <
-                                                        _vm.showData.cuentas
-                                                          .length,
-                                                    primary: "",
-                                                    "hide-details": ""
-                                                  },
-                                                  on: {
-                                                    click: function($event) {
-                                                      $event.stopPropagation()
-                                                      return _vm.toggleAll(
-                                                        $event
-                                                      )
-                                                    }
+                                        _c("tr", [
+                                          _c(
+                                            "th",
+                                            [
+                                              _c("v-checkbox", {
+                                                attrs: {
+                                                  "input-value": props.all,
+                                                  indeterminate:
+                                                    _vm.selected.length > 0 &&
+                                                    _vm.selected.length <
+                                                      _vm.showData.cuentas
+                                                        .length,
+                                                  primary: "",
+                                                  "hide-details": ""
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    $event.stopPropagation()
+                                                    return _vm.toggleAll($event)
                                                   }
-                                                })
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "th",
+                                            { staticClass: "hidden-xs-only" },
+                                            [_vm._v("Nº Factura")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "th",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "show",
+                                                  rawName: "v-show",
+                                                  value: !_vm.pagar,
+                                                  expression: "!pagar"
+                                                }
+                                              ]
+                                            },
+                                            [_vm._v("Importe")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("th", [_vm._v("Saldo")]),
+                                          _vm._v(" "),
+                                          _c(
+                                            "th",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "show",
+                                                  rawName: "v-show",
+                                                  value: !_vm.pagar,
+                                                  expression: "!pagar"
+                                                }
                                               ],
-                                              1
-                                            ),
-                                            _vm._v(" "),
-                                            _vm._l(props.headers, function(
-                                              header
-                                            ) {
-                                              return _c(
-                                                "th",
-                                                { key: header.text },
-                                                [_vm._v(_vm._s(header.text))]
-                                              )
-                                            }),
-                                            _vm._v(" "),
-                                            _c("th", [_vm._v("Monto a pagar")])
-                                          ],
-                                          2
-                                        )
+                                              staticClass: "hidden-sm-and-down"
+                                            },
+                                            [_vm._v("Alta")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "th",
+                                            {
+                                              staticClass: "hidden-sm-and-down"
+                                            },
+                                            [_vm._v("Último Pago")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "th",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "show",
+                                                  rawName: "v-show",
+                                                  value: _vm.pagar,
+                                                  expression: "pagar"
+                                                }
+                                              ]
+                                            },
+                                            [_vm._v("Monto a pagar")]
+                                          )
+                                        ])
                                       ]
                                     }
                                   },
@@ -11976,7 +12421,8 @@ var render = function() {
                                                 expression:
                                                   "cuenta.item.estado == 'ACTIVA'"
                                               }
-                                            ]
+                                            ],
+                                            staticClass: "text-xs-center"
                                           },
                                           [
                                             _c(
@@ -12020,56 +12466,125 @@ var render = function() {
                                               ]
                                             ),
                                             _vm._v(" "),
-                                            _c("td", [
-                                              _vm._v(
-                                                _vm._s(cuenta.item.importe)
-                                              )
-                                            ]),
+                                            _c(
+                                              "td",
+                                              {
+                                                directives: [
+                                                  {
+                                                    name: "show",
+                                                    rawName: "v-show",
+                                                    value: !_vm.pagar,
+                                                    expression: "!pagar"
+                                                  }
+                                                ]
+                                              },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(cuenta.item.importe)
+                                                )
+                                              ]
+                                            ),
                                             _vm._v(" "),
                                             _c("td", [
                                               _vm._v(_vm._s(cuenta.item.saldo))
                                             ]),
                                             _vm._v(" "),
-                                            _c("td", [
-                                              _vm._v(_vm._s(cuenta.item.estado))
-                                            ]),
-                                            _vm._v(" "),
-                                            _c("td", [
-                                              _c("input", {
+                                            _c(
+                                              "td",
+                                              {
                                                 directives: [
                                                   {
-                                                    name: "model",
-                                                    rawName: "v-model",
-                                                    value: cuenta.item.value,
-                                                    expression:
-                                                      "cuenta.item.value"
+                                                    name: "show",
+                                                    rawName: "v-show",
+                                                    value: !_vm.pagar,
+                                                    expression: "!pagar"
                                                   }
                                                 ],
-                                                staticClass: "input-pagos",
-                                                attrs: {
-                                                  disabled:
-                                                    cuenta.item.saldo <= 0,
-                                                  type: "text"
-                                                },
-                                                domProps: {
-                                                  value: cuenta.item.value
-                                                },
-                                                on: {
-                                                  input: function($event) {
-                                                    if (
-                                                      $event.target.composing
-                                                    ) {
-                                                      return
-                                                    }
-                                                    _vm.$set(
-                                                      cuenta.item,
-                                                      "value",
-                                                      $event.target.value
-                                                    )
+                                                staticClass:
+                                                  "hidden-sm-and-down"
+                                              },
+                                              [_vm._v(_vm._s(cuenta.item.alta))]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "td",
+                                              {
+                                                staticClass:
+                                                  "hidden-sm-and-down"
+                                              },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(cuenta.item.ultimopago)
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "td",
+                                              {
+                                                directives: [
+                                                  {
+                                                    name: "show",
+                                                    rawName: "v-show",
+                                                    value: _vm.pagar,
+                                                    expression: "pagar"
                                                   }
-                                                }
-                                              })
-                                            ])
+                                                ]
+                                              },
+                                              [
+                                                _c(
+                                                  "v-layout",
+                                                  {
+                                                    attrs: {
+                                                      "justify-center": ""
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("input", {
+                                                      directives: [
+                                                        {
+                                                          name: "model",
+                                                          rawName: "v-model",
+                                                          value:
+                                                            cuenta.item.value,
+                                                          expression:
+                                                            "cuenta.item.value"
+                                                        }
+                                                      ],
+                                                      staticClass:
+                                                        "input-pagos",
+                                                      attrs: {
+                                                        disabled:
+                                                          cuenta.item.saldo <=
+                                                          0,
+                                                        type: "text"
+                                                      },
+                                                      domProps: {
+                                                        value: cuenta.item.value
+                                                      },
+                                                      on: {
+                                                        input: function(
+                                                          $event
+                                                        ) {
+                                                          if (
+                                                            $event.target
+                                                              .composing
+                                                          ) {
+                                                            return
+                                                          }
+                                                          _vm.$set(
+                                                            cuenta.item,
+                                                            "value",
+                                                            $event.target.value
+                                                          )
+                                                        }
+                                                      }
+                                                    })
+                                                  ]
+                                                )
+                                              ],
+                                              1
+                                            )
                                           ]
                                         )
                                       ]
@@ -12087,6 +12602,31 @@ var render = function() {
                             ],
                             1
                           )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("v-divider"),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "v-layout",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.pagar,
+                              expression: "pagar"
+                            }
+                          ],
+                          attrs: { "justify-center": "" }
+                        },
+                        [
+                          _c("v-btn", { attrs: { color: "primary" } }, [
+                            _vm._v("Pagar")
+                          ])
                         ],
                         1
                       )
@@ -12130,45 +12670,19 @@ var render = function() {
                                       return [
                                         _c(
                                           "tr",
-                                          [
-                                            _c(
+                                          _vm._l(props.headers, function(
+                                            header
+                                          ) {
+                                            return _c(
                                               "th",
-                                              [
-                                                _c("v-checkbox", {
-                                                  attrs: {
-                                                    "input-value": props.all,
-                                                    indeterminate:
-                                                      _vm.selected.length > 0 &&
-                                                      _vm.selected.length <
-                                                        _vm.showData.cuentas
-                                                          .length,
-                                                    primary: "",
-                                                    "hide-details": ""
-                                                  },
-                                                  on: {
-                                                    click: function($event) {
-                                                      $event.stopPropagation()
-                                                      return _vm.toggleAll(
-                                                        $event
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ],
-                                              1
-                                            ),
-                                            _vm._v(" "),
-                                            _vm._l(props.headers, function(
-                                              header
-                                            ) {
-                                              return _c(
-                                                "th",
-                                                { key: header.text },
-                                                [_vm._v(_vm._s(header.text))]
-                                              )
-                                            })
-                                          ],
-                                          2
+                                              {
+                                                key: header.text,
+                                                class: header.class
+                                              },
+                                              [_vm._v(_vm._s(header.text))]
+                                            )
+                                          }),
+                                          0
                                         )
                                       ]
                                     }
@@ -12177,109 +12691,64 @@ var render = function() {
                                     key: "items",
                                     fn: function(cuenta) {
                                       return [
-                                        _c("tr", [
-                                          _c(
-                                            "td",
-                                            {
-                                              on: {
-                                                click: function($event) {
-                                                  if (cuenta.item.saldo > 0) {
-                                                    cuenta.selected = !cuenta.selected
-                                                    cuenta.item.value =
-                                                      cuenta.item.saldo
-                                                  }
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _c("v-checkbox", {
-                                                attrs: {
-                                                  "input-value":
-                                                    cuenta.selected,
-                                                  disabled:
-                                                    cuenta.item.saldo <= 0,
-                                                  color: "primary",
-                                                  "hide-details": ""
-                                                }
-                                              })
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "td",
-                                            { staticClass: "hidden-xs-only" },
-                                            [
-                                              _vm._v(
-                                                _vm._s(
-                                                  cuenta.item.factura.numfactura
+                                        _c(
+                                          "tr",
+                                          { staticClass: "text-xs-center" },
+                                          [
+                                            _c(
+                                              "td",
+                                              { staticClass: "hidden-xs-only" },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    cuenta.item.factura
+                                                      .numfactura
+                                                  )
                                                 )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _vm._v(
+                                                _vm._s(cuenta.item.importe)
                                               )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c("td", [
-                                            _vm._v(_vm._s(cuenta.item.importe))
-                                          ]),
-                                          _vm._v(" "),
-                                          _c("td", [
-                                            _vm._v(_vm._s(cuenta.item.saldo))
-                                          ]),
-                                          _vm._v(" "),
-                                          _c("td", [
-                                            _vm._v(_vm._s(cuenta.item.estado))
-                                          ]),
-                                          _vm._v(" "),
-                                          _vm.pagar
-                                            ? _c("td", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value: cuenta.item.value,
-                                                      expression:
-                                                        "cuenta.item.value"
-                                                    }
-                                                  ],
-                                                  staticClass: "input-pagos",
-                                                  attrs: {
-                                                    disabled:
-                                                      cuenta.item.saldo <= 0,
-                                                    type: "text"
-                                                  },
-                                                  domProps: {
-                                                    value: cuenta.item.value
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        cuenta.item,
-                                                        "value",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ])
-                                            : _vm._e()
-                                        ])
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _vm._v(_vm._s(cuenta.item.saldo))
+                                            ]),
+                                            _vm._v(" "),
+                                            _c(
+                                              "td",
+                                              {
+                                                staticClass:
+                                                  "hidden-sm-and-down"
+                                              },
+                                              [_vm._v(_vm._s(cuenta.item.alta))]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "td",
+                                              {
+                                                staticClass:
+                                                  "hidden-sm-and-down"
+                                              },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(cuenta.item.ultimopago)
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _vm._v(_vm._s(cuenta.item.estado))
+                                            ])
+                                          ]
+                                        )
                                       ]
                                     }
                                   }
-                                ]),
-                                model: {
-                                  value: _vm.selected,
-                                  callback: function($$v) {
-                                    _vm.selected = $$v
-                                  },
-                                  expression: "selected"
-                                }
+                                ])
                               })
                             ],
                             1
@@ -12356,8 +12825,14 @@ var render = function() {
                           [
                             _c(
                               "v-card",
-                              { attrs: { height: "250" } },
+                              { attrs: { height: "315" } },
                               [
+                                _c("v-card-title", [
+                                  _c("h4", [_vm._v(_vm._s(props.item.name))])
+                                ]),
+                                _vm._v(" "),
+                                _c("v-divider"),
+                                _vm._v(" "),
                                 _c(
                                   "v-list",
                                   { attrs: { dense: "" } },
@@ -12469,8 +12944,14 @@ var render = function() {
                           [
                             _c(
                               "v-card",
-                              { attrs: { height: "250" } },
+                              { attrs: { height: "315" } },
                               [
+                                _c("v-card-title", [
+                                  _c("h4", [_vm._v(_vm._s(props.item.name))])
+                                ]),
+                                _vm._v(" "),
+                                _c("v-divider"),
+                                _vm._v(" "),
                                 _c(
                                   "v-list",
                                   { attrs: { dense: "" } },
@@ -12662,59 +13143,27 @@ var render = function() {
         key: "items",
         fn: function(factura) {
           return [
-            _c("td", [
-              factura.item.cae == null
-                ? _c(
-                    "div",
-                    [
-                      _c(
-                        "v-avatar",
-                        {
-                          staticStyle: { "margin-top": "5px" },
-                          attrs: { color: "teal lighten-5" }
-                        },
-                        [
-                          _c(
-                            "p",
-                            {
-                              staticClass: "title",
-                              staticStyle: { "margin-top": "12px" }
-                            },
-                            [_vm._v("X")]
-                          )
-                        ]
-                      )
-                    ],
-                    1
-                  )
-                : _c(
-                    "div",
-                    [
-                      _c(
-                        "v-avatar",
-                        {
-                          staticStyle: { "margin-top": "5px" },
-                          attrs: { color: "teal lighten-5" }
-                        },
-                        [
-                          _c(
-                            "p",
-                            {
-                              staticClass: "title",
-                              staticStyle: { "margin-top": "12px" }
-                            },
-                            [_vm._v("C")]
-                          )
-                        ]
-                      )
-                    ],
-                    1
-                  )
-            ]),
+            _c(
+              "td",
+              [
+                _c("v-avatar", { staticClass: "type-item" }, [
+                  factura.item.cae == null
+                    ? _c("div", [
+                        _c("p", { staticClass: "title type" }, [_vm._v("X")])
+                      ])
+                    : _c("div", [
+                        _c("p", { staticClass: "title type" }, [_vm._v("C")])
+                      ])
+                ])
+              ],
+              1
+            ),
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(factura.item.numfactura))]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(factura.item.fecha))]),
+            _c("td", { staticClass: "hidden-xs-only" }, [
+              _vm._v(_vm._s(factura.item.fecha))
+            ]),
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(factura.item.total))]),
             _vm._v(" "),
@@ -14225,9 +14674,7 @@ var render = function() {
                         )
                       ],
                       1
-                    ),
-                    _vm._v(" "),
-                    _c("td")
+                    )
                   ]
                 }
               }
@@ -58272,7 +58719,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ClientesShowFacturasTable_vue_vue_type_template_id_3b7bb2f2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ClientesShowFacturasTable.vue?vue&type=template&id=3b7bb2f2& */ "./resources/js/components/clientes/ClientesShowFacturasTable.vue?vue&type=template&id=3b7bb2f2&");
 /* harmony import */ var _ClientesShowFacturasTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ClientesShowFacturasTable.vue?vue&type=script&lang=js& */ "./resources/js/components/clientes/ClientesShowFacturasTable.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _ClientesShowFacturasTable_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ClientesShowFacturasTable.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/clientes/ClientesShowFacturasTable.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -58280,7 +58729,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _ClientesShowFacturasTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _ClientesShowFacturasTable_vue_vue_type_template_id_3b7bb2f2___WEBPACK_IMPORTED_MODULE_0__["render"],
   _ClientesShowFacturasTable_vue_vue_type_template_id_3b7bb2f2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -58309,6 +58758,22 @@ component.options.__file = "resources/js/components/clientes/ClientesShowFactura
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientesShowFacturasTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ClientesShowFacturasTable.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/clientes/ClientesShowFacturasTable.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientesShowFacturasTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/clientes/ClientesShowFacturasTable.vue?vue&type=style&index=0&lang=css&":
+/*!*********************************************************************************************************!*\
+  !*** ./resources/js/components/clientes/ClientesShowFacturasTable.vue?vue&type=style&index=0&lang=css& ***!
+  \*********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientesShowFacturasTable_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--5-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--5-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./ClientesShowFacturasTable.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/clientes/ClientesShowFacturasTable.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientesShowFacturasTable_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientesShowFacturasTable_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientesShowFacturasTable_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientesShowFacturasTable_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientesShowFacturasTable_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 

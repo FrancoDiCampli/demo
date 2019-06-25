@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 Route::middleware('auth:api')->group(function () {
 
@@ -47,8 +48,9 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/pagartodo/{id}','API\CuentacorrientesController@pagoTotal');
     Route::get('/buscarcuentas/{lista}','API\CuentacorrientesController@buscarCuentas');
     Route::get('/pagarcuentas','API\CuentacorrientesController@pagoParcial');
+    Route::get('/movimientos/{id}','API\CuentacorrientesController@detalles');
 
-    // Route::post();
+
 });
 
 // Auth Routes
@@ -58,3 +60,9 @@ Route::post('/register', 'AuthController@register');
 
 Route::get('estadisticas/todas', 'API\EstadisticasController@todas');
 Route::get('estadisticas/xfecha', 'API\EstadisticasController@fecha');
+Route::get('estadisticas/xvendedor', 'API\EstadisticasController@vendedor');
+Route::get('estadisticas/xarticulo', 'API\EstadisticasController@articulos');
+
+Route::get('estadisticas/usuarios', 'API\EstadisticasController@usuarios');
+
+

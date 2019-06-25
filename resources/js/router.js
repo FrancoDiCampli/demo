@@ -23,6 +23,9 @@ import FacturaNew from "./views/FacturaNew.vue";
 // Cuenta Corriente
 import Cuenta from "./views/Cuenta.vue";
 
+// Reportes
+import Reporte from "./views/Reporte.vue";
+
 Vue.use(Router);
 
 export default new Router({
@@ -239,6 +242,32 @@ export default new Router({
             path: "/cuenta",
             name: "cuenta",
             component: Cuenta,
+            meta: {
+                permissions: [
+                    {
+                        role: "visitor",
+                        access: false,
+                        redirect: "login"
+                    },
+                    {
+                        role: "superAdmin",
+                        access: true
+                    },
+                    {
+                        role: "admin",
+                        access: true
+                    },
+                    {
+                        role: "seller",
+                        access: true
+                    }
+                ]
+            }
+        },
+        {
+            path: "/reporte",
+            name: "reporte",
+            component: Reporte,
             meta: {
                 permissions: [
                     {

@@ -67,15 +67,13 @@ class CuentacorrientesController extends Controller
         return $cuentas = Cuentacorriente::find($lista);
     }
 
-    // public function pagoParcial(Request $request){
-    //     return $request;
-    // }
+
 
     public function pagoParcial(Request $request)
     {
 
 
-        return $request[0]->id;
+        return $request;
 
 
         $collection = Collection::make($request);
@@ -160,5 +158,14 @@ class CuentacorrientesController extends Controller
         // return [
         //     'msg' => 'cuenta actualizada'
         // ];
+    }
+
+
+    public function detalles($id){
+
+
+        return $movimientos = Movimientocuenta::where('ctacte_id',$id)
+                                    ->orderBy('created_at','asc')->get();
+
     }
 }

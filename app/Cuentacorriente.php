@@ -20,7 +20,7 @@ class Cuentacorriente extends Model
 
     public function movimientos()
     {
-        return $this->hasMany('App\Movimientocuenta');
+        return $this->hasMany('App\Movimientocuenta', 'ctacte_id', 'id');
     }
 
     // public function recibos()

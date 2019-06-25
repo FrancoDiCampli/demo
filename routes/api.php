@@ -58,11 +58,8 @@ Route::post('/login', 'AuthController@login');
 Route::post('/register', 'AuthController@register');
 
 
-Route::get('estadisticas/todas', 'API\EstadisticasController@todas');
+Route::get('estadisticas/rejunte', 'API\EstadisticasController@rejunte');
 Route::get('estadisticas/xfecha', 'API\EstadisticasController@fecha');
 Route::get('estadisticas/xvendedor', 'API\EstadisticasController@vendedor');
 Route::get('estadisticas/xarticulo', 'API\EstadisticasController@articulos');
-
 Route::get('estadisticas/usuarios', 'API\EstadisticasController@usuarios');
-
-

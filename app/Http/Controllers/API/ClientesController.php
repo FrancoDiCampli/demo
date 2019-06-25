@@ -50,7 +50,7 @@ class ClientesController extends Controller
             foreach ($facturas as $fac) {
                 if ($fac->cuenta <> null) {
                     $cuentas[] = $fac->cuenta;
-                } else $cuetas = [];
+                } else $cuentas = [];
             }
         }
 
@@ -61,6 +61,7 @@ class ClientesController extends Controller
                 $cuentas[$i]['alta'] = $alta->format('d-m-Y');
                 $ultimo = new Carbon($cuentas[$i]['ultimopago']);
                 $cuentas[$i]['ultimopago'] = $ultimo->format('d-m-Y');
+                $cuentas[$i]['movimientos'] = $cuentas[$i]->movimientos;
             }
         }
 

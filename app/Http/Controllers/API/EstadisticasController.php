@@ -10,7 +10,6 @@ use App\Http\Controllers\Controller;
 
 class EstadisticasController extends Controller
 {
-
     public function todas(){
         $facturas = Factura::all();
 
@@ -41,21 +40,14 @@ class EstadisticasController extends Controller
 
         $from = new Carbon('2019-06-04');
         $to = new Carbon('2019-06-05');
-        $id = auth()->user()->id;
+        $idproducto = 1;
 
-        return $facturas = Factura::where('user_id','=',$id)->
+        return $facturas = Factura::where('articulo_id','=',$idproducto)->
                 whereBetween('created_at', array($from, $to))->get();
-
-
-
-
     }
 
-
-
-
-
-
-
-
+    public function rejunte()
+    {
+        return Factura::buscar()->get();
+    }
 }

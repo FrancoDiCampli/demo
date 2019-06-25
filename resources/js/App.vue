@@ -105,6 +105,104 @@
                 </v-list-tile>
             </v-list>
         </v-navigation-drawer>
+
+        <!-- mobile -->
+        <!-- Navbar Mobile -->
+        <v-toolbar
+            v-show="token !== null"
+            color="primary"
+            dark
+            class="elevation-0 hidden hidden-sm-and-up"
+        >
+            <v-toolbar-items>
+                <v-btn flat icon @click.stop="drawerMobile = !drawerMobile">
+                    <v-icon>fas fa-bars</v-icon>
+                </v-btn>
+            </v-toolbar-items>
+        </v-toolbar>
+        <v-divider></v-divider>
+        <v-navigation-drawer v-model="drawerMobile" absolute temporary v-show="token !== null">
+            <!-- Imagén de perfil y nombre de usuario -->
+            <v-toolbar flat class="transparent">
+                <v-list class="pa-0">
+                    <v-list-tile avatar>
+                        <v-avatar class="profile-list" size="50">
+                            <span class="title">{{ account.profile }}</span>
+                        </v-avatar>
+
+                        <v-list-tile-content style="margin: 15px 0 0 15px;">
+                            <v-list-tile-title class="primary--text">
+                                <b>{{ account.user.name }}</b>
+                            </v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                </v-list>
+            </v-toolbar>
+
+            <!-- Lita de acciones -->
+            <v-list class="pt-0" dense>
+                <br>
+                <v-divider></v-divider>
+
+                <!-- Acciones del vendedor -->
+                <v-list-tile v-for="item in sellerItems" :key="item.title" :to="item.url">
+                    <v-list-tile-action>
+                        <v-icon>{{ item.icon }}</v-icon>
+                    </v-list-tile-action>
+
+                    <v-list-tile-content>
+                        <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+
+                <v-divider></v-divider>
+
+                <!-- Acciones del admin -->
+                <v-list-tile to="/users" v-show="rol == 'admin' || rol == 'superAdmin'">
+                    <v-list-tile-action>
+                        <v-icon>fas fa-user</v-icon>
+                    </v-list-tile-action>
+
+                    <v-list-tile-content>
+                        <v-list-tile-title>Usuarios</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+
+                <!-- Acciones del superAdmin -->
+                <v-list-tile to="/roles" v-show="rol == 'superAdmin'">
+                    <v-list-tile-action>
+                        <v-icon>fas fa-tag</v-icon>
+                    </v-list-tile-action>
+
+                    <v-list-tile-content>
+                        <v-list-tile-title>Roles</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+
+                <v-divider></v-divider>
+
+                <!-- Acciones de todos los usuarios -->
+                <v-list-tile to="/account">
+                    <v-list-tile-action>
+                        <v-icon>fas fa-user-circle</v-icon>
+                    </v-list-tile-action>
+
+                    <v-list-tile-content>
+                        <v-list-tile-title>Mi cuenta</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile @click="exit()">
+                    <v-list-tile-action>
+                        <v-icon>fas fa-sign-out-alt</v-icon>
+                    </v-list-tile-action>
+
+                    <v-list-tile-content>
+                        <v-list-tile-title>Cerrar Sesión</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+            </v-list>
+        </v-navigation-drawer>
+
         <br>
 
         <!-- Router view -->
@@ -129,6 +227,7 @@ export default {
     data() {
         return {
             drawer: true,
+            drawerMobile: false,
             sellerItems: [
                 { title: "Ventas", icon: "fas fa-dollar-sign", url: "/ventas" },
                 { title: "Clientes", icon: "fas fa-users", url: "/clientes" },

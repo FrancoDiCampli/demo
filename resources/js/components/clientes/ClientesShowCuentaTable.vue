@@ -5,7 +5,7 @@
             <h2>Saldo: {{ saldo }}</h2>
         </v-layout>
         <br>
-        <v-tabs right slider-color="primary" active-class="primary--text">
+        <v-tabs right hide-slider active-class="primary--text">
             <v-tab>Activas</v-tab>
             <v-tab>Todas</v-tab>
             <v-tab-item>
@@ -16,7 +16,6 @@
                                 <v-data-table
                                     v-model="selected"
                                     hide-actions
-                                    :headers="headersCuentas"
                                     :items="showData.cuentas"
                                 >
                                     <template v-slot:headers="props">
@@ -30,15 +29,19 @@
                                                     @click.stop="toggleAll"
                                                 ></v-checkbox>
                                             </th>
-                                            <th
-                                                v-for="header in props.headers"
-                                                :key="header.text"
-                                            >{{ header.text }}</th>
-                                            <th>Monto a pagar</th>
+                                            <th class="hidden-xs-only">Nº Factura</th>
+                                            <th v-show="!pagar">Importe</th>
+                                            <th>Saldo</th>
+                                            <th v-show="!pagar" class="hidden-sm-and-down">Alta</th>
+                                            <th class="hidden-sm-and-down">Último Pago</th>
+                                            <th v-show="pagar">Monto a pagar</th>
                                         </tr>
                                     </template>
                                     <template v-slot:items="cuenta">
-                                        <tr v-show="cuenta.item.estado == 'ACTIVA'">
+                                        <tr
+                                            class="text-xs-center"
+                                            v-show="cuenta.item.estado == 'ACTIVA'"
+                                        >
                                             <td
                                                 @click="if(cuenta.item.saldo > 0){
                                     cuenta.selected = !cuenta.selected;
@@ -55,21 +58,34 @@
                                             <td
                                                 class="hidden-xs-only"
                                             >{{ cuenta.item.factura.numfactura }}</td>
-                                            <td>{{ cuenta.item.importe }}</td>
+                                            <td v-show="!pagar">{{ cuenta.item.importe }}</td>
                                             <td>{{ cuenta.item.saldo }}</td>
-                                            <td>{{ cuenta.item.estado }}</td>
-                                            <td>
-                                                <input
-                                                    v-model="cuenta.item.value"
-                                                    :disabled="cuenta.item.saldo <= 0"
-                                                    type="text"
-                                                    class="input-pagos"
-                                                >
+                                            <td
+                                                v-show="!pagar"
+                                                class="hidden-sm-and-down"
+                                            >{{ cuenta.item.alta }}</td>
+                                            <td
+                                                class="hidden-sm-and-down"
+                                            >{{ cuenta.item.ultimopago }}</td>
+                                            <td v-show="pagar">
+                                                <v-layout justify-center>
+                                                    <input
+                                                        v-model="cuenta.item.value"
+                                                        :disabled="cuenta.item.saldo <= 0"
+                                                        type="text"
+                                                        class="input-pagos"
+                                                    >
+                                                </v-layout>
                                             </td>
                                         </tr>
                                     </template>
                                 </v-data-table>
                             </v-flex>
+                        </v-layout>
+                        <v-divider></v-divider>
+                        <br>
+                        <v-layout justify-center v-show="pagar">
+                            <v-btn color="primary">Pagar</v-btn>
                         </v-layout>
                     </v-card-text>
                 </v-card>
@@ -80,57 +96,31 @@
                         <v-layout justify-space-between>
                             <v-flex>
                                 <v-data-table
-                                    v-model="selected"
                                     hide-actions
                                     :headers="headersCuentas"
                                     :items="showData.cuentas"
                                 >
                                     <template v-slot:headers="props">
                                         <tr>
-                                            <th>
-                                                <v-checkbox
-                                                    :input-value="props.all"
-                                                    :indeterminate="selected.length > 0 && selected.length < showData.cuentas.length"
-                                                    primary
-                                                    hide-details
-                                                    @click.stop="toggleAll"
-                                                ></v-checkbox>
-                                            </th>
                                             <th
                                                 v-for="header in props.headers"
                                                 :key="header.text"
+                                                :class="header.class"
                                             >{{ header.text }}</th>
                                         </tr>
                                     </template>
                                     <template v-slot:items="cuenta">
-                                        <tr>
-                                            <td
-                                                @click="if(cuenta.item.saldo > 0){
-                                    cuenta.selected = !cuenta.selected;
-                                    cuenta.item.value = cuenta.item.saldo;
-                                }"
-                                            >
-                                                <v-checkbox
-                                                    :input-value="cuenta.selected"
-                                                    :disabled="cuenta.item.saldo <= 0"
-                                                    color="primary"
-                                                    hide-details
-                                                ></v-checkbox>
-                                            </td>
+                                        <tr class="text-xs-center">
                                             <td
                                                 class="hidden-xs-only"
                                             >{{ cuenta.item.factura.numfactura }}</td>
                                             <td>{{ cuenta.item.importe }}</td>
                                             <td>{{ cuenta.item.saldo }}</td>
+                                            <td class="hidden-sm-and-down">{{ cuenta.item.alta }}</td>
+                                            <td
+                                                class="hidden-sm-and-down"
+                                            >{{ cuenta.item.ultimopago }}</td>
                                             <td>{{ cuenta.item.estado }}</td>
-                                            <td v-if="pagar">
-                                                <input
-                                                    v-model="cuenta.item.value"
-                                                    :disabled="cuenta.item.saldo <= 0"
-                                                    type="text"
-                                                    class="input-pagos"
-                                                >
-                                            </td>
                                         </tr>
                                     </template>
                                 </v-data-table>
@@ -156,8 +146,17 @@ export default {
                     sortable: false,
                     class: "hidden-xs-only"
                 },
-                { text: "Importe", sortable: false, aling: "center" },
+                {
+                    text: "Importe",
+                    sortable: false
+                },
                 { text: "Debe", sortable: false },
+                { text: "Alta", sortable: false, class: "hidden-sm-and-down" },
+                {
+                    text: "Ultimo Pago",
+                    sortable: false,
+                    class: "hidden-sm-and-down"
+                },
                 { text: "Estado", sortable: false }
             ],
             selected: [],

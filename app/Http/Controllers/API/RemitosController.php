@@ -28,9 +28,15 @@ class RemitosController extends Controller
 
         $proveedor = Supplier::find($atributos['supplier_id']);
 
+        if (Remito::all()->last()) {
+            $id = Remito::all()->last()->id+1;
+        } else {
+            $id = 1;
+        }
+
         $remito = Remito::create([
             "ptoventa" => $atributos['ptoventa'],
-            "numremito" => $atributos['numremito'],
+            "numremito" => $id,
             "fecha" => $atributos['fecha'],
             "recargo" => $atributos['recargo'],
             "bonificacion" => $atributos['bonificacion'],

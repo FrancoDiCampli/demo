@@ -52,7 +52,6 @@
                             </v-list>
                         </v-menu>
                     </td>
-                    <td></td>
                 </template>
             </v-data-table>
             <v-layout justify-center>

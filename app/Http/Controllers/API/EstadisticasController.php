@@ -14,7 +14,6 @@ use App\Http\Controllers\Controller;
 
 class EstadisticasController extends Controller
 {
-
     public function todas(){
         $facturas = Factura::all();
 
@@ -58,14 +57,20 @@ class EstadisticasController extends Controller
 
     }
 
+    public function vfecha(){
+
+        $from = new Carbon('2019-06-04');
+        $to = new Carbon('2019-06-05');
+        $idproducto = 1;
+
+        return $facturas = Factura::where('articulo_id','=',$idproducto)->
+                whereBetween('created_at', array($from, $to))->get();
+
+    }
 
     public function usuarios(){
         return User::all();
     }
-
-
-
-
 
 
 }

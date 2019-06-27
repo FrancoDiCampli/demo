@@ -3,8 +3,10 @@
 use App\Cliente;
 use App\Factura;
 use Faker\Generator as Faker;
+use Illuminate\Support\Carbon;
 $factory->define(Factura::class, function (Faker $faker) {
     $cliente = Cliente::all()->random();
+    $date = Carbon::now();
     return [
         'ptoventa' => 1,
         'numfactura' => 1,
@@ -17,6 +19,7 @@ $factory->define(Factura::class, function (Faker $faker) {
         'pagada' => true,
         'condicionventa' => 'CONTADO',
         'cliente_id' => $cliente->id,
-        'user_id' => 1
+        'user_id' => 1,
+        'created_at'=> $date->format('Y-m-d'),
     ];
 });

@@ -16,6 +16,7 @@ class ClientesController extends Controller
 {
     public function index(Request $request)
     {
+
         $clientes = Cliente::orderBy('razonsocial', 'asc')
             ->where('documentounico', '<>', 0)
             ->buscar($request);

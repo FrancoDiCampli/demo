@@ -1,264 +1,203 @@
 <template>
-    <v-card>
-        <v-card-title>Ventas</v-card-title>
-        <v-card-text>
-            <v-container fluid>
-                <v-layout>
-                    <v-flex xs3>
-                        <p>Filtros:{{ datos }}</p>
-                    </v-flex>
-                    <v-flex>
-                        <v-switch v-model="datos" label="Fecha" value="fecha"></v-switch>
-                    </v-flex>
-                    <v-flex>
-                        <v-switch v-model="datos" label="Vendedores" value="vendedores"></v-switch>
-                    </v-flex>
-                    <v-flex>
-                        <v-switch v-model="datos" label="producto" value="producto"></v-switch>
-                    </v-flex>
-                </v-layout>
-            </v-container>
-        </v-card-text>
-        <v-card-text>
-            <v-toolbar flat color="white">
-                <v-toolbar-title>Expandable Table</v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-btn color="primary" dark @click="traer">Listar</v-btn>
-            </v-toolbar>
-        </v-card-text>
-        <v-card-text>
-            <v-layout row wrap v-show="datos.includes('fecha')">
-                <v-flex xs12 sm6>
-                    <v-date-picker v-model="dates" multiple></v-date-picker>
-                </v-flex>
-                <v-flex xs12 sm6>
-                    <v-menu
-                        ref="menu"
-                        v-model="menu"
-                        :close-on-content-click="false"
-                        :nudge-right="40"
-                        :return-value.sync="dates"
-                        lazy
-                        transition="scale-transition"
-                        offset-y
-                        full-width
-                        min-width="290px"
-                    >
-                        <template v-slot:activator="{ on }">
-                            <v-combobox
-                                v-model="dates"
-                                multiple
-                                chips
-                                small-chips
-                                label="Multiple picker in menu"
-                                prepend-icon="event"
-                                readonly
-                                v-on="on"
-                            ></v-combobox>
-                        </template>
-                        <v-date-picker v-model="dates" multiple no-title scrollable>
-                            <v-spacer></v-spacer>
-                            <v-btn flat color="primary" @click="menu = false">Cancel</v-btn>
-                            <v-btn flat color="primary" @click="$refs.menu.save(dates)">OK</v-btn>
-                        </v-date-picker>
-                    </v-menu>
-                </v-flex>
-            </v-layout>
-        </v-card-text>
-        <v-spacer></v-spacer>
-
-        <v-layout>
-            <!-- Vendedores -->
-            <v-flex v-show="datos.includes('vendedores')">
+    <div>
+        <v-layout justify-space-around>
+            <v-flex xs11 sm5>
                 <v-select
-                    v-model="user"
-                    :items="usuarios"
+                    v-model="vendedor"
+                    hint="vendedor"
+                    :items="sellers"
                     item-text="name"
                     item-value="id"
+                    label="Vendedor"
                     box
-                    chips
-                    label="Vendedores"
-                    multiple
+                    single-line
                 ></v-select>
             </v-flex>
-            <!-- Articulos -->
-            <v-flex xs11 v-show="datos.includes('producto')">
-                <!-- Input Buscar Articulos -->
+            <v-flex xs11 sm5>
+                <!-- Input Clientes -->
                 <v-text-field
-                    @keyup="findArticle()"
-                    autofocus
-                    v-model="article"
-                    label="Articulo"
+                    v-model="producto"
+                    @keyup="getArticles()"
+                    label="Producto"
                     box
                     single-line
                 ></v-text-field>
 
-                <!-- Tabla Buscar Articulos -->
-                <transition name="fade">
-                    <v-data-table
-                        v-show="article != null && article != '' && products.length > 0"
-                        no-data-text="El articulo no se encuentra en la base de datos."
-                        hide-actions
-                        hide-headers
-                        :items="products"
-                        class="search-table"
-                    >
-                        <template v-slot:items="article">
-                            <tr
-                                @click="articleSelected = article.item.id"
-                                @dblclick="selectArticle(article.item)"
-                                style="cursor: pointer;"
-                                :style="articleSelected == article.item.id ? 'background-color: #26A69A; color: #FFFFFF;' : ''"
-                            >
-                                <td>{{ article.item.codarticulo }}</td>
-                                <td>{{ article.item.articulo }}</td>
-                            </tr>
-                        </template>
-                    </v-data-table>
-                </transition>
+                <!-- Tabla Clientes -->
+                <v-data-table
+                    v-show="productoSelected == null && producto != null && producto != ''"
+                    no-data-text="El Producto no se encuentra en la base de datos."
+                    hide-actions
+                    hide-headers
+                    :items="articles"
+                    class="search-table"
+                >
+                    <template v-slot:items="article">
+                        <tr
+                            style="cursor: pointer;"
+                            @click="productoSelected = article.item.id; producto = article.item.articulo;"
+                        >
+                            <td>{{ article.item.codarticulo }}</td>
+                            <td>{{ article.item.articulo }}</td>
+                        </tr>
+                    </template>
+                </v-data-table>
             </v-flex>
         </v-layout>
-
-        <v-data-table :headers="headers" :items="data" :search="search">
-            <template v-slot:items="venta">
-                <td>{{ venta.item.id }}</td>
-                <td class="text-xs-right">{{ venta.item.numfactura }}</td>
-                <td class="text-xs-right">{{ venta.item.fecha }}</td>
-                <td class="text-xs-right" v-if="venta.item.pagada==1">Pagada</td>
-                <td class="text-xs-right" v-else>No Pagada</td>
-                <td class="text-xs-right">{{ venta.item.condicionventa }}</td>
-            </template>
-            <template v-slot:no-results>
-                <v-alert
-                    :value="true"
-                    color="error"
-                    icon="warning"
-                >Your search for "{{ search }}" found no results.</v-alert>
-            </template>
-        </v-data-table>
-    </v-card>
+        <v-layout justify-space-around>
+            <v-flex xs11 sm5>
+                <v-select
+                    v-model="condicionventa"
+                    hint="condicion"
+                    :items="terms"
+                    label="Condicion"
+                    box
+                    single-line
+                    multiple
+                ></v-select>
+            </v-flex>
+            <v-flex xs11 sm5>
+                <v-select
+                    v-model="client"
+                    hint="Clientes"
+                    :items="clients"
+                    item-text="nombre"
+                    item-value="id"
+                    label="clientes"
+                    box
+                    single-line
+                    multiple
+                ></v-select>
+            </v-flex>
+        </v-layout>
+        <v-layout justify-space-around>
+            <v-flex xs11>
+                <v-range-selector :start-date.sync="range.start" :end-date.sync="range.end"/>
+            </v-flex>
+        </v-layout>
+        <br>
+        <v-layout justify-center>
+            <v-btn @click="getReports()" color="primary">Filtrar</v-btn>
+        </v-layout>
+    </div>
 </template>
 
 <script>
 import axios from "axios";
-
-//Vuex
-import { mapState, mapMutations, mapActions } from "vuex";
-import { async } from "q";
-
+import { mapActions } from "vuex";
+import VRangeSelector from "vuelendar/components/vl-range-selector";
 export default {
+    name: "ReporteIndex",
+
+    components: {
+        VRangeSelector
+    },
+
     data() {
         return {
-            user: [],
-
-            datos: [],
-            dates: [],
-            menu: false,
-            search: "",
-            headers: [
-                { text: "ID", value: "id", sortable: false },
-                { text: "Fact", value: "numfactura", sortable: false },
-                { text: "Fecha", value: "fecha", sortable: false },
-                { text: "Estado", value: "pagada", sortable: false },
-                { text: "Condicion", value: "condicionventa", sortable: false }
+            condicionventa: [],
+            vendedor: [],
+            sellers: [],
+            producto: null,
+            productoSelected: null,
+            articles: [],
+            range: {},
+            reports: [],
+            terms: ["CONTADO", "CREDITO / DEBITO", "CUENTA CORRIENTE"],
+            clients: [
+                {
+                    id: 2,
+                    nombre: "Franco"
+                },
+                {
+                    id: 4,
+                    nombre: "Juan"
+                },
+                {
+                    id: 5,
+                    nombre: "Maria"
+                },
+                {
+                    id: 6,
+                    nombre: "Maria"
+                }
             ],
-            ventas: [],
-            desde: null,
-            hasta: null,
-            usuarios: [],
-            products: [],
-            articleSelected: null,
-            article: null
+            client: []
         };
     },
 
-    computed: {
-        ...mapState("crudx", ["data"])
-    },
-
-    watch: {
-        dates() {
-            this.desde = this.dates[0];
-            this.hasta = this.dates[1];
-        }
-    },
-    created() {
-        this.traerUsuarios();
-    },
-
     mounted() {
-        this.index({
-            url: "api/estadisticas/xfecha",
-            from: this.desde,
-            to: this.hasta
-        });
+        this.getSellers();
     },
 
     methods: {
         ...mapActions("crudx", ["index"]),
-        traerUsuarios() {
-            axios
-                .get("api/estadisticas/usuarios")
-                .then(response => {
-                    this.usuarios = response.data;
-                    console.log(this.usuarios[0].name);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+
+        getSellers: async function() {
+            let response = await this.index({ url: "api/users/index" });
+            this.sellers = response;
+        },
+        getClients: async function() {
+            let response = await this.index({ url: "api/clientes/index" });
+            this.clients = response;
+            console.log(response);
         },
 
-        findArticle() {
-            this.articleSelected = null;
-
+        getArticles: async function() {
+            this.productoSelected = null;
             axios
                 .get("/api/articulos", {
                     params: {
-                        buscarArticulo: this.article,
+                        buscarArticulo: this.producto,
                         limit: 5
                     }
                 })
                 .then(response => {
-                    this.products = response.data;
+                    this.articles = response.data;
                 })
                 .catch(error => {
                     console.log(error);
+                    this.articles = [];
                 });
         },
-        selectArticle(article) {
-            this.products = [];
-            this.article_id = article.id;
-            this.article = article.articulo;
 
-            if (article.stock.length > 0) {
-                this.stock = article.stock[0].total * 1;
-            } else {
-                this.stock = 0;
-            }
-            console.log(this.article_id);
-        },
+        getReports() {
+            let data = {
+                vendedor: this.vendedor,
+                producto: this.producto,
+                fechas: [this.range.start, this.range.end],
+                condicion: this.condicionventa,
+                clientes: this.client
+            };
+            axios.post("api/estadisticas/reportes", data).then(response => {
+                console.log(response.data);
+            });
 
-        traer: async function() {
-            if (this.datos.includes("vendedores")) {
-                let response = await this.index({
-                    url: "api/estadisticas/xvendedor",
-                    vendedores: this.user
-                });
-                console.log(response);
-            } else if (this.datos.includes("fecha")) {
-                let response = await this.index({
-                    url: "api/estadisticas/xfecha",
-                    from: this.desde,
-                    to: this.hasta
-                });
-                console.log(response);
-            } else if (this.datos.includes("producto")) {
-                let response = await this.index({
-                    url: "api/estadisticas/xarticulo",
-                    articulo: this.article_id
-                });
-                console.log(response);
-            }
+            // let response = await this.index({
+            //     url: "api/estadisticas/reportes",
+            //     data: {
+            //         vendedor: this.vendedor,
+            //         producto: this.producto,
+            //         fechaDesde: this.range.start,
+            //         fechaHasta: this.range.end
+            //     }
+            // });
+
+            // axios
+            //     .post("api/estadisticas/reportes", {
+            //         params: {
+            //             vendedor: this.vendedor,
+            //             producto: this.producto,
+            //             fechaDesde: this.range.start,
+            //             fechaHasta: this.range.end
+            //         }
+            //     })
+            //     .then(response => {
+            //         console.log(response.data);
+            //     })
+            //     .catch(error => {
+            //         console.log(error);
+            //     });
         }
     }
 };

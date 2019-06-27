@@ -77,7 +77,8 @@ class FacturasController extends Controller
                 'preciounitario' => $articulo['precio'],
                 'subtotal' => $detail['cantidad'] * $articulo['precio'],
                 'articulo_id' => $detail['articulo_id'],
-                'factura_id' => $factura->id
+                'factura_id' => $factura->id,
+                'created_at'=>now()->format('Ymd'),
             );
             $det[] = $detalles;
         }
@@ -96,7 +97,8 @@ class FacturasController extends Controller
                 'ctacte_id' => $cuenta->id,
                 'tipo' => 'ALTA',
                 'fecha' => $cuenta->alta,
-                'user_id' => auth()->user()->id
+                'user_id' => auth()->user()->id,
+                'importe'=>$cuenta->importe
             ]);
         } else if ($solicitarCAE && $factura->estado) {
             $this->solicitarCae($factura->id);
@@ -270,7 +272,7 @@ class FacturasController extends Controller
             foreach ($detalles as $art) {
                 $pivot = $pivot->push($art->pivot);
             }
-            
+
             foreach ($pivot as $piv) {
                 $art = Articulo::findOrFail($piv->articulo_id);
                 $aux = collect($art->inventarios);
@@ -278,7 +280,7 @@ class FacturasController extends Controller
                     $inventarios = $inventarios->push($a);
                 }
             }
-            
+
             unset($aux);
             foreach ($inventarios as $inv) {
                 $aux = collect($inv->movimientos);

@@ -63,3 +63,5 @@ Route::get('estadisticas/xfecha', 'API\EstadisticasController@fecha');
 Route::get('estadisticas/xvendedor', 'API\EstadisticasController@vendedor');
 Route::get('estadisticas/xarticulo', 'API\EstadisticasController@articulos');
 Route::get('estadisticas/usuarios', 'API\EstadisticasController@usuarios');
+
+Route::post('estadisticas/reportes', 'API\EstadisticasController@reportes');

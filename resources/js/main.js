@@ -6,6 +6,7 @@ import VueRouterUserRoles from "vue-router-user-roles";
 import store from "./store";
 import "./plugins/vuetify";
 import "@fortawesome/fontawesome-free/css/all.css";
+import "vuelendar/scss/vuelendar.scss";
 
 Vue.config.productionTip = false;
 Vue.use(VueRouterUserRoles, { router });

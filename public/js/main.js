@@ -5467,8 +5467,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 //Axios
  //Vuex
 
@@ -5483,7 +5481,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       client: "CONSUMIDOR FINAL",
       detailClient: [],
       customers: [],
-      clientSelected: null,
       terms: ["CONTADO", "CREDITO / DEBITO", "CUENTA CORRIENTE"],
       condicion: "CONTADO",
       //Data Articulos
@@ -5493,7 +5490,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       price: null,
       stock: 0,
       products: [],
-      articleSelected: null,
       details: [],
       detailsHeader: [{
         text: "Articulo",
@@ -5503,7 +5499,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         sortable: false
       }, {
         text: "Precio",
-        sortable: false
+        sortable: false,
+        "class": "hidden-xs-only"
       }, {
         text: "Subtotal",
         sortable: false
@@ -5590,67 +5587,122 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     //Mounted Clientes
     this.form.cliente_id = 1;
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["save"]), {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index", "save"]), {
     //Metodos Clientes
     // Buscar los clientes
-    findClient: function findClient() {
-      var _this2 = this;
+    findClient: function () {
+      var _findClient = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                this.detailClient = [];
 
-      this.clientSelected = null;
-      this.detailClient = [];
+                if (!(this.client == "0")) {
+                  _context.next = 8;
+                  break;
+                }
 
-      if (this.client == "0") {
-        this.customers = [];
-        this.detailClient = [];
-        this.client = "CONSUMIDOR FINAL";
-        this.form.cliente_id = 0;
-      } else {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/clientes", {
-          params: {
-            buscarCliente: this.client,
-            limit: 5
+                this.customers = [];
+                this.detailClient = [];
+                this.client = "CONSUMIDOR FINAL";
+                this.form.cliente_id = 1;
+                _context.next = 13;
+                break;
+
+              case 8:
+                if (!this.$refs.formFindClient.validate()) {
+                  _context.next = 13;
+                  break;
+                }
+
+                _context.next = 11;
+                return this.index({
+                  url: "/api/clientes",
+                  buscarCliente: this.client,
+                  limit: 5
+                });
+
+              case 11:
+                response = _context.sent;
+                this.customers = response.clientes;
+
+              case 13:
+              case "end":
+                return _context.stop();
+            }
           }
-        }).then(function (response) {
-          _this2.customers = response.data.clientes;
-        })["catch"](function (error) {
-          console.log(error);
-        });
+        }, _callee, this);
+      }));
+
+      function findClient() {
+        return _findClient.apply(this, arguments);
       }
-    },
+
+      return findClient;
+    }(),
     // Seleccionar un Cliente
     selectClient: function selectClient(client) {
-      var _this3 = this;
+      var _this2 = this;
 
       this.customers = [];
       this.detailClient = [];
       this.client = client.razonsocial;
       this.form.cliente_id = client.id;
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/clientes/" + client.id).then(function (response) {
-        _this3.detailClient = response.data;
+        _this2.detailClient = response.data;
       })["catch"](function (error) {
         console.log(error);
       });
     },
     //Metodos Articulos
     //Buscar Articulo
-    findArticle: function findArticle() {
-      var _this4 = this;
+    findArticle: function () {
+      var _findArticle = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                this.$refs.formDetalles.resetValidation();
+                this.quantity = null;
+                this.price = null;
 
-      this.$refs.formDetalles.resetValidation();
-      this.articleSelected = null;
-      this.quantity = null;
-      this.price = null;
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/articulos", {
-        params: {
-          buscarArticulo: this.article,
-          limit: 5
-        }
-      }).then(function (response) {
-        _this4.products = response.data;
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
+                if (!this.$refs.formFindArticle.validate()) {
+                  _context2.next = 8;
+                  break;
+                }
+
+                _context2.next = 6;
+                return this.index({
+                  url: "/api/articulos",
+                  buscarArticulo: this.article,
+                  limit: 5
+                });
+
+              case 6:
+                response = _context2.sent;
+                this.products = response.articulos;
+
+              case 8:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function findArticle() {
+        return _findArticle.apply(this, arguments);
+      }
+
+      return findArticle;
+    }(),
     //Seleccionar Articulo
     selectArticle: function selectArticle(article) {
       this.products = [];
@@ -5702,10 +5754,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     saveFactura: function () {
       var _saveFactura = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 //Establecer Campos no establecidos
                 this.form.condicion = this.condicion;
@@ -5714,11 +5766,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.snackbarText = this.tipo;
 
                 if (!this.$refs.formFactura.validate()) {
-                  _context.next = 16;
+                  _context3.next = 16;
                   break;
                 }
 
-                _context.next = 6;
+                _context3.next = 6;
                 return this.save({
                   url: "/api/facturas"
                 });
@@ -5728,11 +5780,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.snackbar = true; //Reset Formularios
 
                 this.details = [];
-                _context.next = 10;
+                _context3.next = 10;
                 return this.$refs.formDetalles.reset();
 
               case 10:
-                _context.next = 12;
+                _context3.next = 12;
                 return this.$refs.formFactura.reset();
 
               case 12:
@@ -5744,10 +5796,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 16:
               case "end":
-                return _context.stop();
+                return _context3.stop();
             }
           }
-        }, _callee, this);
+        }, _callee3, this);
       }));
 
       function saveFactura() {
@@ -5760,33 +5812,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     cancelFactura: function () {
       var _cancelFactura = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 //Reset Formularios
                 this.details = [];
-                _context2.next = 3;
-                return this.$refs.formDetalles.reset();
+                _context4.next = 3;
+                return this.$refs.formFindClient.reset();
 
               case 3:
-                _context2.next = 5;
-                return this.$refs.formFactura.reset();
+                _context4.next = 5;
+                return this.$refs.formFindArticle.reset();
 
               case 5:
+                _context4.next = 7;
+                return this.$refs.formDetalles.reset();
+
+              case 7:
+                _context4.next = 9;
+                return this.$refs.formFactura.reset();
+
+              case 9:
                 //Establecer Valores Predeterminados
                 this.form.cliente_id = 1;
                 this.client = "CONSUMIDOR FINAL";
                 this.condicion = "CONTADO";
                 this.tipo = "REMITO X";
 
-              case 9:
+              case 13:
               case "end":
-                return _context2.stop();
+                return _context4.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee4, this);
       }));
 
       function cancelFactura() {
@@ -5933,7 +5993,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       loadingButton: false,
       headers: [{
         text: "Tipo",
-        sortable: false
+        sortable: false,
+        "class": "hidden-xs-only"
       }, {
         text: "Nº Factura",
         sortable: false
@@ -5946,7 +6007,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         sortable: false
       }, {
         text: "Fecha",
-        sortable: false
+        sortable: false,
+        "class": "hidden-xs-only"
       }, {
         text: "",
         sortable: false
@@ -6043,6 +6105,16 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -7220,7 +7292,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.data {\n    font-size: 12px;\n    line-height: 5px;\n    margin-top: 8px;\n}\n.search-table {\n    border: solid 2px #26a69a;\n    margin-top: -30px;\n    border-top: none;\n    margin-bottom: 20px;\n    border-radius: 0px 0px 5px 5px;\n}\n.fade-enter-active,\n.fade-leave-active {\n    transition: opacity 0.5s;\n}\n.fade-enter {\n    transform: translateY(-60px);\n}\n.fade-leave-to {\n    opacity: 0;\n}\n.expansion-border {\n    border-bottom: 1px solid #aaaaaa;\n}\n", ""]);
+exports.push([module.i, "\n.data {\n    font-size: 12px;\n    line-height: 5px;\n    margin-top: 8px;\n}\n.search-table {\n    border: solid 2px #26a69a;\n    margin-top: -30px;\n    border-top: none;\n    margin-bottom: 20px;\n    border-radius: 0px 0px 5px 5px;\n}\n.expansion-border {\n    border-bottom: 1px solid #aaaaaa;\n}\n.expand-transition {\n    transition: all 0.5s ease;\n}\n.expand-enter,\n.expand-leave {\n    height: 0;\n    opacity: 0;\n}\n", ""]);
 
 // exports
 
@@ -16248,30 +16320,37 @@ var render = function() {
                     "v-flex",
                     { attrs: { xs11: "", sm5: "" } },
                     [
-                      _c("v-text-field", {
-                        attrs: {
-                          rules: [_vm.rules.required],
-                          label: "Cliente",
-                          box: "",
-                          "single-line": ""
-                        },
-                        on: {
-                          keyup: function($event) {
-                            return _vm.findClient()
-                          }
-                        },
-                        model: {
-                          value: _vm.client,
-                          callback: function($$v) {
-                            _vm.client = $$v
-                          },
-                          expression: "client"
-                        }
-                      }),
+                      _c(
+                        "v-form",
+                        { ref: "formFindClient" },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              rules: [_vm.rules.required],
+                              label: "Cliente",
+                              box: "",
+                              "single-line": ""
+                            },
+                            on: {
+                              keyup: function($event) {
+                                return _vm.findClient()
+                              }
+                            },
+                            model: {
+                              value: _vm.client,
+                              callback: function($$v) {
+                                _vm.client = $$v
+                              },
+                              expression: "client"
+                            }
+                          })
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
                       _c(
                         "transition",
-                        { attrs: { name: "fade" } },
+                        { attrs: { name: "expand" } },
                         [
                           _c("v-data-table", {
                             directives: [
@@ -16303,15 +16382,8 @@ var render = function() {
                                       "tr",
                                       {
                                         staticStyle: { cursor: "pointer" },
-                                        style:
-                                          _vm.clientSelected == client.item.id
-                                            ? "background-color: #26A69A; color: #FFFFFF;"
-                                            : "",
                                         on: {
                                           click: function($event) {
-                                            _vm.clientSelected = client.item.id
-                                          },
-                                          dblclick: function($event) {
                                             return _vm.selectClient(client.item)
                                           }
                                         }
@@ -16493,31 +16565,37 @@ var render = function() {
                         "v-flex",
                         { attrs: { xs11: "" } },
                         [
-                          _c("v-text-field", {
-                            attrs: {
-                              autofocus: "",
-                              rules: [_vm.rules.required],
-                              label: "Articulo",
-                              box: "",
-                              "single-line": ""
-                            },
-                            on: {
-                              keyup: function($event) {
-                                return _vm.findArticle()
-                              }
-                            },
-                            model: {
-                              value: _vm.article,
-                              callback: function($$v) {
-                                _vm.article = $$v
-                              },
-                              expression: "article"
-                            }
-                          }),
+                          _c(
+                            "v-form",
+                            { ref: "formFindArticle" },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  autofocus: "",
+                                  rules: [_vm.rules.required],
+                                  label: "Articulo",
+                                  box: "",
+                                  "single-line": ""
+                                },
+                                on: {
+                                  keyup: function($event) {
+                                    return _vm.findArticle()
+                                  }
+                                },
+                                model: {
+                                  value: _vm.article,
+                                  callback: function($$v) {
+                                    _vm.article = $$v
+                                  },
+                                  expression: "article"
+                                }
+                              })
+                            ],
+                            1
+                          ),
                           _vm._v(" "),
                           _c(
                             "transition",
-                            { attrs: { name: "fade" } },
                             [
                               _c("v-data-table", {
                                 directives: [
@@ -16535,7 +16613,7 @@ var render = function() {
                                 staticClass: "search-table",
                                 attrs: {
                                   "no-data-text":
-                                    "El cliente no se encuentra en la base de datos.",
+                                    "El producto no se encuentra en la base de datos.",
                                   "hide-actions": "",
                                   "hide-headers": "",
                                   items: _vm.products
@@ -16549,17 +16627,8 @@ var render = function() {
                                           "tr",
                                           {
                                             staticStyle: { cursor: "pointer" },
-                                            style:
-                                              _vm.articleSelected ==
-                                              article.item.id
-                                                ? "background-color: #26A69A; color: #FFFFFF;"
-                                                : "",
                                             on: {
                                               click: function($event) {
-                                                _vm.articleSelected =
-                                                  article.item.id
-                                              },
-                                              dblclick: function($event) {
                                                 return _vm.selectArticle(
                                                   article.item
                                                 )
@@ -16801,7 +16870,9 @@ var render = function() {
                                   1
                                 ),
                                 _vm._v(" "),
-                                _c("td", [_vm._v(_vm._s(detail.item.precio))]),
+                                _c("td", { staticClass: "hidden-xs-only" }, [
+                                  _vm._v(_vm._s(detail.item.precio))
+                                ]),
                                 _vm._v(" "),
                                 _c("td", [
                                   _vm._v(_vm._s(detail.item.subtotal))
@@ -17048,7 +17119,9 @@ var render = function() {
                   )
                 ],
                 1
-              )
+              ),
+              _vm._v(" "),
+              _c("br")
             ],
             1
           )
@@ -17100,6 +17173,7 @@ var render = function() {
                   return [
                     _c(
                       "td",
+                      { staticClass: "hidden-xs-only" },
                       [
                         _c("v-avatar", { staticClass: "type-item" }, [
                           factura.item.cae == null
@@ -17132,7 +17206,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(factura.item.total))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(factura.item.fecha))]),
+                    _c("td", { staticClass: "hidden-xs-only" }, [
+                      _vm._v(_vm._s(factura.item.fecha))
+                    ]),
                     _vm._v(" "),
                     _c(
                       "td",
@@ -17531,6 +17607,34 @@ var render = function() {
                     1
                   )
                 }),
+                1
+              ),
+              _vm._v(" "),
+              _c("br"),
+              _vm._v(" "),
+              _c(
+                "v-layout",
+                { attrs: { "justify-center": "" } },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        loading: _vm.loadingButton,
+                        disabled:
+                          _vm.limit >= _vm.data.total || _vm.loadingButton,
+                        color: "primary",
+                        outline: ""
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.loadMore()
+                        }
+                      }
+                    },
+                    [_vm._v("Cargar Más")]
+                  )
+                ],
                 1
               )
             ],

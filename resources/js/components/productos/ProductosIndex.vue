@@ -40,6 +40,16 @@
                         </v-card>
                     </v-flex>
                 </v-layout>
+                <br>
+                <v-layout justify-center>
+                    <v-btn
+                        :loading="loadingButton"
+                        :disabled="limit >= data.total || loadingButton"
+                        @click="loadMore()"
+                        color="primary"
+                        outline
+                    >Cargar Más</v-btn>
+                </v-layout>
             </v-tab-item>
             <v-tab-item>
                 <v-card>

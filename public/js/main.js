@@ -6831,7 +6831,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.data {\n    font-size: 12px;\n    line-height: 5px;\n    margin-top: 8px;\n}\n.search-table {\n    border: solid 2px #26a69a;\n    margin-top: -30px;\n    border-top: none;\n    margin-bottom: 20px;\n    border-radius: 0px 0px 5px 5px;\n}\n.fade-enter-active,\n.fade-leave-active {\n    transition: opacity 0.5s;\n}\n.fade-enter {\n    transform: translateY(-60px);\n}\n.fade-leave-to {\n    opacity: 0;\n}\n.expansion-border {\n    border-bottom: 1px solid #aaaaaa;\n}\n", ""]);
+exports.push([module.i, "\n.data {\r\n    font-size: 12px;\r\n    line-height: 5px;\r\n    margin-top: 8px;\n}\n.search-table {\r\n    border: solid 2px #26a69a;\r\n    margin-top: -30px;\r\n    border-top: none;\r\n    margin-bottom: 20px;\r\n    border-radius: 0px 0px 5px 5px;\n}\n.fade-enter-active,\r\n.fade-leave-active {\r\n    transition: opacity 0.5s;\n}\n.fade-enter {\r\n    transform: translateY(-60px);\n}\n.fade-leave-to {\r\n    opacity: 0;\n}\n.expansion-border {\r\n    border-bottom: 1px solid #aaaaaa;\n}\r\n", ""]);
 
 // exports
 
@@ -9195,48 +9195,48 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: "VlRangeSelector",
-    components: {
-        VlCalendar: _vl_calendar__WEBPACK_IMPORTED_MODULE_0__["default"]
-    },
+  name: 'VlRangeSelector',
+  components: {
+    VlCalendar: _vl_calendar__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
 
-    props: {
-        startDate: String,
-        endDate: String
-    },
+  props: {
+    startDate: String,
+    endDate: String
+  },
 
-    methods: {
-        emitDate(date) {
-            if (this.startDate && !this.endDate) {
-                this.$emit("update:endDate", date);
-            } else {
-                this.$emit("update:startDate", date);
+  methods: {
+    emitDate (date) {
+      if (this.startDate && !this.endDate) {
+        this.$emit('update:endDate', date)
+      } else {
+        this.$emit('update:startDate', date)
 
-                if (this.endDate) {
-                    this.$emit("update:endDate", null);
-                }
-            }
-            this.$emit("focus");
-        },
-
-        isSelected(date) {
-            if (!this.startDate && !this.endDate) {
-                return false;
-            } else if (!this.endDate) {
-                return this.startDate === date;
-            } else {
-                return date >= this.startDate && date <= this.endDate;
-            }
-        },
-
-        isDisabled(date) {
-            if (this.startDate && !this.endDate) {
-                return date <= this.startDate;
-            } else {
-                return false;
-            }
+        if (this.endDate) {
+          this.$emit('update:endDate', null)
         }
+      }
+      this.$emit('focus');
+    },
+
+    isSelected (date) {
+      if (!this.startDate && !this.endDate) {
+        return false
+      } else if (!this.endDate) {
+        return this.startDate === date
+      } else {
+        return date >= this.startDate && date <= this.endDate
+      }
+    },
+
+    isDisabled (date) {
+      if (this.startDate && !this.endDate) {
+        return date <= this.startDate
+      } else {
+        return false
+      }
     }
+  }
 });
 
 
@@ -61422,7 +61422,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\deploy\Gepetto-Point-Of-Sale\resources\js\main.js */"./resources/js/main.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\Gepetto-Point-Of-Sale\resources\js\main.js */"./resources/js/main.js");
 
 
 /***/ })

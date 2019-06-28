@@ -20,6 +20,9 @@ import Cliente from "./views/Cliente.vue";
 import Factura from "./views/Factura.vue";
 import FacturaNew from "./views/FacturaNew.vue";
 
+//Productos Views
+import Producto from "./views/Producto.vue";
+
 // Cuenta Corriente
 import Cuenta from "./views/Cuenta.vue";
 
@@ -238,6 +241,36 @@ export default new Router({
                 ]
             }
         },
+
+        //Clientes Routes
+        {
+            path: "/productos",
+            name: "productos",
+            component: Producto,
+            meta: {
+                permissions: [
+                    {
+                        role: "visitor",
+                        access: false,
+                        redirect: "login"
+                    },
+                    {
+                        role: "superAdmin",
+                        access: true
+                    },
+                    {
+                        role: "admin",
+                        access: true
+                    },
+                    {
+                        role: "seller",
+                        access: true
+                    }
+                ]
+            }
+        },
+
+        //Cuentas Routes
         {
             path: "/cuenta",
             name: "cuenta",
@@ -264,6 +297,8 @@ export default new Router({
                 ]
             }
         },
+
+        //Reportes Routes
         {
             path: "/reporte",
             name: "reporte",

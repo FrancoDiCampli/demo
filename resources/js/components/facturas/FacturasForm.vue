@@ -36,17 +36,19 @@
                 <v-layout justify-space-around wrap>
                     <v-flex xs11 sm5>
                         <!-- Input Clientes -->
-                        <v-text-field
-                            @keyup="findClient()"
-                            v-model="client"
-                            :rules="[rules.required]"
-                            label="Cliente"
-                            box
-                            single-line
-                        ></v-text-field>
+                        <v-form ref="formFindClient">
+                            <v-text-field
+                                @keyup="findClient()"
+                                v-model="client"
+                                :rules="[rules.required]"
+                                label="Cliente"
+                                box
+                                single-line
+                            ></v-text-field>
+                        </v-form>
 
                         <!-- Tabla Clientes -->
-                        <transition name="fade">
+                        <transition name="expand">
                             <v-data-table
                                 v-show="client != null && client != '' && customers.length > 0"
                                 no-data-text="El cliente no se encuentra en la base de datos."
@@ -56,12 +58,7 @@
                                 class="search-table"
                             >
                                 <template v-slot:items="client">
-                                    <tr
-                                        @click="clientSelected = client.item.id"
-                                        @dblclick="selectClient(client.item)"
-                                        style="cursor: pointer;"
-                                        :style="clientSelected == client.item.id ? 'background-color: #26A69A; color: #FFFFFF;' : ''"
-                                    >
+                                    <tr @click="selectClient(client.item)" style="cursor: pointer;">
                                         <td>{{ client.item.documentounico }}</td>
                                         <td>{{ client.item.razonsocial }}</td>
                                     </tr>
@@ -125,21 +122,23 @@
                     <v-layout justify-space-around wrap>
                         <v-flex xs11>
                             <!-- Input Buscar Articulos -->
-                            <v-text-field
-                                @keyup="findArticle()"
-                                autofocus
-                                v-model="article"
-                                :rules="[rules.required]"
-                                label="Articulo"
-                                box
-                                single-line
-                            ></v-text-field>
+                            <v-form ref="formFindArticle">
+                                <v-text-field
+                                    @keyup="findArticle()"
+                                    autofocus
+                                    v-model="article"
+                                    :rules="[rules.required]"
+                                    label="Articulo"
+                                    box
+                                    single-line
+                                ></v-text-field>
+                            </v-form>
 
                             <!-- Tabla Buscar Articulos -->
-                            <transition name="fade">
+                            <transition>
                                 <v-data-table
                                     v-show="article != null && article != '' && products.length > 0"
-                                    no-data-text="El cliente no se encuentra en la base de datos."
+                                    no-data-text="El producto no se encuentra en la base de datos."
                                     hide-actions
                                     hide-headers
                                     :items="products"
@@ -147,10 +146,8 @@
                                 >
                                     <template v-slot:items="article">
                                         <tr
-                                            @click="articleSelected = article.item.id"
-                                            @dblclick="selectArticle(article.item)"
+                                            @click="selectArticle(article.item)"
                                             style="cursor: pointer;"
-                                            :style="articleSelected == article.item.id ? 'background-color: #26A69A; color: #FFFFFF;' : ''"
                                         >
                                             <td>{{ article.item.codarticulo }}</td>
                                             <td>{{ article.item.articulo }}</td>
@@ -219,7 +216,7 @@
                                         </template>
                                     </v-edit-dialog>
                                 </td>
-                                <td>{{ detail.item.precio }}</td>
+                                <td class="hidden-xs-only">{{ detail.item.precio }}</td>
                                 <td>{{ detail.item.subtotal }}</td>
                                 <td>
                                     <v-btn
@@ -307,6 +304,7 @@
                         </v-layout>
                     </v-flex>
                 </v-layout>
+                <br>
             </div>
             <!---------------------->
         </v-form>
@@ -329,7 +327,6 @@ export default {
             client: "CONSUMIDOR FINAL",
             detailClient: [],
             customers: [],
-            clientSelected: null,
             terms: ["CONTADO", "CREDITO / DEBITO", "CUENTA CORRIENTE"],
             condicion: "CONTADO",
 
@@ -340,12 +337,11 @@ export default {
             price: null,
             stock: 0,
             products: [],
-            articleSelected: null,
             details: [],
             detailsHeader: [
                 { text: "Articulo", sortable: false },
                 { text: "Cantidad", sortable: false },
-                { text: "Precio", sortable: false },
+                { text: "Precio", sortable: false, class: "hidden-xs-only" },
                 { text: "Subtotal", sortable: false },
                 { text: "", sortable: false }
             ],
@@ -444,33 +440,26 @@ export default {
     },
 
     methods: {
-        ...mapActions("crudx", ["save"]),
+        ...mapActions("crudx", ["index", "save"]),
 
         //Metodos Clientes
 
         // Buscar los clientes
-        findClient() {
-            this.clientSelected = null;
+        findClient: async function() {
             this.detailClient = [];
             if (this.client == "0") {
                 this.customers = [];
                 this.detailClient = [];
                 this.client = "CONSUMIDOR FINAL";
-                this.form.cliente_id = 0;
-            } else {
-                axios
-                    .get("/api/clientes", {
-                        params: {
-                            buscarCliente: this.client,
-                            limit: 5
-                        }
-                    })
-                    .then(response => {
-                        this.customers = response.data.clientes;
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
+                this.form.cliente_id = 1;
+            } else if (this.$refs.formFindClient.validate()) {
+                let response = await this.index({
+                    url: "/api/clientes",
+                    buscarCliente: this.client,
+                    limit: 5
+                });
+
+                this.customers = response.clientes;
             }
         },
 
@@ -494,24 +483,19 @@ export default {
         //Metodos Articulos
 
         //Buscar Articulo
-        findArticle() {
+        findArticle: async function() {
             this.$refs.formDetalles.resetValidation();
-            this.articleSelected = null;
             this.quantity = null;
             this.price = null;
-            axios
-                .get("/api/articulos", {
-                    params: {
-                        buscarArticulo: this.article,
-                        limit: 5
-                    }
-                })
-                .then(response => {
-                    this.products = response.data;
-                })
-                .catch(error => {
-                    console.log(error);
+            if (this.$refs.formFindArticle.validate()) {
+                let response = await this.index({
+                    url: "/api/articulos",
+                    buscarArticulo: this.article,
+                    limit: 5
                 });
+
+                this.products = response.articulos;
+            }
         },
 
         //Seleccionar Articulo
@@ -598,6 +582,8 @@ export default {
         cancelFactura: async function() {
             //Reset Formularios
             this.details = [];
+            await this.$refs.formFindClient.reset();
+            await this.$refs.formFindArticle.reset();
             await this.$refs.formDetalles.reset();
             await this.$refs.formFactura.reset();
             //Establecer Valores Predeterminados
@@ -625,19 +611,17 @@ export default {
     border-radius: 0px 0px 5px 5px;
 }
 
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 0.5s;
-}
-.fade-enter {
-    transform: translateY(-60px);
-}
-
-.fade-leave-to {
-    opacity: 0;
-}
-
 .expansion-border {
     border-bottom: 1px solid #aaaaaa;
+}
+
+.expand-transition {
+    transition: all 0.5s ease;
+}
+
+.expand-enter,
+.expand-leave {
+    height: 0;
+    opacity: 0;
 }
 </style>

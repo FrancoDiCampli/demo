@@ -10,7 +10,7 @@
             >
                 <v-progress-linear v-slot:progress color="primary" indeterminate></v-progress-linear>
                 <template v-slot:items="factura">
-                    <td>
+                    <td class="hidden-xs-only">
                         <v-avatar class="type-item">
                             <div v-if="factura.item.cae == null">
                                 <p class="title type">X</p>
@@ -28,7 +28,7 @@
                     </td>
                     <td class="hidden-sm-and-down">{{ factura.item.cuit }}</td>
                     <td>{{ factura.item.total }}</td>
-                    <td>{{ factura.item.fecha }}</td>
+                    <td class="hidden-xs-only">{{ factura.item.fecha }}</td>
                     <td>
                         <v-menu>
                             <template v-slot:activator="{ on }">
@@ -110,11 +110,11 @@ export default {
             limit: 10,
             loadingButton: false,
             headers: [
-                { text: "Tipo", sortable: false },
+                { text: "Tipo", sortable: false, class: "hidden-xs-only" },
                 { text: "Nº Factura", sortable: false },
                 { text: "CUIT", sortable: false, class: "hidden-sm-and-down" },
                 { text: "Importe", sortable: false },
-                { text: "Fecha", sortable: false },
+                { text: "Fecha", sortable: false, class: "hidden-xs-only" },
                 { text: "", sortable: false }
             ],
             grabarFacturasDialog: false,

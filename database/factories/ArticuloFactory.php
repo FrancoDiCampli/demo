@@ -19,8 +19,8 @@ $factory->define(Articulo::class, function (Faker $faker) {
         // 'precio' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1, $max = 999),
         'precio' => $c+$u,
         'alicuota' => $faker->randomFloat($nbMaxDecimals = 2, $min = 5, $max = 11),
-        'estado' => 1,
         'marca_id' => Marca::all()->random()->id,
         'categoria_id' => Categoria::all()->random()->id,
+        'foto' => $faker->imageUrl($width = 640, $height = 480)
     ];
 });

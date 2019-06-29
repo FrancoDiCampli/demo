@@ -15,7 +15,7 @@ class CategoriasController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate(['categoria'=>'required|unique:categorias|min:1|max:190']);
+        $data = $request->validate(['categoria'=>'required|unique:categorias|min:3|max:190']);
 
         $data['categoria'] = ucwords($data['categoria']);
 

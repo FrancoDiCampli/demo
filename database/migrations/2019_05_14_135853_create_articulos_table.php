@@ -25,10 +25,11 @@ class CreateArticulosTable extends Migration
             $table->decimal('utilidades', 8, 2);
             $table->decimal('precio', 8, 2);
             $table->decimal('alicuota', 8, 2);
-            $table->boolean('estado');
             $table->unsignedBigInteger('marca_id');
             $table->unsignedBigInteger('categoria_id');
+            $table->string('foto')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('marca_id')->references('id')->on('marcas');
             $table->foreign('categoria_id')->references('id')->on('categorias');

@@ -33,6 +33,7 @@ class StoreCliente extends FormRequest
             'localidad'=>'required|min:1|max:190',
             'provincia'=>'required|min:1|max:190',
             'condicioniva'=>'required|min:1|max:190',
+            'foto' => 'nullable'
         ];
     }
 }

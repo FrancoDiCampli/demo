@@ -4,13 +4,14 @@ namespace App\Http\Controllers\API;
 
 use Afip;
 use App\Cliente;
+use App\Factura;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreCliente;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateCliente;
 use function GuzzleHttp\json_encode;
-use App\Factura;
-use Carbon\Carbon;
+use Intervention\Image\Facades\Image;
 
 class ClientesController extends Controller
 {
@@ -29,6 +30,18 @@ class ClientesController extends Controller
 
     public function store(StoreCliente $request)
     {
+        $name = 'noimage.png';
+        if ($request->get('foto')) {
+            $carpeta = public_path() . '/img/clientes/';
+            if (!file_exists($carpeta)) {
+                mkdir($carpeta, 0777, true);
+            }
+            $image = $request->get('foto');
+            $name = time() . $image;
+            Image::make($request->get('foto'))->save(public_path('img/clientes/') . $name);
+        }
+        $foto = '/img/clientes/' . $name;
+
         $atributos = $request->validated();
 
         $atributos['razonsocial'] = ucwords($atributos['razonsocial']);
@@ -36,6 +49,7 @@ class ClientesController extends Controller
         $atributos['localidad'] = ucwords($atributos['localidad']);
         $atributos['provincia'] = ucwords($atributos['provincia']);
         $atributos['condicioniva'] = ucwords($atributos['condicioniva']);
+        $atributos['foto'] = $foto;
 
         Cliente::create($atributos);
         return ['message' => 'guardado'];
@@ -72,6 +86,24 @@ class ClientesController extends Controller
     public function update(UpdateCliente $request, $id)
     {
         $cliente = Cliente::find($id);
+
+        if ($request->get('foto') != $cliente->foto) {
+            $carpeta = '/img/clientes/';
+            if (!file_exists($carpeta)) {
+                mkdir($carpeta, 0777, true);
+            }
+            $eliminar = $cliente->foto;
+            if (file_exists($eliminar)) {
+                @unlink($eliminar);
+            }
+            $image = $request->get('foto');
+            $name = time() . '.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+            Image::make($request->get('foto'))->save(public_path('img/clientes/') . $name);
+            $foto = 'img/clientes/' . $name;
+        } else {
+            $foto = $cliente->foto;
+        }
+
         $atributos = $request->validated();
 
         $atributos['razonsocial'] = ucwords($atributos['razonsocial']);
@@ -79,6 +111,7 @@ class ClientesController extends Controller
         $atributos['localidad'] = ucwords($atributos['localidad']);
         $atributos['provincia'] = ucwords($atributos['provincia']);
         $atributos['condicioniva'] = ucwords($atributos['condicioniva']);
+        $atributos['foto'] = $foto;
 
         $cliente->update($atributos);
         return ['message' => 'actualizado'];

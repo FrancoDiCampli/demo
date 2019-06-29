@@ -24,6 +24,7 @@ class CreateClientesTable extends Migration
             $table->string('localidad');
             $table->string('provincia');
             $table->string('condicioniva');
+            $table->string('foto')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

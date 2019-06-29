@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Articulo;
+use App\Categoria;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreArticulo;
 use App\Http\Requests\UpdateArticulo;
+use Intervention\Image\Facades\Image;
 
 class ArticulosController extends Controller
 {
@@ -23,13 +25,24 @@ class ArticulosController extends Controller
 
     public function store(StoreArticulo $request)
     {
+        $name = 'noimage.png';
+        if ($request->get('foto')) {
+            $carpeta = public_path() . '/img/articulos/';
+            if (!file_exists($carpeta)) {
+                mkdir($carpeta, 777, true);
+            }
+            $image = $request->get('foto');
+            $name = time() . '.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+            Image::make($request->get('foto'))->save(public_path('img/articulos/') . $name);
+        }
+        $foto = '/img/articulos/' . $name;
+
         $data = $request->validated();
 
         $data['articulo'] = ucwords($data['articulo']);
-        $data['codarticulo'] = $this->generator($data['articulo']);
         $data['descripcion'] = ucwords($data['descripcion']);
         $data['medida'] = ucwords($data['medida']);
-        $data['precio'] = $data['costo'] + $data['utilidades'];
+        $data['foto'] = $foto;
 
         return Articulo::create($data);
     }
@@ -37,13 +50,30 @@ class ArticulosController extends Controller
     public function update(UpdateArticulo $request, $id)
     {
         $articulo = Articulo::find($id);
+
+        if ($request->get('foto') != $articulo->foto) {
+            $carpeta = '/img/articulos/';
+            if (!file_exists($carpeta)) {
+                mkdir($carpeta, 0777, true);
+            }
+            $eliminar = $articulo->foto;
+            if (file_exists($eliminar)) {
+                @unlink($eliminar);
+            }
+            $image = $request->get('foto');
+            $name = time() . '.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+            Image::make($request->get('foto'))->save(public_path('img/articulos/') . $name);
+            $foto = 'img/articulos/' . $name;
+        } else {
+            $foto = $articulo->foto;
+        }
+
         $data = $request->validated();
 
         $data['articulo'] = ucwords($data['articulo']);
-        $data['codarticulo'] = $this->generator($data['articulo']);
         $data['descripcion'] = ucwords($data['descripcion']);
         $data['medida'] = ucwords($data['medida']);
-        $data['precio'] = $data['costo'] + $data['utilidades'];
+        $data['foto'] = $foto;
 
         $articulo->update($data);
         return ['message' => 'actualizado'];
@@ -67,35 +97,16 @@ class ArticulosController extends Controller
         ]);
     }
 
-    public function generator($articulo)
+    public function generator($categoria_id)
     {
-        $articulo = strtoupper($articulo);
-        $palabras = str_word_count($articulo, 1);
-        $long = count($palabras);
+        $categoria = Categoria::find($categoria_id);
+        $cat = $categoria->categoria;
+        $category = strtoupper($cat);
         $arr[] = null;
-        $letras = 'i';
+        $arreglo = str_split($category);
+        $letras = $arreglo[0].$arreglo[1].$arreglo[2];
         $codar = '';
         $id = 0;
-
-        switch ($long) {
-            case 1:
-                $arr = str_split($palabras[0]);
-                $letras = $arr[0];
-                break;
-
-            case 2:
-                $arr = str_split($palabras[0]);
-                $arr2 = str_split($palabras[1]);
-                $letras = $arr[0] . $arr2[0];
-                break;
-
-            default:
-                $arr = str_split($palabras[0]);
-                $arr2 = str_split($palabras[1]);
-                $arr3 = str_split($palabras[2]);
-                $letras = $arr[0] . $arr2[0] . $arr3[0];
-                break;
-        }
 
         if (Articulo::all()->last()) {
             $id = Articulo::all()->last()->id + 1;
@@ -106,14 +117,6 @@ class ArticulosController extends Controller
         $suma = strlen($letras) + strlen($id);
 
         switch ($suma) {
-            case 2:
-                $codar = $letras . '00000000000' . $id;
-                break;
-
-            case 3:
-                $codar = $letras . '0000000000' . $id;
-                break;
-
             case 4:
                 $codar = $letras . '000000000' . $id;
                 break;

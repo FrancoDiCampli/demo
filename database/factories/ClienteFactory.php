@@ -13,6 +13,7 @@ $factory->define(Cliente::class, function (Faker $faker) {
         'codigopostal' => $faker->numberBetween($min = 1000, $max = 9000),
         'localidad' => $faker->city,
         'provincia' => $faker->state,
-        'condicioniva' => 'MONOTRIBUTO'
+        'condicioniva' => 'MONOTRIBUTO',
+        'foto' => $faker->imageUrl($width = 640, $height = 480)
     ];
 });

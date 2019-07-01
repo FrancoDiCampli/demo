@@ -57,7 +57,7 @@
                 </v-flex>
             </v-flex>
         </v-layout>
-        <br>
+        <br />
         <v-layout justify-space-around wrap>
             <v-flex xs12 sm6 lg3 px-3>
                 <v-text-field
@@ -211,15 +211,14 @@ export default {
                         let codigo =
                             this.marca[0] + this.marca[1] + this.marca[2];
 
-                        let number = this.marcaLastId.toString();
+                        let number = this.newId.toString();
                         let zeroLength = 10 - number.length;
 
                         for (let i = 0; i < zeroLength; i++) {
                             codigo += "0";
                         }
 
-                        let newId = this.marcaLastId + 1;
-                        codigo += newId.toString();
+                        codigo += number;
 
                         return codigo.toUpperCase();
                     } else {

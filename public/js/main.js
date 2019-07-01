@@ -6146,16 +6146,108 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {
+    var _ref;
+
+    return _ref = {
       cantidad: null,
       tmov: null,
       articulo: null,
       inventarios: [],
       expand: false,
+      nuevoInventario: false,
       headers: [{
         text: "ID",
         sortable: false,
@@ -6187,8 +6279,36 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, {
         movimiento: "VENCIMIENTO",
         valor: 4
-      }]
-    };
+      }],
+      suppliers: [{
+        id: 1,
+        proveedor: "ARCOR"
+      }, {
+        id: 2,
+        proveedor: "SANCOR"
+      }, {
+        id: 3,
+        proveedor: "COCA COLA"
+      }],
+      details: [{
+        text: "Id",
+        sortable: false
+      }, {
+        text: "Movimiento",
+        sortable: false
+      }, {
+        text: "Cantidad",
+        sortable: false
+      }, {
+        text: "Fecha",
+        sortable: false
+      }, {
+        text: "No Comprobante",
+        sortable: false
+      }],
+      vto: null,
+      stock: null
+    }, _defineProperty(_ref, "cantidad", null), _defineProperty(_ref, "supplier", null), _defineProperty(_ref, "preciocosto", null), _defineProperty(_ref, "lote", null), _defineProperty(_ref, "articulo_id", null), _defineProperty(_ref, "detalles", []), _ref;
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])("crudx", ["showData"])),
   mounted: function mounted() {
@@ -6271,6 +6391,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         console.log(response.data);
       });
       this.getInventario();
+    },
+    guardarInventario: function guardarInventario() {
+      var data = {
+        cantidad: this.cantidad,
+        stockminimo: this.stock,
+        vencimiento: this.vto,
+        articulo_id: this.articulo.id,
+        supplier_id: this.supplier,
+        preciocosto: this.preciocosto,
+        lote: this.lote
+      };
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("api/inventarios", data).then(function (response) {
+        console.log(response.data);
+      });
+      this.getInventario();
+    },
+    detallar: function detallar($id) {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/api/inventario/" + $id).then(function (response) {
+        _this.detalles = response.data;
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
   })
 });
@@ -6722,30 +6866,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       };
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("api/estadisticas/reportes", data).then(function (response) {
         console.log(response.data);
-      }); // let response = await this.index({
-      //     url: "api/estadisticas/reportes",
-      //     data: {
-      //         vendedor: this.vendedor,
-      //         producto: this.producto,
-      //         fechaDesde: this.range.start,
-      //         fechaHasta: this.range.end
-      //     }
-      // });
-      // axios
-      //     .post("api/estadisticas/reportes", {
-      //         params: {
-      //             vendedor: this.vendedor,
-      //             producto: this.producto,
-      //             fechaDesde: this.range.start,
-      //             fechaHasta: this.range.end
-      //         }
-      //     })
-      //     .then(response => {
-      //         console.log(response.data);
-      //     })
-      //     .catch(error => {
-      //         console.log(error);
-      //     });
+      });
     }
   })
 });
@@ -16064,7 +16185,11 @@ var render = function() {
                                 },
                                 [
                                   _c("span", { staticClass: "headline" }, [
-                                    _vm._v(_vm._s(_vm.articulo.articulo))
+                                    _vm._v(
+                                      _vm._s(_vm.articulo.articulo) +
+                                        " - " +
+                                        _vm._s(_vm.articulo.id)
+                                    )
                                   ])
                                 ]
                               )
@@ -16147,6 +16272,7 @@ var render = function() {
                                       on: {
                                         click: function($event) {
                                           inventario.expanded = !inventario.expanded
+                                          _vm.detallar(inventario.item.id)
                                         }
                                       }
                                     },
@@ -16372,11 +16498,120 @@ var render = function() {
                                   )
                                 ]
                               }
+                            },
+                            {
+                              key: "expand",
+                              fn: function(inventario) {
+                                return [
+                                  _c(
+                                    "v-card",
+                                    { attrs: { flat: "" } },
+                                    [
+                                      _c(
+                                        "v-card-text",
+                                        [
+                                          _c("v-data-table", {
+                                            staticClass: "elevation-1",
+                                            attrs: {
+                                              headers: _vm.details,
+                                              items: _vm.detalles
+                                            },
+                                            scopedSlots: _vm._u(
+                                              [
+                                                {
+                                                  key: "items",
+                                                  fn: function(detalle) {
+                                                    return [
+                                                      _c("td", [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            detalle.item.id
+                                                          )
+                                                        )
+                                                      ]),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "td",
+                                                        {
+                                                          staticClass:
+                                                            "text-xs-right"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              detalle.item.tipo
+                                                            )
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "td",
+                                                        {
+                                                          staticClass:
+                                                            "text-xs-right"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              detalle.item
+                                                                .cantidad
+                                                            )
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "td",
+                                                        {
+                                                          staticClass:
+                                                            "text-xs-right"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              detalle.item.fecha
+                                                            )
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "td",
+                                                        {
+                                                          staticClass:
+                                                            "text-xs-right"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              detalle.item
+                                                                .numcomprobante
+                                                            )
+                                                          )
+                                                        ]
+                                                      )
+                                                    ]
+                                                  }
+                                                }
+                                              ],
+                                              null,
+                                              true
+                                            )
+                                          })
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ]
+                              }
                             }
                           ],
                           null,
                           false,
-                          1895311441
+                          2712069533
                         )
                       })
                     ],
@@ -16388,7 +16623,257 @@ var render = function() {
             ],
             1
           )
-        : _vm._e()
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "v-flex",
+        [
+          _c(
+            "v-dialog",
+            {
+              attrs: { persistent: "", "max-width": "600px" },
+              scopedSlots: _vm._u([
+                {
+                  key: "activator",
+                  fn: function(ref) {
+                    var on = ref.on
+                    return [
+                      _c(
+                        "v-btn",
+                        _vm._g({ attrs: { color: "primary", dark: "" } }, on),
+                        [_vm._v("Open Dialog")]
+                      )
+                    ]
+                  }
+                }
+              ]),
+              model: {
+                value: _vm.nuevoInventario,
+                callback: function($$v) {
+                  _vm.nuevoInventario = $$v
+                },
+                expression: "nuevoInventario"
+              }
+            },
+            [
+              _vm._v(" "),
+              _c(
+                "v-card",
+                [
+                  _c("v-card-title", [
+                    _c("span", { staticClass: "headline" }, [
+                      _vm._v("User Profile")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-text",
+                    [
+                      _c(
+                        "v-container",
+                        { attrs: { "grid-list-md": "" } },
+                        [
+                          _c(
+                            "v-layout",
+                            { attrs: { wrap: "" } },
+                            [
+                              _c(
+                                "v-flex",
+                                { attrs: { xs12: "", sm6: "", md4: "" } },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: { label: "Cantidad", required: "" },
+                                    model: {
+                                      value: _vm.cantidad,
+                                      callback: function($$v) {
+                                        _vm.cantidad = $$v
+                                      },
+                                      expression: "cantidad"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-flex",
+                                { attrs: { xs12: "", sm6: "", md4: "" } },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      label: "Stock Minimo",
+                                      hint:
+                                        "example of helper text only on focus"
+                                    },
+                                    model: {
+                                      value: _vm.stock,
+                                      callback: function($$v) {
+                                        _vm.stock = $$v
+                                      },
+                                      expression: "stock"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-flex",
+                                { attrs: { xs12: "", sm6: "", md4: "" } },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: { label: "Costo" },
+                                    model: {
+                                      value: _vm.preciocosto,
+                                      callback: function($$v) {
+                                        _vm.preciocosto = $$v
+                                      },
+                                      expression: "preciocosto"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-flex",
+                                { attrs: { xs12: "", sm6: "", md4: "" } },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      label: "Lote",
+                                      hint:
+                                        "coloca un lote para identificar el vencimiento"
+                                    },
+                                    model: {
+                                      value: _vm.lote,
+                                      callback: function($$v) {
+                                        _vm.lote = $$v
+                                      },
+                                      expression: "lote"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-flex",
+                                { attrs: { xs12: "", sm6: "" } },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: { label: "Vencimiento" },
+                                    model: {
+                                      value: _vm.vto,
+                                      callback: function($$v) {
+                                        _vm.vto = $$v
+                                      },
+                                      expression: "vto"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-flex",
+                                { attrs: { xs12: "", sm6: "" } },
+                                [
+                                  _c("v-select", {
+                                    attrs: {
+                                      items: _vm.suppliers,
+                                      "item-text": "proveedor",
+                                      "item-value": "id",
+                                      label: "Outline style",
+                                      outline: ""
+                                    },
+                                    model: {
+                                      value: _vm.supplier,
+                                      callback: function($$v) {
+                                        _vm.supplier = $$v
+                                      },
+                                      expression: "supplier"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("small", [_vm._v("*indicates required field")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "blue darken-1", flat: "" },
+                          on: {
+                            click: function($event) {
+                              _vm.nuevoInventario = false
+                            }
+                          }
+                        },
+                        [_vm._v("Close")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "blue darken-1", flat: "" },
+                          on: {
+                            click: function($event) {
+                              _vm.nuevoInventario = false
+                              _vm.guardarInventario()
+                            }
+                          }
+                        },
+                        [_vm._v("Save")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-btn",
+        {
+          attrs: {
+            dark: "",
+            fab: "",
+            fixed: "",
+            right: "",
+            bottom: "",
+            color: "primary"
+          },
+          on: {
+            click: function($event) {
+              _vm.nuevoInventario = true
+            }
+          }
+        },
+        [_c("v-icon", [_vm._v("fas fa-plus")])],
+        1
+      )
     ],
     1
   )
@@ -17400,29 +17885,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c(
-        "v-btn",
-        {
-          attrs: {
-            dark: "",
-            fab: "",
-            fixed: "",
-            right: "",
-            bottom: "",
-            color: "primary"
-          }
-        },
-        [_c("v-icon", [_vm._v("fas fa-plus")])],
-        1
-      ),
-      _vm._v(" "),
-      _c("InventarioIndex")
-    ],
-    1
-  )
+  return _c("div", [_c("InventarioIndex")], 1)
 }
 var staticRenderFns = []
 render._withStripped = true

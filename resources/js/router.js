@@ -22,12 +22,17 @@ import FacturaNew from "./views/FacturaNew.vue";
 
 //Productos Views
 import Producto from "./views/Producto.vue";
+import ProductoNew from "./views/ProductoNew.vue";
 
+// ELIMINAR
 // Cuenta Corriente
 import Cuenta from "./views/Cuenta.vue";
 
 // Reportes
 import Reporte from "./views/Reporte.vue";
+
+// Inventarios
+import Inventario from "./views/Inventario.vue";
 
 Vue.use(Router);
 
@@ -217,7 +222,7 @@ export default new Router({
 
         {
             path: "/ventas/nueva",
-            name: "nuevaVenta",
+            name: "nueva venta",
             component: FacturaNew,
             meta: {
                 permissions: [
@@ -242,11 +247,37 @@ export default new Router({
             }
         },
 
-        //Clientes Routes
+        //Productos Routes
         {
             path: "/productos",
             name: "productos",
             component: Producto,
+            meta: {
+                permissions: [
+                    {
+                        role: "visitor",
+                        access: false,
+                        redirect: "login"
+                    },
+                    {
+                        role: "superAdmin",
+                        access: true
+                    },
+                    {
+                        role: "admin",
+                        access: true
+                    },
+                    {
+                        role: "seller",
+                        access: true
+                    }
+                ]
+            }
+        },
+        {
+            path: "/productos/nuevo",
+            name: "nuevo producto",
+            component: ProductoNew,
             meta: {
                 permissions: [
                     {
@@ -303,6 +334,34 @@ export default new Router({
             path: "/reporte",
             name: "reporte",
             component: Reporte,
+            meta: {
+                permissions: [
+                    {
+                        role: "visitor",
+                        access: false,
+                        redirect: "login"
+                    },
+                    {
+                        role: "superAdmin",
+                        access: true
+                    },
+                    {
+                        role: "admin",
+                        access: true
+                    },
+                    {
+                        role: "seller",
+                        access: true
+                    }
+                ]
+            }
+        },
+
+        //Inventario Routes
+        {
+            path: "/inventario",
+            name: "inventario",
+            component: Inventario,
             meta: {
                 permissions: [
                     {

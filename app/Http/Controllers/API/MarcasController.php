@@ -8,9 +8,15 @@ use App\Http\Controllers\Controller;
 
 class MarcasController extends Controller
 {
-    public function index ()
+    public function index (Request $request)
     {
-        return $marcas = Marca::get();
+        $marcas = Marca::orderBy('id', 'desc')
+            ->buscar($request);
+
+        return [
+            'marcas' => $marcas->take($request->get('limit', null))->get(),
+            'total' => $marcas->count(),
+        ];
     }
 
     public function store(Request $request)

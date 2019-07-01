@@ -1,111 +1,50 @@
 <template>
-    <div>
-        <v-layout wrap justify-space-around>
-            <v-flex xs12 sm5>
-                <v-text-field
-                    v-model="form.articulo"
-                    label="Articulo"
-                    hint="Articulo"
-                    :rules="[rules.required]"
-                    box
-                    single-line
-                    color="primary"
-                ></v-text-field>
-            </v-flex>
-            <v-flex xs12 sm5>
-                <v-text-field
-                    v-model="form.descripcion"
-                    label="Descripcion"
-                    hint="Descripcion"
-                    :rules="[rules.required]"
-                    box
-                    single-line
-                    color="primary"
-                ></v-text-field>
-            </v-flex>
-            <v-flex xs12 sm5>
-                <v-select
-                    v-model="form.categoria_id"
-                    :items="categorias"
-                    item-text="categoria"
-                    item-value="id"
-                    :rules="[rules.required]"
-                    label="Categoria"
-                    hint="Categoria"
-                    box
-                    single-line
-                    color="primary"
-                ></v-select>
-            </v-flex>
-            <v-flex xs12 sm5>
-                <v-select
-                    v-model="form.marca_id"
-                    :items="marcas"
-                    item-text="marca"
-                    item-value="id"
-                    :rules="[rules.required]"
-                    label="Marcas"
-                    hint="Marcas"
-                    box
-                    single-line
-                    color="primary"
-                ></v-select>
-            </v-flex>
-        </v-layout>
-    </div>
+    <v-layout justify-space-around wrap>
+        <v-flex xs12 sm6>
+            <v-layout justify-center wrap>
+                <v-flex xs12>
+                    <v-layout justify-center>
+                        <croppa
+                            v-model="imgProducto"
+                            :prevent-white-space="true"
+                            :show-remove-button="false"
+                            :width="250"
+                            :height="250"
+                        ></croppa>
+                    </v-layout>
+                </v-flex>
+                <v-flex xs12>
+                    <v-layout justify-center>
+                        <v-btn flat icon color="primary" @click="imgProducto.zoomIn()">
+                            <v-icon>fas fa-search-plus</v-icon>
+                        </v-btn>
+                        <v-btn flat icon color="primary" @click="imgProducto.zoomOut()">
+                            <v-icon>fas fa-search-minus</v-icon>
+                        </v-btn>
+                        <v-btn flat icon color="primary" @click="imgProducto.rotate()">
+                            <v-icon>fas fa-redo</v-icon>
+                        </v-btn>
+                        <v-btn flat icon color="primary" @click="imgProducto = null">
+                            <v-icon>fas fa-times</v-icon>
+                        </v-btn>
+                    </v-layout>
+                </v-flex>
+            </v-layout>
+        </v-flex>
+        <v-flex xs12 sm6>
+            <h1>Inputs</h1>
+        </v-flex>
+    </v-layout>
 </template>
 
 <script>
-//Vuex
-import { mapState } from "vuex";
-
-//Axios
-import axios from "axios";
-
 export default {
-    name: "ProductosForm.vue",
+    name: "ProductosForm",
 
     data() {
         return {
-            categorias: [],
-            marcas: [],
-            rules: {
-                required: value => !!value || "Este campo es obligatorio"
-            }
+            imgProducto: null
         };
-    },
-
-    computed: {
-        ...mapState("crudx", ["form"])
-    },
-
-    mounted() {
-        this.getCategorias();
-        this.getMarcas();
-    },
-
-    methods: {
-        getCategorias() {
-            axios
-                .get("api/categorias")
-                .then(response => {
-                    this.categorias = response.data;
-                })
-                .catch(error => {
-                    console.log(error.response.data);
-                });
-        },
-
-        getMarcas() {
-            axios
-                .get("api/marcas")
-                .then(response => {
-                    this.marcas = response.data;
-                })
-                .catch(error => {
-                    console.log(error.response.data);
-                });
-        }
     }
 };
 </script>

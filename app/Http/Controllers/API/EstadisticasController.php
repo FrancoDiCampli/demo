@@ -109,6 +109,10 @@ class EstadisticasController extends Controller
             ->get();
 
 
+
+
+
+
         return $facturas;
     }
 }

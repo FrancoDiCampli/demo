@@ -67,6 +67,8 @@ class ClientesController extends Controller
                     $cuentas[] = $fac->cuenta;
                 } else $cuentas = [];
             }
+        } else {
+            $cuentas = [];
         }
 
         if (count($cuentas) > 0) {
@@ -127,7 +129,7 @@ class ClientesController extends Controller
     public function buscarAfip($num)
     {
         $num = $num * 1;
-        $afip = new Afip(array('CUIT' => 20417590200));
+        $afip = new Afip(array('CUIT' => 20349590418));
         $contribuyente = $afip->RegisterScopeFour->GetTaxpayerDetails($num);
         return json_encode($contribuyente);
     }

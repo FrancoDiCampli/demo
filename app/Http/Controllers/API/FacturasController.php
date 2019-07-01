@@ -45,7 +45,7 @@ class FacturasController extends Controller
         }
 
         if (Factura::all()->last()) {
-            $id = Factura::all()->last()->id+1;
+            $id = Factura::all()->last()->id + 1;
         } else {
             $id = 1;
         }
@@ -78,7 +78,7 @@ class FacturasController extends Controller
                 'subtotal' => $detail['cantidad'] * $articulo['precio'],
                 'articulo_id' => $detail['articulo_id'],
                 'factura_id' => $factura->id,
-                'created_at'=>now()->format('Ymd'),
+                'created_at' => now()->format('Ymd'),
             );
             $det[] = $detalles;
         }
@@ -98,7 +98,7 @@ class FacturasController extends Controller
                 'tipo' => 'ALTA',
                 'fecha' => $cuenta->alta,
                 'user_id' => auth()->user()->id,
-                'importe'=>$cuenta->importe
+                'importe' => $cuenta->importe
             ]);
         } else if ($solicitarCAE && $factura->estado) {
             $this->solicitarCae($factura->id);
@@ -194,7 +194,7 @@ class FacturasController extends Controller
             }
             $data = array(
                 'CantReg'         => 1, // Cantidad de comprobantes a registrar
-                'PtoVta'         => $atributos['puntoventa'], // Punto de venta
+                'PtoVta'         => 1, // Punto de venta
                 'CbteTipo'         => $atributos['tipocomprobante'], // Tipo de comprobante (ver tipos disponibles)
                 'Concepto'         => $atributos['concepto'], // Concepto del Comprobante: (1)Productos, (2)Servicios, (3)Productos y Servicios
                 'DocTipo'         => $atributos['tipo'], // Tipo de documento del comprador (ver tipos disponibles)

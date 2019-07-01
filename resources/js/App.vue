@@ -64,10 +64,15 @@
                     <v-list-tile-action>
                         <v-icon>fas fa-clipboard</v-icon>
                     </v-list-tile-action>
+                </v-list-tile>
+                <!-- End Reportes -->
+                <v-divider></v-divider>
 
-                    <v-list-tile-content>
-                        <v-list-tile-title>Roles</v-list-tile-title>
-                    </v-list-tile-content>
+                <!-- Inventarios -->
+                <v-list-tile to="/inventario" v-show="rol == 'superAdmin'">
+                    <v-list-tile-action>
+                        <v-icon>fas fa-boxes</v-icon>
+                    </v-list-tile-action>
                 </v-list-tile>
                 <!-- End Reportes -->
                 <v-divider></v-divider>

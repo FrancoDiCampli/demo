@@ -6492,7 +6492,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       categorias: [],
       marca: null,
       marcas: [],
-      marcaLastId: null,
+      categoriaLastId: null,
       rules: {
         required: function required(value) {
           return !!value || "Este campo es obligatorio";
@@ -6504,10 +6504,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     codigo: {
       set: function set() {},
       get: function get() {
-        if (this.marca != null && this.marca != "") {
-          if (this.marca.length >= 3) {
-            var codigo = this.marca[0] + this.marca[1] + this.marca[2];
-            var number = this.newId.toString();
+        if (this.categoria != null && this.categoria != "") {
+          if (this.categoria.length >= 3) {
+            var codigo = this.categoria[0] + this.categoria[1] + this.categoria[2];
+            var newId = this.categoriaLastId + 1;
+            var number = newId.toString();
             var zeroLength = 10 - number.length;
 
             for (var i = 0; i < zeroLength; i++) {
@@ -6632,13 +6633,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context3.next = 2;
                 return this.index({
-                  url: "/api/marcas",
+                  url: "/api/categorias",
                   limit: 1
                 });
 
               case 2:
                 response = _context3.sent;
-                this.marcaLastId = response.marcas[0].id;
+                this.categoriaLastId = response.categorias[0].id;
 
               case 4:
               case "end":

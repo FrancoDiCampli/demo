@@ -6507,15 +6507,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         if (this.marca != null && this.marca != "") {
           if (this.marca.length >= 3) {
             var codigo = this.marca[0] + this.marca[1] + this.marca[2];
-            var number = this.marcaLastId.toString();
+            var number = this.newId.toString();
             var zeroLength = 10 - number.length;
 
             for (var i = 0; i < zeroLength; i++) {
               codigo += "0";
             }
 
-            var newId = this.marcaLastId + 1;
-            codigo += newId.toString();
+            codigo += number;
             return codigo.toUpperCase();
           } else {
             return null;
@@ -66491,7 +66490,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\xampp\htdocs\laravel-projects\Gepetto-Point-Of-Sale\resources\js\main.js */"./resources/js/main.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\Gepetto-Point-Of-Sale\resources\js\main.js */"./resources/js/main.js");
 
 
 /***/ })

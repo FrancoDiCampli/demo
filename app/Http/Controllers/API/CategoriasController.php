@@ -8,9 +8,15 @@ use App\Http\Controllers\Controller;
 
 class CategoriasController extends Controller
 {
-    public function index ()
+    public function index (Request $request)
     {
-        return $categorias = Categoria::get();
+        $categorias = Categoria::orderBy('categoria', 'asc')
+            ->buscar($request);
+
+        return [
+            'categorias' => $categorias->take($request->get('limit', null))->get(),
+            'total' => $categorias->count()
+        ];
     }
 
     public function store(Request $request)

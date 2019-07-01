@@ -162,4 +162,10 @@ class ArticulosController extends Controller
         // $generator->getBarcode($codar, $generator::TYPE_CODE_128);
         return $codar;
     }
+
+
+    public function show($id){
+        return $articulo = Articulo::find($id);
+    }
+
 }

@@ -1,9 +1,9 @@
 <template>
     <div>
         <!-- Boton para agregar un nuevo Inventario -->
-        <v-btn dark fab fixed right bottom color="primary">
+        <!-- <v-btn dark fab fixed right bottom color="primary">
             <v-icon>fas fa-plus</v-icon>
-        </v-btn>
+        </v-btn>-->
 
         <!-- Index Inventario -->
 

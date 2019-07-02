@@ -36,7 +36,7 @@ class SuppliersController extends Controller
     public function update(Request $request, $id)
     {
         $supplier = Supplier::findOrFail($id);
-        
+
         $data = $request->validate([
             'razonsocial' => 'required|min:1|max:190|unique:suppliers,razonsocial,' . $supplier->id,
             'cuit' => 'required|min:11|max:11|unique:suppliers,cuit,' . $supplier->id,
@@ -56,8 +56,13 @@ class SuppliersController extends Controller
     {
         $supplier = Supplier::findOrFail($id);
         $supplier->delete();
-        
+
         return ['message'=>'eliminado'];
+    }
+
+
+    public function show($id){
+        return $supplier = Supplier::find($id);
     }
 
 }

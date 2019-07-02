@@ -173,31 +173,6 @@ export default {
                 console.log(response.data);
             });
 
-            // let response = await this.index({
-            //     url: "api/estadisticas/reportes",
-            //     data: {
-            //         vendedor: this.vendedor,
-            //         producto: this.producto,
-            //         fechaDesde: this.range.start,
-            //         fechaHasta: this.range.end
-            //     }
-            // });
-
-            // axios
-            //     .post("api/estadisticas/reportes", {
-            //         params: {
-            //             vendedor: this.vendedor,
-            //             producto: this.producto,
-            //             fechaDesde: this.range.start,
-            //             fechaHasta: this.range.end
-            //         }
-            //     })
-            //     .then(response => {
-            //         console.log(response.data);
-            //     })
-            //     .catch(error => {
-            //         console.log(error);
-            //     });
         }
     }
 };

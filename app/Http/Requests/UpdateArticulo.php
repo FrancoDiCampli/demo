@@ -25,7 +25,7 @@ class UpdateArticulo extends FormRequest
     {
         return [
             'codprov' => 'nullable|min:1|max:13|unique:articulos,codprov,'.$this->articulo,
-            'codarticulo'=>'nullable|min:13|max:13|unique:articulos,codarticulo,'.$this->articulo,
+            'codarticulo'=>'required|min:13|max:13|unique:articulos,codarticulo,'.$this->articulo,
             'articulo'=>'required|min:1|unique:articulos,articulo,'.$this->articulo,
             'descripcion' => 'required|min:1|max:190',
             'medida' => 'required|min:1|max:190',
@@ -33,9 +33,9 @@ class UpdateArticulo extends FormRequest
             'utilidades' => 'required|min:1',
             'precio' => 'required|min:1',
             'alicuota' => 'required|min:1',
-            'estado' => 'required|min:1',
             'marca_id' => 'required|min:1',
             'categoria_id' => 'required|min:1',
+            'foto' => 'nullable'
         ];
     }
 }

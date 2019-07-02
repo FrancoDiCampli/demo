@@ -6430,6 +6430,389 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/productos/ProductosForm.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/productos/ProductosForm.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//Vuex
+ //Axios
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "ProductosForm",
+  data: function data() {
+    return {
+      categoria: null,
+      categorias: [],
+      marca: null,
+      marcas: [],
+      categoriaLastId: null,
+      rules: {
+        required: function required(value) {
+          return !!value || "Este campo es obligatorio";
+        }
+      }
+    };
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])("crudx", ["form"]), {
+    codigo: {
+      set: function set() {},
+      get: function get() {
+        if (this.categoria != null && this.categoria != "") {
+          if (this.categoria.length >= 3) {
+            var codigo = this.categoria[0] + this.categoria[1] + this.categoria[2];
+            var newId = this.categoriaLastId + 1;
+            var number = newId.toString();
+            var zeroLength = 10 - number.length;
+
+            for (var i = 0; i < zeroLength; i++) {
+              codigo += "0";
+            }
+
+            codigo += number;
+            return codigo.toUpperCase();
+          } else {
+            return null;
+          }
+        } else {
+          return null;
+        }
+      }
+    }
+  }),
+  mounted: function mounted() {
+    this.getLastId();
+  },
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])("crudx", ["index"]), {
+    findCategoria: function () {
+      var _findCategoria = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                this.form.categoria_id = null;
+
+                if (!this.$refs.formFindCategoria.validate()) {
+                  _context.next = 6;
+                  break;
+                }
+
+                _context.next = 4;
+                return this.index({
+                  url: "/api/categorias",
+                  buscarCategoria: this.categoria,
+                  limit: 5
+                });
+
+              case 4:
+                response = _context.sent;
+                this.categorias = response.categorias;
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function findCategoria() {
+        return _findCategoria.apply(this, arguments);
+      }
+
+      return findCategoria;
+    }(),
+    selectCategoria: function selectCategoria(categoria) {
+      this.categorias = [];
+      this.categoria = categoria.categoria;
+      this.form.categoria_id = categoria.id;
+    },
+    findMarca: function () {
+      var _findMarca = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                this.form.marca_id = null;
+
+                if (!this.$refs.formFindMarca.validate()) {
+                  _context2.next = 6;
+                  break;
+                }
+
+                _context2.next = 4;
+                return this.index({
+                  url: "/api/marcas",
+                  buscarMarca: this.marca,
+                  limit: 5
+                });
+
+              case 4:
+                response = _context2.sent;
+                this.marcas = response.marcas;
+
+              case 6:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function findMarca() {
+        return _findMarca.apply(this, arguments);
+      }
+
+      return findMarca;
+    }(),
+    selectMarca: function selectMarca(marca) {
+      this.marcas = [];
+      this.marca = marca.marca;
+      this.form.marca_id = marca.id;
+    },
+    getLastId: function () {
+      var _getLastId = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return this.index({
+                  url: "/api/categorias",
+                  limit: 1
+                });
+
+              case 2:
+                response = _context3.sent;
+                this.categoriaLastId = response.categorias[0].id;
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function getLastId() {
+        return _getLastId.apply(this, arguments);
+      }
+
+      return getLastId;
+    }()
+  })
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/productos/ProductosIndex.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/productos/ProductosIndex.vue?vue&type=script&lang=js& ***!
@@ -7985,7 +8368,78 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_productos_ProductosIndex_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/productos/ProductosIndex.vue */ "./resources/js/components/productos/ProductosIndex.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _components_productos_ProductosIndex_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/productos/ProductosIndex.vue */ "./resources/js/components/productos/ProductosIndex.vue");
+/* harmony import */ var _components_productos_ProductosForm_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/productos/ProductosForm.vue */ "./resources/js/components/productos/ProductosForm.vue");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// Vuex
+ // Components
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "Producto",
+  data: function data() {
+    return {
+      createProductosDialog: false
+    };
+  },
+  components: {
+    ProductosIndex: _components_productos_ProductosIndex_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    ProductosForm: _components_productos_ProductosForm_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("crudx", ["inProcess"])),
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])("crudx", ["save"]), {
+    saveProducto: function saveProducto() {}
+  })
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/ProductoNew.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/ProductoNew.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_productos_ProductosForm_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/productos/ProductosForm.vue */ "./resources/js/components/productos/ProductosForm.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -8000,12 +8454,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 // Components
+ // Vuex
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Producto",
+  name: "ProductoNew",
   components: {
-    ProductosIndex: _components_productos_ProductosIndex_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
-  }
+    ProductosForm: _components_productos_ProductosForm_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])("crudx", ["form", "inProcess"])),
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])("crudx", ["save"]), {
+    saveProducto: function saveProducto() {}
+  })
 });
 
 /***/ }),
@@ -8114,25 +8574,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vuelendar/scss/vuelendar.scss":
-/*!*****************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader!./node_modules/postcss-loader/src??ref--6-2!./node_modules/sass-loader/lib/loader.js??ref--6-3!./node_modules/vuelendar/scss/vuelendar.scss ***!
-  \*****************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".vl-calendar {\n  display: inline-block;\n  position: relative;\n  background: #f6f6f6;\n  padding: 20px 0 0;\n  text-align: center;\n  color: #3e3a4e;\n  font-size: 14px;\n  user-select: none;\n}\n.vl-calendar__month {\n  display: inline-block;\n  margin-bottom: 30px;\n  width: 300px;\n}\n.vl-calendar__arrow {\n  position: absolute;\n  top: 15px;\n  background-repeat: no-repeat;\n  background-position: center center;\n  background-size: 75%;\n  cursor: pointer;\n  width: 24px;\n  height: 24px;\n}\n.vl-calendar__arrow--back {\n  left: 15px;\n  background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAMAAAAM7l6QAAAA0lBMVEUZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjSTOY05AAAARnRSTlMAAQIDBAUGBwgJCgsMDQ8QERITFBUXGBkaGx0eHyAiIyQnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8Pj9AQUJDREZHSElKS0xNUWPYUAAAAU1JREFUeNptk+lygjAURq8gFm2h1q3uWsVqtZUWXAGtIN/7v1KHSGxYzp9kcnKXJBMSUfRGXZMpl+rcRUS4f6tk5RYINovpdLkPEa7KCVmYhLBbUlyi78DvCrZowmuIuwc+DOJINmyFEjx5mPL5HJZEKVQPHWI04BQpgxZcHlihI6qUwwiLaGjh697iTP/X0ukahZv3YHmLcSJ8SCQFJ243WIstlmET6VjGySxuOa5P1MboZn/Slkyo1EePWRM4eRyL6SU0pm+Fcbmz5TpKztv+oGxyna8qu7R3g+hgHsV+n/QqNkT0jWfuDxgKesgu6RWfFFNa1YRHd0P1NuiUwyC+ryYOctY++r5K8fnMQtqWHPT4W+xgpuLLR8yJo1g4VkXb+YUhJCy8I1zzrqX2Dtdu9huc15Px2LB89g3S1FdnMJyZRrlUaq3mS4kE/gAULzTK6Ml9VwAAAABJRU5ErkJggg==\");\n}\n.vl-calendar__arrow--forward {\n  right: 15px;\n  background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAMAAAAM7l6QAAAAz1BMVEUZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjTQKaQcAAAARXRSTlMAAQIDBAUGBwgJCgsMDg8QERITFBUWGBkaGx0eHyAhIiMkJSYnKCkqLC0uLzAxMjQ1Nzg5Ojs/QEFCQ0RFRkdISUpLTE22Gs8EAAABVUlEQVR4AW3T4XaaMBwF8IvKRp2dU5F266qwMWXT1bWjqbMUanLf/5nWcIzByO9L/udcJRcIaHo3DMeDDlqF64KafIzfwzUVZPWQLZZ3gpSZj6beb6rNxEMtiAu+TGEFgmIIq5sqNYPhC256ODEqeWvme/6C63KvRqh9Ze7hTMRdt65V7vto8ZPf9DLnAtbtzfEZvZYdAEIFsJ44t3+PgIA5GgYvx8pjroArfoeTH67fkQJIeAU3/3LYSAILTvQ43O6MiuoztJzdt3isx09FZezJ2TFOeI0TFztTXkhbrZEmptoTcMEHJzU/H3Gl+6nm4RD8Ycas3jZmCitNzORXZadeXgO0WB52mfEe50L13IPm/eUSrg+VCs2r+8e1c7o/Fozt3Wz5OIDlzSUTWP4fytWlOdU3W1bX55/B812aJFkuqdYBHF60qagpkfbRxutPounQR8N/jIU0mXzMHWoAAAAASUVORK5CYII=\");\n}\n\n.vl-flex {\n  display: flex;\n  flex-wrap: wrap;\n}\n\n.vl-calendar-month {\n  padding: 0 20px;\n}\n.vl-calendar-month__title {\n  margin-bottom: 20px;\n  text-align: center;\n  font-weight: 600;\n}\n.vl-calendar-month__week-day {\n  display: inline-block;\n  margin-bottom: 10px;\n  width: 14%;\n  text-align: center;\n  color: #c83f3a;\n  font-size: 12px;\n}\n.vl-calendar-month__day {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  margin: 5px 0;\n  cursor: pointer;\n  width: 14%;\n  height: 24px;\n}\n.vl-calendar-month__day--offset-1 {\n  margin-left: calc(1 * 14%);\n}\n.vl-calendar-month__day--offset-2 {\n  margin-left: calc(2 * 14%);\n}\n.vl-calendar-month__day--offset-3 {\n  margin-left: calc(3 * 14%);\n}\n.vl-calendar-month__day--offset-4 {\n  margin-left: calc(4 * 14%);\n}\n.vl-calendar-month__day--offset-5 {\n  margin-left: calc(5 * 14%);\n}\n.vl-calendar-month__day--offset-6 {\n  margin-left: calc(6 * 14%);\n}\n.vl-calendar-month__day.disabled {\n  color: #b5b5b5;\n  pointer-events: none;\n}\n.vl-calendar-month__day.disabled--first {\n  border-top-left-radius: 14px;\n  border-bottom-left-radius: 14px;\n}\n.vl-calendar-month__day.disabled--last {\n  border-top-right-radius: 14px;\n  border-bottom-right-radius: 14px;\n}\n.vl-calendar-month__day.selected {\n  background: #c83f3a;\n  color: #FFF;\n  font-weight: 800;\n}\n.vl-calendar-month__day.selected--first {\n  border-top-left-radius: 14px;\n  border-bottom-left-radius: 14px;\n}\n.vl-calendar-month__day.selected--last {\n  border-top-right-radius: 14px;\n  border-bottom-right-radius: 14px;\n}", ""]);
-
-// exports
-
-
-/***/ }),
-
 /***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/@fortawesome/fontawesome-free/css/all.css":
 /*!************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader??ref--5-1!./node_modules/postcss-loader/src??ref--5-2!./node_modules/@fortawesome/fontawesome-free/css/all.css ***!
@@ -8147,6 +8588,25 @@ exports = module.exports = __webpack_require__(/*! ../../../css-loader/lib/css-b
 
 // module
 exports.push([module.i, "/*!\n * Font Awesome Free 5.9.0 by @fontawesome - https://fontawesome.com\n * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)\n */\n.fa,\n.fas,\n.far,\n.fal,\n.fab {\n  -moz-osx-font-smoothing: grayscale;\n  -webkit-font-smoothing: antialiased;\n  display: inline-block;\n  font-style: normal;\n  font-variant: normal;\n  text-rendering: auto;\n  line-height: 1; }\n\n.fa-lg {\n  font-size: 1.33333em;\n  line-height: 0.75em;\n  vertical-align: -.0667em; }\n\n.fa-xs {\n  font-size: .75em; }\n\n.fa-sm {\n  font-size: .875em; }\n\n.fa-1x {\n  font-size: 1em; }\n\n.fa-2x {\n  font-size: 2em; }\n\n.fa-3x {\n  font-size: 3em; }\n\n.fa-4x {\n  font-size: 4em; }\n\n.fa-5x {\n  font-size: 5em; }\n\n.fa-6x {\n  font-size: 6em; }\n\n.fa-7x {\n  font-size: 7em; }\n\n.fa-8x {\n  font-size: 8em; }\n\n.fa-9x {\n  font-size: 9em; }\n\n.fa-10x {\n  font-size: 10em; }\n\n.fa-fw {\n  text-align: center;\n  width: 1.25em; }\n\n.fa-ul {\n  list-style-type: none;\n  margin-left: 2.5em;\n  padding-left: 0; }\n  .fa-ul > li {\n    position: relative; }\n\n.fa-li {\n  left: -2em;\n  position: absolute;\n  text-align: center;\n  width: 2em;\n  line-height: inherit; }\n\n.fa-border {\n  border: solid 0.08em #eee;\n  border-radius: .1em;\n  padding: .2em .25em .15em; }\n\n.fa-pull-left {\n  float: left; }\n\n.fa-pull-right {\n  float: right; }\n\n.fa.fa-pull-left,\n.fas.fa-pull-left,\n.far.fa-pull-left,\n.fal.fa-pull-left,\n.fab.fa-pull-left {\n  margin-right: .3em; }\n\n.fa.fa-pull-right,\n.fas.fa-pull-right,\n.far.fa-pull-right,\n.fal.fa-pull-right,\n.fab.fa-pull-right {\n  margin-left: .3em; }\n\n.fa-spin {\n  -webkit-animation: fa-spin 2s infinite linear;\n          animation: fa-spin 2s infinite linear; }\n\n.fa-pulse {\n  -webkit-animation: fa-spin 1s infinite steps(8);\n          animation: fa-spin 1s infinite steps(8); }\n\n@-webkit-keyframes fa-spin {\n  0% {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg); }\n  100% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); } }\n\n@keyframes fa-spin {\n  0% {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg); }\n  100% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg); } }\n\n.fa-rotate-90 {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=1)\";\n  -webkit-transform: rotate(90deg);\n          transform: rotate(90deg); }\n\n.fa-rotate-180 {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=2)\";\n  -webkit-transform: rotate(180deg);\n          transform: rotate(180deg); }\n\n.fa-rotate-270 {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=3)\";\n  -webkit-transform: rotate(270deg);\n          transform: rotate(270deg); }\n\n.fa-flip-horizontal {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)\";\n  -webkit-transform: scale(-1, 1);\n          transform: scale(-1, 1); }\n\n.fa-flip-vertical {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)\";\n  -webkit-transform: scale(1, -1);\n          transform: scale(1, -1); }\n\n.fa-flip-both, .fa-flip-horizontal.fa-flip-vertical {\n  -ms-filter: \"progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)\";\n  -webkit-transform: scale(-1, -1);\n          transform: scale(-1, -1); }\n\n:root .fa-rotate-90,\n:root .fa-rotate-180,\n:root .fa-rotate-270,\n:root .fa-flip-horizontal,\n:root .fa-flip-vertical,\n:root .fa-flip-both {\n  -webkit-filter: none;\n          filter: none; }\n\n.fa-stack {\n  display: inline-block;\n  height: 2em;\n  line-height: 2em;\n  position: relative;\n  vertical-align: middle;\n  width: 2.5em; }\n\n.fa-stack-1x,\n.fa-stack-2x {\n  left: 0;\n  position: absolute;\n  text-align: center;\n  width: 100%; }\n\n.fa-stack-1x {\n  line-height: inherit; }\n\n.fa-stack-2x {\n  font-size: 2em; }\n\n.fa-inverse {\n  color: #fff; }\n\n/* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen\nreaders do not read off random characters that represent icons */\n.fa-500px:before {\n  content: \"\\F26E\"; }\n\n.fa-accessible-icon:before {\n  content: \"\\F368\"; }\n\n.fa-accusoft:before {\n  content: \"\\F369\"; }\n\n.fa-acquisitions-incorporated:before {\n  content: \"\\F6AF\"; }\n\n.fa-ad:before {\n  content: \"\\F641\"; }\n\n.fa-address-book:before {\n  content: \"\\F2B9\"; }\n\n.fa-address-card:before {\n  content: \"\\F2BB\"; }\n\n.fa-adjust:before {\n  content: \"\\F042\"; }\n\n.fa-adn:before {\n  content: \"\\F170\"; }\n\n.fa-adobe:before {\n  content: \"\\F778\"; }\n\n.fa-adversal:before {\n  content: \"\\F36A\"; }\n\n.fa-affiliatetheme:before {\n  content: \"\\F36B\"; }\n\n.fa-air-freshener:before {\n  content: \"\\F5D0\"; }\n\n.fa-airbnb:before {\n  content: \"\\F834\"; }\n\n.fa-algolia:before {\n  content: \"\\F36C\"; }\n\n.fa-align-center:before {\n  content: \"\\F037\"; }\n\n.fa-align-justify:before {\n  content: \"\\F039\"; }\n\n.fa-align-left:before {\n  content: \"\\F036\"; }\n\n.fa-align-right:before {\n  content: \"\\F038\"; }\n\n.fa-alipay:before {\n  content: \"\\F642\"; }\n\n.fa-allergies:before {\n  content: \"\\F461\"; }\n\n.fa-amazon:before {\n  content: \"\\F270\"; }\n\n.fa-amazon-pay:before {\n  content: \"\\F42C\"; }\n\n.fa-ambulance:before {\n  content: \"\\F0F9\"; }\n\n.fa-american-sign-language-interpreting:before {\n  content: \"\\F2A3\"; }\n\n.fa-amilia:before {\n  content: \"\\F36D\"; }\n\n.fa-anchor:before {\n  content: \"\\F13D\"; }\n\n.fa-android:before {\n  content: \"\\F17B\"; }\n\n.fa-angellist:before {\n  content: \"\\F209\"; }\n\n.fa-angle-double-down:before {\n  content: \"\\F103\"; }\n\n.fa-angle-double-left:before {\n  content: \"\\F100\"; }\n\n.fa-angle-double-right:before {\n  content: \"\\F101\"; }\n\n.fa-angle-double-up:before {\n  content: \"\\F102\"; }\n\n.fa-angle-down:before {\n  content: \"\\F107\"; }\n\n.fa-angle-left:before {\n  content: \"\\F104\"; }\n\n.fa-angle-right:before {\n  content: \"\\F105\"; }\n\n.fa-angle-up:before {\n  content: \"\\F106\"; }\n\n.fa-angry:before {\n  content: \"\\F556\"; }\n\n.fa-angrycreative:before {\n  content: \"\\F36E\"; }\n\n.fa-angular:before {\n  content: \"\\F420\"; }\n\n.fa-ankh:before {\n  content: \"\\F644\"; }\n\n.fa-app-store:before {\n  content: \"\\F36F\"; }\n\n.fa-app-store-ios:before {\n  content: \"\\F370\"; }\n\n.fa-apper:before {\n  content: \"\\F371\"; }\n\n.fa-apple:before {\n  content: \"\\F179\"; }\n\n.fa-apple-alt:before {\n  content: \"\\F5D1\"; }\n\n.fa-apple-pay:before {\n  content: \"\\F415\"; }\n\n.fa-archive:before {\n  content: \"\\F187\"; }\n\n.fa-archway:before {\n  content: \"\\F557\"; }\n\n.fa-arrow-alt-circle-down:before {\n  content: \"\\F358\"; }\n\n.fa-arrow-alt-circle-left:before {\n  content: \"\\F359\"; }\n\n.fa-arrow-alt-circle-right:before {\n  content: \"\\F35A\"; }\n\n.fa-arrow-alt-circle-up:before {\n  content: \"\\F35B\"; }\n\n.fa-arrow-circle-down:before {\n  content: \"\\F0AB\"; }\n\n.fa-arrow-circle-left:before {\n  content: \"\\F0A8\"; }\n\n.fa-arrow-circle-right:before {\n  content: \"\\F0A9\"; }\n\n.fa-arrow-circle-up:before {\n  content: \"\\F0AA\"; }\n\n.fa-arrow-down:before {\n  content: \"\\F063\"; }\n\n.fa-arrow-left:before {\n  content: \"\\F060\"; }\n\n.fa-arrow-right:before {\n  content: \"\\F061\"; }\n\n.fa-arrow-up:before {\n  content: \"\\F062\"; }\n\n.fa-arrows-alt:before {\n  content: \"\\F0B2\"; }\n\n.fa-arrows-alt-h:before {\n  content: \"\\F337\"; }\n\n.fa-arrows-alt-v:before {\n  content: \"\\F338\"; }\n\n.fa-artstation:before {\n  content: \"\\F77A\"; }\n\n.fa-assistive-listening-systems:before {\n  content: \"\\F2A2\"; }\n\n.fa-asterisk:before {\n  content: \"\\F069\"; }\n\n.fa-asymmetrik:before {\n  content: \"\\F372\"; }\n\n.fa-at:before {\n  content: \"\\F1FA\"; }\n\n.fa-atlas:before {\n  content: \"\\F558\"; }\n\n.fa-atlassian:before {\n  content: \"\\F77B\"; }\n\n.fa-atom:before {\n  content: \"\\F5D2\"; }\n\n.fa-audible:before {\n  content: \"\\F373\"; }\n\n.fa-audio-description:before {\n  content: \"\\F29E\"; }\n\n.fa-autoprefixer:before {\n  content: \"\\F41C\"; }\n\n.fa-avianex:before {\n  content: \"\\F374\"; }\n\n.fa-aviato:before {\n  content: \"\\F421\"; }\n\n.fa-award:before {\n  content: \"\\F559\"; }\n\n.fa-aws:before {\n  content: \"\\F375\"; }\n\n.fa-baby:before {\n  content: \"\\F77C\"; }\n\n.fa-baby-carriage:before {\n  content: \"\\F77D\"; }\n\n.fa-backspace:before {\n  content: \"\\F55A\"; }\n\n.fa-backward:before {\n  content: \"\\F04A\"; }\n\n.fa-bacon:before {\n  content: \"\\F7E5\"; }\n\n.fa-balance-scale:before {\n  content: \"\\F24E\"; }\n\n.fa-balance-scale-left:before {\n  content: \"\\F515\"; }\n\n.fa-balance-scale-right:before {\n  content: \"\\F516\"; }\n\n.fa-ban:before {\n  content: \"\\F05E\"; }\n\n.fa-band-aid:before {\n  content: \"\\F462\"; }\n\n.fa-bandcamp:before {\n  content: \"\\F2D5\"; }\n\n.fa-barcode:before {\n  content: \"\\F02A\"; }\n\n.fa-bars:before {\n  content: \"\\F0C9\"; }\n\n.fa-baseball-ball:before {\n  content: \"\\F433\"; }\n\n.fa-basketball-ball:before {\n  content: \"\\F434\"; }\n\n.fa-bath:before {\n  content: \"\\F2CD\"; }\n\n.fa-battery-empty:before {\n  content: \"\\F244\"; }\n\n.fa-battery-full:before {\n  content: \"\\F240\"; }\n\n.fa-battery-half:before {\n  content: \"\\F242\"; }\n\n.fa-battery-quarter:before {\n  content: \"\\F243\"; }\n\n.fa-battery-three-quarters:before {\n  content: \"\\F241\"; }\n\n.fa-battle-net:before {\n  content: \"\\F835\"; }\n\n.fa-bed:before {\n  content: \"\\F236\"; }\n\n.fa-beer:before {\n  content: \"\\F0FC\"; }\n\n.fa-behance:before {\n  content: \"\\F1B4\"; }\n\n.fa-behance-square:before {\n  content: \"\\F1B5\"; }\n\n.fa-bell:before {\n  content: \"\\F0F3\"; }\n\n.fa-bell-slash:before {\n  content: \"\\F1F6\"; }\n\n.fa-bezier-curve:before {\n  content: \"\\F55B\"; }\n\n.fa-bible:before {\n  content: \"\\F647\"; }\n\n.fa-bicycle:before {\n  content: \"\\F206\"; }\n\n.fa-biking:before {\n  content: \"\\F84A\"; }\n\n.fa-bimobject:before {\n  content: \"\\F378\"; }\n\n.fa-binoculars:before {\n  content: \"\\F1E5\"; }\n\n.fa-biohazard:before {\n  content: \"\\F780\"; }\n\n.fa-birthday-cake:before {\n  content: \"\\F1FD\"; }\n\n.fa-bitbucket:before {\n  content: \"\\F171\"; }\n\n.fa-bitcoin:before {\n  content: \"\\F379\"; }\n\n.fa-bity:before {\n  content: \"\\F37A\"; }\n\n.fa-black-tie:before {\n  content: \"\\F27E\"; }\n\n.fa-blackberry:before {\n  content: \"\\F37B\"; }\n\n.fa-blender:before {\n  content: \"\\F517\"; }\n\n.fa-blender-phone:before {\n  content: \"\\F6B6\"; }\n\n.fa-blind:before {\n  content: \"\\F29D\"; }\n\n.fa-blog:before {\n  content: \"\\F781\"; }\n\n.fa-blogger:before {\n  content: \"\\F37C\"; }\n\n.fa-blogger-b:before {\n  content: \"\\F37D\"; }\n\n.fa-bluetooth:before {\n  content: \"\\F293\"; }\n\n.fa-bluetooth-b:before {\n  content: \"\\F294\"; }\n\n.fa-bold:before {\n  content: \"\\F032\"; }\n\n.fa-bolt:before {\n  content: \"\\F0E7\"; }\n\n.fa-bomb:before {\n  content: \"\\F1E2\"; }\n\n.fa-bone:before {\n  content: \"\\F5D7\"; }\n\n.fa-bong:before {\n  content: \"\\F55C\"; }\n\n.fa-book:before {\n  content: \"\\F02D\"; }\n\n.fa-book-dead:before {\n  content: \"\\F6B7\"; }\n\n.fa-book-medical:before {\n  content: \"\\F7E6\"; }\n\n.fa-book-open:before {\n  content: \"\\F518\"; }\n\n.fa-book-reader:before {\n  content: \"\\F5DA\"; }\n\n.fa-bookmark:before {\n  content: \"\\F02E\"; }\n\n.fa-bootstrap:before {\n  content: \"\\F836\"; }\n\n.fa-border-all:before {\n  content: \"\\F84C\"; }\n\n.fa-border-none:before {\n  content: \"\\F850\"; }\n\n.fa-border-style:before {\n  content: \"\\F853\"; }\n\n.fa-bowling-ball:before {\n  content: \"\\F436\"; }\n\n.fa-box:before {\n  content: \"\\F466\"; }\n\n.fa-box-open:before {\n  content: \"\\F49E\"; }\n\n.fa-boxes:before {\n  content: \"\\F468\"; }\n\n.fa-braille:before {\n  content: \"\\F2A1\"; }\n\n.fa-brain:before {\n  content: \"\\F5DC\"; }\n\n.fa-bread-slice:before {\n  content: \"\\F7EC\"; }\n\n.fa-briefcase:before {\n  content: \"\\F0B1\"; }\n\n.fa-briefcase-medical:before {\n  content: \"\\F469\"; }\n\n.fa-broadcast-tower:before {\n  content: \"\\F519\"; }\n\n.fa-broom:before {\n  content: \"\\F51A\"; }\n\n.fa-brush:before {\n  content: \"\\F55D\"; }\n\n.fa-btc:before {\n  content: \"\\F15A\"; }\n\n.fa-buffer:before {\n  content: \"\\F837\"; }\n\n.fa-bug:before {\n  content: \"\\F188\"; }\n\n.fa-building:before {\n  content: \"\\F1AD\"; }\n\n.fa-bullhorn:before {\n  content: \"\\F0A1\"; }\n\n.fa-bullseye:before {\n  content: \"\\F140\"; }\n\n.fa-burn:before {\n  content: \"\\F46A\"; }\n\n.fa-buromobelexperte:before {\n  content: \"\\F37F\"; }\n\n.fa-bus:before {\n  content: \"\\F207\"; }\n\n.fa-bus-alt:before {\n  content: \"\\F55E\"; }\n\n.fa-business-time:before {\n  content: \"\\F64A\"; }\n\n.fa-buysellads:before {\n  content: \"\\F20D\"; }\n\n.fa-calculator:before {\n  content: \"\\F1EC\"; }\n\n.fa-calendar:before {\n  content: \"\\F133\"; }\n\n.fa-calendar-alt:before {\n  content: \"\\F073\"; }\n\n.fa-calendar-check:before {\n  content: \"\\F274\"; }\n\n.fa-calendar-day:before {\n  content: \"\\F783\"; }\n\n.fa-calendar-minus:before {\n  content: \"\\F272\"; }\n\n.fa-calendar-plus:before {\n  content: \"\\F271\"; }\n\n.fa-calendar-times:before {\n  content: \"\\F273\"; }\n\n.fa-calendar-week:before {\n  content: \"\\F784\"; }\n\n.fa-camera:before {\n  content: \"\\F030\"; }\n\n.fa-camera-retro:before {\n  content: \"\\F083\"; }\n\n.fa-campground:before {\n  content: \"\\F6BB\"; }\n\n.fa-canadian-maple-leaf:before {\n  content: \"\\F785\"; }\n\n.fa-candy-cane:before {\n  content: \"\\F786\"; }\n\n.fa-cannabis:before {\n  content: \"\\F55F\"; }\n\n.fa-capsules:before {\n  content: \"\\F46B\"; }\n\n.fa-car:before {\n  content: \"\\F1B9\"; }\n\n.fa-car-alt:before {\n  content: \"\\F5DE\"; }\n\n.fa-car-battery:before {\n  content: \"\\F5DF\"; }\n\n.fa-car-crash:before {\n  content: \"\\F5E1\"; }\n\n.fa-car-side:before {\n  content: \"\\F5E4\"; }\n\n.fa-caret-down:before {\n  content: \"\\F0D7\"; }\n\n.fa-caret-left:before {\n  content: \"\\F0D9\"; }\n\n.fa-caret-right:before {\n  content: \"\\F0DA\"; }\n\n.fa-caret-square-down:before {\n  content: \"\\F150\"; }\n\n.fa-caret-square-left:before {\n  content: \"\\F191\"; }\n\n.fa-caret-square-right:before {\n  content: \"\\F152\"; }\n\n.fa-caret-square-up:before {\n  content: \"\\F151\"; }\n\n.fa-caret-up:before {\n  content: \"\\F0D8\"; }\n\n.fa-carrot:before {\n  content: \"\\F787\"; }\n\n.fa-cart-arrow-down:before {\n  content: \"\\F218\"; }\n\n.fa-cart-plus:before {\n  content: \"\\F217\"; }\n\n.fa-cash-register:before {\n  content: \"\\F788\"; }\n\n.fa-cat:before {\n  content: \"\\F6BE\"; }\n\n.fa-cc-amazon-pay:before {\n  content: \"\\F42D\"; }\n\n.fa-cc-amex:before {\n  content: \"\\F1F3\"; }\n\n.fa-cc-apple-pay:before {\n  content: \"\\F416\"; }\n\n.fa-cc-diners-club:before {\n  content: \"\\F24C\"; }\n\n.fa-cc-discover:before {\n  content: \"\\F1F2\"; }\n\n.fa-cc-jcb:before {\n  content: \"\\F24B\"; }\n\n.fa-cc-mastercard:before {\n  content: \"\\F1F1\"; }\n\n.fa-cc-paypal:before {\n  content: \"\\F1F4\"; }\n\n.fa-cc-stripe:before {\n  content: \"\\F1F5\"; }\n\n.fa-cc-visa:before {\n  content: \"\\F1F0\"; }\n\n.fa-centercode:before {\n  content: \"\\F380\"; }\n\n.fa-centos:before {\n  content: \"\\F789\"; }\n\n.fa-certificate:before {\n  content: \"\\F0A3\"; }\n\n.fa-chair:before {\n  content: \"\\F6C0\"; }\n\n.fa-chalkboard:before {\n  content: \"\\F51B\"; }\n\n.fa-chalkboard-teacher:before {\n  content: \"\\F51C\"; }\n\n.fa-charging-station:before {\n  content: \"\\F5E7\"; }\n\n.fa-chart-area:before {\n  content: \"\\F1FE\"; }\n\n.fa-chart-bar:before {\n  content: \"\\F080\"; }\n\n.fa-chart-line:before {\n  content: \"\\F201\"; }\n\n.fa-chart-pie:before {\n  content: \"\\F200\"; }\n\n.fa-check:before {\n  content: \"\\F00C\"; }\n\n.fa-check-circle:before {\n  content: \"\\F058\"; }\n\n.fa-check-double:before {\n  content: \"\\F560\"; }\n\n.fa-check-square:before {\n  content: \"\\F14A\"; }\n\n.fa-cheese:before {\n  content: \"\\F7EF\"; }\n\n.fa-chess:before {\n  content: \"\\F439\"; }\n\n.fa-chess-bishop:before {\n  content: \"\\F43A\"; }\n\n.fa-chess-board:before {\n  content: \"\\F43C\"; }\n\n.fa-chess-king:before {\n  content: \"\\F43F\"; }\n\n.fa-chess-knight:before {\n  content: \"\\F441\"; }\n\n.fa-chess-pawn:before {\n  content: \"\\F443\"; }\n\n.fa-chess-queen:before {\n  content: \"\\F445\"; }\n\n.fa-chess-rook:before {\n  content: \"\\F447\"; }\n\n.fa-chevron-circle-down:before {\n  content: \"\\F13A\"; }\n\n.fa-chevron-circle-left:before {\n  content: \"\\F137\"; }\n\n.fa-chevron-circle-right:before {\n  content: \"\\F138\"; }\n\n.fa-chevron-circle-up:before {\n  content: \"\\F139\"; }\n\n.fa-chevron-down:before {\n  content: \"\\F078\"; }\n\n.fa-chevron-left:before {\n  content: \"\\F053\"; }\n\n.fa-chevron-right:before {\n  content: \"\\F054\"; }\n\n.fa-chevron-up:before {\n  content: \"\\F077\"; }\n\n.fa-child:before {\n  content: \"\\F1AE\"; }\n\n.fa-chrome:before {\n  content: \"\\F268\"; }\n\n.fa-chromecast:before {\n  content: \"\\F838\"; }\n\n.fa-church:before {\n  content: \"\\F51D\"; }\n\n.fa-circle:before {\n  content: \"\\F111\"; }\n\n.fa-circle-notch:before {\n  content: \"\\F1CE\"; }\n\n.fa-city:before {\n  content: \"\\F64F\"; }\n\n.fa-clinic-medical:before {\n  content: \"\\F7F2\"; }\n\n.fa-clipboard:before {\n  content: \"\\F328\"; }\n\n.fa-clipboard-check:before {\n  content: \"\\F46C\"; }\n\n.fa-clipboard-list:before {\n  content: \"\\F46D\"; }\n\n.fa-clock:before {\n  content: \"\\F017\"; }\n\n.fa-clone:before {\n  content: \"\\F24D\"; }\n\n.fa-closed-captioning:before {\n  content: \"\\F20A\"; }\n\n.fa-cloud:before {\n  content: \"\\F0C2\"; }\n\n.fa-cloud-download-alt:before {\n  content: \"\\F381\"; }\n\n.fa-cloud-meatball:before {\n  content: \"\\F73B\"; }\n\n.fa-cloud-moon:before {\n  content: \"\\F6C3\"; }\n\n.fa-cloud-moon-rain:before {\n  content: \"\\F73C\"; }\n\n.fa-cloud-rain:before {\n  content: \"\\F73D\"; }\n\n.fa-cloud-showers-heavy:before {\n  content: \"\\F740\"; }\n\n.fa-cloud-sun:before {\n  content: \"\\F6C4\"; }\n\n.fa-cloud-sun-rain:before {\n  content: \"\\F743\"; }\n\n.fa-cloud-upload-alt:before {\n  content: \"\\F382\"; }\n\n.fa-cloudscale:before {\n  content: \"\\F383\"; }\n\n.fa-cloudsmith:before {\n  content: \"\\F384\"; }\n\n.fa-cloudversify:before {\n  content: \"\\F385\"; }\n\n.fa-cocktail:before {\n  content: \"\\F561\"; }\n\n.fa-code:before {\n  content: \"\\F121\"; }\n\n.fa-code-branch:before {\n  content: \"\\F126\"; }\n\n.fa-codepen:before {\n  content: \"\\F1CB\"; }\n\n.fa-codiepie:before {\n  content: \"\\F284\"; }\n\n.fa-coffee:before {\n  content: \"\\F0F4\"; }\n\n.fa-cog:before {\n  content: \"\\F013\"; }\n\n.fa-cogs:before {\n  content: \"\\F085\"; }\n\n.fa-coins:before {\n  content: \"\\F51E\"; }\n\n.fa-columns:before {\n  content: \"\\F0DB\"; }\n\n.fa-comment:before {\n  content: \"\\F075\"; }\n\n.fa-comment-alt:before {\n  content: \"\\F27A\"; }\n\n.fa-comment-dollar:before {\n  content: \"\\F651\"; }\n\n.fa-comment-dots:before {\n  content: \"\\F4AD\"; }\n\n.fa-comment-medical:before {\n  content: \"\\F7F5\"; }\n\n.fa-comment-slash:before {\n  content: \"\\F4B3\"; }\n\n.fa-comments:before {\n  content: \"\\F086\"; }\n\n.fa-comments-dollar:before {\n  content: \"\\F653\"; }\n\n.fa-compact-disc:before {\n  content: \"\\F51F\"; }\n\n.fa-compass:before {\n  content: \"\\F14E\"; }\n\n.fa-compress:before {\n  content: \"\\F066\"; }\n\n.fa-compress-arrows-alt:before {\n  content: \"\\F78C\"; }\n\n.fa-concierge-bell:before {\n  content: \"\\F562\"; }\n\n.fa-confluence:before {\n  content: \"\\F78D\"; }\n\n.fa-connectdevelop:before {\n  content: \"\\F20E\"; }\n\n.fa-contao:before {\n  content: \"\\F26D\"; }\n\n.fa-cookie:before {\n  content: \"\\F563\"; }\n\n.fa-cookie-bite:before {\n  content: \"\\F564\"; }\n\n.fa-copy:before {\n  content: \"\\F0C5\"; }\n\n.fa-copyright:before {\n  content: \"\\F1F9\"; }\n\n.fa-couch:before {\n  content: \"\\F4B8\"; }\n\n.fa-cpanel:before {\n  content: \"\\F388\"; }\n\n.fa-creative-commons:before {\n  content: \"\\F25E\"; }\n\n.fa-creative-commons-by:before {\n  content: \"\\F4E7\"; }\n\n.fa-creative-commons-nc:before {\n  content: \"\\F4E8\"; }\n\n.fa-creative-commons-nc-eu:before {\n  content: \"\\F4E9\"; }\n\n.fa-creative-commons-nc-jp:before {\n  content: \"\\F4EA\"; }\n\n.fa-creative-commons-nd:before {\n  content: \"\\F4EB\"; }\n\n.fa-creative-commons-pd:before {\n  content: \"\\F4EC\"; }\n\n.fa-creative-commons-pd-alt:before {\n  content: \"\\F4ED\"; }\n\n.fa-creative-commons-remix:before {\n  content: \"\\F4EE\"; }\n\n.fa-creative-commons-sa:before {\n  content: \"\\F4EF\"; }\n\n.fa-creative-commons-sampling:before {\n  content: \"\\F4F0\"; }\n\n.fa-creative-commons-sampling-plus:before {\n  content: \"\\F4F1\"; }\n\n.fa-creative-commons-share:before {\n  content: \"\\F4F2\"; }\n\n.fa-creative-commons-zero:before {\n  content: \"\\F4F3\"; }\n\n.fa-credit-card:before {\n  content: \"\\F09D\"; }\n\n.fa-critical-role:before {\n  content: \"\\F6C9\"; }\n\n.fa-crop:before {\n  content: \"\\F125\"; }\n\n.fa-crop-alt:before {\n  content: \"\\F565\"; }\n\n.fa-cross:before {\n  content: \"\\F654\"; }\n\n.fa-crosshairs:before {\n  content: \"\\F05B\"; }\n\n.fa-crow:before {\n  content: \"\\F520\"; }\n\n.fa-crown:before {\n  content: \"\\F521\"; }\n\n.fa-crutch:before {\n  content: \"\\F7F7\"; }\n\n.fa-css3:before {\n  content: \"\\F13C\"; }\n\n.fa-css3-alt:before {\n  content: \"\\F38B\"; }\n\n.fa-cube:before {\n  content: \"\\F1B2\"; }\n\n.fa-cubes:before {\n  content: \"\\F1B3\"; }\n\n.fa-cut:before {\n  content: \"\\F0C4\"; }\n\n.fa-cuttlefish:before {\n  content: \"\\F38C\"; }\n\n.fa-d-and-d:before {\n  content: \"\\F38D\"; }\n\n.fa-d-and-d-beyond:before {\n  content: \"\\F6CA\"; }\n\n.fa-dashcube:before {\n  content: \"\\F210\"; }\n\n.fa-database:before {\n  content: \"\\F1C0\"; }\n\n.fa-deaf:before {\n  content: \"\\F2A4\"; }\n\n.fa-delicious:before {\n  content: \"\\F1A5\"; }\n\n.fa-democrat:before {\n  content: \"\\F747\"; }\n\n.fa-deploydog:before {\n  content: \"\\F38E\"; }\n\n.fa-deskpro:before {\n  content: \"\\F38F\"; }\n\n.fa-desktop:before {\n  content: \"\\F108\"; }\n\n.fa-dev:before {\n  content: \"\\F6CC\"; }\n\n.fa-deviantart:before {\n  content: \"\\F1BD\"; }\n\n.fa-dharmachakra:before {\n  content: \"\\F655\"; }\n\n.fa-dhl:before {\n  content: \"\\F790\"; }\n\n.fa-diagnoses:before {\n  content: \"\\F470\"; }\n\n.fa-diaspora:before {\n  content: \"\\F791\"; }\n\n.fa-dice:before {\n  content: \"\\F522\"; }\n\n.fa-dice-d20:before {\n  content: \"\\F6CF\"; }\n\n.fa-dice-d6:before {\n  content: \"\\F6D1\"; }\n\n.fa-dice-five:before {\n  content: \"\\F523\"; }\n\n.fa-dice-four:before {\n  content: \"\\F524\"; }\n\n.fa-dice-one:before {\n  content: \"\\F525\"; }\n\n.fa-dice-six:before {\n  content: \"\\F526\"; }\n\n.fa-dice-three:before {\n  content: \"\\F527\"; }\n\n.fa-dice-two:before {\n  content: \"\\F528\"; }\n\n.fa-digg:before {\n  content: \"\\F1A6\"; }\n\n.fa-digital-ocean:before {\n  content: \"\\F391\"; }\n\n.fa-digital-tachograph:before {\n  content: \"\\F566\"; }\n\n.fa-directions:before {\n  content: \"\\F5EB\"; }\n\n.fa-discord:before {\n  content: \"\\F392\"; }\n\n.fa-discourse:before {\n  content: \"\\F393\"; }\n\n.fa-divide:before {\n  content: \"\\F529\"; }\n\n.fa-dizzy:before {\n  content: \"\\F567\"; }\n\n.fa-dna:before {\n  content: \"\\F471\"; }\n\n.fa-dochub:before {\n  content: \"\\F394\"; }\n\n.fa-docker:before {\n  content: \"\\F395\"; }\n\n.fa-dog:before {\n  content: \"\\F6D3\"; }\n\n.fa-dollar-sign:before {\n  content: \"\\F155\"; }\n\n.fa-dolly:before {\n  content: \"\\F472\"; }\n\n.fa-dolly-flatbed:before {\n  content: \"\\F474\"; }\n\n.fa-donate:before {\n  content: \"\\F4B9\"; }\n\n.fa-door-closed:before {\n  content: \"\\F52A\"; }\n\n.fa-door-open:before {\n  content: \"\\F52B\"; }\n\n.fa-dot-circle:before {\n  content: \"\\F192\"; }\n\n.fa-dove:before {\n  content: \"\\F4BA\"; }\n\n.fa-download:before {\n  content: \"\\F019\"; }\n\n.fa-draft2digital:before {\n  content: \"\\F396\"; }\n\n.fa-drafting-compass:before {\n  content: \"\\F568\"; }\n\n.fa-dragon:before {\n  content: \"\\F6D5\"; }\n\n.fa-draw-polygon:before {\n  content: \"\\F5EE\"; }\n\n.fa-dribbble:before {\n  content: \"\\F17D\"; }\n\n.fa-dribbble-square:before {\n  content: \"\\F397\"; }\n\n.fa-dropbox:before {\n  content: \"\\F16B\"; }\n\n.fa-drum:before {\n  content: \"\\F569\"; }\n\n.fa-drum-steelpan:before {\n  content: \"\\F56A\"; }\n\n.fa-drumstick-bite:before {\n  content: \"\\F6D7\"; }\n\n.fa-drupal:before {\n  content: \"\\F1A9\"; }\n\n.fa-dumbbell:before {\n  content: \"\\F44B\"; }\n\n.fa-dumpster:before {\n  content: \"\\F793\"; }\n\n.fa-dumpster-fire:before {\n  content: \"\\F794\"; }\n\n.fa-dungeon:before {\n  content: \"\\F6D9\"; }\n\n.fa-dyalog:before {\n  content: \"\\F399\"; }\n\n.fa-earlybirds:before {\n  content: \"\\F39A\"; }\n\n.fa-ebay:before {\n  content: \"\\F4F4\"; }\n\n.fa-edge:before {\n  content: \"\\F282\"; }\n\n.fa-edit:before {\n  content: \"\\F044\"; }\n\n.fa-egg:before {\n  content: \"\\F7FB\"; }\n\n.fa-eject:before {\n  content: \"\\F052\"; }\n\n.fa-elementor:before {\n  content: \"\\F430\"; }\n\n.fa-ellipsis-h:before {\n  content: \"\\F141\"; }\n\n.fa-ellipsis-v:before {\n  content: \"\\F142\"; }\n\n.fa-ello:before {\n  content: \"\\F5F1\"; }\n\n.fa-ember:before {\n  content: \"\\F423\"; }\n\n.fa-empire:before {\n  content: \"\\F1D1\"; }\n\n.fa-envelope:before {\n  content: \"\\F0E0\"; }\n\n.fa-envelope-open:before {\n  content: \"\\F2B6\"; }\n\n.fa-envelope-open-text:before {\n  content: \"\\F658\"; }\n\n.fa-envelope-square:before {\n  content: \"\\F199\"; }\n\n.fa-envira:before {\n  content: \"\\F299\"; }\n\n.fa-equals:before {\n  content: \"\\F52C\"; }\n\n.fa-eraser:before {\n  content: \"\\F12D\"; }\n\n.fa-erlang:before {\n  content: \"\\F39D\"; }\n\n.fa-ethereum:before {\n  content: \"\\F42E\"; }\n\n.fa-ethernet:before {\n  content: \"\\F796\"; }\n\n.fa-etsy:before {\n  content: \"\\F2D7\"; }\n\n.fa-euro-sign:before {\n  content: \"\\F153\"; }\n\n.fa-evernote:before {\n  content: \"\\F839\"; }\n\n.fa-exchange-alt:before {\n  content: \"\\F362\"; }\n\n.fa-exclamation:before {\n  content: \"\\F12A\"; }\n\n.fa-exclamation-circle:before {\n  content: \"\\F06A\"; }\n\n.fa-exclamation-triangle:before {\n  content: \"\\F071\"; }\n\n.fa-expand:before {\n  content: \"\\F065\"; }\n\n.fa-expand-arrows-alt:before {\n  content: \"\\F31E\"; }\n\n.fa-expeditedssl:before {\n  content: \"\\F23E\"; }\n\n.fa-external-link-alt:before {\n  content: \"\\F35D\"; }\n\n.fa-external-link-square-alt:before {\n  content: \"\\F360\"; }\n\n.fa-eye:before {\n  content: \"\\F06E\"; }\n\n.fa-eye-dropper:before {\n  content: \"\\F1FB\"; }\n\n.fa-eye-slash:before {\n  content: \"\\F070\"; }\n\n.fa-facebook:before {\n  content: \"\\F09A\"; }\n\n.fa-facebook-f:before {\n  content: \"\\F39E\"; }\n\n.fa-facebook-messenger:before {\n  content: \"\\F39F\"; }\n\n.fa-facebook-square:before {\n  content: \"\\F082\"; }\n\n.fa-fan:before {\n  content: \"\\F863\"; }\n\n.fa-fantasy-flight-games:before {\n  content: \"\\F6DC\"; }\n\n.fa-fast-backward:before {\n  content: \"\\F049\"; }\n\n.fa-fast-forward:before {\n  content: \"\\F050\"; }\n\n.fa-fax:before {\n  content: \"\\F1AC\"; }\n\n.fa-feather:before {\n  content: \"\\F52D\"; }\n\n.fa-feather-alt:before {\n  content: \"\\F56B\"; }\n\n.fa-fedex:before {\n  content: \"\\F797\"; }\n\n.fa-fedora:before {\n  content: \"\\F798\"; }\n\n.fa-female:before {\n  content: \"\\F182\"; }\n\n.fa-fighter-jet:before {\n  content: \"\\F0FB\"; }\n\n.fa-figma:before {\n  content: \"\\F799\"; }\n\n.fa-file:before {\n  content: \"\\F15B\"; }\n\n.fa-file-alt:before {\n  content: \"\\F15C\"; }\n\n.fa-file-archive:before {\n  content: \"\\F1C6\"; }\n\n.fa-file-audio:before {\n  content: \"\\F1C7\"; }\n\n.fa-file-code:before {\n  content: \"\\F1C9\"; }\n\n.fa-file-contract:before {\n  content: \"\\F56C\"; }\n\n.fa-file-csv:before {\n  content: \"\\F6DD\"; }\n\n.fa-file-download:before {\n  content: \"\\F56D\"; }\n\n.fa-file-excel:before {\n  content: \"\\F1C3\"; }\n\n.fa-file-export:before {\n  content: \"\\F56E\"; }\n\n.fa-file-image:before {\n  content: \"\\F1C5\"; }\n\n.fa-file-import:before {\n  content: \"\\F56F\"; }\n\n.fa-file-invoice:before {\n  content: \"\\F570\"; }\n\n.fa-file-invoice-dollar:before {\n  content: \"\\F571\"; }\n\n.fa-file-medical:before {\n  content: \"\\F477\"; }\n\n.fa-file-medical-alt:before {\n  content: \"\\F478\"; }\n\n.fa-file-pdf:before {\n  content: \"\\F1C1\"; }\n\n.fa-file-powerpoint:before {\n  content: \"\\F1C4\"; }\n\n.fa-file-prescription:before {\n  content: \"\\F572\"; }\n\n.fa-file-signature:before {\n  content: \"\\F573\"; }\n\n.fa-file-upload:before {\n  content: \"\\F574\"; }\n\n.fa-file-video:before {\n  content: \"\\F1C8\"; }\n\n.fa-file-word:before {\n  content: \"\\F1C2\"; }\n\n.fa-fill:before {\n  content: \"\\F575\"; }\n\n.fa-fill-drip:before {\n  content: \"\\F576\"; }\n\n.fa-film:before {\n  content: \"\\F008\"; }\n\n.fa-filter:before {\n  content: \"\\F0B0\"; }\n\n.fa-fingerprint:before {\n  content: \"\\F577\"; }\n\n.fa-fire:before {\n  content: \"\\F06D\"; }\n\n.fa-fire-alt:before {\n  content: \"\\F7E4\"; }\n\n.fa-fire-extinguisher:before {\n  content: \"\\F134\"; }\n\n.fa-firefox:before {\n  content: \"\\F269\"; }\n\n.fa-first-aid:before {\n  content: \"\\F479\"; }\n\n.fa-first-order:before {\n  content: \"\\F2B0\"; }\n\n.fa-first-order-alt:before {\n  content: \"\\F50A\"; }\n\n.fa-firstdraft:before {\n  content: \"\\F3A1\"; }\n\n.fa-fish:before {\n  content: \"\\F578\"; }\n\n.fa-fist-raised:before {\n  content: \"\\F6DE\"; }\n\n.fa-flag:before {\n  content: \"\\F024\"; }\n\n.fa-flag-checkered:before {\n  content: \"\\F11E\"; }\n\n.fa-flag-usa:before {\n  content: \"\\F74D\"; }\n\n.fa-flask:before {\n  content: \"\\F0C3\"; }\n\n.fa-flickr:before {\n  content: \"\\F16E\"; }\n\n.fa-flipboard:before {\n  content: \"\\F44D\"; }\n\n.fa-flushed:before {\n  content: \"\\F579\"; }\n\n.fa-fly:before {\n  content: \"\\F417\"; }\n\n.fa-folder:before {\n  content: \"\\F07B\"; }\n\n.fa-folder-minus:before {\n  content: \"\\F65D\"; }\n\n.fa-folder-open:before {\n  content: \"\\F07C\"; }\n\n.fa-folder-plus:before {\n  content: \"\\F65E\"; }\n\n.fa-font:before {\n  content: \"\\F031\"; }\n\n.fa-font-awesome:before {\n  content: \"\\F2B4\"; }\n\n.fa-font-awesome-alt:before {\n  content: \"\\F35C\"; }\n\n.fa-font-awesome-flag:before {\n  content: \"\\F425\"; }\n\n.fa-font-awesome-logo-full:before {\n  content: \"\\F4E6\"; }\n\n.fa-fonticons:before {\n  content: \"\\F280\"; }\n\n.fa-fonticons-fi:before {\n  content: \"\\F3A2\"; }\n\n.fa-football-ball:before {\n  content: \"\\F44E\"; }\n\n.fa-fort-awesome:before {\n  content: \"\\F286\"; }\n\n.fa-fort-awesome-alt:before {\n  content: \"\\F3A3\"; }\n\n.fa-forumbee:before {\n  content: \"\\F211\"; }\n\n.fa-forward:before {\n  content: \"\\F04E\"; }\n\n.fa-foursquare:before {\n  content: \"\\F180\"; }\n\n.fa-free-code-camp:before {\n  content: \"\\F2C5\"; }\n\n.fa-freebsd:before {\n  content: \"\\F3A4\"; }\n\n.fa-frog:before {\n  content: \"\\F52E\"; }\n\n.fa-frown:before {\n  content: \"\\F119\"; }\n\n.fa-frown-open:before {\n  content: \"\\F57A\"; }\n\n.fa-fulcrum:before {\n  content: \"\\F50B\"; }\n\n.fa-funnel-dollar:before {\n  content: \"\\F662\"; }\n\n.fa-futbol:before {\n  content: \"\\F1E3\"; }\n\n.fa-galactic-republic:before {\n  content: \"\\F50C\"; }\n\n.fa-galactic-senate:before {\n  content: \"\\F50D\"; }\n\n.fa-gamepad:before {\n  content: \"\\F11B\"; }\n\n.fa-gas-pump:before {\n  content: \"\\F52F\"; }\n\n.fa-gavel:before {\n  content: \"\\F0E3\"; }\n\n.fa-gem:before {\n  content: \"\\F3A5\"; }\n\n.fa-genderless:before {\n  content: \"\\F22D\"; }\n\n.fa-get-pocket:before {\n  content: \"\\F265\"; }\n\n.fa-gg:before {\n  content: \"\\F260\"; }\n\n.fa-gg-circle:before {\n  content: \"\\F261\"; }\n\n.fa-ghost:before {\n  content: \"\\F6E2\"; }\n\n.fa-gift:before {\n  content: \"\\F06B\"; }\n\n.fa-gifts:before {\n  content: \"\\F79C\"; }\n\n.fa-git:before {\n  content: \"\\F1D3\"; }\n\n.fa-git-alt:before {\n  content: \"\\F841\"; }\n\n.fa-git-square:before {\n  content: \"\\F1D2\"; }\n\n.fa-github:before {\n  content: \"\\F09B\"; }\n\n.fa-github-alt:before {\n  content: \"\\F113\"; }\n\n.fa-github-square:before {\n  content: \"\\F092\"; }\n\n.fa-gitkraken:before {\n  content: \"\\F3A6\"; }\n\n.fa-gitlab:before {\n  content: \"\\F296\"; }\n\n.fa-gitter:before {\n  content: \"\\F426\"; }\n\n.fa-glass-cheers:before {\n  content: \"\\F79F\"; }\n\n.fa-glass-martini:before {\n  content: \"\\F000\"; }\n\n.fa-glass-martini-alt:before {\n  content: \"\\F57B\"; }\n\n.fa-glass-whiskey:before {\n  content: \"\\F7A0\"; }\n\n.fa-glasses:before {\n  content: \"\\F530\"; }\n\n.fa-glide:before {\n  content: \"\\F2A5\"; }\n\n.fa-glide-g:before {\n  content: \"\\F2A6\"; }\n\n.fa-globe:before {\n  content: \"\\F0AC\"; }\n\n.fa-globe-africa:before {\n  content: \"\\F57C\"; }\n\n.fa-globe-americas:before {\n  content: \"\\F57D\"; }\n\n.fa-globe-asia:before {\n  content: \"\\F57E\"; }\n\n.fa-globe-europe:before {\n  content: \"\\F7A2\"; }\n\n.fa-gofore:before {\n  content: \"\\F3A7\"; }\n\n.fa-golf-ball:before {\n  content: \"\\F450\"; }\n\n.fa-goodreads:before {\n  content: \"\\F3A8\"; }\n\n.fa-goodreads-g:before {\n  content: \"\\F3A9\"; }\n\n.fa-google:before {\n  content: \"\\F1A0\"; }\n\n.fa-google-drive:before {\n  content: \"\\F3AA\"; }\n\n.fa-google-play:before {\n  content: \"\\F3AB\"; }\n\n.fa-google-plus:before {\n  content: \"\\F2B3\"; }\n\n.fa-google-plus-g:before {\n  content: \"\\F0D5\"; }\n\n.fa-google-plus-square:before {\n  content: \"\\F0D4\"; }\n\n.fa-google-wallet:before {\n  content: \"\\F1EE\"; }\n\n.fa-gopuram:before {\n  content: \"\\F664\"; }\n\n.fa-graduation-cap:before {\n  content: \"\\F19D\"; }\n\n.fa-gratipay:before {\n  content: \"\\F184\"; }\n\n.fa-grav:before {\n  content: \"\\F2D6\"; }\n\n.fa-greater-than:before {\n  content: \"\\F531\"; }\n\n.fa-greater-than-equal:before {\n  content: \"\\F532\"; }\n\n.fa-grimace:before {\n  content: \"\\F57F\"; }\n\n.fa-grin:before {\n  content: \"\\F580\"; }\n\n.fa-grin-alt:before {\n  content: \"\\F581\"; }\n\n.fa-grin-beam:before {\n  content: \"\\F582\"; }\n\n.fa-grin-beam-sweat:before {\n  content: \"\\F583\"; }\n\n.fa-grin-hearts:before {\n  content: \"\\F584\"; }\n\n.fa-grin-squint:before {\n  content: \"\\F585\"; }\n\n.fa-grin-squint-tears:before {\n  content: \"\\F586\"; }\n\n.fa-grin-stars:before {\n  content: \"\\F587\"; }\n\n.fa-grin-tears:before {\n  content: \"\\F588\"; }\n\n.fa-grin-tongue:before {\n  content: \"\\F589\"; }\n\n.fa-grin-tongue-squint:before {\n  content: \"\\F58A\"; }\n\n.fa-grin-tongue-wink:before {\n  content: \"\\F58B\"; }\n\n.fa-grin-wink:before {\n  content: \"\\F58C\"; }\n\n.fa-grip-horizontal:before {\n  content: \"\\F58D\"; }\n\n.fa-grip-lines:before {\n  content: \"\\F7A4\"; }\n\n.fa-grip-lines-vertical:before {\n  content: \"\\F7A5\"; }\n\n.fa-grip-vertical:before {\n  content: \"\\F58E\"; }\n\n.fa-gripfire:before {\n  content: \"\\F3AC\"; }\n\n.fa-grunt:before {\n  content: \"\\F3AD\"; }\n\n.fa-guitar:before {\n  content: \"\\F7A6\"; }\n\n.fa-gulp:before {\n  content: \"\\F3AE\"; }\n\n.fa-h-square:before {\n  content: \"\\F0FD\"; }\n\n.fa-hacker-news:before {\n  content: \"\\F1D4\"; }\n\n.fa-hacker-news-square:before {\n  content: \"\\F3AF\"; }\n\n.fa-hackerrank:before {\n  content: \"\\F5F7\"; }\n\n.fa-hamburger:before {\n  content: \"\\F805\"; }\n\n.fa-hammer:before {\n  content: \"\\F6E3\"; }\n\n.fa-hamsa:before {\n  content: \"\\F665\"; }\n\n.fa-hand-holding:before {\n  content: \"\\F4BD\"; }\n\n.fa-hand-holding-heart:before {\n  content: \"\\F4BE\"; }\n\n.fa-hand-holding-usd:before {\n  content: \"\\F4C0\"; }\n\n.fa-hand-lizard:before {\n  content: \"\\F258\"; }\n\n.fa-hand-middle-finger:before {\n  content: \"\\F806\"; }\n\n.fa-hand-paper:before {\n  content: \"\\F256\"; }\n\n.fa-hand-peace:before {\n  content: \"\\F25B\"; }\n\n.fa-hand-point-down:before {\n  content: \"\\F0A7\"; }\n\n.fa-hand-point-left:before {\n  content: \"\\F0A5\"; }\n\n.fa-hand-point-right:before {\n  content: \"\\F0A4\"; }\n\n.fa-hand-point-up:before {\n  content: \"\\F0A6\"; }\n\n.fa-hand-pointer:before {\n  content: \"\\F25A\"; }\n\n.fa-hand-rock:before {\n  content: \"\\F255\"; }\n\n.fa-hand-scissors:before {\n  content: \"\\F257\"; }\n\n.fa-hand-spock:before {\n  content: \"\\F259\"; }\n\n.fa-hands:before {\n  content: \"\\F4C2\"; }\n\n.fa-hands-helping:before {\n  content: \"\\F4C4\"; }\n\n.fa-handshake:before {\n  content: \"\\F2B5\"; }\n\n.fa-hanukiah:before {\n  content: \"\\F6E6\"; }\n\n.fa-hard-hat:before {\n  content: \"\\F807\"; }\n\n.fa-hashtag:before {\n  content: \"\\F292\"; }\n\n.fa-hat-wizard:before {\n  content: \"\\F6E8\"; }\n\n.fa-haykal:before {\n  content: \"\\F666\"; }\n\n.fa-hdd:before {\n  content: \"\\F0A0\"; }\n\n.fa-heading:before {\n  content: \"\\F1DC\"; }\n\n.fa-headphones:before {\n  content: \"\\F025\"; }\n\n.fa-headphones-alt:before {\n  content: \"\\F58F\"; }\n\n.fa-headset:before {\n  content: \"\\F590\"; }\n\n.fa-heart:before {\n  content: \"\\F004\"; }\n\n.fa-heart-broken:before {\n  content: \"\\F7A9\"; }\n\n.fa-heartbeat:before {\n  content: \"\\F21E\"; }\n\n.fa-helicopter:before {\n  content: \"\\F533\"; }\n\n.fa-highlighter:before {\n  content: \"\\F591\"; }\n\n.fa-hiking:before {\n  content: \"\\F6EC\"; }\n\n.fa-hippo:before {\n  content: \"\\F6ED\"; }\n\n.fa-hips:before {\n  content: \"\\F452\"; }\n\n.fa-hire-a-helper:before {\n  content: \"\\F3B0\"; }\n\n.fa-history:before {\n  content: \"\\F1DA\"; }\n\n.fa-hockey-puck:before {\n  content: \"\\F453\"; }\n\n.fa-holly-berry:before {\n  content: \"\\F7AA\"; }\n\n.fa-home:before {\n  content: \"\\F015\"; }\n\n.fa-hooli:before {\n  content: \"\\F427\"; }\n\n.fa-hornbill:before {\n  content: \"\\F592\"; }\n\n.fa-horse:before {\n  content: \"\\F6F0\"; }\n\n.fa-horse-head:before {\n  content: \"\\F7AB\"; }\n\n.fa-hospital:before {\n  content: \"\\F0F8\"; }\n\n.fa-hospital-alt:before {\n  content: \"\\F47D\"; }\n\n.fa-hospital-symbol:before {\n  content: \"\\F47E\"; }\n\n.fa-hot-tub:before {\n  content: \"\\F593\"; }\n\n.fa-hotdog:before {\n  content: \"\\F80F\"; }\n\n.fa-hotel:before {\n  content: \"\\F594\"; }\n\n.fa-hotjar:before {\n  content: \"\\F3B1\"; }\n\n.fa-hourglass:before {\n  content: \"\\F254\"; }\n\n.fa-hourglass-end:before {\n  content: \"\\F253\"; }\n\n.fa-hourglass-half:before {\n  content: \"\\F252\"; }\n\n.fa-hourglass-start:before {\n  content: \"\\F251\"; }\n\n.fa-house-damage:before {\n  content: \"\\F6F1\"; }\n\n.fa-houzz:before {\n  content: \"\\F27C\"; }\n\n.fa-hryvnia:before {\n  content: \"\\F6F2\"; }\n\n.fa-html5:before {\n  content: \"\\F13B\"; }\n\n.fa-hubspot:before {\n  content: \"\\F3B2\"; }\n\n.fa-i-cursor:before {\n  content: \"\\F246\"; }\n\n.fa-ice-cream:before {\n  content: \"\\F810\"; }\n\n.fa-icicles:before {\n  content: \"\\F7AD\"; }\n\n.fa-icons:before {\n  content: \"\\F86D\"; }\n\n.fa-id-badge:before {\n  content: \"\\F2C1\"; }\n\n.fa-id-card:before {\n  content: \"\\F2C2\"; }\n\n.fa-id-card-alt:before {\n  content: \"\\F47F\"; }\n\n.fa-igloo:before {\n  content: \"\\F7AE\"; }\n\n.fa-image:before {\n  content: \"\\F03E\"; }\n\n.fa-images:before {\n  content: \"\\F302\"; }\n\n.fa-imdb:before {\n  content: \"\\F2D8\"; }\n\n.fa-inbox:before {\n  content: \"\\F01C\"; }\n\n.fa-indent:before {\n  content: \"\\F03C\"; }\n\n.fa-industry:before {\n  content: \"\\F275\"; }\n\n.fa-infinity:before {\n  content: \"\\F534\"; }\n\n.fa-info:before {\n  content: \"\\F129\"; }\n\n.fa-info-circle:before {\n  content: \"\\F05A\"; }\n\n.fa-instagram:before {\n  content: \"\\F16D\"; }\n\n.fa-intercom:before {\n  content: \"\\F7AF\"; }\n\n.fa-internet-explorer:before {\n  content: \"\\F26B\"; }\n\n.fa-invision:before {\n  content: \"\\F7B0\"; }\n\n.fa-ioxhost:before {\n  content: \"\\F208\"; }\n\n.fa-italic:before {\n  content: \"\\F033\"; }\n\n.fa-itch-io:before {\n  content: \"\\F83A\"; }\n\n.fa-itunes:before {\n  content: \"\\F3B4\"; }\n\n.fa-itunes-note:before {\n  content: \"\\F3B5\"; }\n\n.fa-java:before {\n  content: \"\\F4E4\"; }\n\n.fa-jedi:before {\n  content: \"\\F669\"; }\n\n.fa-jedi-order:before {\n  content: \"\\F50E\"; }\n\n.fa-jenkins:before {\n  content: \"\\F3B6\"; }\n\n.fa-jira:before {\n  content: \"\\F7B1\"; }\n\n.fa-joget:before {\n  content: \"\\F3B7\"; }\n\n.fa-joint:before {\n  content: \"\\F595\"; }\n\n.fa-joomla:before {\n  content: \"\\F1AA\"; }\n\n.fa-journal-whills:before {\n  content: \"\\F66A\"; }\n\n.fa-js:before {\n  content: \"\\F3B8\"; }\n\n.fa-js-square:before {\n  content: \"\\F3B9\"; }\n\n.fa-jsfiddle:before {\n  content: \"\\F1CC\"; }\n\n.fa-kaaba:before {\n  content: \"\\F66B\"; }\n\n.fa-kaggle:before {\n  content: \"\\F5FA\"; }\n\n.fa-key:before {\n  content: \"\\F084\"; }\n\n.fa-keybase:before {\n  content: \"\\F4F5\"; }\n\n.fa-keyboard:before {\n  content: \"\\F11C\"; }\n\n.fa-keycdn:before {\n  content: \"\\F3BA\"; }\n\n.fa-khanda:before {\n  content: \"\\F66D\"; }\n\n.fa-kickstarter:before {\n  content: \"\\F3BB\"; }\n\n.fa-kickstarter-k:before {\n  content: \"\\F3BC\"; }\n\n.fa-kiss:before {\n  content: \"\\F596\"; }\n\n.fa-kiss-beam:before {\n  content: \"\\F597\"; }\n\n.fa-kiss-wink-heart:before {\n  content: \"\\F598\"; }\n\n.fa-kiwi-bird:before {\n  content: \"\\F535\"; }\n\n.fa-korvue:before {\n  content: \"\\F42F\"; }\n\n.fa-landmark:before {\n  content: \"\\F66F\"; }\n\n.fa-language:before {\n  content: \"\\F1AB\"; }\n\n.fa-laptop:before {\n  content: \"\\F109\"; }\n\n.fa-laptop-code:before {\n  content: \"\\F5FC\"; }\n\n.fa-laptop-medical:before {\n  content: \"\\F812\"; }\n\n.fa-laravel:before {\n  content: \"\\F3BD\"; }\n\n.fa-lastfm:before {\n  content: \"\\F202\"; }\n\n.fa-lastfm-square:before {\n  content: \"\\F203\"; }\n\n.fa-laugh:before {\n  content: \"\\F599\"; }\n\n.fa-laugh-beam:before {\n  content: \"\\F59A\"; }\n\n.fa-laugh-squint:before {\n  content: \"\\F59B\"; }\n\n.fa-laugh-wink:before {\n  content: \"\\F59C\"; }\n\n.fa-layer-group:before {\n  content: \"\\F5FD\"; }\n\n.fa-leaf:before {\n  content: \"\\F06C\"; }\n\n.fa-leanpub:before {\n  content: \"\\F212\"; }\n\n.fa-lemon:before {\n  content: \"\\F094\"; }\n\n.fa-less:before {\n  content: \"\\F41D\"; }\n\n.fa-less-than:before {\n  content: \"\\F536\"; }\n\n.fa-less-than-equal:before {\n  content: \"\\F537\"; }\n\n.fa-level-down-alt:before {\n  content: \"\\F3BE\"; }\n\n.fa-level-up-alt:before {\n  content: \"\\F3BF\"; }\n\n.fa-life-ring:before {\n  content: \"\\F1CD\"; }\n\n.fa-lightbulb:before {\n  content: \"\\F0EB\"; }\n\n.fa-line:before {\n  content: \"\\F3C0\"; }\n\n.fa-link:before {\n  content: \"\\F0C1\"; }\n\n.fa-linkedin:before {\n  content: \"\\F08C\"; }\n\n.fa-linkedin-in:before {\n  content: \"\\F0E1\"; }\n\n.fa-linode:before {\n  content: \"\\F2B8\"; }\n\n.fa-linux:before {\n  content: \"\\F17C\"; }\n\n.fa-lira-sign:before {\n  content: \"\\F195\"; }\n\n.fa-list:before {\n  content: \"\\F03A\"; }\n\n.fa-list-alt:before {\n  content: \"\\F022\"; }\n\n.fa-list-ol:before {\n  content: \"\\F0CB\"; }\n\n.fa-list-ul:before {\n  content: \"\\F0CA\"; }\n\n.fa-location-arrow:before {\n  content: \"\\F124\"; }\n\n.fa-lock:before {\n  content: \"\\F023\"; }\n\n.fa-lock-open:before {\n  content: \"\\F3C1\"; }\n\n.fa-long-arrow-alt-down:before {\n  content: \"\\F309\"; }\n\n.fa-long-arrow-alt-left:before {\n  content: \"\\F30A\"; }\n\n.fa-long-arrow-alt-right:before {\n  content: \"\\F30B\"; }\n\n.fa-long-arrow-alt-up:before {\n  content: \"\\F30C\"; }\n\n.fa-low-vision:before {\n  content: \"\\F2A8\"; }\n\n.fa-luggage-cart:before {\n  content: \"\\F59D\"; }\n\n.fa-lyft:before {\n  content: \"\\F3C3\"; }\n\n.fa-magento:before {\n  content: \"\\F3C4\"; }\n\n.fa-magic:before {\n  content: \"\\F0D0\"; }\n\n.fa-magnet:before {\n  content: \"\\F076\"; }\n\n.fa-mail-bulk:before {\n  content: \"\\F674\"; }\n\n.fa-mailchimp:before {\n  content: \"\\F59E\"; }\n\n.fa-male:before {\n  content: \"\\F183\"; }\n\n.fa-mandalorian:before {\n  content: \"\\F50F\"; }\n\n.fa-map:before {\n  content: \"\\F279\"; }\n\n.fa-map-marked:before {\n  content: \"\\F59F\"; }\n\n.fa-map-marked-alt:before {\n  content: \"\\F5A0\"; }\n\n.fa-map-marker:before {\n  content: \"\\F041\"; }\n\n.fa-map-marker-alt:before {\n  content: \"\\F3C5\"; }\n\n.fa-map-pin:before {\n  content: \"\\F276\"; }\n\n.fa-map-signs:before {\n  content: \"\\F277\"; }\n\n.fa-markdown:before {\n  content: \"\\F60F\"; }\n\n.fa-marker:before {\n  content: \"\\F5A1\"; }\n\n.fa-mars:before {\n  content: \"\\F222\"; }\n\n.fa-mars-double:before {\n  content: \"\\F227\"; }\n\n.fa-mars-stroke:before {\n  content: \"\\F229\"; }\n\n.fa-mars-stroke-h:before {\n  content: \"\\F22B\"; }\n\n.fa-mars-stroke-v:before {\n  content: \"\\F22A\"; }\n\n.fa-mask:before {\n  content: \"\\F6FA\"; }\n\n.fa-mastodon:before {\n  content: \"\\F4F6\"; }\n\n.fa-maxcdn:before {\n  content: \"\\F136\"; }\n\n.fa-medal:before {\n  content: \"\\F5A2\"; }\n\n.fa-medapps:before {\n  content: \"\\F3C6\"; }\n\n.fa-medium:before {\n  content: \"\\F23A\"; }\n\n.fa-medium-m:before {\n  content: \"\\F3C7\"; }\n\n.fa-medkit:before {\n  content: \"\\F0FA\"; }\n\n.fa-medrt:before {\n  content: \"\\F3C8\"; }\n\n.fa-meetup:before {\n  content: \"\\F2E0\"; }\n\n.fa-megaport:before {\n  content: \"\\F5A3\"; }\n\n.fa-meh:before {\n  content: \"\\F11A\"; }\n\n.fa-meh-blank:before {\n  content: \"\\F5A4\"; }\n\n.fa-meh-rolling-eyes:before {\n  content: \"\\F5A5\"; }\n\n.fa-memory:before {\n  content: \"\\F538\"; }\n\n.fa-mendeley:before {\n  content: \"\\F7B3\"; }\n\n.fa-menorah:before {\n  content: \"\\F676\"; }\n\n.fa-mercury:before {\n  content: \"\\F223\"; }\n\n.fa-meteor:before {\n  content: \"\\F753\"; }\n\n.fa-microchip:before {\n  content: \"\\F2DB\"; }\n\n.fa-microphone:before {\n  content: \"\\F130\"; }\n\n.fa-microphone-alt:before {\n  content: \"\\F3C9\"; }\n\n.fa-microphone-alt-slash:before {\n  content: \"\\F539\"; }\n\n.fa-microphone-slash:before {\n  content: \"\\F131\"; }\n\n.fa-microscope:before {\n  content: \"\\F610\"; }\n\n.fa-microsoft:before {\n  content: \"\\F3CA\"; }\n\n.fa-minus:before {\n  content: \"\\F068\"; }\n\n.fa-minus-circle:before {\n  content: \"\\F056\"; }\n\n.fa-minus-square:before {\n  content: \"\\F146\"; }\n\n.fa-mitten:before {\n  content: \"\\F7B5\"; }\n\n.fa-mix:before {\n  content: \"\\F3CB\"; }\n\n.fa-mixcloud:before {\n  content: \"\\F289\"; }\n\n.fa-mizuni:before {\n  content: \"\\F3CC\"; }\n\n.fa-mobile:before {\n  content: \"\\F10B\"; }\n\n.fa-mobile-alt:before {\n  content: \"\\F3CD\"; }\n\n.fa-modx:before {\n  content: \"\\F285\"; }\n\n.fa-monero:before {\n  content: \"\\F3D0\"; }\n\n.fa-money-bill:before {\n  content: \"\\F0D6\"; }\n\n.fa-money-bill-alt:before {\n  content: \"\\F3D1\"; }\n\n.fa-money-bill-wave:before {\n  content: \"\\F53A\"; }\n\n.fa-money-bill-wave-alt:before {\n  content: \"\\F53B\"; }\n\n.fa-money-check:before {\n  content: \"\\F53C\"; }\n\n.fa-money-check-alt:before {\n  content: \"\\F53D\"; }\n\n.fa-monument:before {\n  content: \"\\F5A6\"; }\n\n.fa-moon:before {\n  content: \"\\F186\"; }\n\n.fa-mortar-pestle:before {\n  content: \"\\F5A7\"; }\n\n.fa-mosque:before {\n  content: \"\\F678\"; }\n\n.fa-motorcycle:before {\n  content: \"\\F21C\"; }\n\n.fa-mountain:before {\n  content: \"\\F6FC\"; }\n\n.fa-mouse-pointer:before {\n  content: \"\\F245\"; }\n\n.fa-mug-hot:before {\n  content: \"\\F7B6\"; }\n\n.fa-music:before {\n  content: \"\\F001\"; }\n\n.fa-napster:before {\n  content: \"\\F3D2\"; }\n\n.fa-neos:before {\n  content: \"\\F612\"; }\n\n.fa-network-wired:before {\n  content: \"\\F6FF\"; }\n\n.fa-neuter:before {\n  content: \"\\F22C\"; }\n\n.fa-newspaper:before {\n  content: \"\\F1EA\"; }\n\n.fa-nimblr:before {\n  content: \"\\F5A8\"; }\n\n.fa-node:before {\n  content: \"\\F419\"; }\n\n.fa-node-js:before {\n  content: \"\\F3D3\"; }\n\n.fa-not-equal:before {\n  content: \"\\F53E\"; }\n\n.fa-notes-medical:before {\n  content: \"\\F481\"; }\n\n.fa-npm:before {\n  content: \"\\F3D4\"; }\n\n.fa-ns8:before {\n  content: \"\\F3D5\"; }\n\n.fa-nutritionix:before {\n  content: \"\\F3D6\"; }\n\n.fa-object-group:before {\n  content: \"\\F247\"; }\n\n.fa-object-ungroup:before {\n  content: \"\\F248\"; }\n\n.fa-odnoklassniki:before {\n  content: \"\\F263\"; }\n\n.fa-odnoklassniki-square:before {\n  content: \"\\F264\"; }\n\n.fa-oil-can:before {\n  content: \"\\F613\"; }\n\n.fa-old-republic:before {\n  content: \"\\F510\"; }\n\n.fa-om:before {\n  content: \"\\F679\"; }\n\n.fa-opencart:before {\n  content: \"\\F23D\"; }\n\n.fa-openid:before {\n  content: \"\\F19B\"; }\n\n.fa-opera:before {\n  content: \"\\F26A\"; }\n\n.fa-optin-monster:before {\n  content: \"\\F23C\"; }\n\n.fa-osi:before {\n  content: \"\\F41A\"; }\n\n.fa-otter:before {\n  content: \"\\F700\"; }\n\n.fa-outdent:before {\n  content: \"\\F03B\"; }\n\n.fa-page4:before {\n  content: \"\\F3D7\"; }\n\n.fa-pagelines:before {\n  content: \"\\F18C\"; }\n\n.fa-pager:before {\n  content: \"\\F815\"; }\n\n.fa-paint-brush:before {\n  content: \"\\F1FC\"; }\n\n.fa-paint-roller:before {\n  content: \"\\F5AA\"; }\n\n.fa-palette:before {\n  content: \"\\F53F\"; }\n\n.fa-palfed:before {\n  content: \"\\F3D8\"; }\n\n.fa-pallet:before {\n  content: \"\\F482\"; }\n\n.fa-paper-plane:before {\n  content: \"\\F1D8\"; }\n\n.fa-paperclip:before {\n  content: \"\\F0C6\"; }\n\n.fa-parachute-box:before {\n  content: \"\\F4CD\"; }\n\n.fa-paragraph:before {\n  content: \"\\F1DD\"; }\n\n.fa-parking:before {\n  content: \"\\F540\"; }\n\n.fa-passport:before {\n  content: \"\\F5AB\"; }\n\n.fa-pastafarianism:before {\n  content: \"\\F67B\"; }\n\n.fa-paste:before {\n  content: \"\\F0EA\"; }\n\n.fa-patreon:before {\n  content: \"\\F3D9\"; }\n\n.fa-pause:before {\n  content: \"\\F04C\"; }\n\n.fa-pause-circle:before {\n  content: \"\\F28B\"; }\n\n.fa-paw:before {\n  content: \"\\F1B0\"; }\n\n.fa-paypal:before {\n  content: \"\\F1ED\"; }\n\n.fa-peace:before {\n  content: \"\\F67C\"; }\n\n.fa-pen:before {\n  content: \"\\F304\"; }\n\n.fa-pen-alt:before {\n  content: \"\\F305\"; }\n\n.fa-pen-fancy:before {\n  content: \"\\F5AC\"; }\n\n.fa-pen-nib:before {\n  content: \"\\F5AD\"; }\n\n.fa-pen-square:before {\n  content: \"\\F14B\"; }\n\n.fa-pencil-alt:before {\n  content: \"\\F303\"; }\n\n.fa-pencil-ruler:before {\n  content: \"\\F5AE\"; }\n\n.fa-penny-arcade:before {\n  content: \"\\F704\"; }\n\n.fa-people-carry:before {\n  content: \"\\F4CE\"; }\n\n.fa-pepper-hot:before {\n  content: \"\\F816\"; }\n\n.fa-percent:before {\n  content: \"\\F295\"; }\n\n.fa-percentage:before {\n  content: \"\\F541\"; }\n\n.fa-periscope:before {\n  content: \"\\F3DA\"; }\n\n.fa-person-booth:before {\n  content: \"\\F756\"; }\n\n.fa-phabricator:before {\n  content: \"\\F3DB\"; }\n\n.fa-phoenix-framework:before {\n  content: \"\\F3DC\"; }\n\n.fa-phoenix-squadron:before {\n  content: \"\\F511\"; }\n\n.fa-phone:before {\n  content: \"\\F095\"; }\n\n.fa-phone-alt:before {\n  content: \"\\F879\"; }\n\n.fa-phone-slash:before {\n  content: \"\\F3DD\"; }\n\n.fa-phone-square:before {\n  content: \"\\F098\"; }\n\n.fa-phone-square-alt:before {\n  content: \"\\F87B\"; }\n\n.fa-phone-volume:before {\n  content: \"\\F2A0\"; }\n\n.fa-photo-video:before {\n  content: \"\\F87C\"; }\n\n.fa-php:before {\n  content: \"\\F457\"; }\n\n.fa-pied-piper:before {\n  content: \"\\F2AE\"; }\n\n.fa-pied-piper-alt:before {\n  content: \"\\F1A8\"; }\n\n.fa-pied-piper-hat:before {\n  content: \"\\F4E5\"; }\n\n.fa-pied-piper-pp:before {\n  content: \"\\F1A7\"; }\n\n.fa-piggy-bank:before {\n  content: \"\\F4D3\"; }\n\n.fa-pills:before {\n  content: \"\\F484\"; }\n\n.fa-pinterest:before {\n  content: \"\\F0D2\"; }\n\n.fa-pinterest-p:before {\n  content: \"\\F231\"; }\n\n.fa-pinterest-square:before {\n  content: \"\\F0D3\"; }\n\n.fa-pizza-slice:before {\n  content: \"\\F818\"; }\n\n.fa-place-of-worship:before {\n  content: \"\\F67F\"; }\n\n.fa-plane:before {\n  content: \"\\F072\"; }\n\n.fa-plane-arrival:before {\n  content: \"\\F5AF\"; }\n\n.fa-plane-departure:before {\n  content: \"\\F5B0\"; }\n\n.fa-play:before {\n  content: \"\\F04B\"; }\n\n.fa-play-circle:before {\n  content: \"\\F144\"; }\n\n.fa-playstation:before {\n  content: \"\\F3DF\"; }\n\n.fa-plug:before {\n  content: \"\\F1E6\"; }\n\n.fa-plus:before {\n  content: \"\\F067\"; }\n\n.fa-plus-circle:before {\n  content: \"\\F055\"; }\n\n.fa-plus-square:before {\n  content: \"\\F0FE\"; }\n\n.fa-podcast:before {\n  content: \"\\F2CE\"; }\n\n.fa-poll:before {\n  content: \"\\F681\"; }\n\n.fa-poll-h:before {\n  content: \"\\F682\"; }\n\n.fa-poo:before {\n  content: \"\\F2FE\"; }\n\n.fa-poo-storm:before {\n  content: \"\\F75A\"; }\n\n.fa-poop:before {\n  content: \"\\F619\"; }\n\n.fa-portrait:before {\n  content: \"\\F3E0\"; }\n\n.fa-pound-sign:before {\n  content: \"\\F154\"; }\n\n.fa-power-off:before {\n  content: \"\\F011\"; }\n\n.fa-pray:before {\n  content: \"\\F683\"; }\n\n.fa-praying-hands:before {\n  content: \"\\F684\"; }\n\n.fa-prescription:before {\n  content: \"\\F5B1\"; }\n\n.fa-prescription-bottle:before {\n  content: \"\\F485\"; }\n\n.fa-prescription-bottle-alt:before {\n  content: \"\\F486\"; }\n\n.fa-print:before {\n  content: \"\\F02F\"; }\n\n.fa-procedures:before {\n  content: \"\\F487\"; }\n\n.fa-product-hunt:before {\n  content: \"\\F288\"; }\n\n.fa-project-diagram:before {\n  content: \"\\F542\"; }\n\n.fa-pushed:before {\n  content: \"\\F3E1\"; }\n\n.fa-puzzle-piece:before {\n  content: \"\\F12E\"; }\n\n.fa-python:before {\n  content: \"\\F3E2\"; }\n\n.fa-qq:before {\n  content: \"\\F1D6\"; }\n\n.fa-qrcode:before {\n  content: \"\\F029\"; }\n\n.fa-question:before {\n  content: \"\\F128\"; }\n\n.fa-question-circle:before {\n  content: \"\\F059\"; }\n\n.fa-quidditch:before {\n  content: \"\\F458\"; }\n\n.fa-quinscape:before {\n  content: \"\\F459\"; }\n\n.fa-quora:before {\n  content: \"\\F2C4\"; }\n\n.fa-quote-left:before {\n  content: \"\\F10D\"; }\n\n.fa-quote-right:before {\n  content: \"\\F10E\"; }\n\n.fa-quran:before {\n  content: \"\\F687\"; }\n\n.fa-r-project:before {\n  content: \"\\F4F7\"; }\n\n.fa-radiation:before {\n  content: \"\\F7B9\"; }\n\n.fa-radiation-alt:before {\n  content: \"\\F7BA\"; }\n\n.fa-rainbow:before {\n  content: \"\\F75B\"; }\n\n.fa-random:before {\n  content: \"\\F074\"; }\n\n.fa-raspberry-pi:before {\n  content: \"\\F7BB\"; }\n\n.fa-ravelry:before {\n  content: \"\\F2D9\"; }\n\n.fa-react:before {\n  content: \"\\F41B\"; }\n\n.fa-reacteurope:before {\n  content: \"\\F75D\"; }\n\n.fa-readme:before {\n  content: \"\\F4D5\"; }\n\n.fa-rebel:before {\n  content: \"\\F1D0\"; }\n\n.fa-receipt:before {\n  content: \"\\F543\"; }\n\n.fa-recycle:before {\n  content: \"\\F1B8\"; }\n\n.fa-red-river:before {\n  content: \"\\F3E3\"; }\n\n.fa-reddit:before {\n  content: \"\\F1A1\"; }\n\n.fa-reddit-alien:before {\n  content: \"\\F281\"; }\n\n.fa-reddit-square:before {\n  content: \"\\F1A2\"; }\n\n.fa-redhat:before {\n  content: \"\\F7BC\"; }\n\n.fa-redo:before {\n  content: \"\\F01E\"; }\n\n.fa-redo-alt:before {\n  content: \"\\F2F9\"; }\n\n.fa-registered:before {\n  content: \"\\F25D\"; }\n\n.fa-remove-format:before {\n  content: \"\\F87D\"; }\n\n.fa-renren:before {\n  content: \"\\F18B\"; }\n\n.fa-reply:before {\n  content: \"\\F3E5\"; }\n\n.fa-reply-all:before {\n  content: \"\\F122\"; }\n\n.fa-replyd:before {\n  content: \"\\F3E6\"; }\n\n.fa-republican:before {\n  content: \"\\F75E\"; }\n\n.fa-researchgate:before {\n  content: \"\\F4F8\"; }\n\n.fa-resolving:before {\n  content: \"\\F3E7\"; }\n\n.fa-restroom:before {\n  content: \"\\F7BD\"; }\n\n.fa-retweet:before {\n  content: \"\\F079\"; }\n\n.fa-rev:before {\n  content: \"\\F5B2\"; }\n\n.fa-ribbon:before {\n  content: \"\\F4D6\"; }\n\n.fa-ring:before {\n  content: \"\\F70B\"; }\n\n.fa-road:before {\n  content: \"\\F018\"; }\n\n.fa-robot:before {\n  content: \"\\F544\"; }\n\n.fa-rocket:before {\n  content: \"\\F135\"; }\n\n.fa-rocketchat:before {\n  content: \"\\F3E8\"; }\n\n.fa-rockrms:before {\n  content: \"\\F3E9\"; }\n\n.fa-route:before {\n  content: \"\\F4D7\"; }\n\n.fa-rss:before {\n  content: \"\\F09E\"; }\n\n.fa-rss-square:before {\n  content: \"\\F143\"; }\n\n.fa-ruble-sign:before {\n  content: \"\\F158\"; }\n\n.fa-ruler:before {\n  content: \"\\F545\"; }\n\n.fa-ruler-combined:before {\n  content: \"\\F546\"; }\n\n.fa-ruler-horizontal:before {\n  content: \"\\F547\"; }\n\n.fa-ruler-vertical:before {\n  content: \"\\F548\"; }\n\n.fa-running:before {\n  content: \"\\F70C\"; }\n\n.fa-rupee-sign:before {\n  content: \"\\F156\"; }\n\n.fa-sad-cry:before {\n  content: \"\\F5B3\"; }\n\n.fa-sad-tear:before {\n  content: \"\\F5B4\"; }\n\n.fa-safari:before {\n  content: \"\\F267\"; }\n\n.fa-salesforce:before {\n  content: \"\\F83B\"; }\n\n.fa-sass:before {\n  content: \"\\F41E\"; }\n\n.fa-satellite:before {\n  content: \"\\F7BF\"; }\n\n.fa-satellite-dish:before {\n  content: \"\\F7C0\"; }\n\n.fa-save:before {\n  content: \"\\F0C7\"; }\n\n.fa-schlix:before {\n  content: \"\\F3EA\"; }\n\n.fa-school:before {\n  content: \"\\F549\"; }\n\n.fa-screwdriver:before {\n  content: \"\\F54A\"; }\n\n.fa-scribd:before {\n  content: \"\\F28A\"; }\n\n.fa-scroll:before {\n  content: \"\\F70E\"; }\n\n.fa-sd-card:before {\n  content: \"\\F7C2\"; }\n\n.fa-search:before {\n  content: \"\\F002\"; }\n\n.fa-search-dollar:before {\n  content: \"\\F688\"; }\n\n.fa-search-location:before {\n  content: \"\\F689\"; }\n\n.fa-search-minus:before {\n  content: \"\\F010\"; }\n\n.fa-search-plus:before {\n  content: \"\\F00E\"; }\n\n.fa-searchengin:before {\n  content: \"\\F3EB\"; }\n\n.fa-seedling:before {\n  content: \"\\F4D8\"; }\n\n.fa-sellcast:before {\n  content: \"\\F2DA\"; }\n\n.fa-sellsy:before {\n  content: \"\\F213\"; }\n\n.fa-server:before {\n  content: \"\\F233\"; }\n\n.fa-servicestack:before {\n  content: \"\\F3EC\"; }\n\n.fa-shapes:before {\n  content: \"\\F61F\"; }\n\n.fa-share:before {\n  content: \"\\F064\"; }\n\n.fa-share-alt:before {\n  content: \"\\F1E0\"; }\n\n.fa-share-alt-square:before {\n  content: \"\\F1E1\"; }\n\n.fa-share-square:before {\n  content: \"\\F14D\"; }\n\n.fa-shekel-sign:before {\n  content: \"\\F20B\"; }\n\n.fa-shield-alt:before {\n  content: \"\\F3ED\"; }\n\n.fa-ship:before {\n  content: \"\\F21A\"; }\n\n.fa-shipping-fast:before {\n  content: \"\\F48B\"; }\n\n.fa-shirtsinbulk:before {\n  content: \"\\F214\"; }\n\n.fa-shoe-prints:before {\n  content: \"\\F54B\"; }\n\n.fa-shopping-bag:before {\n  content: \"\\F290\"; }\n\n.fa-shopping-basket:before {\n  content: \"\\F291\"; }\n\n.fa-shopping-cart:before {\n  content: \"\\F07A\"; }\n\n.fa-shopware:before {\n  content: \"\\F5B5\"; }\n\n.fa-shower:before {\n  content: \"\\F2CC\"; }\n\n.fa-shuttle-van:before {\n  content: \"\\F5B6\"; }\n\n.fa-sign:before {\n  content: \"\\F4D9\"; }\n\n.fa-sign-in-alt:before {\n  content: \"\\F2F6\"; }\n\n.fa-sign-language:before {\n  content: \"\\F2A7\"; }\n\n.fa-sign-out-alt:before {\n  content: \"\\F2F5\"; }\n\n.fa-signal:before {\n  content: \"\\F012\"; }\n\n.fa-signature:before {\n  content: \"\\F5B7\"; }\n\n.fa-sim-card:before {\n  content: \"\\F7C4\"; }\n\n.fa-simplybuilt:before {\n  content: \"\\F215\"; }\n\n.fa-sistrix:before {\n  content: \"\\F3EE\"; }\n\n.fa-sitemap:before {\n  content: \"\\F0E8\"; }\n\n.fa-sith:before {\n  content: \"\\F512\"; }\n\n.fa-skating:before {\n  content: \"\\F7C5\"; }\n\n.fa-sketch:before {\n  content: \"\\F7C6\"; }\n\n.fa-skiing:before {\n  content: \"\\F7C9\"; }\n\n.fa-skiing-nordic:before {\n  content: \"\\F7CA\"; }\n\n.fa-skull:before {\n  content: \"\\F54C\"; }\n\n.fa-skull-crossbones:before {\n  content: \"\\F714\"; }\n\n.fa-skyatlas:before {\n  content: \"\\F216\"; }\n\n.fa-skype:before {\n  content: \"\\F17E\"; }\n\n.fa-slack:before {\n  content: \"\\F198\"; }\n\n.fa-slack-hash:before {\n  content: \"\\F3EF\"; }\n\n.fa-slash:before {\n  content: \"\\F715\"; }\n\n.fa-sleigh:before {\n  content: \"\\F7CC\"; }\n\n.fa-sliders-h:before {\n  content: \"\\F1DE\"; }\n\n.fa-slideshare:before {\n  content: \"\\F1E7\"; }\n\n.fa-smile:before {\n  content: \"\\F118\"; }\n\n.fa-smile-beam:before {\n  content: \"\\F5B8\"; }\n\n.fa-smile-wink:before {\n  content: \"\\F4DA\"; }\n\n.fa-smog:before {\n  content: \"\\F75F\"; }\n\n.fa-smoking:before {\n  content: \"\\F48D\"; }\n\n.fa-smoking-ban:before {\n  content: \"\\F54D\"; }\n\n.fa-sms:before {\n  content: \"\\F7CD\"; }\n\n.fa-snapchat:before {\n  content: \"\\F2AB\"; }\n\n.fa-snapchat-ghost:before {\n  content: \"\\F2AC\"; }\n\n.fa-snapchat-square:before {\n  content: \"\\F2AD\"; }\n\n.fa-snowboarding:before {\n  content: \"\\F7CE\"; }\n\n.fa-snowflake:before {\n  content: \"\\F2DC\"; }\n\n.fa-snowman:before {\n  content: \"\\F7D0\"; }\n\n.fa-snowplow:before {\n  content: \"\\F7D2\"; }\n\n.fa-socks:before {\n  content: \"\\F696\"; }\n\n.fa-solar-panel:before {\n  content: \"\\F5BA\"; }\n\n.fa-sort:before {\n  content: \"\\F0DC\"; }\n\n.fa-sort-alpha-down:before {\n  content: \"\\F15D\"; }\n\n.fa-sort-alpha-down-alt:before {\n  content: \"\\F881\"; }\n\n.fa-sort-alpha-up:before {\n  content: \"\\F15E\"; }\n\n.fa-sort-alpha-up-alt:before {\n  content: \"\\F882\"; }\n\n.fa-sort-amount-down:before {\n  content: \"\\F160\"; }\n\n.fa-sort-amount-down-alt:before {\n  content: \"\\F884\"; }\n\n.fa-sort-amount-up:before {\n  content: \"\\F161\"; }\n\n.fa-sort-amount-up-alt:before {\n  content: \"\\F885\"; }\n\n.fa-sort-down:before {\n  content: \"\\F0DD\"; }\n\n.fa-sort-numeric-down:before {\n  content: \"\\F162\"; }\n\n.fa-sort-numeric-down-alt:before {\n  content: \"\\F886\"; }\n\n.fa-sort-numeric-up:before {\n  content: \"\\F163\"; }\n\n.fa-sort-numeric-up-alt:before {\n  content: \"\\F887\"; }\n\n.fa-sort-up:before {\n  content: \"\\F0DE\"; }\n\n.fa-soundcloud:before {\n  content: \"\\F1BE\"; }\n\n.fa-sourcetree:before {\n  content: \"\\F7D3\"; }\n\n.fa-spa:before {\n  content: \"\\F5BB\"; }\n\n.fa-space-shuttle:before {\n  content: \"\\F197\"; }\n\n.fa-speakap:before {\n  content: \"\\F3F3\"; }\n\n.fa-speaker-deck:before {\n  content: \"\\F83C\"; }\n\n.fa-spell-check:before {\n  content: \"\\F891\"; }\n\n.fa-spider:before {\n  content: \"\\F717\"; }\n\n.fa-spinner:before {\n  content: \"\\F110\"; }\n\n.fa-splotch:before {\n  content: \"\\F5BC\"; }\n\n.fa-spotify:before {\n  content: \"\\F1BC\"; }\n\n.fa-spray-can:before {\n  content: \"\\F5BD\"; }\n\n.fa-square:before {\n  content: \"\\F0C8\"; }\n\n.fa-square-full:before {\n  content: \"\\F45C\"; }\n\n.fa-square-root-alt:before {\n  content: \"\\F698\"; }\n\n.fa-squarespace:before {\n  content: \"\\F5BE\"; }\n\n.fa-stack-exchange:before {\n  content: \"\\F18D\"; }\n\n.fa-stack-overflow:before {\n  content: \"\\F16C\"; }\n\n.fa-stackpath:before {\n  content: \"\\F842\"; }\n\n.fa-stamp:before {\n  content: \"\\F5BF\"; }\n\n.fa-star:before {\n  content: \"\\F005\"; }\n\n.fa-star-and-crescent:before {\n  content: \"\\F699\"; }\n\n.fa-star-half:before {\n  content: \"\\F089\"; }\n\n.fa-star-half-alt:before {\n  content: \"\\F5C0\"; }\n\n.fa-star-of-david:before {\n  content: \"\\F69A\"; }\n\n.fa-star-of-life:before {\n  content: \"\\F621\"; }\n\n.fa-staylinked:before {\n  content: \"\\F3F5\"; }\n\n.fa-steam:before {\n  content: \"\\F1B6\"; }\n\n.fa-steam-square:before {\n  content: \"\\F1B7\"; }\n\n.fa-steam-symbol:before {\n  content: \"\\F3F6\"; }\n\n.fa-step-backward:before {\n  content: \"\\F048\"; }\n\n.fa-step-forward:before {\n  content: \"\\F051\"; }\n\n.fa-stethoscope:before {\n  content: \"\\F0F1\"; }\n\n.fa-sticker-mule:before {\n  content: \"\\F3F7\"; }\n\n.fa-sticky-note:before {\n  content: \"\\F249\"; }\n\n.fa-stop:before {\n  content: \"\\F04D\"; }\n\n.fa-stop-circle:before {\n  content: \"\\F28D\"; }\n\n.fa-stopwatch:before {\n  content: \"\\F2F2\"; }\n\n.fa-store:before {\n  content: \"\\F54E\"; }\n\n.fa-store-alt:before {\n  content: \"\\F54F\"; }\n\n.fa-strava:before {\n  content: \"\\F428\"; }\n\n.fa-stream:before {\n  content: \"\\F550\"; }\n\n.fa-street-view:before {\n  content: \"\\F21D\"; }\n\n.fa-strikethrough:before {\n  content: \"\\F0CC\"; }\n\n.fa-stripe:before {\n  content: \"\\F429\"; }\n\n.fa-stripe-s:before {\n  content: \"\\F42A\"; }\n\n.fa-stroopwafel:before {\n  content: \"\\F551\"; }\n\n.fa-studiovinari:before {\n  content: \"\\F3F8\"; }\n\n.fa-stumbleupon:before {\n  content: \"\\F1A4\"; }\n\n.fa-stumbleupon-circle:before {\n  content: \"\\F1A3\"; }\n\n.fa-subscript:before {\n  content: \"\\F12C\"; }\n\n.fa-subway:before {\n  content: \"\\F239\"; }\n\n.fa-suitcase:before {\n  content: \"\\F0F2\"; }\n\n.fa-suitcase-rolling:before {\n  content: \"\\F5C1\"; }\n\n.fa-sun:before {\n  content: \"\\F185\"; }\n\n.fa-superpowers:before {\n  content: \"\\F2DD\"; }\n\n.fa-superscript:before {\n  content: \"\\F12B\"; }\n\n.fa-supple:before {\n  content: \"\\F3F9\"; }\n\n.fa-surprise:before {\n  content: \"\\F5C2\"; }\n\n.fa-suse:before {\n  content: \"\\F7D6\"; }\n\n.fa-swatchbook:before {\n  content: \"\\F5C3\"; }\n\n.fa-swimmer:before {\n  content: \"\\F5C4\"; }\n\n.fa-swimming-pool:before {\n  content: \"\\F5C5\"; }\n\n.fa-symfony:before {\n  content: \"\\F83D\"; }\n\n.fa-synagogue:before {\n  content: \"\\F69B\"; }\n\n.fa-sync:before {\n  content: \"\\F021\"; }\n\n.fa-sync-alt:before {\n  content: \"\\F2F1\"; }\n\n.fa-syringe:before {\n  content: \"\\F48E\"; }\n\n.fa-table:before {\n  content: \"\\F0CE\"; }\n\n.fa-table-tennis:before {\n  content: \"\\F45D\"; }\n\n.fa-tablet:before {\n  content: \"\\F10A\"; }\n\n.fa-tablet-alt:before {\n  content: \"\\F3FA\"; }\n\n.fa-tablets:before {\n  content: \"\\F490\"; }\n\n.fa-tachometer-alt:before {\n  content: \"\\F3FD\"; }\n\n.fa-tag:before {\n  content: \"\\F02B\"; }\n\n.fa-tags:before {\n  content: \"\\F02C\"; }\n\n.fa-tape:before {\n  content: \"\\F4DB\"; }\n\n.fa-tasks:before {\n  content: \"\\F0AE\"; }\n\n.fa-taxi:before {\n  content: \"\\F1BA\"; }\n\n.fa-teamspeak:before {\n  content: \"\\F4F9\"; }\n\n.fa-teeth:before {\n  content: \"\\F62E\"; }\n\n.fa-teeth-open:before {\n  content: \"\\F62F\"; }\n\n.fa-telegram:before {\n  content: \"\\F2C6\"; }\n\n.fa-telegram-plane:before {\n  content: \"\\F3FE\"; }\n\n.fa-temperature-high:before {\n  content: \"\\F769\"; }\n\n.fa-temperature-low:before {\n  content: \"\\F76B\"; }\n\n.fa-tencent-weibo:before {\n  content: \"\\F1D5\"; }\n\n.fa-tenge:before {\n  content: \"\\F7D7\"; }\n\n.fa-terminal:before {\n  content: \"\\F120\"; }\n\n.fa-text-height:before {\n  content: \"\\F034\"; }\n\n.fa-text-width:before {\n  content: \"\\F035\"; }\n\n.fa-th:before {\n  content: \"\\F00A\"; }\n\n.fa-th-large:before {\n  content: \"\\F009\"; }\n\n.fa-th-list:before {\n  content: \"\\F00B\"; }\n\n.fa-the-red-yeti:before {\n  content: \"\\F69D\"; }\n\n.fa-theater-masks:before {\n  content: \"\\F630\"; }\n\n.fa-themeco:before {\n  content: \"\\F5C6\"; }\n\n.fa-themeisle:before {\n  content: \"\\F2B2\"; }\n\n.fa-thermometer:before {\n  content: \"\\F491\"; }\n\n.fa-thermometer-empty:before {\n  content: \"\\F2CB\"; }\n\n.fa-thermometer-full:before {\n  content: \"\\F2C7\"; }\n\n.fa-thermometer-half:before {\n  content: \"\\F2C9\"; }\n\n.fa-thermometer-quarter:before {\n  content: \"\\F2CA\"; }\n\n.fa-thermometer-three-quarters:before {\n  content: \"\\F2C8\"; }\n\n.fa-think-peaks:before {\n  content: \"\\F731\"; }\n\n.fa-thumbs-down:before {\n  content: \"\\F165\"; }\n\n.fa-thumbs-up:before {\n  content: \"\\F164\"; }\n\n.fa-thumbtack:before {\n  content: \"\\F08D\"; }\n\n.fa-ticket-alt:before {\n  content: \"\\F3FF\"; }\n\n.fa-times:before {\n  content: \"\\F00D\"; }\n\n.fa-times-circle:before {\n  content: \"\\F057\"; }\n\n.fa-tint:before {\n  content: \"\\F043\"; }\n\n.fa-tint-slash:before {\n  content: \"\\F5C7\"; }\n\n.fa-tired:before {\n  content: \"\\F5C8\"; }\n\n.fa-toggle-off:before {\n  content: \"\\F204\"; }\n\n.fa-toggle-on:before {\n  content: \"\\F205\"; }\n\n.fa-toilet:before {\n  content: \"\\F7D8\"; }\n\n.fa-toilet-paper:before {\n  content: \"\\F71E\"; }\n\n.fa-toolbox:before {\n  content: \"\\F552\"; }\n\n.fa-tools:before {\n  content: \"\\F7D9\"; }\n\n.fa-tooth:before {\n  content: \"\\F5C9\"; }\n\n.fa-torah:before {\n  content: \"\\F6A0\"; }\n\n.fa-torii-gate:before {\n  content: \"\\F6A1\"; }\n\n.fa-tractor:before {\n  content: \"\\F722\"; }\n\n.fa-trade-federation:before {\n  content: \"\\F513\"; }\n\n.fa-trademark:before {\n  content: \"\\F25C\"; }\n\n.fa-traffic-light:before {\n  content: \"\\F637\"; }\n\n.fa-train:before {\n  content: \"\\F238\"; }\n\n.fa-tram:before {\n  content: \"\\F7DA\"; }\n\n.fa-transgender:before {\n  content: \"\\F224\"; }\n\n.fa-transgender-alt:before {\n  content: \"\\F225\"; }\n\n.fa-trash:before {\n  content: \"\\F1F8\"; }\n\n.fa-trash-alt:before {\n  content: \"\\F2ED\"; }\n\n.fa-trash-restore:before {\n  content: \"\\F829\"; }\n\n.fa-trash-restore-alt:before {\n  content: \"\\F82A\"; }\n\n.fa-tree:before {\n  content: \"\\F1BB\"; }\n\n.fa-trello:before {\n  content: \"\\F181\"; }\n\n.fa-tripadvisor:before {\n  content: \"\\F262\"; }\n\n.fa-trophy:before {\n  content: \"\\F091\"; }\n\n.fa-truck:before {\n  content: \"\\F0D1\"; }\n\n.fa-truck-loading:before {\n  content: \"\\F4DE\"; }\n\n.fa-truck-monster:before {\n  content: \"\\F63B\"; }\n\n.fa-truck-moving:before {\n  content: \"\\F4DF\"; }\n\n.fa-truck-pickup:before {\n  content: \"\\F63C\"; }\n\n.fa-tshirt:before {\n  content: \"\\F553\"; }\n\n.fa-tty:before {\n  content: \"\\F1E4\"; }\n\n.fa-tumblr:before {\n  content: \"\\F173\"; }\n\n.fa-tumblr-square:before {\n  content: \"\\F174\"; }\n\n.fa-tv:before {\n  content: \"\\F26C\"; }\n\n.fa-twitch:before {\n  content: \"\\F1E8\"; }\n\n.fa-twitter:before {\n  content: \"\\F099\"; }\n\n.fa-twitter-square:before {\n  content: \"\\F081\"; }\n\n.fa-typo3:before {\n  content: \"\\F42B\"; }\n\n.fa-uber:before {\n  content: \"\\F402\"; }\n\n.fa-ubuntu:before {\n  content: \"\\F7DF\"; }\n\n.fa-uikit:before {\n  content: \"\\F403\"; }\n\n.fa-umbrella:before {\n  content: \"\\F0E9\"; }\n\n.fa-umbrella-beach:before {\n  content: \"\\F5CA\"; }\n\n.fa-underline:before {\n  content: \"\\F0CD\"; }\n\n.fa-undo:before {\n  content: \"\\F0E2\"; }\n\n.fa-undo-alt:before {\n  content: \"\\F2EA\"; }\n\n.fa-uniregistry:before {\n  content: \"\\F404\"; }\n\n.fa-universal-access:before {\n  content: \"\\F29A\"; }\n\n.fa-university:before {\n  content: \"\\F19C\"; }\n\n.fa-unlink:before {\n  content: \"\\F127\"; }\n\n.fa-unlock:before {\n  content: \"\\F09C\"; }\n\n.fa-unlock-alt:before {\n  content: \"\\F13E\"; }\n\n.fa-untappd:before {\n  content: \"\\F405\"; }\n\n.fa-upload:before {\n  content: \"\\F093\"; }\n\n.fa-ups:before {\n  content: \"\\F7E0\"; }\n\n.fa-usb:before {\n  content: \"\\F287\"; }\n\n.fa-user:before {\n  content: \"\\F007\"; }\n\n.fa-user-alt:before {\n  content: \"\\F406\"; }\n\n.fa-user-alt-slash:before {\n  content: \"\\F4FA\"; }\n\n.fa-user-astronaut:before {\n  content: \"\\F4FB\"; }\n\n.fa-user-check:before {\n  content: \"\\F4FC\"; }\n\n.fa-user-circle:before {\n  content: \"\\F2BD\"; }\n\n.fa-user-clock:before {\n  content: \"\\F4FD\"; }\n\n.fa-user-cog:before {\n  content: \"\\F4FE\"; }\n\n.fa-user-edit:before {\n  content: \"\\F4FF\"; }\n\n.fa-user-friends:before {\n  content: \"\\F500\"; }\n\n.fa-user-graduate:before {\n  content: \"\\F501\"; }\n\n.fa-user-injured:before {\n  content: \"\\F728\"; }\n\n.fa-user-lock:before {\n  content: \"\\F502\"; }\n\n.fa-user-md:before {\n  content: \"\\F0F0\"; }\n\n.fa-user-minus:before {\n  content: \"\\F503\"; }\n\n.fa-user-ninja:before {\n  content: \"\\F504\"; }\n\n.fa-user-nurse:before {\n  content: \"\\F82F\"; }\n\n.fa-user-plus:before {\n  content: \"\\F234\"; }\n\n.fa-user-secret:before {\n  content: \"\\F21B\"; }\n\n.fa-user-shield:before {\n  content: \"\\F505\"; }\n\n.fa-user-slash:before {\n  content: \"\\F506\"; }\n\n.fa-user-tag:before {\n  content: \"\\F507\"; }\n\n.fa-user-tie:before {\n  content: \"\\F508\"; }\n\n.fa-user-times:before {\n  content: \"\\F235\"; }\n\n.fa-users:before {\n  content: \"\\F0C0\"; }\n\n.fa-users-cog:before {\n  content: \"\\F509\"; }\n\n.fa-usps:before {\n  content: \"\\F7E1\"; }\n\n.fa-ussunnah:before {\n  content: \"\\F407\"; }\n\n.fa-utensil-spoon:before {\n  content: \"\\F2E5\"; }\n\n.fa-utensils:before {\n  content: \"\\F2E7\"; }\n\n.fa-vaadin:before {\n  content: \"\\F408\"; }\n\n.fa-vector-square:before {\n  content: \"\\F5CB\"; }\n\n.fa-venus:before {\n  content: \"\\F221\"; }\n\n.fa-venus-double:before {\n  content: \"\\F226\"; }\n\n.fa-venus-mars:before {\n  content: \"\\F228\"; }\n\n.fa-viacoin:before {\n  content: \"\\F237\"; }\n\n.fa-viadeo:before {\n  content: \"\\F2A9\"; }\n\n.fa-viadeo-square:before {\n  content: \"\\F2AA\"; }\n\n.fa-vial:before {\n  content: \"\\F492\"; }\n\n.fa-vials:before {\n  content: \"\\F493\"; }\n\n.fa-viber:before {\n  content: \"\\F409\"; }\n\n.fa-video:before {\n  content: \"\\F03D\"; }\n\n.fa-video-slash:before {\n  content: \"\\F4E2\"; }\n\n.fa-vihara:before {\n  content: \"\\F6A7\"; }\n\n.fa-vimeo:before {\n  content: \"\\F40A\"; }\n\n.fa-vimeo-square:before {\n  content: \"\\F194\"; }\n\n.fa-vimeo-v:before {\n  content: \"\\F27D\"; }\n\n.fa-vine:before {\n  content: \"\\F1CA\"; }\n\n.fa-vk:before {\n  content: \"\\F189\"; }\n\n.fa-vnv:before {\n  content: \"\\F40B\"; }\n\n.fa-voicemail:before {\n  content: \"\\F897\"; }\n\n.fa-volleyball-ball:before {\n  content: \"\\F45F\"; }\n\n.fa-volume-down:before {\n  content: \"\\F027\"; }\n\n.fa-volume-mute:before {\n  content: \"\\F6A9\"; }\n\n.fa-volume-off:before {\n  content: \"\\F026\"; }\n\n.fa-volume-up:before {\n  content: \"\\F028\"; }\n\n.fa-vote-yea:before {\n  content: \"\\F772\"; }\n\n.fa-vr-cardboard:before {\n  content: \"\\F729\"; }\n\n.fa-vuejs:before {\n  content: \"\\F41F\"; }\n\n.fa-walking:before {\n  content: \"\\F554\"; }\n\n.fa-wallet:before {\n  content: \"\\F555\"; }\n\n.fa-warehouse:before {\n  content: \"\\F494\"; }\n\n.fa-water:before {\n  content: \"\\F773\"; }\n\n.fa-wave-square:before {\n  content: \"\\F83E\"; }\n\n.fa-waze:before {\n  content: \"\\F83F\"; }\n\n.fa-weebly:before {\n  content: \"\\F5CC\"; }\n\n.fa-weibo:before {\n  content: \"\\F18A\"; }\n\n.fa-weight:before {\n  content: \"\\F496\"; }\n\n.fa-weight-hanging:before {\n  content: \"\\F5CD\"; }\n\n.fa-weixin:before {\n  content: \"\\F1D7\"; }\n\n.fa-whatsapp:before {\n  content: \"\\F232\"; }\n\n.fa-whatsapp-square:before {\n  content: \"\\F40C\"; }\n\n.fa-wheelchair:before {\n  content: \"\\F193\"; }\n\n.fa-whmcs:before {\n  content: \"\\F40D\"; }\n\n.fa-wifi:before {\n  content: \"\\F1EB\"; }\n\n.fa-wikipedia-w:before {\n  content: \"\\F266\"; }\n\n.fa-wind:before {\n  content: \"\\F72E\"; }\n\n.fa-window-close:before {\n  content: \"\\F410\"; }\n\n.fa-window-maximize:before {\n  content: \"\\F2D0\"; }\n\n.fa-window-minimize:before {\n  content: \"\\F2D1\"; }\n\n.fa-window-restore:before {\n  content: \"\\F2D2\"; }\n\n.fa-windows:before {\n  content: \"\\F17A\"; }\n\n.fa-wine-bottle:before {\n  content: \"\\F72F\"; }\n\n.fa-wine-glass:before {\n  content: \"\\F4E3\"; }\n\n.fa-wine-glass-alt:before {\n  content: \"\\F5CE\"; }\n\n.fa-wix:before {\n  content: \"\\F5CF\"; }\n\n.fa-wizards-of-the-coast:before {\n  content: \"\\F730\"; }\n\n.fa-wolf-pack-battalion:before {\n  content: \"\\F514\"; }\n\n.fa-won-sign:before {\n  content: \"\\F159\"; }\n\n.fa-wordpress:before {\n  content: \"\\F19A\"; }\n\n.fa-wordpress-simple:before {\n  content: \"\\F411\"; }\n\n.fa-wpbeginner:before {\n  content: \"\\F297\"; }\n\n.fa-wpexplorer:before {\n  content: \"\\F2DE\"; }\n\n.fa-wpforms:before {\n  content: \"\\F298\"; }\n\n.fa-wpressr:before {\n  content: \"\\F3E4\"; }\n\n.fa-wrench:before {\n  content: \"\\F0AD\"; }\n\n.fa-x-ray:before {\n  content: \"\\F497\"; }\n\n.fa-xbox:before {\n  content: \"\\F412\"; }\n\n.fa-xing:before {\n  content: \"\\F168\"; }\n\n.fa-xing-square:before {\n  content: \"\\F169\"; }\n\n.fa-y-combinator:before {\n  content: \"\\F23B\"; }\n\n.fa-yahoo:before {\n  content: \"\\F19E\"; }\n\n.fa-yammer:before {\n  content: \"\\F840\"; }\n\n.fa-yandex:before {\n  content: \"\\F413\"; }\n\n.fa-yandex-international:before {\n  content: \"\\F414\"; }\n\n.fa-yarn:before {\n  content: \"\\F7E3\"; }\n\n.fa-yelp:before {\n  content: \"\\F1E9\"; }\n\n.fa-yen-sign:before {\n  content: \"\\F157\"; }\n\n.fa-yin-yang:before {\n  content: \"\\F6AD\"; }\n\n.fa-yoast:before {\n  content: \"\\F2B1\"; }\n\n.fa-youtube:before {\n  content: \"\\F167\"; }\n\n.fa-youtube-square:before {\n  content: \"\\F431\"; }\n\n.fa-zhihu:before {\n  content: \"\\F63F\"; }\n\n.sr-only {\n  border: 0;\n  clip: rect(0, 0, 0, 0);\n  height: 1px;\n  margin: -1px;\n  overflow: hidden;\n  padding: 0;\n  position: absolute;\n  width: 1px; }\n\n.sr-only-focusable:active, .sr-only-focusable:focus {\n  clip: auto;\n  height: auto;\n  margin: 0;\n  overflow: visible;\n  position: static;\n  width: auto; }\n@font-face {\n  font-family: 'Font Awesome 5 Brands';\n  font-style: normal;\n  font-weight: normal;\n  font-display: auto;\n  src: url(" + escape(__webpack_require__(/*! ../webfonts/fa-brands-400.eot */ "./node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.eot")) + ");\n  src: url(" + escape(__webpack_require__(/*! ../webfonts/fa-brands-400.eot */ "./node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.eot")) + "?#iefix) format(\"embedded-opentype\"), url(" + escape(__webpack_require__(/*! ../webfonts/fa-brands-400.woff2 */ "./node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2")) + ") format(\"woff2\"), url(" + escape(__webpack_require__(/*! ../webfonts/fa-brands-400.woff */ "./node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff")) + ") format(\"woff\"), url(" + escape(__webpack_require__(/*! ../webfonts/fa-brands-400.ttf */ "./node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf")) + ") format(\"truetype\"), url(" + escape(__webpack_require__(/*! ../webfonts/fa-brands-400.svg */ "./node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.svg")) + "#fontawesome) format(\"svg\"); }\n\n.fab {\n  font-family: 'Font Awesome 5 Brands'; }\n@font-face {\n  font-family: 'Font Awesome 5 Free';\n  font-style: normal;\n  font-weight: 400;\n  font-display: auto;\n  src: url(" + escape(__webpack_require__(/*! ../webfonts/fa-regular-400.eot */ "./node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.eot")) + ");\n  src: url(" + escape(__webpack_require__(/*! ../webfonts/fa-regular-400.eot */ "./node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.eot")) + "?#iefix) format(\"embedded-opentype\"), url(" + escape(__webpack_require__(/*! ../webfonts/fa-regular-400.woff2 */ "./node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.woff2")) + ") format(\"woff2\"), url(" + escape(__webpack_require__(/*! ../webfonts/fa-regular-400.woff */ "./node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.woff")) + ") format(\"woff\"), url(" + escape(__webpack_require__(/*! ../webfonts/fa-regular-400.ttf */ "./node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.ttf")) + ") format(\"truetype\"), url(" + escape(__webpack_require__(/*! ../webfonts/fa-regular-400.svg */ "./node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.svg")) + "#fontawesome) format(\"svg\"); }\n\n.far {\n  font-family: 'Font Awesome 5 Free';\n  font-weight: 400; }\n@font-face {\n  font-family: 'Font Awesome 5 Free';\n  font-style: normal;\n  font-weight: 900;\n  font-display: auto;\n  src: url(" + escape(__webpack_require__(/*! ../webfonts/fa-solid-900.eot */ "./node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.eot")) + ");\n  src: url(" + escape(__webpack_require__(/*! ../webfonts/fa-solid-900.eot */ "./node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.eot")) + "?#iefix) format(\"embedded-opentype\"), url(" + escape(__webpack_require__(/*! ../webfonts/fa-solid-900.woff2 */ "./node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2")) + ") format(\"woff2\"), url(" + escape(__webpack_require__(/*! ../webfonts/fa-solid-900.woff */ "./node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff")) + ") format(\"woff\"), url(" + escape(__webpack_require__(/*! ../webfonts/fa-solid-900.ttf */ "./node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.ttf")) + ") format(\"truetype\"), url(" + escape(__webpack_require__(/*! ../webfonts/fa-solid-900.svg */ "./node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.svg")) + "#fontawesome) format(\"svg\"); }\n\n.fa,\n.fas {\n  font-family: 'Font Awesome 5 Free';\n  font-weight: 900; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-croppa/dist/vue-croppa.css":
+/*!*************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--5-1!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-croppa/dist/vue-croppa.css ***!
+  \*************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".sk-fading-circle {\n  position: absolute; }\n  .sk-fading-circle .sk-circle {\n    width: 100%;\n    height: 100%;\n    position: absolute;\n    left: 0;\n    top: 0; }\n  .sk-fading-circle .sk-circle .sk-circle-indicator {\n    display: block;\n    margin: 0 auto;\n    width: 15%;\n    height: 15%;\n    border-radius: 100%;\n    -webkit-animation: sk-circleFadeDelay 1s infinite ease-in-out both;\n            animation: sk-circleFadeDelay 1s infinite ease-in-out both; }\n  .sk-fading-circle .sk-circle2 {\n    -webkit-transform: rotate(30deg);\n            transform: rotate(30deg); }\n  .sk-fading-circle .sk-circle3 {\n    -webkit-transform: rotate(60deg);\n            transform: rotate(60deg); }\n  .sk-fading-circle .sk-circle4 {\n    -webkit-transform: rotate(90deg);\n            transform: rotate(90deg); }\n  .sk-fading-circle .sk-circle5 {\n    -webkit-transform: rotate(120deg);\n            transform: rotate(120deg); }\n  .sk-fading-circle .sk-circle6 {\n    -webkit-transform: rotate(150deg);\n            transform: rotate(150deg); }\n  .sk-fading-circle .sk-circle7 {\n    -webkit-transform: rotate(180deg);\n            transform: rotate(180deg); }\n  .sk-fading-circle .sk-circle8 {\n    -webkit-transform: rotate(210deg);\n            transform: rotate(210deg); }\n  .sk-fading-circle .sk-circle9 {\n    -webkit-transform: rotate(240deg);\n            transform: rotate(240deg); }\n  .sk-fading-circle .sk-circle10 {\n    -webkit-transform: rotate(270deg);\n            transform: rotate(270deg); }\n  .sk-fading-circle .sk-circle11 {\n    -webkit-transform: rotate(300deg);\n            transform: rotate(300deg); }\n  .sk-fading-circle .sk-circle12 {\n    -webkit-transform: rotate(330deg);\n            transform: rotate(330deg); }\n  .sk-fading-circle .sk-circle2 .sk-circle-indicator {\n    -webkit-animation-delay: -0.91667s;\n            animation-delay: -0.91667s; }\n  .sk-fading-circle .sk-circle3 .sk-circle-indicator {\n    -webkit-animation-delay: -0.83333s;\n            animation-delay: -0.83333s; }\n  .sk-fading-circle .sk-circle4 .sk-circle-indicator {\n    -webkit-animation-delay: -0.75s;\n            animation-delay: -0.75s; }\n  .sk-fading-circle .sk-circle5 .sk-circle-indicator {\n    -webkit-animation-delay: -0.66667s;\n            animation-delay: -0.66667s; }\n  .sk-fading-circle .sk-circle6 .sk-circle-indicator {\n    -webkit-animation-delay: -0.58333s;\n            animation-delay: -0.58333s; }\n  .sk-fading-circle .sk-circle7 .sk-circle-indicator {\n    -webkit-animation-delay: -0.5s;\n            animation-delay: -0.5s; }\n  .sk-fading-circle .sk-circle8 .sk-circle-indicator {\n    -webkit-animation-delay: -0.41667s;\n            animation-delay: -0.41667s; }\n  .sk-fading-circle .sk-circle9 .sk-circle-indicator {\n    -webkit-animation-delay: -0.33333s;\n            animation-delay: -0.33333s; }\n  .sk-fading-circle .sk-circle10 .sk-circle-indicator {\n    -webkit-animation-delay: -0.25s;\n            animation-delay: -0.25s; }\n  .sk-fading-circle .sk-circle11 .sk-circle-indicator {\n    -webkit-animation-delay: -0.16667s;\n            animation-delay: -0.16667s; }\n  .sk-fading-circle .sk-circle12 .sk-circle-indicator {\n    -webkit-animation-delay: -0.08333s;\n            animation-delay: -0.08333s; }\n\n@-webkit-keyframes sk-circleFadeDelay {\n  0%,\n  39%,\n  100% {\n    opacity: 0; }\n  40% {\n    opacity: 1; } }\n\n@keyframes sk-circleFadeDelay {\n  0%,\n  39%,\n  100% {\n    opacity: 0; }\n  40% {\n    opacity: 1; } }\n\n.croppa-container {\n  display: inline-block;\n  cursor: pointer;\n  -webkit-transition: all 0.3s;\n  transition: all 0.3s;\n  position: relative;\n  font-size: 0;\n  -ms-flex-item-align: start;\n      align-self: flex-start;\n  background-color: #e6e6e6;\n}\n.croppa-container canvas {\n  -webkit-transition: all 0.3s;\n  transition: all 0.3s;\n}\n.croppa-container:hover {\n  opacity: 0.7;\n}\n.croppa-container.croppa--dropzone {\n  -webkit-box-shadow: inset 0 0 10px #333;\n          box-shadow: inset 0 0 10px #333;\n}\n.croppa-container.croppa--dropzone canvas {\n  opacity: 0.5;\n}\n.croppa-container.croppa--disabled-cc {\n  cursor: default;\n}\n.croppa-container.croppa--disabled-cc:hover {\n  opacity: 1;\n}\n.croppa-container.croppa--has-target {\n  cursor: move;\n}\n.croppa-container.croppa--has-target:hover {\n  opacity: 1;\n}\n.croppa-container.croppa--has-target.croppa--disabled-mz {\n  cursor: default;\n}\n.croppa-container.croppa--disabled {\n  cursor: not-allowed;\n}\n.croppa-container.croppa--disabled:hover {\n  opacity: 1;\n}\n.croppa-container.croppa--passive {\n  cursor: default;\n}\n.croppa-container.croppa--passive:hover {\n  opacity: 1;\n}\n.croppa-container svg.icon-remove {\n  position: absolute;\n  background: #fff;\n  border-radius: 50%;\n  -webkit-filter: drop-shadow(-2px 2px 2px rgba(0,0,0,0.7));\n          filter: drop-shadow(-2px 2px 2px rgba(0,0,0,0.7));\n  z-index: 10;\n  cursor: pointer;\n  border: 2px solid #fff;\n}\n\n", ""]);
 
 // exports
 
@@ -8318,6 +8778,25 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 // module
 exports.push([module.i, "\n.type-item {\r\n    margin: 5px 0px 5px -12px;\r\n    border: solid 1.5px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.type {\r\n    margin-top: 15px;\r\n    color: #26a69a;\n}\r\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/productos/ProductosForm.vue?vue&type=style&index=0&lang=css&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/productos/ProductosForm.vue?vue&type=style&index=0&lang=css& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.input-number input[type=\"number\"] {\r\n    -moz-appearance: textfield;\n}\n.input-number input::-webkit-outer-spin-button,\r\n.input-number input::-webkit-inner-spin-button {\r\n    -webkit-appearance: none;\n}\n.search-table {\r\n    border: solid 2px #26a69a;\r\n    margin-top: -30px;\r\n    border-top: none;\r\n    margin-bottom: 20px;\r\n    border-radius: 0px 0px 5px 5px;\n}\n.expansion-border {\r\n    border-bottom: 1px solid #aaaaaa;\n}\n.expand-transition {\r\n    transition: all 0.5s ease;\n}\n.expand-enter,\r\n.expand-leave {\r\n    height: 0;\r\n    opacity: 0;\n}\r\n", ""]);
 
 // exports
 
@@ -9830,6 +10309,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/productos/ProductosForm.vue?vue&type=style&index=0&lang=css&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/productos/ProductosForm.vue?vue&type=style&index=0&lang=css& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--5-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--5-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./ProductosForm.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/productos/ProductosForm.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/lib/addStyles.js":
 /*!****************************************************!*\
   !*** ./node_modules/style-loader/lib/addStyles.js ***!
@@ -10414,6 +10923,1885 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-croppa/dist/vue-croppa.css":
+/*!*****************************************************!*\
+  !*** ./node_modules/vue-croppa/dist/vue-croppa.css ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../css-loader??ref--5-1!../../postcss-loader/src??ref--5-2!./vue-croppa.css */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-croppa/dist/vue-croppa.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/vue-croppa/dist/vue-croppa.js":
+/*!****************************************************!*\
+  !*** ./node_modules/vue-croppa/dist/vue-croppa.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {/*
+ * vue-croppa v1.3.8
+ * https://github.com/zhanziyang/vue-croppa
+ * 
+ * Copyright (c) 2018 zhanziyang
+ * Released under the ISC license
+ */
+  
+(function (global, factory) {
+	 true ? module.exports = factory() :
+	undefined;
+}(this, (function () { 'use strict';
+
+var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+
+
+
+
+function createCommonjsModule(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+var canvasExifOrientation = createCommonjsModule(function (module, exports) {
+(function (root, factory) {
+    if (false) {} else {
+        module.exports = factory();
+    }
+}(commonjsGlobal, function () {
+  'use strict';
+
+  function drawImage(img, orientation, x, y, width, height) {
+    if (!/^[1-8]$/.test(orientation)) throw new Error('orientation should be [1-8]');
+
+    if (x == null) x = 0;
+    if (y == null) y = 0;
+    if (width == null) width = img.width;
+    if (height == null) height = img.height;
+
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
+    canvas.width = width;
+    canvas.height = height;
+
+    ctx.save();
+    switch (+orientation) {
+      // 1 = The 0th row is at the visual top of the image, and the 0th column is the visual left-hand side.
+      case 1:
+          break;
+
+      // 2 = The 0th row is at the visual top of the image, and the 0th column is the visual right-hand side.
+      case 2:
+         ctx.translate(width, 0);
+         ctx.scale(-1, 1);
+         break;
+
+      // 3 = The 0th row is at the visual bottom of the image, and the 0th column is the visual right-hand side.
+      case 3:
+          ctx.translate(width, height);
+          ctx.rotate(180 / 180 * Math.PI);
+          break;
+
+      // 4 = The 0th row is at the visual bottom of the image, and the 0th column is the visual left-hand side.
+      case 4:
+          ctx.translate(0, height);
+          ctx.scale(1, -1);
+          break;
+
+      // 5 = The 0th row is the visual left-hand side of the image, and the 0th column is the visual top.
+      case 5:
+          canvas.width = height;
+          canvas.height = width;
+          ctx.rotate(90 / 180 * Math.PI);
+          ctx.scale(1, -1);
+          break;
+
+      // 6 = The 0th row is the visual right-hand side of the image, and the 0th column is the visual top.
+      case 6:
+          canvas.width = height;
+          canvas.height = width;
+          ctx.rotate(90 / 180 * Math.PI);
+          ctx.translate(0, -height);
+          break;
+
+      // 7 = The 0th row is the visual right-hand side of the image, and the 0th column is the visual bottom.
+      case 7:
+          canvas.width = height;
+          canvas.height = width;
+          ctx.rotate(270 / 180 * Math.PI);
+          ctx.translate(-width, height);
+          ctx.scale(1, -1);
+          break;
+
+      // 8 = The 0th row is the visual left-hand side of the image, and the 0th column is the visual bottom.
+      case 8:
+          canvas.width = height;
+          canvas.height = width;
+          ctx.translate(0, width);
+          ctx.rotate(270 / 180 * Math.PI);
+          break;
+    }
+
+    ctx.drawImage(img, x, y, width, height);
+    ctx.restore();
+
+    return canvas;
+  }
+
+  return {
+    drawImage: drawImage
+  };
+}));
+});
+
+var u = {
+  onePointCoord: function onePointCoord(point, vm) {
+    var canvas = vm.canvas,
+        quality = vm.quality;
+
+    var rect = canvas.getBoundingClientRect();
+    var clientX = point.clientX;
+    var clientY = point.clientY;
+    return {
+      x: (clientX - rect.left) * quality,
+      y: (clientY - rect.top) * quality
+    };
+  },
+  getPointerCoords: function getPointerCoords(evt, vm) {
+    var pointer = void 0;
+    if (evt.touches && evt.touches[0]) {
+      pointer = evt.touches[0];
+    } else if (evt.changedTouches && evt.changedTouches[0]) {
+      pointer = evt.changedTouches[0];
+    } else {
+      pointer = evt;
+    }
+    return this.onePointCoord(pointer, vm);
+  },
+  getPinchDistance: function getPinchDistance(evt, vm) {
+    var pointer1 = evt.touches[0];
+    var pointer2 = evt.touches[1];
+    var coord1 = this.onePointCoord(pointer1, vm);
+    var coord2 = this.onePointCoord(pointer2, vm);
+
+    return Math.sqrt(Math.pow(coord1.x - coord2.x, 2) + Math.pow(coord1.y - coord2.y, 2));
+  },
+  getPinchCenterCoord: function getPinchCenterCoord(evt, vm) {
+    var pointer1 = evt.touches[0];
+    var pointer2 = evt.touches[1];
+    var coord1 = this.onePointCoord(pointer1, vm);
+    var coord2 = this.onePointCoord(pointer2, vm);
+
+    return {
+      x: (coord1.x + coord2.x) / 2,
+      y: (coord1.y + coord2.y) / 2
+    };
+  },
+  imageLoaded: function imageLoaded(img) {
+    return img.complete && img.naturalWidth !== 0;
+  },
+  rAFPolyfill: function rAFPolyfill() {
+    // rAF polyfill
+    if (typeof document == 'undefined' || typeof window == 'undefined') return;
+    var lastTime = 0;
+    var vendors = ['webkit', 'moz'];
+    for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+      window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+      window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || // Webkit中此取消方法的名字变了
+      window[vendors[x] + 'CancelRequestAnimationFrame'];
+    }
+
+    if (!window.requestAnimationFrame) {
+      window.requestAnimationFrame = function (callback) {
+        var currTime = new Date().getTime();
+        var timeToCall = Math.max(0, 16.7 - (currTime - lastTime));
+        var id = window.setTimeout(function () {
+          var arg = currTime + timeToCall;
+          callback(arg);
+        }, timeToCall);
+        lastTime = currTime + timeToCall;
+        return id;
+      };
+    }
+    if (!window.cancelAnimationFrame) {
+      window.cancelAnimationFrame = function (id) {
+        clearTimeout(id);
+      };
+    }
+
+    Array.isArray = function (arg) {
+      return Object.prototype.toString.call(arg) === '[object Array]';
+    };
+  },
+  toBlobPolyfill: function toBlobPolyfill() {
+    if (typeof document == 'undefined' || typeof window == 'undefined' || !HTMLCanvasElement) return;
+    var binStr, len, arr;
+    if (!HTMLCanvasElement.prototype.toBlob) {
+      Object.defineProperty(HTMLCanvasElement.prototype, 'toBlob', {
+        value: function value(callback, type, quality) {
+          binStr = atob(this.toDataURL(type, quality).split(',')[1]);
+          len = binStr.length;
+          arr = new Uint8Array(len);
+
+          for (var i = 0; i < len; i++) {
+            arr[i] = binStr.charCodeAt(i);
+          }
+
+          callback(new Blob([arr], { type: type || 'image/png' }));
+        }
+      });
+    }
+  },
+  eventHasFile: function eventHasFile(evt) {
+    var dt = evt.dataTransfer || evt.originalEvent.dataTransfer;
+    if (dt.types) {
+      for (var i = 0, len = dt.types.length; i < len; i++) {
+        if (dt.types[i] == 'Files') {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  },
+  getFileOrientation: function getFileOrientation(arrayBuffer) {
+    var view = new DataView(arrayBuffer);
+    if (view.getUint16(0, false) != 0xFFD8) return -2;
+    var length = view.byteLength;
+    var offset = 2;
+    while (offset < length) {
+      var marker = view.getUint16(offset, false);
+      offset += 2;
+      if (marker == 0xFFE1) {
+        if (view.getUint32(offset += 2, false) != 0x45786966) return -1;
+        var little = view.getUint16(offset += 6, false) == 0x4949;
+        offset += view.getUint32(offset + 4, little);
+        var tags = view.getUint16(offset, little);
+        offset += 2;
+        for (var i = 0; i < tags; i++) {
+          if (view.getUint16(offset + i * 12, little) == 0x0112) {
+            return view.getUint16(offset + i * 12 + 8, little);
+          }
+        }
+      } else if ((marker & 0xFF00) != 0xFF00) break;else offset += view.getUint16(offset, false);
+    }
+    return -1;
+  },
+  parseDataUrl: function parseDataUrl(url) {
+    var reg = /^data:([^;]+)?(;base64)?,(.*)/gmi;
+    return reg.exec(url)[3];
+  },
+  base64ToArrayBuffer: function base64ToArrayBuffer(base64) {
+    var binaryString = atob(base64);
+    var len = binaryString.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes.buffer;
+  },
+  getRotatedImage: function getRotatedImage(img, orientation) {
+    var _canvas = canvasExifOrientation.drawImage(img, orientation);
+    var _img = new Image();
+    _img.src = _canvas.toDataURL();
+    return _img;
+  },
+  flipX: function flipX(ori) {
+    if (ori % 2 == 0) {
+      return ori - 1;
+    }
+
+    return ori + 1;
+  },
+  flipY: function flipY(ori) {
+    var map = {
+      1: 4,
+      4: 1,
+      2: 3,
+      3: 2,
+      5: 8,
+      8: 5,
+      6: 7,
+      7: 6
+    };
+
+    return map[ori];
+  },
+  rotate90: function rotate90(ori) {
+    var map = {
+      1: 6,
+      2: 7,
+      3: 8,
+      4: 5,
+      5: 2,
+      6: 3,
+      7: 4,
+      8: 1
+    };
+
+    return map[ori];
+  },
+  numberValid: function numberValid(n) {
+    return typeof n === 'number' && !isNaN(n);
+  }
+};
+
+Number.isInteger = Number.isInteger || function (value) {
+  return typeof value === 'number' && isFinite(value) && Math.floor(value) === value;
+};
+
+var initialImageType = String;
+if (typeof window !== 'undefined' && window.Image) {
+  initialImageType = [String, Image];
+}
+
+var props = {
+  value: Object,
+  width: {
+    type: Number,
+    default: 200,
+    validator: function validator(val) {
+      return val > 0;
+    }
+  },
+  height: {
+    type: Number,
+    default: 200,
+    validator: function validator(val) {
+      return val > 0;
+    }
+  },
+  placeholder: {
+    type: String,
+    default: 'Choose an image'
+  },
+  placeholderColor: {
+    default: '#606060'
+  },
+  placeholderFontSize: {
+    type: Number,
+    default: 0,
+    validator: function validator(val) {
+      return val >= 0;
+    }
+  },
+  canvasColor: {
+    default: 'transparent'
+  },
+  quality: {
+    type: Number,
+    default: 2,
+    validator: function validator(val) {
+      return val > 0;
+    }
+  },
+  zoomSpeed: {
+    default: 3,
+    type: Number,
+    validator: function validator(val) {
+      return val > 0;
+    }
+  },
+  accept: String,
+  fileSizeLimit: {
+    type: Number,
+    default: 0,
+    validator: function validator(val) {
+      return val >= 0;
+    }
+  },
+  disabled: Boolean,
+  disableDragAndDrop: Boolean,
+  disableClickToChoose: Boolean,
+  disableDragToMove: Boolean,
+  disableScrollToZoom: Boolean,
+  disablePinchToZoom: Boolean,
+  disableRotation: Boolean,
+  reverseScrollToZoom: Boolean,
+  preventWhiteSpace: Boolean,
+  showRemoveButton: {
+    type: Boolean,
+    default: true
+  },
+  removeButtonColor: {
+    type: String,
+    default: 'red'
+  },
+  removeButtonSize: {
+    type: Number
+  },
+  initialImage: initialImageType,
+  initialSize: {
+    type: String,
+    default: 'cover',
+    validator: function validator(val) {
+      return val === 'cover' || val === 'contain' || val === 'natural';
+    }
+  },
+  initialPosition: {
+    type: String,
+    default: 'center',
+    validator: function validator(val) {
+      var valids = ['center', 'top', 'bottom', 'left', 'right'];
+      return val.split(' ').every(function (word) {
+        return valids.indexOf(word) >= 0;
+      }) || /^-?\d+% -?\d+%$/.test(val);
+    }
+  },
+  inputAttrs: Object,
+  showLoading: Boolean,
+  loadingSize: {
+    type: Number,
+    default: 20
+  },
+  loadingColor: {
+    type: String,
+    default: '#606060'
+  },
+  replaceDrop: Boolean,
+  passive: Boolean,
+  imageBorderRadius: {
+    type: [Number, String],
+    default: 0
+  },
+  autoSizing: Boolean,
+  videoEnabled: Boolean
+};
+
+var events = {
+  INIT_EVENT: 'init',
+  FILE_CHOOSE_EVENT: 'file-choose',
+  FILE_SIZE_EXCEED_EVENT: 'file-size-exceed',
+  FILE_TYPE_MISMATCH_EVENT: 'file-type-mismatch',
+  NEW_IMAGE_EVENT: 'new-image',
+  NEW_IMAGE_DRAWN_EVENT: 'new-image-drawn',
+  IMAGE_REMOVE_EVENT: 'image-remove',
+  MOVE_EVENT: 'move',
+  ZOOM_EVENT: 'zoom',
+  DRAW_EVENT: 'draw',
+  INITIAL_IMAGE_LOADED_EVENT: 'initial-image-loaded',
+  LOADING_START_EVENT: 'loading-start',
+  LOADING_END_EVENT: 'loading-end'
+};
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+  return typeof obj;
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+};
+
+var PCT_PER_ZOOM = 1 / 100000; // The amount of zooming everytime it happens, in percentage of image width.
+var MIN_MS_PER_CLICK = 500; // If touch duration is shorter than the value, then it is considered as a click.
+var CLICK_MOVE_THRESHOLD = 100; // If touch move distance is greater than this value, then it will by no mean be considered as a click.
+var MIN_WIDTH = 10; // The minimal width the user can zoom to.
+var DEFAULT_PLACEHOLDER_TAKEUP = 2 / 3; // Placeholder text by default takes up this amount of times of canvas width.
+var PINCH_ACCELERATION = 1; // The amount of times by which the pinching is more sensitive than the scolling
+
+var syncData = ['imgData', 'img', 'imgSet', 'originalImage', 'naturalHeight', 'naturalWidth', 'orientation', 'scaleRatio'];
+// const DEBUG = false
+
+var component = { render: function render() {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { ref: "wrapper", class: 'croppa-container ' + (_vm.img ? 'croppa--has-target' : '') + ' ' + (_vm.passive ? 'croppa--passive' : '') + ' ' + (_vm.disabled ? 'croppa--disabled' : '') + ' ' + (_vm.disableClickToChoose ? 'croppa--disabled-cc' : '') + ' ' + (_vm.disableDragToMove && _vm.disableScrollToZoom ? 'croppa--disabled-mz' : '') + ' ' + (_vm.fileDraggedOver ? 'croppa--dropzone' : ''), on: { "dragenter": function dragenter($event) {
+          $event.stopPropagation();$event.preventDefault();return _vm._handleDragEnter($event);
+        }, "dragleave": function dragleave($event) {
+          $event.stopPropagation();$event.preventDefault();return _vm._handleDragLeave($event);
+        }, "dragover": function dragover($event) {
+          $event.stopPropagation();$event.preventDefault();return _vm._handleDragOver($event);
+        }, "drop": function drop($event) {
+          $event.stopPropagation();$event.preventDefault();return _vm._handleDrop($event);
+        } } }, [_c('input', _vm._b({ ref: "fileInput", staticStyle: { "height": "1px", "width": "1px", "overflow": "hidden", "margin-left": "-99999px", "position": "absolute" }, attrs: { "type": "file", "accept": _vm.accept, "disabled": _vm.disabled }, on: { "change": _vm._handleInputChange } }, 'input', _vm.inputAttrs, false)), _vm._v(" "), _c('div', { staticClass: "slots", staticStyle: { "width": "0", "height": "0", "visibility": "hidden" } }, [_vm._t("initial"), _vm._v(" "), _vm._t("placeholder")], 2), _vm._v(" "), _c('canvas', { ref: "canvas", on: { "click": function click($event) {
+          $event.stopPropagation();$event.preventDefault();return _vm._handleClick($event);
+        }, "dblclick": function dblclick($event) {
+          $event.stopPropagation();$event.preventDefault();return _vm._handleDblClick($event);
+        }, "touchstart": function touchstart($event) {
+          $event.stopPropagation();return _vm._handlePointerStart($event);
+        }, "mousedown": function mousedown($event) {
+          $event.stopPropagation();$event.preventDefault();return _vm._handlePointerStart($event);
+        }, "pointerstart": function pointerstart($event) {
+          $event.stopPropagation();$event.preventDefault();return _vm._handlePointerStart($event);
+        }, "touchend": function touchend($event) {
+          $event.stopPropagation();$event.preventDefault();return _vm._handlePointerEnd($event);
+        }, "touchcancel": function touchcancel($event) {
+          $event.stopPropagation();$event.preventDefault();return _vm._handlePointerEnd($event);
+        }, "mouseup": function mouseup($event) {
+          $event.stopPropagation();$event.preventDefault();return _vm._handlePointerEnd($event);
+        }, "pointerend": function pointerend($event) {
+          $event.stopPropagation();$event.preventDefault();return _vm._handlePointerEnd($event);
+        }, "pointercancel": function pointercancel($event) {
+          $event.stopPropagation();$event.preventDefault();return _vm._handlePointerEnd($event);
+        }, "touchmove": function touchmove($event) {
+          $event.stopPropagation();return _vm._handlePointerMove($event);
+        }, "mousemove": function mousemove($event) {
+          $event.stopPropagation();$event.preventDefault();return _vm._handlePointerMove($event);
+        }, "pointermove": function pointermove($event) {
+          $event.stopPropagation();$event.preventDefault();return _vm._handlePointerMove($event);
+        }, "pointerleave": function pointerleave($event) {
+          $event.stopPropagation();$event.preventDefault();return _vm._handlePointerLeave($event);
+        }, "DOMMouseScroll": function DOMMouseScroll($event) {
+          $event.stopPropagation();return _vm._handleWheel($event);
+        }, "wheel": function wheel($event) {
+          $event.stopPropagation();return _vm._handleWheel($event);
+        }, "mousewheel": function mousewheel($event) {
+          $event.stopPropagation();return _vm._handleWheel($event);
+        } } }), _vm._v(" "), _vm.showRemoveButton && _vm.img && !_vm.passive ? _c('svg', { staticClass: "icon icon-remove", style: 'top: -' + _vm.height / 40 + 'px; right: -' + _vm.width / 40 + 'px', attrs: { "viewBox": "0 0 1024 1024", "version": "1.1", "xmlns": "http://www.w3.org/2000/svg", "xmlns:xlink": "http://www.w3.org/1999/xlink", "width": _vm.removeButtonSize || _vm.width / 10, "height": _vm.removeButtonSize || _vm.width / 10 }, on: { "click": _vm.remove } }, [_c('path', { attrs: { "d": "M511.921231 0C229.179077 0 0 229.257846 0 512 0 794.702769 229.179077 1024 511.921231 1024 794.781538 1024 1024 794.702769 1024 512 1024 229.257846 794.781538 0 511.921231 0ZM732.041846 650.633846 650.515692 732.081231C650.515692 732.081231 521.491692 593.683692 511.881846 593.683692 502.429538 593.683692 373.366154 732.081231 373.366154 732.081231L291.761231 650.633846C291.761231 650.633846 430.316308 523.500308 430.316308 512.196923 430.316308 500.696615 291.761231 373.523692 291.761231 373.523692L373.366154 291.918769C373.366154 291.918769 503.453538 430.395077 511.881846 430.395077 520.349538 430.395077 650.515692 291.918769 650.515692 291.918769L732.041846 373.523692C732.041846 373.523692 593.447385 502.547692 593.447385 512.196923 593.447385 521.412923 732.041846 650.633846 732.041846 650.633846Z", "fill": _vm.removeButtonColor } })]) : _vm._e(), _vm._v(" "), _vm.showLoading && _vm.loading ? _c('div', { staticClass: "sk-fading-circle", style: _vm.loadingStyle }, _vm._l(12, function (i) {
+      return _c('div', { key: i, class: 'sk-circle' + i + ' sk-circle' }, [_c('div', { staticClass: "sk-circle-indicator", style: { backgroundColor: _vm.loadingColor } })]);
+    })) : _vm._e(), _vm._v(" "), _vm._t("default")], 2);
+  }, staticRenderFns: [],
+  model: {
+    prop: 'value',
+    event: events.INIT_EVENT
+  },
+
+  props: props,
+
+  data: function data() {
+    return {
+      canvas: null,
+      ctx: null,
+      originalImage: null,
+      img: null,
+      video: null,
+      dragging: false,
+      lastMovingCoord: null,
+      imgData: {
+        width: 0,
+        height: 0,
+        startX: 0,
+        startY: 0
+      },
+      fileDraggedOver: false,
+      tabStart: 0,
+      scrolling: false,
+      pinching: false,
+      rotating: false,
+      pinchDistance: 0,
+      supportTouch: false,
+      pointerMoved: false,
+      pointerStartCoord: null,
+      naturalWidth: 0,
+      naturalHeight: 0,
+      scaleRatio: null,
+      orientation: 1,
+      userMetadata: null,
+      imageSet: false,
+      currentPointerCoord: null,
+      currentIsInitial: false,
+      loading: false,
+      realWidth: 0, // only for when autoSizing is on
+      realHeight: 0, // only for when autoSizing is on
+      chosenFile: null,
+      useAutoSizing: false
+    };
+  },
+
+
+  computed: {
+    outputWidth: function outputWidth() {
+      var w = this.useAutoSizing ? this.realWidth : this.width;
+      return w * this.quality;
+    },
+    outputHeight: function outputHeight() {
+      var h = this.useAutoSizing ? this.realHeight : this.height;
+      return h * this.quality;
+    },
+    computedPlaceholderFontSize: function computedPlaceholderFontSize() {
+      return this.placeholderFontSize * this.quality;
+    },
+    aspectRatio: function aspectRatio() {
+      return this.naturalWidth / this.naturalHeight;
+    },
+    loadingStyle: function loadingStyle() {
+      return {
+        width: this.loadingSize + 'px',
+        height: this.loadingSize + 'px',
+        right: '15px',
+        bottom: '10px'
+      };
+    }
+  },
+
+  mounted: function mounted() {
+    var _this = this;
+
+    this._initialize();
+    u.rAFPolyfill();
+    u.toBlobPolyfill();
+
+    var supports = this.supportDetection();
+    if (!supports.basic) {
+      console.warn('Your browser does not support vue-croppa functionality.');
+    }
+
+    if (this.passive) {
+      this.$watch('value._data', function (data) {
+        var set$$1 = false;
+        if (!data) return;
+        for (var key in data) {
+          if (syncData.indexOf(key) >= 0) {
+            var val = data[key];
+            if (val !== _this[key]) {
+              _this.$set(_this, key, val);
+              set$$1 = true;
+            }
+          }
+        }
+        if (set$$1) {
+          if (!_this.img) {
+            _this.remove();
+          } else {
+            _this.$nextTick(function () {
+              _this._draw();
+            });
+          }
+        }
+      }, {
+        deep: true
+      });
+    }
+
+    this.useAutoSizing = !!(this.autoSizing && this.$refs.wrapper && getComputedStyle);
+    if (this.useAutoSizing) {
+      this._autoSizingInit();
+    }
+  },
+  beforeDestroy: function beforeDestroy() {
+    if (this.useAutoSizing) {
+      this._autoSizingRemove();
+    }
+  },
+
+
+  watch: {
+    outputWidth: function outputWidth() {
+      this.onDimensionChange();
+    },
+    outputHeight: function outputHeight() {
+      this.onDimensionChange();
+    },
+    canvasColor: function canvasColor() {
+      if (!this.img) {
+        this._setPlaceholders();
+      } else {
+        this._draw();
+      }
+    },
+    imageBorderRadius: function imageBorderRadius() {
+      if (this.img) {
+        this._draw();
+      }
+    },
+    placeholder: function placeholder() {
+      if (!this.img) {
+        this._setPlaceholders();
+      }
+    },
+    placeholderColor: function placeholderColor() {
+      if (!this.img) {
+        this._setPlaceholders();
+      }
+    },
+    computedPlaceholderFontSize: function computedPlaceholderFontSize() {
+      if (!this.img) {
+        this._setPlaceholders();
+      }
+    },
+    preventWhiteSpace: function preventWhiteSpace(val) {
+      if (val) {
+        this.imageSet = false;
+      }
+      this._placeImage();
+    },
+    scaleRatio: function scaleRatio(val, oldVal) {
+      if (this.passive) return;
+      if (!this.img) return;
+      if (!u.numberValid(val)) return;
+
+      var x = 1;
+      if (u.numberValid(oldVal) && oldVal !== 0) {
+        x = val / oldVal;
+      }
+      var pos = this.currentPointerCoord || {
+        x: this.imgData.startX + this.imgData.width / 2,
+        y: this.imgData.startY + this.imgData.height / 2
+      };
+      this.imgData.width = this.naturalWidth * val;
+      this.imgData.height = this.naturalHeight * val;
+
+      if (!this.userMetadata && this.imageSet && !this.rotating) {
+        var offsetX = (x - 1) * (pos.x - this.imgData.startX);
+        var offsetY = (x - 1) * (pos.y - this.imgData.startY);
+        this.imgData.startX = this.imgData.startX - offsetX;
+        this.imgData.startY = this.imgData.startY - offsetY;
+      }
+
+      if (this.preventWhiteSpace) {
+        this._preventZoomingToWhiteSpace();
+        this._preventMovingToWhiteSpace();
+      }
+    },
+
+    'imgData.width': function imgDataWidth(val, oldVal) {
+      // if (this.passive) return
+      if (!u.numberValid(val)) return;
+      this.scaleRatio = val / this.naturalWidth;
+      if (this.hasImage()) {
+        if (Math.abs(val - oldVal) > val * (1 / 100000)) {
+          this.emitEvent(events.ZOOM_EVENT);
+          this._draw();
+        }
+      }
+    },
+    'imgData.height': function imgDataHeight(val) {
+      // if (this.passive) return
+      if (!u.numberValid(val)) return;
+      this.scaleRatio = val / this.naturalHeight;
+    },
+    'imgData.startX': function imgDataStartX(val) {
+      // if (this.passive) return
+      if (this.hasImage()) {
+        this.$nextTick(this._draw);
+      }
+    },
+    'imgData.startY': function imgDataStartY(val) {
+      // if (this.passive) return
+      if (this.hasImage()) {
+        this.$nextTick(this._draw);
+      }
+    },
+    loading: function loading(val) {
+      if (this.passive) return;
+      if (val) {
+        this.emitEvent(events.LOADING_START_EVENT);
+      } else {
+        this.emitEvent(events.LOADING_END_EVENT);
+      }
+    },
+    autoSizing: function autoSizing(val) {
+      this.useAutoSizing = !!(this.autoSizing && this.$refs.wrapper && getComputedStyle);
+      if (val) {
+        this._autoSizingInit();
+      } else {
+        this._autoSizingRemove();
+      }
+    }
+  },
+
+  methods: {
+    emitEvent: function emitEvent() {
+      // console.log(args[0])
+      this.$emit.apply(this, arguments);
+    },
+    getCanvas: function getCanvas() {
+      return this.canvas;
+    },
+    getContext: function getContext() {
+      return this.ctx;
+    },
+    getChosenFile: function getChosenFile() {
+      return this.chosenFile || this.$refs.fileInput.files[0];
+    },
+    move: function move(offset) {
+      if (!offset || this.passive) return;
+      var oldX = this.imgData.startX;
+      var oldY = this.imgData.startY;
+      this.imgData.startX += offset.x;
+      this.imgData.startY += offset.y;
+      if (this.preventWhiteSpace) {
+        this._preventMovingToWhiteSpace();
+      }
+      if (this.imgData.startX !== oldX || this.imgData.startY !== oldY) {
+        this.emitEvent(events.MOVE_EVENT);
+        this._draw();
+      }
+    },
+    moveUpwards: function moveUpwards() {
+      var amount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+      this.move({ x: 0, y: -amount });
+    },
+    moveDownwards: function moveDownwards() {
+      var amount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+      this.move({ x: 0, y: amount });
+    },
+    moveLeftwards: function moveLeftwards() {
+      var amount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+      this.move({ x: -amount, y: 0 });
+    },
+    moveRightwards: function moveRightwards() {
+      var amount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+      this.move({ x: amount, y: 0 });
+    },
+    zoom: function zoom() {
+      var zoomIn = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+      var acceleration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+
+      if (this.passive) return;
+      var realSpeed = this.zoomSpeed * acceleration;
+      var speed = this.outputWidth * PCT_PER_ZOOM * realSpeed;
+      var x = 1;
+      if (zoomIn) {
+        x = 1 + speed;
+      } else if (this.imgData.width > MIN_WIDTH) {
+        x = 1 - speed;
+      }
+
+      this.scaleRatio *= x;
+    },
+    zoomIn: function zoomIn() {
+      this.zoom(true);
+    },
+    zoomOut: function zoomOut() {
+      this.zoom(false);
+    },
+    rotate: function rotate() {
+      var step = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+      if (this.disableRotation || this.disabled || this.passive) return;
+      step = parseInt(step);
+      if (isNaN(step) || step > 3 || step < -3) {
+        console.warn('Invalid argument for rotate() method. It should one of the integers from -3 to 3.');
+        step = 1;
+      }
+      this._rotateByStep(step);
+    },
+    flipX: function flipX() {
+      if (this.disableRotation || this.disabled || this.passive) return;
+      this._setOrientation(2);
+    },
+    flipY: function flipY() {
+      if (this.disableRotation || this.disabled || this.passive) return;
+      this._setOrientation(4);
+    },
+    refresh: function refresh() {
+      this.$nextTick(this._initialize);
+    },
+    hasImage: function hasImage() {
+      return !!this.imageSet;
+    },
+    applyMetadata: function applyMetadata(metadata) {
+      if (!metadata || this.passive) return;
+      this.userMetadata = metadata;
+      var ori = metadata.orientation || this.orientation || 1;
+      this._setOrientation(ori, true);
+    },
+    generateDataUrl: function generateDataUrl(type, compressionRate) {
+      if (!this.hasImage()) return '';
+      return this.canvas.toDataURL(type, compressionRate);
+    },
+    generateBlob: function generateBlob(callback, mimeType, qualityArgument) {
+      if (!this.hasImage()) {
+        callback(null);
+        return;
+      }
+      this.canvas.toBlob(callback, mimeType, qualityArgument);
+    },
+    promisedBlob: function promisedBlob() {
+      var _this2 = this;
+
+      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      if (typeof Promise == 'undefined') {
+        console.warn('No Promise support. Please add Promise polyfill if you want to use this method.');
+        return;
+      }
+      return new Promise(function (resolve, reject) {
+        try {
+          _this2.generateBlob.apply(_this2, [function (blob) {
+            resolve(blob);
+          }].concat(args));
+        } catch (err) {
+          reject(err);
+        }
+      });
+    },
+    getMetadata: function getMetadata() {
+      if (!this.hasImage()) return {};
+      var _imgData = this.imgData,
+          startX = _imgData.startX,
+          startY = _imgData.startY;
+
+
+      return {
+        startX: startX,
+        startY: startY,
+        scale: this.scaleRatio,
+        orientation: this.orientation
+      };
+    },
+    supportDetection: function supportDetection() {
+      if (typeof window === 'undefined') return;
+      var div = document.createElement('div');
+      return {
+        'basic': window.requestAnimationFrame && window.File && window.FileReader && window.FileList && window.Blob,
+        'dnd': 'ondragstart' in div && 'ondrop' in div
+      };
+    },
+    chooseFile: function chooseFile() {
+      if (this.passive) return;
+      this.$refs.fileInput.click();
+    },
+    remove: function remove() {
+      if (!this.imageSet) return;
+      this._setPlaceholders();
+
+      var hadImage = this.img != null;
+      this.originalImage = null;
+      this.img = null;
+      this.$refs.fileInput.value = '';
+      this.imgData = {
+        width: 0,
+        height: 0,
+        startX: 0,
+        startY: 0
+      };
+      this.orientation = 1;
+      this.scaleRatio = null;
+      this.userMetadata = null;
+      this.imageSet = false;
+      this.chosenFile = null;
+      if (this.video) {
+        this.video.pause();
+        this.video = null;
+      }
+
+      if (hadImage) {
+        this.emitEvent(events.IMAGE_REMOVE_EVENT);
+      }
+    },
+    addClipPlugin: function addClipPlugin(plugin) {
+      if (!this.clipPlugins) {
+        this.clipPlugins = [];
+      }
+      if (typeof plugin === 'function' && this.clipPlugins.indexOf(plugin) < 0) {
+        this.clipPlugins.push(plugin);
+      } else {
+        throw Error('Clip plugins should be functions');
+      }
+    },
+    emitNativeEvent: function emitNativeEvent(evt) {
+      this.emitEvent(evt.type, evt);
+    },
+    _setContainerSize: function _setContainerSize() {
+      if (this.useAutoSizing) {
+        this.realWidth = +getComputedStyle(this.$refs.wrapper).width.slice(0, -2);
+        this.realHeight = +getComputedStyle(this.$refs.wrapper).height.slice(0, -2);
+      }
+    },
+    _autoSizingInit: function _autoSizingInit() {
+      this._setContainerSize();
+      window.addEventListener('resize', this._setContainerSize);
+    },
+    _autoSizingRemove: function _autoSizingRemove() {
+      this._setContainerSize();
+      window.removeEventListener('resize', this._setContainerSize);
+    },
+    _initialize: function _initialize() {
+      this.canvas = this.$refs.canvas;
+      this._setSize();
+      this.canvas.style.backgroundColor = !this.canvasColor || this.canvasColor == 'default' ? 'transparent' : typeof this.canvasColor === 'string' ? this.canvasColor : '';
+      this.ctx = this.canvas.getContext('2d');
+      this.ctx.imageSmoothingEnabled = true;
+      this.ctx.imageSmoothingQuality = "high";
+      this.ctx.webkitImageSmoothingEnabled = true;
+      this.ctx.msImageSmoothingEnabled = true;
+      this.ctx.imageSmoothingEnabled = true;
+      this.originalImage = null;
+      this.img = null;
+      this.$refs.fileInput.value = '';
+      this.imageSet = false;
+      this.chosenFile = null;
+      this._setInitial();
+      if (!this.passive) {
+        this.emitEvent(events.INIT_EVENT, this);
+      }
+    },
+    _setSize: function _setSize() {
+      this.canvas.width = this.outputWidth;
+      this.canvas.height = this.outputHeight;
+      this.canvas.style.width = (this.useAutoSizing ? this.realWidth : this.width) + 'px';
+      this.canvas.style.height = (this.useAutoSizing ? this.realHeight : this.height) + 'px';
+    },
+    _rotateByStep: function _rotateByStep(step) {
+      var orientation = 1;
+      switch (step) {
+        case 1:
+          orientation = 6;
+          break;
+        case 2:
+          orientation = 3;
+          break;
+        case 3:
+          orientation = 8;
+          break;
+        case -1:
+          orientation = 8;
+          break;
+        case -2:
+          orientation = 3;
+          break;
+        case -3:
+          orientation = 6;
+          break;
+      }
+      this._setOrientation(orientation);
+    },
+    _setImagePlaceholder: function _setImagePlaceholder() {
+      var _this3 = this;
+
+      var img = void 0;
+      if (this.$slots.placeholder && this.$slots.placeholder[0]) {
+        var vNode = this.$slots.placeholder[0];
+        var tag = vNode.tag,
+            elm = vNode.elm;
+
+        if (tag == 'img' && elm) {
+          img = elm;
+        }
+      }
+
+      if (!img) return;
+
+      var onLoad = function onLoad() {
+        _this3.ctx.drawImage(img, 0, 0, _this3.outputWidth, _this3.outputHeight);
+      };
+
+      if (u.imageLoaded(img)) {
+        onLoad();
+      } else {
+        img.onload = onLoad;
+      }
+    },
+    _setTextPlaceholder: function _setTextPlaceholder() {
+      var ctx = this.ctx;
+      ctx.textBaseline = 'middle';
+      ctx.textAlign = 'center';
+      var defaultFontSize = this.outputWidth * DEFAULT_PLACEHOLDER_TAKEUP / this.placeholder.length;
+      var fontSize = !this.computedPlaceholderFontSize || this.computedPlaceholderFontSize == 0 ? defaultFontSize : this.computedPlaceholderFontSize;
+      ctx.font = fontSize + 'px sans-serif';
+      ctx.fillStyle = !this.placeholderColor || this.placeholderColor == 'default' ? '#606060' : this.placeholderColor;
+      ctx.fillText(this.placeholder, this.outputWidth / 2, this.outputHeight / 2);
+    },
+    _setPlaceholders: function _setPlaceholders() {
+      this._paintBackground();
+      this._setImagePlaceholder();
+      this._setTextPlaceholder();
+    },
+    _setInitial: function _setInitial() {
+      var _this4 = this;
+
+      var src = void 0,
+          img = void 0;
+      if (this.$slots.initial && this.$slots.initial[0]) {
+        var vNode = this.$slots.initial[0];
+        var tag = vNode.tag,
+            elm = vNode.elm;
+
+        if (tag == 'img' && elm) {
+          img = elm;
+        }
+      }
+      if (this.initialImage && typeof this.initialImage === 'string') {
+        src = this.initialImage;
+        img = new Image();
+        if (!/^data:/.test(src) && !/^blob:/.test(src)) {
+          img.setAttribute('crossOrigin', 'anonymous');
+        }
+        img.src = src;
+      } else if (_typeof(this.initialImage) === 'object' && this.initialImage instanceof Image) {
+        img = this.initialImage;
+      }
+      if (!src && !img) {
+        this._setPlaceholders();
+        return;
+      }
+      this.currentIsInitial = true;
+      if (u.imageLoaded(img)) {
+        // this.emitEvent(events.INITIAL_IMAGE_LOADED_EVENT)
+        this._onload(img, +img.dataset['exifOrientation'], true);
+      } else {
+        this.loading = true;
+        img.onload = function () {
+          // this.emitEvent(events.INITIAL_IMAGE_LOADED_EVENT)
+          _this4._onload(img, +img.dataset['exifOrientation'], true);
+        };
+
+        img.onerror = function () {
+          _this4._setPlaceholders();
+        };
+      }
+    },
+    _onload: function _onload(img) {
+      var orientation = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+      var initial = arguments[2];
+
+      if (this.imageSet) {
+        this.remove();
+      }
+      this.originalImage = img;
+      this.img = img;
+
+      if (isNaN(orientation)) {
+        orientation = 1;
+      }
+
+      this._setOrientation(orientation);
+
+      if (initial) {
+        this.emitEvent(events.INITIAL_IMAGE_LOADED_EVENT);
+      }
+    },
+    _onVideoLoad: function _onVideoLoad(video, initial) {
+      var _this5 = this;
+
+      this.video = video;
+      var canvas = document.createElement('canvas');
+      var videoWidth = video.videoWidth,
+          videoHeight = video.videoHeight;
+
+      canvas.width = videoWidth;
+      canvas.height = videoHeight;
+      var ctx = canvas.getContext('2d');
+      this.loading = false;
+      var drawFrame = function drawFrame(initial) {
+        if (!_this5.video) return;
+        ctx.drawImage(_this5.video, 0, 0, videoWidth, videoHeight);
+        var frame = new Image();
+        frame.src = canvas.toDataURL();
+        frame.onload = function () {
+          _this5.img = frame;
+          // this._placeImage()
+          if (initial) {
+            _this5._placeImage();
+          } else {
+            _this5._draw();
+          }
+        };
+      };
+      drawFrame(true);
+      var keepDrawing = function keepDrawing() {
+        _this5.$nextTick(function () {
+          drawFrame();
+          if (!_this5.video || _this5.video.ended || _this5.video.paused) return;
+          requestAnimationFrame(keepDrawing);
+        });
+      };
+      this.video.addEventListener('play', function () {
+        requestAnimationFrame(keepDrawing);
+      });
+    },
+    _handleClick: function _handleClick(evt) {
+      this.emitNativeEvent(evt);
+      if (!this.hasImage() && !this.disableClickToChoose && !this.disabled && !this.supportTouch && !this.passive) {
+        this.chooseFile();
+      }
+    },
+    _handleDblClick: function _handleDblClick(evt) {
+      this.emitNativeEvent(evt);
+      if (this.videoEnabled && this.video) {
+        if (this.video.paused || this.video.ended) {
+          this.video.play();
+        } else {
+          this.video.pause();
+        }
+        return;
+      }
+    },
+    _handleInputChange: function _handleInputChange() {
+      var input = this.$refs.fileInput;
+      if (!input.files.length || this.passive) return;
+
+      var file = input.files[0];
+      this._onNewFileIn(file);
+    },
+    _onNewFileIn: function _onNewFileIn(file) {
+      var _this6 = this;
+
+      this.currentIsInitial = false;
+      this.loading = true;
+      this.emitEvent(events.FILE_CHOOSE_EVENT, file);
+      this.chosenFile = file;
+      if (!this._fileSizeIsValid(file)) {
+        this.loading = false;
+        this.emitEvent(events.FILE_SIZE_EXCEED_EVENT, file);
+        return false;
+      }
+      if (!this._fileTypeIsValid(file)) {
+        this.loading = false;
+        this.emitEvent(events.FILE_TYPE_MISMATCH_EVENT, file);
+        var type = file.type || file.name.toLowerCase().split('.').pop();
+        return false;
+      }
+
+      if (typeof window !== 'undefined' && typeof window.FileReader !== 'undefined') {
+        var fr = new FileReader();
+        fr.onload = function (e) {
+          var fileData = e.target.result;
+          var base64 = u.parseDataUrl(fileData);
+          var isVideo = /^video/.test(file.type);
+          if (isVideo) {
+            var video = document.createElement('video');
+            video.src = fileData;
+            fileData = null;
+            if (video.readyState >= video.HAVE_FUTURE_DATA) {
+              _this6._onVideoLoad(video);
+            } else {
+              video.addEventListener('canplay', function () {
+                console.log('can play event');
+                _this6._onVideoLoad(video);
+              }, false);
+            }
+          } else {
+            var orientation = 1;
+            try {
+              orientation = u.getFileOrientation(u.base64ToArrayBuffer(base64));
+            } catch (err) {}
+            if (orientation < 1) orientation = 1;
+            var img = new Image();
+            img.src = fileData;
+            fileData = null;
+            img.onload = function () {
+              _this6._onload(img, orientation);
+              _this6.emitEvent(events.NEW_IMAGE_EVENT);
+            };
+          }
+        };
+        fr.readAsDataURL(file);
+      }
+    },
+    _fileSizeIsValid: function _fileSizeIsValid(file) {
+      if (!file) return false;
+      if (!this.fileSizeLimit || this.fileSizeLimit == 0) return true;
+
+      return file.size < this.fileSizeLimit;
+    },
+    _fileTypeIsValid: function _fileTypeIsValid(file) {
+      var acceptableMimeType = this.videoEnabled && /^video/.test(file.type) && document.createElement('video').canPlayType(file.type) || /^image/.test(file.type);
+      if (!acceptableMimeType) return false;
+      if (!this.accept) return true;
+      var accept = this.accept;
+      var baseMimetype = accept.replace(/\/.*$/, '');
+      var types = accept.split(',');
+      for (var i = 0, len = types.length; i < len; i++) {
+        var type = types[i];
+        var t = type.trim();
+        if (t.charAt(0) == '.') {
+          if (file.name.toLowerCase().split('.').pop() === t.toLowerCase().slice(1)) return true;
+        } else if (/\/\*$/.test(t)) {
+          var fileBaseType = file.type.replace(/\/.*$/, '');
+          if (fileBaseType === baseMimetype) {
+            return true;
+          }
+        } else if (file.type === type) {
+          return true;
+        }
+      }
+
+      return false;
+    },
+    _placeImage: function _placeImage(applyMetadata) {
+      if (!this.img) return;
+      var imgData = this.imgData;
+
+      this.naturalWidth = this.img.naturalWidth;
+      this.naturalHeight = this.img.naturalHeight;
+
+      imgData.startX = u.numberValid(imgData.startX) ? imgData.startX : 0;
+      imgData.startY = u.numberValid(imgData.startY) ? imgData.startY : 0;
+
+      if (this.preventWhiteSpace) {
+        this._aspectFill();
+      } else if (!this.imageSet) {
+        if (this.initialSize == 'contain') {
+          this._aspectFit();
+        } else if (this.initialSize == 'natural') {
+          this._naturalSize();
+        } else {
+          this._aspectFill();
+        }
+      } else {
+        this.imgData.width = this.naturalWidth * this.scaleRatio;
+        this.imgData.height = this.naturalHeight * this.scaleRatio;
+      }
+
+      if (!this.imageSet) {
+        if (/top/.test(this.initialPosition)) {
+          imgData.startY = 0;
+        } else if (/bottom/.test(this.initialPosition)) {
+          imgData.startY = this.outputHeight - imgData.height;
+        }
+
+        if (/left/.test(this.initialPosition)) {
+          imgData.startX = 0;
+        } else if (/right/.test(this.initialPosition)) {
+          imgData.startX = this.outputWidth - imgData.width;
+        }
+
+        if (/^-?\d+% -?\d+%$/.test(this.initialPosition)) {
+          var result = /^(-?\d+)% (-?\d+)%$/.exec(this.initialPosition);
+          var x = +result[1] / 100;
+          var y = +result[2] / 100;
+          imgData.startX = x * (this.outputWidth - imgData.width);
+          imgData.startY = y * (this.outputHeight - imgData.height);
+        }
+      }
+
+      applyMetadata && this._applyMetadata();
+
+      if (applyMetadata && this.preventWhiteSpace) {
+        this.zoom(false, 0);
+      } else {
+        this.move({ x: 0, y: 0 });
+        this._draw();
+      }
+    },
+    _aspectFill: function _aspectFill() {
+      var imgWidth = this.naturalWidth;
+      var imgHeight = this.naturalHeight;
+      var canvasRatio = this.outputWidth / this.outputHeight;
+      var scaleRatio = void 0;
+
+      if (this.aspectRatio > canvasRatio) {
+        scaleRatio = imgHeight / this.outputHeight;
+        this.imgData.width = imgWidth / scaleRatio;
+        this.imgData.height = this.outputHeight;
+        this.imgData.startX = -(this.imgData.width - this.outputWidth) / 2;
+        this.imgData.startY = 0;
+      } else {
+        scaleRatio = imgWidth / this.outputWidth;
+        this.imgData.height = imgHeight / scaleRatio;
+        this.imgData.width = this.outputWidth;
+        this.imgData.startY = -(this.imgData.height - this.outputHeight) / 2;
+        this.imgData.startX = 0;
+      }
+    },
+    _aspectFit: function _aspectFit() {
+      var imgWidth = this.naturalWidth;
+      var imgHeight = this.naturalHeight;
+      var canvasRatio = this.outputWidth / this.outputHeight;
+      var scaleRatio = void 0;
+      if (this.aspectRatio > canvasRatio) {
+        scaleRatio = imgWidth / this.outputWidth;
+        this.imgData.height = imgHeight / scaleRatio;
+        this.imgData.width = this.outputWidth;
+        this.imgData.startY = -(this.imgData.height - this.outputHeight) / 2;
+        this.imgData.startX = 0;
+      } else {
+        scaleRatio = imgHeight / this.outputHeight;
+        this.imgData.width = imgWidth / scaleRatio;
+        this.imgData.height = this.outputHeight;
+        this.imgData.startX = -(this.imgData.width - this.outputWidth) / 2;
+        this.imgData.startY = 0;
+      }
+    },
+    _naturalSize: function _naturalSize() {
+      var imgWidth = this.naturalWidth;
+      var imgHeight = this.naturalHeight;
+      this.imgData.width = imgWidth;
+      this.imgData.height = imgHeight;
+      this.imgData.startX = -(this.imgData.width - this.outputWidth) / 2;
+      this.imgData.startY = -(this.imgData.height - this.outputHeight) / 2;
+    },
+    _handlePointerStart: function _handlePointerStart(evt) {
+      this.emitNativeEvent(evt);
+      if (this.passive) return;
+      this.supportTouch = true;
+      this.pointerMoved = false;
+      var pointerCoord = u.getPointerCoords(evt, this);
+      this.pointerStartCoord = pointerCoord;
+
+      if (this.disabled) return;
+      // simulate click with touch on mobile devices
+      if (!this.hasImage() && !this.disableClickToChoose) {
+        this.tabStart = new Date().valueOf();
+        return;
+      }
+      // ignore mouse right click and middle click
+      if (evt.which && evt.which > 1) return;
+
+      if (!evt.touches || evt.touches.length === 1) {
+        this.dragging = true;
+        this.pinching = false;
+        var coord = u.getPointerCoords(evt, this);
+        this.lastMovingCoord = coord;
+      }
+
+      if (evt.touches && evt.touches.length === 2 && !this.disablePinchToZoom) {
+        this.dragging = false;
+        this.pinching = true;
+        this.pinchDistance = u.getPinchDistance(evt, this);
+      }
+
+      var cancelEvents = ['mouseup', 'touchend', 'touchcancel', 'pointerend', 'pointercancel'];
+      for (var i = 0, len = cancelEvents.length; i < len; i++) {
+        var e = cancelEvents[i];
+        document.addEventListener(e, this._handlePointerEnd);
+      }
+    },
+    _handlePointerEnd: function _handlePointerEnd(evt) {
+      this.emitNativeEvent(evt);
+      if (this.passive) return;
+      var pointerMoveDistance = 0;
+      if (this.pointerStartCoord) {
+        var pointerCoord = u.getPointerCoords(evt, this);
+        pointerMoveDistance = Math.sqrt(Math.pow(pointerCoord.x - this.pointerStartCoord.x, 2) + Math.pow(pointerCoord.y - this.pointerStartCoord.y, 2)) || 0;
+      }
+      if (this.disabled) return;
+      if (!this.hasImage() && !this.disableClickToChoose) {
+        var tabEnd = new Date().valueOf();
+        if (pointerMoveDistance < CLICK_MOVE_THRESHOLD && tabEnd - this.tabStart < MIN_MS_PER_CLICK && this.supportTouch) {
+          this.chooseFile();
+        }
+        this.tabStart = 0;
+        return;
+      }
+
+      this.dragging = false;
+      this.pinching = false;
+      this.pinchDistance = 0;
+      this.lastMovingCoord = null;
+      this.pointerMoved = false;
+      this.pointerStartCoord = null;
+    },
+    _handlePointerMove: function _handlePointerMove(evt) {
+      this.emitNativeEvent(evt);
+      if (this.passive) return;
+      this.pointerMoved = true;
+      if (!this.hasImage()) return;
+      var coord = u.getPointerCoords(evt, this);
+      this.currentPointerCoord = coord;
+
+      if (this.disabled || this.disableDragToMove) return;
+
+      evt.preventDefault();
+      if (!evt.touches || evt.touches.length === 1) {
+        if (!this.dragging) return;
+        if (this.lastMovingCoord) {
+          this.move({
+            x: coord.x - this.lastMovingCoord.x,
+            y: coord.y - this.lastMovingCoord.y
+          });
+        }
+        this.lastMovingCoord = coord;
+      }
+
+      if (evt.touches && evt.touches.length === 2 && !this.disablePinchToZoom) {
+        if (!this.pinching) return;
+        var distance = u.getPinchDistance(evt, this);
+        var delta = distance - this.pinchDistance;
+        this.zoom(delta > 0, PINCH_ACCELERATION);
+        this.pinchDistance = distance;
+      }
+    },
+    _handlePointerLeave: function _handlePointerLeave(evt) {
+      this.emitNativeEvent(evt);
+      if (this.passive) return;
+      this.currentPointerCoord = null;
+    },
+    _handleWheel: function _handleWheel(evt) {
+      var _this7 = this;
+
+      this.emitNativeEvent(evt);
+      if (this.passive) return;
+      if (this.disabled || this.disableScrollToZoom || !this.hasImage()) return;
+      evt.preventDefault();
+      this.scrolling = true;
+      if (evt.wheelDelta < 0 || evt.deltaY > 0 || evt.detail > 0) {
+        this.zoom(this.reverseScrollToZoom);
+      } else if (evt.wheelDelta > 0 || evt.deltaY < 0 || evt.detail < 0) {
+        this.zoom(!this.reverseScrollToZoom);
+      }
+      this.$nextTick(function () {
+        _this7.scrolling = false;
+      });
+    },
+    _handleDragEnter: function _handleDragEnter(evt) {
+      this.emitNativeEvent(evt);
+      if (this.passive) return;
+      if (this.disabled || this.disableDragAndDrop || !u.eventHasFile(evt)) return;
+      if (this.hasImage() && !this.replaceDrop) return;
+      this.fileDraggedOver = true;
+    },
+    _handleDragLeave: function _handleDragLeave(evt) {
+      this.emitNativeEvent(evt);
+      if (this.passive) return;
+      if (!this.fileDraggedOver || !u.eventHasFile(evt)) return;
+      this.fileDraggedOver = false;
+    },
+    _handleDragOver: function _handleDragOver(evt) {
+      this.emitNativeEvent(evt);
+    },
+    _handleDrop: function _handleDrop(evt) {
+      this.emitNativeEvent(evt);
+      if (this.passive) return;
+      if (!this.fileDraggedOver || !u.eventHasFile(evt)) return;
+      if (this.hasImage() && !this.replaceDrop) {
+        return;
+      }
+      this.fileDraggedOver = false;
+
+      var file = void 0;
+      var dt = evt.dataTransfer;
+      if (!dt) return;
+      if (dt.items) {
+        for (var i = 0, len = dt.items.length; i < len; i++) {
+          var item = dt.items[i];
+          if (item.kind == 'file') {
+            file = item.getAsFile();
+            break;
+          }
+        }
+      } else {
+        file = dt.files[0];
+      }
+
+      if (file) {
+        this._onNewFileIn(file);
+      }
+    },
+    _preventMovingToWhiteSpace: function _preventMovingToWhiteSpace() {
+      if (this.imgData.startX > 0) {
+        this.imgData.startX = 0;
+      }
+      if (this.imgData.startY > 0) {
+        this.imgData.startY = 0;
+      }
+      if (this.outputWidth - this.imgData.startX > this.imgData.width) {
+        this.imgData.startX = -(this.imgData.width - this.outputWidth);
+      }
+      if (this.outputHeight - this.imgData.startY > this.imgData.height) {
+        this.imgData.startY = -(this.imgData.height - this.outputHeight);
+      }
+    },
+    _preventZoomingToWhiteSpace: function _preventZoomingToWhiteSpace() {
+      if (this.imgData.width < this.outputWidth) {
+        this.scaleRatio = this.outputWidth / this.naturalWidth;
+      }
+
+      if (this.imgData.height < this.outputHeight) {
+        this.scaleRatio = this.outputHeight / this.naturalHeight;
+      }
+    },
+    _setOrientation: function _setOrientation() {
+      var _this8 = this;
+
+      var orientation = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 6;
+      var applyMetadata = arguments[1];
+
+      var useOriginal = applyMetadata;
+      if (orientation > 1 || useOriginal) {
+        if (!this.img) return;
+        this.rotating = true;
+        // u.getRotatedImageData(useOriginal ? this.originalImage : this.img, orientation)
+        var _img = u.getRotatedImage(useOriginal ? this.originalImage : this.img, orientation);
+        _img.onload = function () {
+          _this8.img = _img;
+          _this8._placeImage(applyMetadata);
+        };
+      } else {
+        this._placeImage(applyMetadata);
+      }
+
+      if (orientation == 2) {
+        // flip x
+        this.orientation = u.flipX(this.orientation);
+      } else if (orientation == 4) {
+        // flip y
+        this.orientation = u.flipY(this.orientation);
+      } else if (orientation == 6) {
+        // 90 deg
+        this.orientation = u.rotate90(this.orientation);
+      } else if (orientation == 3) {
+        // 180 deg
+        this.orientation = u.rotate90(u.rotate90(this.orientation));
+      } else if (orientation == 8) {
+        // 270 deg
+        this.orientation = u.rotate90(u.rotate90(u.rotate90(this.orientation)));
+      } else {
+        this.orientation = orientation;
+      }
+
+      if (useOriginal) {
+        this.orientation = orientation;
+      }
+    },
+    _paintBackground: function _paintBackground() {
+      var backgroundColor = !this.canvasColor || this.canvasColor == 'default' ? 'transparent' : this.canvasColor;
+      this.ctx.fillStyle = backgroundColor;
+      this.ctx.clearRect(0, 0, this.outputWidth, this.outputHeight);
+      this.ctx.fillRect(0, 0, this.outputWidth, this.outputHeight);
+    },
+    _draw: function _draw() {
+      var _this9 = this;
+
+      this.$nextTick(function () {
+        if (typeof window !== 'undefined' && window.requestAnimationFrame) {
+          requestAnimationFrame(_this9._drawFrame);
+        } else {
+          _this9._drawFrame();
+        }
+      });
+    },
+    _drawFrame: function _drawFrame() {
+      if (!this.img) return;
+      this.loading = false;
+      var ctx = this.ctx;
+      var _imgData2 = this.imgData,
+          startX = _imgData2.startX,
+          startY = _imgData2.startY,
+          width = _imgData2.width,
+          height = _imgData2.height;
+
+
+      this._paintBackground();
+      ctx.drawImage(this.img, startX, startY, width, height);
+
+      if (this.preventWhiteSpace) {
+        this._clip(this._createContainerClipPath);
+        // this._clip(this._createImageClipPath)
+      }
+
+      this.emitEvent(events.DRAW_EVENT, ctx);
+      if (!this.imageSet) {
+        this.imageSet = true;
+        this.emitEvent(events.NEW_IMAGE_DRAWN_EVENT);
+      }
+      this.rotating = false;
+    },
+    _clipPathFactory: function _clipPathFactory(x, y, width, height) {
+      var ctx = this.ctx;
+      var radius = typeof this.imageBorderRadius === 'number' ? this.imageBorderRadius : !isNaN(Number(this.imageBorderRadius)) ? Number(this.imageBorderRadius) : 0;
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.lineTo(x + width - radius, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+      ctx.lineTo(x + width, y + height - radius);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+      ctx.lineTo(x + radius, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+      ctx.lineTo(x, y + radius);
+      ctx.quadraticCurveTo(x, y, x + radius, y);
+      ctx.closePath();
+    },
+    _createContainerClipPath: function _createContainerClipPath() {
+      var _this10 = this;
+
+      this._clipPathFactory(0, 0, this.outputWidth, this.outputHeight);
+      if (this.clipPlugins && this.clipPlugins.length) {
+        this.clipPlugins.forEach(function (func) {
+          func(_this10.ctx, 0, 0, _this10.outputWidth, _this10.outputHeight);
+        });
+      }
+    },
+
+
+    // _createImageClipPath () {
+    //   let { startX, startY, width, height } = this.imgData
+    //   let w = width
+    //   let h = height
+    //   let x = startX
+    //   let y = startY
+    //   if (w < h) {
+    //     h = this.outputHeight * (width / this.outputWidth)
+    //   }
+    //   if (h < w) {
+    //     w = this.outputWidth * (height / this.outputHeight)
+    //     x = startX + (width - this.outputWidth) / 2
+    //   }
+    //   this._clipPathFactory(x, startY, w, h)
+    // },
+
+    _clip: function _clip(createPath) {
+      var ctx = this.ctx;
+      ctx.save();
+      ctx.fillStyle = '#fff';
+      ctx.globalCompositeOperation = 'destination-in';
+      createPath();
+      ctx.fill();
+      ctx.restore();
+    },
+    _applyMetadata: function _applyMetadata() {
+      var _this11 = this;
+
+      if (!this.userMetadata) return;
+      var _userMetadata = this.userMetadata,
+          startX = _userMetadata.startX,
+          startY = _userMetadata.startY,
+          scale = _userMetadata.scale;
+
+
+      if (u.numberValid(startX)) {
+        this.imgData.startX = startX;
+      }
+
+      if (u.numberValid(startY)) {
+        this.imgData.startY = startY;
+      }
+
+      if (u.numberValid(scale)) {
+        this.scaleRatio = scale;
+      }
+
+      this.$nextTick(function () {
+        _this11.userMetadata = null;
+      });
+    },
+    onDimensionChange: function onDimensionChange() {
+      if (!this.img) {
+        this._initialize();
+      } else {
+        if (this.preventWhiteSpace) {
+          this.imageSet = false;
+        }
+        this._setSize();
+        this._placeImage();
+      }
+    }
+  }
+};
+
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+
+/* eslint-disable no-unused-vars */
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+function toObject(val) {
+	if (val === null || val === undefined) {
+		throw new TypeError('Object.assign cannot be called with null or undefined');
+	}
+
+	return Object(val);
+}
+
+function shouldUseNative() {
+	try {
+		if (!Object.assign) {
+			return false;
+		}
+
+		// Detect buggy property enumeration order in older V8 versions.
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
+		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
+		test1[5] = 'de';
+		if (Object.getOwnPropertyNames(test1)[0] === '5') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test2 = {};
+		for (var i = 0; i < 10; i++) {
+			test2['_' + String.fromCharCode(i)] = i;
+		}
+		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+			return test2[n];
+		});
+		if (order2.join('') !== '0123456789') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test3 = {};
+		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+			test3[letter] = letter;
+		});
+		if (Object.keys(Object.assign({}, test3)).join('') !==
+				'abcdefghijklmnopqrst') {
+			return false;
+		}
+
+		return true;
+	} catch (err) {
+		// We don't expect any of the above to throw, but better to be safe.
+		return false;
+	}
+}
+
+var objectAssign = shouldUseNative() ? Object.assign : function (target, source) {
+	var from;
+	var to = toObject(target);
+	var symbols;
+
+	for (var s = 1; s < arguments.length; s++) {
+		from = Object(arguments[s]);
+
+		for (var key in from) {
+			if (hasOwnProperty.call(from, key)) {
+				to[key] = from[key];
+			}
+		}
+
+		if (getOwnPropertySymbols) {
+			symbols = getOwnPropertySymbols(from);
+			for (var i = 0; i < symbols.length; i++) {
+				if (propIsEnumerable.call(from, symbols[i])) {
+					to[symbols[i]] = from[symbols[i]];
+				}
+			}
+		}
+	}
+
+	return to;
+};
+
+var defaultOptions = {
+  componentName: 'croppa'
+};
+
+var VueCroppa = {
+  install: function install(Vue, options) {
+    options = objectAssign({}, defaultOptions, options);
+    var version = Number(Vue.version.split('.')[0]);
+    if (version < 2) {
+      throw new Error('vue-croppa supports vue version 2.0 and above. You are using Vue@' + version + '. Please upgrade to the latest version of Vue.');
+    }
+    var componentName = options.componentName || 'croppa';
+
+    // registration
+    Vue.component(componentName, component);
+  },
+
+  component: component
+};
+
+return VueCroppa;
+
+})));
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/index.js?!./node_modules/vuelendar/components/vl-calendar-month.vue?vue&type=script&lang=js&":
 /*!********************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib??vue-loader-options!./node_modules/vuelendar/components/vl-calendar-month.vue?vue&type=script&lang=js& ***!
@@ -10425,6 +12813,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_CollectionUtils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/CollectionUtils */ "./node_modules/vuelendar/utils/CollectionUtils.js");
 /* harmony import */ var _utils_DatesUtils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/DatesUtils */ "./node_modules/vuelendar/utils/DatesUtils.js");
+/* harmony import */ var _constants_days__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../constants/days */ "./node_modules/vuelendar/constants/days.js");
 //
 //
 //
@@ -10469,6 +12858,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+
 
 
 
@@ -10476,10 +12870,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'VlCalendarMonth',
   props: {
+    showWeeksNumber: Boolean,
     month: Number,
     year: Number,
     isSelected: Function,
-    isDisabled: Function
+    isDisabled: Function,
+    customClasses: Object,
+    firstDayOfWeek: {
+      type: String,
+      validator: v =>  _constants_days__WEBPACK_IMPORTED_MODULE_2__["DAYS_SHORTCUTS"].includes(v),
+      default: 'mon'
+    }
   },
 
   computed: {
@@ -10489,6 +12890,18 @@ __webpack_require__.r(__webpack_exports__);
 
     days () {
       return Object(_utils_CollectionUtils__WEBPACK_IMPORTED_MODULE_0__["createRange"])(1, Object(_utils_DatesUtils__WEBPACK_IMPORTED_MODULE_1__["countDays"])(this.month, this.year))
+    },
+
+    daysNames () {
+      return Object(_utils_CollectionUtils__WEBPACK_IMPORTED_MODULE_0__["transpose"])(_constants_days__WEBPACK_IMPORTED_MODULE_2__["DAYS_NAMES"], this.daysOffset)
+    },
+
+    daysOffset () {
+      return _constants_days__WEBPACK_IMPORTED_MODULE_2__["DAYS_SHORTCUTS"].indexOf(this.firstDayOfWeek)
+    },
+
+    weekNumbers () {
+      return Object(_utils_DatesUtils__WEBPACK_IMPORTED_MODULE_1__["getWeekNumbers"])(this.month, this.year)
     }
   },
 
@@ -10500,7 +12913,7 @@ __webpack_require__.r(__webpack_exports__);
     calculateClasses (day) {
       const classes = []
       if (day === 1) {
-        let offset = (new Date(this.year, this.month, 1).getDay() + 6) % 7
+        let offset = (new Date(this.year, this.month, 1).getDay() + 7 - this.daysOffset) % 7
         if (offset > 0) {
           classes.push(`vl-calendar-month__day--offset-${offset}`)
         }
@@ -10531,6 +12944,13 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
 
+      Object.keys(this.customClasses || {}).forEach(cl => {
+        const fn = this.customClasses[cl]
+        if (fn(date)) {
+          classes.push(cl)
+        }
+      })
+
       return classes
     }
   }
@@ -10550,6 +12970,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _vl_calendar_month__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vl-calendar-month */ "./node_modules/vuelendar/components/vl-calendar-month.vue");
 /* harmony import */ var _utils_DatesUtils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/DatesUtils */ "./node_modules/vuelendar/utils/DatesUtils.js");
+/* harmony import */ var _constants_days__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../constants/days */ "./node_modules/vuelendar/constants/days.js");
 //
 //
 //
@@ -10582,6 +13003,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -10594,43 +13023,52 @@ __webpack_require__.r(__webpack_exports__);
 
   props: {
     isSelected: Function,
-    isDisabled: Function
+    isDisabled: Function,
+    customClasses: Object,
+    showWeeksNumber: Boolean,
+    singleMonth: Boolean,
+    defaultDate: String,
+    firstDayOfWeek: {
+      type: String,
+      validator: v =>  _constants_days__WEBPACK_IMPORTED_MODULE_2__["DAYS_SHORTCUTS"].includes(v),
+      default: 'mon'
+    }
   },
 
   data () {
-    const today = _utils_DatesUtils__WEBPACK_IMPORTED_MODULE_1__["getToday"]();
+    const defaultDate = this.defaultDate ? _utils_DatesUtils__WEBPACK_IMPORTED_MODULE_1__["parseDate"](this.defaultDate) : _utils_DatesUtils__WEBPACK_IMPORTED_MODULE_1__["getToday"]()
     return {
-      currentMonthMonth: today.getMonth(),
-      currentMonthYear: today.getFullYear()
+      currentMonthMonth: defaultDate.getMonth(),
+      currentMonthYear: defaultDate.getFullYear()
     }
   },
 
   computed: {
     nextMonthMonth () {
-      return this.currentMonthMonth === 11 ? 0 : this.currentMonthMonth + 1;
+      return this.currentMonthMonth === 11 ? 0 : this.currentMonthMonth + 1
     },
 
     nextMonthYear () {
-      return this.currentMonthMonth === 11 ? this.currentMonthYear + 1 : this.currentMonthYear;
+      return this.currentMonthMonth === 11 ? this.currentMonthYear + 1 : this.currentMonthYear
     }
   },
 
   methods: {
     moveBack () {
       if (this.currentMonthMonth === 0) {
-        this.currentMonthMonth = 11;
-        this.currentMonthYear--;
+        this.currentMonthMonth = 11
+        this.currentMonthYear--
       } else {
-        this.currentMonthMonth--;
+        this.currentMonthMonth--
       }
     },
 
     moveForward () {
       if (this.currentMonthMonth === 11) {
-        this.currentMonthMonth = 0;
-        this.currentMonthYear++;
+        this.currentMonthMonth = 0
+        this.currentMonthYear++
       } else {
-        this.currentMonthMonth++;
+        this.currentMonthMonth++
       }
     }
   }
@@ -10649,6 +13087,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _vl_calendar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vl-calendar */ "./node_modules/vuelendar/components/vl-calendar.vue");
+/* harmony import */ var _constants_days__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants/days */ "./node_modules/vuelendar/constants/days.js");
 //
 //
 //
@@ -10658,52 +13097,82 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: "VlRangeSelector",
-    components: {
-        VlCalendar: _vl_calendar__WEBPACK_IMPORTED_MODULE_0__["default"]
-    },
+  name: 'VlRangeSelector',
+  components: {
+    VlCalendar: _vl_calendar__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
 
-    props: {
-        startDate: String,
-        endDate: String
-    },
-
-    methods: {
-        emitDate(date) {
-            if (this.startDate && !this.endDate) {
-                this.$emit("update:endDate", date);
-            } else {
-                this.$emit("update:startDate", date);
-
-                if (this.endDate) {
-                    this.$emit("update:endDate", null);
-                }
-            }
-            this.$emit("focus");
-        },
-
-        isSelected(date) {
-            if (!this.startDate && !this.endDate) {
-                return false;
-            } else if (!this.endDate) {
-                return this.startDate === date;
-            } else {
-                return date >= this.startDate && date <= this.endDate;
-            }
-        },
-
-        isDisabled(date) {
-            if (this.startDate && !this.endDate) {
-                return date <= this.startDate;
-            } else {
-                return false;
-            }
-        }
+  props: {
+    startDate: String,
+    endDate: String,
+    customClasses: Object,
+    showWeeksNumber: Boolean,
+    defaultDate: String,
+    blockStartDate: Boolean,
+    disabled: Boolean,
+    disabledDates: Object,
+    isDisabled: Function,
+    singleMonth: Boolean,
+    enableSingleDate: Boolean,
+    firstDayOfWeek: {
+      type: String,
+      validator: v =>  _constants_days__WEBPACK_IMPORTED_MODULE_1__["DAYS_SHORTCUTS"].includes(v),
+      default: 'mon'
     }
+  },
+
+  methods: {
+    emitDate (date) {
+      if (this.blockStartDate || (this.startDate && !this.endDate && date >= this.startDate)) {
+        this.$emit('update:endDate', date)
+      } else {
+        this.$emit('update:startDate', date)
+
+        if (this.endDate) {
+          this.$emit('update:endDate', null)
+        }
+      }
+      this.$emit('focus')
+    },
+
+    isSelected (date) {
+      if (!this.startDate && !this.endDate) {
+        return false
+      } else if (!this.endDate) {
+        return this.startDate === date
+      } else {
+        return date >= this.startDate && date <= this.endDate
+      }
+    },
+
+    calculateDisabled (date) {
+      const isDisabled = this.isDisabled || (() => false)
+
+      if (this.disabled) {
+        return true
+      } else if (this.startDate && !this.endDate) {
+        return isDisabled(date) || (!this.enableSingleDate && date === this.startDate)
+      } else if (this.disabledDates) {
+        if (this.disabledDates.from) {
+          return date >= this.disabledDates.from
+        } else if (this.disabledDates.to) {
+          return date <= this.disabledDates.to
+        }
+      } else {
+        return isDisabled(date)
+      }
+    }
+  }
 });
 
 
@@ -10729,67 +13198,67 @@ var render = function() {
       _vm._v("\n    " + _vm._s(_vm.monthName) + " " + _vm._s(_vm.year) + "\n  ")
     ]),
     _vm._v(" "),
-    _vm._m(0),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "vl-flex" },
-      _vm._l(_vm.days, function(day) {
-        return _c(
-          "span",
-          {
-            key: day,
-            staticClass: "vl-calendar-month__day",
-            class: _vm.calculateClasses(day),
-            on: {
-              click: function($event) {
-                _vm.$emit("input", _vm.getDate(day))
-              }
-            }
-          },
-          [_vm._v("\n      " + _vm._s(day) + "\n    ")]
+    _c("div", { staticClass: "vl-flex" }, [
+      _vm.showWeeksNumber
+        ? _c(
+            "div",
+            { staticClass: "vl-calendar-month__week-numbers-column" },
+            _vm._l(_vm.weekNumbers, function(number) {
+              return _c(
+                "div",
+                { key: number, staticClass: "vl-calendar-month__week-number" },
+                [_vm._v("\n        " + _vm._s(number) + "\n      ")]
+              )
+            }),
+            0
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c("div", [
+        _c(
+          "div",
+          { staticClass: "vl-flex" },
+          _vm._l(_vm.daysNames, function(name) {
+            return _c(
+              "span",
+              { key: name, staticClass: "vl-calendar-month__week-day" },
+              [_vm._v(_vm._s(name))]
+            )
+          }),
+          0
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "vl-flex vl-flex-wrap" },
+          _vm._l(_vm.days, function(day) {
+            return _c(
+              "span",
+              {
+                key: day,
+                staticClass: "vl-calendar-month__day",
+                class: _vm.calculateClasses(day),
+                attrs: {
+                  "data-day": day,
+                  "data-month": _vm.month,
+                  "data-year": _vm.year
+                },
+                on: {
+                  click: function($event) {
+                    _vm.$emit("input", _vm.getDate(day))
+                  }
+                }
+              },
+              [_vm._v("\n          " + _vm._s(day) + "\n        ")]
+            )
+          }),
+          0
         )
-      }),
-      0
-    )
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "vl-flex" }, [
-      _c("span", { staticClass: "vl-calendar-month__week-day" }, [
-        _vm._v("\n      Mon\n    ")
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "vl-calendar-month__week-day" }, [
-        _vm._v("\n      Tue\n    ")
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "vl-calendar-month__week-day" }, [
-        _vm._v("\n      Wed\n    ")
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "vl-calendar-month__week-day" }, [
-        _vm._v("\n      Thu\n    ")
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "vl-calendar-month__week-day" }, [
-        _vm._v("\n      Fri\n    ")
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "vl-calendar-month__week-day" }, [
-        _vm._v("\n      Sat\n    ")
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "vl-calendar-month__week-day" }, [
-        _vm._v("\n      Sun\n    ")
       ])
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -10839,7 +13308,10 @@ var render = function() {
           month: _vm.currentMonthMonth,
           year: _vm.currentMonthYear,
           "is-selected": _vm.isSelected,
-          "is-disabled": _vm.isDisabled
+          "is-disabled": _vm.isDisabled,
+          "custom-classes": _vm.customClasses,
+          "show-weeks-number": _vm.showWeeksNumber,
+          "first-day-of-week": _vm.firstDayOfWeek
         },
         on: {
           input: function(date) {
@@ -10848,20 +13320,25 @@ var render = function() {
         }
       }),
       _vm._v(" "),
-      _c("vl-calendar-month", {
-        staticClass: "vl-calendar__month",
-        attrs: {
-          month: _vm.nextMonthMonth,
-          year: _vm.nextMonthYear,
-          "is-selected": _vm.isSelected,
-          "is-disabled": _vm.isDisabled
-        },
-        on: {
-          input: function(date) {
-            return _vm.$emit("input", date)
-          }
-        }
-      })
+      !_vm.singleMonth
+        ? _c("vl-calendar-month", {
+            staticClass: "vl-calendar__month",
+            attrs: {
+              month: _vm.nextMonthMonth,
+              year: _vm.nextMonthYear,
+              "is-selected": _vm.isSelected,
+              "is-disabled": _vm.isDisabled,
+              "custom-classes": _vm.customClasses,
+              "show-weeks-number": _vm.showWeeksNumber,
+              "first-day-of-week": _vm.firstDayOfWeek
+            },
+            on: {
+              input: function(date) {
+                return _vm.$emit("input", date)
+              }
+            }
+          })
+        : _vm._e()
     ],
     1
   )
@@ -10890,7 +13367,15 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("vl-calendar", {
     ref: "calendar",
-    attrs: { "is-selected": _vm.isSelected, "is-disabled": _vm.isDisabled },
+    attrs: {
+      "is-selected": _vm.isSelected,
+      "is-disabled": _vm.calculateDisabled,
+      "custom-classes": _vm.customClasses,
+      "show-weeks-number": _vm.showWeeksNumber,
+      "default-date": _vm.defaultDate,
+      "single-month": _vm.singleMonth,
+      "first-day-of-week": _vm.firstDayOfWeek
+    },
     on: {
       input: function(date) {
         return _vm.emitDate(date)
@@ -17681,6 +20166,519 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/productos/ProductosForm.vue?vue&type=template&id=31a7ae60&":
+/*!**************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/productos/ProductosForm.vue?vue&type=template&id=31a7ae60& ***!
+  \**************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "v-layout",
+        { attrs: { "justify-space-around": "", wrap: "" } },
+        [
+          _c(
+            "v-flex",
+            { attrs: { xs12: "", sm6: "", "px-2": "" } },
+            [
+              _c(
+                "v-layout",
+                { attrs: { "justify-center": "", wrap: "" } },
+                [
+                  _c("croppa", {
+                    attrs: {
+                      width: 250,
+                      height: 250,
+                      placeholder: "Foto",
+                      "placeholder-color": "#000",
+                      "placeholder-font-size": 24,
+                      "canvas-color": "transparent",
+                      "show-remove-button": true,
+                      "remove-button-color": "#26A69A",
+                      "show-loading": true,
+                      "loading-size": 25,
+                      "prevent-white-space": true,
+                      "zoom-speed": 10
+                    },
+                    model: {
+                      value: _vm.form.foto,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form, "foto", $$v)
+                      },
+                      expression: "form.foto"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "v-flex",
+                    { attrs: { xs12: "", "px-2": "" } },
+                    [
+                      _c(
+                        "v-layout",
+                        { attrs: { "justify-center": "" } },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { flat: "", icon: "", color: "primary" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.form.foto.zoomIn()
+                                }
+                              }
+                            },
+                            [_c("v-icon", [_vm._v("fas fa-plus")])],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { flat: "", icon: "", color: "primary" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.form.foto.zoomOut()
+                                }
+                              }
+                            },
+                            [_c("v-icon", [_vm._v("fas fa-minus")])],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { flat: "", icon: "", color: "primary" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.form.foto.rotate()
+                                }
+                              }
+                            },
+                            [_c("v-icon", [_vm._v("fas fa-redo-alt")])],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-flex",
+            { attrs: { xs12: "", sm6: "", "px-2": "" } },
+            [
+              _c(
+                "v-flex",
+                { attrs: { xs12: "", "px-2": "" } },
+                [
+                  _c("v-text-field", {
+                    attrs: {
+                      label: "Articulo",
+                      hint: "Articulo",
+                      box: "",
+                      "single-line": ""
+                    },
+                    model: {
+                      value: _vm.form.articulo,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form, "articulo", $$v)
+                      },
+                      expression: "form.articulo"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-flex",
+                { attrs: { xs12: "", "px-2": "" } },
+                [
+                  _c("v-textarea", {
+                    attrs: {
+                      label: "Descripción",
+                      hint: "Descripción",
+                      box: "",
+                      "single-line": "",
+                      height: "165",
+                      "no-resize": ""
+                    },
+                    model: {
+                      value: _vm.form.descripcion,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form, "descripcion", $$v)
+                      },
+                      expression: "form.descripcion"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c(
+        "v-layout",
+        { attrs: { "justify-space-around": "", wrap: "" } },
+        [
+          _c(
+            "v-flex",
+            { attrs: { xs12: "", sm6: "", lg3: "", "px-3": "" } },
+            [
+              _c("v-text-field", {
+                staticClass: "input-number",
+                attrs: {
+                  label: "Costo",
+                  hint: "Costo",
+                  box: "",
+                  "single-line": "",
+                  type: "number"
+                },
+                model: {
+                  value: _vm.form.costo,
+                  callback: function($$v) {
+                    _vm.$set(_vm.form, "costo", $$v)
+                  },
+                  expression: "form.costo"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-flex",
+            { attrs: { xs12: "", sm6: "", lg3: "", "px-3": "" } },
+            [
+              _c("v-text-field", {
+                staticClass: "input-number",
+                attrs: {
+                  label: "Utilidades",
+                  hint: "Utilidades",
+                  box: "",
+                  "single-line": "",
+                  type: "number"
+                },
+                model: {
+                  value: _vm.form.utilidades,
+                  callback: function($$v) {
+                    _vm.$set(_vm.form, "utilidades", $$v)
+                  },
+                  expression: "form.utilidades"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-flex",
+            { attrs: { xs12: "", sm6: "", lg3: "", "px-3": "" } },
+            [
+              _c("v-text-field", {
+                staticClass: "input-number",
+                attrs: {
+                  label: "Alicuota",
+                  hint: "Alicuota",
+                  box: "",
+                  "single-line": "",
+                  type: "number"
+                },
+                model: {
+                  value: _vm.form.alicuota,
+                  callback: function($$v) {
+                    _vm.$set(_vm.form, "alicuota", $$v)
+                  },
+                  expression: "form.alicuota"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-flex",
+            { attrs: { xs12: "", sm6: "", lg3: "", "px-3": "" } },
+            [
+              _c("v-text-field", {
+                staticClass: "input-number",
+                attrs: {
+                  label: "Precio",
+                  hint: "Precio",
+                  box: "",
+                  "single-line": "",
+                  type: "number",
+                  disabled: ""
+                },
+                model: {
+                  value: _vm.form.precio,
+                  callback: function($$v) {
+                    _vm.$set(_vm.form, "precio", $$v)
+                  },
+                  expression: "form.precio"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-flex",
+            { attrs: { xs12: "", sm6: "", "px-3": "" } },
+            [
+              _c(
+                "v-form",
+                { ref: "formFindCategoria" },
+                [
+                  _c("v-text-field", {
+                    attrs: {
+                      rules: [_vm.rules.required],
+                      label: "Categoria",
+                      box: "",
+                      "single-line": ""
+                    },
+                    on: {
+                      keyup: function($event) {
+                        return _vm.findCategoria()
+                      }
+                    },
+                    model: {
+                      value: _vm.categoria,
+                      callback: function($$v) {
+                        _vm.categoria = $$v
+                      },
+                      expression: "categoria"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "transition",
+                { attrs: { name: "expand" } },
+                [
+                  _c("v-data-table", {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value:
+                          _vm.categoria != null &&
+                          _vm.categoria != "" &&
+                          _vm.categorias.length > 0 &&
+                          !_vm.form.categoria_id,
+                        expression:
+                          "categoria != null && categoria != '' && categorias.length > 0 && !form.categoria_id"
+                      }
+                    ],
+                    staticClass: "search-table",
+                    attrs: {
+                      "no-data-text":
+                        "La categoria no se encuentra en la base de datos.",
+                      "hide-actions": "",
+                      "hide-headers": "",
+                      items: _vm.categorias
+                    },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "items",
+                        fn: function(categoria) {
+                          return [
+                            _c(
+                              "tr",
+                              {
+                                staticStyle: { cursor: "pointer" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.selectCategoria(categoria.item)
+                                  }
+                                }
+                              },
+                              [
+                                _c("td", [
+                                  _vm._v(_vm._s(categoria.item.categoria))
+                                ])
+                              ]
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-flex",
+            { attrs: { xs12: "", sm6: "", "px-3": "" } },
+            [
+              _c(
+                "v-form",
+                { ref: "formFindMarca" },
+                [
+                  _c("v-text-field", {
+                    attrs: {
+                      rules: [_vm.rules.required],
+                      label: "Marca",
+                      box: "",
+                      "single-line": ""
+                    },
+                    on: {
+                      keyup: function($event) {
+                        return _vm.findMarca()
+                      }
+                    },
+                    model: {
+                      value: _vm.marca,
+                      callback: function($$v) {
+                        _vm.marca = $$v
+                      },
+                      expression: "marca"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "transition",
+                { attrs: { name: "expand" } },
+                [
+                  _c("v-data-table", {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value:
+                          _vm.marca != null &&
+                          _vm.marca != "" &&
+                          _vm.marcas.length > 0 &&
+                          !_vm.form.marca_id,
+                        expression:
+                          "marca != null && marca != '' && marcas.length > 0 && !form.marca_id"
+                      }
+                    ],
+                    staticClass: "search-table",
+                    attrs: {
+                      "no-data-text":
+                        "La marca no se encuentra en la base de datos.",
+                      "hide-actions": "",
+                      "hide-headers": "",
+                      items: _vm.marcas
+                    },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "items",
+                        fn: function(marca) {
+                          return [
+                            _c(
+                              "tr",
+                              {
+                                staticStyle: { cursor: "pointer" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.selectMarca(marca.item)
+                                  }
+                                }
+                              },
+                              [_c("td", [_vm._v(_vm._s(marca.item.marca))])]
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-flex",
+            { attrs: { xs12: "", sm6: "", "px-3": "" } },
+            [
+              _c("v-text-field", {
+                attrs: { label: "Medida", box: "", "single-line": "" },
+                model: {
+                  value: _vm.form.medida,
+                  callback: function($$v) {
+                    _vm.$set(_vm.form, "medida", $$v)
+                  },
+                  expression: "form.medida"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-flex",
+            { attrs: { xs12: "", sm6: "", "px-3": "" } },
+            [
+              _c("v-text-field", {
+                attrs: {
+                  label: "Codigo",
+                  hint: "Codigo",
+                  box: "",
+                  "single-line": ""
+                },
+                model: {
+                  value: _vm.codigo,
+                  callback: function($$v) {
+                    _vm.codigo = $$v
+                  },
+                  expression: "codigo"
+                }
+              })
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/productos/ProductosIndex.vue?vue&type=template&id=69ee51e6&":
 /*!***************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/productos/ProductosIndex.vue?vue&type=template&id=69ee51e6& ***!
@@ -18936,7 +21934,7 @@ var render = function() {
                     "v-layout",
                     { attrs: { "justify-space-between": "" } },
                     [
-                      _c("h2", [_vm._v("Nuevo CLiente")]),
+                      _c("h2", [_vm._v("Nuevo Cliente")]),
                       _vm._v(" "),
                       _c(
                         "v-btn",
@@ -19358,6 +22356,11 @@ var render = function() {
             right: "",
             bottom: "",
             color: "primary"
+          },
+          on: {
+            click: function($event) {
+              return _vm.$router.push("/productos/nuevo")
+            }
           }
         },
         [_c("v-icon", [_vm._v("fas fa-plus")])],
@@ -19365,6 +22368,88 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("ProductosIndex")
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/ProductoNew.vue?vue&type=template&id=7df173d1&":
+/*!*********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/ProductoNew.vue?vue&type=template&id=7df173d1& ***!
+  \*********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-card",
+    [
+      _c(
+        "v-card-text",
+        [
+          _c("v-layout", { attrs: { "justify-space-between": "" } }, [
+            _c("h2", [_vm._v("Nuevo Producto")])
+          ])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("v-divider"),
+      _vm._v(" "),
+      _c(
+        "v-card-text",
+        [
+          _c(
+            "v-form",
+            {
+              ref: "productosForm",
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.saveProducto($event)
+                }
+              }
+            },
+            [
+              _c("ProductosForm"),
+              _vm._v(" "),
+              _c(
+                "v-layout",
+                { attrs: { "justify-center": "" } },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        disabled: _vm.inProcess,
+                        type: "submit",
+                        color: "primary"
+                      }
+                    },
+                    [_vm._v("Guardar")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
     ],
     1
   )
@@ -34540,33 +37625,21 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/vuelendar/scss/vuelendar.scss":
-/*!****************************************************!*\
-  !*** ./node_modules/vuelendar/scss/vuelendar.scss ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "./node_modules/vuelendar/constants/days.js":
+/*!**************************************************!*\
+  !*** ./node_modules/vuelendar/constants/days.js ***!
+  \**************************************************/
+/*! exports provided: DAYS_SHORTCUTS, DAYS_NAMES */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DAYS_SHORTCUTS", function() { return DAYS_SHORTCUTS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DAYS_NAMES", function() { return DAYS_NAMES; });
+const DAYS_SHORTCUTS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
+const DAYS_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
 
-var content = __webpack_require__(/*! !../../css-loader!../../postcss-loader/src??ref--6-2!../../sass-loader/lib/loader.js??ref--6-3!./vuelendar.scss */ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vuelendar/scss/vuelendar.scss");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
 
 /***/ }),
 
@@ -34574,14 +37647,23 @@ if(false) {}
 /*!*********************************************************!*\
   !*** ./node_modules/vuelendar/utils/CollectionUtils.js ***!
   \*********************************************************/
-/*! exports provided: createRange */
+/*! exports provided: createRange, transpose */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createRange", function() { return createRange; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "transpose", function() { return transpose; });
 function createRange (start, end) {
   return Array.from({ length: end - start + 1 }, (x, i) => i + start)
+}
+
+function transpose (array, offset) {
+  const table = [...array]
+  for (let i = 0; i < offset; i++) {
+    table.push(table.shift())
+  }
+  return table
 }
 
 
@@ -34591,14 +37673,17 @@ function createRange (start, end) {
 /*!****************************************************!*\
   !*** ./node_modules/vuelendar/utils/DatesUtils.js ***!
   \****************************************************/
-/*! exports provided: getToday, countDays, formatDate, getMonthName */
+/*! exports provided: getToday, countDays, parseDate, formatDate, getWeekNumbers, getWeekNumber, getMonthName */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getToday", function() { return getToday; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "countDays", function() { return countDays; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseDate", function() { return parseDate; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatDate", function() { return formatDate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getWeekNumbers", function() { return getWeekNumbers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getWeekNumber", function() { return getWeekNumber; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMonthName", function() { return getMonthName; });
 /* harmony import */ var _NumberUtils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NumberUtils */ "./node_modules/vuelendar/utils/NumberUtils.js");
 
@@ -34611,9 +37696,39 @@ function countDays (month, year) {
   return new Date(year, month + 1, 0).getDate()
 }
 
+function parseDate (string) {
+  return new Date(string)
+}
+
 function formatDate (day, month, year) {
   const date = new Date(year, month, day)
   return `${date.getFullYear()}-${Object(_NumberUtils__WEBPACK_IMPORTED_MODULE_0__["twoDigits"])(date.getMonth() + 1)}-${Object(_NumberUtils__WEBPACK_IMPORTED_MODULE_0__["twoDigits"])(date.getDate())}`
+}
+
+function getWeekNumbers (month, year) {
+  let weekNumbers = []
+  for (let i = 1; i <= countDays(month, year); i++) {
+    let weekNumber = getWeekNumber(new Date(year, month, i))
+    if (month === 11 && weekNumber === 1) {
+      weekNumber = weekNumbers[weekNumbers.length - 1] + 1
+      weekNumbers.push(weekNumber)
+      break
+    }
+    weekNumbers.push(weekNumber)
+  }
+  return Array.from(new Set(weekNumbers))
+}
+
+function getWeekNumber (date) {
+  date = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
+  // Set to nearest Thursday: current date + 4 - current day number
+  // Make Sunday's day number 7
+  date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7))
+
+  // Calculate full weeks to nearest Thursday
+  let yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1))
+  const oneDayInMs = 86400000
+  return Math.ceil(((date - yearStart) / oneDayInMs + 1) / 7)
 }
 
 function getMonthName (month) {
@@ -34629,7 +37744,7 @@ function getMonthName (month) {
     'September',
     'October',
     'November',
-    'December',
+    'December'
   ][month]
 }
 
@@ -63627,6 +66742,93 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/productos/ProductosForm.vue":
+/*!*************************************************************!*\
+  !*** ./resources/js/components/productos/ProductosForm.vue ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ProductosForm_vue_vue_type_template_id_31a7ae60___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProductosForm.vue?vue&type=template&id=31a7ae60& */ "./resources/js/components/productos/ProductosForm.vue?vue&type=template&id=31a7ae60&");
+/* harmony import */ var _ProductosForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProductosForm.vue?vue&type=script&lang=js& */ "./resources/js/components/productos/ProductosForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _ProductosForm_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ProductosForm.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/productos/ProductosForm.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _ProductosForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ProductosForm_vue_vue_type_template_id_31a7ae60___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ProductosForm_vue_vue_type_template_id_31a7ae60___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/productos/ProductosForm.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/productos/ProductosForm.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/productos/ProductosForm.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ProductosForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/productos/ProductosForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/productos/ProductosForm.vue?vue&type=style&index=0&lang=css&":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/productos/ProductosForm.vue?vue&type=style&index=0&lang=css& ***!
+  \**********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosForm_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--5-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--5-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./ProductosForm.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/productos/ProductosForm.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosForm_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosForm_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosForm_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosForm_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosForm_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/productos/ProductosForm.vue?vue&type=template&id=31a7ae60&":
+/*!********************************************************************************************!*\
+  !*** ./resources/js/components/productos/ProductosForm.vue?vue&type=template&id=31a7ae60& ***!
+  \********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosForm_vue_vue_type_template_id_31a7ae60___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ProductosForm.vue?vue&type=template&id=31a7ae60& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/productos/ProductosForm.vue?vue&type=template&id=31a7ae60&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosForm_vue_vue_type_template_id_31a7ae60___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosForm_vue_vue_type_template_id_31a7ae60___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/productos/ProductosIndex.vue":
 /*!**************************************************************!*\
   !*** ./resources/js/components/productos/ProductosIndex.vue ***!
@@ -64154,8 +67356,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _plugins_vuetify__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./plugins/vuetify */ "./resources/js/plugins/vuetify.js");
 /* harmony import */ var _fortawesome_fontawesome_free_css_all_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @fortawesome/fontawesome-free/css/all.css */ "./node_modules/@fortawesome/fontawesome-free/css/all.css");
 /* harmony import */ var _fortawesome_fontawesome_free_css_all_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_fortawesome_fontawesome_free_css_all_css__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var vuelendar_scss_vuelendar_scss__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuelendar/scss/vuelendar.scss */ "./node_modules/vuelendar/scss/vuelendar.scss");
-/* harmony import */ var vuelendar_scss_vuelendar_scss__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(vuelendar_scss_vuelendar_scss__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var vue_croppa__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue-croppa */ "./node_modules/vue-croppa/dist/vue-croppa.js");
+/* harmony import */ var vue_croppa__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(vue_croppa__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var vue_croppa_dist_vue_croppa_css__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vue-croppa/dist/vue-croppa.css */ "./node_modules/vue-croppa/dist/vue-croppa.css");
+/* harmony import */ var vue_croppa_dist_vue_croppa_css__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(vue_croppa_dist_vue_croppa_css__WEBPACK_IMPORTED_MODULE_9__);
 
 
 
@@ -64165,6 +67369,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_croppa__WEBPACK_IMPORTED_MODULE_8___default.a);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.config.productionTip = false;
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router_user_roles__WEBPACK_IMPORTED_MODULE_4___default.a, {
   router: _router__WEBPACK_IMPORTED_MODULE_3__["default"]
@@ -64265,11 +67471,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_Factura_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./views/Factura.vue */ "./resources/js/views/Factura.vue");
 /* harmony import */ var _views_FacturaNew_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./views/FacturaNew.vue */ "./resources/js/views/FacturaNew.vue");
 /* harmony import */ var _views_Producto_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./views/Producto.vue */ "./resources/js/views/Producto.vue");
-/* harmony import */ var _views_Cuenta_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./views/Cuenta.vue */ "./resources/js/views/Cuenta.vue");
-/* harmony import */ var _views_Reporte_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./views/Reporte.vue */ "./resources/js/views/Reporte.vue");
-/* harmony import */ var _views_Inventario_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./views/Inventario.vue */ "./resources/js/views/Inventario.vue");
-/* harmony import */ var _views_Remito_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./views/Remito.vue */ "./resources/js/views/Remito.vue");
-/* harmony import */ var _views_RemitoNew_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./views/RemitoNew.vue */ "./resources/js/views/RemitoNew.vue");
+/* harmony import */ var _views_ProductoNew_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./views/ProductoNew.vue */ "./resources/js/views/ProductoNew.vue");
+/* harmony import */ var _views_Cuenta_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./views/Cuenta.vue */ "./resources/js/views/Cuenta.vue");
+/* harmony import */ var _views_Reporte_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./views/Reporte.vue */ "./resources/js/views/Reporte.vue");
+/* harmony import */ var _views_Inventario_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./views/Inventario.vue */ "./resources/js/views/Inventario.vue");
+/* harmony import */ var _views_Remito_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./views/Remito.vue */ "./resources/js/views/Remito.vue");
+/* harmony import */ var _views_RemitoNew_vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./views/RemitoNew.vue */ "./resources/js/views/RemitoNew.vue");
 
 
 
@@ -64287,7 +67494,9 @@ __webpack_require__.r(__webpack_exports__);
 
  //Productos Views
 
- // Cuenta Corriente
+
+ // ELIMINAR
+// Cuenta Corriente
 
  // Reportes
 
@@ -64439,7 +67648,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
     }
   }, {
     path: "/ventas/nueva",
-    name: "nuevaVenta",
+    name: "nueva venta",
     component: _views_FacturaNew_vue__WEBPACK_IMPORTED_MODULE_10__["default"],
     meta: {
       permissions: [{
@@ -64457,7 +67666,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
         access: true
       }]
     }
-  }, //Clientes Routes
+  }, //Productos Routes
   {
     path: "/productos",
     name: "productos",
@@ -64478,11 +67687,31 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
         access: true
       }]
     }
+  }, {
+    path: "/productos/nuevo",
+    name: "nuevo producto",
+    component: _views_ProductoNew_vue__WEBPACK_IMPORTED_MODULE_12__["default"],
+    meta: {
+      permissions: [{
+        role: "visitor",
+        access: false,
+        redirect: "login"
+      }, {
+        role: "superAdmin",
+        access: true
+      }, {
+        role: "admin",
+        access: true
+      }, {
+        role: "seller",
+        access: true
+      }]
+    }
   }, //Cuentas Routes
   {
     path: "/cuenta",
     name: "cuenta",
-    component: _views_Cuenta_vue__WEBPACK_IMPORTED_MODULE_12__["default"],
+    component: _views_Cuenta_vue__WEBPACK_IMPORTED_MODULE_13__["default"],
     meta: {
       permissions: [{
         role: "visitor",
@@ -64503,7 +67732,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
   {
     path: "/reporte",
     name: "reporte",
-    component: _views_Reporte_vue__WEBPACK_IMPORTED_MODULE_13__["default"],
+    component: _views_Reporte_vue__WEBPACK_IMPORTED_MODULE_14__["default"],
     meta: {
       permissions: [{
         role: "visitor",
@@ -64524,7 +67753,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
   {
     path: "/inventario",
     name: "inventario",
-    component: _views_Inventario_vue__WEBPACK_IMPORTED_MODULE_14__["default"],
+    component: _views_Inventario_vue__WEBPACK_IMPORTED_MODULE_15__["default"],
     meta: {
       permissions: [{
         role: "visitor",
@@ -64545,7 +67774,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
   {
     path: "/remito",
     name: "remito",
-    component: _views_Remito_vue__WEBPACK_IMPORTED_MODULE_15__["default"],
+    component: _views_Remito_vue__WEBPACK_IMPORTED_MODULE_16__["default"],
     meta: {
       permissions: [{
         role: "visitor",
@@ -64565,7 +67794,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
   }, {
     path: "/compras/nueva",
     name: "RemitoNew",
-    component: _views_RemitoNew_vue__WEBPACK_IMPORTED_MODULE_16__["default"],
+    component: _views_RemitoNew_vue__WEBPACK_IMPORTED_MODULE_17__["default"],
     meta: {
       permissions: [{
         role: "visitor",
@@ -65174,6 +68403,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Producto_vue_vue_type_template_id_ef37b502___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Producto_vue_vue_type_template_id_ef37b502___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/ProductoNew.vue":
+/*!********************************************!*\
+  !*** ./resources/js/views/ProductoNew.vue ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ProductoNew_vue_vue_type_template_id_7df173d1___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProductoNew.vue?vue&type=template&id=7df173d1& */ "./resources/js/views/ProductoNew.vue?vue&type=template&id=7df173d1&");
+/* harmony import */ var _ProductoNew_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProductoNew.vue?vue&type=script&lang=js& */ "./resources/js/views/ProductoNew.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ProductoNew_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ProductoNew_vue_vue_type_template_id_7df173d1___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ProductoNew_vue_vue_type_template_id_7df173d1___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/ProductoNew.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/ProductoNew.vue?vue&type=script&lang=js&":
+/*!*********************************************************************!*\
+  !*** ./resources/js/views/ProductoNew.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductoNew_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ProductoNew.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/ProductoNew.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductoNew_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/ProductoNew.vue?vue&type=template&id=7df173d1&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/views/ProductoNew.vue?vue&type=template&id=7df173d1& ***!
+  \***************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductoNew_vue_vue_type_template_id_7df173d1___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ProductoNew.vue?vue&type=template&id=7df173d1& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/ProductoNew.vue?vue&type=template&id=7df173d1&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductoNew_vue_vue_type_template_id_7df173d1___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductoNew_vue_vue_type_template_id_7df173d1___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

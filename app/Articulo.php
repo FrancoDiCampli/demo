@@ -3,12 +3,15 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Articulo extends Model
 {
+    use SoftDeletes;
+    
     protected $fillable = ['codprov','codarticulo',
     'articulo','descripcion','medida','costo',
-    'utilidades','precio','alicuota','estado',
+    'utilidades','precio','alicuota','foto',
     'marca_id','categoria_id'];
 
     public function categoria()

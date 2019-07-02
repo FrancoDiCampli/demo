@@ -12,7 +12,7 @@ class Cliente extends Model
     protected $fillable = [
         'razonsocial', 'documentounico', 'direccion', 'telefono',
         'email', 'codigopostal', 'localidad', 'provincia',
-        'condicioniva'
+        'condicioniva', 'foto'
     ];
 
     public function scopeBuscar($query, $request)

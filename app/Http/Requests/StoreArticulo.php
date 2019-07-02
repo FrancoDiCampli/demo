@@ -25,17 +25,17 @@ class StoreArticulo extends FormRequest
     {
         return [
             'codprov' => 'nullable|unique:articulos|min:1|max:10',
-            // 'codarticulo' => 'unique:articulos|min:13|max:13',
+            'codarticulo' => 'required|unique:articulos|min:13|max:13',
             'articulo' => 'required|unique:articulos|min:1',
             'descripcion' => 'required|min:1|max:190',
             'medida' => 'required|min:1|max:190',
             'costo' => 'required|min:1',
             'utilidades' => 'required|min:1',
-            // 'precio' => 'required|min:1',
+            'precio' => 'required|min:1',
             'alicuota' => 'required|min:1',
-            'estado' => 'required|min:1',
             'marca_id' => 'required|min:1',
             'categoria_id' => 'required|min:1',
+            'foto' => 'nullable'
         ];
     }
 }

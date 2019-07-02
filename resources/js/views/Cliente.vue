@@ -18,7 +18,7 @@
                 <!-- Modal Header -->
                 <v-card-text>
                     <v-layout justify-space-between>
-                        <h2>Nuevo CLiente</h2>
+                        <h2>Nuevo Cliente</h2>
                         <!-- Boton cerrar modal -->
                         <v-btn
                             @click="createClientesDialog = false; $refs.clientesForm.reset();"
@@ -46,7 +46,7 @@
                             </v-layout>
                         </div>
                     </template>
-                    <!-- Formulario formulario para agregar un cliente -->
+                    <!-- Formulario para agregar un cliente -->
                     <v-form ref="clientesForm" @submit.prevent="saveCliente">
                         <!-- Componente Formulario -->
                         <ClientesForm></ClientesForm>

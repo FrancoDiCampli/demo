@@ -57,7 +57,7 @@
                 </v-flex>
             </v-flex>
         </v-layout>
-        <br />
+        <br>
         <v-layout justify-space-around wrap>
             <v-flex xs12 sm6 lg3 px-3>
                 <v-text-field
@@ -185,7 +185,7 @@ import { mapState, mapActions } from "vuex";
 import axios from "axios";
 
 export default {
-    name: "ProductosForm.vue",
+    name: "ProductosForm",
 
     data() {
         return {
@@ -193,7 +193,7 @@ export default {
             categorias: [],
             marca: null,
             marcas: [],
-            marcaLastId: null,
+            categoriaLastId: null,
             rules: {
                 required: value => !!value || "Este campo es obligatorio"
             }
@@ -206,12 +206,15 @@ export default {
         codigo: {
             set() {},
             get() {
-                if (this.marca != null && this.marca != "") {
-                    if (this.marca.length >= 3) {
+                if (this.categoria != null && this.categoria != "") {
+                    if (this.categoria.length >= 3) {
                         let codigo =
-                            this.marca[0] + this.marca[1] + this.marca[2];
+                            this.categoria[0] +
+                            this.categoria[1] +
+                            this.categoria[2];
 
-                        let number = this.newId.toString();
+                        let newId = this.categoriaLastId + 1;
+                        let number = newId.toString();
                         let zeroLength = 10 - number.length;
 
                         for (let i = 0; i < zeroLength; i++) {
@@ -278,11 +281,11 @@ export default {
 
         getLastId: async function() {
             let response = await this.index({
-                url: "/api/marcas",
+                url: "/api/categorias",
                 limit: 1
             });
 
-            this.marcaLastId = response.marcas[0].id;
+            this.categoriaLastId = response.categorias[0].id;
         }
     }
 };

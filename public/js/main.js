@@ -2152,8 +2152,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "App",
@@ -2172,11 +2170,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, {
         title: "Productos",
         icon: "fas fa-box-open",
-        url: "/productos"
-      }, {
-        title: "Cuenta",
-        icon: "fas fa-file-invoice-dollar",
-        url: "/cuenta"
+        url: "/productos" // {
+        //     title: "Cuenta",
+        //     icon: "fas fa-file-invoice-dollar",
+        //     url: "/cuenta"
+        // }
+
       }],
       right: null,
       mini: true
@@ -6485,14 +6484,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "ProductosForm.vue",
+  name: "ProductosForm",
   data: function data() {
     return {
       categoria: null,
       categorias: [],
       marca: null,
       marcas: [],
-      marcaLastId: null,
+      categoriaLastId: null,
       rules: {
         required: function required(value) {
           return !!value || "Este campo es obligatorio";
@@ -6504,10 +6503,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     codigo: {
       set: function set() {},
       get: function get() {
-        if (this.marca != null && this.marca != "") {
-          if (this.marca.length >= 3) {
-            var codigo = this.marca[0] + this.marca[1] + this.marca[2];
-            var number = this.newId.toString();
+        if (this.categoria != null && this.categoria != "") {
+          if (this.categoria.length >= 3) {
+            var codigo = this.categoria[0] + this.categoria[1] + this.categoria[2];
+            var newId = this.categoriaLastId + 1;
+            var number = newId.toString();
             var zeroLength = 10 - number.length;
 
             for (var i = 0; i < zeroLength; i++) {
@@ -6632,13 +6632,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context3.next = 2;
                 return this.index({
-                  url: "/api/marcas",
+                  url: "/api/categorias",
                   limit: 1
                 });
 
               case 2:
                 response = _context3.sent;
-                this.marcaLastId = response.marcas[0].id;
+                this.categoriaLastId = response.categorias[0].id;
 
               case 4:
               case "end":
@@ -7542,7 +7542,13 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_productos_ProductosIndex_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/productos/ProductosIndex.vue */ "./resources/js/components/productos/ProductosIndex.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _components_productos_ProductosIndex_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/productos/ProductosIndex.vue */ "./resources/js/components/productos/ProductosIndex.vue");
+/* harmony import */ var _components_productos_ProductosForm_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/productos/ProductosForm.vue */ "./resources/js/components/productos/ProductosForm.vue");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -7562,13 +7568,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-// Components
+// Vuex
+ // Components
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Producto",
+  data: function data() {
+    return {
+      createProductosDialog: false
+    };
+  },
   components: {
-    ProductosIndex: _components_productos_ProductosIndex_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
-  }
+    ProductosIndex: _components_productos_ProductosIndex_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    ProductosForm: _components_productos_ProductosForm_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("crudx", ["inProcess"])),
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])("crudx", ["save"]), {
+    saveProducto: function saveProducto() {}
+  })
 });
 
 /***/ }),
@@ -7662,25 +7681,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vuelendar/scss/vuelendar.scss":
-/*!*****************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader!./node_modules/postcss-loader/src??ref--6-2!./node_modules/sass-loader/lib/loader.js??ref--6-3!./node_modules/vuelendar/scss/vuelendar.scss ***!
-  \*****************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".vl-flex {\n  display: flex;\n}\n\n.vl-flex-wrap {\n  flex-wrap: wrap;\n}\n\n.vl-flex-column {\n  flex-direction: column;\n}\n\n.vl-calendar {\n  display: inline-block;\n  position: relative;\n  background: #F6F6F6;\n  padding: 20px 0 0;\n  text-align: center;\n  color: #3E3A4E;\n  font-size: 14px;\n  user-select: none;\n}\n.vl-calendar__month {\n  display: inline-block;\n  margin-bottom: 30px;\n  width: 300px;\n  max-width: 80vw;\n}\n.vl-calendar__arrow {\n  position: absolute;\n  top: 15px;\n  background-repeat: no-repeat;\n  background-position: center center;\n  background-size: 75%;\n  cursor: pointer;\n  width: 24px;\n  height: 24px;\n}\n.vl-calendar__arrow--back {\n  left: 15px;\n  background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAMAAAAM7l6QAAAA0lBMVEUZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjSTOY05AAAARnRSTlMAAQIDBAUGBwgJCgsMDQ8QERITFBUXGBkaGx0eHyAiIyQnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8Pj9AQUJDREZHSElKS0xNUWPYUAAAAU1JREFUeNptk+lygjAURq8gFm2h1q3uWsVqtZUWXAGtIN/7v1KHSGxYzp9kcnKXJBMSUfRGXZMpl+rcRUS4f6tk5RYINovpdLkPEa7KCVmYhLBbUlyi78DvCrZowmuIuwc+DOJINmyFEjx5mPL5HJZEKVQPHWI04BQpgxZcHlihI6qUwwiLaGjh697iTP/X0ukahZv3YHmLcSJ8SCQFJ243WIstlmET6VjGySxuOa5P1MboZn/Slkyo1EePWRM4eRyL6SU0pm+Fcbmz5TpKztv+oGxyna8qu7R3g+hgHsV+n/QqNkT0jWfuDxgKesgu6RWfFFNa1YRHd0P1NuiUwyC+ryYOctY++r5K8fnMQtqWHPT4W+xgpuLLR8yJo1g4VkXb+YUhJCy8I1zzrqX2Dtdu9huc15Px2LB89g3S1FdnMJyZRrlUaq3mS4kE/gAULzTK6Ml9VwAAAABJRU5ErkJggg==\");\n}\n.vl-calendar__arrow--forward {\n  right: 15px;\n  background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAMAAAAM7l6QAAAAz1BMVEUZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjTQKaQcAAAARXRSTlMAAQIDBAUGBwgJCgsMDg8QERITFBUWGBkaGx0eHyAhIiMkJSYnKCkqLC0uLzAxMjQ1Nzg5Ojs/QEFCQ0RFRkdISUpLTE22Gs8EAAABVUlEQVR4AW3T4XaaMBwF8IvKRp2dU5F266qwMWXT1bWjqbMUanLf/5nWcIzByO9L/udcJRcIaHo3DMeDDlqF64KafIzfwzUVZPWQLZZ3gpSZj6beb6rNxEMtiAu+TGEFgmIIq5sqNYPhC256ODEqeWvme/6C63KvRqh9Ze7hTMRdt65V7vto8ZPf9DLnAtbtzfEZvZYdAEIFsJ44t3+PgIA5GgYvx8pjroArfoeTH67fkQJIeAU3/3LYSAILTvQ43O6MiuoztJzdt3isx09FZezJ2TFOeI0TFztTXkhbrZEmptoTcMEHJzU/H3Gl+6nm4RD8Ycas3jZmCitNzORXZadeXgO0WB52mfEe50L13IPm/eUSrg+VCs2r+8e1c7o/Fozt3Wz5OIDlzSUTWP4fytWlOdU3W1bX55/B812aJFkuqdYBHF60qagpkfbRxutPounQR8N/jIU0mXzMHWoAAAAASUVORK5CYII=\");\n}\n\n.vl-calendar-month {\n  padding: 0 20px;\n}\n.vl-calendar-month__title {\n  margin-bottom: 20px;\n  text-align: center;\n  font-weight: 600;\n}\n.vl-calendar-month__week-numbers-column {\n  padding-top: 24px;\n}\n.vl-calendar-month__week-number {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  margin: 5px 0;\n  width: 100%;\n  height: 24px;\n  color: #A0A0A0;\n  font-size: 10px;\n}\n.vl-calendar-month__week-day {\n  display: inline-block;\n  margin-bottom: 10px;\n  width: 14%;\n  text-align: center;\n  color: #C83F3A;\n  font-size: 12px;\n}\n.vl-calendar-month__day {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  margin: 5px 0;\n  cursor: pointer;\n  width: 14%;\n  height: 24px;\n}\n.vl-calendar-month__day--offset-1 {\n  margin-left: calc(1 * 14%);\n}\n.vl-calendar-month__day--offset-2 {\n  margin-left: calc(2 * 14%);\n}\n.vl-calendar-month__day--offset-3 {\n  margin-left: calc(3 * 14%);\n}\n.vl-calendar-month__day--offset-4 {\n  margin-left: calc(4 * 14%);\n}\n.vl-calendar-month__day--offset-5 {\n  margin-left: calc(5 * 14%);\n}\n.vl-calendar-month__day--offset-6 {\n  margin-left: calc(6 * 14%);\n}\n.vl-calendar-month__day.disabled {\n  color: #B5B5B5;\n  pointer-events: none;\n}\n.vl-calendar-month__day.disabled--first {\n  border-top-left-radius: 14px;\n  border-bottom-left-radius: 14px;\n}\n.vl-calendar-month__day.disabled--last {\n  border-top-right-radius: 14px;\n  border-bottom-right-radius: 14px;\n}\n.vl-calendar-month__day.selected {\n  background: #C83F3A;\n  color: #FFF;\n  font-weight: 800;\n}\n.vl-calendar-month__day.selected.disabled {\n  border: 1px solid #3E3A4E;\n  background: #8e2b28;\n  color: #3E3A4E;\n}\n.vl-calendar-month__day.selected--first {\n  border-top-left-radius: 14px;\n  border-bottom-left-radius: 14px;\n}\n.vl-calendar-month__day.selected--last {\n  border-top-right-radius: 14px;\n  border-bottom-right-radius: 14px;\n}\n.vl-calendar-month__day:hover:not(.selected) {\n  border-radius: 14px;\n  background: #C83F3A;\n  color: #FFF;\n  font-weight: 800;\n}", ""]);
-
-// exports
-
-
-/***/ }),
-
 /***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/@fortawesome/fontawesome-free/css/all.css":
 /*!************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader??ref--5-1!./node_modules/postcss-loader/src??ref--5-2!./node_modules/@fortawesome/fontawesome-free/css/all.css ***!
@@ -7751,7 +7751,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "\n.profile-list {\r\n    border: solid 1.5px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\r\n    margin-top: 15px;\r\n    cursor: pointer;\n}\n.profile-list span {\r\n    color: #26a69a;\n}\nbody::-webkit-scrollbar {\r\n    width: 7px;\n}\nbody::-webkit-scrollbar-thumb {\r\n    background-color: rgba(38, 166, 154, 0.75);\n}\r\n", ""]);
+exports.push([module.i, "\n.profile-list {\r\n  border: solid 1.5px #26a69a;\r\n  background-color: rgba(65, 184, 131, 0.25);\r\n  margin-top: 15px;\r\n  cursor: pointer;\n}\n.profile-list span {\r\n  color: #26a69a;\n}\nbody::-webkit-scrollbar {\r\n  width: 7px;\n}\nbody::-webkit-scrollbar-thumb {\r\n  background-color: rgba(38, 166, 154, 0.75);\n}\r\n", ""]);
 
 // exports
 
@@ -12701,56 +12701,6 @@ var render = function() {
                   1
                 )
               }),
-              _vm._v(" "),
-              _c("v-divider"),
-              _vm._v(" "),
-              _c(
-                "v-list-tile",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.rol == "superAdmin",
-                      expression: "rol == 'superAdmin'"
-                    }
-                  ],
-                  attrs: { to: "/reporte" }
-                },
-                [
-                  _c(
-                    "v-list-tile-action",
-                    [_c("v-icon", [_vm._v("fas fa-clipboard")])],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("v-divider"),
-              _vm._v(" "),
-              _c(
-                "v-list-tile",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.rol == "superAdmin",
-                      expression: "rol == 'superAdmin'"
-                    }
-                  ],
-                  attrs: { to: "/inventario" }
-                },
-                [
-                  _c(
-                    "v-list-tile-action",
-                    [_c("v-icon", [_vm._v("fas fa-boxes")])],
-                    1
-                  )
-                ],
-                1
-              ),
               _vm._v(" "),
               _c("v-divider"),
               _vm._v(" "),
@@ -20075,7 +20025,7 @@ var render = function() {
                     "v-layout",
                     { attrs: { "justify-space-between": "" } },
                     [
-                      _c("h2", [_vm._v("Nuevo CLiente")]),
+                      _c("h2", [_vm._v("Nuevo Cliente")]),
                       _vm._v(" "),
                       _c(
                         "v-btn",
@@ -35728,36 +35678,6 @@ const DAYS_SHORTCUTS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
 const DAYS_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
 
-
-/***/ }),
-
-/***/ "./node_modules/vuelendar/scss/vuelendar.scss":
-/*!****************************************************!*\
-  !*** ./node_modules/vuelendar/scss/vuelendar.scss ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../css-loader!../../postcss-loader/src??ref--6-2!../../sass-loader/lib/loader.js??ref--6-3!./vuelendar.scss */ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vuelendar/scss/vuelendar.scss");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
 
 /***/ }),
 
@@ -65336,12 +65256,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _plugins_vuetify__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./plugins/vuetify */ "./resources/js/plugins/vuetify.js");
 /* harmony import */ var _fortawesome_fontawesome_free_css_all_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @fortawesome/fontawesome-free/css/all.css */ "./node_modules/@fortawesome/fontawesome-free/css/all.css");
 /* harmony import */ var _fortawesome_fontawesome_free_css_all_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_fortawesome_fontawesome_free_css_all_css__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var vuelendar_scss_vuelendar_scss__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuelendar/scss/vuelendar.scss */ "./node_modules/vuelendar/scss/vuelendar.scss");
-/* harmony import */ var vuelendar_scss_vuelendar_scss__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(vuelendar_scss_vuelendar_scss__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var vue_croppa__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vue-croppa */ "./node_modules/vue-croppa/dist/vue-croppa.js");
-/* harmony import */ var vue_croppa__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(vue_croppa__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var vue_croppa_dist_vue_croppa_css__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vue-croppa/dist/vue-croppa.css */ "./node_modules/vue-croppa/dist/vue-croppa.css");
-/* harmony import */ var vue_croppa_dist_vue_croppa_css__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(vue_croppa_dist_vue_croppa_css__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var vue_croppa__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue-croppa */ "./node_modules/vue-croppa/dist/vue-croppa.js");
+/* harmony import */ var vue_croppa__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(vue_croppa__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var vue_croppa_dist_vue_croppa_css__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vue-croppa/dist/vue-croppa.css */ "./node_modules/vue-croppa/dist/vue-croppa.css");
+/* harmony import */ var vue_croppa_dist_vue_croppa_css__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(vue_croppa_dist_vue_croppa_css__WEBPACK_IMPORTED_MODULE_9__);
 
 
 
@@ -65352,8 +65270,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_croppa__WEBPACK_IMPORTED_MODULE_9___default.a);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_croppa__WEBPACK_IMPORTED_MODULE_8___default.a);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.config.productionTip = false;
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router_user_roles__WEBPACK_IMPORTED_MODULE_4___default.a, {
   router: _router__WEBPACK_IMPORTED_MODULE_3__["default"]

@@ -8,9 +8,9 @@ use App\Http\Controllers\Controller;
 
 class CategoriasController extends Controller
 {
-    public function index (Request $request)
+    public function index(Request $request)
     {
-        $categorias = Categoria::orderBy('categoria', 'asc')
+        $categorias = Categoria::orderBy('id', 'desc')
             ->buscar($request);
 
         return [
@@ -21,7 +21,7 @@ class CategoriasController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate(['categoria'=>'required|unique:categorias|min:3|max:190']);
+        $data = $request->validate(['categoria' => 'required|unique:categorias|min:3|max:190']);
 
         $data['categoria'] = ucwords($data['categoria']);
 
@@ -34,7 +34,7 @@ class CategoriasController extends Controller
     {
         $categoria = Categoria::findOrFail($id);
 
-        $data = $request->validate(['categoria'=>'required|min:1|max:190|unique:categorias,categoria,'.$categoria->id]);
+        $data = $request->validate(['categoria' => 'required|min:1|max:190|unique:categorias,categoria,' . $categoria->id]);
 
         $data['categoria'] = ucwords($data['categoria']);
 

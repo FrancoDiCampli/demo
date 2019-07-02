@@ -18,14 +18,35 @@
 </template>
 
 <script>
+// Vuex
+import { mapState, mapActions } from "vuex";
+
 // Components
 import ProductosIndex from "../components/productos/ProductosIndex.vue";
+import ProductosForm from "../components/productos/ProductosForm.vue";
 
 export default {
     name: "Producto",
 
+    data() {
+        return {
+            createProductosDialog: false
+        };
+    },
+
     components: {
-        ProductosIndex
+        ProductosIndex,
+        ProductosForm
+    },
+
+    computed: {
+        ...mapState("crudx", ["inProcess"])
+    },
+
+    methods: {
+        ...mapActions("crudx", ["save"]),
+
+        saveProducto() {}
     }
 };
 </script>

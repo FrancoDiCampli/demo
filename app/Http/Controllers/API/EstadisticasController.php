@@ -6,6 +6,7 @@ use auth;
 use App\User;
 use App\Factura;
 use Carbon\Carbon;
+use App\Inventario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -115,4 +116,79 @@ class EstadisticasController extends Controller
 
         return $facturas;
     }
+
+    public function inventarios(Request $request){
+
+
+        $articulos = (array) $request->producto;
+        $fechas = (array) $request->fechas;
+        $movimiento = (array) $request->movimiento;
+
+
+        if ($fechas[0] == null) {
+            $fechas = array('2019-01-01', '2020-01-01');
+        }
+
+        $inventarios = Inventario::where('articulo_id',$articulos)->get('id');
+
+        $res = [];
+        foreach($inventarios as $inventario){
+            array_push($res,$inventario->id);
+        }
+
+
+         return $movimientos = DB::table('movimientos')
+            ->when($fechas, function ($query) use ($fechas) {
+                return $query->whereBetween('created_at', $fechas);
+            })
+             ->when($res, function ($query) use ($res) {
+                return $query->whereIn('inventario_id', $res);
+            })
+             ->when($movimiento, function ($query) use ($movimiento) {
+                return $query->whereIn('tipo', $movimiento);
+            })
+            ->get();
+
+
+
+    }
+
+
+    public function compras(Request $request){
+        $articulos = (array) $request->producto;
+        $fechas = (array) $request->fechas;
+        $proveedor = (array) $request->proveedor;
+
+        if ($fechas[0] == null) {
+            $fechas = array('2019-01-01', '2020-01-01');
+        }
+
+
+         return $compras = DB::table('articulo_remito')
+            ->when($fechas, function ($query) use ($fechas) {
+                return $query->whereBetween('created_at', $fechas);
+            })
+             ->when($articulos, function ($query) use ($articulos) {
+                return $query->whereIn('articulo', $articulos);
+            })
+
+            ->get();
+
+        $res = [];
+
+        foreach($compras as $compra){
+            array_push($res,$compra->id);
+        }
+
+        $movimientos = DB::table('articulo_remito')
+            ->when($res, function ($query) use ($res) {
+                return $query->whereIn('remito_id', $res);
+            })->get();
+
+        return $movimientos;
+
+
+    }
+
+
 }

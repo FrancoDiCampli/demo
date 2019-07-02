@@ -2,66 +2,10 @@
     <div>
         <!-- Componente Formulario -->
         <v-layout justify-space-around wrap>
-            <v-flex xs12 sm6 px-2>
-                <v-layout justify-center wrap>
-                    <croppa
-                        v-model="form.foto"
-                        :width="250"
-                        :height="250"
-                        placeholder="Foto"
-                        placeholder-color="#000"
-                        :placeholder-font-size="24"
-                        canvas-color="transparent"
-                        :show-remove-button="true"
-                        remove-button-color="#26A69A"
-                        :show-loading="true"
-                        :loading-size="25"
-                        :prevent-white-space="true"
-                        :zoom-speed="10"
-                    ></croppa>
-                    <v-flex xs12 px-2>
-                        <v-layout justify-center>
-                            <v-btn flat icon color="primary" @click="form.foto.zoomIn()">
-                                <v-icon>fas fa-plus</v-icon>
-                            </v-btn>
-                            <v-btn flat icon color="primary" @click="form.foto.zoomOut()">
-                                <v-icon>fas fa-minus</v-icon>
-                            </v-btn>
-                            <v-btn flat icon color="primary" @click="form.foto.rotate()">
-                                <v-icon>fas fa-redo-alt</v-icon>
-                            </v-btn>
-                        </v-layout>
-                    </v-flex>
-                </v-layout>
-            </v-flex>
-            <v-flex xs12 sm6 px-2>
-                <v-flex xs12 px-2>
-                    <v-text-field
-                        v-model="form.articulo"
-                        label="Articulo"
-                        hint="Articulo"
-                        box
-                        single-line
-                    ></v-text-field>
-                </v-flex>
-                <v-flex xs12 px-2>
-                    <v-textarea
-                        v-model="form.descripcion"
-                        label="Descripción"
-                        hint="Descripción"
-                        box
-                        single-line
-                        height="165"
-                        no-resize
-                    ></v-textarea>
-                </v-flex>
-            </v-flex>
-        </v-layout>
-        <br>
-        <v-layout justify-space-around wrap>
             <v-flex xs12 sm6 lg3 px-3>
                 <v-text-field
                     v-model="form.costo"
+                    :rules="[rules.required]"
                     label="Costo"
                     hint="Costo"
                     box
@@ -73,6 +17,7 @@
             <v-flex xs12 sm6 lg3 px-3>
                 <v-text-field
                     v-model="form.utilidades"
+                    :rules="[rules.required]"
                     label="Utilidades"
                     hint="Utilidades"
                     box
@@ -94,7 +39,8 @@
             </v-flex>
             <v-flex xs12 sm6 lg3 px-3>
                 <v-text-field
-                    v-model="form.precio"
+                    v-model="precio"
+                    :rules="[rules.required]"
                     label="Precio"
                     hint="Precio"
                     box
@@ -107,21 +53,19 @@
 
             <v-flex xs12 sm6 px-3>
                 <!-- Input Categorias -->
-                <v-form ref="formFindCategoria">
-                    <v-text-field
-                        @keyup="findCategoria()"
-                        v-model="categoria"
-                        :rules="[rules.required]"
-                        label="Categoria"
-                        box
-                        single-line
-                    ></v-text-field>
-                </v-form>
+                <v-text-field
+                    @keyup="findCategoria()"
+                    v-model="form.categoria"
+                    :rules="[rules.required]"
+                    label="Categoria"
+                    box
+                    single-line
+                ></v-text-field>
 
                 <!-- Tabla Categorias -->
                 <transition name="expand">
                     <v-data-table
-                        v-show="categoria != null && categoria != '' && categorias.length > 0 && !form.categoria_id"
+                        v-show="form.categoria && categorias.length > 0 && !form.categoria_id"
                         no-data-text="La categoria no se encuentra en la base de datos."
                         hide-actions
                         hide-headers
@@ -138,21 +82,19 @@
             </v-flex>
             <v-flex xs12 sm6 px-3>
                 <!-- Input Marcas -->
-                <v-form ref="formFindMarca">
-                    <v-text-field
-                        @keyup="findMarca()"
-                        v-model="marca"
-                        :rules="[rules.required]"
-                        label="Marca"
-                        box
-                        single-line
-                    ></v-text-field>
-                </v-form>
+                <v-text-field
+                    @keyup="findMarca()"
+                    v-model="form.marca"
+                    :rules="[rules.required]"
+                    label="Marca"
+                    box
+                    single-line
+                ></v-text-field>
 
                 <!-- Tabla Marcas -->
                 <transition name="expand">
                     <v-data-table
-                        v-show="marca != null && marca != '' && marcas.length > 0 && !form.marca_id"
+                        v-show="form.marca && marcas.length > 0 && !form.marca_id"
                         no-data-text="La marca no se encuentra en la base de datos."
                         hide-actions
                         hide-headers
@@ -168,10 +110,33 @@
                 </transition>
             </v-flex>
             <v-flex xs12 sm6 px-3>
-                <v-text-field v-model="form.medida" label="Medida" box single-line></v-text-field>
+                <v-select
+                    v-model="form.medida"
+                    :items="medidas"
+                    :rules="[rules.required]"
+                    label="Medida"
+                    box
+                    single-line
+                ></v-select>
             </v-flex>
             <v-flex xs12 sm6 px-3>
-                <v-text-field v-model="codigo" label="Codigo" hint="Codigo" box single-line></v-text-field>
+                <v-text-field
+                    v-model="codigo"
+                    :rules="[rules.required, rules.cod]"
+                    label="Codigo"
+                    hint="Codigo"
+                    box
+                    single-line
+                ></v-text-field>
+            </v-flex>
+            <v-flex xs12 px-3>
+                <v-text-field
+                    v-model="form.codprov"
+                    label="Codigo del Proveedor"
+                    hint="Codigo del Proveedor"
+                    box
+                    single-line
+                ></v-text-field>
             </v-flex>
         </v-layout>
     </div>
@@ -189,13 +154,33 @@ export default {
 
     data() {
         return {
-            categoria: null,
             categorias: [],
-            marca: null,
             marcas: [],
             categoriaLastId: null,
+            medidas: [
+                "unidades",
+                "miligramos",
+                "gramos",
+                "kilogramos",
+                "toneladas",
+                "mililitros",
+                "litros",
+                "milimetros",
+                "centímetros",
+                "metros",
+                "mm cúbicos",
+                "cm cúbicos",
+                "metros cuadrados",
+                "metros cubicos",
+                "gruesa",
+                "packs",
+                "otras unidades"
+            ],
             rules: {
-                required: value => !!value || "Este campo es obligatorio"
+                required: value => !!value || "Este campo es obligatorio",
+                cod: value =>
+                    (value && value.length == 13) ||
+                    "Este campo debe contener si o si 13 digitos"
             }
         };
     },
@@ -206,12 +191,12 @@ export default {
         codigo: {
             set() {},
             get() {
-                if (this.categoria != null && this.categoria != "") {
-                    if (this.categoria.length >= 3) {
+                if (this.form.categoria) {
+                    if (this.form.categoria.length >= 3) {
                         let codigo =
-                            this.categoria[0] +
-                            this.categoria[1] +
-                            this.categoria[2];
+                            this.form.categoria[0] +
+                            this.form.categoria[1] +
+                            this.form.categoria[2];
 
                         let newId = this.categoriaLastId + 1;
                         let number = newId.toString();
@@ -222,12 +207,32 @@ export default {
                         }
 
                         codigo += number;
-
+                        this.form.codarticulo = codigo.toUpperCase();
                         return codigo.toUpperCase();
                     } else {
+                        this.form.codarticulo = null;
                         return null;
                     }
                 } else {
+                    this.form.codarticulo = null;
+                    return null;
+                }
+            }
+        },
+
+        precio: {
+            set() {},
+            get() {
+                if (this.form.costo && this.form.utilidades) {
+                    let ganancia =
+                        (this.form.utilidades * this.form.costo) / 100;
+                    ganancia = ganancia.toFixed(2);
+
+                    this.form.precio =
+                        Number(this.form.costo) + Number(ganancia);
+                    return Number(this.form.costo) + Number(ganancia);
+                } else {
+                    this.form.precio = null;
                     return null;
                 }
             }
@@ -243,10 +248,11 @@ export default {
 
         findCategoria: async function() {
             this.form.categoria_id = null;
-            if (this.$refs.formFindCategoria.validate()) {
+
+            if (this.form.categoria) {
                 let response = await this.index({
                     url: "/api/categorias",
-                    buscarCategoria: this.categoria,
+                    buscarCategoria: this.form.categoria,
                     limit: 5
                 });
 
@@ -256,16 +262,16 @@ export default {
 
         selectCategoria(categoria) {
             this.categorias = [];
-            this.categoria = categoria.categoria;
+            this.form.categoria = categoria.categoria;
             this.form.categoria_id = categoria.id;
         },
 
         findMarca: async function() {
             this.form.marca_id = null;
-            if (this.$refs.formFindMarca.validate()) {
+            if (this.form.marca) {
                 let response = await this.index({
                     url: "/api/marcas",
-                    buscarMarca: this.marca,
+                    buscarMarca: this.form.marca,
                     limit: 5
                 });
 
@@ -275,7 +281,7 @@ export default {
 
         selectMarca(marca) {
             this.marcas = [];
-            this.marca = marca.marca;
+            this.form.marca = marca.marca;
             this.form.marca_id = marca.id;
         },
 

@@ -18,10 +18,7 @@
                 <v-layout justify-space-around wrap>
                     <v-flex xs12 sm6 lg4 pa-2 v-for="articulo in data.articulos" :key="articulo.id">
                         <v-card>
-                            <v-img
-                                :src="'https://picsum.photos/id/'+articulo.id+'/500/500'"
-                                aspect-ratio="1.25"
-                            >
+                            <v-img :src="articulo.foto" aspect-ratio="1.25">
                                 <v-layout justify-end>
                                     <v-btn flat icon color="white">
                                         <v-icon size="medium">fas fa-ellipsis-v</v-icon>
@@ -40,7 +37,7 @@
                         </v-card>
                     </v-flex>
                 </v-layout>
-                <br>
+                <br />
                 <v-layout justify-center>
                     <v-btn
                         :loading="loadingButton"

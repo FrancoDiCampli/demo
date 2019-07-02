@@ -3847,7 +3847,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           return !!value || "Este campo es obligatorio";
         },
         max: function max(value) {
-          return value && value.length <= 190 || "Este campo no puede contener mas de 11 digitos";
+          return value && value.length <= 190 || "Este campo no puede contener mas de 190 digitos";
         }
       }
     };
@@ -6445,41 +6445,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //Vuex
  //Axios
 
@@ -6488,14 +6453,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   name: "ProductosForm",
   data: function data() {
     return {
-      categoria: null,
       categorias: [],
-      marca: null,
       marcas: [],
       categoriaLastId: null,
+      medidas: ["unidades", "miligramos", "gramos", "kilogramos", "toneladas", "mililitros", "litros", "milimetros", "centímetros", "metros", "mm cúbicos", "cm cúbicos", "metros cuadrados", "metros cubicos", "gruesa", "packs", "otras unidades"],
       rules: {
         required: function required(value) {
           return !!value || "Este campo es obligatorio";
+        },
+        cod: function cod(value) {
+          return value && value.length == 13 || "Este campo debe contener si o si 13 digitos";
         }
       }
     };
@@ -6504,9 +6471,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     codigo: {
       set: function set() {},
       get: function get() {
-        if (this.categoria != null && this.categoria != "") {
-          if (this.categoria.length >= 3) {
-            var codigo = this.categoria[0] + this.categoria[1] + this.categoria[2];
+        if (this.form.categoria) {
+          if (this.form.categoria.length >= 3) {
+            var codigo = this.form.categoria[0] + this.form.categoria[1] + this.form.categoria[2];
             var newId = this.categoriaLastId + 1;
             var number = newId.toString();
             var zeroLength = 10 - number.length;
@@ -6516,11 +6483,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             }
 
             codigo += number;
+            this.form.codarticulo = codigo.toUpperCase();
             return codigo.toUpperCase();
           } else {
+            this.form.codarticulo = null;
             return null;
           }
         } else {
+          this.form.codarticulo = null;
+          return null;
+        }
+      }
+    },
+    precio: {
+      set: function set() {},
+      get: function get() {
+        if (this.form.costo && this.form.utilidades) {
+          var ganancia = this.form.utilidades * this.form.costo / 100;
+          ganancia = ganancia.toFixed(2);
+          this.form.precio = Number(this.form.costo) + Number(ganancia);
+          return Number(this.form.costo) + Number(ganancia);
+        } else {
+          this.form.precio = null;
           return null;
         }
       }
@@ -6541,7 +6525,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 this.form.categoria_id = null;
 
-                if (!this.$refs.formFindCategoria.validate()) {
+                if (!this.form.categoria) {
                   _context.next = 6;
                   break;
                 }
@@ -6549,7 +6533,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 _context.next = 4;
                 return this.index({
                   url: "/api/categorias",
-                  buscarCategoria: this.categoria,
+                  buscarCategoria: this.form.categoria,
                   limit: 5
                 });
 
@@ -6573,7 +6557,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }(),
     selectCategoria: function selectCategoria(categoria) {
       this.categorias = [];
-      this.categoria = categoria.categoria;
+      this.form.categoria = categoria.categoria;
       this.form.categoria_id = categoria.id;
     },
     findMarca: function () {
@@ -6587,7 +6571,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 this.form.marca_id = null;
 
-                if (!this.$refs.formFindMarca.validate()) {
+                if (!this.form.marca) {
                   _context2.next = 6;
                   break;
                 }
@@ -6595,7 +6579,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 _context2.next = 4;
                 return this.index({
                   url: "/api/marcas",
-                  buscarMarca: this.marca,
+                  buscarMarca: this.form.marca,
                   limit: 5
                 });
 
@@ -6619,7 +6603,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }(),
     selectMarca: function selectMarca(marca) {
       this.marcas = [];
-      this.marca = marca.marca;
+      this.form.marca = marca.marca;
       this.form.marca_id = marca.id;
     },
     getLastId: function () {
@@ -6682,9 +6666,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
 //
 //
 //
@@ -7602,8 +7583,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_productos_ProductosForm_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/productos/ProductosForm.vue */ "./resources/js/components/productos/ProductosForm.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_productos_ProductosForm_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/productos/ProductosForm.vue */ "./resources/js/components/productos/ProductosForm.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -7628,18 +7619,239 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // Components
+ // Axios
+
  // Vuex
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ProductoNew",
-  components: {
-    ProductosForm: _components_productos_ProductosForm_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  data: function data() {
+    return {
+      foto: null,
+      saveCategoriaMarcaDialog: false,
+      msgCategoria: "",
+      msgMarca: "",
+      rules: {
+        required: function required(value) {
+          return !!value || "Este campo es obligatorio";
+        },
+        max: function max(value) {
+          return value && value.length <= 190 || "Este campo no puede contener mas de 190 digitos";
+        }
+      }
+    };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])("crudx", ["form", "inProcess"])),
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])("crudx", ["save"]), {
-    saveProducto: function saveProducto() {}
+  components: {
+    ProductosForm: _components_productos_ProductosForm_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapState"])("crudx", ["form"])),
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapActions"])("crudx", ["save"]), {
+    preventSave: function preventSave() {
+      if (this.$refs.productosForm.validate()) {
+        if (this.form.categoria_id && this.form.marca_id) {
+          this.saveProducto();
+        } else {
+          if (this.form.categoria) {
+            this.msgCategoria = "Se añadirá la siguiente categoría a la base de datos: “" + this.form.categoria + "”.";
+          }
+
+          if (this.form.marca) {
+            this.msgMarca = "Se añadirá la siguiente marca a la base de datos: “" + this.form.marca + "”.";
+          }
+
+          this.saveCategoriaMarcaDialog = true;
+        }
+      }
+    },
+    confirmSave: function () {
+      var _confirmSave = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return this.saveCategoria();
+
+              case 2:
+                this.form.categoria_id = _context.sent;
+                _context.next = 5;
+                return this.saveMarca();
+
+              case 5:
+                this.form.marca_id = _context.sent;
+                this.saveProducto();
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function confirmSave() {
+        return _confirmSave.apply(this, arguments);
+      }
+
+      return confirmSave;
+    }(),
+    saveCategoria: function saveCategoria() {
+      var _this = this;
+
+      return new Promise(function (resolve) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/api/categorias", {
+          categoria: _this.form.categoria
+        }).then(function (response) {
+          resolve(response.data);
+        })["catch"](function (error) {
+          throw new Error(error);
+        });
+      });
+    },
+    saveMarca: function saveMarca() {
+      var _this2 = this;
+
+      return new Promise(function (resolve) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/api/marcas", {
+          marca: _this2.form.marca
+        }).then(function (response) {
+          resolve(response.data);
+        })["catch"](function (error) {
+          throw new Error(error);
+        });
+      });
+    },
+    saveProducto: function () {
+      var _saveProducto = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                this.form.foto = this.foto.generateDataUrl();
+                _context2.next = 3;
+                return this.save({
+                  url: "/api/articulos"
+                });
+
+              case 3:
+                this.saveCategoriaMarcaDialog = false;
+                this.$router.push("/productos");
+
+              case 5:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function saveProducto() {
+        return _saveProducto.apply(this, arguments);
+      }
+
+      return saveProducto;
+    }()
   })
 });
 
@@ -18909,169 +19121,12 @@ var render = function() {
         [
           _c(
             "v-flex",
-            { attrs: { xs12: "", sm6: "", "px-2": "" } },
-            [
-              _c(
-                "v-layout",
-                { attrs: { "justify-center": "", wrap: "" } },
-                [
-                  _c("croppa", {
-                    attrs: {
-                      width: 250,
-                      height: 250,
-                      placeholder: "Foto",
-                      "placeholder-color": "#000",
-                      "placeholder-font-size": 24,
-                      "canvas-color": "transparent",
-                      "show-remove-button": true,
-                      "remove-button-color": "#26A69A",
-                      "show-loading": true,
-                      "loading-size": 25,
-                      "prevent-white-space": true,
-                      "zoom-speed": 10
-                    },
-                    model: {
-                      value: _vm.form.foto,
-                      callback: function($$v) {
-                        _vm.$set(_vm.form, "foto", $$v)
-                      },
-                      expression: "form.foto"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "v-flex",
-                    { attrs: { xs12: "", "px-2": "" } },
-                    [
-                      _c(
-                        "v-layout",
-                        { attrs: { "justify-center": "" } },
-                        [
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: { flat: "", icon: "", color: "primary" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.form.foto.zoomIn()
-                                }
-                              }
-                            },
-                            [_c("v-icon", [_vm._v("fas fa-plus")])],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: { flat: "", icon: "", color: "primary" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.form.foto.zoomOut()
-                                }
-                              }
-                            },
-                            [_c("v-icon", [_vm._v("fas fa-minus")])],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: { flat: "", icon: "", color: "primary" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.form.foto.rotate()
-                                }
-                              }
-                            },
-                            [_c("v-icon", [_vm._v("fas fa-redo-alt")])],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-flex",
-            { attrs: { xs12: "", sm6: "", "px-2": "" } },
-            [
-              _c(
-                "v-flex",
-                { attrs: { xs12: "", "px-2": "" } },
-                [
-                  _c("v-text-field", {
-                    attrs: {
-                      label: "Articulo",
-                      hint: "Articulo",
-                      box: "",
-                      "single-line": ""
-                    },
-                    model: {
-                      value: _vm.form.articulo,
-                      callback: function($$v) {
-                        _vm.$set(_vm.form, "articulo", $$v)
-                      },
-                      expression: "form.articulo"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-flex",
-                { attrs: { xs12: "", "px-2": "" } },
-                [
-                  _c("v-textarea", {
-                    attrs: {
-                      label: "Descripción",
-                      hint: "Descripción",
-                      box: "",
-                      "single-line": "",
-                      height: "165",
-                      "no-resize": ""
-                    },
-                    model: {
-                      value: _vm.form.descripcion,
-                      callback: function($$v) {
-                        _vm.$set(_vm.form, "descripcion", $$v)
-                      },
-                      expression: "form.descripcion"
-                    }
-                  })
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("br"),
-      _vm._v(" "),
-      _c(
-        "v-layout",
-        { attrs: { "justify-space-around": "", wrap: "" } },
-        [
-          _c(
-            "v-flex",
             { attrs: { xs12: "", sm6: "", lg3: "", "px-3": "" } },
             [
               _c("v-text-field", {
                 staticClass: "input-number",
                 attrs: {
+                  rules: [_vm.rules.required],
                   label: "Costo",
                   hint: "Costo",
                   box: "",
@@ -19097,6 +19152,7 @@ var render = function() {
               _c("v-text-field", {
                 staticClass: "input-number",
                 attrs: {
+                  rules: [_vm.rules.required],
                   label: "Utilidades",
                   hint: "Utilidades",
                   box: "",
@@ -19147,6 +19203,7 @@ var render = function() {
               _c("v-text-field", {
                 staticClass: "input-number",
                 attrs: {
+                  rules: [_vm.rules.required],
                   label: "Precio",
                   hint: "Precio",
                   box: "",
@@ -19155,11 +19212,11 @@ var render = function() {
                   disabled: ""
                 },
                 model: {
-                  value: _vm.form.precio,
+                  value: _vm.precio,
                   callback: function($$v) {
-                    _vm.$set(_vm.form, "precio", $$v)
+                    _vm.precio = $$v
                   },
-                  expression: "form.precio"
+                  expression: "precio"
                 }
               })
             ],
@@ -19170,33 +19227,26 @@ var render = function() {
             "v-flex",
             { attrs: { xs12: "", sm6: "", "px-3": "" } },
             [
-              _c(
-                "v-form",
-                { ref: "formFindCategoria" },
-                [
-                  _c("v-text-field", {
-                    attrs: {
-                      rules: [_vm.rules.required],
-                      label: "Categoria",
-                      box: "",
-                      "single-line": ""
-                    },
-                    on: {
-                      keyup: function($event) {
-                        return _vm.findCategoria()
-                      }
-                    },
-                    model: {
-                      value: _vm.categoria,
-                      callback: function($$v) {
-                        _vm.categoria = $$v
-                      },
-                      expression: "categoria"
-                    }
-                  })
-                ],
-                1
-              ),
+              _c("v-text-field", {
+                attrs: {
+                  rules: [_vm.rules.required],
+                  label: "Categoria",
+                  box: "",
+                  "single-line": ""
+                },
+                on: {
+                  keyup: function($event) {
+                    return _vm.findCategoria()
+                  }
+                },
+                model: {
+                  value: _vm.form.categoria,
+                  callback: function($$v) {
+                    _vm.$set(_vm.form, "categoria", $$v)
+                  },
+                  expression: "form.categoria"
+                }
+              }),
               _vm._v(" "),
               _c(
                 "transition",
@@ -19208,12 +19258,11 @@ var render = function() {
                         name: "show",
                         rawName: "v-show",
                         value:
-                          _vm.categoria != null &&
-                          _vm.categoria != "" &&
+                          _vm.form.categoria &&
                           _vm.categorias.length > 0 &&
                           !_vm.form.categoria_id,
                         expression:
-                          "categoria != null && categoria != '' && categorias.length > 0 && !form.categoria_id"
+                          "form.categoria && categorias.length > 0 && !form.categoria_id"
                       }
                     ],
                     staticClass: "search-table",
@@ -19261,33 +19310,26 @@ var render = function() {
             "v-flex",
             { attrs: { xs12: "", sm6: "", "px-3": "" } },
             [
-              _c(
-                "v-form",
-                { ref: "formFindMarca" },
-                [
-                  _c("v-text-field", {
-                    attrs: {
-                      rules: [_vm.rules.required],
-                      label: "Marca",
-                      box: "",
-                      "single-line": ""
-                    },
-                    on: {
-                      keyup: function($event) {
-                        return _vm.findMarca()
-                      }
-                    },
-                    model: {
-                      value: _vm.marca,
-                      callback: function($$v) {
-                        _vm.marca = $$v
-                      },
-                      expression: "marca"
-                    }
-                  })
-                ],
-                1
-              ),
+              _c("v-text-field", {
+                attrs: {
+                  rules: [_vm.rules.required],
+                  label: "Marca",
+                  box: "",
+                  "single-line": ""
+                },
+                on: {
+                  keyup: function($event) {
+                    return _vm.findMarca()
+                  }
+                },
+                model: {
+                  value: _vm.form.marca,
+                  callback: function($$v) {
+                    _vm.$set(_vm.form, "marca", $$v)
+                  },
+                  expression: "form.marca"
+                }
+              }),
               _vm._v(" "),
               _c(
                 "transition",
@@ -19299,12 +19341,11 @@ var render = function() {
                         name: "show",
                         rawName: "v-show",
                         value:
-                          _vm.marca != null &&
-                          _vm.marca != "" &&
+                          _vm.form.marca &&
                           _vm.marcas.length > 0 &&
                           !_vm.form.marca_id,
                         expression:
-                          "marca != null && marca != '' && marcas.length > 0 && !form.marca_id"
+                          "form.marca && marcas.length > 0 && !form.marca_id"
                       }
                     ],
                     staticClass: "search-table",
@@ -19348,8 +19389,14 @@ var render = function() {
             "v-flex",
             { attrs: { xs12: "", sm6: "", "px-3": "" } },
             [
-              _c("v-text-field", {
-                attrs: { label: "Medida", box: "", "single-line": "" },
+              _c("v-select", {
+                attrs: {
+                  items: _vm.medidas,
+                  rules: [_vm.rules.required],
+                  label: "Medida",
+                  box: "",
+                  "single-line": ""
+                },
                 model: {
                   value: _vm.form.medida,
                   callback: function($$v) {
@@ -19368,6 +19415,7 @@ var render = function() {
             [
               _c("v-text-field", {
                 attrs: {
+                  rules: [_vm.rules.required, _vm.rules.cod],
                   label: "Codigo",
                   hint: "Codigo",
                   box: "",
@@ -19379,6 +19427,29 @@ var render = function() {
                     _vm.codigo = $$v
                   },
                   expression: "codigo"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-flex",
+            { attrs: { xs12: "", "px-3": "" } },
+            [
+              _c("v-text-field", {
+                attrs: {
+                  label: "Codigo del Proveedor",
+                  hint: "Codigo del Proveedor",
+                  box: "",
+                  "single-line": ""
+                },
+                model: {
+                  value: _vm.form.codprov,
+                  callback: function($$v) {
+                    _vm.$set(_vm.form, "codprov", $$v)
+                  },
+                  expression: "form.codprov"
                 }
               })
             ],
@@ -19489,10 +19560,7 @@ var render = function() {
                             "v-img",
                             {
                               attrs: {
-                                src:
-                                  "https://picsum.photos/id/" +
-                                  articulo.id +
-                                  "/500/500",
+                                src: articulo.foto,
                                 "aspect-ratio": "1.25"
                               }
                             },
@@ -20559,51 +20627,331 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-card",
+    "div",
     [
       _c(
-        "v-card-text",
+        "v-card",
         [
-          _c("v-layout", { attrs: { "justify-space-between": "" } }, [
-            _c("h2", [_vm._v("Nuevo Producto")])
-          ])
+          _c(
+            "v-card-text",
+            [
+              _c("v-layout", { attrs: { "justify-space-between": "" } }, [
+                _c("h2", [_vm._v("Nuevo Producto")])
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("v-divider"),
+          _vm._v(" "),
+          _c(
+            "v-card-text",
+            [
+              _c(
+                "v-form",
+                {
+                  ref: "productosForm",
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.preventSave($event)
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "v-layout",
+                    { attrs: { "justify-space-around": "", wrap: "" } },
+                    [
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "", sm6: "", "px-2": "" } },
+                        [
+                          _c(
+                            "v-layout",
+                            { attrs: { "justify-center": "", wrap: "" } },
+                            [
+                              _c("croppa", {
+                                attrs: {
+                                  width: 250,
+                                  height: 250,
+                                  placeholder: "Foto",
+                                  "placeholder-color": "#000",
+                                  "placeholder-font-size": 24,
+                                  "canvas-color": "transparent",
+                                  "show-remove-button": true,
+                                  "remove-button-color": "#26A69A",
+                                  "show-loading": true,
+                                  "loading-size": 25,
+                                  "prevent-white-space": true,
+                                  "zoom-speed": 10
+                                },
+                                model: {
+                                  value: _vm.foto,
+                                  callback: function($$v) {
+                                    _vm.foto = $$v
+                                  },
+                                  expression: "foto"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "v-flex",
+                                { attrs: { xs12: "", "px-2": "" } },
+                                [
+                                  _c(
+                                    "v-layout",
+                                    { attrs: { "justify-center": "" } },
+                                    [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            flat: "",
+                                            icon: "",
+                                            color: "primary"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.foto.zoomIn()
+                                            }
+                                          }
+                                        },
+                                        [_c("v-icon", [_vm._v("fas fa-plus")])],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            flat: "",
+                                            icon: "",
+                                            color: "primary"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.foto.zoomOut()
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c("v-icon", [_vm._v("fas fa-minus")])
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            flat: "",
+                                            icon: "",
+                                            color: "primary"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.foto.rotate()
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c("v-icon", [
+                                            _vm._v("fas fa-redo-alt")
+                                          ])
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "", sm6: "", "px-2": "" } },
+                        [
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "", "px-2": "" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  rules: [_vm.rules.required],
+                                  label: "Articulo",
+                                  hint: "Articulo",
+                                  box: "",
+                                  "single-line": ""
+                                },
+                                model: {
+                                  value: _vm.form.articulo,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "articulo", $$v)
+                                  },
+                                  expression: "form.articulo"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "", "px-2": "" } },
+                            [
+                              _c("v-textarea", {
+                                attrs: {
+                                  rules: [_vm.rules.required, _vm.rules.max],
+                                  label: "Descripción",
+                                  hint: "Descripción",
+                                  box: "",
+                                  "single-line": "",
+                                  height: "165",
+                                  "no-resize": ""
+                                },
+                                model: {
+                                  value: _vm.form.descripcion,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "descripcion", $$v)
+                                  },
+                                  expression: "form.descripcion"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("ProductosForm"),
+                  _vm._v(" "),
+                  _c(
+                    "v-layout",
+                    { attrs: { "justify-center": "" } },
+                    [
+                      _c(
+                        "v-btn",
+                        { attrs: { type: "submit", color: "primary" } },
+                        [_vm._v("Guardar")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
         ],
         1
       ),
       _vm._v(" "),
-      _c("v-divider"),
-      _vm._v(" "),
       _c(
-        "v-card-text",
+        "v-dialog",
+        {
+          attrs: { width: "750", persistent: "" },
+          model: {
+            value: _vm.saveCategoriaMarcaDialog,
+            callback: function($$v) {
+              _vm.saveCategoriaMarcaDialog = $$v
+            },
+            expression: "saveCategoriaMarcaDialog"
+          }
+        },
         [
           _c(
-            "v-form",
-            {
-              ref: "productosForm",
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  return _vm.saveProducto($event)
-                }
-              }
-            },
+            "v-card",
             [
-              _c("ProductosForm"),
+              _c(
+                "v-card-text",
+                [
+                  _c("v-layout", { attrs: { "justify-space-between": "" } }, [
+                    _c("h2", [_vm._v("¡ADVERTENCIA!")])
+                  ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("v-divider"),
               _vm._v(" "),
               _c(
-                "v-layout",
-                { attrs: { "justify-center": "" } },
+                "v-card-text",
                 [
                   _c(
-                    "v-btn",
-                    {
-                      attrs: {
-                        disabled: _vm.inProcess,
-                        type: "submit",
-                        color: "primary"
-                      }
-                    },
-                    [_vm._v("Guardar")]
+                    "v-layout",
+                    { attrs: { "justify-center": "", wrap: "" } },
+                    [
+                      _c("v-flex", { attrs: { xs12: "" } }, [
+                        _c(
+                          "h3",
+                          { staticClass: "text-xs-center font-weight-regular" },
+                          [_vm._v(_vm._s(_vm.msgCategoria))]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("v-flex", { attrs: { xs12: "" } }, [
+                        _c(
+                          "h3",
+                          { staticClass: "text-xs-center font-weight-regular" },
+                          [_vm._v(_vm._s(_vm.msgMarca))]
+                        )
+                      ])
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-card-text",
+                [
+                  _c(
+                    "v-layout",
+                    { attrs: { "justify-end": "" } },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { outline: "", color: "primary" },
+                          on: {
+                            click: function($event) {
+                              _vm.saveCategoriaMarcaDialog = false
+                            }
+                          }
+                        },
+                        [_vm._v("CANCELAR")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "primary" },
+                          on: {
+                            click: function($event) {
+                              return _vm.confirmSave()
+                            }
+                          }
+                        },
+                        [_vm._v("ACEPTAR")]
+                      )
+                    ],
+                    1
                   )
                 ],
                 1

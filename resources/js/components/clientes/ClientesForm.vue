@@ -159,7 +159,7 @@ export default {
                 required: value => !!value || "Este campo es obligatorio",
                 max: value =>
                     (value && value.length <= 190) ||
-                    "Este campo no puede contener mas de 11 digitos"
+                    "Este campo no puede contener mas de 190 digitos"
             }
         };
     },

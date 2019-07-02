@@ -24,17 +24,17 @@ class StoreArticulo extends FormRequest
     public function rules()
     {
         return [
-            'codprov' => 'nullable|unique:articulos|min:1|max:10',
+            'codprov' => 'nullable|unique:articulos|max:13',
             'codarticulo' => 'required|unique:articulos|min:13|max:13',
-            'articulo' => 'required|unique:articulos|min:1',
-            'descripcion' => 'required|min:1|max:190',
-            'medida' => 'required|min:1|max:190',
-            'costo' => 'required|min:1',
-            'utilidades' => 'required|min:1',
-            'precio' => 'required|min:1',
-            'alicuota' => 'required|min:1',
-            'marca_id' => 'required|min:1',
-            'categoria_id' => 'required|min:1',
+            'articulo' => 'required|unique:articulos',
+            'descripcion' => 'required|max:190',
+            'medida' => 'required',
+            'costo' => 'required',
+            'utilidades' => 'required',
+            'precio' => 'required',
+            'alicuota' => 'nullable',
+            'marca_id' => 'required',
+            'categoria_id' => 'required',
             'foto' => 'nullable'
         ];
     }

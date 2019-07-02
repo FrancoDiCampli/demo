@@ -21,13 +21,12 @@ class CategoriasController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate(['categoria' => 'required|unique:categorias|min:3|max:190']);
-
+        $data = $request->validate(['categoria' => 'required|unique:categorias|max:190']);
         $data['categoria'] = ucwords($data['categoria']);
 
         $categoria = Categoria::create($data);
 
-        return ['message' => 'guardado'];
+        return $categoria->id;
     }
 
     public function update(Request $request, $id)

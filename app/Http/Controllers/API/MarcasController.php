@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 
 class MarcasController extends Controller
 {
-    public function index (Request $request)
+    public function index(Request $request)
     {
         $marcas = Marca::orderBy('id', 'desc')
             ->buscar($request);
@@ -21,20 +21,20 @@ class MarcasController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate(['marca'=>'required|unique:marcas|min:1|max:190']);
+        $data = $request->validate(['marca' => 'required|unique:marcas|max:190']);
 
         $data['marca'] = ucwords($data['marca']);
 
         $marca = Marca::create($data);
 
-        return ['message' => 'guardado'];
+        return $marca->id;
     }
 
     public function update(Request $request, $id)
     {
         $marca = Marca::findOrFail($id);
 
-        $data = $request->validate(['marca'=>'required|min:1|max:190|unique:marcas,marca,'.$marca->id]);
+        $data = $request->validate(['marca' => 'required|min:1|max:190|unique:marcas,marca,' . $marca->id]);
 
         $data['marca'] = ucwords($data['marca']);
 

@@ -104,7 +104,7 @@ class ArticulosController extends Controller
         $category = strtoupper($cat);
         $arr[] = null;
         $arreglo = str_split($category);
-        $letras = $arreglo[0].$arreglo[1].$arreglo[2];
+        $letras = $arreglo[0] . $arreglo[1] . $arreglo[2];
         $codar = '';
         $id = 0;
 
@@ -164,8 +164,8 @@ class ArticulosController extends Controller
     }
 
 
-    public function show($id){
+    public function show($id)
+    {
         return $articulo = Articulo::find($id);
     }
-
 }

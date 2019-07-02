@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Articulo extends Model
 {
-    use SoftDeletes;
-    
+    // use SoftDeletes;
+
     protected $fillable = ['codprov','codarticulo',
     'articulo','descripcion','medida','costo',
     'utilidades','precio','alicuota','foto',
@@ -53,7 +53,7 @@ class Articulo extends Model
     public function scopeBuscar($query, $request)
     {
         $articulo = $request->get('buscarArticulo');
-        
+
         if(strlen($articulo)){
             return $query->where('codarticulo', 'LIKE', "$articulo%")
                         ->orWhere('articulo', 'LIKE', "$articulo%");

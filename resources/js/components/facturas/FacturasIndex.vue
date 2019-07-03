@@ -107,7 +107,7 @@ import axios from "axios";
 import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
-    name: "ClientesIndex",
+    name: "FacturasIndex",
 
     data() {
         return {

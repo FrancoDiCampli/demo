@@ -180,9 +180,10 @@ export default new Router({
         },
 
         {
-            path: "/clientes/show",
+            path: "/clientes/show/:id",
             name: "ver cliente",
             component: ClientesShow,
+            props: true,
             meta: {
                 permissions: allUsers
             }

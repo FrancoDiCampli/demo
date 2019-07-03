@@ -1,5 +1,8 @@
 <template>
     <div>
+        <v-btn dark fab fixed right bottom @click="$router.push('/facturas')" color="primary">
+            <v-icon>fas fa-chevron-left</v-icon>
+        </v-btn>
         <v-card>
             <FacturasForm></FacturasForm>
         </v-card>
@@ -10,7 +13,7 @@
 import FacturasForm from "../../components/facturas/FacturasForm.vue";
 
 export default {
-    name: "FacturaNew",
+    name: "FacturasCreate",
 
     components: {
         FacturasForm

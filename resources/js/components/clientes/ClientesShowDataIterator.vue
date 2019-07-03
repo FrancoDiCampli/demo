@@ -1,11 +1,11 @@
 <template>
     <v-container fluid grid-list-md>
-        <v-layout wrap>
-            <v-flex xs12 sm6>
+        <v-layout justify-space-around wrap>
+            <v-flex xs12 sm5>
                 <v-data-iterator :items="personalData" content-tag="v-layout" hide-actions row wrap>
                     <template v-slot:item="props">
                         <v-flex xs12>
-                            <v-card height="315">
+                            <v-card class="elevation-0">
                                 <v-card-title>
                                     <h4>{{ props.item.name }}</h4>
                                 </v-card-title>
@@ -41,11 +41,12 @@
                     </template>
                 </v-data-iterator>
             </v-flex>
-            <v-flex xs12 sm6>
+            <v-divider vertical></v-divider>
+            <v-flex xs12 sm5>
                 <v-data-iterator :items="contactData" content-tag="v-layout" hide-actions row wrap>
                     <template v-slot:item="props">
                         <v-flex xs12>
-                            <v-card height="315">
+                            <v-card class="elevation-0">
                                 <v-card-title>
                                     <h4>{{ props.item.name }}</h4>
                                 </v-card-title>

@@ -67,6 +67,8 @@ class ClientesController extends Controller
                     $cuentas[] = $fac->cuenta;
                 } else $cuentas = [];
             }
+        } else {
+            $cuentas = [];
         }
 
         if (count($cuentas) > 0) {

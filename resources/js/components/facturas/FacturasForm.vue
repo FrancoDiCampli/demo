@@ -154,7 +154,8 @@
                         <!-- Input Cantidad -->
                         <v-flex xs12 sm4 px-3>
                             <v-text-field
-                                v-model="form.cantidad"
+                                type="number"
+                                v-model="cantidad"
                                 :disabled="form.producto_id ? false : true"
                                 :rules="[rules.maxStock]"
                                 @keyup.enter="fillDetalles()"
@@ -179,7 +180,7 @@
                     <v-flex xs12 px-3>
                         <v-data-table :headers="detallesHeader" :items="detalles" hide-actions>
                             <template v-slot:items="detalle">
-                                <td>{{ detalle.item.articulo }}</td>
+                                <td>{{ detalle.item.producto }}</td>
                                 <td>
                                     <v-edit-dialog :return-value.sync="detalle.item.cantidad" lazy>
                                         {{ detalle.item.cantidad }}
@@ -215,67 +216,63 @@
             <br />
             <div>
                 <v-layout justify-space-around wrap>
-                    <v-flex xs12 sm5 mx-1>
+                    <v-flex xs12 sm6 px-3>
                         <v-layout justify-space-around wrap>
-                            <v-flex xs11>
+                            <v-flex xs12>
                                 <v-text-field
+                                    type="number"
                                     v-model="form.bonificacion"
                                     label="Bonificacion"
-                                    hint="Bonificacion"
                                     box
-                                    single-line
                                 ></v-text-field>
                             </v-flex>
-                            <v-flex xs11>
+                            <v-flex xs12>
                                 <v-text-field
+                                    type="number"
                                     v-model="form.recargo"
                                     label="Recargo"
-                                    hint="Recargo"
                                     box
-                                    single-line
                                 ></v-text-field>
                             </v-flex>
-                            <v-flex xs11>
+                            <v-flex xs12>
                                 <v-select
                                     v-model="tipo"
-                                    :items="types"
+                                    :items="tiposComprobantes"
                                     :rules="[rules.required]"
                                     label="Tipo Comprobante"
-                                    hint="Tipo Comprobante"
                                     box
-                                    single-line
                                 ></v-select>
                             </v-flex>
                         </v-layout>
                     </v-flex>
-                    <v-flex xs12 sm5 mx-1>
+                    <v-flex xs12 sm6 px-3>
                         <v-layout justify-space-around wrap>
-                            <v-flex xs11>
+                            <v-flex xs12>
                                 <v-text-field
                                     v-model="subtotalFactura"
                                     disabled
                                     :rules="[rules.required]"
                                     label="Subtotal"
-                                    hint="Subtotal"
                                     box
-                                    single-line
                                 ></v-text-field>
                             </v-flex>
-                            <v-flex xs11>
+                            <v-flex xs12>
                                 <v-text-field
                                     v-model="total"
                                     disabled
                                     :rules="[rules.required]"
                                     label="Total"
-                                    hint="Total"
                                     box
-                                    single-line
                                 ></v-text-field>
                             </v-flex>
-                            <v-flex xs11>
+                            <v-flex xs12>
                                 <v-layout justify-center>
                                     <v-btn @click="cancelFactura()" outline color="primary">Cancelar</v-btn>
-                                    <v-btn type="submit" color="primary">Guardar</v-btn>
+                                    <v-btn
+                                        :disabled="detalles.length > 0 ? false : true"
+                                        type="submit"
+                                        color="primary"
+                                    >Guardar</v-btn>
                                 </v-layout>
                             </v-flex>
                         </v-layout>
@@ -307,9 +304,9 @@ export default {
             condicion: "CONTADO",
 
             //_________________________Data Productos________________________//
+            cantidad: null,
             stock: 0,
             productos: [],
-            subtotalProdcuto: null,
             detalles: [],
             detallesHeader: [
                 { text: "Articulo", sortable: false },
@@ -319,11 +316,11 @@ export default {
                 { text: "", sortable: false }
             ],
 
-            //Data Resumen
-            types: ["REMITO X", "FACTURA C"],
+            //_________________________Data Resumen________________________//
+            tiposComprobantes: ["REMITO X", "FACTURA C"],
             tipo: "REMITO X",
 
-            //Data General
+            //_________________________Data General________________________//
             snackbar: false,
             snackbarText: "",
             rules: {
@@ -339,7 +336,19 @@ export default {
 
         //_________________________Computed Productos________________________//
 
-        //Computed Resumen
+        subtotalProdcuto: {
+            set() {},
+            get() {
+                if (this.cantidad) {
+                    let sub = this.cantidad * this.form.precio;
+                    return sub.toFixed(2);
+                } else {
+                    return null;
+                }
+            }
+        },
+
+        //_________________________Computed Resumen________________________//
         subtotalFactura: {
             set() {},
 
@@ -349,8 +358,8 @@ export default {
                     for (let i = 0; i < this.detalles.length; i++) {
                         sub += this.detalles[i].subtotal * 1;
                     }
-                    this.form.subtotal = sub;
-                    return sub;
+                    this.form.subtotal = sub.toFixed(2);
+                    return sub.toFixed(2);
                 } else {
                     this.form.subtotal = null;
                     return null;
@@ -381,8 +390,9 @@ export default {
                                 100;
                         }
                     }
-                    this.form.total = this.subtotalFactura - boni + reca;
-                    return this.subtotalFactura - boni + reca;
+                    let total = this.subtotalFactura - boni + reca;
+                    this.form.total = total.toFixed(2);
+                    return total.toFixed(2);
                 } else {
                     this.form.total = null;
                     return null;
@@ -397,17 +407,10 @@ export default {
         this.form.cliente = "CONSUMIDOR FINAL";
     },
 
-    updated() {
-        //_________________________Updated Productos________________________//
-        if (this.form.cantidad) {
-            console.log("algo");
-        }
-    },
-
     methods: {
         ...mapActions("crudx", ["index", "save"]),
 
-        ///_________________________Methods Clientes________________________//
+        //_________________________Methods Clientes________________________//
 
         // Buscar los Clientes
         findCliente: async function() {
@@ -456,7 +459,7 @@ export default {
         // Buscar Producto
         findProducto: async function() {
             // Reiniciar Cantidad y Precio
-            this.form.cantidad = null;
+            this.cantidad = null;
             this.form.precio = null;
             // Buscar Productos
             if (this.form.producto) {
@@ -486,14 +489,14 @@ export default {
 
         //LLenar Array de Detalles
         fillDetalles() {
-            if (this.form.articulo_id && this.form.cantidad) {
+            if (this.cantidad) {
                 // Crear un Nuevo Detalle
                 let detalle = {
-                    producto_id: this.form.producto_id,
+                    articulo_id: this.form.producto_id,
                     producto: this.form.producto,
-                    cantidad: this.form.cantidad,
+                    cantidad: this.cantidad,
                     precio: this.form.precio,
-                    subtotal: this.subtotal
+                    subtotal: this.subtotalProdcuto
                 };
 
                 // Añadir el Detalle al Array de Detalles
@@ -501,6 +504,7 @@ export default {
                 this.form.detalle = this.detalles;
 
                 // Reiniciar el Formulario de Detalles
+                this.form.producto_id = null;
                 this.$refs.formDetalles.reset();
                 this.stock = 0;
             }
@@ -508,7 +512,7 @@ export default {
 
         // Borrar un Detalle del Array
         removeDetalle(prodcuto) {
-            let index = this.details.indexOf(prodcuto);
+            let index = this.detalles.indexOf(prodcuto);
             this.detalles.splice(index, 1);
 
             this.form.detalle = this.detalles;
@@ -527,7 +531,7 @@ export default {
             this.form.detalle = this.detalles;
         },
 
-        //Metodos Generales
+        //_________________________Methods Generales________________________//
 
         //Guardar Factura
         saveFactura: async function() {
@@ -543,12 +547,12 @@ export default {
                 //Activar Snackbar
                 this.snackbar = true;
                 //Reset Formularios
-                this.details = [];
+                this.detalles = [];
                 await this.$refs.formDetalles.reset();
                 await this.$refs.formFactura.reset();
                 //Establecer Valores Predeterminados
                 this.form.cliente_id = 1;
-                this.client = "CONSUMIDOR FINAL";
+                this.cliente = "CONSUMIDOR FINAL";
                 this.condicion = "CONTADO";
                 this.tipo = "REMITO X";
             }
@@ -557,14 +561,12 @@ export default {
         //Resetear Factura
         cancelFactura: async function() {
             //Reset Formularios
-            this.details = [];
-            await this.$refs.formFindClient.reset();
-            await this.$refs.formFindArticle.reset();
+            this.detalles = [];
             await this.$refs.formDetalles.reset();
             await this.$refs.formFactura.reset();
             //Establecer Valores Predeterminados
             this.form.cliente_id = 1;
-            this.client = "CONSUMIDOR FINAL";
+            this.form.cliente = "CONSUMIDOR FINAL";
             this.condicion = "CONTADO";
             this.tipo = "REMITO X";
         }
@@ -573,6 +575,14 @@ export default {
 </script>
 
 <style>
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
 .data {
     font-size: 12px;
     line-height: 5px;

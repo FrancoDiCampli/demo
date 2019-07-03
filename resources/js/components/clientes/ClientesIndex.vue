@@ -1,6 +1,6 @@
 <template>
     <div>
-        <!-- Clientes Table -->
+        <!-- Tabla de Clientes -->
         <template>
             <v-data-table
                 hide-actions
@@ -14,7 +14,12 @@
                     <td>{{ cliente.item.razonsocial }}</td>
                     <td class="hidden-sm-and-down">{{ cliente.item.condicioniva }}</td>
                     <td>
-                        <v-btn @click="showCliente(cliente.item.id)" flat icon color="primary">
+                        <v-btn
+                            @click="$router.push('/clientes/show/' + cliente.item.id);"
+                            flat
+                            icon
+                            color="primary"
+                        >
                             <v-icon size="medium">fas fa-ellipsis-v</v-icon>
                         </v-btn>
                     </td>
@@ -30,15 +35,6 @@
                 >Cargar Más</v-btn>
             </v-layout>
         </template>
-
-        <!-- Clientes Show -->
-        <v-dialog v-model="showClientesDialog" width="750" persistent>
-            <v-card>
-                <v-card-text>
-                    <ClientesShow></ClientesShow>
-                </v-card-text>
-            </v-card>
-        </v-dialog>
     </div>
 </template>
 
@@ -70,7 +66,6 @@ export default {
     },
 
     computed: {
-        ...mapState(["showClientesDialog"]),
         ...mapState("crudx", ["data", "inProcess"])
     },
 
@@ -79,7 +74,6 @@ export default {
     },
 
     methods: {
-        ...mapMutations(["ClientesDialog"]),
         ...mapActions("crudx", ["index", "show"]),
 
         loadMore: async function() {
@@ -87,11 +81,6 @@ export default {
             this.loadingButton = true;
             await this.index({ url: "api/clientes", limit: this.limit });
             this.loadingButton = false;
-        },
-
-        showCliente: async function(id) {
-            let show = await this.show({ url: "api/clientes/" + id });
-            this.ClientesDialog();
         }
     }
 };

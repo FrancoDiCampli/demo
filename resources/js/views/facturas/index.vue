@@ -41,14 +41,11 @@
 </template>
 
 <script>
-// Vuex
-import { mapState, mapActions } from "vuex";
-
 // Components
 import FacturasIndex from "../../components/facturas/FacturasIndex.vue";
 
 export default {
-    name: "Factura",
+    name: "Facturas",
 
     data() {
         return {

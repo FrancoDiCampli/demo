@@ -7,8 +7,8 @@
                 </v-layout>
             </div>
         </template>
-        <v-layout wrap justify-space-around>
-            <v-flex xs12 sm5>
+        <v-layout justify-space-around wrap>
+            <v-flex xs12 sm6 px-3>
                 <Error tag="documentounico"></Error>
                 <v-text-field
                     :disabled="process"
@@ -16,14 +16,13 @@
                     :rules="[rules.required]"
                     @keyup="findCliente()"
                     type="number"
-                    class="input-number"
                     label="Documento"
                     hint="Documento"
                     box
                     single-line
                 ></v-text-field>
             </v-flex>
-            <v-flex xs12 sm5>
+            <v-flex xs12 sm6 px-3>
                 <Error tag="condicioniva"></Error>
                 <v-select
                     :disabled="process"
@@ -36,9 +35,7 @@
                     box
                 ></v-select>
             </v-flex>
-        </v-layout>
-        <v-layout wrap justify-space-around>
-            <v-flex xs12 sm5>
+            <v-flex xs12 sm6 px-3>
                 <Error tag="razonsocial"></Error>
                 <v-text-field
                     :disabled="process"
@@ -51,7 +48,7 @@
                     single-line
                 ></v-text-field>
             </v-flex>
-            <v-flex xs12 sm5>
+            <v-flex xs12 sm6 px-3>
                 <Error tag="telefono"></Error>
                 <v-text-field
                     :disabled="process"
@@ -64,9 +61,7 @@
                     single-line
                 ></v-text-field>
             </v-flex>
-        </v-layout>
-        <v-layout justify-center>
-            <v-flex xs12 sm11>
+            <v-flex xs12 px-3>
                 <Error tag="email"></Error>
                 <v-text-field
                     :disabled="process"
@@ -77,9 +72,7 @@
                     single-line
                 ></v-text-field>
             </v-flex>
-        </v-layout>
-        <v-layout justify-center>
-            <v-flex xs12 sm11>
+            <v-flex xs12 px-3>
                 <Error tag="direccion"></Error>
                 <v-text-field
                     :disabled="process"
@@ -92,9 +85,7 @@
                     single-line
                 ></v-text-field>
             </v-flex>
-        </v-layout>
-        <v-layout wrap justify-space-around>
-            <v-flex xs12 sm3>
+            <v-flex xs12 sm4 px-3>
                 <Error tag="provincia"></Error>
                 <v-text-field
                     :disabled="process"
@@ -107,7 +98,7 @@
                     single-line
                 ></v-text-field>
             </v-flex>
-            <v-flex xs12 sm3>
+            <v-flex xs12 sm4 px-3>
                 <Error tag="localidad"></Error>
                 <v-text-field
                     :disabled="process"
@@ -120,7 +111,7 @@
                     single-line
                 ></v-text-field>
             </v-flex>
-            <v-flex xs12 sm3>
+            <v-flex xs12 sm4 px-3>
                 <Error tag="codigopostal"></Error>
                 <v-text-field
                     :disabled="process"
@@ -271,11 +262,11 @@ export default {
 </script>
 
 <style>
-.input-number input[type="number"] {
+input[type="number"] {
     -moz-appearance: textfield;
 }
-.input-number input::-webkit-outer-spin-button,
-.input-number input::-webkit-inner-spin-button {
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
 

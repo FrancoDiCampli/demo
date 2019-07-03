@@ -255,7 +255,11 @@ export default {
             drawer: true,
             drawerMobile: false,
             sellerItems: [
-                { title: "Ventas", icon: "fas fa-dollar-sign", url: "/ventas" },
+                {
+                    title: "Ventas",
+                    icon: "fas fa-dollar-sign",
+                    url: "/facturas"
+                },
                 { title: "Clientes", icon: "fas fa-users", url: "/clientes" },
                 {
                     title: "Productos",

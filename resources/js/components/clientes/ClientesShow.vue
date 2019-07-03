@@ -1,5 +1,5 @@
 <template>
-    <div v-if="showData.cliente">
+    <div>
         <v-layout justify-center wrap v-show="mode != 'edit'">
             <v-menu>
                 <template v-slot:activator="{ on }">
@@ -14,10 +14,6 @@
                     <v-list-tile @click="mode = 'delete'">
                         <v-list-tile-title>Eliminar</v-list-tile-title>
                     </v-list-tile>
-                    <v-divider></v-divider>
-                    <v-list-tile @click="ClientesDialog()">
-                        <v-list-tile-title>Cerrar</v-list-tile-title>
-                    </v-list-tile>
                 </v-list>
             </v-menu>
             <v-flex xs12>
@@ -28,14 +24,14 @@
                 </v-layout>
             </v-flex>
             <v-flex xs12>
-                <br>
+                <br />
                 <h1 class="text-xs-center primary--text">{{ showData.cliente.razonsocial }}</h1>
             </v-flex>
             <v-flex xs12>
                 <h3 class="text-xs-center primary--text">{{ showData.cliente.documentounico }}</h3>
             </v-flex>
         </v-layout>
-        <br>
+        <br />
         <template>
             <div v-if="mode == 'show'">
                 <v-tabs fixed-tabs grow slider-color="primary" active-class="primary--text">
@@ -46,10 +42,26 @@
                         <DataIterator></DataIterator>
                     </v-tab-item>
                     <v-tab-item>
-                        <FacturasTable></FacturasTable>
+                        <div v-if="showData.facturas.length > 0">
+                            <FacturasTable></FacturasTable>
+                        </div>
+                        <div v-else>
+                            <br />
+                            <h2
+                                class="text-xs-center"
+                            >El cliente no ha realizado ninguna compra aun.</h2>
+                        </div>
                     </v-tab-item>
                     <v-tab-item>
-                        <CuentaTable></CuentaTable>
+                        <div v-if="showData.cuentas.length > 0">
+                            <CuentaTable></CuentaTable>
+                        </div>
+                        <div v-else>
+                            <br />
+                            <h2
+                                class="text-xs-center"
+                            >El cliente no tiene cuentas corrientes en su haber.</h2>
+                        </div>
                     </v-tab-item>
                 </v-tabs>
             </div>
@@ -65,12 +77,12 @@
             <div v-else-if="mode == 'delete'">
                 <v-alert :value="true" color="error">
                     <h2 class="text-xs-center">¿Estas Seguro?</h2>
-                    <br>
+                    <br />
                     <v-divider dark></v-divider>
-                    <br>
+                    <br />
                     <p class="text-xs-center">¿Realmente deseas eliminar este Cliente?</p>
                     <p class="text-xs-center">Este Cambio es Irreversible</p>
-                    <br>
+                    <br />
                     <v-layout justify-center>
                         <v-btn
                             @click="mode = 'show'"
@@ -131,7 +143,6 @@ export default {
     },
 
     methods: {
-        ...mapMutations(["ClientesDialog"]),
         ...mapActions("crudx", ["index", "show", "edit", "update", "destroy"]),
 
         editCliente: async function() {
@@ -142,21 +153,21 @@ export default {
         updateCliente: async function() {
             if (this.$refs.clientesEditForm.validate()) {
                 let id = this.form.id;
-                await this.update({ url: "api/clientes/" + id });
+                await this.update({ url: "/api/clientes/" + id });
                 this.$refs.clientesEditForm.reset();
-                await this.show({ url: "api/clientes/" + id });
+                await this.show({ url: "/api/clientes/" + id });
                 this.mode = "show";
-                this.index({ url: "api/clientes" });
+                this.index({ url: "/api/clientes" });
             }
         },
 
         deleteCliente: async function() {
             await this.destroy({
-                url: "api/clientes/" + this.showData.cliente.id
+                url: "/api/clientes/" + this.showData.cliente.id
             });
-            await this.index({ url: "api/clientes" });
+            await this.index({ url: "/api/clientes" });
             this.mode = "show";
-            this.ClientesDialog();
+            this.$router.push("/clientes");
         }
     }
 };

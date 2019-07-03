@@ -1,6 +1,6 @@
 <template>
     <div>
-        <!-- Facturas Table -->
+        <!-- Tabla de Facturas -->
         <template>
             <v-data-table
                 hide-actions
@@ -29,6 +29,7 @@
                     <td class="hidden-sm-and-down">{{ factura.item.cuit }}</td>
                     <td>{{ factura.item.total }}</td>
                     <td class="hidden-xs-only">{{ factura.item.fecha }}</td>
+                    <!-- menu acciones de facturas -->
                     <td>
                         <v-menu>
                             <template v-slot:activator="{ on }">
@@ -37,15 +38,18 @@
                                 </v-btn>
                             </template>
                             <v-list>
+                                <!-- imprimir factura -->
                                 <v-list-tile>
                                     <v-list-tile-title>Imprimir</v-list-tile-title>
                                 </v-list-tile>
+                                <!-- grabar factura en afip solo si es X -->
                                 <v-list-tile
                                     v-show="factura.item.cae == null"
                                     @click="factura_id = factura.item.id; grabarFacturasDialog = true;"
                                 >
                                     <v-list-tile-title>Grabar</v-list-tile-title>
                                 </v-list-tile>
+                                <!-- anular factura solo si es X -->
                                 <v-list-tile v-show="factura.item.cae == null">
                                     <v-list-tile-title>Anular</v-list-tile-title>
                                 </v-list-tile>
@@ -64,7 +68,7 @@
                 >Cargar Más</v-btn>
             </v-layout>
 
-            <!-- Dialog Grabar -->
+            <!-- modal grabar factura -->
             <v-dialog v-model="grabarFacturasDialog" width="750" persistent>
                 <v-card>
                     <v-card-title>
@@ -103,7 +107,7 @@ import axios from "axios";
 import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
-    name: "ClientesIndex",
+    name: "FacturasIndex",
 
     data() {
         return {

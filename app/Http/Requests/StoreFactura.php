@@ -24,20 +24,20 @@ class StoreFactura extends FormRequest
     public function rules()
     {
         return [
-            'ptoventa' => 'required|min:1',
-            'numfactura' => 'required|min:1',
-            'cuit' => 'nullable|min:1',
-            'fecha' => 'required|min:1',
-            'bonificacion' => 0,
+            'ptoventa' => 'required',
+            'numfactura' => 'required',
+            'cuit' => 'nullable',
+            'fecha' => 'required',
+            // 'bonificacion' => 0,
             // 'recargo' => 'required|min:1',
-            // 'subtotal' => 'required|min:1',
-            // 'total' => 'required|min:1',
-            'comprobanteafip' => 'nullable|min:1',
-            'cae' => 'nullable|min:1',
-            'fechavto' => 'nullable|min:1',
-            'codbarra' => 'nullable|min:1',
-            'cliente_id' => 'required|min:1',
-            'user_id' => 'required|min:1'
+            'subtotal' => 'required',
+            'total' => 'required',
+            'comprobanteafip' => 'nullable',
+            'cae' => 'nullable',
+            'fechavto' => 'nullable',
+            'codbarra' => 'nullable',
+            'cliente_id' => 'required',
+            'user_id' => 'required'
         ];
     }
 }

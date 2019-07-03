@@ -19,7 +19,7 @@
                     </v-layout>
                 </v-card-title>
                 <v-divider></v-divider>
-                <br>
+                <br />
 
                 <!-- Snackbar -->
                 <v-snackbar color="primary" v-model="snackbar" :timeout="6000" right top>
@@ -34,33 +34,33 @@
             <div>
                 <!-- Formulario -->
                 <v-layout justify-space-around wrap>
-                    <v-flex xs11 sm5>
+                    <v-flex xs12 sm6 px-3>
                         <!-- Input Clientes -->
-                        <v-form ref="formFindClient">
-                            <v-text-field
-                                @keyup="findClient()"
-                                v-model="client"
-                                :rules="[rules.required]"
-                                label="Cliente"
-                                box
-                                single-line
-                            ></v-text-field>
-                        </v-form>
+                        <v-text-field
+                            @keyup="findCliente()"
+                            v-model="form.cliente"
+                            :rules="[rules.required]"
+                            label="Cliente"
+                            box
+                        ></v-text-field>
 
                         <!-- Tabla Clientes -->
                         <transition name="expand">
                             <v-data-table
-                                v-show="client != null && client != '' && customers.length > 0"
+                                v-show="form.cliente && clientes.length > 0"
                                 no-data-text="El cliente no se encuentra en la base de datos."
                                 hide-actions
                                 hide-headers
-                                :items="customers"
+                                :items="clientes"
                                 class="search-table"
                             >
-                                <template v-slot:items="client">
-                                    <tr @click="selectClient(client.item)" style="cursor: pointer;">
-                                        <td>{{ client.item.documentounico }}</td>
-                                        <td>{{ client.item.razonsocial }}</td>
+                                <template v-slot:items="cliente">
+                                    <tr
+                                        @click="selectCliente(cliente.item)"
+                                        style="cursor: pointer;"
+                                    >
+                                        <td>{{ cliente.item.documentounico }}</td>
+                                        <td>{{ cliente.item.razonsocial }}</td>
                                     </tr>
                                 </template>
                             </v-data-table>
@@ -68,21 +68,19 @@
                     </v-flex>
 
                     <!-- Input Condición de Venta -->
-                    <v-flex xs11 sm5>
+                    <v-flex xs12 sm6 px-3>
                         <v-select
                             v-model="condicion"
-                            :items="terms"
+                            :items="condiciones"
                             :rules="[rules.required]"
                             label="Condición"
-                            hint="Condición"
                             box
-                            single-line
                         ></v-select>
                     </v-flex>
                 </v-layout>
                 <!-- Detalles Clientes -->
-                <v-layout v-if="detailClient.cliente" justify-space-around>
-                    <v-flex xs11>
+                <v-layout v-if="detallesCliente.cliente" justify-space-around>
+                    <v-flex xs12 px-3>
                         <template>
                             <v-expansion-panel class="elevation-0 expansion-border">
                                 <v-expansion-panel-content>
@@ -92,135 +90,115 @@
                                     <v-card-text>
                                         <p>
                                             <b>CUIT:</b>
-                                            {{detailClient.cliente.documentounico}}
+                                            {{ detallesCliente.cliente.documentounico }}
                                         </p>
                                         <p>
                                             <b>Razón Social:</b>
-                                            {{detailClient.cliente.razonsocial}}
+                                            {{ detallesCliente.cliente.razonsocial }}
                                         </p>
                                         <p>
                                             <b>Condición Frente al IVA:</b>
-                                            {{detailClient.cliente.condicioniva}}
+                                            {{ detallesCliente.cliente.condicioniva }}
                                         </p>
                                         <p>
                                             <b>Domicilio:</b>
-                                            {{detailClient.cliente.direccion}}
+                                            {{ detallesCliente.cliente.direccion }}
                                         </p>
                                     </v-card-text>
                                 </v-expansion-panel-content>
                             </v-expansion-panel>
                         </template>
-                        <br>
+                        <br />
                     </v-flex>
                 </v-layout>
             </div>
             <!---------------------->
-            <!-- Facturas Arituclos -->
+            <!-- Facturas Productos -->
             <div>
                 <!-- Formulario -->
                 <v-form ref="formDetalles">
                     <v-layout justify-space-around wrap>
-                        <v-flex xs11>
-                            <!-- Input Buscar Articulos -->
-                            <v-form ref="formFindArticle">
-                                <v-text-field
-                                    @keyup="findArticle()"
-                                    autofocus
-                                    v-model="article"
-                                    :rules="[rules.required]"
-                                    label="Articulo"
-                                    box
-                                    single-line
-                                ></v-text-field>
-                            </v-form>
+                        <v-flex xs12 px-3>
+                            <!-- Input Buscar Productos -->
+                            <v-text-field
+                                @keyup="findProducto()"
+                                autofocus
+                                v-model="form.producto"
+                                label="Producto"
+                                box
+                            ></v-text-field>
 
-                            <!-- Tabla Buscar Articulos -->
+                            <!-- Tabla Buscar Productos -->
                             <transition>
                                 <v-data-table
-                                    v-show="article != null && article != '' && products.length > 0"
+                                    v-show="form.producto && productos.length > 0"
                                     no-data-text="El producto no se encuentra en la base de datos."
                                     hide-actions
                                     hide-headers
-                                    :items="products"
+                                    :items="productos"
                                     class="search-table"
                                 >
-                                    <template v-slot:items="article">
+                                    <template v-slot:items="producto">
                                         <tr
-                                            @click="selectArticle(article.item)"
+                                            @click="selectProducto(producto.item)"
                                             style="cursor: pointer;"
                                         >
-                                            <td>{{ article.item.codarticulo }}</td>
-                                            <td>{{ article.item.articulo }}</td>
-                                            <td>{{ article.item.precio }}</td>
+                                            <td>{{ producto.item.codarticulo }}</td>
+                                            <td>{{ producto.item.articulo }}</td>
+                                            <td>{{ producto.item.precio }}</td>
                                         </tr>
                                     </template>
                                 </v-data-table>
                             </transition>
                         </v-flex>
-
                         <!-- Input Cantidad -->
-                        <v-flex xs11 sm3 mx-1>
+                        <v-flex xs12 sm4 px-3>
                             <v-text-field
-                                v-model="quantity"
-                                :disabled="article == null || article == '' ? true : false"
-                                :rules="[rules.required, rules.maxStock]"
-                                @keyup.enter="fillDetails()"
+                                type="number"
+                                v-model="cantidad"
+                                :disabled="form.producto_id ? false : true"
+                                :rules="[rules.maxStock]"
+                                @keyup.enter="fillDetalles()"
                                 label="Cantidad"
-                                hint="Cantidad"
                                 box
-                                single-line
                             ></v-text-field>
                         </v-flex>
 
                         <!-- Input Precio -->
-                        <v-flex xs11 sm3 mx-1>
-                            <v-text-field
-                                v-model="price"
-                                :rules="[rules.required]"
-                                label="Precio"
-                                disabled
-                                box
-                                single-line
-                            ></v-text-field>
+                        <v-flex xs12 sm4 px-3>
+                            <v-text-field v-model="form.precio" label="Precio" disabled box></v-text-field>
                         </v-flex>
 
                         <!-- Input Subtotal -->
-                        <v-flex xs11 sm3 mx-1>
-                            <v-text-field
-                                v-model="subtotal"
-                                :rules="[rules.required]"
-                                label="Subtotal"
-                                disabled
-                                box
-                                single-line
-                            ></v-text-field>
+                        <v-flex xs12 sm4 px-3>
+                            <v-text-field v-model="subtotalProdcuto" label="Subtotal" disabled box></v-text-field>
                         </v-flex>
                     </v-layout>
                 </v-form>
                 <!-- Tabla Detalles -->
                 <v-layout justify-space-around>
-                    <v-flex xs11>
-                        <v-data-table :headers="detailsHeader" :items="details" hide-actions>
-                            <template v-slot:items="detail">
-                                <td>{{ detail.item.articulo }}</td>
+                    <v-flex xs12 px-3>
+                        <v-data-table :headers="detallesHeader" :items="detalles" hide-actions>
+                            <template v-slot:items="detalle">
+                                <td>{{ detalle.item.producto }}</td>
                                 <td>
-                                    <v-edit-dialog :return-value.sync="detail.item.cantidad" lazy>
-                                        {{ detail.item.cantidad }}
+                                    <v-edit-dialog :return-value.sync="detalle.item.cantidad" lazy>
+                                        {{ detalle.item.cantidad }}
                                         <template v-slot:input>
                                             <v-text-field
-                                                v-model="detail.item.cantidad"
+                                                v-model="detalle.item.cantidad"
                                                 label="Cantidad"
                                                 single-line
-                                                @keyup="updateDetails()"
+                                                @keyup="updateDetalle()"
                                             ></v-text-field>
                                         </template>
                                     </v-edit-dialog>
                                 </td>
-                                <td class="hidden-xs-only">{{ detail.item.precio }}</td>
-                                <td>{{ detail.item.subtotal }}</td>
+                                <td class="hidden-xs-only">{{ detalle.item.precio }}</td>
+                                <td>{{ detalle.item.subtotal }}</td>
                                 <td>
                                     <v-btn
-                                        @click="removeDetail(detail.item)"
+                                        @click="removeDetalle(detalle.item)"
                                         flat
                                         icon
                                         color="primary"
@@ -235,76 +213,72 @@
             </div>
             <!---------------------->
             <!-- Facturas Resumen -->
-            <br>
+            <br />
             <div>
                 <v-layout justify-space-around wrap>
-                    <v-flex xs12 sm5 mx-1>
+                    <v-flex xs12 sm6 px-3>
                         <v-layout justify-space-around wrap>
-                            <v-flex xs11>
+                            <v-flex xs12>
                                 <v-text-field
+                                    type="number"
                                     v-model="form.bonificacion"
                                     label="Bonificacion"
-                                    hint="Bonificacion"
                                     box
-                                    single-line
                                 ></v-text-field>
                             </v-flex>
-                            <v-flex xs11>
+                            <v-flex xs12>
                                 <v-text-field
+                                    type="number"
                                     v-model="form.recargo"
                                     label="Recargo"
-                                    hint="Recargo"
                                     box
-                                    single-line
                                 ></v-text-field>
                             </v-flex>
-                            <v-flex xs11>
+                            <v-flex xs12>
                                 <v-select
                                     v-model="tipo"
-                                    :items="types"
+                                    :items="tiposComprobantes"
                                     :rules="[rules.required]"
                                     label="Tipo Comprobante"
-                                    hint="Tipo Comprobante"
                                     box
-                                    single-line
                                 ></v-select>
                             </v-flex>
                         </v-layout>
                     </v-flex>
-                    <v-flex xs12 sm5 mx-1>
+                    <v-flex xs12 sm6 px-3>
                         <v-layout justify-space-around wrap>
-                            <v-flex xs11>
+                            <v-flex xs12>
                                 <v-text-field
                                     v-model="subtotalFactura"
                                     disabled
                                     :rules="[rules.required]"
                                     label="Subtotal"
-                                    hint="Subtotal"
                                     box
-                                    single-line
                                 ></v-text-field>
                             </v-flex>
-                            <v-flex xs11>
+                            <v-flex xs12>
                                 <v-text-field
                                     v-model="total"
                                     disabled
                                     :rules="[rules.required]"
                                     label="Total"
-                                    hint="Total"
                                     box
-                                    single-line
                                 ></v-text-field>
                             </v-flex>
-                            <v-flex xs11>
+                            <v-flex xs12>
                                 <v-layout justify-center>
                                     <v-btn @click="cancelFactura()" outline color="primary">Cancelar</v-btn>
-                                    <v-btn type="submit" color="primary">Guardar</v-btn>
+                                    <v-btn
+                                        :disabled="detalles.length > 0 ? false : true"
+                                        type="submit"
+                                        color="primary"
+                                    >Guardar</v-btn>
                                 </v-layout>
                             </v-flex>
                         </v-layout>
                     </v-flex>
                 </v-layout>
-                <br>
+                <br />
             </div>
             <!---------------------->
         </v-form>
@@ -323,22 +297,18 @@ export default {
 
     data() {
         return {
-            //Data Clientes
-            client: "CONSUMIDOR FINAL",
-            detailClient: [],
-            customers: [],
-            terms: ["CONTADO", "CREDITO / DEBITO", "CUENTA CORRIENTE"],
+            //_________________________Data Clientes________________________//
+            detallesCliente: [],
+            clientes: [],
+            condiciones: ["CONTADO", "CREDITO / DEBITO", "CUENTA CORRIENTE"],
             condicion: "CONTADO",
 
-            //Data Articulos
-            article: null,
-            article_id: null,
-            quantity: null,
-            price: null,
+            //_________________________Data Productos________________________//
+            cantidad: null,
             stock: 0,
-            products: [],
-            details: [],
-            detailsHeader: [
+            productos: [],
+            detalles: [],
+            detallesHeader: [
                 { text: "Articulo", sortable: false },
                 { text: "Cantidad", sortable: false },
                 { text: "Precio", sortable: false, class: "hidden-xs-only" },
@@ -346,11 +316,11 @@ export default {
                 { text: "", sortable: false }
             ],
 
-            //Data Resumen
-            types: ["REMITO X", "FACTURA C"],
+            //_________________________Data Resumen________________________//
+            tiposComprobantes: ["REMITO X", "FACTURA C"],
             tipo: "REMITO X",
 
-            //Data General
+            //_________________________Data General________________________//
             snackbar: false,
             snackbarText: "",
             rules: {
@@ -364,36 +334,32 @@ export default {
     computed: {
         ...mapState("crudx", ["form"]),
 
-        //Computed Articulos
-        subtotal: {
-            set() {},
+        //_________________________Computed Productos________________________//
 
+        subtotalProdcuto: {
+            set() {},
             get() {
-                if (
-                    this.quantity != null &&
-                    this.quantity != "" &&
-                    this.price != null &&
-                    this.price != ""
-                ) {
-                    return this.price * this.quantity;
+                if (this.cantidad) {
+                    let sub = this.cantidad * this.form.precio;
+                    return sub.toFixed(2);
                 } else {
                     return null;
                 }
             }
         },
 
-        //Computed Resumen
+        //_________________________Computed Resumen________________________//
         subtotalFactura: {
             set() {},
 
             get() {
-                if (this.details.length > 0) {
+                if (this.detalles.length > 0) {
                     let sub = 0;
-                    for (let i = 0; i < this.details.length; i++) {
-                        sub += this.details[i].subtotal * 1;
+                    for (let i = 0; i < this.detalles.length; i++) {
+                        sub += this.detalles[i].subtotal * 1;
                     }
-                    this.form.subtotal = sub;
-                    return sub;
+                    this.form.subtotal = sub.toFixed(2);
+                    return sub.toFixed(2);
                 } else {
                     this.form.subtotal = null;
                     return null;
@@ -424,8 +390,9 @@ export default {
                                 100;
                         }
                     }
-                    this.form.total = this.subtotalFactura - boni + reca;
-                    return this.subtotalFactura - boni + reca;
+                    let total = this.subtotalFactura - boni + reca;
+                    this.form.total = total.toFixed(2);
+                    return total.toFixed(2);
                 } else {
                     this.form.total = null;
                     return null;
@@ -435,123 +402,136 @@ export default {
     },
 
     mounted() {
-        //Mounted Clientes
+        //_________________________Mounted Clientes________________________//
         this.form.cliente_id = 1;
+        this.form.cliente = "CONSUMIDOR FINAL";
     },
 
     methods: {
         ...mapActions("crudx", ["index", "save"]),
 
-        //Metodos Clientes
+        //_________________________Methods Clientes________________________//
 
-        // Buscar los clientes
-        findClient: async function() {
+        // Buscar los Clientes
+        findCliente: async function() {
             this.detailClient = [];
-            if (this.client == "0") {
-                this.customers = [];
-                this.detailClient = [];
-                this.client = "CONSUMIDOR FINAL";
+            if (this.form.cliente == "0") {
+                // Establecer Cliente Como Consumidor Final
+                this.clientes = [];
+                this.detallesCliente = [];
                 this.form.cliente_id = 1;
-            } else if (this.$refs.formFindClient.validate()) {
+                this.form.cliente = "CONSUMIDOR FINAL";
+            } else if (this.form.cliente) {
+                // Buscar Cliente
                 let response = await this.index({
                     url: "/api/clientes",
-                    buscarCliente: this.client,
+                    buscarCliente: this.form.cliente,
                     limit: 5
                 });
 
-                this.customers = response.clientes;
+                this.clientes = response.clientes;
             }
         },
 
         // Seleccionar un Cliente
-        selectClient(client) {
-            this.customers = [];
-            this.detailClient = [];
-            this.client = client.razonsocial;
-            this.form.cliente_id = client.id;
+        selectCliente(cliente) {
+            // Reiniciar la Tabla de Clientes y el Detalles
+            this.clientes = [];
+            this.detallesCliente = [];
 
+            // Establecer la Razon Social y el Id del Cliente en el Formulario
+            this.form.cliente = cliente.razonsocial;
+            this.form.cliente_id = cliente.id;
+
+            // Establecer el Detalle de Clientes
             axios
-                .get("/api/clientes/" + client.id)
+                .get("/api/clientes/" + cliente.id)
                 .then(response => {
-                    this.detailClient = response.data;
+                    this.detallesCliente = response.data;
                 })
                 .catch(error => {
                     console.log(error);
                 });
         },
 
-        //Metodos Articulos
+        //_________________________Methods Productos________________________//
 
-        //Buscar Articulo
-        findArticle: async function() {
-            this.$refs.formDetalles.resetValidation();
-            this.quantity = null;
-            this.price = null;
-            if (this.$refs.formFindArticle.validate()) {
+        // Buscar Producto
+        findProducto: async function() {
+            // Reiniciar Cantidad y Precio
+            this.cantidad = null;
+            this.form.precio = null;
+            // Buscar Productos
+            if (this.form.producto) {
                 let response = await this.index({
                     url: "/api/articulos",
-                    buscarArticulo: this.article,
+                    buscarArticulo: this.form.producto,
                     limit: 5
                 });
 
-                this.products = response.articulos;
+                this.productos = response.articulos;
             }
         },
 
-        //Seleccionar Articulo
-        selectArticle(article) {
-            this.products = [];
-            this.article_id = article.id;
-            this.article = article.articulo;
-            this.price = article.precio;
-            if (article.stock.length > 0) {
-                this.stock = article.stock[0].total * 1;
+        // Seleccionar Producto
+        selectProducto(producto) {
+            // Reiniciar la tabla de productos
+            this.productos = [];
+            this.form.producto_id = producto.id;
+            this.form.producto = producto.articulo;
+            this.form.precio = producto.precio;
+            if (producto.stock.length > 0) {
+                this.stock = producto.stock[0].total * 1;
             } else {
                 this.stock = 0;
             }
         },
 
         //LLenar Array de Detalles
-        fillDetails() {
-            if (this.$refs.formDetalles.validate()) {
-                let detail = {
-                    articulo_id: this.article_id,
-                    articulo: this.article,
-                    cantidad: this.quantity,
-                    precio: this.price,
-                    subtotal: this.subtotal
+        fillDetalles() {
+            if (this.cantidad) {
+                // Crear un Nuevo Detalle
+                let detalle = {
+                    articulo_id: this.form.producto_id,
+                    producto: this.form.producto,
+                    cantidad: this.cantidad,
+                    precio: this.form.precio,
+                    subtotal: this.subtotalProdcuto
                 };
 
-                this.details.push(detail);
-                this.form.detalle = this.details;
+                // Añadir el Detalle al Array de Detalles
+                this.detalles.push(detalle);
+                this.form.detalle = this.detalles;
 
+                // Reiniciar el Formulario de Detalles
+                this.form.producto_id = null;
                 this.$refs.formDetalles.reset();
                 this.stock = 0;
             }
         },
 
-        //Borrar un Detalle del Array
-        removeDetail(detail) {
-            let index = this.details.indexOf(detail);
-            this.details.splice(index, 1);
+        // Borrar un Detalle del Array
+        removeDetalle(prodcuto) {
+            let index = this.detalles.indexOf(prodcuto);
+            this.detalles.splice(index, 1);
 
-            this.form.detalle = this.details;
+            this.form.detalle = this.detalles;
         },
 
         //Actualizar cantidad y subtotal de un detalle
-        updateDetails() {
-            this.details.forEach(function(detail) {
-                if (detail.cantidad.length > 0) {
-                    detail.subtotal = detail.cantidad * detail.precio;
+        updateDetalle() {
+            this.detalles.forEach(function(detalle) {
+                if (detalle.cantidad.length > 0) {
+                    detalle.subtotal = detalle.cantidad * detalle.precio;
                 } else {
-                    detail.subtotal = 0;
+                    detalle.subtotal = 0;
                 }
             });
 
-            this.form.detalle = this.details;
+            this.form.detalle = this.detalles;
         },
 
-        //Metodos Generales
+        //_________________________Methods Generales________________________//
 
         //Guardar Factura
         saveFactura: async function() {
@@ -567,12 +547,12 @@ export default {
                 //Activar Snackbar
                 this.snackbar = true;
                 //Reset Formularios
-                this.details = [];
+                this.detalles = [];
                 await this.$refs.formDetalles.reset();
                 await this.$refs.formFactura.reset();
                 //Establecer Valores Predeterminados
                 this.form.cliente_id = 1;
-                this.client = "CONSUMIDOR FINAL";
+                this.cliente = "CONSUMIDOR FINAL";
                 this.condicion = "CONTADO";
                 this.tipo = "REMITO X";
             }
@@ -581,14 +561,12 @@ export default {
         //Resetear Factura
         cancelFactura: async function() {
             //Reset Formularios
-            this.details = [];
-            await this.$refs.formFindClient.reset();
-            await this.$refs.formFindArticle.reset();
+            this.detalles = [];
             await this.$refs.formDetalles.reset();
             await this.$refs.formFactura.reset();
             //Establecer Valores Predeterminados
             this.form.cliente_id = 1;
-            this.client = "CONSUMIDOR FINAL";
+            this.form.cliente = "CONSUMIDOR FINAL";
             this.condicion = "CONTADO";
             this.tipo = "REMITO X";
         }
@@ -597,6 +575,14 @@ export default {
 </script>
 
 <style>
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
 .data {
     font-size: 12px;
     line-height: 5px;

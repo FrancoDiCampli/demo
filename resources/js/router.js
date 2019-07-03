@@ -3,33 +3,129 @@ import Router from "vue-router";
 import Home from "./views/Home.vue";
 import NotFound from "./views/NotFound.vue";
 
-//Auth Views
-import Login from "./auth/views/Login.vue";
-import Account from "./auth/views/Account.vue";
+//_______________________VIEWS_______________________//
 
-//Roles Views
-import Roles from "./auth/views/Roles.vue";
+// Facturas Views
+import FacturasIndex from "./views/facturas/index.vue";
+import FacturasCreate from "./views/facturas/create.vue";
 
-//Users Views
-import Users from "./auth/views/Users.vue";
+// Clientes Views
+import ClientesIndex from "./views/clientes/index.vue";
+import ClientesShow from "./views/clientes/show.vue";
+import ClientesCreate from "./views/clientes/create.vue";
 
-//Clientes Views
-import Cliente from "./views/Cliente.vue";
-
-//Facturas Views
-import Factura from "./views/Factura.vue";
-import FacturaNew from "./views/FacturaNew.vue";
-
-//Productos Views
-import Producto from "./views/Producto.vue";
-import ProductoNew from "./views/ProductoNew.vue";
-
-// ELIMINAR
-// Cuenta Corriente
-import Cuenta from "./views/Cuenta.vue";
+// Productos Views
+import ProductosIndex from "./views/productos/index.vue";
+import ProductosShow from "./views/productos/show.vue";
+import ProductosCreate from "./views/productos/create.vue";
 
 // Reportes
 import Reporte from "./views/Reporte.vue";
+
+// Users Views
+import Users from "./auth/views/Users.vue";
+
+// Roles Views
+import Roles from "./auth/views/Roles.vue";
+
+// Auth Views
+import Login from "./auth/views/Login.vue";
+import Account from "./auth/views/Account.vue";
+
+//_______________________VIEWS_______________________//
+
+//____________________PERMISSIONS____________________//
+
+const visitorOnly = [
+    {
+        role: "visitor",
+        access: true
+    },
+    {
+        role: "superAdmin",
+        access: false,
+        redirect: "account"
+    },
+    {
+        role: "admin",
+        access: false,
+        redirect: "account"
+    },
+    {
+        role: "seller",
+        access: false,
+        redirect: "account"
+    }
+];
+
+const allUsers = [
+    {
+        role: "visitor",
+        access: false,
+        redirect: "login"
+    },
+    {
+        role: "superAdmin",
+        access: true
+    },
+    {
+        role: "admin",
+        access: true
+    },
+    {
+        role: "seller",
+        access: true
+    }
+];
+
+const adminSuperAdmin = [
+    {
+        role: "visitor",
+        access: false,
+        redirect: "login"
+    },
+    {
+        role: "superAdmin",
+        access: true
+    },
+    {
+        role: "admin",
+        access: true
+    },
+    {
+        role: "seller",
+        access: false,
+        redirect: "account"
+    }
+];
+
+const superAdminOnly = [
+    {
+        role: "visitor",
+        access: false,
+        redirect: "login"
+    },
+    {
+        role: "superAdmin",
+        access: true
+    },
+    {
+        role: "admin",
+        access: false,
+        redirect: "account"
+    },
+    {
+        role: "seller",
+        access: false,
+        redirect: "account"
+    }
+];
+
+//____________________PERMISSIONS____________________//
+
+// ELIMINAR _____________________________________
+// Cuenta Corriente
+import Cuenta from "./views/Cuenta.vue";
 
 // Inventarios
 import Inventario from "./views/Inventario.vue";
@@ -37,6 +133,7 @@ import Inventario from "./views/Inventario.vue";
 // Remitos
 import Remito from "./views/Remito.vue";
 import RemitoNew from "./views/RemitoNew.vue";
+// ELIMINAR _____________________________________
 
 Vue.use(Router);
 
@@ -53,33 +150,117 @@ export default new Router({
             component: NotFound
         },
 
-        //Auth Routes
+        // Facturas Routes
+        {
+            path: "/facturas",
+            name: "facturas",
+            component: FacturasIndex,
+            meta: {
+                permissions: allUsers
+            }
+        },
+
+        {
+            path: "/facturas/nueva",
+            name: "nueva factura",
+            component: FacturasCreate,
+            meta: {
+                permissions: allUsers
+            }
+        },
+
+        // Clientes Routes
+        {
+            path: "/clientes",
+            name: "clientes",
+            component: ClientesIndex,
+            meta: {
+                permissions: allUsers
+            }
+        },
+
+        {
+            path: "/clientes/show/:id",
+            name: "ver cliente",
+            component: ClientesShow,
+            props: true,
+            meta: {
+                permissions: allUsers
+            }
+        },
+
+        {
+            path: "/clientes/nuevo",
+            name: "nuevo cliente",
+            component: ClientesCreate,
+            meta: {
+                permissions: allUsers
+            }
+        },
+
+        // Productos Routes
+        {
+            path: "/productos",
+            name: "productos",
+            component: ProductosIndex,
+            meta: {
+                permissions: allUsers
+            }
+        },
+        {
+            path: "/productos/show",
+            name: "ver producto",
+            component: ProductosShow,
+            meta: {
+                permissions: allUsers
+            }
+        },
+        {
+            path: "/productos/nuevo",
+            name: "nuevo producto",
+            component: ProductosCreate,
+            meta: {
+                permissions: allUsers
+            }
+        },
+
+        // Reportes Routes
+        {
+            path: "/reporte",
+            name: "reporte",
+            component: Reporte,
+            meta: {
+                permissions: allUsers
+            }
+        },
+
+        // Users Routes
+        {
+            path: "/users",
+            name: "users",
+            component: Users,
+            meta: {
+                permissions: adminSuperAdmin
+            }
+        },
+
+        // Roles Routes
+        {
+            path: "/roles",
+            name: "roles",
+            component: Roles,
+            meta: {
+                permissions: superAdminOnly
+            }
+        },
+
+        // Auth Routes
         {
             path: "/login",
             name: "login",
             component: Login,
             meta: {
-                permissions: [
-                    {
-                        role: "visitor",
-                        access: true
-                    },
-                    {
-                        role: "superAdmin",
-                        access: false,
-                        redirect: "account"
-                    },
-                    {
-                        role: "admin",
-                        access: false,
-                        redirect: "account"
-                    },
-                    {
-                        role: "seller",
-                        access: false,
-                        redirect: "account"
-                    }
-                ]
+                permissions: visitorOnly
             }
         },
         {
@@ -87,223 +268,11 @@ export default new Router({
             name: "account",
             component: Account,
             meta: {
-                permissions: [
-                    {
-                        role: "visitor",
-                        access: false,
-                        redirect: "login"
-                    },
-                    {
-                        role: "superAdmin",
-                        access: true
-                    },
-                    {
-                        role: "admin",
-                        access: true
-                    },
-                    {
-                        role: "seller",
-                        access: true
-                    }
-                ]
+                permissions: allUsers
             }
         },
 
-        //Roles Routes
-        {
-            path: "/roles",
-            name: "roles",
-            component: Roles,
-            meta: {
-                permissions: [
-                    {
-                        role: "visitor",
-                        access: false,
-                        redirect: "login"
-                    },
-                    {
-                        role: "superAdmin",
-                        access: true
-                    },
-                    {
-                        role: "admin",
-                        access: false,
-                        redirect: "account"
-                    },
-                    {
-                        role: "seller",
-                        access: false,
-                        redirect: "account"
-                    }
-                ]
-            }
-        },
-
-        //Users Routes
-        {
-            path: "/users",
-            name: "users",
-            component: Users,
-            meta: {
-                permissions: [
-                    {
-                        role: "visitor",
-                        access: false,
-                        redirect: "login"
-                    },
-                    {
-                        role: "superAdmin",
-                        access: true
-                    },
-                    {
-                        role: "admin",
-                        access: true
-                    },
-                    {
-                        role: "seller",
-                        access: false,
-                        redirect: "account"
-                    }
-                ]
-            }
-        },
-
-        //Clientes Routes
-        {
-            path: "/clientes",
-            name: "clientes",
-            component: Cliente,
-            meta: {
-                permissions: [
-                    {
-                        role: "visitor",
-                        access: false,
-                        redirect: "login"
-                    },
-                    {
-                        role: "superAdmin",
-                        access: true
-                    },
-                    {
-                        role: "admin",
-                        access: true
-                    },
-                    {
-                        role: "seller",
-                        access: true
-                    }
-                ]
-            }
-        },
-
-        //Facturas Routes
-        {
-            path: "/ventas",
-            name: "ventas",
-            component: Factura,
-            meta: {
-                permissions: [
-                    {
-                        role: "visitor",
-                        access: false,
-                        redirect: "login"
-                    },
-                    {
-                        role: "superAdmin",
-                        access: true
-                    },
-                    {
-                        role: "admin",
-                        access: true
-                    },
-                    {
-                        role: "seller",
-                        access: true
-                    }
-                ]
-            }
-        },
-
-        {
-            path: "/ventas/nueva",
-            name: "nueva venta",
-            component: FacturaNew,
-            meta: {
-                permissions: [
-                    {
-                        role: "visitor",
-                        access: false,
-                        redirect: "login"
-                    },
-                    {
-                        role: "superAdmin",
-                        access: true
-                    },
-                    {
-                        role: "admin",
-                        access: true
-                    },
-                    {
-                        role: "seller",
-                        access: true
-                    }
-                ]
-            }
-        },
-
-        //Productos Routes
-        {
-            path: "/productos",
-            name: "productos",
-            component: Producto,
-            meta: {
-                permissions: [
-                    {
-                        role: "visitor",
-                        access: false,
-                        redirect: "login"
-                    },
-                    {
-                        role: "superAdmin",
-                        access: true
-                    },
-                    {
-                        role: "admin",
-                        access: true
-                    },
-                    {
-                        role: "seller",
-                        access: true
-                    }
-                ]
-            }
-        },
-        {
-            path: "/productos/nuevo",
-            name: "nuevo producto",
-            component: ProductoNew,
-            meta: {
-                permissions: [
-                    {
-                        role: "visitor",
-                        access: false,
-                        redirect: "login"
-                    },
-                    {
-                        role: "superAdmin",
-                        access: true
-                    },
-                    {
-                        role: "admin",
-                        access: true
-                    },
-                    {
-                        role: "seller",
-                        access: true
-                    }
-                ]
-            }
-        },
+        // ELIMINAR _____________________________________
 
         //Cuentas Routes
         {
@@ -311,25 +280,7 @@ export default new Router({
             name: "cuenta",
             component: Cuenta,
             meta: {
-                permissions: [
-                    {
-                        role: "visitor",
-                        access: false,
-                        redirect: "login"
-                    },
-                    {
-                        role: "superAdmin",
-                        access: true
-                    },
-                    {
-                        role: "admin",
-                        access: true
-                    },
-                    {
-                        role: "seller",
-                        access: true
-                    }
-                ]
+                permissions: allUsers
             }
         },
 
@@ -339,25 +290,7 @@ export default new Router({
             name: "reporte",
             component: Reporte,
             meta: {
-                permissions: [
-                    {
-                        role: "visitor",
-                        access: false,
-                        redirect: "login"
-                    },
-                    {
-                        role: "superAdmin",
-                        access: true
-                    },
-                    {
-                        role: "admin",
-                        access: true
-                    },
-                    {
-                        role: "seller",
-                        access: true
-                    }
-                ]
+                permissions: allUsers
             }
         },
 
@@ -367,25 +300,7 @@ export default new Router({
             name: "inventario",
             component: Inventario,
             meta: {
-                permissions: [
-                    {
-                        role: "visitor",
-                        access: false,
-                        redirect: "login"
-                    },
-                    {
-                        role: "superAdmin",
-                        access: true
-                    },
-                    {
-                        role: "admin",
-                        access: true
-                    },
-                    {
-                        role: "seller",
-                        access: true
-                    }
-                ]
+                permissions: allUsers
             }
         },
 
@@ -395,25 +310,7 @@ export default new Router({
             name: "remito",
             component: Remito,
             meta: {
-                permissions: [
-                    {
-                        role: "visitor",
-                        access: false,
-                        redirect: "login"
-                    },
-                    {
-                        role: "superAdmin",
-                        access: true
-                    },
-                    {
-                        role: "admin",
-                        access: true
-                    },
-                    {
-                        role: "seller",
-                        access: true
-                    }
-                ]
+                permissions: allUsers
             }
         },
         {
@@ -421,26 +318,9 @@ export default new Router({
             name: "RemitoNew",
             component: RemitoNew,
             meta: {
-                permissions: [
-                    {
-                        role: "visitor",
-                        access: false,
-                        redirect: "login"
-                    },
-                    {
-                        role: "superAdmin",
-                        access: true
-                    },
-                    {
-                        role: "admin",
-                        access: true
-                    },
-                    {
-                        role: "seller",
-                        access: true
-                    }
-                ]
+                permissions: allUsers
             }
         }
+        // ELIMINAR _____________________________________
     ]
 });

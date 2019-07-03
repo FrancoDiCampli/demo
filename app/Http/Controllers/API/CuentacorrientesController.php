@@ -14,7 +14,7 @@ class CuentacorrientesController extends Controller
 {
     public function index(Request $request)
     {
-         $cuentas = Cuentacorriente::orderBy('id', 'DESC')->where('estado','ACTIVA');
+        $cuentas = Cuentacorriente::orderBy('id', 'DESC')->where('estado', 'ACTIVA');
 
         return [
             'cuentas' => $cuentas->take($request->get('limit', null))->get()
@@ -40,30 +40,29 @@ class CuentacorrientesController extends Controller
     }
 
 
-    public function pagoTotal(Request $request,$id){
+    public function pagoTotal(Request $request, $id)
+    {
+        // PAGO TOTAL DE UNA CUENTA
+        $cuenta =  Cuentacorriente::find($id);
 
-       $cuenta =  Cuentacorriente::find($id);
+        $movimiento = Movimientocuenta::create([
+            'ctacte_id' => 1,
+            'tipo' => 'PAGO TOTAL',
+            'fecha' => now()->format('Ymd'),
+            'user_id' => auth()->user()->id,
+            'importe' => $cuenta->saldo
+        ]);
 
         $cuenta->ultimopago = now()->format('Ymd');
         $cuenta->saldo = 0;
         $cuenta->estado = "CANCELADA";
 
         $cuenta->save();
-
-         $movimiento = Movimientocuenta::create([
-                'ctacte_id' => 1,
-                'tipo' => 'PAGO TOTAL',
-                'fecha' => now()->format('Ymd'),
-                'user_id' => auth()->user()->id
-            ]);
-
-
-
-
     }
 
-    public function buscarCuentas($lista){
-        $lista = explode(",",$lista);
+    public function buscarCuentas($lista)
+    {
+        $lista = explode(",", $lista);
         return $cuentas = Cuentacorriente::find($lista);
     }
 
@@ -83,7 +82,7 @@ class CuentacorrientesController extends Controller
         $pago = $collection->first();
 
 
-        foreach($pagos as $pago){
+        foreach ($pagos as $pago) {
             // $cuenta = Cuentacorriente::find($pago->id);
 
             // $cuenta->saldo = $cuenta->saldo - $pago->importe;
@@ -118,7 +117,8 @@ class CuentacorrientesController extends Controller
         //             'ctacte_id' => $cuenta->id,
         //             'tipo' => 'PAGO PARCIAL',
         //             'fecha' => now()->format('Ymd'),
-        //             'user_id' => auth()->user()->id
+        //             'user_id' => auth()->user()->id,
+        //             'importe' => $pay->pago
         //         ]);
         //     } elseif ($pay->pago == $cuenta->saldo) {
         //         $cuenta->saldo = 0;
@@ -142,7 +142,8 @@ class CuentacorrientesController extends Controller
         //             'ctacte_id' => $cuenta->id,
         //             'tipo' => 'PAGO TOTAL',
         //             'fecha' => now()->format('Ymd'),
-        //             'user_id' => auth()->user()->id
+        //             'user_id' => auth()->user()->id,
+        //             'importe' => $pay->pago
         //         ]);
         //     }
         // }
@@ -160,12 +161,80 @@ class CuentacorrientesController extends Controller
         // ];
     }
 
+    // PAGOS PARCIALES O TOTALES 
+    public function pagar(Request $request)
+    {
+        $pagos = collect($request->get('pago'));
+        $total = 0;
+        foreach ($pagos as $pay) {
+            $cuenta = Cuentacorriente::find($pay->cuenta_id);
+            // PAGO PARCIAL
+            if ($pay->pago < $cuenta->saldo) {
+                $cuenta->saldo = $cuenta->saldo - $pay->pago;
+                $cuenta->ultimopago = now()->format('Ymd');
+                $cuenta->update();
+                $total = $total + $pay->pago;
+                $numpago = Pago::all()->last()->id + 1;
 
-    public function detalles($id){
+                $pago = Pago::create([
+                    'ctacte_id' => $cuenta->id,
+                    'importe' => $pay->pago,
+                    'fecha' => now()->format('Ymd'),
+                    'numpago' => $numpago,
+                ]);
+                $aux[] = $pago->id;
+                $movimiento = Movimientocuenta::create([
+                    'ctacte_id' => $cuenta->id,
+                    'tipo' => 'PAGO PARCIAL',
+                    'fecha' => now()->format('Ymd'),
+                    'importe' => $pay->pago,
+                    'user_id' => auth()->user()->id
+                ]);
+            } elseif ($pay->pago == $cuenta->saldo) {
+                // PAGO TOTAL
+                $cuenta->saldo = 0;
+                $cuenta->ultimopago = now()->format('Ymd');
+                $cuenta->estado = 'CANCELADA';
+                $cuenta->update();
+                $total = $total + $pay->pago;
+                $numpago = Pago::all()->last()->id + 1;
+                $pago = Pago::create([
+                    'ctacte_id' => $cuenta->id,
+                    'importe' => $pay->pago,
+                    'fecha' => now()->format('Ymd'),
+                    'numpago' => $numpago,
+                ]);
+                $aux[] = $pago->id;
+                $movimiento = Movimientocuenta::create([
+                    'ctacte_id' => $cuenta->id,
+                    'tipo' => 'PAGO TOTAL',
+                    'fecha' => now()->format('Ymd'),
+                    'importe' => $pay->pago,
+                    'user_id' => auth()->user()->id
+                ]);
+            }
+        }
+
+        // ALMACENAMIENTO DE RECIBO
+        $numrecibo = Recibo::all()->last()->id + 1;
+        $recibo = Recibo::create([
+            'fecha' => now()->format('Ymd'),
+            'ctacte_id' => $cuenta->id,
+            'total' => $total,
+            'numrecibo' => $numrecibo
+        ]);
+        $recibo->pagos()->attach($aux);
+        return [
+            'msg' => 'cuenta actualizada'
+        ];
+    }
 
 
-        return $movimientos = Movimientocuenta::where('ctacte_id',$id)
-                                    ->orderBy('created_at','asc')->get();
+    public function detalles($id)
+    {
 
+
+        return $movimientos = Movimientocuenta::where('ctacte_id', $id)
+            ->orderBy('created_at', 'asc')->get();
     }
 }

@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Articulo extends Model
 {
-    // use SoftDeletes;
+    use SoftDeletes;
 
-    protected $fillable = ['codprov','codarticulo',
-    'articulo','descripcion','medida','costo',
-    'utilidades','precio','alicuota','foto',
-    'marca_id','categoria_id'];
+    protected $fillable = [
+        'codprov', 'codarticulo',
+        'articulo', 'descripcion', 'medida', 'costo',
+        'utilidades', 'precio', 'alicuota', 'foto',
+        'marca_id', 'categoria_id'
+    ];
 
     public function categoria()
     {
@@ -40,13 +42,13 @@ class Articulo extends Model
     public function facturas()
     {
         return $this->belongsToMany('App\Factura')
-                    ->withPivot('codarticulo', 'articulo', 'medida', 'cantidad', 'bonificacion', 'alicuota', 'preciounitario', 'subtotal');
+            ->withPivot('codarticulo', 'articulo', 'medida', 'cantidad', 'bonificacion', 'alicuota', 'preciounitario', 'subtotal');
     }
 
     public function remitos()
     {
         return $this->belongsToMany('App\Remito')
-            ->withPivot('lote', 'cantidad', 'medida', 'costo', 'subtotal')
+            ->withPivot('lote', 'cantidad', 'medida', 'preciounitario', 'subtotal')
             ->withTimestamps();
     }
 
@@ -54,9 +56,9 @@ class Articulo extends Model
     {
         $articulo = $request->get('buscarArticulo');
 
-        if(strlen($articulo)){
+        if (strlen($articulo)) {
             return $query->where('codarticulo', 'LIKE', "$articulo%")
-                        ->orWhere('articulo', 'LIKE', "$articulo%");
+                ->orWhere('articulo', 'LIKE', "$articulo%");
         }
     }
 }

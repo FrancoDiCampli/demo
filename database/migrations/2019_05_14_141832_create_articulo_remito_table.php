@@ -23,6 +23,7 @@ class CreateArticuloRemitoTable extends Migration
             $table->decimal('alicuota', 8, 2);
             $table->decimal('preciounitario', 8, 2);
             $table->decimal('subtotal', 8, 2);
+            $table->integer('lote')->nullable();
             $table->unsignedBigInteger('articulo_id');
             $table->unsignedBigInteger('remito_id');
             $table->timestamps();

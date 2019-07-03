@@ -15,6 +15,18 @@ use App\Http\Controllers\Controller;
 
 class EstadisticasController extends Controller
 {
+    public function index()
+    {
+        $request = [
+            'vendedor' => array(1),
+            'producto' => array(),
+            'fecha' => array(),
+            'condicion' => array(),
+            'cliente' => array(),
+        ];
+        return Factura::reportes($request);
+    }
+
     public function todas()
     {
         $facturas = Factura::all();

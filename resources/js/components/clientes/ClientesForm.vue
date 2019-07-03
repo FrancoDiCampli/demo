@@ -170,7 +170,7 @@ export default {
             if (this.form.documentounico.length == 11) {
                 this.process = true;
                 axios
-                    .get("api/clientes", {
+                    .get("/api/clientes", {
                         params: {
                             documentounico: this.form.documentounico
                         }
@@ -192,7 +192,7 @@ export default {
 
         buscarAfip() {
             axios
-                .get("api/buscarAfip/" + this.form.documentounico)
+                .get("/api/buscarAfip/" + this.form.documentounico)
                 .then(response => {
                     if (response.data != null) {
                         this.fillData(response.data);

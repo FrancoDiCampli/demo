@@ -157,14 +157,14 @@ export default {
                 if (this.form.categoria_id && this.form.marca_id) {
                     this.saveProducto();
                 } else {
-                    if (this.form.categoria) {
+                    if (!this.form.categoria_id) {
                         this.msgCategoria =
                             "Se añadirá la siguiente categoría a la base de datos: “" +
                             this.form.categoria +
                             "”.";
                     }
 
-                    if (this.form.marca) {
+                    if (!this.form.marca_id) {
                         this.msgMarca =
                             "Se añadirá la siguiente marca a la base de datos: “" +
                             this.form.marca +
@@ -177,8 +177,14 @@ export default {
         },
 
         confirmSave: async function() {
-            this.form.categoria_id = await this.saveCategoria();
-            this.form.marca_id = await this.saveMarca();
+            if (!this.form.categoria_id) {
+                this.form.categoria_id = await this.saveCategoria();
+            }
+
+            if (!this.form.marca_id) {
+                this.form.marca_id = await this.saveMarca();
+            }
+
             this.saveProducto();
         },
 

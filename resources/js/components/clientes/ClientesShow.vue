@@ -28,14 +28,14 @@
                 </v-layout>
             </v-flex>
             <v-flex xs12>
-                <br>
+                <br />
                 <h1 class="text-xs-center primary--text">{{ showData.cliente.razonsocial }}</h1>
             </v-flex>
             <v-flex xs12>
                 <h3 class="text-xs-center primary--text">{{ showData.cliente.documentounico }}</h3>
             </v-flex>
         </v-layout>
-        <br>
+        <br />
         <template>
             <div v-if="mode == 'show'">
                 <v-tabs fixed-tabs grow slider-color="primary" active-class="primary--text">
@@ -65,12 +65,12 @@
             <div v-else-if="mode == 'delete'">
                 <v-alert :value="true" color="error">
                     <h2 class="text-xs-center">¿Estas Seguro?</h2>
-                    <br>
+                    <br />
                     <v-divider dark></v-divider>
-                    <br>
+                    <br />
                     <p class="text-xs-center">¿Realmente deseas eliminar este Cliente?</p>
                     <p class="text-xs-center">Este Cambio es Irreversible</p>
-                    <br>
+                    <br />
                     <v-layout justify-center>
                         <v-btn
                             @click="mode = 'show'"

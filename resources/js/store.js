@@ -9,7 +9,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         showClientesDialog: false,
-        findClienteDialog: false,
+        findClienteDialog: false
     },
 
     mutations: {
@@ -19,7 +19,7 @@ export default new Vuex.Store({
 
         FindClientesDialog(state) {
             state.findClienteDialog = !state.findClienteDialog;
-        },
+        }
     },
 
     modules: {

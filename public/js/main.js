@@ -6755,6 +6755,60 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //Vuex
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -6777,17 +6831,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, {
         text: "",
         sortable: false
-      }]
+      }],
+      showProductosDialog: false
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])("crudx", ["data", "inProcess"])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])("crudx", ["data", "showData", "inProcess"])),
   mounted: function mounted() {
     this.index({
       url: "api/articulos",
       limit: this.limit
     });
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])("crudx", ["index"]), {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])("crudx", ["index", "show"]), {
     loadMore: function () {
       var _loadMore = _asyncToGenerator(
       /*#__PURE__*/
@@ -6800,7 +6855,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.loadingButton = true;
                 _context.next = 4;
                 return this.index({
-                  url: "api/articulos",
+                  url: "/api/articulos",
                   limit: this.limit
                 });
 
@@ -6820,6 +6875,36 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       return loadMore;
+    }(),
+    showProductos: function () {
+      var _showProductos = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(articulo) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return this.show({
+                  url: "/api/articulos/" + articulo.id
+                });
+
+              case 2:
+                this.showProductosDialog = true;
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function showProductos(_x) {
+        return _showProductos.apply(this, arguments);
+      }
+
+      return showProductos;
     }()
   })
 });
@@ -7748,11 +7833,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         if (this.form.categoria_id && this.form.marca_id) {
           this.saveProducto();
         } else {
-          if (this.form.categoria) {
+          if (!this.form.categoria_id) {
             this.msgCategoria = "Se añadirá la siguiente categoría a la base de datos: “" + this.form.categoria + "”.";
           }
 
-          if (this.form.marca) {
+          if (!this.form.marca_id) {
             this.msgMarca = "Se añadirá la siguiente marca a la base de datos: “" + this.form.marca + "”.";
           }
 
@@ -7768,19 +7853,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                if (this.form.categoria_id) {
+                  _context.next = 4;
+                  break;
+                }
+
+                _context.next = 3;
                 return this.saveCategoria();
 
-              case 2:
+              case 3:
                 this.form.categoria_id = _context.sent;
-                _context.next = 5;
+
+              case 4:
+                if (this.form.marca_id) {
+                  _context.next = 8;
+                  break;
+                }
+
+                _context.next = 7;
                 return this.saveMarca();
 
-              case 5:
+              case 7:
                 this.form.marca_id = _context.sent;
+
+              case 8:
                 this.saveProducto();
 
-              case 7:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -15954,20 +16053,7 @@ var render = function() {
             expression: "showClientesDialog"
           }
         },
-        [
-          _c(
-            "v-card",
-            [
-              _c(
-                "v-card-text",
-                { staticStyle: { overflow: "hidden" } },
-                [_c("ClientesShow")],
-                1
-              )
-            ],
-            1
-          )
-        ],
+        [_c("v-card", [_c("v-card-text", [_c("ClientesShow")], 1)], 1)],
         1
       )
     ],
@@ -19575,7 +19661,12 @@ var render = function() {
                                       attrs: {
                                         flat: "",
                                         icon: "",
-                                        color: "white"
+                                        color: "primary"
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.showProductos(articulo)
+                                        }
                                       }
                                     },
                                     [
@@ -19710,6 +19801,13 @@ var render = function() {
                                               flat: "",
                                               icon: "",
                                               color: "primary"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.showProductos(
+                                                  articulo
+                                                )
+                                              }
                                             }
                                           },
                                           [
@@ -19776,6 +19874,158 @@ var render = function() {
                     ],
                     2
                   )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { width: "750", persistent: "" },
+          model: {
+            value: _vm.showProductosDialog,
+            callback: function($$v) {
+              _vm.showProductosDialog = $$v
+            },
+            expression: "showProductosDialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c(
+                "v-card-text",
+                [
+                  _c(
+                    "v-layout",
+                    { attrs: { "justify-center": "", wrap: "" } },
+                    [
+                      _c(
+                        "v-menu",
+                        {
+                          scopedSlots: _vm._u([
+                            {
+                              key: "activator",
+                              fn: function(ref) {
+                                var on = ref.on
+                                return [
+                                  _c(
+                                    "v-btn",
+                                    _vm._g(
+                                      {
+                                        attrs: {
+                                          absolute: "",
+                                          right: "",
+                                          flat: "",
+                                          icon: "",
+                                          dark: "",
+                                          color: "primary"
+                                        }
+                                      },
+                                      on
+                                    ),
+                                    [
+                                      _c(
+                                        "v-icon",
+                                        { attrs: { size: "medium" } },
+                                        [_vm._v("fas fa-ellipsis-v")]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ]
+                              }
+                            }
+                          ])
+                        },
+                        [
+                          _vm._v(" "),
+                          _c(
+                            "v-list",
+                            [
+                              _c(
+                                "v-list-tile",
+                                [_c("v-list-tile-title", [_vm._v("Editar")])],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile",
+                                [_c("v-list-tile-title", [_vm._v("Eliminar")])],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("v-divider"),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile",
+                                [_c("v-list-tile-title", [_vm._v("Cerrar")])],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "" } },
+                        [
+                          _c(
+                            "v-layout",
+                            { attrs: { "justify-center": "" } },
+                            [
+                              _c(
+                                "v-avatar",
+                                {
+                                  staticClass: "profile",
+                                  attrs: { size: "180" }
+                                },
+                                [
+                                  _c("v-img", {
+                                    attrs: { src: _vm.showData.foto }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("v-flex", { attrs: { xs12: "" } }, [
+                        _c("br"),
+                        _vm._v(" "),
+                        _c(
+                          "h1",
+                          { staticClass: "text-xs-center primary--text" },
+                          [_vm._v(_vm._s(_vm.showData.articulo))]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("v-flex", { attrs: { xs12: "" } }, [
+                        _c(
+                          "h3",
+                          { staticClass: "text-xs-center primary--text" },
+                          [_vm._v(_vm._s(_vm.showData.codarticulo))]
+                        )
+                      ])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("br")
                 ],
                 1
               )

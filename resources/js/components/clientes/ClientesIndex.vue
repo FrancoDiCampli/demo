@@ -34,7 +34,7 @@
         <!-- Clientes Show -->
         <v-dialog v-model="showClientesDialog" width="750" persistent>
             <v-card>
-                <v-card-text style="overflow: hidden;">
+                <v-card-text>
                     <ClientesShow></ClientesShow>
                 </v-card-text>
             </v-card>

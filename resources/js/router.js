@@ -124,8 +124,6 @@ const superAdminOnly = [
 //____________________PERMISSIONS____________________//
 
 // ELIMINAR _____________________________________
-// Cuenta Corriente
-import Cuenta from "./views/Cuenta.vue";
 
 // Inventarios
 import Inventario from "./views/Inventario.vue";
@@ -273,16 +271,6 @@ export default new Router({
         },
 
         // ELIMINAR _____________________________________
-
-        //Cuentas Routes
-        {
-            path: "/cuenta",
-            name: "cuenta",
-            component: Cuenta,
-            meta: {
-                permissions: allUsers
-            }
-        },
 
         //Reportes Routes
         {

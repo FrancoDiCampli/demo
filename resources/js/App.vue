@@ -58,34 +58,21 @@
                         <v-list-tile-title>{{ item.title }}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
-
-                <v-divider></v-divider>
-                <!-- Reportes -->
-                <v-list-tile to="/reporte" v-show="rol == 'superAdmin'">
-                    <v-list-tile-action>
-                        <v-icon>fas fa-clipboard</v-icon>
-                    </v-list-tile-action>
-                </v-list-tile>
-                <!-- End Reportes -->
                 <v-divider></v-divider>
 
-                <!-- Inventarios -->
-                <v-list-tile to="/inventario" v-show="rol == 'superAdmin'">
+                <!-- <v-list-tile to="/inventario" v-show="rol == 'superAdmin'">
                     <v-list-tile-action>
                         <v-icon>fas fa-boxes</v-icon>
                     </v-list-tile-action>
                 </v-list-tile>
-                <!-- End Inventario -->
                 <v-divider></v-divider>
 
-                <!-- Remitos -->
                 <v-list-tile to="/remito" v-show="rol == 'superAdmin'">
                     <v-list-tile-action>
                         <v-icon>fas fa-money-check</v-icon>
                     </v-list-tile-action>
                 </v-list-tile>
-                <!-- End Remito -->
-                <v-divider></v-divider>
+                <v-divider></v-divider>-->
 
                 <!-- Acciones del admin -->
                 <v-list-tile to="/users" v-show="rol == 'admin' || rol == 'superAdmin'">
@@ -266,9 +253,9 @@ export default {
                     url: "/productos"
                 },
                 {
-                    title: "Cuenta",
-                    icon: "fas fa-file-invoice-dollar",
-                    url: "/cuenta"
+                    title: "Reportes",
+                    icon: "fas fa-clipboard",
+                    url: "/reporte"
                 }
             ],
             right: null,

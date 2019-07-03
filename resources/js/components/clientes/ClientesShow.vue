@@ -168,7 +168,7 @@ export default {
             await this.index({ url: "/api/clientes" });
             this.mode = "show";
             this.$router.push("/clientes");
-        }
+        },
     }
 };
 </script>

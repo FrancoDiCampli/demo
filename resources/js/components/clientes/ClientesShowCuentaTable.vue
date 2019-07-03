@@ -1,10 +1,10 @@
 <template>
     <div>
-        <br>
+        <br />
         <v-layout justify-center>
             <h2>Saldo: {{ saldo }}</h2>
         </v-layout>
-        <br>
+        <br />
         <v-tabs right hide-slider active-class="primary--text">
             <v-tab>Activas</v-tab>
             <v-tab>Todas</v-tab>
@@ -74,7 +74,7 @@
                                                         :disabled="cuenta.item.saldo <= 0"
                                                         type="text"
                                                         class="input-pagos"
-                                                    >
+                                                    />
                                                 </v-layout>
                                             </td>
                                         </tr>
@@ -83,7 +83,7 @@
                             </v-flex>
                         </v-layout>
                         <v-divider></v-divider>
-                        <br>
+                        <br />
                         <v-layout justify-center v-show="pagar">
                             <v-btn color="primary">Pagar</v-btn>
                         </v-layout>
@@ -96,6 +96,8 @@
                         <v-layout justify-space-between>
                             <v-flex>
                                 <v-data-table
+                                    :expand="false"
+                                    item-key="id"
                                     hide-actions
                                     :headers="headersCuentas"
                                     :items="showData.cuentas"
@@ -110,7 +112,11 @@
                                         </tr>
                                     </template>
                                     <template v-slot:items="cuenta">
-                                        <tr class="text-xs-center">
+                                        <tr
+                                            @click="cuenta.expanded = !cuenta.expanded"
+                                            class="text-xs-center"
+                                            style="cursor: pointer;"
+                                        >
                                             <td
                                                 class="hidden-xs-only"
                                             >{{ cuenta.item.factura.numfactura }}</td>
@@ -122,6 +128,23 @@
                                             >{{ cuenta.item.ultimopago }}</td>
                                             <td>{{ cuenta.item.estado }}</td>
                                         </tr>
+                                    </template>
+                                    <template v-slot:expand="cuenta">
+                                        <v-card flat>
+                                            <v-card-text>
+                                                <v-data-table
+                                                    hide-actions
+                                                    :headers="headersMovimietos"
+                                                    :items="cuenta.item.movimientos"
+                                                >
+                                                    <template v-slot:items="movimiento">
+                                                        <td>{{ movimiento.item.tipo }}</td>
+                                                        <td>{{ movimiento.item.fecha }}</td>
+                                                        <td>{{ movimiento.item.importe }}</td>
+                                                    </template>
+                                                </v-data-table>
+                                            </v-card-text>
+                                        </v-card>
                                     </template>
                                 </v-data-table>
                             </v-flex>
@@ -158,6 +181,11 @@ export default {
                     class: "hidden-sm-and-down"
                 },
                 { text: "Estado", sortable: false }
+            ],
+            headersMovimietos: [
+                { text: "Tipo", sortable: false },
+                { text: "Fecha", sortable: false },
+                { text: "Importe", sortable: false }
             ],
             selected: [],
             state: true

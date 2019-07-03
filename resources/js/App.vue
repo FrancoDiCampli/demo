@@ -44,7 +44,7 @@
 
             <!-- Lita de acciones -->
             <v-list class="pt-0" dense>
-                <br>
+                <br />
                 <v-divider></v-divider>
 
                 <!-- Acciones del vendedor -->
@@ -74,7 +74,16 @@
                         <v-icon>fas fa-boxes</v-icon>
                     </v-list-tile-action>
                 </v-list-tile>
-                <!-- End Reportes -->
+                <!-- End Inventario -->
+                <v-divider></v-divider>
+
+                <!-- Remitos -->
+                <v-list-tile to="/remito" v-show="rol == 'superAdmin'">
+                    <v-list-tile-action>
+                        <v-icon>fas fa-money-check</v-icon>
+                    </v-list-tile-action>
+                </v-list-tile>
+                <!-- End Remito -->
                 <v-divider></v-divider>
 
                 <!-- Acciones del admin -->
@@ -158,7 +167,7 @@
 
             <!-- Lita de acciones -->
             <v-list class="pt-0" dense>
-                <br>
+                <br />
                 <v-divider></v-divider>
 
                 <!-- Acciones del vendedor -->
@@ -220,14 +229,14 @@
             </v-list>
         </v-navigation-drawer>
 
-        <br>
+        <br />
 
         <!-- Router view -->
         <v-content>
             <v-container>
                 <v-layout :justify-center="mini ? true : false" :justify-end="mini ? false : true">
                     <v-flex xs12 sm10 lg8>
-                        <router-view/>
+                        <router-view />
                     </v-flex>
                 </v-layout>
             </v-container>

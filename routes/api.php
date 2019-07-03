@@ -66,4 +66,10 @@ Route::get('estadisticas/xarticulo', 'API\EstadisticasController@articulos');
 Route::get('estadisticas/usuarios', 'API\EstadisticasController@usuarios');
 
 Route::post('estadisticas/reportes', 'API\EstadisticasController@reportes');
+Route::post('estadisticas/inventarios', 'API\EstadisticasController@inventarios');
+Route::post('estadisticas/compras', 'API\EstadisticasController@compras');
+
 Route::post('inventario', 'API\InventariosController@actualizar');
+
+Route::get('inventario/{id}', 'API\InventariosController@movimientos');
+

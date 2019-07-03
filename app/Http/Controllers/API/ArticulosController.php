@@ -25,6 +25,7 @@ class ArticulosController extends Controller
 
     public function store(StoreArticulo $request)
     {
+        // FOTO
         $name = 'noimage.png';
         if ($request->get('foto')) {
             $carpeta = public_path() . '/img/articulos/';
@@ -51,6 +52,7 @@ class ArticulosController extends Controller
     {
         $articulo = Articulo::find($id);
 
+        // FOTO
         if ($request->get('foto') != $articulo->foto) {
             $carpeta = '/img/articulos/';
             if (!file_exists($carpeta)) {
@@ -99,6 +101,7 @@ class ArticulosController extends Controller
 
     public function generator($categoria_id)
     {
+        // GENERA CODIGO DEL ARTICULO
         $categoria = Categoria::find($categoria_id);
         $cat = $categoria->categoria;
         $category = strtoupper($cat);
@@ -166,6 +169,9 @@ class ArticulosController extends Controller
 
     public function show($id)
     {
-        return $articulo = Articulo::find($id);
+        $articulo = Articulo::find($id);
+        $stock = $articulo->stock;
+        $inventarios = $articulo->inventarios;
+        return ['articulo' => $articulo, 'stock' => $stock, 'inventarios' => $inventarios];
     }
 }

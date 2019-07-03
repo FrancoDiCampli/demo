@@ -1,3 +1,4 @@
+
 <template>
     <v-app>
         <!-- Navbar -->
@@ -246,10 +247,8 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
-
 export default {
     name: "App",
-
     data() {
         return {
             drawer: true,
@@ -276,21 +275,17 @@ export default {
             mini: true
         };
     },
-
     mounted() {
         if (this.token !== null) {
             this.getUser();
         }
     },
-
     computed: {
         ...mapState("auth", ["rol", "token"]),
         ...mapGetters("auth", ["account"])
     },
-
     methods: {
         ...mapActions("auth", ["getUser", "logout"]),
-
         exit: async function() {
             await this.logout();
             this.$router.push("/");
@@ -308,15 +303,12 @@ export default {
     margin-top: 15px;
     cursor: pointer;
 }
-
 .profile-list span {
     color: #26a69a;
 }
-
 body::-webkit-scrollbar {
     width: 7px;
 }
-
 body::-webkit-scrollbar-thumb {
     background-color: rgba(38, 166, 154, 0.75);
 }

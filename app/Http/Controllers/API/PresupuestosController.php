@@ -15,7 +15,7 @@ class PresupuestosController extends Controller
 {
     public function index()
     {
-        return $presupuestos = Presupuesto::orderBy('id','DESC')->get();
+        return $presupuestos = Presupuesto::orderBy('id', 'DESC')->get();
     }
 
     public function store(Request $request)
@@ -27,11 +27,12 @@ class PresupuestosController extends Controller
         $atributos['vencimiento'] = $vto;
 
         if (Presupuesto::all()->last()) {
-            $id = Presupuesto::all()->last()->id+1;
+            $id = Presupuesto::all()->last()->id + 1;
         } else {
             $id = 1;
         }
 
+        // ALMACENAMIENTO DE PRESUPUESTO
         $presupuesto = Presupuesto::create([
             "ptoventa" => 1,
             "cuit" => $atributos['cuit'],
@@ -46,6 +47,7 @@ class PresupuestosController extends Controller
             "user_id" => auth()->user()->id
         ]);
 
+        // ALMACENAMIENTO DE DETALLES
         foreach ($request->get('detalle') as $detail) {
             $articulo = Articulo::find($detail['articulo_id'] * 1);
             $detalles = array(
@@ -72,11 +74,11 @@ class PresupuestosController extends Controller
         return ['msg' => 'presupuesto guardado'];
     }
 
-    public function crearFactura(Request $request,$presupuesto)
+    public function crearFactura(Request $request, $presupuesto)
     {
         $facturas = Factura::get();
         $ids = $facturas->keys();
-        $numFac = $ids->max()+2;
+        $numFac = $ids->max() + 2;
 
         $aux = $presupuesto->load('articulos');
         $arts = $aux->articulos->toArray();
@@ -100,7 +102,7 @@ class PresupuestosController extends Controller
 
         // Si el presupuesto no venció
         if ($presupuesto->vencimiento == $hoy || $presupuesto->vencimiento >= $hoy) {
-            for ($i=0; $i < count($arts); $i++) { 
+            for ($i = 0; $i < count($arts); $i++) {
                 $detalles = array(
                     'codarticulo' => $arts[$i]['codarticulo'],
                     'articulo' => $arts[$i]['articulo'],
@@ -113,11 +115,11 @@ class PresupuestosController extends Controller
                     'articulo_id' => $arts[$i]['pivot']['articulo_id'],
                     'factura_id' => $factura->id
                 );
-                $total = $detalles['subtotal']+$total;
+                $total = $detalles['subtotal'] + $total;
                 $det[] = $detalles;
             }
         } else { // Si venció
-            for ($i=0; $i < count($arts); $i++) { 
+            for ($i = 0; $i < count($arts); $i++) {
                 $arti = Articulo::find($arts[$i]['pivot']['articulo_id']);
                 $detalles = array(
                     'codarticulo' => $arts[$i]['codarticulo'],
@@ -131,7 +133,7 @@ class PresupuestosController extends Controller
                     'articulo_id' => $arts[$i]['pivot']['articulo_id'],
                     'factura_id' => $factura->id
                 );
-                $total = $detalles['subtotal']+$total;
+                $total = $detalles['subtotal'] + $total;
                 $det[] = $detalles;
             }
         }
@@ -140,18 +142,18 @@ class PresupuestosController extends Controller
         $factura->total = $total;
         $factura->save();
 
-        if ( $request->get('solicitarCae') ) {
+        if ($request->get('solicitarCae')) {
             $factura->solicitarCae($factura);
         }
 
-        for ($i=0; $i < count($arts); $i++) { 
+        for ($i = 0; $i < count($arts); $i++) {
             $article = Inventario::orderBy('vencimiento', 'ASC')
-                            ->where('articulo_id',$arts[$i]['pivot']['articulo_id'])
-                            ->where('cantidad','>=',$arts[$i]['pivot']['cantidad'])
-                            ->first();
+                ->where('articulo_id', $arts[$i]['pivot']['articulo_id'])
+                ->where('cantidad', '>=', $arts[$i]['pivot']['cantidad'])
+                ->first();
             $article->cantidad = $article->cantidad - $arts[$i]['pivot']['cantidad'];
             $article->save();
-    
+
             Movimiento::create([
                 'inventario_id' => $article->id,
                 'tipo' => 2,
@@ -159,14 +161,14 @@ class PresupuestosController extends Controller
                 'fecha' => now()->format('Y-m-d')
             ]);
         }
-        
+
         return (['message' => 'factura creada']);
     }
 
     public function update(Request $request, $id)
     {
         $presupuesto = Presupuesto::find($id);
-        if ( $request->get('crearFactura') ) {
+        if ($request->get('crearFactura')) {
             $this->crearFactura($request, $presupuesto);
         }
         return (['message' => 'factura creada']);
@@ -174,6 +176,7 @@ class PresupuestosController extends Controller
 
     public function show($id)
     {
+        // RETORNA LOS DETALLES DE UN PRESUPUESTO
         $presupuesto = Presupuesto::find($id);
         $articulos = collect($presupuesto->articulos);
         $detalles = collect();

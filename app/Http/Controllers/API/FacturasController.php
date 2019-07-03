@@ -45,11 +45,12 @@ class FacturasController extends Controller
         }
 
         if (Factura::all()->last()) {
-            $id = Factura::all()->last()->id+1;
+            $id = Factura::all()->last()->id + 1;
         } else {
             $id = 1;
         }
 
+        // ALMACENAMIENTO DE FACTURA
         $factura = Factura::create([
             "ptoventa" => 1,
             "cuit" => $atributos['cuit'], //cliente
@@ -65,6 +66,7 @@ class FacturasController extends Controller
             "user_id" => auth()->user()->id,
         ]);
 
+        // ALMACENAMIENTO DE DETALLES
         foreach ($request->get('detalle') as $detail) {
             $articulo = Articulo::find($detail['articulo_id'] * 1);
             $detalles = array(
@@ -78,13 +80,14 @@ class FacturasController extends Controller
                 'subtotal' => $detail['cantidad'] * $articulo['precio'],
                 'articulo_id' => $detail['articulo_id'],
                 'factura_id' => $factura->id,
-                'created_at'=>now()->format('Ymd'),
+                'created_at' => now()->format('Ymd'),
             );
             $det[] = $detalles;
         }
 
         $factura->articulos()->attach($det);
 
+        // CREACION DE CUENTA CORRIENTE
         if ($factura->pagada == false) {
             $cuenta = Cuentacorriente::create([
                 'factura_id' => $factura->id,
@@ -98,7 +101,7 @@ class FacturasController extends Controller
                 'tipo' => 'ALTA',
                 'fecha' => $cuenta->alta,
                 'user_id' => auth()->user()->id,
-                'importe'=>$cuenta->importe
+                'importe' => $cuenta->importe
             ]);
         } else if ($solicitarCAE && $factura->estado) {
             $this->solicitarCae($factura->id);
@@ -106,6 +109,7 @@ class FacturasController extends Controller
 
         $aux = collect($det);
 
+        // DESCUENTA LOS INVENTARIOS
         for ($i = 0; $i < count($aux); $i++) {
             $cond = true;
             $res = $aux[$i]['cantidad'];
@@ -159,6 +163,7 @@ class FacturasController extends Controller
         return (['message' => 'actualizado']);
     }
 
+    // FACTURACION ELECTRONICA
     public function solicitarCAE($id)
     {
         $factura = Factura::findOrFail($id);
@@ -194,7 +199,7 @@ class FacturasController extends Controller
             }
             $data = array(
                 'CantReg'         => 1, // Cantidad de comprobantes a registrar
-                'PtoVta'         => $atributos['puntoventa'], // Punto de venta
+                'PtoVta'         => 1, // Punto de venta
                 'CbteTipo'         => $atributos['tipocomprobante'], // Tipo de comprobante (ver tipos disponibles)
                 'Concepto'         => $atributos['concepto'], // Concepto del Comprobante: (1)Productos, (2)Servicios, (3)Productos y Servicios
                 'DocTipo'         => $atributos['tipo'], // Tipo de documento del comprador (ver tipos disponibles)
@@ -232,6 +237,7 @@ class FacturasController extends Controller
         return (['message' => 'guardado']);
     }
 
+    // CALCULA EL DIGITO VERIFICADOR PARA EL CODIGO DE BARRAS
     function digitoVerificador($nroCodBar)
     {
         // $Numero = '0123456789';
@@ -259,6 +265,7 @@ class FacturasController extends Controller
         return $nroCodBar . $digito;
     }
 
+    // ANULACION DE FACTURA
     public function destroy($id)
     {
         $factura = Factura::findOrFail($id);
@@ -281,6 +288,7 @@ class FacturasController extends Controller
                 }
             }
 
+            // SE REESTABLECE LA CANTIDAD EN LOS INVENTARIOS
             unset($aux);
             foreach ($inventarios as $inv) {
                 $aux = collect($inv->movimientos);
@@ -302,5 +310,17 @@ class FacturasController extends Controller
             return ['msg' => 'No es posible eliminar esta factura'];
         }
         return ['msg' => 'Factura Anulada'];
+    }
+
+    public function show($id)
+    {
+        // RETORNA LOS DETALLES DE UNA FACTURA
+        $factura = Factura::find($id);
+        $articulos = collect($factura->articulos);
+        $detalles = collect();
+        foreach ($articulos as $art) {
+            $detalles->push($art->pivot);
+        }
+        return $detalles;
     }
 }

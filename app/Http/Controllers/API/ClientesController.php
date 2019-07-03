@@ -71,6 +71,7 @@ class ClientesController extends Controller
             $cuentas = [];
         }
 
+        // CUENTAS CORRIENTES DEL CLIENTE Y MOVIMIENTOS DE LAS MISMAS
         if (count($cuentas) > 0) {
             for ($i = 0; $i < count($cuentas); $i++) {
                 $cuentas[$i]['numfactura'] = $cuentas[$i]->factura['numfactura'];
@@ -126,10 +127,11 @@ class ClientesController extends Controller
         return ['message' => 'eliminado'];
     }
 
+    // BUSCA EN AFIP LOS DATOS CORRESPONDIENTES DE UNA CUIT
     public function buscarAfip($num)
     {
         $num = $num * 1;
-        $afip = new Afip(array('CUIT' => 20417590200));
+        $afip = new Afip(array('CUIT' => 20349590418));
         $contribuyente = $afip->RegisterScopeFour->GetTaxpayerDetails($num);
         return json_encode($contribuyente);
     }

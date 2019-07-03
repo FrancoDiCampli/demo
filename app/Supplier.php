@@ -9,7 +9,7 @@ class Supplier extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['razonsocial','cuit','direccion','telefono'];
+    protected $fillable = ['razonsocial', 'cuit', 'direccion', 'telefono'];
 
     public function inventarios()
     {
@@ -18,13 +18,12 @@ class Supplier extends Model
 
     public function scopeBuscar($query, $request)
     {
-        $cuit = $request->get('cuit');
-        $razonsocial = $request->get('razonsocial');
-        
-        if($cuit){
-            return $query->where('cuit', "$cuit");
-        } else if ($razonsocial) {
-            return $query->where('razonsocial', 'LIKE', "%$razonsocial%");
+        $proveedor = $request->get('buscarProveedor');
+
+        if (strlen($proveedor)) {
+            return $query->where('id', $proveedor)
+                ->orWhere('cuit', $proveedor)
+                ->orWhere('razonsocial', 'LIKE', "$proveedor%");
         }
     }
 }

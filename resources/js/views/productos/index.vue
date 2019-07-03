@@ -22,8 +22,8 @@
 import { mapState, mapActions } from "vuex";
 
 // Components
-import ProductosIndex from "../components/productos/ProductosIndex.vue";
-import ProductosForm from "../components/productos/ProductosForm.vue";
+import ProductosIndex from "../../components/productos/ProductosIndex.vue";
+import ProductosForm from "../../components/productos/ProductosForm.vue";
 
 export default {
     name: "Producto",

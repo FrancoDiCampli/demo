@@ -72,8 +72,8 @@
 import { mapState, mapActions } from "vuex";
 
 // Components
-import ClientesIndex from "../components/clientes/ClientesIndex.vue";
-import ClientesForm from "../components/clientes/ClientesForm.vue";
+import ClientesIndex from "../../components/clientes/ClientesIndex.vue";
+import ClientesForm from "../../components/clientes/ClientesForm.vue";
 
 export default {
     name: "Cliente",

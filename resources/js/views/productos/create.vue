@@ -115,7 +115,7 @@
 
 <script>
 // Components
-import ProductosForm from "../components/productos/ProductosForm.vue";
+import ProductosForm from "../../components/productos/ProductosForm.vue";
 
 // Axios
 import axios from "axios";

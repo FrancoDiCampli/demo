@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import FacturasForm from "../components/facturas/FacturasForm.vue";
+import FacturasForm from "../../components/facturas/FacturasForm.vue";
 
 export default {
     name: "FacturaNew",

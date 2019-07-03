@@ -16,7 +16,7 @@ class InventariosController extends Controller
         return $inventarios = Inventario::get();
     }
 
-    public function store(Request $request)
+    public function store(StoreInventario $request)
     {
 
         $data = $request->validated();
@@ -25,9 +25,9 @@ class InventariosController extends Controller
 
         $mov = new Movimiento;
         $mov->inventario_id = $inventario->id;
-        $mov->tipo = 1;
-        // $mov->cantidad = request()->cantidad;
-        $mov->cantidad = 1;
+        $mov->tipo = 'ALTA';
+
+        $mov->cantidad = $request->cantidad;
         $mov->fecha = now();
         $mov->save();
 
@@ -104,6 +104,8 @@ class InventariosController extends Controller
             $inventario->cantidad = $inventario->cantidad + $request->cantidad;
 
         }
+
+
         if ($request->movimiento === 'VENCIMIENTO') {
             $inventario->cantidad = $inventario->cantidad - $request->cantidad;
 
@@ -117,6 +119,12 @@ class InventariosController extends Controller
         $mov->fecha = now();
         $mov->touch();
         $mov->save();
+    }
+
+    public function movimientos($id){
+
+
+        return $movimientos = Movimiento::where('inventario_id',$id)->get();
     }
 
 }

@@ -69,6 +69,7 @@ class Factura extends Model
         }
     }
 
+    // INTENTO DE SCOPE
     public function scopeReportes($query, $request)
     {
         $vendedores = (array) $request['vendedor'];

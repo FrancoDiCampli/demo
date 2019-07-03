@@ -34,6 +34,10 @@ import Reporte from "./views/Reporte.vue";
 // Inventarios
 import Inventario from "./views/Inventario.vue";
 
+// Remitos
+import Remito from "./views/Remito.vue";
+import RemitoNew from "./views/RemitoNew.vue";
+
 Vue.use(Router);
 
 export default new Router({
@@ -362,6 +366,60 @@ export default new Router({
             path: "/inventario",
             name: "inventario",
             component: Inventario,
+            meta: {
+                permissions: [
+                    {
+                        role: "visitor",
+                        access: false,
+                        redirect: "login"
+                    },
+                    {
+                        role: "superAdmin",
+                        access: true
+                    },
+                    {
+                        role: "admin",
+                        access: true
+                    },
+                    {
+                        role: "seller",
+                        access: true
+                    }
+                ]
+            }
+        },
+
+        //Remitos Routes
+        {
+            path: "/remito",
+            name: "remito",
+            component: Remito,
+            meta: {
+                permissions: [
+                    {
+                        role: "visitor",
+                        access: false,
+                        redirect: "login"
+                    },
+                    {
+                        role: "superAdmin",
+                        access: true
+                    },
+                    {
+                        role: "admin",
+                        access: true
+                    },
+                    {
+                        role: "seller",
+                        access: true
+                    }
+                ]
+            }
+        },
+        {
+            path: "/compras/nueva",
+            name: "RemitoNew",
+            component: RemitoNew,
             meta: {
                 permissions: [
                     {

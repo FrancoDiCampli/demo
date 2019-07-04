@@ -33,6 +33,7 @@ class UpdateArticulo extends FormRequest
             'utilidades' => 'required|min:1',
             'precio' => 'required|min:1',
             'alicuota' => 'required|min:1',
+            'stockminimo' => 'required',
             'marca_id' => 'required|min:1',
             'categoria_id' => 'required|min:1',
             'foto' => 'nullable'

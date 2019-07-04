@@ -12,7 +12,7 @@ class Articulo extends Model
     protected $fillable = [
         'codprov', 'codarticulo',
         'articulo', 'descripcion', 'medida', 'costo',
-        'utilidades', 'precio', 'alicuota', 'foto',
+        'utilidades', 'precio', 'alicuota', 'stockminimo', 'foto',
         'marca_id', 'categoria_id'
     ];
 
@@ -55,6 +55,7 @@ class Articulo extends Model
     public function scopeBuscar($query, $request)
     {
         $articulo = $request->get('buscarArticulo');
+        $articulos = collect();
 
         if (strlen($articulo)) {
             return $query->where('codarticulo', 'LIKE', "$articulo%")

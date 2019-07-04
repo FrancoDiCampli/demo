@@ -146,6 +146,7 @@
                                             <td>{{ producto.item.codarticulo }}</td>
                                             <td>{{ producto.item.articulo }}</td>
                                             <td>{{ producto.item.precio }}</td>
+                                            <td>stock: {{ producto.item.stock }}</td>
                                         </tr>
                                     </template>
                                 </v-data-table>

@@ -14,11 +14,27 @@ class ArticulosController extends Controller
 {
     public function index(Request $request)
     {
-        $articulos = Articulo::orderBy('articulo', 'asc')
-            ->buscar($request)->with('stock');
+        $articulos = Articulo::orderBy('articulo', 'asc')->buscar($request)->with('stock');
+        // $cond = $request->get('cond');
+        // $articulos = collect();
+
+        // if ($cond) {
+        //     $articles = Articulo::orderBy('articulo', 'asc')->buscar($request);
+
+        //     foreach ($articles as $art) {
+        //         if (count($art->stock) > 0){
+        //             if ($art->stock['total'] > 0) {
+        //                 $articulos->push($art);
+        //             }
+        //         }
+        //     }
+        
+        // }else {
+        //     $articulos = Articulo::orderBy('articulo', 'asc')->with('stock');
+        // }
 
         return [
-            'articulos' => $articulos->take($request->get('limit', null))->get(),
+            'articulos' => $articulos->take($request->get('limit', null)),
             'total' => $articulos->count()
         ];
     }

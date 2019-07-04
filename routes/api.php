@@ -25,26 +25,16 @@ Route::middleware('auth:api')->group(function () {
     Route::middleware('scopes:delete-users')->post('users/delete/{id}', 'UserController@destroy');
 
     // Categorias Api Routes
-    Route::get('categorias/index', 'API\CategoriasController@index');
-    Route::post('categorias/store', 'API\CategoriasController@store');
+    Route::apiResource('categorias', 'API\CategoriasController', ['only' => ['index', 'store']]);
 
     // Marcas Api Routes
-    Route::get('marcas/index', 'API\MarcasController@index');
-    Route::get('marcas/store', 'API\MarcasController@store');
+    Route::apiResource('marcas', 'API\MarcasController', ['only' => ['index', 'store']]);
 
-    // Articulos Api Routes
-    Route::get('articulos/index', 'API\ArticulosController@index');
-    Route::get('articulos/show/{id}', 'API\ArticulosController@show');
-    Route::post('articulos/store', 'API\ArticulosController@store');
-    Route::put('articulos/update/{id}', 'API\ArticulosController@update');
-    Route::get('articulos/destroy/{id}', 'API\ArticulosController@destroy');
+    // Articulos Api Routess
+    Route::apiResource('articulos', 'API\ArticulosController', ['except' => ['create', 'edit']]);
 
     // Clientes Api Routes
-    Route::get('clientes/index', 'API\ClientesController@index');
-    Route::get('clientes/show/{id}', 'API\ClientesController@show');
-    Route::post('clientes/store', 'API\ClientesController@store');
-    Route::put('clientes/update/{id}', 'API\ClientesController@update');
-    Route::get('clientes/destroy/{id}', 'API\ClientesController@destroy');
+    Route::apiResource('clientes', 'API\ClientesController', ['except' => ['create', 'edit']]);
 
 
     Route::apiResource('suppliers', 'API\SuppliersController');

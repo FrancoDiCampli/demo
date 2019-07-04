@@ -174,7 +174,7 @@ export default {
                     this.disabled = true;
 
                     axios
-                        .get("/api/clientes/index", {
+                        .get("/api/clientes", {
                             params: {
                                 buscarCliente: this.form.documentounico,
                                 limit: 1

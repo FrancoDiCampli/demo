@@ -1,6 +1,6 @@
 <template>
     <v-card>
-        <v-btn dark fab fixed right bottom @click="$router.push('/clientes')" color="primary">
+        <v-btn dark fab fixed right bottom @click="goBack()" color="primary">
             <v-icon>fas fa-chevron-left</v-icon>
         </v-btn>
         <!-- Header -->
@@ -34,7 +34,7 @@
 
 <script>
 // Vuex
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 
 // Components
 import ClientesForm from "../../components/clientes/ClientesForm.vue";
@@ -55,12 +55,17 @@ export default {
 
         saveCliente: async function() {
             if (this.$refs.clientesForm.validate()) {
-                await this.save({ url: "/api/clientes/store" });
-                await this.index({ url: "/api/clientes/index" });
+                await this.save({ url: "/api/clientes" });
+                await this.index({ url: "/api/clientes" });
                 this.$refs.clientesForm.resetValidation();
                 this.$refs.clientesForm.reset();
                 this.$router.push("/clientes");
             }
+        },
+
+        goBack() {
+            this.$refs.clientesForm.reset();
+            this.$router.push("/clientes");
         }
     }
 };

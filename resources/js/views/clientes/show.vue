@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-btn dark fab fixed right bottom @click="$router.push('/clientes')" color="primary">
+        <v-btn dark fab fixed right bottom @click="goBack()" color="primary">
             <v-icon>fas fa-chevron-left</v-icon>
         </v-btn>
         <v-card>
@@ -15,7 +15,7 @@
 
 <script>
 // Vuex
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapMutations } from "vuex";
 
 // Components
 import ClientesShow from "../../components/clientes/ClientesShow.vue";
@@ -33,11 +33,17 @@ export default {
     },
 
     mounted() {
-        this.show({ url: "/api/clientes/show/" + this.id });
+        this.show({ url: "/api/clientes/" + this.id });
     },
 
     methods: {
-        ...mapActions("crudx", ["show"])
+        ...mapMutations("crudx", ["resetForm"]),
+        ...mapActions("crudx", ["show"]),
+
+        goBack() {
+            this.resetForm();
+            this.$router.push("/clientes");
+        }
     }
 };
 </script>

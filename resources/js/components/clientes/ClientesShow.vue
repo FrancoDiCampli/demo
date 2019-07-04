@@ -153,9 +153,9 @@ export default {
         updateCliente: async function() {
             if (this.$refs.clientesEditForm.validate()) {
                 let id = this.form.id;
-                await this.update({ url: "/api/clientes/update/" + id });
+                await this.update({ url: "/api/clientes/" + id });
                 this.$refs.clientesEditForm.reset();
-                await this.show({ url: "/api/clientes/show/" + id });
+                await this.show({ url: "/api/clientes/" + id });
                 this.mode = "show";
                 this.index({ url: "/api/clientes/index" });
             }
@@ -163,9 +163,9 @@ export default {
 
         deleteCliente: async function() {
             await this.destroy({
-                url: "/api/clientes/destroy/" + this.showData.cliente.id
+                url: "/api/clientes/" + this.showData.cliente.id
             });
-            await this.index({ url: "/api/clientes/index" });
+            await this.index({ url: "/api/clientes" });
             this.mode = "show";
             this.$router.push("/clientes");
         }

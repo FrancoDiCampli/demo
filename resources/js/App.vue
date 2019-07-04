@@ -1,6 +1,21 @@
 
 <template>
     <v-app>
+        <v-snackbar
+            v-for="alert in alerts"
+            :key="alert.id"
+            v-model="alert.active"
+            :color="alert.color"
+            right
+            top
+            :timeout="null"
+        >
+            <v-icon color="white" style="margin-right: 20px;">{{ alert.icon }}</v-icon>
+            El producto
+            {{ alert.articulo }}
+            {{ alert.msg }}
+            <v-btn color="white" flat @click="nextAlert(alert)">Cerrar</v-btn>
+        </v-snackbar>
         <!-- Navbar -->
         <v-toolbar color="secondary" class="elevation-0" v-show="token == null">
             <v-toolbar-title @click="$router.push('/')" style="cursor: pointer;">Gepetto</v-toolbar-title>
@@ -233,7 +248,12 @@
 </template>
 
 <script>
+// Axios
+import axios from "axios";
+
+// Vuex
 import { mapState, mapActions, mapGetters } from "vuex";
+
 export default {
     name: "App",
     data() {
@@ -259,13 +279,16 @@ export default {
                 }
             ],
             right: null,
-            mini: true
+            mini: true,
+            alerts: []
         };
     },
     mounted() {
         if (this.token !== null) {
             this.getUser();
         }
+
+        this.getAlerts();
     },
     computed: {
         ...mapState("auth", ["rol", "token"]),
@@ -273,11 +296,83 @@ export default {
     },
     methods: {
         ...mapActions("auth", ["getUser", "logout"]),
+        ...mapActions("crudx", ["index"]),
         exit: async function() {
             await this.logout();
             this.$router.push("/");
             this.$user.set({ role: "visitor" });
             this.mini = true;
+        },
+
+        getAlerts: async function() {
+            axios
+                .get("/api/articulos")
+                .then(res => {
+                    let response = res.data;
+                    if (response.articulos.length) {
+                        for (let i = 0; i < response.articulos.length; i++) {
+                            if (response.articulos[i].stock.length <= 0) {
+                                let articulo = {
+                                    id: response.articulos[i].id,
+                                    articulo: response.articulos[i].articulo,
+                                    msg: "necesita reposición",
+                                    icon: "fas fa-exclamation",
+                                    color: "error",
+                                    active: false
+                                };
+
+                                this.alerts.push(articulo);
+                            } else {
+                                if (response.articulos[i].stock[0].total == 0) {
+                                    let articulo = {
+                                        id: response.articulos[i].id,
+                                        articulo:
+                                            response.articulos[i].articulo,
+                                        msg: "necesita reposición",
+                                        icon: "fas fa-exclamation",
+                                        color: "error",
+                                        active: false
+                                    };
+
+                                    this.alerts.push(articulo);
+                                } else if (
+                                    response.articulos[i].stock[0].total <=
+                                    response.articulos[i].stockminimo
+                                ) {
+                                    let articulo = {
+                                        id: response.articulos[i].id,
+                                        articulo:
+                                            response.articulos[i].articulo,
+                                        msg: "no posee suficiente stock",
+                                        icon: "fas fa-clock",
+                                        color: "warning",
+                                        active: false
+                                    };
+
+                                    this.alerts.push(articulo);
+                                }
+                            }
+                        }
+
+                        if (this.alerts.length > 0) {
+                            this.alerts[0].active = true;
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+
+        nextAlert(alert) {
+            let index = this.alerts.indexOf(alert);
+            let nextActive = index + 1;
+
+            this.alerts[index].active = false;
+
+            if (nextActive < this.alerts.length) {
+                this.alerts[nextActive].active = true;
+            }
         }
     }
 };

@@ -1906,7 +1906,9 @@ module.exports = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -2151,6 +2153,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// Axios
+ // Vuex
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "App",
@@ -2176,16 +2196,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         url: "/reporte"
       }],
       right: null,
-      mini: true
+      mini: true,
+      alerts: []
     };
   },
   mounted: function mounted() {
     if (this.token !== null) {
       this.getUser();
     }
+
+    this.getAlerts();
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])("auth", ["rol", "token"]), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])("auth", ["account"])),
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])("auth", ["getUser", "logout"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("auth", ["rol", "token"]), Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])("auth", ["account"])),
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("auth", ["getUser", "logout"]), Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index"]), {
     exit: function () {
       var _exit = _asyncToGenerator(
       /*#__PURE__*/
@@ -2217,7 +2240,91 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       return exit;
-    }()
+    }(),
+    getAlerts: function () {
+      var _getAlerts = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var _this = this;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/articulos").then(function (res) {
+                  var response = res.data;
+
+                  if (response.articulos.length) {
+                    for (var i = 0; i < response.articulos.length; i++) {
+                      if (response.articulos[i].stock.length <= 0) {
+                        var articulo = {
+                          id: response.articulos[i].id,
+                          articulo: response.articulos[i].articulo,
+                          msg: "necesita reposición",
+                          icon: "fas fa-exclamation",
+                          color: "error",
+                          active: false
+                        };
+
+                        _this.alerts.push(articulo);
+                      } else {
+                        if (response.articulos[i].stock[0].total == 0) {
+                          var _articulo = {
+                            id: response.articulos[i].id,
+                            articulo: response.articulos[i].articulo,
+                            msg: "necesita reposición",
+                            icon: "fas fa-exclamation",
+                            color: "error",
+                            active: false
+                          };
+
+                          _this.alerts.push(_articulo);
+                        } else if (response.articulos[i].stock[0].total <= response.articulos[i].stockminimo) {
+                          var _articulo2 = {
+                            id: response.articulos[i].id,
+                            articulo: response.articulos[i].articulo,
+                            msg: "no posee suficiente stock",
+                            icon: "fas fa-clock",
+                            color: "warning",
+                            active: false
+                          };
+
+                          _this.alerts.push(_articulo2);
+                        }
+                      }
+                    }
+
+                    if (_this.alerts.length > 0) {
+                      _this.alerts[0].active = true;
+                    }
+                  }
+                })["catch"](function (error) {
+                  console.log(error);
+                });
+
+              case 1:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }));
+
+      function getAlerts() {
+        return _getAlerts.apply(this, arguments);
+      }
+
+      return getAlerts;
+    }(),
+    nextAlert: function nextAlert(alert) {
+      var index = this.alerts.indexOf(alert);
+      var nextActive = index + 1;
+      this.alerts[index].active = false;
+
+      if (nextActive < this.alerts.length) {
+        this.alerts[nextActive].active = true;
+      }
+    }
   })
 });
 
@@ -3852,7 +3959,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         if (this.form.documentounico.length == 11) {
           this.process = true;
           this.disabled = true;
-          axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/api/clientes/index", {
+          axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/api/clientes", {
             params: {
               buscarCliente: this.form.documentounico,
               limit: 1
@@ -4047,7 +4154,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])("crudx", ["data", "inProcess"])),
   mounted: function mounted() {
     this.index({
-      url: "api/clientes/index",
+      url: "api/clientes",
       limit: this.limit
     });
   },
@@ -4064,7 +4171,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.loadingButton = true;
                 _context.next = 4;
                 return this.index({
-                  url: "api/clientes/index",
+                  url: "api/clientes",
                   limit: this.limit
                 });
 
@@ -4299,14 +4406,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 id = this.form.id;
                 _context2.next = 4;
                 return this.update({
-                  url: "/api/clientes/update/" + id
+                  url: "/api/clientes/" + id
                 });
 
               case 4:
                 this.$refs.clientesEditForm.reset();
                 _context2.next = 7;
                 return this.show({
-                  url: "/api/clientes/show/" + id
+                  url: "/api/clientes/" + id
                 });
 
               case 7:
@@ -4339,13 +4446,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context3.next = 2;
                 return this.destroy({
-                  url: "/api/clientes/destroy/" + this.showData.cliente.id
+                  url: "/api/clientes/" + this.showData.cliente.id
                 });
 
               case 2:
                 _context3.next = 4;
                 return this.index({
-                  url: "/api/clientes/index"
+                  url: "/api/clientes"
                 });
 
               case 4:
@@ -8648,13 +8755,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                 _context.next = 3;
                 return this.save({
-                  url: "/api/clientes/store"
+                  url: "/api/clientes"
                 });
 
               case 3:
                 _context.next = 5;
                 return this.index({
-                  url: "/api/clientes/index"
+                  url: "/api/clientes"
                 });
 
               case 5:
@@ -8675,7 +8782,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       return saveCliente;
-    }()
+    }(),
+    goBack: function goBack() {
+      this.$refs.clientesForm.reset();
+      this.$router.push("/clientes");
+    }
   })
 });
 
@@ -8764,10 +8875,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("crudx", ["showData"])),
   mounted: function mounted() {
     this.show({
-      url: "/api/clientes/show/" + this.id
+      url: "/api/clientes/" + this.id
     });
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])("crudx", ["show"]))
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])("crudx", ["resetForm"]), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])("crudx", ["show"]), {
+    goBack: function goBack() {
+      this.resetForm();
+      this.$router.push("/clientes");
+    }
+  })
 });
 
 /***/ }),
@@ -8781,7 +8897,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_facturas_FacturasForm_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/facturas/FacturasForm.vue */ "./resources/js/components/facturas/FacturasForm.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _components_facturas_FacturasForm_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/facturas/FacturasForm.vue */ "./resources/js/components/facturas/FacturasForm.vue");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -8793,12 +8914,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+// Vuex
+ // Components
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "FacturasCreate",
   components: {
-    FacturasForm: _components_facturas_FacturasForm_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
-  }
+    FacturasForm: _components_facturas_FacturasForm_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])("crudx", ["resetForm"]), {
+    goBack: function goBack() {
+      this.resetForm();
+      this.$router.push("/facturas");
+    }
+  })
 });
 
 /***/ }),
@@ -14159,6 +14289,53 @@ var render = function() {
   return _c(
     "v-app",
     [
+      _vm._l(_vm.alerts, function(alert) {
+        return _c(
+          "v-snackbar",
+          {
+            key: alert.id,
+            attrs: { color: alert.color, right: "", top: "", timeout: null },
+            model: {
+              value: alert.active,
+              callback: function($$v) {
+                _vm.$set(alert, "active", $$v)
+              },
+              expression: "alert.active"
+            }
+          },
+          [
+            _c(
+              "v-icon",
+              {
+                staticStyle: { "margin-right": "20px" },
+                attrs: { color: "white" }
+              },
+              [_vm._v(_vm._s(alert.icon))]
+            ),
+            _vm._v(
+              "\n        El producto\n        " +
+                _vm._s(alert.articulo) +
+                "\n        " +
+                _vm._s(alert.msg) +
+                "\n        "
+            ),
+            _c(
+              "v-btn",
+              {
+                attrs: { color: "white", flat: "" },
+                on: {
+                  click: function($event) {
+                    return _vm.nextAlert(alert)
+                  }
+                }
+              },
+              [_vm._v("Cerrar")]
+            )
+          ],
+          1
+        )
+      }),
+      _vm._v(" "),
       _c(
         "v-toolbar",
         {
@@ -14738,7 +14915,7 @@ var render = function() {
         1
       )
     ],
-    1
+    2
   )
 }
 var staticRenderFns = []
@@ -23806,7 +23983,7 @@ var render = function() {
           },
           on: {
             click: function($event) {
-              return _vm.$router.push("/clientes")
+              return _vm.goBack()
             }
           }
         },
@@ -23995,7 +24172,7 @@ var render = function() {
           },
           on: {
             click: function($event) {
-              return _vm.$router.push("/clientes")
+              return _vm.goBack()
             }
           }
         },
@@ -24054,7 +24231,7 @@ var render = function() {
           },
           on: {
             click: function($event) {
-              return _vm.$router.push("/facturas")
+              return _vm.goBack()
             }
           }
         },
@@ -69682,7 +69859,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuetify__WEBPACK_IMPORTED_MODULE_
     error: "#FF5252",
     info: "#2196F3",
     success: "#4CAF50",
-    warning: "#FFC107"
+    warning: "#FF8F00"
   },
   options: {
     customProperties: true

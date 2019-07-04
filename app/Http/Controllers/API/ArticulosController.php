@@ -28,13 +28,13 @@ class ArticulosController extends Controller
         //             }
         //         }
         //     }
-        
+
         // }else {
         //     $articulos = Articulo::orderBy('articulo', 'asc')->with('stock');
         // }
 
         return [
-            'articulos' => $articulos->take($request->get('limit', null)),
+            'articulos' => $articulos->take($request->get('limit', null))->get(),
             'total' => $articulos->count()
         ];
     }

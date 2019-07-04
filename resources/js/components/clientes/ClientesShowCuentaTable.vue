@@ -24,7 +24,7 @@
                                                 <v-checkbox
                                                     :input-value="props.all"
                                                     :indeterminate="selected.length > 0 && selected.length < showData.cuentas.length"
-                                                    primary
+                                                    color="primary"
                                                     hide-details
                                                     @click.stop="toggleAll"
                                                 ></v-checkbox>
@@ -43,14 +43,18 @@
                                             v-show="cuenta.item.estado == 'ACTIVA'"
                                         >
                                             <td
-                                                @click="if(cuenta.item.saldo > 0){
+                                                @click="
                                     cuenta.selected = !cuenta.selected;
-                                    cuenta.item.value = cuenta.item.saldo;
-                                }"
+                                    if(!cuenta.selected) {
+                                        cuenta.item.value = cuenta.item.saldo;
+                                    } else {
+                                        cuenta.item.value = null;
+                                    }
+                                    
+                                "
                                             >
                                                 <v-checkbox
                                                     :input-value="cuenta.selected"
-                                                    :disabled="cuenta.item.saldo <= 0"
                                                     color="primary"
                                                     hide-details
                                                 ></v-checkbox>
@@ -67,11 +71,10 @@
                                             <td
                                                 class="hidden-sm-and-down"
                                             >{{ cuenta.item.ultimopago }}</td>
-                                            <td v-show="pagar">
+                                            <td v-show="pagar && cuenta.selected">
                                                 <v-layout justify-center>
                                                     <input
                                                         v-model="cuenta.item.value"
-                                                        :disabled="cuenta.item.saldo <= 0"
                                                         type="text"
                                                         class="input-pagos"
                                                     />
@@ -85,7 +88,7 @@
                         <v-divider></v-divider>
                         <br />
                         <v-layout justify-center v-show="pagar">
-                            <v-btn color="primary">Pagar</v-btn>
+                            <v-btn @click="pagarCuentas()" color="primary">Pagar</v-btn>
                         </v-layout>
                     </v-card-text>
                 </v-card>
@@ -222,6 +225,9 @@ export default {
     methods: {
         toggleAll() {
             if (this.selected.length) {
+                for (let i = 0; i < this.selected.length; i++) {
+                    this.selected[i].value = null;
+                }
                 this.selected = [];
             } else {
                 for (let i = 0; i < this.showData.cuentas.length; i++) {
@@ -234,6 +240,10 @@ export default {
                     this.selected[i].value = this.selected[i].saldo;
                 }
             }
+        },
+
+        pagarCuentas() {
+            console.log(this.selected);
         }
     }
 };
@@ -241,6 +251,7 @@ export default {
 
 <style>
 .input-pagos {
+    width: 75px;
     display: block;
     margin-top: 8px;
     padding: 10px 0px;

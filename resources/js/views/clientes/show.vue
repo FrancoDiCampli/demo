@@ -33,7 +33,7 @@ export default {
     },
 
     mounted() {
-        this.show({ url: "/api/clientes/" + this.id });
+        this.show({ url: "/api/clientes/show/" + this.id });
     },
 
     methods: {

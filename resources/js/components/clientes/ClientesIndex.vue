@@ -70,7 +70,7 @@ export default {
     },
 
     mounted() {
-        this.index({ url: "api/clientes", limit: this.limit });
+        this.index({ url: "api/clientes/index", limit: this.limit });
     },
 
     methods: {
@@ -79,7 +79,7 @@ export default {
         loadMore: async function() {
             this.limit += this.limit;
             this.loadingButton = true;
-            await this.index({ url: "api/clientes", limit: this.limit });
+            await this.index({ url: "api/clientes/index", limit: this.limit });
             this.loadingButton = false;
         }
     }

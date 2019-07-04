@@ -3807,27 +3807,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ClientesCreate",
+  props: ["mode"],
   data: function data() {
     return {
+      alertCliente: false,
       disabled: false,
+      documentoExistente: null,
       condiciones: ["CONSUMIDOR FINAL", "IVA RESPONSABLE INSCRIPTO", "IVA SUJENTO EXENTO", "RESPONSABLE MONOTRIBUTO"],
       process: false,
       rules: {
@@ -3844,27 +3834,53 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     Error: _crudx_error_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])("crudx", ["form", "inProcess"])),
+  mounted: function mounted() {
+    if (this.mode == "edit") {
+      this.documentoExistente = this.form.documentounico;
+    } else if (this.mode == "new") {
+      this.documentoExistente = null;
+    }
+  },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])("crudx", ["fillForm"]), {
     findCliente: function findCliente() {
       var _this = this;
 
-      if (this.form.documentounico.length == 11) {
-        this.process = true;
-        axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/api/clientes", {
-          params: {
-            documentounico: this.form.documentounico
-          }
-        }).then(function (response) {
-          if (response.data.length > 0) {
-            console.log(response.data);
+      if (this.form.documentounico) {
+        this.alertCliente = false;
+        this.disabled = false;
+
+        if (this.form.documentounico.length == 11) {
+          this.process = true;
+          this.disabled = true;
+          axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/api/clientes/index", {
+            params: {
+              buscarCliente: this.form.documentounico,
+              limit: 1
+            }
+          }).then(function (response) {
+            if (response.data.total > 0) {
+              _this.process = false;
+
+              if (_this.mode == "new") {
+                _this.alertCliente = true;
+              } else if (_this.mode == "edit") {
+                if (_this.documentoExistente == _this.form.documentounico) {
+                  _this.alertCliente = false;
+                  _this.disabled = false;
+                } else {
+                  _this.alertCliente = true;
+                  _this.disabled = true;
+                }
+              }
+            } else {
+              _this.buscarAfip();
+            }
+          })["catch"](function (error) {
+            console.log(error);
             _this.process = false;
-          } else {
-            _this.buscarAfip();
-          }
-        })["catch"](function (error) {
-          console.log(error);
-          _this.process = false;
-        });
+            _this.disabled = false;
+          });
+        }
       }
     },
     buscarAfip: function buscarAfip() {
@@ -3875,10 +3891,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           _this2.fillData(response.data);
         } else {
           _this2.process = false;
+          _this2.disabled = false;
         }
       })["catch"](function (error) {
         console.log(error);
         _this2.process = false;
+        _this2.disabled = false;
       });
     },
     fillData: function fillData(data) {
@@ -3928,6 +3946,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.fillForm(formData);
       this.process = false;
+      this.disabled = false;
     }
   })
 });
@@ -4028,7 +4047,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])("crudx", ["data", "inProcess"])),
   mounted: function mounted() {
     this.index({
-      url: "api/clientes",
+      url: "api/clientes/index",
       limit: this.limit
     });
   },
@@ -4045,7 +4064,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.loadingButton = true;
                 _context.next = 4;
                 return this.index({
-                  url: "api/clientes",
+                  url: "api/clientes/index",
                   limit: this.limit
                 });
 
@@ -4280,20 +4299,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 id = this.form.id;
                 _context2.next = 4;
                 return this.update({
-                  url: "/api/clientes/" + id
+                  url: "/api/clientes/update/" + id
                 });
 
               case 4:
                 this.$refs.clientesEditForm.reset();
                 _context2.next = 7;
                 return this.show({
-                  url: "/api/clientes/" + id
+                  url: "/api/clientes/show/" + id
                 });
 
               case 7:
                 this.mode = "show";
                 this.index({
-                  url: "/api/clientes"
+                  url: "/api/clientes/index"
                 });
 
               case 9:
@@ -4320,13 +4339,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context3.next = 2;
                 return this.destroy({
-                  url: "/api/clientes/" + this.showData.cliente.id
+                  url: "/api/clientes/destroy/" + this.showData.cliente.id
                 });
 
               case 2:
                 _context3.next = 4;
                 return this.index({
-                  url: "/api/clientes"
+                  url: "/api/clientes/index"
                 });
 
               case 4:
@@ -4366,6 +4385,9 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
 //
 //
 //
@@ -4593,18 +4615,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   methods: {
     toggleAll: function toggleAll() {
       if (this.selected.length) {
+        for (var i = 0; i < this.selected.length; i++) {
+          this.selected[i].value = null;
+        }
+
         this.selected = [];
       } else {
-        for (var i = 0; i < this.showData.cuentas.length; i++) {
-          if (this.showData.cuentas[i].saldo > 0) {
-            this.selected.push(this.showData.cuentas[i]);
+        for (var _i = 0; _i < this.showData.cuentas.length; _i++) {
+          if (this.showData.cuentas[_i].saldo > 0) {
+            this.selected.push(this.showData.cuentas[_i]);
           }
         }
 
-        for (var _i = 0; _i < this.selected.length; _i++) {
-          this.selected[_i].value = this.selected[_i].saldo;
+        for (var _i2 = 0; _i2 < this.selected.length; _i2++) {
+          this.selected[_i2].value = this.selected[_i2].saldo;
         }
       }
+    },
+    pagarCuentas: function pagarCuentas() {
+      console.log(this.selected);
     }
   }
 });
@@ -6406,7 +6435,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                 _context.next = 4;
                 return this.index({
-                  url: "/api/categorias",
+                  url: "/api/categorias/index",
                   buscarCategoria: this.form.categoria,
                   limit: 5
                 });
@@ -6452,7 +6481,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                 _context2.next = 4;
                 return this.index({
-                  url: "/api/marcas",
+                  url: "/api/marcas/index",
                   buscarMarca: this.form.marca,
                   limit: 5
                 });
@@ -6491,7 +6520,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context3.next = 2;
                 return this.index({
-                  url: "/api/categorias",
+                  url: "/api/categorias/index",
                   limit: 1
                 });
 
@@ -6679,10 +6708,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
 //Vuex
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -6712,7 +6737,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])("crudx", ["data", "showData", "inProcess"])),
   mounted: function mounted() {
     this.index({
-      url: "api/articulos",
+      url: "api/articulos/index",
       limit: this.limit
     });
   },
@@ -6729,7 +6754,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.loadingButton = true;
                 _context.next = 4;
                 return this.index({
-                  url: "/api/articulos",
+                  url: "/api/articulos/index",
                   limit: this.limit
                 });
 
@@ -6760,7 +6785,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context2.next = 2;
                 return this.show({
-                  url: "/api/articulos/" + articulo.id
+                  url: "/api/articulos/show/" + articulo.id
                 });
 
               case 2:
@@ -6779,7 +6804,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       return showProductos;
-    }()
+    }(),
+    log: function log() {
+      console.log(this.data);
+    }
   })
 });
 
@@ -8619,13 +8647,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                 _context.next = 3;
                 return this.save({
-                  url: "/api/clientes"
+                  url: "/api/clientes/store"
                 });
 
               case 3:
                 _context.next = 5;
                 return this.index({
-                  url: "/api/clientes"
+                  url: "/api/clientes/index"
                 });
 
               case 5:
@@ -8735,7 +8763,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("crudx", ["showData"])),
   mounted: function mounted() {
     this.show({
-      url: "/api/clientes/" + this.id
+      url: "/api/clientes/show/" + this.id
     });
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])("crudx", ["show"]))
@@ -9080,7 +9108,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       return new Promise(function (resolve) {
-        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/api/categorias", {
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/api/categorias/store", {
           categoria: _this.form.categoria
         }).then(function (response) {
           resolve(response.data);
@@ -9093,7 +9121,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this2 = this;
 
       return new Promise(function (resolve) {
-        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/api/marcas", {
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/api/marcas/store", {
           marca: _this2.form.marca
         }).then(function (response) {
           resolve(response.data);
@@ -9113,12 +9141,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.form.foto = this.foto.generateDataUrl();
                 _context2.next = 3;
                 return this.save({
-                  url: "/api/articulos"
+                  url: "/api/articulos/store"
                 });
 
               case 3:
                 this.saveCategoriaMarcaDialog = false;
-                this.$router.push("/productos");
+                this.$router.push("/productos/index");
 
               case 5:
               case "end":
@@ -9363,7 +9391,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.input-pagos {\n    display: block;\n    margin-top: 8px;\n    padding: 10px 0px;\n    border: none;\n    border-bottom: 1px solid #9e9e9e;\n    transition: all 1s ease;\n}\n.input-pagos:focus {\n    outline: none;\n    border-bottom: 2px solid #26a69a;\n    transition: all 0.5s ease;\n}\n.pagos tbody tr {\n    border-bottom: none !important;\n}\n", ""]);
+exports.push([module.i, "\n.input-pagos {\n    width: 75px;\n    display: block;\n    margin-top: 8px;\n    padding: 10px 0px;\n    border: none;\n    border-bottom: 1px solid #9e9e9e;\n    transition: all 1s ease;\n}\n.input-pagos:focus {\n    outline: none;\n    border-bottom: 2px solid #26a69a;\n    transition: all 0.5s ease;\n}\n.pagos tbody tr {\n    border-bottom: none !important;\n}\n", ""]);
 
 // exports
 
@@ -9440,6 +9468,25 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 // module
 exports.push([module.i, "\n.input-number input[type=\"number\"] {\n    -moz-appearance: textfield;\n}\n.input-number input::-webkit-outer-spin-button,\n.input-number input::-webkit-inner-spin-button {\n    -webkit-appearance: none;\n}\n.search-table {\n    border: solid 2px #26a69a;\n    margin-top: -30px;\n    border-top: none;\n    margin-bottom: 20px;\n    border-radius: 0px 0px 5px 5px;\n}\n.expansion-border {\n    border-bottom: 1px solid #aaaaaa;\n}\n.expand-transition {\n    transition: all 0.5s ease;\n}\n.expand-enter,\n.expand-leave {\n    height: 0;\n    opacity: 0;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/productos/ProductosIndex.vue?vue&type=style&index=0&lang=css&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/productos/ProductosIndex.vue?vue&type=style&index=0&lang=css& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.tringle-button {\n    position: relative;\n    width: 70px;\n    height: 70px;\n    border-top: solid 35px #26a69a;\n    border-right: solid 35px #26a69a;\n    border-left: solid 35px transparent;\n    border-bottom: solid 35px transparent;\n    cursor: pointer;\n}\n.tringle-button .icon {\n    position: absolute;\n    margin-top: -22px;\n    margin-left: 10px;\n    color: white;\n    font-size: 16px;\n}\n@media (min-width: 600px) {\n.tringle-button {\n        width: 60px;\n        height: 60px;\n        border-top: solid 30px #26a69a;\n        border-right: solid 30px #26a69a;\n        border-left: solid 30px transparent;\n        border-bottom: solid 30px transparent;\n}\n.tringle-button .icon {\n        margin-top: -20px;\n        margin-left: 8px;\n}\n}\n@media (min-width: 1264px) {\n.tringle-button {\n        width: 50px;\n        height: 50px;\n        border-top: solid 25px #26a69a;\n        border-right: solid 25px #26a69a;\n        border-left: solid 25px transparent;\n        border-bottom: solid 25px transparent;\n}\n.tringle-button .icon {\n        margin-top: -16px;\n        margin-left: 8px;\n        font-size: 14px;\n}\n}\n", ""]);
 
 // exports
 
@@ -10991,6 +11038,36 @@ if(false) {}
 
 
 var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--5-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--5-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./ProductosForm.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/productos/ProductosForm.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/productos/ProductosIndex.vue?vue&type=style&index=0&lang=css&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/productos/ProductosIndex.vue?vue&type=style&index=0&lang=css& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--5-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--5-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./ProductosIndex.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/productos/ProductosIndex.vue?vue&type=style&index=0&lang=css&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -16831,6 +16908,31 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-layout",
+        { attrs: { "justify-center": "" } },
+        [
+          _c(
+            "v-flex",
+            { attrs: { xs12: "", "px-3": "" } },
+            [
+              _c(
+                "v-alert",
+                {
+                  staticClass: "text-xs-center",
+                  attrs: { value: _vm.alertCliente, color: "error" }
+                },
+                [_vm._v("Ya existe un cliete registrado con este documento")]
+              ),
+              _vm._v(" "),
+              _c("br")
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-layout",
         { attrs: { "justify-space-around": "", wrap: "" } },
         [
           _c(
@@ -16845,9 +16947,7 @@ var render = function() {
                   rules: [_vm.rules.required],
                   type: "number",
                   label: "Documento",
-                  hint: "Documento",
-                  box: "",
-                  "single-line": ""
+                  box: ""
                 },
                 on: {
                   keyup: function($event) {
@@ -16874,12 +16974,10 @@ var render = function() {
               _vm._v(" "),
               _c("v-select", {
                 attrs: {
-                  disabled: _vm.process,
+                  disabled: _vm.disabled,
                   rules: [_vm.rules.required, _vm.rules.max],
                   items: _vm.condiciones,
                   label: "Condición Frente al IVA",
-                  hint: "Condición Frente al IVA",
-                  "single-line": "",
                   box: ""
                 },
                 model: {
@@ -16903,12 +17001,10 @@ var render = function() {
               _c("v-text-field", {
                 staticClass: "capitalize",
                 attrs: {
-                  disabled: _vm.process,
+                  disabled: _vm.disabled,
                   rules: [_vm.rules.required, _vm.rules.max],
                   label: "Apellido y Nombre",
-                  hint: "Apellido y Nombre",
-                  box: "",
-                  "single-line": ""
+                  box: ""
                 },
                 model: {
                   value: _vm.form.razonsocial,
@@ -16931,12 +17027,10 @@ var render = function() {
               _c("v-text-field", {
                 staticClass: "input-number",
                 attrs: {
-                  disabled: _vm.process,
+                  disabled: _vm.disabled,
                   type: "number",
                   label: "TEL/CEL",
-                  hint: "TEL/CEL",
-                  box: "",
-                  "single-line": ""
+                  box: ""
                 },
                 model: {
                   value: _vm.form.telefono,
@@ -16957,13 +17051,7 @@ var render = function() {
               _c("Error", { attrs: { tag: "email" } }),
               _vm._v(" "),
               _c("v-text-field", {
-                attrs: {
-                  disabled: _vm.process,
-                  label: "Email",
-                  hint: "Email",
-                  box: "",
-                  "single-line": ""
-                },
+                attrs: { disabled: _vm.disabled, label: "Email", box: "" },
                 model: {
                   value: _vm.form.email,
                   callback: function($$v) {
@@ -16985,12 +17073,10 @@ var render = function() {
               _c("v-text-field", {
                 staticClass: "capitalize",
                 attrs: {
-                  disabled: _vm.process,
+                  disabled: _vm.disabled,
                   rules: [_vm.rules.required, _vm.rules.max],
                   label: "Domicilio",
-                  hint: "Domicilio",
-                  box: "",
-                  "single-line": ""
+                  box: ""
                 },
                 model: {
                   value: _vm.form.direccion,
@@ -17013,12 +17099,10 @@ var render = function() {
               _c("v-text-field", {
                 staticClass: "capitalize",
                 attrs: {
-                  disabled: _vm.process,
+                  disabled: _vm.disabled,
                   rules: [_vm.rules.required, _vm.rules.max],
                   label: "Provincia",
-                  hint: "Provincia",
-                  box: "",
-                  "single-line": ""
+                  box: ""
                 },
                 model: {
                   value: _vm.form.provincia,
@@ -17041,12 +17125,10 @@ var render = function() {
               _c("v-text-field", {
                 staticClass: "capitalize",
                 attrs: {
-                  disabled: _vm.process,
+                  disabled: _vm.disabled,
                   rules: [_vm.rules.required, _vm.rules.max],
                   label: "Localidad",
-                  hint: "Localidad",
-                  box: "",
-                  "single-line": ""
+                  box: ""
                 },
                 model: {
                   value: _vm.form.localidad,
@@ -17069,13 +17151,11 @@ var render = function() {
               _c("v-text-field", {
                 staticClass: "input-number",
                 attrs: {
-                  disabled: _vm.process,
+                  disabled: _vm.disabled,
                   rules: [_vm.rules.required],
                   type: "number",
                   label: "Codigo Postal",
-                  hint: "Codigo Postal",
-                  box: "",
-                  "single-line": ""
+                  box: ""
                 },
                 model: {
                   value: _vm.form.codigopostal,
@@ -17449,7 +17529,7 @@ var render = function() {
                     }
                   },
                   [
-                    _c("ClientesForm"),
+                    _c("ClientesForm", { attrs: { mode: "edit" } }),
                     _vm._v(" "),
                     _c(
                       "v-layout",
@@ -17647,7 +17727,7 @@ var render = function() {
                                                     _vm.selected.length <
                                                       _vm.showData.cuentas
                                                         .length,
-                                                  primary: "",
+                                                  color: "primary",
                                                   "hide-details": ""
                                                 },
                                                 on: {
@@ -17752,10 +17832,12 @@ var render = function() {
                                               {
                                                 on: {
                                                   click: function($event) {
-                                                    if (cuenta.item.saldo > 0) {
-                                                      cuenta.selected = !cuenta.selected
+                                                    cuenta.selected = !cuenta.selected
+                                                    if (!cuenta.selected) {
                                                       cuenta.item.value =
                                                         cuenta.item.saldo
+                                                    } else {
+                                                      cuenta.item.value = null
                                                     }
                                                   }
                                                 }
@@ -17765,8 +17847,6 @@ var render = function() {
                                                   attrs: {
                                                     "input-value":
                                                       cuenta.selected,
-                                                    disabled:
-                                                      cuenta.item.saldo <= 0,
                                                     color: "primary",
                                                     "hide-details": ""
                                                   }
@@ -17848,8 +17928,11 @@ var render = function() {
                                                   {
                                                     name: "show",
                                                     rawName: "v-show",
-                                                    value: _vm.pagar,
-                                                    expression: "pagar"
+                                                    value:
+                                                      _vm.pagar &&
+                                                      cuenta.selected,
+                                                    expression:
+                                                      "pagar && cuenta.selected"
                                                   }
                                                 ]
                                               },
@@ -17875,12 +17958,7 @@ var render = function() {
                                                       ],
                                                       staticClass:
                                                         "input-pagos",
-                                                      attrs: {
-                                                        disabled:
-                                                          cuenta.item.saldo <=
-                                                          0,
-                                                        type: "text"
-                                                      },
+                                                      attrs: { type: "text" },
                                                       domProps: {
                                                         value: cuenta.item.value
                                                       },
@@ -17946,9 +18024,18 @@ var render = function() {
                           attrs: { "justify-center": "" }
                         },
                         [
-                          _c("v-btn", { attrs: { color: "primary" } }, [
-                            _vm._v("Pagar")
-                          ])
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { color: "primary" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.pagarCuentas()
+                                }
+                              }
+                            },
+                            [_vm._v("Pagar")]
+                          )
                         ],
                         1
                       )
@@ -18276,7 +18363,10 @@ var render = function() {
                                           { staticClass: "align-end" },
                                           [
                                             _vm._v(
-                                              _vm._s(_vm.showData.cliente.cuit)
+                                              _vm._s(
+                                                _vm.showData.cliente
+                                                  .documentounico
+                                              )
                                             )
                                           ]
                                         )
@@ -20964,6 +21054,18 @@ var render = function() {
     "div",
     [
       _c(
+        "v-btn",
+        {
+          on: {
+            click: function($event) {
+              return _vm.log()
+            }
+          }
+        },
+        [_vm._v("log")]
+      ),
+      _vm._v(" "),
+      _c(
         "v-tabs",
         {
           attrs: {
@@ -21041,36 +21143,24 @@ var render = function() {
                               }
                             },
                             [
-                              _c(
-                                "v-layout",
-                                { attrs: { "justify-end": "" } },
-                                [
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: {
-                                        flat: "",
-                                        icon: "",
-                                        color: "primary"
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.showProductos(articulo)
-                                        }
+                              _c("v-layout", { attrs: { "justify-end": "" } }, [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "tringle-button",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.showProductos(articulo)
                                       }
-                                    },
-                                    [
-                                      _c(
-                                        "v-icon",
-                                        { attrs: { size: "medium" } },
-                                        [_vm._v("fas fa-ellipsis-v")]
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
+                                    }
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "fas fa-ellipsis-v icon"
+                                    })
+                                  ]
+                                )
+                              ])
                             ],
                             1
                           ),
@@ -23778,7 +23868,7 @@ var render = function() {
               }
             },
             [
-              _c("ClientesForm"),
+              _c("ClientesForm", { attrs: { mode: "new" } }),
               _vm._v(" "),
               _c(
                 "v-layout",
@@ -68764,7 +68854,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ProductosIndex_vue_vue_type_template_id_69ee51e6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProductosIndex.vue?vue&type=template&id=69ee51e6& */ "./resources/js/components/productos/ProductosIndex.vue?vue&type=template&id=69ee51e6&");
 /* harmony import */ var _ProductosIndex_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProductosIndex.vue?vue&type=script&lang=js& */ "./resources/js/components/productos/ProductosIndex.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _ProductosIndex_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ProductosIndex.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/productos/ProductosIndex.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -68772,7 +68864,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _ProductosIndex_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _ProductosIndex_vue_vue_type_template_id_69ee51e6___WEBPACK_IMPORTED_MODULE_0__["render"],
   _ProductosIndex_vue_vue_type_template_id_69ee51e6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -68801,6 +68893,22 @@ component.options.__file = "resources/js/components/productos/ProductosIndex.vue
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosIndex_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ProductosIndex.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/productos/ProductosIndex.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosIndex_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/productos/ProductosIndex.vue?vue&type=style&index=0&lang=css&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/productos/ProductosIndex.vue?vue&type=style&index=0&lang=css& ***!
+  \***********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosIndex_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--5-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--5-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./ProductosIndex.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/productos/ProductosIndex.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosIndex_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosIndex_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosIndex_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosIndex_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosIndex_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 

@@ -23,7 +23,7 @@
             <!-- Formulario para agregar un cliente -->
             <v-form ref="clientesForm" @submit.prevent="saveCliente">
                 <!-- Componente Formulario -->
-                <ClientesForm></ClientesForm>
+                <ClientesForm mode="new"></ClientesForm>
                 <v-layout justify-center>
                     <v-btn :disabled="inProcess" type="submit" color="primary">Guardar</v-btn>
                 </v-layout>
@@ -55,8 +55,8 @@ export default {
 
         saveCliente: async function() {
             if (this.$refs.clientesForm.validate()) {
-                await this.save({ url: "/api/clientes" });
-                await this.index({ url: "/api/clientes" });
+                await this.save({ url: "/api/clientes/store" });
+                await this.index({ url: "/api/clientes/index" });
                 this.$refs.clientesForm.resetValidation();
                 this.$refs.clientesForm.reset();
                 this.$router.push("/clientes");

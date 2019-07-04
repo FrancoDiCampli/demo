@@ -1,6 +1,7 @@
 <template>
     <div>
         <!-- Productos Table -->
+        <v-btn @click="log()">log</v-btn>
         <v-tabs
             v-model="tabsProductos"
             right
@@ -20,14 +21,9 @@
                         <v-card>
                             <v-img :src="articulo.foto" aspect-ratio="1.25">
                                 <v-layout justify-end>
-                                    <v-btn
-                                        @click="showProductos(articulo)"
-                                        flat
-                                        icon
-                                        color="primary"
-                                    >
-                                        <v-icon size="medium">fas fa-ellipsis-v</v-icon>
-                                    </v-btn>
+                                    <div @click="showProductos(articulo)" class="tringle-button">
+                                        <i class="fas fa-ellipsis-v icon"></i>
+                                    </div>
                                 </v-layout>
                             </v-img>
                             <v-card-title primary-title>
@@ -168,7 +164,7 @@ export default {
     },
 
     mounted() {
-        this.index({ url: "api/articulos", limit: this.limit });
+        this.index({ url: "api/articulos/index", limit: this.limit });
     },
 
     methods: {
@@ -177,17 +173,75 @@ export default {
         loadMore: async function() {
             this.limit += this.limit;
             this.loadingButton = true;
-            await this.index({ url: "/api/articulos", limit: this.limit });
+            await this.index({
+                url: "/api/articulos/index",
+                limit: this.limit
+            });
             this.loadingButton = false;
         },
 
         showProductos: async function(articulo) {
-            await this.show({ url: "/api/articulos/" + articulo.id });
+            await this.show({ url: "/api/articulos/show/" + articulo.id });
             this.showProductosDialog = true;
+        },
+
+        log() {
+            console.log(this.data);
         }
     }
 };
 </script>
 
 <style>
+.tringle-button {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    border-top: solid 35px #26a69a;
+    border-right: solid 35px #26a69a;
+    border-left: solid 35px transparent;
+    border-bottom: solid 35px transparent;
+    cursor: pointer;
+}
+
+.tringle-button .icon {
+    position: absolute;
+    margin-top: -22px;
+    margin-left: 10px;
+    color: white;
+    font-size: 16px;
+}
+
+@media (min-width: 600px) {
+    .tringle-button {
+        width: 60px;
+        height: 60px;
+        border-top: solid 30px #26a69a;
+        border-right: solid 30px #26a69a;
+        border-left: solid 30px transparent;
+        border-bottom: solid 30px transparent;
+    }
+
+    .tringle-button .icon {
+        margin-top: -20px;
+        margin-left: 8px;
+    }
+}
+
+@media (min-width: 1264px) {
+    .tringle-button {
+        width: 50px;
+        height: 50px;
+        border-top: solid 25px #26a69a;
+        border-right: solid 25px #26a69a;
+        border-left: solid 25px transparent;
+        border-bottom: solid 25px transparent;
+    }
+
+    .tringle-button .icon {
+        margin-top: -16px;
+        margin-left: 8px;
+        font-size: 14px;
+    }
+}
 </style>

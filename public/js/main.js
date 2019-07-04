@@ -5161,6 +5161,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 //Axios
  //Vuex
 
@@ -19125,6 +19126,13 @@ var render = function() {
                                             _c("td", [
                                               _vm._v(
                                                 _vm._s(producto.item.precio)
+                                              )
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _vm._v(
+                                                "stock: " +
+                                                  _vm._s(producto.item.stock)
                                               )
                                             ])
                                           ]

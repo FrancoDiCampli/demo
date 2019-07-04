@@ -16,7 +16,6 @@ class CreateInventariosTable extends Migration
         Schema::create('inventarios', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('cantidad');
-            $table->integer('stockminimo');
             $table->decimal('preciocosto', 8, 2);
             $table->integer('lote')->nullable();
             $table->date('vencimiento');

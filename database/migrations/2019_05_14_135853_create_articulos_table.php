@@ -25,6 +25,7 @@ class CreateArticulosTable extends Migration
             $table->decimal('utilidades', 8, 2);
             $table->decimal('precio', 8, 2);
             $table->decimal('alicuota', 8, 2);
+            $table->integer('stockminimo');
             $table->unsignedBigInteger('marca_id');
             $table->unsignedBigInteger('categoria_id');
             $table->string('foto')->nullable();

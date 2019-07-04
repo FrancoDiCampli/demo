@@ -9,7 +9,6 @@ $factory->define(Inventario::class, function (Faker $faker) {
     $articulo = Articulo::all()->random();
     return [
         'cantidad' => $faker->randomNumber($nbDigits = 2, $strict = false),
-        'stockminimo' => 1,
         'preciocosto' => $articulo->costo,
         'lote' => $faker->randomDigit,
         'vencimiento' => now()->addYear(1)->format('Y-m-d'),

@@ -33,6 +33,7 @@ class StoreArticulo extends FormRequest
             'utilidades' => 'required',
             'precio' => 'required',
             'alicuota' => 'nullable',
+            'stockminimo' => 'required',
             'marca_id' => 'required',
             'categoria_id' => 'required',
             'foto' => 'nullable'

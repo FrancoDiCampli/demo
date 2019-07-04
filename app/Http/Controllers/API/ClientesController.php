@@ -80,6 +80,13 @@ class ClientesController extends Controller
                 $ultimo = new Carbon($cuentas[$i]['ultimopago']);
                 $cuentas[$i]['ultimopago'] = $ultimo->format('d-m-Y');
                 $cuentas[$i]['movimientos'] = $cuentas[$i]->movimientos;
+                $aux = $cuentas[$i]->movimientos;
+                $cuentas[$i]['movimientos'];
+                foreach ($cuentas[$i]['movimientos'] as $aux) {
+                    $fechamov = new Carbon($aux->fecha);
+                    $aux->fecha = $fechamov->format('d-m-Y');
+                }
+                unset($aux);
             }
         }
 
@@ -131,7 +138,7 @@ class ClientesController extends Controller
     public function buscarAfip($num)
     {
         $num = $num * 1;
-        $afip = new Afip(array('CUIT' => 20417590200));
+        $afip = new Afip(array('CUIT' => 20349590418));
         $contribuyente = $afip->RegisterScopeFour->GetTaxpayerDetails($num);
         return json_encode($contribuyente);
     }

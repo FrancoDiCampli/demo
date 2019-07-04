@@ -88,7 +88,7 @@ class FacturasController extends Controller
         $factura->articulos()->attach($det);
 
         // CREACION DE CUENTA CORRIENTE
-        if ($factura->pagada == false) {
+        if (($factura->pagada == false) && ($cliente->id != 1)) {
             $cuenta = Cuentacorriente::create([
                 'factura_id' => $factura->id,
                 'importe' => $factura->total,

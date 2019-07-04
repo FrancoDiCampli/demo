@@ -1,6 +1,6 @@
 <template>
     <v-card>
-        <v-btn dark fab fixed right bottom @click="$router.push('/clientes')" color="primary">
+        <v-btn dark fab fixed right bottom @click="goBack()" color="primary">
             <v-icon>fas fa-chevron-left</v-icon>
         </v-btn>
         <!-- Header -->
@@ -23,7 +23,7 @@
             <!-- Formulario para agregar un cliente -->
             <v-form ref="clientesForm" @submit.prevent="saveCliente">
                 <!-- Componente Formulario -->
-                <ClientesForm></ClientesForm>
+                <ClientesForm mode="new"></ClientesForm>
                 <v-layout justify-center>
                     <v-btn :disabled="inProcess" type="submit" color="primary">Guardar</v-btn>
                 </v-layout>
@@ -34,7 +34,7 @@
 
 <script>
 // Vuex
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 
 // Components
 import ClientesForm from "../../components/clientes/ClientesForm.vue";
@@ -61,6 +61,11 @@ export default {
                 this.$refs.clientesForm.reset();
                 this.$router.push("/clientes");
             }
+        },
+
+        goBack() {
+            this.$refs.clientesForm.reset();
+            this.$router.push("/clientes");
         }
     }
 };

@@ -25,7 +25,7 @@
                                         </v-list-tile-content>
                                         <v-list-tile-content
                                             class="align-end"
-                                        >{{ showData.cliente.cuit }}</v-list-tile-content>
+                                        >{{ showData.cliente.documentounico }}</v-list-tile-content>
                                     </v-list-tile>
                                     <v-list-tile>
                                         <v-list-tile-content>

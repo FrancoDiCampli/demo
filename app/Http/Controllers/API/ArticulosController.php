@@ -28,13 +28,13 @@ class ArticulosController extends Controller
         //             }
         //         }
         //     }
-        
+
         // }else {
         //     $articulos = Articulo::orderBy('articulo', 'asc')->with('stock');
         // }
 
         return [
-            'articulos' => $articulos->take($request->get('limit', null)),
+            'articulos' => $articulos->take($request->get('limit', null))->get(),
             'total' => $articulos->count()
         ];
     }
@@ -103,83 +103,6 @@ class ArticulosController extends Controller
         $articulo->delete();
 
         return ['message' => 'eliminado'];
-    }
-
-    public function traerInventario($id)
-    {
-        $inventarios = Inventario::where('articulo_id', $id)->get();
-        $stock = $inventarios->sum('cantidad');
-        return response()->json([
-            'stock' => $stock,
-            'inventarios' => $inventarios
-        ]);
-    }
-
-    public function generator($categoria_id)
-    {
-        // GENERA CODIGO DEL ARTICULO
-        $categoria = Categoria::find($categoria_id);
-        $cat = $categoria->categoria;
-        $category = strtoupper($cat);
-        $arr[] = null;
-        $arreglo = str_split($category);
-        $letras = $arreglo[0] . $arreglo[1] . $arreglo[2];
-        $codar = '';
-        $id = 0;
-
-        if (Articulo::all()->last()) {
-            $id = Articulo::all()->last()->id + 1;
-        } else {
-            $id = 1;
-        }
-
-        $suma = strlen($letras) + strlen($id);
-
-        switch ($suma) {
-            case 4:
-                $codar = $letras . '000000000' . $id;
-                break;
-
-            case 5:
-                $codar = $letras . '00000000' . $id;
-                break;
-
-            case 6:
-                $codar = $letras . '0000000' . $id;
-                break;
-
-            case 7:
-                $codar = $letras . '000000' . $id;
-                break;
-
-            case 8:
-                $codar = $letras . '00000' . $id;
-                break;
-
-            case 9:
-                $codar = $letras . '0000' . $id;
-                break;
-
-            case 10:
-                $codar = $letras . '000' . $id;
-                break;
-
-            case 11:
-                $codar = $letras . '00' . $id;
-                break;
-
-            case 12:
-                $codar = $letras . '0' . $id;
-                break;
-
-            default:
-                $codar = $letras . $id;
-                break;
-        }
-
-        // $generator = new BarcodeGeneratorHTML();
-        // $generator->getBarcode($codar, $generator::TYPE_CODE_128);
-        return $codar;
     }
 
 

@@ -12,7 +12,6 @@ class CategoriasController extends Controller
     {
         $categorias = Categoria::orderBy('id', 'desc')
             ->buscar($request);
-
         return [
             'categorias' => $categorias->take($request->get('limit', null))->get(),
             'total' => $categorias->count()
@@ -23,30 +22,7 @@ class CategoriasController extends Controller
     {
         $data = $request->validate(['categoria' => 'required|unique:categorias|max:190']);
         $data['categoria'] = ucwords($data['categoria']);
-
         $categoria = Categoria::create($data);
-
         return $categoria->id;
-    }
-
-    public function update(Request $request, $id)
-    {
-        $categoria = Categoria::findOrFail($id);
-
-        $data = $request->validate(['categoria' => 'required|min:1|max:190|unique:categorias,categoria,' . $categoria->id]);
-
-        $data['categoria'] = ucwords($data['categoria']);
-
-        $categoria->update($data);
-
-        return ['message' => 'actualizado'];
-    }
-
-    public function destroy($id)
-    {
-        $categoria = Categoria::findOrFail($id);
-        $categoria->delete();
-
-        return ['message' => 'eliminado'];
     }
 }

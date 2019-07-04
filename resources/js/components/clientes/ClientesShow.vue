@@ -67,7 +67,7 @@
             </div>
             <div v-else-if="mode == 'edit'">
                 <v-form ref="clientesEditForm" @submit.prevent="updateCliente">
-                    <ClientesForm></ClientesForm>
+                    <ClientesForm mode="edit"></ClientesForm>
                     <v-layout justify-center>
                         <v-btn @click="mode = 'show'" outline color="primary">Cancelar</v-btn>
                         <v-btn :disabled="inProcess" type="submit" color="primary">Editar</v-btn>
@@ -157,7 +157,7 @@ export default {
                 this.$refs.clientesEditForm.reset();
                 await this.show({ url: "/api/clientes/" + id });
                 this.mode = "show";
-                this.index({ url: "/api/clientes" });
+                this.index({ url: "/api/clientes/index" });
             }
         },
 
@@ -168,7 +168,7 @@ export default {
             await this.index({ url: "/api/clientes" });
             this.mode = "show";
             this.$router.push("/clientes");
-        },
+        }
     }
 };
 </script>

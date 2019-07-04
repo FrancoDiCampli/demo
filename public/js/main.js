@@ -2203,9 +2203,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {
     if (this.token !== null) {
       this.getUser();
-    }
+    } // this.getAlerts();
 
-    this.getAlerts();
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("auth", ["rol", "token"]), Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])("auth", ["account"])),
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("auth", ["getUser", "logout"]), Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index"]), {
@@ -2253,6 +2252,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/articulos").then(function (res) {
                   var response = res.data;
+                  console.log(response);
 
                   if (response.articulos.length) {
                     for (var i = 0; i < response.articulos.length; i++) {
@@ -5269,6 +5269,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 //Axios
  //Vuex
 
@@ -5289,6 +5296,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       stock: 0,
       productos: [],
       detalles: [],
+      productosHeaders: [{
+        text: "Codigo",
+        sortable: false,
+        "class": "hidden-xs-only"
+      }, {
+        text: "Articulo",
+        sortable: false
+      }, {
+        text: "Precio",
+        sortable: false
+      }, {
+        text: "Stock",
+        sortable: false
+      }],
       detallesHeader: [{
         text: "Articulo",
         sortable: false
@@ -5510,16 +5531,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }(),
     // Seleccionar Producto
     selectProducto: function selectProducto(producto) {
-      // Reiniciar la tabla de productos
-      this.productos = [];
-      this.form.producto_id = producto.id;
-      this.form.producto = producto.articulo;
-      this.form.precio = producto.precio;
-
+      // Comprobar si el articulo tiene stock
       if (producto.stock.length > 0) {
-        this.stock = producto.stock[0].total * 1;
-      } else {
-        this.stock = 0;
+        if (producto.stock[0].total > 0) {
+          // Reiniciar la tabla de productos
+          this.productos = []; // Seleccionar Producto
+
+          this.form.producto_id = producto.id;
+          this.form.producto = producto.articulo;
+          this.form.precio = producto.precio;
+        }
       }
     },
     //LLenar Array de Detalles
@@ -6543,7 +6564,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                 _context.next = 4;
                 return this.index({
-                  url: "/api/categorias/index",
+                  url: "/api/categorias",
                   buscarCategoria: this.form.categoria,
                   limit: 5
                 });
@@ -6589,7 +6610,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                 _context2.next = 4;
                 return this.index({
-                  url: "/api/marcas/index",
+                  url: "/api/marcas",
                   buscarMarca: this.form.marca,
                   limit: 5
                 });
@@ -6628,7 +6649,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context3.next = 2;
                 return this.index({
-                  url: "/api/categorias/index",
+                  url: "/api/categorias",
                   limit: 1
                 });
 
@@ -6816,6 +6837,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 //Vuex
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -6836,6 +6861,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         text: "Precio",
         sortable: false
       }, {
+        text: "Stock",
+        sortable: false
+      }, {
         text: "",
         sortable: false
       }],
@@ -6845,7 +6873,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])("crudx", ["data", "showData", "inProcess"])),
   mounted: function mounted() {
     this.index({
-      url: "api/articulos/index",
+      url: "api/articulos",
       limit: this.limit
     });
   },
@@ -6862,7 +6890,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.loadingButton = true;
                 _context.next = 4;
                 return this.index({
-                  url: "/api/articulos/index",
+                  url: "/api/articulos",
                   limit: this.limit
                 });
 
@@ -6893,7 +6921,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context2.next = 2;
                 return this.show({
-                  url: "/api/articulos/show/" + articulo.id
+                  url: "/api/articulos/" + articulo.id
                 });
 
               case 2:
@@ -9239,7 +9267,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       return new Promise(function (resolve) {
-        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/api/categorias/store", {
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/api/categorias", {
           categoria: _this.form.categoria
         }).then(function (response) {
           resolve(response.data);
@@ -9252,7 +9280,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this2 = this;
 
       return new Promise(function (resolve) {
-        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/api/marcas/store", {
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/api/marcas", {
           marca: _this2.form.marca
         }).then(function (response) {
           resolve(response.data);
@@ -9272,7 +9300,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.form.foto = this.foto.generateDataUrl();
                 _context2.next = 3;
                 return this.save({
-                  url: "/api/articulos/store"
+                  url: "/api/articulos"
                 });
 
               case 3:
@@ -19265,7 +19293,7 @@ var render = function() {
                                   "no-data-text":
                                     "El producto no se encuentra en la base de datos.",
                                   "hide-actions": "",
-                                  "hide-headers": "",
+                                  headers: _vm.productosHeaders,
                                   items: _vm.productos
                                 },
                                 scopedSlots: _vm._u([
@@ -19276,7 +19304,11 @@ var render = function() {
                                         _c(
                                           "tr",
                                           {
-                                            staticStyle: { cursor: "pointer" },
+                                            style:
+                                              producto.item.stock.length > 0 &&
+                                              producto.item.stock[0].total > 0
+                                                ? "cursor: pointer;"
+                                                : "",
                                             on: {
                                               click: function($event) {
                                                 return _vm.selectProducto(
@@ -19307,10 +19339,16 @@ var render = function() {
                                             ]),
                                             _vm._v(" "),
                                             _c("td", [
-                                              _vm._v(
-                                                "stock: " +
-                                                  _vm._s(producto.item.stock)
-                                              )
+                                              producto.item.stock.length <= 0
+                                                ? _c("div", [_vm._v("0")])
+                                                : _c("div", [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        producto.item.stock[0]
+                                                          .total
+                                                      )
+                                                    )
+                                                  ])
                                             ])
                                           ]
                                         )
@@ -21454,6 +21492,18 @@ var render = function() {
                                       _vm._v(
                                         "$ " + _vm._s(articulo.item.precio)
                                       )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      articulo.item.stock.length <= 0
+                                        ? _c("div", [_vm._v("0")])
+                                        : _c("div", [
+                                            _vm._v(
+                                              _vm._s(
+                                                articulo.item.stock[0].total
+                                              )
+                                            )
+                                          ])
                                     ]),
                                     _vm._v(" "),
                                     _c(

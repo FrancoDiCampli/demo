@@ -251,7 +251,7 @@ export default {
 
             if (this.form.categoria) {
                 let response = await this.index({
-                    url: "/api/categorias/index",
+                    url: "/api/categorias",
                     buscarCategoria: this.form.categoria,
                     limit: 5
                 });
@@ -270,7 +270,7 @@ export default {
             this.form.marca_id = null;
             if (this.form.marca) {
                 let response = await this.index({
-                    url: "/api/marcas/index",
+                    url: "/api/marcas",
                     buscarMarca: this.form.marca,
                     limit: 5
                 });
@@ -287,7 +287,7 @@ export default {
 
         getLastId: async function() {
             let response = await this.index({
-                url: "/api/categorias/index",
+                url: "/api/categorias",
                 limit: 1
             });
 

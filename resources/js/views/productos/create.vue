@@ -191,7 +191,7 @@ export default {
         saveCategoria() {
             return new Promise(resolve => {
                 axios
-                    .post("/api/categorias/store", {
+                    .post("/api/categorias", {
                         categoria: this.form.categoria
                     })
                     .then(response => {
@@ -206,7 +206,7 @@ export default {
         saveMarca() {
             return new Promise(resolve => {
                 axios
-                    .post("/api/marcas/store", {
+                    .post("/api/marcas", {
                         marca: this.form.marca
                     })
                     .then(response => {
@@ -220,7 +220,7 @@ export default {
 
         saveProducto: async function() {
             this.form.foto = this.foto.generateDataUrl();
-            await this.save({ url: "/api/articulos/store" });
+            await this.save({ url: "/api/articulos" });
             this.saveCategoriaMarcaDialog = false;
             this.$router.push("/productos/index");
         }

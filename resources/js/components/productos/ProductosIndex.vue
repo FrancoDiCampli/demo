@@ -65,6 +65,10 @@
                                     <td>{{ articulo.item.articulo }}</td>
                                     <td>$ {{ articulo.item.precio }}</td>
                                     <td>
+                                        <div v-if="articulo.item.stock.length <= 0">0</div>
+                                        <div v-else>{{ articulo.item.stock[0].total }}</div>
+                                    </td>
+                                    <td>
                                         <v-btn
                                             @click="showProductos(articulo)"
                                             flat
@@ -153,6 +157,7 @@ export default {
                 { text: "Codigo", sortable: false, class: "hidden-xs-only" },
                 { text: "Articulo", sortable: false },
                 { text: "Precio", sortable: false },
+                { text: "Stock", sortable: false },
                 { text: "", sortable: false }
             ],
             showProductosDialog: false
@@ -164,7 +169,7 @@ export default {
     },
 
     mounted() {
-        this.index({ url: "api/articulos/index", limit: this.limit });
+        this.index({ url: "api/articulos", limit: this.limit });
     },
 
     methods: {
@@ -174,14 +179,14 @@ export default {
             this.limit += this.limit;
             this.loadingButton = true;
             await this.index({
-                url: "/api/articulos/index",
+                url: "/api/articulos",
                 limit: this.limit
             });
             this.loadingButton = false;
         },
 
         showProductos: async function(articulo) {
-            await this.show({ url: "/api/articulos/show/" + articulo.id });
+            await this.show({ url: "/api/articulos/" + articulo.id });
             this.showProductosDialog = true;
         },
 

@@ -288,7 +288,7 @@ export default {
             this.getUser();
         }
 
-        this.getAlerts();
+        // this.getAlerts();
     },
     computed: {
         ...mapState("auth", ["rol", "token"]),
@@ -309,6 +309,7 @@ export default {
                 .get("/api/articulos")
                 .then(res => {
                     let response = res.data;
+                    console.log(response);
                     if (response.articulos.length) {
                         for (let i = 0; i < response.articulos.length; i++) {
                             if (response.articulos[i].stock.length <= 0) {

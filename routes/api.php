@@ -24,6 +24,9 @@ Route::middleware('auth:api')->group(function () {
     Route::middleware('scopes:edit-users')->put('users/edit/{id}', 'UserController@update');
     Route::middleware('scopes:delete-users')->post('users/delete/{id}', 'UserController@destroy');
 
+    // Notifications Api Routes
+    Route::get('notifications', 'API\NotificationsController@getNotifications');
+
     // Categorias Api Routes
     Route::apiResource('categorias', 'API\CategoriasController', ['only' => ['index', 'store']]);
 

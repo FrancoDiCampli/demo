@@ -24,12 +24,22 @@
             </v-btn>
             <v-spacer></v-spacer>
             <v-btn flat icon @click="notificationDrawer = !notificationDrawer">
-                <v-badge left color="error">
-                    <template v-slot:badge>
-                        <span>15</span>
-                    </template>
+                <div v-if="alerts.length > 0">
+                    <v-badge left color="error">
+                        <template v-slot:badge>
+                            <div v-if="alerts.length <= 99">
+                                <span>{{ alerts.length }}</span>
+                            </div>
+                            <div v-else>
+                                <span>99+</span>
+                            </div>
+                        </template>
+                        <v-icon :color="screenWidth <= 600 ? 'white' : 'primary'">fas fa-bell</v-icon>
+                    </v-badge>
+                </div>
+                <div v-else>
                     <v-icon :color="screenWidth <= 600 ? 'white' : 'primary'">fas fa-bell</v-icon>
-                </v-badge>
+                </div>
             </v-btn>
         </v-toolbar>
 
@@ -41,22 +51,17 @@
             absolute
             temporary
         >
-            <v-toolbar flat>
-                <v-list>
-                    <v-list-tile>
-                        <v-list-tile-title class="title">Notificaciones</v-list-tile-title>
+            <v-list dense>
+                <div v-for="alert in alerts" :key="alert.id">
+                    <v-list-tile my-2 @click="$router.push(alert.url)">
+                        <v-list-tile-action>
+                            <v-icon :color="alert.color">{{ alert.icon }}</v-icon>
+                        </v-list-tile-action>
+                        <v-list-tile-content>
+                            <v-list-tile-title :class="alert.color+'--text'">{{ alert.msg }}</v-list-tile-title>
+                        </v-list-tile-content>
                     </v-list-tile>
-                </v-list>
-            </v-toolbar>
-
-            <v-divider></v-divider>
-
-            <v-list dense class="pt-0">
-                <v-list-tile v-for="alert in alerts" :key="alert.id">
-                    <v-list-tile-content>
-                        <v-list-tile-title>{{ alert.articulo }}</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
+                </div>
             </v-list>
         </v-navigation-drawer>
 
@@ -299,52 +304,10 @@ export default {
 
         getAlerts: async function() {
             axios
-                .get("/api/articulos")
-                .then(res => {
-                    let response = res.data;
-                    console.log(response);
-                    if (response.articulos.length) {
-                        for (let i = 0; i < response.articulos.length; i++) {
-                            if (response.articulos[i].stock.length <= 0) {
-                                let articulo = {
-                                    id: response.articulos[i].id,
-                                    articulo: response.articulos[i].articulo,
-                                    msg: "necesita reposición",
-                                    icon: "fas fa-exclamation",
-                                    color: "error"
-                                };
-
-                                this.alerts.push(articulo);
-                            } else {
-                                if (response.articulos[i].stock[0].total == 0) {
-                                    let articulo = {
-                                        id: response.articulos[i].id,
-                                        articulo:
-                                            response.articulos[i].articulo,
-                                        msg: "necesita reposición",
-                                        icon: "fas fa-exclamation",
-                                        color: "error"
-                                    };
-
-                                    this.alerts.push(articulo);
-                                } else if (
-                                    response.articulos[i].stock[0].total <=
-                                    response.articulos[i].stockminimo
-                                ) {
-                                    let articulo = {
-                                        id: response.articulos[i].id,
-                                        articulo:
-                                            response.articulos[i].articulo,
-                                        msg: "no posee suficiente stock",
-                                        icon: "fas fa-clock",
-                                        color: "warning"
-                                    };
-
-                                    this.alerts.push(articulo);
-                                }
-                            }
-                        }
-                    }
+                .get("/api/notifications")
+                .then(response => {
+                    this.alerts = response.data;
+                    console.log(this.alerts);
                 })
                 .catch(error => {
                     console.log(error);

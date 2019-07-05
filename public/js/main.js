@@ -2112,62 +2112,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 // Axios
  // Vuex
 
@@ -2176,24 +2120,50 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   name: "App",
   data: function data() {
     return {
-      drawer: true,
-      drawerMobile: false,
+      mobileDrawer: false,
+      notificationDrawer: false,
       sellerItems: [{
         title: "Ventas",
         icon: "fas fa-dollar-sign",
-        url: "/facturas"
+        url: "/facturas",
+        divider: false,
+        rol: "seller"
       }, {
         title: "Clientes",
         icon: "fas fa-users",
-        url: "/clientes"
+        url: "/clientes",
+        divider: false,
+        rol: "seller"
       }, {
         title: "Productos",
         icon: "fas fa-box-open",
-        url: "/productos"
+        url: "/productos",
+        divider: false,
+        rol: "seller"
       }, {
         title: "Reportes",
         icon: "fas fa-clipboard",
-        url: "/reporte"
+        url: "/reporte",
+        divider: true,
+        rol: "seller"
+      }, {
+        title: "Usuarios",
+        icon: "fas fa-users",
+        url: "/users",
+        divider: false,
+        rol: "admin"
+      }, {
+        title: "Roles",
+        icon: "fas fa-tag",
+        url: "/roles",
+        divider: true,
+        rol: "superAdmin"
+      }, {
+        title: "Mi Cuenta",
+        icon: "fas fa-user-circle",
+        url: "/account",
+        divider: false,
+        rol: null
       }],
       right: null,
       mini: true,
@@ -2207,7 +2177,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     this.getAlerts();
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("auth", ["rol", "token"]), Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])("auth", ["account"])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("auth", ["rol", "token"]), Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])("auth", ["account"]), {
+    screenWidth: function screenWidth() {
+      return window.innerWidth;
+    },
+    drawer: {
+      set: function set() {},
+      get: function get() {
+        if (window.innerWidth <= 600) {
+          return this.mobileDrawer;
+        } else {
+          return true;
+        }
+      }
+    }
+  }),
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("auth", ["getUser", "logout"]), Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index"]), {
     exit: function () {
       var _exit = _asyncToGenerator(
@@ -2253,6 +2237,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/articulos").then(function (res) {
                   var response = res.data;
+                  console.log(response);
 
                   if (response.articulos.length) {
                     for (var i = 0; i < response.articulos.length; i++) {
@@ -2262,8 +2247,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                           articulo: response.articulos[i].articulo,
                           msg: "necesita reposición",
                           icon: "fas fa-exclamation",
-                          color: "error",
-                          active: false
+                          color: "error"
                         };
 
                         _this.alerts.push(articulo);
@@ -2274,8 +2258,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                             articulo: response.articulos[i].articulo,
                             msg: "necesita reposición",
                             icon: "fas fa-exclamation",
-                            color: "error",
-                            active: false
+                            color: "error"
                           };
 
                           _this.alerts.push(_articulo);
@@ -2285,17 +2268,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                             articulo: response.articulos[i].articulo,
                             msg: "no posee suficiente stock",
                             icon: "fas fa-clock",
-                            color: "warning",
-                            active: false
+                            color: "warning"
                           };
 
                           _this.alerts.push(_articulo2);
                         }
                       }
-                    }
-
-                    if (_this.alerts.length > 0) {
-                      _this.alerts[0].active = true;
                     }
                   }
                 })["catch"](function (error) {
@@ -2315,16 +2293,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       return getAlerts;
-    }(),
-    nextAlert: function nextAlert(alert) {
-      var index = this.alerts.indexOf(alert);
-      var nextActive = index + 1;
-      this.alerts[index].active = false;
-
-      if (nextActive < this.alerts.length) {
-        this.alerts[nextActive].active = true;
-      }
-    }
+    }()
   })
 });
 
@@ -5269,6 +5238,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 //Axios
  //Vuex
 
@@ -5289,6 +5265,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       stock: 0,
       productos: [],
       detalles: [],
+      productosHeaders: [{
+        text: "Codigo",
+        sortable: false,
+        "class": "hidden-xs-only"
+      }, {
+        text: "Articulo",
+        sortable: false
+      }, {
+        text: "Precio",
+        sortable: false
+      }, {
+        text: "Stock",
+        sortable: false
+      }],
       detallesHeader: [{
         text: "Articulo",
         sortable: false
@@ -5510,16 +5500,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }(),
     // Seleccionar Producto
     selectProducto: function selectProducto(producto) {
-      // Reiniciar la tabla de productos
-      this.productos = [];
-      this.form.producto_id = producto.id;
-      this.form.producto = producto.articulo;
-      this.form.precio = producto.precio;
-
+      // Comprobar si el articulo tiene stock
       if (producto.stock.length > 0) {
-        this.stock = producto.stock[0].total * 1;
-      } else {
-        this.stock = 0;
+        if (producto.stock[0].total > 0) {
+          // Reiniciar la tabla de productos
+          this.productos = []; // Seleccionar Producto
+
+          this.form.producto_id = producto.id;
+          this.form.producto = producto.articulo;
+          this.form.precio = producto.precio;
+        }
       }
     },
     //LLenar Array de Detalles
@@ -6543,7 +6533,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                 _context.next = 4;
                 return this.index({
-                  url: "/api/categorias/index",
+                  url: "/api/categorias",
                   buscarCategoria: this.form.categoria,
                   limit: 5
                 });
@@ -6589,7 +6579,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                 _context2.next = 4;
                 return this.index({
-                  url: "/api/marcas/index",
+                  url: "/api/marcas",
                   buscarMarca: this.form.marca,
                   limit: 5
                 });
@@ -6628,7 +6618,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context3.next = 2;
                 return this.index({
-                  url: "/api/categorias/index",
+                  url: "/api/categorias",
                   limit: 1
                 });
 
@@ -6816,6 +6806,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 //Vuex
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -6836,6 +6830,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         text: "Precio",
         sortable: false
       }, {
+        text: "Stock",
+        sortable: false
+      }, {
         text: "",
         sortable: false
       }],
@@ -6845,7 +6842,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])("crudx", ["data", "showData", "inProcess"])),
   mounted: function mounted() {
     this.index({
-      url: "api/articulos/index",
+      url: "api/articulos",
       limit: this.limit
     });
   },
@@ -6862,7 +6859,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.loadingButton = true;
                 _context.next = 4;
                 return this.index({
-                  url: "/api/articulos/index",
+                  url: "/api/articulos",
                   limit: this.limit
                 });
 
@@ -6893,7 +6890,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context2.next = 2;
                 return this.show({
-                  url: "/api/articulos/show/" + articulo.id
+                  url: "/api/articulos/" + articulo.id
                 });
 
               case 2:
@@ -9239,7 +9236,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       return new Promise(function (resolve) {
-        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/api/categorias/store", {
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/api/categorias", {
           categoria: _this.form.categoria
         }).then(function (response) {
           resolve(response.data);
@@ -9252,7 +9249,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this2 = this;
 
       return new Promise(function (resolve) {
-        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/api/marcas/store", {
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post("/api/marcas", {
           marca: _this2.form.marca
         }).then(function (response) {
           resolve(response.data);
@@ -9272,7 +9269,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.form.foto = this.foto.generateDataUrl();
                 _context2.next = 3;
                 return this.save({
-                  url: "/api/articulos/store"
+                  url: "/api/articulos"
                 });
 
               case 3:
@@ -14192,53 +14189,6 @@ var render = function() {
   return _c(
     "v-app",
     [
-      _vm._l(_vm.alerts, function(alert) {
-        return _c(
-          "v-snackbar",
-          {
-            key: alert.id,
-            attrs: { color: alert.color, right: "", top: "", timeout: null },
-            model: {
-              value: alert.active,
-              callback: function($$v) {
-                _vm.$set(alert, "active", $$v)
-              },
-              expression: "alert.active"
-            }
-          },
-          [
-            _c(
-              "v-icon",
-              {
-                staticStyle: { "margin-right": "20px" },
-                attrs: { color: "white" }
-              },
-              [_vm._v(_vm._s(alert.icon))]
-            ),
-            _vm._v(
-              "\n        El producto\n        " +
-                _vm._s(alert.articulo) +
-                "\n        " +
-                _vm._s(alert.msg) +
-                "\n        "
-            ),
-            _c(
-              "v-btn",
-              {
-                attrs: { color: "white", flat: "" },
-                on: {
-                  click: function($event) {
-                    return _vm.nextAlert(alert)
-                  }
-                }
-              },
-              [_vm._v("Cerrar")]
-            )
-          ],
-          1
-        )
-      }),
-      _vm._v(" "),
       _c(
         "v-toolbar",
         {
@@ -14297,6 +14247,89 @@ var render = function() {
       _c("v-divider"),
       _vm._v(" "),
       _c(
+        "v-toolbar",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.token !== null,
+              expression: "token !== null"
+            }
+          ],
+          staticClass: "elevation-0",
+          attrs: {
+            color: _vm.screenWidth <= 600 ? "primary" : "transparent",
+            absolute: _vm.screenWidth <= 600 ? false : true,
+            dark: ""
+          }
+        },
+        [
+          _c(
+            "v-btn",
+            {
+              staticClass: "hidden-sm-and-up",
+              attrs: { flat: "", icon: "" },
+              on: {
+                click: function($event) {
+                  $event.stopPropagation()
+                  _vm.mobileDrawer = !_vm.mobileDrawer
+                }
+              }
+            },
+            [_c("v-icon", [_vm._v("fas fa-bars")])],
+            1
+          ),
+          _vm._v(" "),
+          _c("v-spacer"),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            {
+              attrs: { flat: "", icon: "" },
+              on: {
+                click: function($event) {
+                  _vm.notificationDrawer = !_vm.notificationDrawer
+                }
+              }
+            },
+            [
+              _c(
+                "v-badge",
+                {
+                  attrs: { left: "", color: "error" },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "badge",
+                      fn: function() {
+                        return [_c("span", [_vm._v("15")])]
+                      },
+                      proxy: true
+                    }
+                  ])
+                },
+                [
+                  _vm._v(" "),
+                  _c(
+                    "v-icon",
+                    {
+                      attrs: {
+                        color: _vm.screenWidth <= 600 ? "white" : "primary"
+                      }
+                    },
+                    [_vm._v("fas fa-bell")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
         "v-navigation-drawer",
         {
           directives: [
@@ -14307,12 +14340,82 @@ var render = function() {
               expression: "token !== null"
             }
           ],
-          staticClass: "hidden-xs-only",
+          attrs: { right: "", absolute: "", temporary: "" },
+          model: {
+            value: _vm.notificationDrawer,
+            callback: function($$v) {
+              _vm.notificationDrawer = $$v
+            },
+            expression: "notificationDrawer"
+          }
+        },
+        [
+          _c(
+            "v-toolbar",
+            { attrs: { flat: "" } },
+            [
+              _c(
+                "v-list",
+                [
+                  _c(
+                    "v-list-tile",
+                    [
+                      _c("v-list-tile-title", { staticClass: "title" }, [
+                        _vm._v("Notificaciones")
+                      ])
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("v-divider"),
+          _vm._v(" "),
+          _c(
+            "v-list",
+            { staticClass: "pt-0", attrs: { dense: "" } },
+            _vm._l(_vm.alerts, function(alert) {
+              return _c(
+                "v-list-tile",
+                { key: alert.id },
+                [
+                  _c(
+                    "v-list-tile-content",
+                    [_c("v-list-tile-title", [_vm._v(_vm._s(alert.articulo))])],
+                    1
+                  )
+                ],
+                1
+              )
+            }),
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-navigation-drawer",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.token !== null,
+              expression: "token !== null"
+            }
+          ],
           attrs: {
-            "mini-variant": _vm.mini,
-            "hide-overlay": "",
-            stateless: "",
-            fixed: ""
+            "mini-variant": _vm.screenWidth > 600 ? _vm.mini : false,
+            "hide-overlay": _vm.screenWidth > 600,
+            stateless: _vm.screenWidth > 600,
+            fixed: _vm.screenWidth > 600,
+            absolute: _vm.screenWidth <= 600,
+            temporary: _vm.screenWidth <= 600
           },
           model: {
             value: _vm.drawer,
@@ -14368,7 +14471,17 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "v-list-tile-action",
-                        { staticStyle: { "margin-top": "15px" } },
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.screenWidth > 600,
+                              expression: "screenWidth > 600"
+                            }
+                          ],
+                          staticStyle: { "margin-top": "15px" }
+                        },
                         [
                           _c(
                             "v-btn",
@@ -14406,353 +14519,167 @@ var render = function() {
               _c("v-divider"),
               _vm._v(" "),
               _vm._l(_vm.sellerItems, function(item) {
-                return _c(
-                  "v-list-tile",
-                  { key: item.title, attrs: { to: item.url } },
-                  [
-                    _c(
-                      "v-list-tile-action",
-                      [_c("v-icon", [_vm._v(_vm._s(item.icon))])],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-list-tile-content",
-                      [_c("v-list-tile-title", [_vm._v(_vm._s(item.title))])],
-                      1
-                    )
-                  ],
-                  1
-                )
-              }),
-              _vm._v(" "),
-              _c("v-divider"),
-              _vm._v(" "),
-              _c(
-                "v-list-tile",
-                {
-                  directives: [
+                return _c("div", { key: item.title }, [
+                  _c(
+                    "div",
                     {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.rol == "admin" || _vm.rol == "superAdmin",
-                      expression: "rol == 'admin' || rol == 'superAdmin'"
-                    }
-                  ],
-                  attrs: { to: "/users" }
-                },
-                [
-                  _c(
-                    "v-list-tile-action",
-                    [_c("v-icon", [_vm._v("fas fa-user")])],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-list-tile-content",
-                    [_c("v-list-tile-title", [_vm._v("Usuarios")])],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-list-tile",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.rol == "superAdmin",
-                      expression: "rol == 'superAdmin'"
-                    }
-                  ],
-                  attrs: { to: "/roles" }
-                },
-                [
-                  _c(
-                    "v-list-tile-action",
-                    [_c("v-icon", [_vm._v("fas fa-tag")])],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-list-tile-content",
-                    [_c("v-list-tile-title", [_vm._v("Roles")])],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("v-divider"),
-              _vm._v(" "),
-              _c(
-                "v-list-tile",
-                { attrs: { to: "/account" } },
-                [
-                  _c(
-                    "v-list-tile-action",
-                    [_c("v-icon", [_vm._v("fas fa-user-circle")])],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-list-tile-content",
-                    [_c("v-list-tile-title", [_vm._v("Mi cuenta")])],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-list-tile",
-                {
-                  on: {
-                    click: function($event) {
-                      return _vm.exit()
-                    }
-                  }
-                },
-                [
-                  _c(
-                    "v-list-tile-action",
-                    [_c("v-icon", [_vm._v("fas fa-sign-out-alt")])],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-list-tile-content",
-                    [_c("v-list-tile-title", [_vm._v("Cerrar Sesión")])],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            2
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-toolbar",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.token !== null,
-              expression: "token !== null"
-            }
-          ],
-          staticClass: "elevation-0 hidden hidden-sm-and-up",
-          attrs: { color: "primary", dark: "" }
-        },
-        [
-          _c(
-            "v-toolbar-items",
-            [
-              _c(
-                "v-btn",
-                {
-                  attrs: { flat: "", icon: "" },
-                  on: {
-                    click: function($event) {
-                      $event.stopPropagation()
-                      _vm.drawerMobile = !_vm.drawerMobile
-                    }
-                  }
-                },
-                [_c("v-icon", [_vm._v("fas fa-bars")])],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("v-divider"),
-      _vm._v(" "),
-      _c(
-        "v-navigation-drawer",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.token !== null,
-              expression: "token !== null"
-            }
-          ],
-          attrs: { absolute: "", temporary: "" },
-          model: {
-            value: _vm.drawerMobile,
-            callback: function($$v) {
-              _vm.drawerMobile = $$v
-            },
-            expression: "drawerMobile"
-          }
-        },
-        [
-          _c(
-            "v-toolbar",
-            { staticClass: "transparent", attrs: { flat: "" } },
-            [
-              _c(
-                "v-list",
-                { staticClass: "pa-0" },
-                [
-                  _c(
-                    "v-list-tile",
-                    { attrs: { avatar: "" } },
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value:
+                            (item.rol == "seller" && _vm.rol == "seller") ||
+                            (item.rol == "seller" && _vm.rol == "admin") ||
+                            (item.rol == "seller" && _vm.rol == "superAdmin"),
+                          expression:
+                            "\n                    item.rol == 'seller' && rol == 'seller' ||\n                    item.rol == 'seller' && rol == 'admin' ||\n                    item.rol == 'seller' && rol == 'superAdmin'\n                "
+                        }
+                      ]
+                    },
                     [
                       _c(
-                        "v-avatar",
-                        { staticClass: "profile-list", attrs: { size: "50" } },
-                        [
-                          _c("span", { staticClass: "title" }, [
-                            _vm._v(_vm._s(_vm.account.profile))
-                          ])
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-list-tile-content",
-                        { staticStyle: { margin: "15px 0 0 15px" } },
+                        "v-list-tile",
+                        { attrs: { to: item.url } },
                         [
                           _c(
-                            "v-list-tile-title",
-                            { staticClass: "primary--text" },
-                            [_c("b", [_vm._v(_vm._s(_vm.account.user.name))])]
+                            "v-list-tile-action",
+                            [_c("v-icon", [_vm._v(_vm._s(item.icon))])],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-list-tile-content",
+                            [
+                              _c("v-list-tile-title", [
+                                _vm._v(_vm._s(item.title))
+                              ])
+                            ],
+                            1
                           )
                         ],
                         1
-                      )
+                      ),
+                      _vm._v(" "),
+                      _c("v-divider", {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: item.divider,
+                            expression: "item.divider"
+                          }
+                        ]
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value:
+                            (item.rol == "admin" && _vm.rol == "admin") ||
+                            (item.rol == "admin" && _vm.rol == "superAdmin"),
+                          expression:
+                            "item.rol == 'admin' && rol == 'admin' ||\n                    item.rol == 'admin' && rol == 'superAdmin'\n                "
+                        }
+                      ]
+                    },
+                    [
+                      _c(
+                        "v-list-tile",
+                        { attrs: { to: item.url } },
+                        [
+                          _c(
+                            "v-list-tile-action",
+                            [_c("v-icon", [_vm._v(_vm._s(item.icon))])],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-list-tile-content",
+                            [
+                              _c("v-list-tile-title", [
+                                _vm._v(_vm._s(item.title))
+                              ])
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("v-divider", {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: item.divider,
+                            expression: "item.divider"
+                          }
+                        ]
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value:
+                            item.rol == "superAdmin" && _vm.rol == "superAdmin",
+                          expression:
+                            "item.rol == 'superAdmin' && rol == 'superAdmin'"
+                        }
+                      ]
+                    },
+                    [
+                      _c(
+                        "v-list-tile",
+                        { attrs: { to: item.url } },
+                        [
+                          _c(
+                            "v-list-tile-action",
+                            [_c("v-icon", [_vm._v(_vm._s(item.icon))])],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-list-tile-content",
+                            [
+                              _c("v-list-tile-title", [
+                                _vm._v(_vm._s(item.title))
+                              ])
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("v-divider", {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: item.divider,
+                            expression: "item.divider"
+                          }
+                        ]
+                      })
                     ],
                     1
                   )
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-list",
-            { staticClass: "pt-0", attrs: { dense: "" } },
-            [
-              _c("br"),
-              _vm._v(" "),
-              _c("v-divider"),
-              _vm._v(" "),
-              _vm._l(_vm.sellerItems, function(item) {
-                return _c(
-                  "v-list-tile",
-                  { key: item.title, attrs: { to: item.url } },
-                  [
-                    _c(
-                      "v-list-tile-action",
-                      [_c("v-icon", [_vm._v(_vm._s(item.icon))])],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-list-tile-content",
-                      [_c("v-list-tile-title", [_vm._v(_vm._s(item.title))])],
-                      1
-                    )
-                  ],
-                  1
-                )
+                ])
               }),
-              _vm._v(" "),
-              _c("v-divider"),
-              _vm._v(" "),
-              _c(
-                "v-list-tile",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.rol == "admin" || _vm.rol == "superAdmin",
-                      expression: "rol == 'admin' || rol == 'superAdmin'"
-                    }
-                  ],
-                  attrs: { to: "/users" }
-                },
-                [
-                  _c(
-                    "v-list-tile-action",
-                    [_c("v-icon", [_vm._v("fas fa-user")])],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-list-tile-content",
-                    [_c("v-list-tile-title", [_vm._v("Usuarios")])],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-list-tile",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.rol == "superAdmin",
-                      expression: "rol == 'superAdmin'"
-                    }
-                  ],
-                  attrs: { to: "/roles" }
-                },
-                [
-                  _c(
-                    "v-list-tile-action",
-                    [_c("v-icon", [_vm._v("fas fa-tag")])],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-list-tile-content",
-                    [_c("v-list-tile-title", [_vm._v("Roles")])],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("v-divider"),
-              _vm._v(" "),
-              _c(
-                "v-list-tile",
-                { attrs: { to: "/account" } },
-                [
-                  _c(
-                    "v-list-tile-action",
-                    [_c("v-icon", [_vm._v("fas fa-user-circle")])],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-list-tile-content",
-                    [_c("v-list-tile-title", [_vm._v("Mi cuenta")])],
-                    1
-                  )
-                ],
-                1
-              ),
               _vm._v(" "),
               _c(
                 "v-list-tile",
@@ -14818,7 +14745,7 @@ var render = function() {
         1
       )
     ],
-    2
+    1
   )
 }
 var staticRenderFns = []
@@ -19168,7 +19095,7 @@ var render = function() {
                                   "no-data-text":
                                     "El producto no se encuentra en la base de datos.",
                                   "hide-actions": "",
-                                  "hide-headers": "",
+                                  headers: _vm.productosHeaders,
                                   items: _vm.productos
                                 },
                                 scopedSlots: _vm._u([
@@ -19179,7 +19106,11 @@ var render = function() {
                                         _c(
                                           "tr",
                                           {
-                                            staticStyle: { cursor: "pointer" },
+                                            style:
+                                              producto.item.stock.length > 0 &&
+                                              producto.item.stock[0].total > 0
+                                                ? "cursor: pointer;"
+                                                : "",
                                             on: {
                                               click: function($event) {
                                                 return _vm.selectProducto(
@@ -19210,10 +19141,16 @@ var render = function() {
                                             ]),
                                             _vm._v(" "),
                                             _c("td", [
-                                              _vm._v(
-                                                "stock: " +
-                                                  _vm._s(producto.item.stock)
-                                              )
+                                              producto.item.stock.length <= 0
+                                                ? _c("div", [_vm._v("0")])
+                                                : _c("div", [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        producto.item.stock[0]
+                                                          .total
+                                                      )
+                                                    )
+                                                  ])
                                             ])
                                           ]
                                         )
@@ -21357,6 +21294,18 @@ var render = function() {
                                       _vm._v(
                                         "$ " + _vm._s(articulo.item.precio)
                                       )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      articulo.item.stock.length <= 0
+                                        ? _c("div", [_vm._v("0")])
+                                        : _c("div", [
+                                            _vm._v(
+                                              _vm._s(
+                                                articulo.item.stock[0].total
+                                              )
+                                            )
+                                          ])
                                     ]),
                                     _vm._v(" "),
                                     _c(

@@ -134,19 +134,26 @@
                                     v-show="form.producto && productos.length > 0"
                                     no-data-text="El producto no se encuentra en la base de datos."
                                     hide-actions
-                                    hide-headers
+                                    :headers="productosHeaders"
                                     :items="productos"
                                     class="search-table"
                                 >
                                     <template v-slot:items="producto">
                                         <tr
                                             @click="selectProducto(producto.item)"
-                                            style="cursor: pointer;"
+                                            :style="
+                                                producto.item.stock.length > 0 
+                                                && producto.item.stock[0].total > 0 ? 
+                                                'cursor: pointer;' : 
+                                                ''"
                                         >
                                             <td>{{ producto.item.codarticulo }}</td>
                                             <td>{{ producto.item.articulo }}</td>
                                             <td>{{ producto.item.precio }}</td>
-                                            <td>stock: {{ producto.item.stock }}</td>
+                                            <td>
+                                                <div v-if="producto.item.stock.length <= 0">0</div>
+                                                <div v-else>{{ producto.item.stock[0].total }}</div>
+                                            </td>
                                         </tr>
                                     </template>
                                 </v-data-table>
@@ -309,6 +316,12 @@ export default {
             stock: 0,
             productos: [],
             detalles: [],
+            productosHeaders: [
+                { text: "Codigo", sortable: false, class: "hidden-xs-only" },
+                { text: "Articulo", sortable: false },
+                { text: "Precio", sortable: false },
+                { text: "Stock", sortable: false }
+            ],
             detallesHeader: [
                 { text: "Articulo", sortable: false },
                 { text: "Cantidad", sortable: false },
@@ -476,15 +489,17 @@ export default {
 
         // Seleccionar Producto
         selectProducto(producto) {
-            // Reiniciar la tabla de productos
-            this.productos = [];
-            this.form.producto_id = producto.id;
-            this.form.producto = producto.articulo;
-            this.form.precio = producto.precio;
+            // Comprobar si el articulo tiene stock
             if (producto.stock.length > 0) {
-                this.stock = producto.stock[0].total * 1;
-            } else {
-                this.stock = 0;
+                if (producto.stock[0].total > 0) {
+                    // Reiniciar la tabla de productos
+                    this.productos = [];
+
+                    // Seleccionar Producto
+                    this.form.producto_id = producto.id;
+                    this.form.producto = producto.articulo;
+                    this.form.precio = producto.precio;
+                }
             }
         },
 

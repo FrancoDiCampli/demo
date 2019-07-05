@@ -12,7 +12,8 @@ use App\Http\Controllers\Controller;
 
 class NotificationsController extends Controller
 {
-    public function getNotifications() {
+    public function getNotifications()
+    {
 
         $notifications = collect();
 
@@ -23,16 +24,18 @@ class NotificationsController extends Controller
             if ($stock <= 0) {
                 $notifications->push([
                     'id' => $proStock->id,
-                    'icon' => 'fas fa-exclamation',
-                    'msg' => 'El producto '.$proStock->articulo.' necesita reposición',
-                    'color' => 'error'
+                    'icon' => 'fas fa-exclamation-circle',
+                    'msg' => 'El producto ' . $proStock->articulo . ' necesita reposición',
+                    'color' => 'error',
+                    'url' => ''
                 ]);
-            } elseif ($stock <= $proStock->stockminimo && $stock > 0 ) {
+            } elseif ($stock <= $proStock->stockminimo && $stock > 0) {
                 $notifications->push([
                     'id' => $proStock->id,
                     'icon' => 'fas fa-box-open',
-                    'msg' => 'El producto '.$proStock->articulo.' necesita reposición',
-                    'color' => 'warning'
+                    'msg' => 'El producto ' . $proStock->articulo . ' no posee suficiente stock',
+                    'color' => 'warning',
+                    'url' => ''
                 ]);
             }
         }
@@ -41,11 +44,10 @@ class NotificationsController extends Controller
         $productosLotes = Articulo::all();
         $inventariosLotes = collect();
         $inventarios = collect();
-        $vencidos = collect();
 
         // Buscar todos los inventarios de los articulos
         foreach ($productosLotes as $proLote) {
-            if (count($proLote->inventarios)>0) {
+            if (count($proLote->inventarios) > 0) {
                 $inventariosLotes->push($proLote->inventarios);
             }
         }
@@ -67,48 +69,35 @@ class NotificationsController extends Controller
                 $notifications->push([
                     'id' => $article->id,
                     'icon' => 'fas fa-clock',
-                    'msg' => 'El producto '.$article->articulo.' ha vencido',
-                    'color' => 'warning'
+                    'msg' => 'El producto ' . $article->articulo . ' ha vencido',
+                    'color' => 'warning',
+                    'url' => ''
                 ]);
             }
         }
 
         // Notificaciones de Clientes Morosos
-        $cuentas = Cuentacorriente::all();
-        $movimientos = collect();
-        $moves = collect();
+        $cuentas = Cuentacorriente::where('estado', 'ACTIVA')->get();
 
-        // Traer todos los movimientos de las cuentas corrientes
         foreach ($cuentas as $cuenta) {
-            $movimientos->push($cuenta->movimientos);
-        }
-
-        // Extraer los movimientos de las cuentas corrientes
-        foreach ($movimientos as $move) {
-            foreach ($move as $mov) {
-                $moves->push($mov);
-            }
-        }
-
-        for ($i=0; $i < count($moves); $i++) { 
-            $hoy = now();
-            $fechamov = new Carbon($moves[$i]->fecha);
-            $diff = $hoy->diffInDays($fechamov);
-            if ($diff > 30) {
-                $id = $moves[$i]->ctacte_id;
-                $cuenta = Cuentacorriente::find($id);
-                $factura = Factura::find($cuenta->factura_id);
-                $cliente = Cliente::find($factura->cliente_id);
-                $notifications->push([
-                    'id' => $cliente->id,
-                    'icon' => 'fas fa-user-clock',
-                    'msg' => 'El cliente '.$cliente->razonsocial.' no ha cumplido con el pago a su vencimiento',
-                    'color' => 'error'
-                ]);
+            if ($cuenta->ultimopago <> null) {
+                $hoy = now();
+                $ultimopago = new Carbon($cuenta->ultimopago);
+                $diff = $hoy->diffInDays($ultimopago);
+                if ($diff > 30) {
+                    $factura = Factura::find($cuenta->factura_id);
+                    $cliente = Cliente::find($factura->cliente_id);
+                    $notifications->push([
+                        'id' => $cliente->id,
+                        'icon' => 'fas fa-user-clock',
+                        'msg' => 'El cliente ' . $cliente->razonsocial . ' no ha cumplido con el pago a su vencimiento',
+                        'color' => 'error',
+                        'url' => '/clientes/show/' . $cliente->id
+                    ]);
+                }
             }
         }
 
         return $notifications;
-
     }
 }

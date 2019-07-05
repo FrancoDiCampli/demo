@@ -2112,6 +2112,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 // Axios
  // Vuex
 
@@ -2235,47 +2240,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/articulos").then(function (res) {
-                  var response = res.data;
-                  console.log(response);
-
-                  if (response.articulos.length) {
-                    for (var i = 0; i < response.articulos.length; i++) {
-                      if (response.articulos[i].stock.length <= 0) {
-                        var articulo = {
-                          id: response.articulos[i].id,
-                          articulo: response.articulos[i].articulo,
-                          msg: "necesita reposición",
-                          icon: "fas fa-exclamation",
-                          color: "error"
-                        };
-
-                        _this.alerts.push(articulo);
-                      } else {
-                        if (response.articulos[i].stock[0].total == 0) {
-                          var _articulo = {
-                            id: response.articulos[i].id,
-                            articulo: response.articulos[i].articulo,
-                            msg: "necesita reposición",
-                            icon: "fas fa-exclamation",
-                            color: "error"
-                          };
-
-                          _this.alerts.push(_articulo);
-                        } else if (response.articulos[i].stock[0].total <= response.articulos[i].stockminimo) {
-                          var _articulo2 = {
-                            id: response.articulos[i].id,
-                            articulo: response.articulos[i].articulo,
-                            msg: "no posee suficiente stock",
-                            icon: "fas fa-clock",
-                            color: "warning"
-                          };
-
-                          _this.alerts.push(_articulo2);
-                        }
-                      }
-                    }
-                  }
+                axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/notifications").then(function (response) {
+                  _this.alerts = response.data;
+                  console.log(_this.alerts);
                 })["catch"](function (error) {
                   console.log(error);
                 });
@@ -14294,36 +14261,71 @@ var render = function() {
               }
             },
             [
-              _c(
-                "v-badge",
-                {
-                  attrs: { left: "", color: "error" },
-                  scopedSlots: _vm._u([
-                    {
-                      key: "badge",
-                      fn: function() {
-                        return [_c("span", [_vm._v("15")])]
-                      },
-                      proxy: true
-                    }
-                  ])
-                },
-                [
-                  _vm._v(" "),
-                  _c(
-                    "v-icon",
-                    {
-                      attrs: {
-                        color: _vm.screenWidth <= 600 ? "white" : "primary"
-                      }
-                    },
-                    [_vm._v("fas fa-bell")]
+              _vm.alerts.length > 0
+                ? _c(
+                    "div",
+                    [
+                      _c(
+                        "v-badge",
+                        {
+                          attrs: { left: "", color: "error" },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "badge",
+                                fn: function() {
+                                  return [
+                                    _vm.alerts.length <= 99
+                                      ? _c("div", [
+                                          _c("span", [
+                                            _vm._v(_vm._s(_vm.alerts.length))
+                                          ])
+                                        ])
+                                      : _c("div", [_c("span", [_vm._v("99+")])])
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ],
+                            null,
+                            false,
+                            3817630611
+                          )
+                        },
+                        [
+                          _vm._v(" "),
+                          _c(
+                            "v-icon",
+                            {
+                              attrs: {
+                                color:
+                                  _vm.screenWidth <= 600 ? "white" : "primary"
+                              }
+                            },
+                            [_vm._v("fas fa-bell")]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
                   )
-                ],
-                1
-              )
-            ],
-            1
+                : _c(
+                    "div",
+                    [
+                      _c(
+                        "v-icon",
+                        {
+                          attrs: {
+                            color: _vm.screenWidth <= 600 ? "white" : "primary"
+                          }
+                        },
+                        [_vm._v("fas fa-bell")]
+                      )
+                    ],
+                    1
+                  )
+            ]
           )
         ],
         1
@@ -14351,48 +14353,53 @@ var render = function() {
         },
         [
           _c(
-            "v-toolbar",
-            { attrs: { flat: "" } },
-            [
-              _c(
-                "v-list",
+            "v-list",
+            { attrs: { dense: "" } },
+            _vm._l(_vm.alerts, function(alert) {
+              return _c(
+                "div",
+                { key: alert.id },
                 [
                   _c(
                     "v-list-tile",
+                    {
+                      attrs: { "my-2": "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.$router.push(alert.url)
+                        }
+                      }
+                    },
                     [
-                      _c("v-list-tile-title", { staticClass: "title" }, [
-                        _vm._v("Notificaciones")
-                      ])
+                      _c(
+                        "v-list-tile-action",
+                        [
+                          _c("v-icon", { attrs: { color: alert.color } }, [
+                            _vm._v(_vm._s(alert.icon))
+                          ])
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-tile-content",
+                        [
+                          _c(
+                            "v-list-tile-title",
+                            { class: alert.color + "--text" },
+                            [_vm._v(_vm._s(alert.msg))]
+                          )
+                        ],
+                        1
+                      )
                     ],
                     1
                   )
                 ],
                 1
               )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c("v-divider"),
-          _vm._v(" "),
-          _c(
-            "v-list",
-            { staticClass: "pt-0", attrs: { dense: "" } },
-            _vm._l(_vm.alerts, function(alert) {
-              return _c(
-                "v-list-tile",
-                { key: alert.id },
-                [
-                  _c(
-                    "v-list-tile-content",
-                    [_c("v-list-tile-title", [_vm._v(_vm._s(alert.articulo))])],
-                    1
-                  )
-                ],
-                1
-              )
             }),
-            1
+            0
           )
         ],
         1

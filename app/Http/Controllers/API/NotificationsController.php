@@ -80,21 +80,23 @@ class NotificationsController extends Controller
         $cuentas = Cuentacorriente::where('estado', 'ACTIVA')->get();
 
         foreach ($cuentas as $cuenta) {
-            if ($cuenta->ultimopago <> null) {
-                $hoy = now();
+            if ($cuenta->ultimopago == null) {
+                $ultimopago = new Carbon($cuenta->updated_at);
+            } else {
                 $ultimopago = new Carbon($cuenta->ultimopago);
-                $diff = $hoy->diffInDays($ultimopago);
-                if ($diff > 30) {
-                    $factura = Factura::find($cuenta->factura_id);
-                    $cliente = Cliente::find($factura->cliente_id);
-                    $notifications->push([
-                        'id' => $cliente->id,
-                        'icon' => 'fas fa-user-clock',
-                        'msg' => 'El cliente ' . $cliente->razonsocial . ' no ha cumplido con el pago a su vencimiento',
-                        'color' => 'error',
-                        'url' => '/clientes/show/' . $cliente->id
-                    ]);
-                }
+            }
+            $hoy = now();
+            $diff = $hoy->diffInDays($ultimopago);
+            if ($diff > 30) {
+                $factura = Factura::find($cuenta->factura_id);
+                $cliente = Cliente::find($factura->cliente_id);
+                $notifications->push([
+                    'id' => $cliente->id,
+                    'icon' => 'fas fa-user-clock',
+                    'msg' => 'El cliente ' . $cliente->razonsocial . ' no ha cumplido con el pago a su vencimiento',
+                    'color' => 'error',
+                    'url' => '/clientes/show/' . $cliente->id
+                ]);
             }
         }
 

@@ -39,7 +39,6 @@ Route::middleware('auth:api')->group(function () {
     // Clientes Api Routes
     Route::apiResource('clientes', 'API\ClientesController', ['except' => ['create', 'edit']]);
 
-
     Route::apiResource('suppliers', 'API\SuppliersController');
     Route::apiResource('inventarios', 'API\InventariosController');
     Route::apiResource('facturas', 'API\FacturasController');
@@ -63,6 +62,10 @@ Route::middleware('auth:api')->group(function () {
 // Auth Routes
 Route::post('/login', 'AuthController@login');
 Route::post('/register', 'AuthController@register');
+
+// PDF Routes
+Route::get('facturasPDF/{id}', 'API\PdfController@facturasPDF');
+Route::get('remitosPDF/{id}', 'API\PdfController@remitosPDF');
 
 
 Route::get('estadisticas/rejunte', 'API\EstadisticasController@rejunte');

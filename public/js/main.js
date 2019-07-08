@@ -5430,27 +5430,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                // Reiniciar Cantidad y Precio
+                // Reiniciar Cantidad, Precio y Stock
                 this.cantidad = null;
-                this.form.precio = null; // Buscar Productos
+                this.form.precio = null;
+                this.stock = 0; // Buscar Productos
 
                 if (!this.form.producto) {
-                  _context2.next = 7;
+                  _context2.next = 8;
                   break;
                 }
 
-                _context2.next = 5;
+                _context2.next = 6;
                 return this.index({
                   url: "/api/articulos",
                   buscarArticulo: this.form.producto,
                   limit: 5
                 });
 
-              case 5:
+              case 6:
                 response = _context2.sent;
                 this.productos = response.articulos;
 
-              case 7:
+              case 8:
               case "end":
                 return _context2.stop();
             }
@@ -5475,6 +5476,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           this.form.producto_id = producto.id;
           this.form.producto = producto.articulo;
           this.form.precio = producto.precio;
+          this.stock = producto.stock[0].total;
         }
       }
     },
@@ -5743,6 +5745,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //Axios
  //Vuex
 
@@ -5829,7 +5840,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         console.log(response.data);
 
         _this.index({
-          url: "api/facturas",
+          url: "/api/facturas",
           limit: _this.limit
         });
 
@@ -5839,6 +5850,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    facturaPDF: function facturaPDF(id) {
+      window.open("/api/facturasPDF/" + id);
+    },
+    remitosPDF: function remitosPDF(id) {
+      window.open("/api/remitosPDF/" + id);
     }
   })
 });
@@ -14504,7 +14521,7 @@ var render = function() {
             _vm._l(_vm.alerts, function(alert) {
               return _c(
                 "div",
-                { key: alert.id },
+                { key: alert.iden },
                 [
                   _c(
                     "v-list-tile",
@@ -19894,6 +19911,46 @@ var render = function() {
                               [
                                 _c(
                                   "v-list-tile",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "show",
+                                        rawName: "v-show",
+                                        value: factura.item.cae == null,
+                                        expression: "factura.item.cae == null"
+                                      }
+                                    ],
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.remitosPDF(factura.item.id)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("v-list-tile-title", [
+                                      _vm._v("Imprimir")
+                                    ])
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-list-tile",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "show",
+                                        rawName: "v-show",
+                                        value: factura.item.cae != null,
+                                        expression: "factura.item.cae != null"
+                                      }
+                                    ],
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.facturaPDF(factura.item.id)
+                                      }
+                                    }
+                                  },
                                   [
                                     _c("v-list-tile-title", [
                                       _vm._v("Imprimir")

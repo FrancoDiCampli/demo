@@ -18,38 +18,32 @@ class FacturasController extends Controller
     public function index(Request $request)
     {
         $facturas = Factura::orderBy('id', 'DESC');
-
         return [
             'facturas' => $facturas->take($request->get('limit', null))->get(),
             'total' => $facturas->count()
         ];
     }
-
     public function store(Request $request)
     {
         $atributos = $request;
         $cliente = Cliente::find($atributos['cliente_id']);
         $atributos['cuit'] = $cliente->documentounico;
         $atributos['condicionventa'] = $atributos['condicion'];
-
         if ($atributos['condicionventa'] == 'CONTADO' || $atributos['condicionventa'] == 'CREDITO / DEBITO') {
             $atributos['pagada'] = true;
         } else {
             $atributos['pagada'] = false;
         }
-
         if ($atributos['tipo'] != 'REMITO X') {
             $solicitarCAE = true;
         } else {
             $solicitarCAE = false;
         }
-
         if (Factura::all()->last()) {
             $id = Factura::all()->last()->id + 1;
         } else {
             $id = 1;
         }
-
         // ALMACENAMIENTO DE FACTURA
         $factura = Factura::create([
             "ptoventa" => 1,
@@ -65,7 +59,6 @@ class FacturasController extends Controller
             "cliente_id" => $atributos['cliente_id'],
             "user_id" => auth()->user()->id,
         ]);
-
         // ALMACENAMIENTO DE DETALLES
         foreach ($request->get('detalle') as $detail) {
             $articulo = Articulo::find($detail['articulo_id'] * 1);
@@ -84,9 +77,7 @@ class FacturasController extends Controller
             );
             $det[] = $detalles;
         }
-
         $factura->articulos()->attach($det);
-
         // CREACION DE CUENTA CORRIENTE
         if (($factura->pagada == false) && ($cliente->id != 1)) {
             $cuenta = Cuentacorriente::create([
@@ -106,9 +97,7 @@ class FacturasController extends Controller
         } else if ($solicitarCAE && $factura->estado) {
             $this->solicitarCae($factura->id);
         }
-
         $aux = collect($det);
-
         // DESCUENTA LOS INVENTARIOS
         for ($i = 0; $i < count($aux); $i++) {
             $cond = true;
@@ -147,27 +136,21 @@ class FacturasController extends Controller
         }
         return (['message' => 'guardado']);
     }
-
     public function update(Request $request, $id)
     {
         $factura = Factura::find($id);
-
         if ($request->get('pagada')) {
             $factura->pagada = $request->get('pagada');
         }
-
         if ($request->get('solicitarCae') && $factura->pagada) {
             $this->solicitarCae($factura->id);
         }
-
         return (['message' => 'actualizado']);
     }
-
     // FACTURACION ELECTRONICA
     public function solicitarCAE($id)
     {
         $factura = Factura::findOrFail($id);
-
         if (!($factura->cae && $factura->fechavto && $factura->comprobanteafip && $factura->codbarra) && $factura->pagada) {
             $atributos = array(
                 'puntoventa' => $factura->ptoventa,
@@ -219,12 +202,9 @@ class FacturasController extends Controller
                 'MonId'         => 'PES', //Tipo de moneda usada en el comprobante (ver tipos disponibles)('PES' para pesos argentinos)
                 'MonCotiz'         => 1, // Cotización de la moneda usada (1 para pesos argentinos)
             );
-
             $afip = new Afip(array('CUIT' => 20349590418));
-
             $res = $afip->ElectronicBilling->CreateNextVoucher($data);
             $fec = str_replace('-', '', $res['CAEFchVto']);
-
             $nroCodBar = '203495904180' . $atributos['tipocomprobante'] . '0000' . $atributos['puntoventa'] . $res['CAE'] . $fec;
             $codeBar = $this->digitoVerificador($nroCodBar);
             $factura->cae = $res['CAE'];
@@ -233,10 +213,8 @@ class FacturasController extends Controller
             $factura->codbarra = $codeBar;
             $factura->save();
         }
-
         return (['message' => 'guardado']);
     }
-
     // CALCULA EL DIGITO VERIFICADOR PARA EL CODIGO DE BARRAS
     function digitoVerificador($nroCodBar)
     {
@@ -264,7 +242,6 @@ class FacturasController extends Controller
         }
         return $nroCodBar . $digito;
     }
-
     // ANULACION DE FACTURA
     public function destroy($id)
     {
@@ -272,14 +249,11 @@ class FacturasController extends Controller
         $detalles = collect($factura->articulos);
         $pivot = collect();
         $inventarios = collect();
-
         if (!($factura->cae && $factura->fechavto && $factura->comprobanteafip && $factura->codbarra && $factura->pagada)) {
             $factura->delete();
-
             foreach ($detalles as $art) {
                 $pivot = $pivot->push($art->pivot);
             }
-
             foreach ($pivot as $piv) {
                 $art = Articulo::findOrFail($piv->articulo_id);
                 $aux = collect($art->inventarios);
@@ -287,7 +261,6 @@ class FacturasController extends Controller
                     $inventarios = $inventarios->push($a);
                 }
             }
-
             // SE REESTABLECE LA CANTIDAD EN LOS INVENTARIOS
             unset($aux);
             foreach ($inventarios as $inv) {
@@ -311,7 +284,6 @@ class FacturasController extends Controller
         }
         return ['msg' => 'Factura Anulada'];
     }
-
     public function show($id)
     {
         // RETORNA LOS DETALLES DE UNA FACTURA

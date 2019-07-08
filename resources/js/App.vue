@@ -52,7 +52,7 @@
             temporary
         >
             <v-list dense>
-                <div v-for="alert in alerts" :key="alert.id">
+                <div v-for="alert in alerts" :key="alert.iden">
                     <v-list-tile my-2 @click="$router.push(alert.url)">
                         <v-list-tile-action>
                             <v-icon :color="alert.color">{{ alert.icon }}</v-icon>

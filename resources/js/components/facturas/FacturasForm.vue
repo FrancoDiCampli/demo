@@ -472,9 +472,10 @@ export default {
 
         // Buscar Producto
         findProducto: async function() {
-            // Reiniciar Cantidad y Precio
+            // Reiniciar Cantidad, Precio y Stock
             this.cantidad = null;
             this.form.precio = null;
+            this.stock = 0;
             // Buscar Productos
             if (this.form.producto) {
                 let response = await this.index({
@@ -499,6 +500,7 @@ export default {
                     this.form.producto_id = producto.id;
                     this.form.producto = producto.articulo;
                     this.form.precio = producto.precio;
+                    this.stock = producto.stock[0].total;
                 }
             }
         },

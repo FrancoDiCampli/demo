@@ -39,7 +39,16 @@
                             </template>
                             <v-list>
                                 <!-- imprimir factura -->
-                                <v-list-tile>
+                                <v-list-tile
+                                    v-show="factura.item.cae == null"
+                                    @click="remitosPDF(factura.item.id)"
+                                >
+                                    <v-list-tile-title>Imprimir</v-list-tile-title>
+                                </v-list-tile>
+                                <v-list-tile
+                                    v-show="factura.item.cae != null"
+                                    @click="facturaPDF(factura.item.id)"
+                                >
                                     <v-list-tile-title>Imprimir</v-list-tile-title>
                                 </v-list-tile>
                                 <!-- grabar factura en afip solo si es X -->
@@ -151,7 +160,7 @@ export default {
                 .get("/api/solicitarCae/" + this.factura_id)
                 .then(response => {
                     console.log(response.data);
-                    this.index({ url: "api/facturas", limit: this.limit });
+                    this.index({ url: "/api/facturas", limit: this.limit });
                     this.factura_id = null;
                     this.grabarFacturasDialog = false;
                     this.process = false;
@@ -159,6 +168,14 @@ export default {
                 .catch(error => {
                     console.log(error);
                 });
+        },
+
+        facturaPDF: function(id) {
+            window.open("/api/facturasPDF/" + id);
+        },
+
+        remitosPDF: function(id) {
+            window.open("/api/remitosPDF/" + id);
         }
     }
 };

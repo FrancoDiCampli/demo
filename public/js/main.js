@@ -6950,7 +6950,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 //Vuex
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -7050,10 +7049,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       return showProductos;
-    }(),
-    log: function log() {
-      console.log(this.data);
-    }
+    }()
   })
 });
 
@@ -21513,18 +21509,6 @@ var render = function() {
     "div",
     [
       _c(
-        "v-btn",
-        {
-          on: {
-            click: function($event) {
-              return _vm.log()
-            }
-          }
-        },
-        [_vm._v("log")]
-      ),
-      _vm._v(" "),
-      _c(
         "v-tabs",
         {
           attrs: {
@@ -21581,7 +21565,7 @@ var render = function() {
             [
               _c(
                 "v-layout",
-                { attrs: { "justify-space-around": "", wrap: "" } },
+                { attrs: { "justify-start": "", wrap: "" } },
                 _vm._l(_vm.data.articulos, function(articulo) {
                   return _c(
                     "v-flex",

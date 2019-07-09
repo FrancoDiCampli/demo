@@ -1,7 +1,6 @@
 <template>
     <div>
         <!-- Productos Table -->
-        <v-btn @click="log()">log</v-btn>
         <v-tabs
             v-model="tabsProductos"
             right
@@ -16,7 +15,7 @@
                 <v-icon size="medium" :color="tabsProductos == 1 ? 'primary' : ''">fas fa-th-list</v-icon>
             </v-tab>
             <v-tab-item>
-                <v-layout justify-space-around wrap>
+                <v-layout justify-start wrap>
                     <v-flex xs12 sm6 lg4 pa-2 v-for="articulo in data.articulos" :key="articulo.id">
                         <v-card>
                             <v-img :src="articulo.foto" aspect-ratio="1.25">
@@ -238,10 +237,6 @@ export default {
         showProductos: async function(articulo) {
             await this.show({ url: "/api/articulos/" + articulo.id });
             this.showProductosDialog = true;
-        },
-
-        log() {
-            console.log(this.data);
         }
     }
 };

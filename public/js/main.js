@@ -3965,7 +3965,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (data.razonSocial) {
         formData.razonsocial = data.razonSocial;
       } else {
-        formData.razonsocial = data.apellido;
+        formData.razonsocial = data.apellido + " " + data.nombre;
       } // Documento
 
 
@@ -4284,7 +4284,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var arrayname = this.showData.cliente.razonsocial.split(" ");
         var profile = "";
 
-        for (var i = 0; i < 2; i++) {
+        for (var i = 0; i < arrayname.length; i++) {
           for (var e = 0; e < 1; e++) {
             profile = profile + arrayname[i][e];
           }
@@ -4423,7 +4423,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -4589,6 +4599,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// Axios
+ // Vuex
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ClientesShowCuentaTable",
@@ -4627,10 +4668,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         sortable: false
       }],
       selected: [],
-      state: true
+      state: true,
+      loadingButton: false
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("crudx", ["showData"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("crudx", ["showData", "form"]), {
     saldo: {
       set: function set() {},
       get: function get() {
@@ -4655,7 +4697,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     }
   }),
-  methods: {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["show", "save"]), {
     toggleAll: function toggleAll() {
       if (this.selected.length) {
         for (var i = 0; i < this.selected.length; i++) {
@@ -4675,10 +4717,51 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
       }
     },
-    pagarCuentas: function pagarCuentas() {
-      console.log(this.selected);
-    }
-  }
+    pagarCuentas: function () {
+      var _pagarCuentas = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(this.selected.length > 0)) {
+                  _context.next = 9;
+                  break;
+                }
+
+                this.loadingButton = true;
+                this.form.pago = this.selected;
+                _context.next = 5;
+                return this.save({
+                  url: "/api/pagarcuentas"
+                });
+
+              case 5:
+                _context.next = 7;
+                return this.show({
+                  url: "/api/clientes/" + this.showData.cliente.id
+                });
+
+              case 7:
+                this.selected = [];
+                this.loadingButton = false;
+
+              case 9:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function pagarCuentas() {
+        return _pagarCuentas.apply(this, arguments);
+      }
+
+      return pagarCuentas;
+    }()
+  })
 });
 
 /***/ }),
@@ -5212,6 +5295,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //Axios
  //Vuex
 
@@ -5360,7 +5454,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.detailClient = [];
 
                 if (!(this.form.cliente == "0")) {
-                  _context.next = 8;
+                  _context.next = 9;
                   break;
                 }
 
@@ -5369,27 +5463,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.detallesCliente = [];
                 this.form.cliente_id = 1;
                 this.form.cliente = "CONSUMIDOR FINAL";
-                _context.next = 13;
+                this.condicion = "CONTADO";
+                _context.next = 14;
                 break;
 
-              case 8:
+              case 9:
                 if (!this.form.cliente) {
-                  _context.next = 13;
+                  _context.next = 14;
                   break;
                 }
 
-                _context.next = 11;
+                _context.next = 12;
                 return this.index({
                   url: "/api/clientes",
                   buscarCliente: this.form.cliente,
                   limit: 5
                 });
 
-              case 11:
+              case 12:
                 response = _context.sent;
                 this.clientes = response.clientes;
 
-              case 13:
+              case 14:
               case "end":
                 return _context.stop();
             }
@@ -5519,6 +5614,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.form.detalle = this.detalles;
     },
     //_________________________Methods Generales________________________//
+    //Comprobar el metodo de pago
+    verifyCondicion: function verifyCondicion() {
+      if (this.condicion == "CUENTA CORRIENTE") {
+        this.tipo = "REMITO X";
+        this.tiposComprobantes = ["REMITO X", "FACTURA C"];
+      } else if (this.condicion == "CREDITO / DEBITO") {
+        this.tipo = "FACTURA C";
+        this.tiposComprobantes = ["FACTURA C"];
+      } else {
+        this.tipo = "REMITO X";
+        this.tiposComprobantes = ["REMITO X", "FACTURA C"];
+      }
+    },
     //Guardar Factura
     saveFactura: function () {
       var _saveFactura = _asyncToGenerator(
@@ -5559,7 +5667,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 12:
                 //Establecer Valores Predeterminados
                 this.form.cliente_id = 1;
-                this.cliente = "CONSUMIDOR FINAL";
+                this.form.cliente = "CONSUMIDOR FINAL";
                 this.condicion = "CONTADO";
                 this.tipo = "REMITO X";
 
@@ -18059,7 +18167,11 @@ var render = function() {
                           _c(
                             "v-btn",
                             {
-                              attrs: { color: "primary" },
+                              attrs: {
+                                loading: _vm.loadingButton,
+                                disabled: _vm.loadingButton,
+                                color: "primary"
+                              },
                               on: {
                                 click: function($event) {
                                   return _vm.pagarCuentas()
@@ -18210,57 +18322,128 @@ var render = function() {
                                             _c(
                                               "v-card-text",
                                               [
-                                                _c("v-data-table", {
-                                                  attrs: {
-                                                    "hide-actions": "",
-                                                    headers:
-                                                      _vm.headersMovimietos,
-                                                    items:
-                                                      cuenta.item.movimientos
-                                                  },
-                                                  scopedSlots: _vm._u(
+                                                _c(
+                                                  "v-list",
+                                                  { attrs: { "two-line": "" } },
+                                                  [
                                                     [
-                                                      {
-                                                        key: "items",
-                                                        fn: function(
-                                                          movimiento
-                                                        ) {
-                                                          return [
-                                                            _c("td", [
-                                                              _vm._v(
-                                                                _vm._s(
-                                                                  movimiento
-                                                                    .item.tipo
-                                                                )
+                                                      _c("v-subheader", [
+                                                        _vm._v("Movimientos")
+                                                      ]),
+                                                      _vm._v(" "),
+                                                      _vm._l(
+                                                        cuenta.item.movimientos,
+                                                        function(movimiento) {
+                                                          return _c(
+                                                            "div",
+                                                            {
+                                                              key: movimiento.id
+                                                            },
+                                                            [
+                                                              _c("v-divider"),
+                                                              _vm._v(" "),
+                                                              _c(
+                                                                "v-list-tile",
+                                                                [
+                                                                  _c(
+                                                                    "v-list-tile-content",
+                                                                    [
+                                                                      _c(
+                                                                        "v-list-tile-title",
+                                                                        [
+                                                                          _c(
+                                                                            "p",
+                                                                            [
+                                                                              _c(
+                                                                                "b",
+                                                                                [
+                                                                                  _vm._v(
+                                                                                    _vm._s(
+                                                                                      movimiento.fecha
+                                                                                    )
+                                                                                  )
+                                                                                ]
+                                                                              )
+                                                                            ]
+                                                                          )
+                                                                        ]
+                                                                      ),
+                                                                      _vm._v(
+                                                                        " "
+                                                                      ),
+                                                                      _c(
+                                                                        "v-list-tile-sub-title",
+                                                                        [
+                                                                          _c(
+                                                                            "v-layout",
+                                                                            {
+                                                                              attrs: {
+                                                                                "justify-space-between":
+                                                                                  ""
+                                                                              }
+                                                                            },
+                                                                            [
+                                                                              _c(
+                                                                                "v-flex",
+                                                                                {
+                                                                                  staticClass:
+                                                                                    "text-xs-left",
+                                                                                  attrs: {
+                                                                                    xs6:
+                                                                                      ""
+                                                                                  }
+                                                                                },
+                                                                                [
+                                                                                  _vm._v(
+                                                                                    _vm._s(
+                                                                                      movimiento.tipo
+                                                                                    )
+                                                                                  )
+                                                                                ]
+                                                                              ),
+                                                                              _vm._v(
+                                                                                " "
+                                                                              ),
+                                                                              _c(
+                                                                                "v-flex",
+                                                                                {
+                                                                                  staticClass:
+                                                                                    "text-xs-right",
+                                                                                  attrs: {
+                                                                                    xs6:
+                                                                                      ""
+                                                                                  }
+                                                                                },
+                                                                                [
+                                                                                  _vm._v(
+                                                                                    "$" +
+                                                                                      _vm._s(
+                                                                                        movimiento.importe
+                                                                                      )
+                                                                                  )
+                                                                                ]
+                                                                              )
+                                                                            ],
+                                                                            1
+                                                                          )
+                                                                        ],
+                                                                        1
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                ],
+                                                                1
                                                               )
-                                                            ]),
-                                                            _vm._v(" "),
-                                                            _c("td", [
-                                                              _vm._v(
-                                                                _vm._s(
-                                                                  movimiento
-                                                                    .item.fecha
-                                                                )
-                                                              )
-                                                            ]),
-                                                            _vm._v(" "),
-                                                            _c("td", [
-                                                              _vm._v(
-                                                                _vm._s(
-                                                                  movimiento
-                                                                    .item
-                                                                    .importe
-                                                                )
-                                                              )
-                                                            ])
-                                                          ]
+                                                            ],
+                                                            1
+                                                          )
                                                         }
-                                                      }
-                                                    ],
-                                                    null,
-                                                    true
-                                                  )
-                                                })
+                                                      )
+                                                    ]
+                                                  ],
+                                                  2
+                                                )
                                               ],
                                               1
                                             )
@@ -18937,8 +19120,14 @@ var render = function() {
                         attrs: {
                           items: _vm.condiciones,
                           rules: [_vm.rules.required],
+                          disabled: _vm.form.cliente_id == 1 ? true : false,
                           label: "Condición",
                           box: ""
+                        },
+                        on: {
+                          change: function($event) {
+                            return _vm.verifyCondicion()
+                          }
                         },
                         model: {
                           value: _vm.condicion,
@@ -18946,6 +19135,37 @@ var render = function() {
                             _vm.condicion = $$v
                           },
                           expression: "condicion"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-flex",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.condicion == "CREDITO / DEBITO",
+                          expression: "condicion == 'CREDITO / DEBITO'"
+                        }
+                      ],
+                      attrs: { xs12: "", "px-3": "" }
+                    },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          label: "Nº Comprobante Credito / Debito",
+                          box: ""
+                        },
+                        model: {
+                          value: _vm.form.compago,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "compago", $$v)
+                          },
+                          expression: "form.compago"
                         }
                       })
                     ],
@@ -19500,6 +19720,10 @@ var render = function() {
                                 attrs: {
                                   items: _vm.tiposComprobantes,
                                   rules: [_vm.rules.required],
+                                  disabled:
+                                    _vm.condicion == "CUENTA CORRIENTE"
+                                      ? true
+                                      : false,
                                   label: "Tipo Comprobante",
                                   box: ""
                                 },

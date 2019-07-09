@@ -88,7 +88,12 @@
                         <v-divider></v-divider>
                         <br />
                         <v-layout justify-center v-show="pagar">
-                            <v-btn @click="pagarCuentas()" color="primary">Pagar</v-btn>
+                            <v-btn
+                                :loading="loadingButton"
+                                :disabled="loadingButton"
+                                @click="pagarCuentas()"
+                                color="primary"
+                            >Pagar</v-btn>
                         </v-layout>
                     </v-card-text>
                 </v-card>
@@ -135,17 +140,40 @@
                                     <template v-slot:expand="cuenta">
                                         <v-card flat>
                                             <v-card-text>
-                                                <v-data-table
-                                                    hide-actions
-                                                    :headers="headersMovimietos"
-                                                    :items="cuenta.item.movimientos"
-                                                >
-                                                    <template v-slot:items="movimiento">
-                                                        <td>{{ movimiento.item.tipo }}</td>
-                                                        <td>{{ movimiento.item.fecha }}</td>
-                                                        <td>{{ movimiento.item.importe }}</td>
+                                                <v-list two-line>
+                                                    <template>
+                                                        <v-subheader>Movimientos</v-subheader>
+                                                        <div
+                                                            v-for="movimiento in cuenta.item.movimientos"
+                                                            :key="movimiento.id"
+                                                        >
+                                                            <v-divider></v-divider>
+                                                            <v-list-tile>
+                                                                <v-list-tile-content>
+                                                                    <v-list-tile-title>
+                                                                        <p>
+                                                                            <b>{{ movimiento.fecha }}</b>
+                                                                        </p>
+                                                                    </v-list-tile-title>
+                                                                    <v-list-tile-sub-title>
+                                                                        <v-layout
+                                                                            justify-space-between
+                                                                        >
+                                                                            <v-flex
+                                                                                xs6
+                                                                                class="text-xs-left"
+                                                                            >{{ movimiento.tipo }}</v-flex>
+                                                                            <v-flex
+                                                                                xs6
+                                                                                class="text-xs-right"
+                                                                            >${{ movimiento.importe }}</v-flex>
+                                                                        </v-layout>
+                                                                    </v-list-tile-sub-title>
+                                                                </v-list-tile-content>
+                                                            </v-list-tile>
+                                                        </div>
                                                     </template>
-                                                </v-data-table>
+                                                </v-list>
                                             </v-card-text>
                                         </v-card>
                                     </template>
@@ -160,7 +188,12 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+// Axios
+import axios from "axios";
+
+// Vuex
+import { mapState, mapActions } from "vuex";
+
 export default {
     name: "ClientesShowCuentaTable",
 
@@ -191,12 +224,13 @@ export default {
                 { text: "Importe", sortable: false }
             ],
             selected: [],
-            state: true
+            state: true,
+            loadingButton: false
         };
     },
 
     computed: {
-        ...mapState("crudx", ["showData"]),
+        ...mapState("crudx", ["showData", "form"]),
 
         saldo: {
             set() {},
@@ -223,6 +257,7 @@ export default {
     },
 
     methods: {
+        ...mapActions("crudx", ["show", "save"]),
         toggleAll() {
             if (this.selected.length) {
                 for (let i = 0; i < this.selected.length; i++) {
@@ -242,8 +277,17 @@ export default {
             }
         },
 
-        pagarCuentas() {
-            console.log(this.selected);
+        pagarCuentas: async function() {
+            if (this.selected.length > 0) {
+                this.loadingButton = true;
+                this.form.pago = this.selected;
+                await this.save({ url: "/api/pagarcuentas" });
+                await this.show({
+                    url: "/api/clientes/" + this.showData.cliente.id
+                });
+                this.selected = [];
+                this.loadingButton = false;
+            }
         }
     }
 };

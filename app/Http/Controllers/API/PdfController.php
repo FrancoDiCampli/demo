@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Cliente;
 use App\Factura;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Picqer\Barcode\BarcodeGeneratorHTML;
@@ -13,6 +14,8 @@ class PdfController extends Controller
     public function facturasPDF($id)
     {
         $factura = Factura::find($id);
+        $fecha = new Carbon($factura->fecha);
+        $factura->fecha = $fecha->format('d-m-Y');
         $cliente = Cliente::find($factura->cliente_id);
         $detalles = DB::table('articulo_factura')->where('factura_id', $factura->id)->get();
         $generator = new BarcodeGeneratorHTML();
@@ -24,6 +27,8 @@ class PdfController extends Controller
     public function remitosPDF($id)
     {
         $factura = Factura::find($id);
+        $fecha = new Carbon($factura->fecha);
+        $factura->fecha = $fecha->format('d-m-Y');
         $cliente = Cliente::find($factura->cliente_id);
         $detalles = DB::table('articulo_factura')->where('factura_id', $factura->id)->get();
         $pdf = app('dompdf.wrapper')->loadView('remitosPDF', compact('factura', 'detalles', 'cliente'))->setPaper('A4');

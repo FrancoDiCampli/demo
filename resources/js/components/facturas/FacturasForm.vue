@@ -71,11 +71,21 @@
                     <v-flex xs12 sm6 px-3>
                         <v-select
                             v-model="condicion"
+                            @change="verifyCondicion()"
                             :items="condiciones"
                             :rules="[rules.required]"
+                            :disabled="form.cliente_id == 1 ? true : false"
                             label="Condición"
                             box
                         ></v-select>
+                    </v-flex>
+
+                    <v-flex xs12 px-3 v-show="condicion == 'CREDITO / DEBITO'">
+                        <v-text-field
+                            v-model="form.compago"
+                            label="Nº Comprobante Credito / Debito"
+                            box
+                        ></v-text-field>
                     </v-flex>
                 </v-layout>
                 <!-- Detalles Clientes -->
@@ -247,6 +257,7 @@
                                     v-model="tipo"
                                     :items="tiposComprobantes"
                                     :rules="[rules.required]"
+                                    :disabled="condicion == 'CUENTA CORRIENTE' ? true : false"
                                     label="Tipo Comprobante"
                                     box
                                 ></v-select>
@@ -435,6 +446,7 @@ export default {
                 this.detallesCliente = [];
                 this.form.cliente_id = 1;
                 this.form.cliente = "CONSUMIDOR FINAL";
+                this.condicion = "CONTADO";
             } else if (this.form.cliente) {
                 // Buscar Cliente
                 let response = await this.index({
@@ -551,6 +563,20 @@ export default {
 
         //_________________________Methods Generales________________________//
 
+        //Comprobar el metodo de pago
+        verifyCondicion() {
+            if (this.condicion == "CUENTA CORRIENTE") {
+                this.tipo = "REMITO X";
+                this.tiposComprobantes = ["REMITO X", "FACTURA C"];
+            } else if (this.condicion == "CREDITO / DEBITO") {
+                this.tipo = "FACTURA C";
+                this.tiposComprobantes = ["FACTURA C"];
+            } else {
+                this.tipo = "REMITO X";
+                this.tiposComprobantes = ["REMITO X", "FACTURA C"];
+            }
+        },
+
         //Guardar Factura
         saveFactura: async function() {
             //Establecer Campos no establecidos
@@ -570,7 +596,7 @@ export default {
                 await this.$refs.formFactura.reset();
                 //Establecer Valores Predeterminados
                 this.form.cliente_id = 1;
-                this.cliente = "CONSUMIDOR FINAL";
+                this.form.cliente = "CONSUMIDOR FINAL";
                 this.condicion = "CONTADO";
                 this.tipo = "REMITO X";
             }

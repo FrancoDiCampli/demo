@@ -16,8 +16,10 @@ class CreateFacturasTable extends Migration
         Schema::create('facturas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('ptoventa');
+            $table->integer('codcomprobante')->nullable();
+            $table->string('letracomprobante');
             $table->bigInteger('numfactura');
-            $table->bigInteger('cuit');//cliente
+            $table->bigInteger('cuit'); //cliente
             $table->string('fecha');
             $table->decimal('bonificacion', 8, 2);
             $table->decimal('recargo', 8, 2);

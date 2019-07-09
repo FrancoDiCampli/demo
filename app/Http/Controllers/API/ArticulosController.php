@@ -15,24 +15,7 @@ class ArticulosController extends Controller
 {
     public function index(Request $request)
     {
-        $articulos = Articulo::orderBy('articulo', 'asc')->buscar($request)->with('stock');
-        // $cond = $request->get('cond');
-        // $articulos = collect();
-
-        // if ($cond) {
-        //     $articles = Articulo::orderBy('articulo', 'asc')->buscar($request);
-
-        //     foreach ($articles as $art) {
-        //         if (count($art->stock) > 0){
-        //             if ($art->stock['total'] > 0) {
-        //                 $articulos->push($art);
-        //             }
-        //         }
-        //     }
-
-        // }else {
-        //     $articulos = Articulo::orderBy('articulo', 'asc')->with('stock');
-        // }
+        $articulos = Articulo::orderBy('id', 'desc')->buscar($request)->with('stock');
 
         return [
             'articulos' => $articulos->take($request->get('limit', null))->get(),
@@ -123,7 +106,7 @@ class ArticulosController extends Controller
         $vencidos = collect();
 
         foreach ($productos as $producto) {
-            if (count($producto->inventarios)>0) {
+            if (count($producto->inventarios) > 0) {
                 $inventarios->push($producto->inventarios);
             }
         }
@@ -139,7 +122,7 @@ class ArticulosController extends Controller
             $article = Articulo::find($id);
             if ($hoy > $fechavenc) {
                 $vencidos->push([
-                    'id' => $article->id, 
+                    'id' => $article->id,
                     'articulo' => $article->articulo
                 ]);
             }

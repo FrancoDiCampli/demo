@@ -252,7 +252,11 @@ export default {
             if (data.razonSocial) {
                 formData.razonsocial = data.razonSocial;
             } else {
-                formData.razonsocial = data.apellido + " " + data.nombre;
+                if (data.apellido && data.nombre) {
+                    formData.razonsocial = data.apellido + " " + data.nombre;
+                } else {
+                    formData.razonsocial = data.apellido;
+                }
             }
 
             // Documento

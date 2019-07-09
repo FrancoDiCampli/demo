@@ -1,22 +1,27 @@
 <template>
     <div>
         <br />
-        <v-layout justify-center>
-            <h2>Saldo: {{ saldo }}</h2>
-        </v-layout>
-        <br />
+        <v-snackbar color="primary" v-model="snackbar" :timeout="6000" right top>
+            Cuenta Actualizada
+            <v-btn color="white" flat @click="snackbar = false" icon>
+                <v-icon>fas fa-times</v-icon>
+            </v-btn>
+        </v-snackbar>
         <v-tabs right hide-slider active-class="primary--text">
+            <v-layout justify-start mt-2 ml-4>
+                <h2>Saldo: {{ saldo }}</h2>
+            </v-layout>
             <v-tab>Activas</v-tab>
             <v-tab>Todas</v-tab>
             <v-tab-item>
                 <v-card flat>
                     <v-card-text>
-                        <v-layout justify-space-between>
-                            <v-flex>
+                        <v-layout justify-space-center>
+                            <v-flex v-show="cuentasActivas.length > 0">
                                 <v-data-table
                                     v-model="selected"
                                     hide-actions
-                                    :items="showData.cuentas"
+                                    :items="cuentasActivas"
                                 >
                                     <template v-slot:headers="props">
                                         <tr>
@@ -38,10 +43,7 @@
                                         </tr>
                                     </template>
                                     <template v-slot:items="cuenta">
-                                        <tr
-                                            class="text-xs-center"
-                                            v-show="cuenta.item.estado == 'ACTIVA'"
-                                        >
+                                        <tr class="text-xs-center">
                                             <td
                                                 @click="
                                     cuenta.selected = !cuenta.selected;
@@ -84,14 +86,18 @@
                                     </template>
                                 </v-data-table>
                             </v-flex>
+                            <v-flex v-show="cuentasActivas.length <= 0">
+                                <v-layout justify-center>
+                                    <h2>El cliente no tiene cuentas activas</h2>
+                                </v-layout>
+                            </v-flex>
                         </v-layout>
                         <v-divider></v-divider>
                         <br />
                         <v-layout justify-center v-show="pagar">
                             <v-btn
-                                :loading="loadingButton"
                                 :disabled="loadingButton"
-                                @click="pagarCuentas()"
+                                @click="verificarPago()"
                                 color="primary"
                             >Pagar</v-btn>
                         </v-layout>
@@ -184,6 +190,33 @@
                 </v-card>
             </v-tab-item>
         </v-tabs>
+        <!-- modal grabar factura -->
+        <v-dialog v-model="pagarCuentasDialog" width="750" persistent>
+            <v-card>
+                <v-card-title>
+                    <h2>¿Estás Seguro?</h2>
+                </v-card-title>
+                <v-divider></v-divider>
+                <v-card-text>¿Estás seguro que deseas realizar el pago de ${{pagoTotal}}? este cambio es irreversible</v-card-text>
+                <v-card-text>
+                    <v-layout justify-end wrap>
+                        <v-btn
+                            @click="pagarCuentasDialog = false;"
+                            outline
+                            color="primary"
+                            :disabled="loadingButton"
+                        >Cancelar</v-btn>
+
+                        <v-btn
+                            :loading="loadingButton"
+                            :disabled="loadingButton"
+                            @click="pagarCuentas()"
+                            color="primary"
+                        >Pagar</v-btn>
+                    </v-layout>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -218,13 +251,11 @@ export default {
                 },
                 { text: "Estado", sortable: false }
             ],
-            headersMovimietos: [
-                { text: "Tipo", sortable: false },
-                { text: "Fecha", sortable: false },
-                { text: "Importe", sortable: false }
-            ],
             selected: [],
             state: true,
+            pagarCuentasDialog: false,
+            snackbar: false,
+            pagoTotal: null,
             loadingButton: false
         };
     },
@@ -253,6 +284,19 @@ export default {
             } else {
                 return false;
             }
+        },
+
+        cuentasActivas() {
+            let arrayCuentasActivas = [];
+            if (this.showData.cuentas.length > 0) {
+                for (let i = 0; i < this.showData.cuentas.length; i++) {
+                    if (this.showData.cuentas[i].estado == "ACTIVA") {
+                        arrayCuentasActivas.push(this.showData.cuentas[i]);
+                    }
+                }
+            }
+
+            return arrayCuentasActivas;
         }
     },
 
@@ -277,6 +321,15 @@ export default {
             }
         },
 
+        verificarPago() {
+            if (this.selected.length > 0) {
+                for (let i = 0; i < this.selected.length; i++) {
+                    this.pagoTotal += Number(this.selected[i].value);
+                }
+                this.pagarCuentasDialog = true;
+            }
+        },
+
         pagarCuentas: async function() {
             if (this.selected.length > 0) {
                 this.loadingButton = true;
@@ -287,6 +340,8 @@ export default {
                 });
                 this.selected = [];
                 this.loadingButton = false;
+                this.pagarCuentasDialog = false;
+                this.snackbar = true;
             }
         }
     }

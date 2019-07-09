@@ -7,9 +7,7 @@
                     v-model="form.costo"
                     :rules="[rules.required]"
                     label="Costo"
-                    hint="Costo"
                     box
-                    single-line
                     type="number"
                     class="input-number"
                 ></v-text-field>
@@ -19,38 +17,50 @@
                     v-model="form.utilidades"
                     :rules="[rules.required]"
                     label="Utilidades"
-                    hint="Utilidades"
                     box
-                    single-line
                     type="number"
                     class="input-number"
                 ></v-text-field>
             </v-flex>
             <v-flex xs12 sm6 lg3 px-3>
-                <v-text-field
+                <v-select
                     v-model="form.alicuota"
-                    label="Alicuota"
-                    hint="Alicuota"
+                    :items="alicuotas"
+                    :rules="[rules.required]"
+                    label="Alicuota %"
                     box
-                    single-line
-                    type="number"
-                    class="input-number"
-                ></v-text-field>
+                ></v-select>
             </v-flex>
             <v-flex xs12 sm6 lg3 px-3>
                 <v-text-field
                     v-model="precio"
                     :rules="[rules.required]"
                     label="Precio"
-                    hint="Precio"
                     box
-                    single-line
                     type="number"
                     class="input-number"
                     disabled
                 ></v-text-field>
             </v-flex>
-
+            <v-flex xs12 sm6 px-3>
+                <v-select
+                    v-model="form.medida"
+                    :items="medidas"
+                    :rules="[rules.required]"
+                    label="Medida"
+                    box
+                ></v-select>
+            </v-flex>
+            <v-flex xs12 sm6 px-3>
+                <v-text-field
+                    v-model="form.stockminimo"
+                    :rules="[rules.required]"
+                    label="Stock Minimo"
+                    box
+                    type="number"
+                    class="input-number"
+                ></v-text-field>
+            </v-flex>
             <v-flex xs12 sm6 px-3>
                 <!-- Input Categorias -->
                 <v-text-field
@@ -58,8 +68,8 @@
                     v-model="form.categoria"
                     :rules="[rules.required]"
                     label="Categoria"
+                    append-icon="fas fa-caret-down"
                     box
-                    single-line
                 ></v-text-field>
 
                 <!-- Tabla Categorias -->
@@ -87,8 +97,8 @@
                     v-model="form.marca"
                     :rules="[rules.required]"
                     label="Marca"
+                    append-icon="fas fa-caret-down"
                     box
-                    single-line
                 ></v-text-field>
 
                 <!-- Tabla Marcas -->
@@ -110,33 +120,15 @@
                 </transition>
             </v-flex>
             <v-flex xs12 sm6 px-3>
-                <v-select
-                    v-model="form.medida"
-                    :items="medidas"
-                    :rules="[rules.required]"
-                    label="Medida"
-                    box
-                    single-line
-                ></v-select>
-            </v-flex>
-            <v-flex xs12 sm6 px-3>
                 <v-text-field
                     v-model="codigo"
                     :rules="[rules.required, rules.cod]"
                     label="Codigo"
-                    hint="Codigo"
                     box
-                    single-line
                 ></v-text-field>
             </v-flex>
-            <v-flex xs12 px-3>
-                <v-text-field
-                    v-model="form.codprov"
-                    label="Codigo del Proveedor"
-                    hint="Codigo del Proveedor"
-                    box
-                    single-line
-                ></v-text-field>
+            <v-flex xs12 sm6 px-3>
+                <v-text-field v-model="form.codprov" label="Codigo del Proveedor" box></v-text-field>
             </v-flex>
         </v-layout>
     </div>
@@ -176,6 +168,7 @@ export default {
                 "packs",
                 "otras unidades"
             ],
+            alicuotas: [21, 10.5],
             rules: {
                 required: value => !!value || "Este campo es obligatorio",
                 cod: value =>
@@ -287,11 +280,11 @@ export default {
 
         getLastId: async function() {
             let response = await this.index({
-                url: "/api/categorias",
+                url: "/api/articulos",
                 limit: 1
             });
 
-            this.categoriaLastId = response.categorias[0].id;
+            this.categoriaLastId = response.articulos[0].id;
         }
     }
 };

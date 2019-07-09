@@ -36,8 +36,12 @@ class FacturasController extends Controller
         }
         if ($atributos['tipo'] != 'REMITO X') {
             $solicitarCAE = true;
+            $atributos['codcomprobante'] = 11;
+            $atributos['letracomprobante'] = 'C';
         } else {
             $solicitarCAE = false;
+            $atributos['codcomprobante'] = null;
+            $atributos['letracomprobante'] = 'X';
         }
         if (Factura::all()->last()) {
             $id = Factura::all()->last()->id + 1;
@@ -47,6 +51,8 @@ class FacturasController extends Controller
         // ALMACENAMIENTO DE FACTURA
         $factura = Factura::create([
             "ptoventa" => 1,
+            'codcomprobante' => $atributos['codcomprobante'],
+            'letracomprobante' => $atributos['letracomprobante'],
             "cuit" => $atributos['cuit'], //cliente
             "numfactura" => $id,
             "bonificacion" => $atributos['bonificacion'] * 1,
@@ -155,7 +161,7 @@ class FacturasController extends Controller
         if (!($factura->cae && $factura->fechavto && $factura->comprobanteafip && $factura->codbarra) && $factura->pagada) {
             $atributos = array(
                 'puntoventa' => $factura->ptoventa,
-                'tipocomprobante' => 11,
+                'codcomprobante' => 11,
                 'fechacomprobante' => $factura->fecha,
                 'concepto' => 1,
                 'importetotal' => $factura->total
@@ -184,7 +190,7 @@ class FacturasController extends Controller
             $data = array(
                 'CantReg'         => 1, // Cantidad de comprobantes a registrar
                 'PtoVta'         => 1, // Punto de venta
-                'CbteTipo'         => $atributos['tipocomprobante'], // Tipo de comprobante (ver tipos disponibles)
+                'CbteTipo'         => $atributos['codcomprobante'], // Tipo de comprobante (ver tipos disponibles)
                 'Concepto'         => $atributos['concepto'], // Concepto del Comprobante: (1)Productos, (2)Servicios, (3)Productos y Servicios
                 'DocTipo'         => $atributos['tipo'], // Tipo de documento del comprador (ver tipos disponibles)
                 'DocNro'         => $atributos['documentounico'], // Numero de documento del comprador
@@ -206,12 +212,14 @@ class FacturasController extends Controller
             $afip = new Afip(array('CUIT' => 20349590418));
             $res = $afip->ElectronicBilling->CreateNextVoucher($data);
             $fec = str_replace('-', '', $res['CAEFchVto']);
-            $nroCodBar = '203495904180' . $atributos['tipocomprobante'] . '0000' . $atributos['puntoventa'] . $res['CAE'] . $fec;
+            $nroCodBar = '203495904180' . $atributos['codcomprobante'] . '0000' . $atributos['puntoventa'] . $res['CAE'] . $fec;
             $codeBar = $this->digitoVerificador($nroCodBar);
             $factura->cae = $res['CAE'];
             $factura->fechavto = $res['CAEFchVto'];
             $factura->comprobanteafip = $res['voucher_number'];
             $factura->codbarra = $codeBar;
+            $factura->codcomprobante = 11;
+            $factura->letracomprobante = 'C';
             $factura->save();
         }
         return (['message' => 'guardado']);

@@ -206,9 +206,10 @@ export default new Router({
             }
         },
         {
-            path: "/productos/show",
+            path: "/productos/show/:id",
             name: "ver producto",
             component: ProductosShow,
+            props: true,
             meta: {
                 permissions: allUsers
             }

@@ -58,6 +58,7 @@ class FacturasController extends Controller
             "condicionventa" => $atributos['condicionventa'],
             "cliente_id" => $atributos['cliente_id'],
             "user_id" => auth()->user()->id,
+            'compago' => $atributos['compago']
         ]);
         // ALMACENAMIENTO DE DETALLES
         foreach ($request->get('detalle') as $detail) {
@@ -94,7 +95,7 @@ class FacturasController extends Controller
                 'user_id' => auth()->user()->id,
                 'importe' => $cuenta->importe
             ]);
-        } else if ($solicitarCAE && $factura->estado) {
+        } else if ($solicitarCAE && $factura->pagada) {
             $this->solicitarCae($factura->id);
         }
         $aux = collect($det);

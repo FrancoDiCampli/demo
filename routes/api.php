@@ -39,6 +39,9 @@ Route::middleware('auth:api')->group(function () {
     // Clientes Api Routes
     Route::apiResource('clientes', 'API\ClientesController', ['except' => ['create', 'edit']]);
 
+    // Cuentas Corrientes Api Routes
+    Route::post('/pagarcuentas', 'API\CuentacorrientesController@pagar');
+
     Route::apiResource('suppliers', 'API\SuppliersController');
     Route::apiResource('inventarios', 'API\InventariosController');
     Route::apiResource('facturas', 'API\FacturasController');
@@ -55,7 +58,6 @@ Route::middleware('auth:api')->group(function () {
 
 
     Route::get('/buscarcuentas/{lista}', 'API\CuentacorrientesController@buscarCuentas');
-    Route::get('/pagarcuentas', 'API\CuentacorrientesController@pagoParcial');
     Route::get('/movimientos/{id}', 'API\CuentacorrientesController@detalles');
 });
 

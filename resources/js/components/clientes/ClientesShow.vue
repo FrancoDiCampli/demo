@@ -131,7 +131,7 @@ export default {
                 let arrayname = this.showData.cliente.razonsocial.split(" ");
                 let profile = "";
 
-                for (let i = 0; i < 2; i++) {
+                for (let i = 0; i < arrayname.length; i++) {
                     for (let e = 0; e < 1; e++) {
                         profile = profile + arrayname[i][e];
                     }

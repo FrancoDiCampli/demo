@@ -59,17 +59,15 @@ class ClientesController extends Controller
     public function show($id)
     {
         $cliente = Cliente::find($id);
-
         $facturas = $cliente->facturas;
+        $cuentas = collect();
 
         if (count($facturas) > 0) {
-            foreach ($facturas as $fac) {
-                if ($fac->cuenta <> null) {
-                    $cuentas[] = $fac->cuenta;
-                } else $cuentas = [];
+            for ($i = 0; $i < count($facturas); $i++) {
+                if ($facturas[$i]->cuenta <> null) {
+                    $cuentas->push($facturas[$i]->cuenta);
+                }
             }
-        } else {
-            $cuentas = [];
         }
 
         // CUENTAS CORRIENTES DEL CLIENTE Y MOVIMIENTOS DE LAS MISMAS
@@ -161,7 +159,7 @@ class ClientesController extends Controller
             }
         }
 
-        for ($i=0; $i < count($moves); $i++) { 
+        for ($i = 0; $i < count($moves); $i++) {
             $hoy = now();
             $fechamov = new Carbon($moves[$i]->fecha);
             $diff = $hoy->diffInDays($fechamov);
@@ -171,7 +169,7 @@ class ClientesController extends Controller
                 $factura = Factura::find($cuenta->factura_id);
                 $cliente = Cliente::find($factura->cliente_id);
                 $deudores->push([
-                    'id' => $cliente->id, 
+                    'id' => $cliente->id,
                     'razonsocial' => $cliente->razonsocial
                 ]);
             }

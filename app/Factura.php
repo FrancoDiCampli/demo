@@ -11,7 +11,7 @@ class Factura extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['ptoventa', 'numfactura', 'cuit', 'fecha', 'bonificacion', 'recargo', 'subtotal', 'total', 'pagada', 'condicionventa', 'comprobanteafip', 'cae', 'fechavto', 'codbarra', 'compago', 'cliente_id', 'user_id'];
+    protected $fillable = ['ptoventa', 'codcomprobante', 'letracomprobante', 'numfactura', 'cuit', 'fecha', 'bonificacion', 'recargo', 'subtotal', 'total', 'pagada', 'condicionventa', 'comprobanteafip', 'cae', 'fechavto', 'codbarra', 'compago', 'cliente_id', 'user_id'];
 
     public function user()
     {

@@ -21,8 +21,7 @@
                                     placeholder-color="#000"
                                     :placeholder-font-size="24"
                                     canvas-color="transparent"
-                                    :show-remove-button="true"
-                                    remove-button-color="#26A69A"
+                                    :show-remove-button="false"
                                     :show-loading="true"
                                     :loading-size="25"
                                     :prevent-white-space="true"
@@ -31,14 +30,34 @@
                                 <v-flex xs12 px-2>
                                     <v-layout justify-center>
                                         <v-btn flat icon color="primary" @click="foto.zoomIn()">
-                                            <v-icon>fas fa-plus</v-icon>
+                                            <v-icon>fas fa-search-plus</v-icon>
                                         </v-btn>
                                         <v-btn flat icon color="primary" @click="foto.zoomOut()">
-                                            <v-icon>fas fa-minus</v-icon>
+                                            <v-icon>fas fa-search-minus</v-icon>
                                         </v-btn>
                                         <v-btn flat icon color="primary" @click="foto.rotate()">
                                             <v-icon>fas fa-redo-alt</v-icon>
                                         </v-btn>
+                                        <div v-if="foto != null">
+                                            <v-btn
+                                                v-show="foto.hasImage()"
+                                                flat
+                                                icon
+                                                color="primary"
+                                                @click="foto.remove()"
+                                            >
+                                                <v-icon>fas fa-times</v-icon>
+                                            </v-btn>
+                                            <v-btn
+                                                v-show="!foto.hasImage()"
+                                                flat
+                                                icon
+                                                color="primary"
+                                                @click="foto.chooseFile()"
+                                            >
+                                                <v-icon>fas fa-plus</v-icon>
+                                            </v-btn>
+                                        </div>
                                     </v-layout>
                                 </v-flex>
                             </v-layout>
@@ -71,7 +90,7 @@
                     <br />
                     <ProductosForm></ProductosForm>
                     <v-layout justify-center>
-                        <v-btn type="submit" color="primary">Guardar</v-btn>
+                        <v-btn :disabled="loadingButton" type="submit" color="primary">Guardar</v-btn>
                     </v-layout>
                 </v-form>
             </v-card-text>
@@ -101,11 +120,17 @@
                 <v-card-text>
                     <v-layout justify-end>
                         <v-btn
+                            :disabled="loadingButton"
                             @click="saveCategoriaMarcaDialog = false"
                             outline
                             color="primary"
                         >CANCELAR</v-btn>
-                        <v-btn @click="confirmSave()" color="primary">ACEPTAR</v-btn>
+                        <v-btn
+                            :loading="loadingButton"
+                            :disabled="loadingButton"
+                            @click="confirmSave()"
+                            color="primary"
+                        >ACEPTAR</v-btn>
                     </v-layout>
                 </v-card-text>
             </v-card>
@@ -137,7 +162,8 @@ export default {
                 max: value =>
                     (value && value.length <= 190) ||
                     "Este campo no puede contener mas de 190 digitos"
-            }
+            },
+            loadingButton: false
         };
     },
 
@@ -219,10 +245,12 @@ export default {
         },
 
         saveProducto: async function() {
+            this.loadingButton = true;
             this.form.foto = this.foto.generateDataUrl();
             await this.save({ url: "/api/articulos" });
             this.saveCategoriaMarcaDialog = false;
-            this.$router.push("/productos/index");
+            this.$router.push("/productos");
+            this.loadingButton = false;
         }
     }
 };

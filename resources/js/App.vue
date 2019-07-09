@@ -307,7 +307,6 @@ export default {
                 .get("/api/notifications")
                 .then(response => {
                     this.alerts = response.data;
-                    console.log(this.alerts);
                 })
                 .catch(error => {
                     console.log(error);

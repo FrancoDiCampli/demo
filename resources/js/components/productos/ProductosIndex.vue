@@ -1,7 +1,6 @@
 <template>
     <div>
         <!-- Productos Table -->
-        <v-btn @click="log()">log</v-btn>
         <v-tabs
             v-model="tabsProductos"
             right
@@ -16,13 +15,63 @@
                 <v-icon size="medium" :color="tabsProductos == 1 ? 'primary' : ''">fas fa-th-list</v-icon>
             </v-tab>
             <v-tab-item>
-                <v-layout justify-space-around wrap>
+                <v-layout justify-start wrap>
                     <v-flex xs12 sm6 lg4 pa-2 v-for="articulo in data.articulos" :key="articulo.id">
                         <v-card>
                             <v-img :src="articulo.foto" aspect-ratio="1.25">
-                                <v-layout justify-end>
-                                    <div @click="showProductos(articulo)" class="tringle-button">
-                                        <i class="fas fa-ellipsis-v icon"></i>
+                                <v-layout justify-space-between column fill-height>
+                                    <div>
+                                        <v-layout justify-end>
+                                            <div
+                                                @click="showProductos(articulo)"
+                                                class="tringle-right-button"
+                                            >
+                                                <i class="fas fa-ellipsis-v icon"></i>
+                                            </div>
+                                        </v-layout>
+                                    </div>
+                                    <div>
+                                        <v-layout justify-start>
+                                            <div v-if="articulo.stock.length > 0">
+                                                <div
+                                                    v-if="
+                                                    articulo.stock[0].total <= articulo.stockminimo &&
+                                                    articulo.stock[0].total > 0
+                                                    "
+                                                >
+                                                    <div
+                                                        class="tringle-left-button"
+                                                        style="color: #FF8F00;"
+                                                    >
+                                                        <i class="fas fa-box-open icon"></i>
+                                                    </div>
+                                                </div>
+                                                <div v-else-if="articulo.stock[0].total == 0">
+                                                    <div
+                                                        class="tringle-left-button"
+                                                        style="color: #FF5252;"
+                                                    >
+                                                        <i class="fas fa-exclamation-circle icon"></i>
+                                                    </div>
+                                                </div>
+                                                <div v-else>
+                                                    <div
+                                                        class="tringle-left-button"
+                                                        style="color: #4CAF50;"
+                                                    >
+                                                        <i class="fas fa-check icon"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div v-else>
+                                                <div
+                                                    class="tringle-left-button"
+                                                    style="color: #FF5252;"
+                                                >
+                                                    <i class="fas fa-exclamation-circle icon"></i>
+                                                </div>
+                                            </div>
+                                        </v-layout>
                                     </div>
                                 </v-layout>
                             </v-img>
@@ -188,17 +237,13 @@ export default {
         showProductos: async function(articulo) {
             await this.show({ url: "/api/articulos/" + articulo.id });
             this.showProductosDialog = true;
-        },
-
-        log() {
-            console.log(this.data);
         }
     }
 };
 </script>
 
 <style>
-.tringle-button {
+.tringle-right-button {
     position: relative;
     width: 70px;
     height: 70px;
@@ -209,7 +254,7 @@ export default {
     cursor: pointer;
 }
 
-.tringle-button .icon {
+.tringle-right-button .icon {
     position: absolute;
     margin-top: -22px;
     margin-left: 10px;
@@ -217,8 +262,26 @@ export default {
     font-size: 16px;
 }
 
+.tringle-left-button {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-top: solid 25px transparent;
+    border-right: solid 25px transparent;
+    border-left: solid 25px;
+    border-bottom: solid 25px;
+}
+
+.tringle-left-button .icon {
+    position: absolute;
+    margin-top: 2px;
+    margin-left: -18px;
+    color: white;
+    font-size: 16px;
+}
+
 @media (min-width: 600px) {
-    .tringle-button {
+    .tringle-right-button {
         width: 60px;
         height: 60px;
         border-top: solid 30px #26a69a;
@@ -227,14 +290,28 @@ export default {
         border-bottom: solid 30px transparent;
     }
 
-    .tringle-button .icon {
+    .tringle-right-button .icon {
         margin-top: -20px;
         margin-left: 8px;
+    }
+
+    .tringle-left-button {
+        width: 60px;
+        height: 60px;
+        border-top: solid 30px transparent;
+        border-right: solid 30px transparent;
+        border-left: solid 30px;
+        border-bottom: solid 30px;
+    }
+
+    .tringle-left-button .icon {
+        margin-top: 4px;
+        margin-left: -18px;
     }
 }
 
 @media (min-width: 1264px) {
-    .tringle-button {
+    .tringle-right-button {
         width: 50px;
         height: 50px;
         border-top: solid 25px #26a69a;
@@ -243,7 +320,7 @@ export default {
         border-bottom: solid 25px transparent;
     }
 
-    .tringle-button .icon {
+    .tringle-right-button .icon {
         margin-top: -16px;
         margin-left: 8px;
         font-size: 14px;

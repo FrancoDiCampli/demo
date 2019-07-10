@@ -3,18 +3,22 @@
         <v-btn dark fab fixed right bottom @click="goBack()" color="primary">
             <v-icon>fas fa-chevron-left</v-icon>
         </v-btn>
+        <!-- <v-btn @click="log()">log</v-btn> -->
         <v-card>
             <v-card-text>
-                <div>
-                    <v-btn @click="log()">log</v-btn>
+                <div v-if="showData.articulo">
                     <ProductosShow></ProductosShow>
                 </div>
             </v-card-text>
         </v-card>
+        
     </div>
 </template>
 
 <script>
+// axios
+import axios from "axios";
+
 // Vuex
 import { mapActions, mapState, mapMutations } from "vuex";
 

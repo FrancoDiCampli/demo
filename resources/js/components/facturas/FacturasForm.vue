@@ -79,14 +79,6 @@
                             box
                         ></v-select>
                     </v-flex>
-
-                    <v-flex xs12 px-3 v-show="condicion == 'CREDITO / DEBITO'">
-                        <v-text-field
-                            v-model="form.compago"
-                            label="Nº Comprobante Credito / Debito"
-                            box
-                        ></v-text-field>
-                    </v-flex>
                 </v-layout>
                 <!-- Detalles Clientes -->
                 <v-layout v-if="detallesCliente.cliente" justify-space-around>
@@ -298,6 +290,33 @@
                 </v-layout>
                 <br />
             </div>
+            <v-dialog v-model="comprobanteCreditoDialog" width="400" persistent>
+                <v-card>
+                    <v-card-title>
+                        <h2>¿Estás Seguro?</h2>
+                    </v-card-title>
+                    <v-divider></v-divider>
+                    <v-card-text>Antes de grabar la factura debe proporcionar el número de comprobante emitido</v-card-text>
+                    <v-card-text>
+                        <v-text-field
+                            v-model="form.compago"
+                            label="Nº Comprobante Credito / Debito"
+                            box
+                        ></v-text-field>
+                    </v-card-text>
+                    <v-card-text>
+                        <v-layout justify-end wrap>
+                            <v-btn
+                                @click="comprobanteCreditoDialog = false;"
+                                outline
+                                color="primary"
+                            >Cancelar</v-btn>
+
+                            <v-btn @click="saveFactura()" color="primary">Grabar</v-btn>
+                        </v-layout>
+                    </v-card-text>
+                </v-card>
+            </v-dialog>
             <!---------------------->
         </v-form>
     </div>
@@ -343,6 +362,7 @@ export default {
             //_________________________Data Resumen________________________//
             tiposComprobantes: ["REMITO X", "FACTURA C"],
             tipo: "REMITO X",
+            comprobanteCreditoDialog: false,
 
             //_________________________Data General________________________//
             snackbar: false,
@@ -576,26 +596,30 @@ export default {
 
         //Guardar Factura
         saveFactura: async function() {
-            //Establecer Campos no establecidos
-            this.form.condicion = this.condicion;
-            this.form.tipo = this.tipo;
+            if (this.condicion == "CREDITO / DEBITO" && !this.form.compago) {
+                this.comprobanteCreditoDialog = true;
+            } else {
+                //Establecer Campos no establecidos
+                this.form.condicion = this.condicion;
+                this.form.tipo = this.tipo;
 
-            //Establecer Mensaje del Snackbar
-            this.snackbarText = this.tipo;
-            if (this.$refs.formFactura.validate()) {
-                //Guardar Factura
-                await this.save({ url: "/api/facturas" });
-                //Activar Snackbar
-                this.snackbar = true;
-                //Reset Formularios
-                this.detalles = [];
-                await this.$refs.formDetalles.reset();
-                await this.$refs.formFactura.reset();
-                //Establecer Valores Predeterminados
-                this.form.cliente_id = 1;
-                this.form.cliente = "CONSUMIDOR FINAL";
-                this.condicion = "CONTADO";
-                this.tipo = "REMITO X";
+                //Establecer Mensaje del Snackbar
+                this.snackbarText = this.tipo;
+                if (this.$refs.formFactura.validate()) {
+                    //Guardar Factura
+                    await this.save({ url: "/api/facturas" });
+                    //Activar Snackbar
+                    this.snackbar = true;
+                    //Reset Formularios
+                    this.detalles = [];
+                    await this.$refs.formDetalles.reset();
+                    await this.$refs.formFactura.reset();
+                    //Establecer Valores Predeterminados
+                    this.form.cliente_id = 1;
+                    this.form.cliente = "CONSUMIDOR FINAL";
+                    this.condicion = "CONTADO";
+                    this.tipo = "REMITO X";
+                }
             }
         },
 

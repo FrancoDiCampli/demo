@@ -2153,7 +2153,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         rol: "seller"
       }, {
         title: "Usuarios",
-        icon: "fas fa-users",
+        icon: "fas fa-address-card",
         url: "/users",
         divider: false,
         rol: "admin"
@@ -4945,20 +4945,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 // Vuex
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CLientesShowDataIterator",
-  data: function data() {
-    return {
-      personalData: [{
-        name: "Datos Personales"
-      }],
-      contactData: [{
-        name: "Contacto"
-      }]
-    };
-  },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("crudx", ["showData"]))
 });
 
@@ -5358,6 +5354,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //Axios
  //Vuex
 
@@ -5412,6 +5427,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       //_________________________Data Resumen________________________//
       tiposComprobantes: ["REMITO X", "FACTURA C"],
       tipo: "REMITO X",
+      comprobanteCreditoDialog: false,
       //_________________________Data General________________________//
       snackbar: false,
       snackbarText: "",
@@ -5686,6 +5702,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
+                if (!(this.condicion == "CREDITO / DEBITO" && !this.form.compago)) {
+                  _context3.next = 4;
+                  break;
+                }
+
+                this.comprobanteCreditoDialog = true;
+                _context3.next = 20;
+                break;
+
+              case 4:
                 //Establecer Campos no establecidos
                 this.form.condicion = this.condicion;
                 this.form.tipo = this.tipo; //Establecer Mensaje del Snackbar
@@ -5693,35 +5719,35 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.snackbarText = this.tipo;
 
                 if (!this.$refs.formFactura.validate()) {
-                  _context3.next = 16;
+                  _context3.next = 20;
                   break;
                 }
 
-                _context3.next = 6;
+                _context3.next = 10;
                 return this.save({
                   url: "/api/facturas"
                 });
 
-              case 6:
+              case 10:
                 //Activar Snackbar
                 this.snackbar = true; //Reset Formularios
 
                 this.detalles = [];
-                _context3.next = 10;
+                _context3.next = 14;
                 return this.$refs.formDetalles.reset();
 
-              case 10:
-                _context3.next = 12;
+              case 14:
+                _context3.next = 16;
                 return this.$refs.formFactura.reset();
 
-              case 12:
+              case 16:
                 //Establecer Valores Predeterminados
                 this.form.cliente_id = 1;
                 this.form.cliente = "CONSUMIDOR FINAL";
                 this.condicion = "CONTADO";
                 this.tipo = "REMITO X";
 
-              case 16:
+              case 20:
               case "end":
                 return _context3.stop();
             }
@@ -7033,6 +7059,93 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ProductosShowData_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProductosShowData.vue */ "./resources/js/components/productos/ProductosShowData.vue");
+/* harmony import */ var _ProductosShowInventario_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProductosShowInventario.vue */ "./resources/js/components/productos/ProductosShowInventario.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// Components
+
+ // Vuex
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "ProductosShow",
+  components: {
+    ProductosShowData: _ProductosShowData_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    ProductosShowInventario: _ProductosShowInventario_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("crudx", ["showData"]))
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/productos/ProductosShowData.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/productos/ProductosShowData.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
@@ -7042,10 +7155,185 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // Vuex
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "ProductosShow",
+  name: "ProductosShowData",
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("crudx", ["showData"]))
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/productos/ProductosShowInventario.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/productos/ProductosShowInventario.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// Vuex
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "ProductosShowInventario",
+  data: function data() {
+    return {
+      headers: [{
+        text: "Cantidad",
+        sortable: false
+      }, {
+        text: "Lote",
+        sortable: false
+      }, {
+        text: "Vencimiento",
+        sortable: false
+      }, {
+        text: "Proveedor",
+        sortable: false
+      }]
+    };
+  },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("crudx", ["showData"]))
 });
 
@@ -9508,9 +9796,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     ProductosForm: _components_productos_ProductosForm_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("crudx", ["inProcess"])),
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])("crudx", ["save"]), {
-    saveProducto: function saveProducto() {}
-  })
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])("crudx", ["save"]))
 });
 
 /***/ }),
@@ -9524,8 +9810,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _components_productos_ProductosShow_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/productos/ProductosShow.vue */ "./resources/js/components/productos/ProductosShow.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _components_productos_ProductosShow_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/productos/ProductosShow.vue */ "./resources/js/components/productos/ProductosShow.vue");
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -9546,7 +9834,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-// Vuex
+//
+// axios
+ // Vuex
+
  // Components
 
 
@@ -9554,15 +9845,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   name: "ShowProductos",
   props: ["id"],
   components: {
-    ProductosShow: _components_productos_ProductosShow_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    ProductosShow: _components_productos_ProductosShow_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("crudx", ["showData"])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])("crudx", ["showData"])),
   mounted: function mounted() {
     this.show({
       url: "/api/articulos/" + this.id
     });
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])("crudx", ["resetForm"]), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])("crudx", ["show"]), {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])("crudx", ["resetForm"]), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])("crudx", ["show"]), {
     goBack: function goBack() {
       this.resetForm();
       this.$router.push("/productos");
@@ -18776,120 +19067,104 @@ var render = function() {
             "v-flex",
             { attrs: { xs12: "", sm5: "" } },
             [
-              _c("v-data-iterator", {
-                attrs: {
-                  items: _vm.personalData,
-                  "content-tag": "v-layout",
-                  "hide-actions": "",
-                  row: "",
-                  wrap: ""
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "item",
-                    fn: function(props) {
-                      return [
-                        _c(
-                          "v-flex",
-                          { attrs: { xs12: "" } },
-                          [
-                            _c(
-                              "v-card",
-                              { staticClass: "elevation-0" },
-                              [
-                                _c("v-card-title", [
-                                  _c("h4", [_vm._v(_vm._s(props.item.name))])
-                                ]),
-                                _vm._v(" "),
-                                _c("v-divider"),
-                                _vm._v(" "),
-                                _c(
-                                  "v-list",
-                                  { attrs: { dense: "" } },
-                                  [
-                                    _c(
-                                      "v-list-tile",
-                                      [
-                                        _c("v-list-tile-content", [
-                                          _c("b", [
-                                            _vm._v("Apellido y Nombre:")
-                                          ])
-                                        ]),
-                                        _vm._v(" "),
-                                        _c(
-                                          "v-list-tile-content",
-                                          { staticClass: "align-end" },
-                                          [
-                                            _vm._v(
-                                              _vm._s(
-                                                _vm.showData.cliente.razonsocial
-                                              )
-                                            )
-                                          ]
-                                        )
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-list-tile",
-                                      [
-                                        _c("v-list-tile-content", [
-                                          _c("b", [_vm._v("CUIT:")])
-                                        ]),
-                                        _vm._v(" "),
-                                        _c(
-                                          "v-list-tile-content",
-                                          { staticClass: "align-end" },
-                                          [
-                                            _vm._v(
-                                              _vm._s(
-                                                _vm.showData.cliente
-                                                  .documentounico
-                                              )
-                                            )
-                                          ]
-                                        )
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-list-tile",
-                                      [
-                                        _c("v-list-tile-content", [
-                                          _c("b", [_vm._v("Condición IVA:")])
-                                        ]),
-                                        _vm._v(" "),
-                                        _c(
-                                          "v-list-tile-content",
-                                          { staticClass: "align-end" },
-                                          [
-                                            _vm._v(
-                                              _vm._s(
-                                                _vm.showData.cliente
-                                                  .condicioniva
-                                              )
-                                            )
-                                          ]
-                                        )
-                                      ],
-                                      1
-                                    )
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ]
-                    }
-                  }
-                ])
-              })
+              _c(
+                "v-card",
+                { staticClass: "elevation-0" },
+                [
+                  _c("v-card-title", [_c("h4", [_vm._v("Datos Personales")])]),
+                  _vm._v(" "),
+                  _c("v-divider"),
+                  _vm._v(" "),
+                  _c(
+                    "v-list",
+                    { attrs: { dense: "" } },
+                    [
+                      _c(
+                        "v-list-tile",
+                        { staticStyle: { margin: "10px 0px" } },
+                        [
+                          _c(
+                            "v-list-tile-content",
+                            [
+                              _c("v-list-tile-title", [
+                                _c("b", [_vm._v("Apellido y Nombre:")])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-sub-title",
+                                { staticClass: "black--text" },
+                                [
+                                  _vm._v(
+                                    _vm._s(_vm.showData.cliente.razonsocial)
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-tile",
+                        { staticStyle: { margin: "10px 0px" } },
+                        [
+                          _c(
+                            "v-list-tile-content",
+                            [
+                              _c("v-list-tile-title", [
+                                _c("b", [_vm._v("CUIT:")])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-sub-title",
+                                { staticClass: "black--text" },
+                                [
+                                  _vm._v(
+                                    _vm._s(_vm.showData.cliente.documentounico)
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-tile",
+                        { staticStyle: { margin: "10px 0px" } },
+                        [
+                          _c(
+                            "v-list-tile-content",
+                            [
+                              _c("v-list-tile-title", [
+                                _c("b", [_vm._v("Condición IVA:")])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-sub-title",
+                                { staticClass: "black--text" },
+                                [
+                                  _vm._v(
+                                    _vm._s(_vm.showData.cliente.condicioniva)
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
             ],
             1
           ),
@@ -18900,181 +19175,165 @@ var render = function() {
             "v-flex",
             { attrs: { xs12: "", sm5: "" } },
             [
-              _c("v-data-iterator", {
-                attrs: {
-                  items: _vm.contactData,
-                  "content-tag": "v-layout",
-                  "hide-actions": "",
-                  row: "",
-                  wrap: ""
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "item",
-                    fn: function(props) {
-                      return [
-                        _c(
-                          "v-flex",
-                          { attrs: { xs12: "" } },
-                          [
-                            _c(
-                              "v-card",
-                              { staticClass: "elevation-0" },
-                              [
-                                _c("v-card-title", [
-                                  _c("h4", [_vm._v(_vm._s(props.item.name))])
-                                ]),
-                                _vm._v(" "),
-                                _c("v-divider"),
-                                _vm._v(" "),
-                                _c(
-                                  "v-list",
-                                  { attrs: { dense: "" } },
-                                  [
-                                    _c(
-                                      "v-list-tile",
-                                      [
-                                        _c("v-list-tile-content", [
-                                          _c("b", [_vm._v("TEL/CEL:")])
-                                        ]),
-                                        _vm._v(" "),
-                                        _c(
-                                          "v-list-tile-content",
-                                          { staticClass: "align-end" },
-                                          [
-                                            _vm._v(
-                                              _vm._s(
-                                                _vm.showData.cliente.telefono
-                                              )
-                                            )
-                                          ]
-                                        )
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-list-tile",
-                                      [
-                                        _c("v-list-tile-content", [
-                                          _c("b", [_vm._v("Email:")])
-                                        ]),
-                                        _vm._v(" "),
-                                        _c(
-                                          "v-list-tile-content",
-                                          { staticClass: "align-end" },
-                                          [
-                                            _vm._v(
-                                              _vm._s(_vm.showData.cliente.email)
-                                            )
-                                          ]
-                                        )
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-list-tile",
-                                      [
-                                        _c("v-list-tile-content", [
-                                          _c("b", [_vm._v("Direccón:")])
-                                        ]),
-                                        _vm._v(" "),
-                                        _c(
-                                          "v-list-tile-content",
-                                          { staticClass: "align-end" },
-                                          [
-                                            _vm._v(
-                                              _vm._s(
-                                                _vm.showData.cliente.direccion
-                                              )
-                                            )
-                                          ]
-                                        )
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-list-tile",
-                                      [
-                                        _c("v-list-tile-content", [
-                                          _c("b", [_vm._v("Codigo Postal:")])
-                                        ]),
-                                        _vm._v(" "),
-                                        _c(
-                                          "v-list-tile-content",
-                                          { staticClass: "align-end" },
-                                          [
-                                            _vm._v(
-                                              _vm._s(
-                                                _vm.showData.cliente
-                                                  .codigopostal
-                                              )
-                                            )
-                                          ]
-                                        )
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-list-tile",
-                                      [
-                                        _c("v-list-tile-content", [
-                                          _c("b", [_vm._v("Provincia:")])
-                                        ]),
-                                        _vm._v(" "),
-                                        _c(
-                                          "v-list-tile-content",
-                                          { staticClass: "align-end" },
-                                          [
-                                            _vm._v(
-                                              _vm._s(
-                                                _vm.showData.cliente.provincia
-                                              )
-                                            )
-                                          ]
-                                        )
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-list-tile",
-                                      [
-                                        _c("v-list-tile-content", [
-                                          _c("b", [_vm._v("Localidad:")])
-                                        ]),
-                                        _vm._v(" "),
-                                        _c(
-                                          "v-list-tile-content",
-                                          { staticClass: "align-end" },
-                                          [
-                                            _vm._v(
-                                              _vm._s(
-                                                _vm.showData.cliente.localidad
-                                              )
-                                            )
-                                          ]
-                                        )
-                                      ],
-                                      1
-                                    )
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ]
-                    }
-                  }
-                ])
-              })
+              _c(
+                "v-card",
+                { staticClass: "elevation-0" },
+                [
+                  _c("v-card-title", [_c("h4", [_vm._v("Contacto")])]),
+                  _vm._v(" "),
+                  _c("v-divider"),
+                  _vm._v(" "),
+                  _c(
+                    "v-list",
+                    { attrs: { dense: "" } },
+                    [
+                      _c(
+                        "v-list-tile",
+                        { staticStyle: { margin: "10px 0px" } },
+                        [
+                          _c(
+                            "v-list-tile-content",
+                            [
+                              _c("v-list-tile-title", [
+                                _c("b", [_vm._v("TEL/CEL:")])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-sub-title",
+                                { staticClass: "black--text" },
+                                [_vm._v(_vm._s(_vm.showData.cliente.telefono))]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-tile",
+                        { staticStyle: { margin: "10px 0px" } },
+                        [
+                          _c(
+                            "v-list-tile-content",
+                            [
+                              _c("v-list-tile-title", [
+                                _c("b", [_vm._v("Email:")])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-sub-title",
+                                { staticClass: "black--text" },
+                                [_vm._v(_vm._s(_vm.showData.cliente.email))]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-tile",
+                        { staticStyle: { margin: "10px 0px" } },
+                        [
+                          _c(
+                            "v-list-tile-content",
+                            [
+                              _c("v-list-tile-title", [
+                                _c("b", [_vm._v("Dirección:")])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-sub-title",
+                                { staticClass: "black--text" },
+                                [_vm._v(_vm._s(_vm.showData.cliente.direccion))]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-tile",
+                        { staticStyle: { margin: "10px 0px" } },
+                        [
+                          _c(
+                            "v-list-tile-content",
+                            [
+                              _c("v-list-tile-title", [
+                                _c("b", [_vm._v("Codigo Postal:")])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-sub-title",
+                                { staticClass: "black--text" },
+                                [
+                                  _vm._v(
+                                    _vm._s(_vm.showData.cliente.codigopostal)
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-tile",
+                        { staticStyle: { margin: "10px 0px" } },
+                        [
+                          _c(
+                            "v-list-tile-content",
+                            [
+                              _c("v-list-tile-title", [
+                                _c("b", [_vm._v("Provincia:")])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-sub-title",
+                                { staticClass: "black--text" },
+                                [_vm._v(_vm._s(_vm.showData.cliente.provincia))]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-tile",
+                        { staticStyle: { margin: "10px 0px" } },
+                        [
+                          _c(
+                            "v-list-tile-content",
+                            [
+                              _c("v-list-tile-title", [
+                                _c("b", [_vm._v("Localidad:")])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-sub-title",
+                                { staticClass: "black--text" },
+                                [_vm._v(_vm._s(_vm.showData.cliente.localidad))]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
             ],
             1
           )
@@ -19400,37 +19659,6 @@ var render = function() {
                             _vm.condicion = $$v
                           },
                           expression: "condicion"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-flex",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: _vm.condicion == "CREDITO / DEBITO",
-                          expression: "condicion == 'CREDITO / DEBITO'"
-                        }
-                      ],
-                      attrs: { xs12: "", "px-3": "" }
-                    },
-                    [
-                      _c("v-text-field", {
-                        attrs: {
-                          label: "Nº Comprobante Credito / Debito",
-                          box: ""
-                        },
-                        model: {
-                          value: _vm.form.compago,
-                          callback: function($$v) {
-                            _vm.$set(_vm.form, "compago", $$v)
-                          },
-                          expression: "form.compago"
                         }
                       })
                     ],
@@ -20115,8 +20343,100 @@ var render = function() {
               _c("br")
             ],
             1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-dialog",
+            {
+              attrs: { width: "400", persistent: "" },
+              model: {
+                value: _vm.comprobanteCreditoDialog,
+                callback: function($$v) {
+                  _vm.comprobanteCreditoDialog = $$v
+                },
+                expression: "comprobanteCreditoDialog"
+              }
+            },
+            [
+              _c(
+                "v-card",
+                [
+                  _c("v-card-title", [_c("h2", [_vm._v("¿Estás Seguro?")])]),
+                  _vm._v(" "),
+                  _c("v-divider"),
+                  _vm._v(" "),
+                  _c("v-card-text", [
+                    _vm._v(
+                      "Antes de grabar la factura debe proporcionar el número de comprobante emitido"
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-text",
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          label: "Nº Comprobante Credito / Debito",
+                          box: ""
+                        },
+                        model: {
+                          value: _vm.form.compago,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "compago", $$v)
+                          },
+                          expression: "form.compago"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-text",
+                    [
+                      _c(
+                        "v-layout",
+                        { attrs: { "justify-end": "", wrap: "" } },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { outline: "", color: "primary" },
+                              on: {
+                                click: function($event) {
+                                  _vm.comprobanteCreditoDialog = false
+                                }
+                              }
+                            },
+                            [_vm._v("Cancelar")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { color: "primary" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.saveFactura()
+                                }
+                              }
+                            },
+                            [_vm._v("Grabar")]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
           )
-        ]
+        ],
+        1
       )
     ],
     1
@@ -22088,7 +22408,537 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c(
+    "div",
+    [
+      _c(
+        "v-layout",
+        { attrs: { "justify-center": "", wrap: "" } },
+        [
+          _c(
+            "v-menu",
+            {
+              scopedSlots: _vm._u([
+                {
+                  key: "activator",
+                  fn: function(ref) {
+                    var on = ref.on
+                    return [
+                      _c(
+                        "v-btn",
+                        _vm._g(
+                          {
+                            attrs: {
+                              absolute: "",
+                              right: "",
+                              flat: "",
+                              icon: "",
+                              dark: "",
+                              color: "primary"
+                            }
+                          },
+                          on
+                        ),
+                        [
+                          _c("v-icon", { attrs: { size: "medium" } }, [
+                            _vm._v("fas fa-ellipsis-v")
+                          ])
+                        ],
+                        1
+                      )
+                    ]
+                  }
+                }
+              ])
+            },
+            [
+              _vm._v(" "),
+              _c(
+                "v-list",
+                [
+                  _c(
+                    "v-list-tile",
+                    [_c("v-list-tile-title", [_vm._v("Editar")])],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-list-tile",
+                    [_c("v-list-tile-title", [_vm._v("Eliminar")])],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-flex",
+            { attrs: { xs12: "" } },
+            [
+              _c(
+                "v-layout",
+                { attrs: { "justify-center": "" } },
+                [
+                  _c("v-avatar", { attrs: { size: "200" } }, [
+                    _c("img", { attrs: { src: _vm.showData.articulo.foto } })
+                  ])
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("v-flex", { attrs: { xs12: "" } }, [
+            _c("br"),
+            _vm._v(" "),
+            _c("h1", { staticClass: "text-xs-center primary--text" }, [
+              _vm._v(_vm._s(_vm.showData.articulo.articulo))
+            ])
+          ]),
+          _vm._v(" "),
+          _c("v-flex", { attrs: { xs12: "" } }, [
+            _c("h3", { staticClass: "text-xs-center primary--text" }, [
+              _vm._v(_vm._s(_vm.showData.articulo.descripcion))
+            ])
+          ])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      [
+        _c(
+          "div",
+          [
+            _c(
+              "v-tabs",
+              {
+                attrs: {
+                  "fixed-tabs": "",
+                  grow: "",
+                  "slider-color": "primary",
+                  "active-class": "primary--text"
+                }
+              },
+              [
+                _c("v-tab", [_vm._v("Datos")]),
+                _vm._v(" "),
+                _c("v-tab", [_vm._v("Inventarios")]),
+                _vm._v(" "),
+                _c("v-tab-item", [_c("div", [_c("ProductosShowData")], 1)]),
+                _vm._v(" "),
+                _c("v-tab-item", [
+                  _c("div", [_c("ProductosShowInventario")], 1)
+                ])
+              ],
+              1
+            )
+          ],
+          1
+        )
+      ]
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/productos/ProductosShowData.vue?vue&type=template&id=739e7e63&":
+/*!******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/productos/ProductosShowData.vue?vue&type=template&id=739e7e63& ***!
+  \******************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-container",
+    { attrs: { fluid: "", "grid-list-md": "" } },
+    [
+      _c(
+        "v-layout",
+        { attrs: { "justify-space-around": "", wrap: "" } },
+        [
+          _c(
+            "v-flex",
+            { attrs: { xs12: "", sm5: "" } },
+            [
+              _c(
+                "v-card",
+                { staticClass: "elevation-0" },
+                [
+                  _c("v-card-title", [_c("h4", [_vm._v("Datos Generales")])]),
+                  _vm._v(" "),
+                  _c("v-divider"),
+                  _vm._v(" "),
+                  _c(
+                    "v-list",
+                    { attrs: { dense: "" } },
+                    [
+                      _c(
+                        "v-list-tile",
+                        { staticStyle: { margin: "10px 0px" } },
+                        [
+                          _c(
+                            "v-list-tile-content",
+                            [
+                              _c("v-list-tile-title", [
+                                _c("b", [_vm._v("Articulo:")])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-sub-title",
+                                { staticClass: "black--text" },
+                                [_vm._v(_vm._s(_vm.showData.articulo.articulo))]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-tile",
+                        { staticStyle: { margin: "10px 0px" } },
+                        [
+                          _c(
+                            "v-list-tile-content",
+                            [
+                              _c("v-list-tile-title", [
+                                _c("b", [_vm._v("Descripción:")])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-sub-title",
+                                { staticClass: "black--text" },
+                                [
+                                  _vm._v(
+                                    _vm._s(_vm.showData.articulo.descripcion)
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-tile",
+                        { staticStyle: { margin: "10px 0px" } },
+                        [
+                          _c(
+                            "v-list-tile-content",
+                            [
+                              _c("v-list-tile-title", [
+                                _c("b", [_vm._v("Codigo:")])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-sub-title",
+                                { staticClass: "black--text" },
+                                [
+                                  _vm._v(
+                                    _vm._s(_vm.showData.articulo.codarticulo)
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-tile",
+                        { staticStyle: { margin: "10px 0px" } },
+                        [
+                          _c(
+                            "v-list-tile-content",
+                            [
+                              _c("v-list-tile-title", [
+                                _c("b", [_vm._v("Codigo del Proveedor:")])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-sub-title",
+                                { staticClass: "black--text" },
+                                [_vm._v(_vm._s(_vm.showData.articulo.codprov))]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-tile",
+                        { staticStyle: { margin: "10px 0px" } },
+                        [
+                          _c(
+                            "v-list-tile-content",
+                            [
+                              _c("v-list-tile-title", [
+                                _c("b", [_vm._v("Categoria:")])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-sub-title",
+                                { staticClass: "black--text" },
+                                [
+                                  _vm._v(
+                                    _vm._s(_vm.showData.articulo.categoria_id)
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-tile",
+                        { staticStyle: { margin: "10px 0px" } },
+                        [
+                          _c(
+                            "v-list-tile-content",
+                            [
+                              _c("v-list-tile-title", [
+                                _c("b", [_vm._v("Marca:")])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-sub-title",
+                                { staticClass: "black--text" },
+                                [_vm._v(_vm._s(_vm.showData.articulo.marca_id))]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("v-divider", { attrs: { vertical: "" } }),
+          _vm._v(" "),
+          _c(
+            "v-flex",
+            { attrs: { xs12: "", sm5: "" } },
+            [
+              _c(
+                "v-card",
+                { staticClass: "elevation-0" },
+                [
+                  _c("v-card-title", [_c("h4", [_vm._v("Datos Financieros")])]),
+                  _vm._v(" "),
+                  _c("v-divider"),
+                  _vm._v(" "),
+                  _c(
+                    "v-list",
+                    { attrs: { dense: "" } },
+                    [
+                      _c(
+                        "v-list-tile",
+                        { staticStyle: { margin: "10px 0px" } },
+                        [
+                          _c(
+                            "v-list-tile-content",
+                            [
+                              _c("v-list-tile-title", [
+                                _c("b", [_vm._v("Costo:")])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-sub-title",
+                                { staticClass: "black--text" },
+                                [
+                                  _vm._v(
+                                    "$ " + _vm._s(_vm.showData.articulo.costo)
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-tile",
+                        { staticStyle: { margin: "10px 0px" } },
+                        [
+                          _c(
+                            "v-list-tile-content",
+                            [
+                              _c("v-list-tile-title", [
+                                _c("b", [_vm._v("Utilidades:")])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-sub-title",
+                                { staticClass: "black--text" },
+                                [
+                                  _vm._v(
+                                    _vm._s(_vm.showData.articulo.utilidades) +
+                                      " %"
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-tile",
+                        { staticStyle: { margin: "10px 0px" } },
+                        [
+                          _c(
+                            "v-list-tile-content",
+                            [
+                              _c("v-list-tile-title", [
+                                _c("b", [_vm._v("Alicuota:")])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-sub-title",
+                                { staticClass: "black--text" },
+                                [
+                                  _vm._v(
+                                    _vm._s(_vm.showData.articulo.alicuota) +
+                                      " %"
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-tile",
+                        { staticStyle: { margin: "10px 0px" } },
+                        [
+                          _c(
+                            "v-list-tile-content",
+                            [
+                              _c("v-list-tile-title", [
+                                _c("b", [_vm._v("Precio:")])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-sub-title",
+                                { staticClass: "black--text" },
+                                [
+                                  _vm._v(
+                                    "$ " + _vm._s(_vm.showData.articulo.precio)
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/productos/ProductosShowInventario.vue?vue&type=template&id=ace02c2c&":
+/*!************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/productos/ProductosShowInventario.vue?vue&type=template&id=ace02c2c& ***!
+  \************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("v-data-table", {
+    attrs: {
+      "hide-actions": "",
+      headers: _vm.headers,
+      items: _vm.showData.inventarios
+    },
+    scopedSlots: _vm._u([
+      {
+        key: "items",
+        fn: function(inventario) {
+          return [
+            _c("td", [_vm._v(_vm._s(inventario.item.cantidad))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(inventario.item.lote))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(inventario.item.vencimiento))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(inventario.item.proveedor_id))])
+          ]
+        }
+      }
+    ])
+  })
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -25334,25 +26184,9 @@ var render = function() {
         "v-card",
         [
           _c("v-card-text", [
-            _c(
-              "div",
-              [
-                _c(
-                  "v-btn",
-                  {
-                    on: {
-                      click: function($event) {
-                        return _vm.log()
-                      }
-                    }
-                  },
-                  [_vm._v("log")]
-                ),
-                _vm._v(" "),
-                _c("ProductosShow")
-              ],
-              1
-            )
+            _vm.showData.articulo
+              ? _c("div", [_c("ProductosShow")], 1)
+              : _vm._e()
           ])
         ],
         1
@@ -69671,6 +70505,144 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosShow_vue_vue_type_template_id_0139b819___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosShow_vue_vue_type_template_id_0139b819___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/productos/ProductosShowData.vue":
+/*!*****************************************************************!*\
+  !*** ./resources/js/components/productos/ProductosShowData.vue ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ProductosShowData_vue_vue_type_template_id_739e7e63___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProductosShowData.vue?vue&type=template&id=739e7e63& */ "./resources/js/components/productos/ProductosShowData.vue?vue&type=template&id=739e7e63&");
+/* harmony import */ var _ProductosShowData_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProductosShowData.vue?vue&type=script&lang=js& */ "./resources/js/components/productos/ProductosShowData.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ProductosShowData_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ProductosShowData_vue_vue_type_template_id_739e7e63___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ProductosShowData_vue_vue_type_template_id_739e7e63___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/productos/ProductosShowData.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/productos/ProductosShowData.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/components/productos/ProductosShowData.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosShowData_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ProductosShowData.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/productos/ProductosShowData.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosShowData_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/productos/ProductosShowData.vue?vue&type=template&id=739e7e63&":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/productos/ProductosShowData.vue?vue&type=template&id=739e7e63& ***!
+  \************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosShowData_vue_vue_type_template_id_739e7e63___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ProductosShowData.vue?vue&type=template&id=739e7e63& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/productos/ProductosShowData.vue?vue&type=template&id=739e7e63&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosShowData_vue_vue_type_template_id_739e7e63___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosShowData_vue_vue_type_template_id_739e7e63___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/productos/ProductosShowInventario.vue":
+/*!***********************************************************************!*\
+  !*** ./resources/js/components/productos/ProductosShowInventario.vue ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ProductosShowInventario_vue_vue_type_template_id_ace02c2c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProductosShowInventario.vue?vue&type=template&id=ace02c2c& */ "./resources/js/components/productos/ProductosShowInventario.vue?vue&type=template&id=ace02c2c&");
+/* harmony import */ var _ProductosShowInventario_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProductosShowInventario.vue?vue&type=script&lang=js& */ "./resources/js/components/productos/ProductosShowInventario.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ProductosShowInventario_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ProductosShowInventario_vue_vue_type_template_id_ace02c2c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ProductosShowInventario_vue_vue_type_template_id_ace02c2c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/productos/ProductosShowInventario.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/productos/ProductosShowInventario.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/productos/ProductosShowInventario.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosShowInventario_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ProductosShowInventario.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/productos/ProductosShowInventario.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosShowInventario_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/productos/ProductosShowInventario.vue?vue&type=template&id=ace02c2c&":
+/*!******************************************************************************************************!*\
+  !*** ./resources/js/components/productos/ProductosShowInventario.vue?vue&type=template&id=ace02c2c& ***!
+  \******************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosShowInventario_vue_vue_type_template_id_ace02c2c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ProductosShowInventario.vue?vue&type=template&id=ace02c2c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/productos/ProductosShowInventario.vue?vue&type=template&id=ace02c2c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosShowInventario_vue_vue_type_template_id_ace02c2c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductosShowInventario_vue_vue_type_template_id_ace02c2c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

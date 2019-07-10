@@ -44,9 +44,7 @@ export default {
     },
 
     methods: {
-        ...mapActions("crudx", ["save"]),
-
-        saveProducto() {}
+        ...mapActions("crudx", ["save"])
     }
 };
 </script>

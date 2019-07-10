@@ -2,109 +2,115 @@
     <v-container fluid grid-list-md>
         <v-layout justify-space-around wrap>
             <v-flex xs12 sm5>
-                <v-data-iterator :items="personalData" content-tag="v-layout" hide-actions row wrap>
-                    <template v-slot:item="props">
-                        <v-flex xs12>
-                            <v-card class="elevation-0">
-                                <v-card-title>
-                                    <h4>{{ props.item.name }}</h4>
-                                </v-card-title>
-                                <v-divider></v-divider>
-                                <v-list dense>
-                                    <v-list-tile>
-                                        <v-list-tile-content>
-                                            <b>Apellido y Nombre:</b>
-                                        </v-list-tile-content>
-                                        <v-list-tile-content
-                                            class="align-end"
-                                        >{{ showData.cliente.razonsocial }}</v-list-tile-content>
-                                    </v-list-tile>
-                                    <v-list-tile>
-                                        <v-list-tile-content>
-                                            <b>CUIT:</b>
-                                        </v-list-tile-content>
-                                        <v-list-tile-content
-                                            class="align-end"
-                                        >{{ showData.cliente.documentounico }}</v-list-tile-content>
-                                    </v-list-tile>
-                                    <v-list-tile>
-                                        <v-list-tile-content>
-                                            <b>Condición IVA:</b>
-                                        </v-list-tile-content>
-                                        <v-list-tile-content
-                                            class="align-end"
-                                        >{{ showData.cliente.condicioniva }}</v-list-tile-content>
-                                    </v-list-tile>
-                                </v-list>
-                            </v-card>
-                        </v-flex>
-                    </template>
-                </v-data-iterator>
+                <v-card class="elevation-0">
+                    <v-card-title>
+                        <h4>Datos Personales</h4>
+                    </v-card-title>
+                    <v-divider></v-divider>
+                    <v-list dense>
+                        <v-list-tile style="margin: 10px 0px;">
+                            <v-list-tile-content>
+                                <v-list-tile-title>
+                                    <b>Apellido y Nombre:</b>
+                                </v-list-tile-title>
+                                <v-list-tile-sub-title
+                                    class="black--text"
+                                >{{ showData.cliente.razonsocial }}</v-list-tile-sub-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                        <v-list-tile style="margin: 10px 0px;">
+                            <v-list-tile-content>
+                                <v-list-tile-title>
+                                    <b>CUIT:</b>
+                                </v-list-tile-title>
+                                <v-list-tile-sub-title
+                                    class="black--text"
+                                >{{ showData.cliente.documentounico }}</v-list-tile-sub-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                        <v-list-tile style="margin: 10px 0px;">
+                            <v-list-tile-content>
+                                <v-list-tile-title>
+                                    <b>Condición IVA:</b>
+                                </v-list-tile-title>
+                                <v-list-tile-sub-title
+                                    class="black--text"
+                                >{{ showData.cliente.condicioniva }}</v-list-tile-sub-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                    </v-list>
+                </v-card>
             </v-flex>
             <v-divider vertical></v-divider>
             <v-flex xs12 sm5>
-                <v-data-iterator :items="contactData" content-tag="v-layout" hide-actions row wrap>
-                    <template v-slot:item="props">
-                        <v-flex xs12>
-                            <v-card class="elevation-0">
-                                <v-card-title>
-                                    <h4>{{ props.item.name }}</h4>
-                                </v-card-title>
-                                <v-divider></v-divider>
-                                <v-list dense>
-                                    <v-list-tile>
-                                        <v-list-tile-content>
-                                            <b>TEL/CEL:</b>
-                                        </v-list-tile-content>
-                                        <v-list-tile-content
-                                            class="align-end"
-                                        >{{ showData.cliente.telefono }}</v-list-tile-content>
-                                    </v-list-tile>
-                                    <v-list-tile>
-                                        <v-list-tile-content>
-                                            <b>Email:</b>
-                                        </v-list-tile-content>
-                                        <v-list-tile-content
-                                            class="align-end"
-                                        >{{ showData.cliente.email }}</v-list-tile-content>
-                                    </v-list-tile>
-                                    <v-list-tile>
-                                        <v-list-tile-content>
-                                            <b>Direccón:</b>
-                                        </v-list-tile-content>
-                                        <v-list-tile-content
-                                            class="align-end"
-                                        >{{ showData.cliente.direccion }}</v-list-tile-content>
-                                    </v-list-tile>
-                                    <v-list-tile>
-                                        <v-list-tile-content>
-                                            <b>Codigo Postal:</b>
-                                        </v-list-tile-content>
-                                        <v-list-tile-content
-                                            class="align-end"
-                                        >{{ showData.cliente.codigopostal }}</v-list-tile-content>
-                                    </v-list-tile>
-                                    <v-list-tile>
-                                        <v-list-tile-content>
-                                            <b>Provincia:</b>
-                                        </v-list-tile-content>
-                                        <v-list-tile-content
-                                            class="align-end"
-                                        >{{ showData.cliente.provincia }}</v-list-tile-content>
-                                    </v-list-tile>
-                                    <v-list-tile>
-                                        <v-list-tile-content>
-                                            <b>Localidad:</b>
-                                        </v-list-tile-content>
-                                        <v-list-tile-content
-                                            class="align-end"
-                                        >{{ showData.cliente.localidad }}</v-list-tile-content>
-                                    </v-list-tile>
-                                </v-list>
-                            </v-card>
-                        </v-flex>
-                    </template>
-                </v-data-iterator>
+                <v-card class="elevation-0">
+                    <v-card-title>
+                        <h4>Contacto</h4>
+                    </v-card-title>
+                    <v-divider></v-divider>
+                    <v-list dense>
+                        <v-list-tile style="margin: 10px 0px;">
+                            <v-list-tile-content>
+                                <v-list-tile-title>
+                                    <b>TEL/CEL:</b>
+                                </v-list-tile-title>
+                                <v-list-tile-sub-title
+                                    class="black--text"
+                                >{{ showData.cliente.telefono }}</v-list-tile-sub-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                        <v-list-tile style="margin: 10px 0px;">
+                            <v-list-tile-content>
+                                <v-list-tile-title>
+                                    <b>Email:</b>
+                                </v-list-tile-title>
+                                <v-list-tile-sub-title
+                                    class="black--text"
+                                >{{ showData.cliente.email }}</v-list-tile-sub-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                        <v-list-tile style="margin: 10px 0px;">
+                            <v-list-tile-content>
+                                <v-list-tile-title>
+                                    <b>Dirección:</b>
+                                </v-list-tile-title>
+                                <v-list-tile-sub-title
+                                    class="black--text"
+                                >{{ showData.cliente.direccion }}</v-list-tile-sub-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                        <v-list-tile style="margin: 10px 0px;">
+                            <v-list-tile-content>
+                                <v-list-tile-title>
+                                    <b>Codigo Postal:</b>
+                                </v-list-tile-title>
+                                <v-list-tile-sub-title
+                                    class="black--text"
+                                >{{ showData.cliente.codigopostal }}</v-list-tile-sub-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                        <v-list-tile style="margin: 10px 0px;">
+                            <v-list-tile-content>
+                                <v-list-tile-title>
+                                    <b>Provincia:</b>
+                                </v-list-tile-title>
+                                <v-list-tile-sub-title
+                                    class="black--text"
+                                >{{ showData.cliente.provincia }}</v-list-tile-sub-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                        <v-list-tile style="margin: 10px 0px;">
+                            <v-list-tile-content>
+                                <v-list-tile-title>
+                                    <b>Localidad:</b>
+                                </v-list-tile-title>
+                                <v-list-tile-sub-title
+                                    class="black--text"
+                                >{{ showData.cliente.localidad }}</v-list-tile-sub-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                    </v-list>
+                </v-card>
             </v-flex>
         </v-layout>
     </v-container>
@@ -116,13 +122,6 @@ import { mapState } from "vuex";
 
 export default {
     name: "CLientesShowDataIterator",
-
-    data() {
-        return {
-            personalData: [{ name: "Datos Personales" }],
-            contactData: [{ name: "Contacto" }]
-        };
-    },
 
     computed: {
         ...mapState("crudx", ["showData"])

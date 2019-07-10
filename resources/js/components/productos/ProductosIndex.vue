@@ -32,11 +32,11 @@
                                     </div>
                                     <div>
                                         <v-layout justify-start>
-                                            <div v-if="articulo.stock.length > 0">
+                                            <div v-if="articulo.stock > 0">
                                                 <div
                                                     v-if="
-                                                    articulo.stock[0].total <= articulo.stockminimo &&
-                                                    articulo.stock[0].total > 0
+                                                    articulo.stock <= articulo.stockminimo &&
+                                                    articulo.stock > 0
                                                     "
                                                 >
                                                     <div
@@ -46,7 +46,7 @@
                                                         <i class="fas fa-box-open icon"></i>
                                                     </div>
                                                 </div>
-                                                <div v-else-if="articulo.stock[0].total == 0">
+                                                <div v-else-if="articulo.stock == 0">
                                                     <div
                                                         class="tringle-left-button"
                                                         style="color: #FF5252;"
@@ -114,8 +114,8 @@
                                     <td>{{ articulo.item.articulo }}</td>
                                     <td>$ {{ articulo.item.precio }}</td>
                                     <td>
-                                        <div v-if="articulo.item.stock.length <= 0">0</div>
-                                        <div v-else>{{ articulo.item.stock[0].total }}</div>
+                                        <div v-if="articulo.item.stock <= 0">0</div>
+                                        <div v-else>{{ articulo.item.stock }}</div>
                                     </td>
                                     <td>
                                         <v-btn

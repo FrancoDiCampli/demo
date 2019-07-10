@@ -169,10 +169,14 @@ class FacturasController extends Controller
             if ($factura->cliente_id <> 1) {
                 $cliente = Cliente::find($factura->cliente_id);
                 $atributos['documentounico'] = $cliente->documentounico;
-                if ($cliente->condicioniva <> 'CONSUMIDOR FINAL') {
-                    $atributos['tipo'] = 80;
+                if (strlen($cliente->documentounico) <= 8 && strlen($cliente->documentounico) >= 7) {
+                    $atributos['tipo'] = 96;
                 } else {
-                    $atributos['tipo'] = 86;
+                    if ($cliente->condicioniva <> 'CONSUMIDOR FINAL') {
+                        $atributos['tipo'] = 80;
+                    } else {
+                        $atributos['tipo'] = 86;
+                    }
                 }
             } else {
                 $atributos['documentounico'] = 0;

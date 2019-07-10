@@ -5358,7 +5358,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 //Axios
  //Vuex
 
@@ -5617,16 +5616,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     // Seleccionar Producto
     selectProducto: function selectProducto(producto) {
       // Comprobar si el articulo tiene stock
-      if (producto.stock.length > 0) {
-        if (producto.stock[0].total > 0) {
-          // Reiniciar la tabla de productos
-          this.productos = []; // Seleccionar Producto
+      if (producto.stock > 0) {
+        // Reiniciar la tabla de productos
+        this.productos = []; // Seleccionar Producto
 
-          this.form.producto_id = producto.id;
-          this.form.producto = producto.articulo;
-          this.form.precio = producto.precio;
-          this.stock = producto.stock[0].total;
-        }
+        this.form.producto_id = producto.id;
+        this.form.producto = producto.articulo;
+        this.form.precio = producto.precio;
+        this.stock = producto.stock;
       }
     },
     //LLenar Array de Detalles
@@ -19618,11 +19615,9 @@ var render = function() {
                                         _c(
                                           "tr",
                                           {
-                                            style:
-                                              producto.item.stock.length > 0 &&
-                                              producto.item.stock[0].total > 0
-                                                ? "cursor: pointer;"
-                                                : "",
+                                            style: producto.item.stock
+                                              ? "cursor: pointer;"
+                                              : "",
                                             on: {
                                               click: function($event) {
                                                 return _vm.selectProducto(
@@ -19653,13 +19648,12 @@ var render = function() {
                                             ]),
                                             _vm._v(" "),
                                             _c("td", [
-                                              producto.item.stock.length <= 0
+                                              producto.item.stock <= 0
                                                 ? _c("div", [_vm._v("0")])
                                                 : _c("div", [
                                                     _vm._v(
                                                       _vm._s(
-                                                        producto.item.stock[0]
-                                                          .total
+                                                        producto.item.stock
                                                       )
                                                     )
                                                   ])
@@ -21771,11 +21765,11 @@ var render = function() {
                                         "v-layout",
                                         { attrs: { "justify-start": "" } },
                                         [
-                                          articulo.stock.length > 0
+                                          articulo.stock > 0
                                             ? _c("div", [
-                                                articulo.stock[0].total <=
+                                                articulo.stock <=
                                                   articulo.stockminimo &&
-                                                articulo.stock[0].total > 0
+                                                articulo.stock > 0
                                                   ? _c("div", [
                                                       _c(
                                                         "div",
@@ -21794,7 +21788,7 @@ var render = function() {
                                                         ]
                                                       )
                                                     ])
-                                                  : articulo.stock[0].total == 0
+                                                  : articulo.stock == 0
                                                   ? _c("div", [
                                                       _c(
                                                         "div",
@@ -21968,14 +21962,10 @@ var render = function() {
                                     ]),
                                     _vm._v(" "),
                                     _c("td", [
-                                      articulo.item.stock.length <= 0
+                                      articulo.item.stock <= 0
                                         ? _c("div", [_vm._v("0")])
                                         : _c("div", [
-                                            _vm._v(
-                                              _vm._s(
-                                                articulo.item.stock[0].total
-                                              )
-                                            )
+                                            _vm._v(_vm._s(articulo.item.stock))
                                           ])
                                     ]),
                                     _vm._v(" "),

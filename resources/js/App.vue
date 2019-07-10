@@ -240,7 +240,7 @@ export default {
                 },
                 {
                     title: "Usuarios",
-                    icon: "fas fa-users",
+                    icon: "fas fa-address-card",
                     url: "/users",
                     divider: false,
                     rol: "admin"

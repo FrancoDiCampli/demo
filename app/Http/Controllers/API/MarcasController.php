@@ -18,6 +18,11 @@ class MarcasController extends Controller
         ];
     }
 
+    public function show($id)
+    {
+        return Marca::find($id);
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate(['marca' => 'required|unique:marcas|max:190']);

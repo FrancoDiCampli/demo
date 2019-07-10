@@ -28,10 +28,10 @@ Route::middleware('auth:api')->group(function () {
     Route::get('notifications', 'API\NotificationsController@getNotifications');
 
     // Categorias Api Routes
-    Route::apiResource('categorias', 'API\CategoriasController', ['only' => ['index', 'store']]);
+    Route::apiResource('categorias', 'API\CategoriasController', ['only' => ['index', 'show', 'store']]);
 
     // Marcas Api Routes
-    Route::apiResource('marcas', 'API\MarcasController', ['only' => ['index', 'store']]);
+    Route::apiResource('marcas', 'API\MarcasController', ['only' => ['index', 'show', 'store']]);
 
     // Articulos Api Routess
     Route::apiResource('articulos', 'API\ArticulosController', ['except' => ['create', 'edit']]);

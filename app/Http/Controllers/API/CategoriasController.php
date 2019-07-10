@@ -18,6 +18,11 @@ class CategoriasController extends Controller
         ];
     }
 
+    public function show($id)
+    {
+        return Categoria::find($id);
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate(['categoria' => 'required|unique:categorias|max:190']);

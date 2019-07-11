@@ -14,6 +14,11 @@ import ClientesIndex from "./views/clientes/index.vue";
 import ClientesShow from "./views/clientes/show.vue";
 import ClientesCreate from "./views/clientes/create.vue";
 
+// Proveedores
+import ProveedoresIndex from "./views/proveedores/index.vue";
+// import ProveedoresShow from "./views/proveedores/show.vue";
+// import ProveedoresCreate from "./views/proveedores/create.vue";
+
 // Productos Views
 import ProductosIndex from "./views/productos/index.vue";
 import ProductosShow from "./views/productos/show.vue";
@@ -195,6 +200,35 @@ export default new Router({
                 permissions: allUsers
             }
         },
+
+        // Proveedores Routes
+        {
+            path: "/suppliers",
+            name: "suppliers",
+            component: ProveedoresIndex,
+            meta: {
+                permissions: allUsers
+            }
+        },
+
+        // {
+        //     path: "/suppliers/show/:id",
+        //     name: "ver supplier",
+        //     component: ProveedoresShow,
+        //     props: true,
+        //     meta: {
+        //         permissions: allUsers
+        //     }
+        // },
+
+        // {
+        //     path: "/suppliers/nuevo",
+        //     name: "nuevo supplier",
+        //     component: ProveedoresCreate,
+        //     meta: {
+        //         permissions: allUsers
+        //     }
+        // },
 
         // Productos Routes
         {

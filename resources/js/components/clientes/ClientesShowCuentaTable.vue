@@ -201,7 +201,7 @@
                 <v-card-text>
                     <v-layout justify-end wrap>
                         <v-btn
-                            @click="pagarCuentasDialog = false;"
+                            @click="cancelarPago()"
                             outline
                             color="primary"
                             :disabled="loadingButton"
@@ -328,6 +328,12 @@ export default {
                 }
                 this.pagarCuentasDialog = true;
             }
+        },
+
+        cancelarPago() {
+            this.selected = [];
+            this.pagoTotal = null;
+            this.pagarCuentasDialog = false;
         },
 
         pagarCuentas: async function() {

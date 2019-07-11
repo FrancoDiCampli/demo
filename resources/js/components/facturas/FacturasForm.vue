@@ -144,8 +144,7 @@
                                         <tr
                                             @click="selectProducto(producto.item)"
                                             :style="
-                                                producto.item.stock.length > 0 
-                                                && producto.item.stock[0].total > 0 ? 
+                                                producto.item.stock ? 
                                                 'cursor: pointer;' : 
                                                 ''"
                                         >
@@ -153,8 +152,8 @@
                                             <td>{{ producto.item.articulo }}</td>
                                             <td>{{ producto.item.precio }}</td>
                                             <td>
-                                                <div v-if="producto.item.stock.length <= 0">0</div>
-                                                <div v-else>{{ producto.item.stock[0].total }}</div>
+                                                <div v-if="producto.item.stock <= 0">0</div>
+                                                <div v-else>{{ producto.item.stock }}</div>
                                             </td>
                                         </tr>
                                     </template>
@@ -462,7 +461,6 @@ export default {
             this.detailClient = [];
             if (this.form.cliente == "0") {
                 // Establecer Cliente Como Consumidor Final
-                this.clientes = [];
                 this.detallesCliente = [];
                 this.form.cliente_id = 1;
                 this.form.cliente = "CONSUMIDOR FINAL";
@@ -523,17 +521,15 @@ export default {
         // Seleccionar Producto
         selectProducto(producto) {
             // Comprobar si el articulo tiene stock
-            if (producto.stock.length > 0) {
-                if (producto.stock[0].total > 0) {
-                    // Reiniciar la tabla de productos
-                    this.productos = [];
+            if (producto.stock > 0) {
+                // Reiniciar la tabla de productos
+                this.productos = [];
 
-                    // Seleccionar Producto
-                    this.form.producto_id = producto.id;
-                    this.form.producto = producto.articulo;
-                    this.form.precio = producto.precio;
-                    this.stock = producto.stock[0].total;
-                }
+                // Seleccionar Producto
+                this.form.producto_id = producto.id;
+                this.form.producto = producto.articulo;
+                this.form.precio = producto.precio;
+                this.stock = producto.stock;
             }
         },
 

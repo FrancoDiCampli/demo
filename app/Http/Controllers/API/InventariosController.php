@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Articulo;
+use App\Supplier;
 use App\Inventario;
 use App\Movimiento;
 use Illuminate\Http\Request;
@@ -11,23 +13,54 @@ use App\Http\Requests\UpdateInventario;
 
 class InventariosController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return $inventarios = Inventario::get();
+        $inventories = Inventario::buscar($request)->get();
+
+        $inventarios = collect();
+
+        foreach ($inventories as $inventory) {
+            $proveedor = Supplier::find($inventory->supplier_id);
+            $inventory = collect($inventory);
+            $inventory->put('supplier', $proveedor);
+            $inventarios->push($inventory);
+        }
+
+        return $inventarios->take(1);
     }
 
     public function store(StoreInventario $request)
     {
-
         $data = $request->validated();
-
-        $inventario = Inventario::create($data);
-
         $mov = new Movimiento;
-        $mov->inventario_id = $inventario->id;
-        $mov->tipo = 'ALTA';
+        $actualizar = Inventario::where('lote', $data['lote'])->where('articulo_id', $data['articulo_id'])->get()->first();
+        $articulo = Articulo::find($data['articulo_id']);
 
-        $mov->cantidad = $request->cantidad;
+        if (
+            $articulo->costo <> $request['costo'] * 1 ||
+            $articulo->utilidades <> $request['utilidades'] * 1 ||
+            $articulo->alicuota <> $request['alicuota'] * 1 ||
+            $articulo->precio <> $request['precio'] * 1
+        ) {
+            $articulo->costo = $request['costo'] * 1;
+            $articulo->utilidades = $request['utilidades'] * 1;
+            $articulo->alicuota = $request['alicuota'] * 1;
+            $articulo->precio = $request['precio'] * 1;
+            $articulo->save();
+        }
+
+        if ($actualizar) {
+            $actualizar->cantidad = $data['cantidad'];
+            $actualizar->save();
+            $mov->tipo = 'ACTUALIZACION';
+            $mov->inventario_id = $actualizar->id;
+        } else {
+            $inventario = Inventario::create($data);
+            $mov->tipo = 'ALTA';
+            $mov->inventario_id = $inventario->id;
+        }
+
+        $mov->cantidad = $data['cantidad'];
         $mov->fecha = now();
         $mov->save();
 
@@ -80,11 +113,13 @@ class InventariosController extends Controller
     }
 
 
-    public function show($id){
-        return $inventario = Inventario::where('articulo_id',$id)->get();
+    public function show($id)
+    {
+        return $inventario = Inventario::where('articulo_id', $id)->get();
     }
 
-    public function actualizar(Request $request){
+    public function actualizar(Request $request)
+    {
 
 
 
@@ -94,21 +129,17 @@ class InventariosController extends Controller
 
         if ($request->movimiento === 'VENTA') {
             $inventario->cantidad = $inventario->cantidad - $request->cantidad;
-
         }
         if ($request->movimiento === 'COMPRA') {
             $inventario->cantidad = $inventario->cantidad + $request->cantidad;
-
         }
         if ($request->movimiento === 'DEVOLUCION') {
             $inventario->cantidad = $inventario->cantidad + $request->cantidad;
-
         }
 
 
         if ($request->movimiento === 'VENCIMIENTO') {
             $inventario->cantidad = $inventario->cantidad - $request->cantidad;
-
         }
 
         $inventario->update();
@@ -121,10 +152,10 @@ class InventariosController extends Controller
         $mov->save();
     }
 
-    public function movimientos($id){
+    public function movimientos($id)
+    {
 
 
-        return $movimientos = Movimiento::where('inventario_id',$id)->get();
+        return $movimientos = Movimiento::where('inventario_id', $id)->get();
     }
-
 }

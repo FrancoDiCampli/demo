@@ -25,8 +25,6 @@ class StoreInventario extends FormRequest
     {
         return [
             'cantidad' => 'required|min:1|max:3',
-            'stockminimo' => 'min:1|max:3',
-            'preciocosto' => 'required',
             'lote' => 'min:1',
             'vencimiento' => 'date|date_format:Y-m-d',
             'articulo_id' => 'required',

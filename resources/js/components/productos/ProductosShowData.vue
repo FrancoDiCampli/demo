@@ -53,9 +53,7 @@
                                 <v-list-tile-title>
                                     <b>Categoria:</b>
                                 </v-list-tile-title>
-                                <v-list-tile-sub-title
-                                    class="black--text"
-                                >{{ showData.articulo.categoria_id }}</v-list-tile-sub-title>
+                                <v-list-tile-sub-title class="black--text">{{ showData.categoria }}</v-list-tile-sub-title>
                             </v-list-tile-content>
                         </v-list-tile>
                         <v-list-tile style="margin: 10px 0px;">
@@ -63,9 +61,7 @@
                                 <v-list-tile-title>
                                     <b>Marca:</b>
                                 </v-list-tile-title>
-                                <v-list-tile-sub-title
-                                    class="black--text"
-                                >{{ showData.articulo.marca_id }}</v-list-tile-sub-title>
+                                <v-list-tile-sub-title class="black--text">{{ showData.marca }}</v-list-tile-sub-title>
                             </v-list-tile-content>
                         </v-list-tile>
                     </v-list>

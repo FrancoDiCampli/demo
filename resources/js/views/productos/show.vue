@@ -4,14 +4,9 @@
             <v-icon>fas fa-chevron-left</v-icon>
         </v-btn>
         <!-- <v-btn @click="log()">log</v-btn> -->
-        <v-card>
-            <v-card-text>
-                <div v-if="showData.articulo">
-                    <ProductosShow></ProductosShow>
-                </div>
-            </v-card-text>
-        </v-card>
-        
+        <div v-if="showData.articulo">
+            <ProductosShow></ProductosShow>
+        </div>
     </div>
 </template>
 

@@ -8,12 +8,15 @@ use App\Http\Controllers\Controller;
 
 class SuppliersController extends Controller
 {
-    public function index (Request $request)
+    public function index(Request $request)
     {
-        $suppliers = Supplier::orderBy('id')
-                ->buscar($request)
-                ->get();
-        return $suppliers;
+        $suppliers = Supplier::orderBy('razonsocial', 'asc')
+            ->buscar($request);
+
+        return [
+            'proveedores' => $suppliers->take($request->get('limit', null))->get(),
+            'total' => $suppliers->count()
+        ];
     }
 
     public function store(Request $request)
@@ -57,12 +60,12 @@ class SuppliersController extends Controller
         $supplier = Supplier::findOrFail($id);
         $supplier->delete();
 
-        return ['message'=>'eliminado'];
+        return ['message' => 'eliminado'];
     }
 
 
-    public function show($id){
+    public function show($id)
+    {
         return $supplier = Supplier::find($id);
     }
-
 }

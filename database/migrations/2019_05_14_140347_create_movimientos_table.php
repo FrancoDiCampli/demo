@@ -20,9 +20,11 @@ class CreateMovimientosTable extends Migration
             $table->string('fecha');
             $table->unsignedBigInteger('inventario_id');
             $table->bigInteger('numcomprobante')->nullable();
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
             $table->foreign('inventario_id')->references('id')->on('inventarios');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

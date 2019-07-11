@@ -18,9 +18,9 @@
             <v-expansion-panel-content expand-icon="fas fa-plus">
                 <v-card>
                     <v-card-text>
-                        <v-form ref="inventariosForm" @submit.prevent="saveInventarios()">
+                        <v-form ref="inventariosForm" @submit.prevent="preventSave()">
                             <v-layout justify-space-around wrap>
-                                <v-flex xs12 sm6 px-3>
+                                <v-flex xs12 sm4 px-3>
                                     <v-text-field
                                         v-model="form.lote"
                                         @keyup="findLote()"
@@ -29,13 +29,23 @@
                                         :rules="[rules.required]"
                                     ></v-text-field>
                                 </v-flex>
-                                <v-flex xs12 sm6 px-3>
+                                <v-flex xs12 sm4 px-3>
                                     <v-text-field
                                         v-model="form.cantidad"
                                         label="Cantidad"
                                         box
                                         :rules="[rules.required]"
                                     ></v-text-field>
+                                </v-flex>
+                                <v-flex xs12 sm4 px-3>
+                                    <v-select
+                                        v-model="movimiento"
+                                        :disabled="disabledMovimiento"
+                                        :items="movimientos"
+                                        :rules="[rules.required]"
+                                        label="Movimiento"
+                                        box
+                                    ></v-select>
                                 </v-flex>
 
                                 <v-flex xs12 sm6 px-3>
@@ -154,7 +164,18 @@
                                 </v-flex>
                             </v-layout>
                             <v-layout justify-center>
-                                <v-btn type="submit" color="primary">Guardar</v-btn>
+                                <v-btn :disabled="process" type="submit" color="primary">
+                                    <div
+                                        v-if="movimiento == 'ALTA' || movimiento == 'INCREMENTO'"
+                                    >Agregar</div>
+                                    <div
+                                        v-else-if="
+                                    movimiento == 'DECREMENTO' ||
+                                    movimiento == 'DEVOLUCION' ||
+                                    movimiento == 'VENCIMIENTO'
+                                "
+                                    >Disminuir</div>
+                                </v-btn>
                             </v-layout>
                         </v-form>
                     </v-card-text>
@@ -190,6 +211,40 @@
             <h2 class="text-xs-center">¡Este producto no tiene inventario!</h2>
             <br />
         </div>
+        <v-dialog v-model="preventSaveDialog" width="750" persistent>
+            <v-card>
+                <v-card-title>
+                    <h2>¿Estás Seguro?</h2>
+                </v-card-title>
+                <v-divider></v-divider>
+                <v-card-text>{{ this.msg }}</v-card-text>
+                <v-card-text>
+                    <v-layout justify-end wrap>
+                        <v-btn
+                            :disabled="process"
+                            @click="preventSaveDialog = false"
+                            outline
+                            color="primary"
+                        >Cancelar</v-btn>
+                        <v-btn
+                            :loading="process"
+                            :disabled="process"
+                            @click="saveInventarios()"
+                            color="primary"
+                        >
+                            <div v-if="movimiento == 'ALTA' || movimiento == 'INCREMENTO'">Agregar</div>
+                            <div
+                                v-else-if="
+                                    movimiento == 'DECREMENTO' ||
+                                    movimiento == 'DEVOLUCION' ||
+                                    movimiento == 'VENCIMIENTO'
+                                "
+                            >Disminuir</div>
+                        </v-btn>
+                    </v-layout>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -217,11 +272,25 @@ export default {
                 { text: "Proveedor", sortable: false },
                 { text: "", sortable: false }
             ],
+
             modalVencimiento: false,
             alicuota: null,
             alicuotas: [21, 10.5],
             suppliers: [],
             active: false,
+            movimiento: "ALTA",
+            movimientos: [
+                "ALTA",
+                "INCREMENTO",
+                "DEVOLUCION",
+                "VENCIMIENTO",
+                "DECREMENTO",
+                "INCREMENTO"
+            ],
+            disabledMovimiento: true,
+            process: false,
+            preventSaveDialog: false,
+            msg: null,
             rules: {
                 required: value => !!value || "Este campo es obligatorio"
             }
@@ -262,6 +331,9 @@ export default {
                 this.formPanel = [false];
             } else {
                 this.active = true;
+                this.movimiento = "ALTA";
+                this.movimientos = ["ALTA"];
+                this.disabledMovimiento = true;
                 this.form.costo = this.showData.articulo.costo;
                 this.form.utilidades = this.showData.articulo.utilidades;
                 if (this.showData.articulo.alicuota == 21) {
@@ -277,23 +349,35 @@ export default {
         findLote: async function() {
             if (this.form.lote) {
                 if (this.form.lote.length > 0) {
+                    this.process = true;
                     let response = await this.index({
                         url: "/api/inventarios",
                         lote: this.form.lote,
                         articulo_id: this.showData.articulo.id
                     });
 
+                    this.process = false;
+
                     if (response.length > 0) {
                         this.form.lote = response[0].lote;
-                        this.form.cantidad = response[0].cantidad;
                         this.form.vencimiento = response[0].vencimiento;
                         this.form.supplier = response[0].supplier.razonsocial;
                         this.form.supplier_id = response[0].supplier.id;
+                        this.movimiento = "INCREMENTO";
+                        this.movimientos = [
+                            "INCREMENTO",
+                            "DEVOLUCION",
+                            "VENCIMIENTO",
+                            "DECREMENTO"
+                        ];
+                        this.disabledMovimiento = false;
                     } else {
-                        this.form.cantidad = null;
                         this.form.vencimiento = null;
                         this.form.supplier = null;
                         this.form.supplier_id = null;
+                        this.movimiento = "ALTA";
+                        this.movimientos = ["ALTA"];
+                        this.disabledMovimiento = true;
                     }
                 }
             }
@@ -301,12 +385,13 @@ export default {
 
         findSuppliers: async function() {
             this.form.supplier_id = null;
+            this.process = true;
             let response = await this.index({
                 url: "/api/suppliers",
                 buscarProveedor: this.form.supplier,
                 limit: 5
             });
-
+            this.process = false;
             this.suppliers = response.proveedores;
         },
 
@@ -320,12 +405,10 @@ export default {
 
             if (response.length > 0) {
                 this.form.lote = response[0].lote;
-                this.form.cantidad = response[0].cantidad;
                 this.form.vencimiento = response[0].vencimiento;
                 this.form.supplier = response[0].supplier.razonsocial;
                 this.form.supplier_id = response[0].supplier.id;
             } else {
-                this.form.cantidad = null;
                 this.form.vencimiento = null;
                 this.form.supplier = null;
                 this.form.supplier_id = null;
@@ -339,8 +422,34 @@ export default {
             this.suppliers = [];
         },
 
+        preventSave() {
+            if (this.$refs.inventariosForm.validate()) {
+                this.preventSaveDialog = true;
+                if (this.movimiento == "ALTA") {
+                    this.msg =
+                        "Se agregará el siguiente lote " +
+                        this.form.lote +
+                        " con stock de " +
+                        this.form.cantidad +
+                        " productos";
+                } else if (this.movimiento == "INCREMENTO") {
+                    this.msg =
+                        "Se agregarán " +
+                        this.form.cantidad +
+                        " productos al stock";
+                } else {
+                    this.msg =
+                        "Se restarán " +
+                        this.form.cantidad +
+                        " productos del stock";
+                }
+            }
+        },
+
         saveInventarios: async function() {
             if (this.$refs.inventariosForm.validate()) {
+                this.process = true;
+                this.form.movimiento = this.movimiento;
                 this.form.alicuota = this.alicuota;
                 this.form.precio = this.precio;
                 this.form.articulo_id = this.showData.articulo.id;
@@ -353,6 +462,8 @@ export default {
                     url: "/api/articulos/" + this.showData.articulo.id
                 });
                 this.$refs.inventariosForm.reset();
+                this.process = false;
+                this.preventSaveDialog = false;
             }
         }
     }

@@ -1,9 +1,11 @@
 <?php
+
 use App\Factura;
 use App\Articulo;
 use App\Inventario;
 use App\Movimiento;
 use Illuminate\Database\Seeder;
+
 class FacturasTableSeeder extends Seeder
 {
     public function run()
@@ -40,7 +42,8 @@ class FacturasTableSeeder extends Seeder
                 'inventario_id' => $inventario->id,
                 'tipo' => 'VENTA',
                 'cantidad' => $detalle['cantidad'],
-                'fecha' => now()->format('Y-m-d')
+                'fecha' => now()->format('Y-m-d'),
+                'user_id' => 1
             ]);
         }
     }

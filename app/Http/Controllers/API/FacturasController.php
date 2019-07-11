@@ -125,7 +125,8 @@ class FacturasController extends Controller
                         'tipo' => 'VENTA',
                         'cantidad' => $article[0]->cantidad,
                         'fecha' => now()->format('Y-m-d'),
-                        'numcomprobante' => $factura->id
+                        'numcomprobante' => $factura->id,
+                        'user_id' => auth()->user()->id
                     ]);
                     $article[0]->cantidad = 0;
                     if ($res <= 0) {
@@ -139,7 +140,8 @@ class FacturasController extends Controller
                         'tipo' => 'VENTA',
                         'cantidad' => $res,
                         'fecha' => now()->format('Y-m-d'),
-                        'numcomprobante' => $factura->id
+                        'numcomprobante' => $factura->id,
+                        'user_id' => auth()->user()->id
                     ]);
                 }
                 $article[0]->save();
@@ -293,7 +295,8 @@ class FacturasController extends Controller
                         'tipo' => 'ANULACION',
                         'cantidad' => $a->cantidad,
                         'fecha' => now()->format('Y-m-d'),
-                        'numcomprobante' => $factura->id
+                        'numcomprobante' => $factura->id,
+                        'user_id' => auth()->user()->id
                     ]);
                 }
             }

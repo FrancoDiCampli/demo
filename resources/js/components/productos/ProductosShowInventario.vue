@@ -8,7 +8,8 @@
             <v-flex>
                 <v-layout justify-end px-3>
                     <v-btn flat icon color="primary" @click="panelControl()">
-                        <v-icon size="medium">fas fa-plus</v-icon>
+                        <v-icon v-show="!formPanel[0]" size="medium">fas fa-plus</v-icon>
+                        <v-icon v-show="formPanel[0]" size="medium">fas fa-times</v-icon>
                     </v-btn>
                 </v-layout>
             </v-flex>
@@ -160,28 +161,35 @@
                 </v-card>
             </v-expansion-panel-content>
         </v-expansion-panel>
-        <v-data-table hide-actions :headers="headers" :items="showData.inventarios">
-            <template v-slot:items="inventario">
-                <td>{{ inventario.item.cantidad }}</td>
-                <td>{{ inventario.item.lote }}</td>
-                <td>{{ inventario.item.vencimiento }}</td>
-                <td>{{ inventario.item.proveedor.razonsocial }}</td>
-                <td>
-                    <v-menu>
-                        <template v-slot:activator="{ on }">
-                            <v-btn flat icon dark color="primary" v-on="on">
-                                <v-icon size="medium">fas fa-ellipsis-v</v-icon>
-                            </v-btn>
-                        </template>
-                        <v-list>
-                            <v-list-tile @click="editInventario(inventario.item.lote)">
-                                <v-list-tile-title>Editar</v-list-tile-title>
-                            </v-list-tile>
-                        </v-list>
-                    </v-menu>
-                </td>
-            </template>
-        </v-data-table>
+        <div v-if="showData.inventarios.length > 0">
+            <v-data-table hide-actions :headers="headers" :items="showData.inventarios">
+                <template v-slot:items="inventario">
+                    <td>{{ inventario.item.cantidad }}</td>
+                    <td>{{ inventario.item.lote }}</td>
+                    <td class="hidden-xs-only">{{ inventario.item.vencimiento }}</td>
+                    <td>{{ inventario.item.proveedor.razonsocial }}</td>
+                    <td>
+                        <v-menu>
+                            <template v-slot:activator="{ on }">
+                                <v-btn flat icon dark color="primary" v-on="on">
+                                    <v-icon size="medium">fas fa-ellipsis-v</v-icon>
+                                </v-btn>
+                            </template>
+                            <v-list>
+                                <v-list-tile @click="editInventario(inventario.item.lote)">
+                                    <v-list-tile-title>Editar</v-list-tile-title>
+                                </v-list-tile>
+                            </v-list>
+                        </v-menu>
+                    </td>
+                </template>
+            </v-data-table>
+        </div>
+        <div v-else>
+            <br />
+            <h2 class="text-xs-center">¡Este producto no tiene inventario!</h2>
+            <br />
+        </div>
     </div>
 </template>
 
@@ -201,7 +209,11 @@ export default {
             headers: [
                 { text: "Cantidad", sortable: false },
                 { text: "Lote", sortable: false },
-                { text: "Vencimiento", sortable: false },
+                {
+                    text: "Vencimiento",
+                    sortable: false,
+                    class: "hidden-xs-only"
+                },
                 { text: "Proveedor", sortable: false },
                 { text: "", sortable: false }
             ],

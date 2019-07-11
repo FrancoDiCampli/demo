@@ -232,6 +232,13 @@ export default {
                     rol: "seller"
                 },
                 {
+                    title: "Proveedores",
+                    icon: "fas fa-truck-moving",
+                    url: "/suppliers",
+                    divider: false,
+                    rol: "seller"
+                },
+                {
                     title: "Reportes",
                     icon: "fas fa-clipboard",
                     url: "/reporte",

@@ -291,7 +291,7 @@ export default {
             this.form.supplier_id = null;
             let response = await this.index({
                 url: "/api/suppliers",
-                buscarArticulo: this.form.supplier,
+                buscarProveedor: this.form.supplier,
                 limit: 5
             });
 

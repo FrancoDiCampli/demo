@@ -158,7 +158,8 @@ class PresupuestosController extends Controller
                 'inventario_id' => $article->id,
                 'tipo' => 2,
                 'cantidad' => $arts[$i]['pivot']['cantidad'],
-                'fecha' => now()->format('Y-m-d')
+                'fecha' => now()->format('Y-m-d'),
+                "user_id" => auth()->user()->id
             ]);
         }
 

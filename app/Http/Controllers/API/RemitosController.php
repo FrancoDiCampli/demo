@@ -84,7 +84,8 @@ class RemitosController extends Controller
                 'tipo' => 'ALTA',
                 'cantidad' => $detail['cantidad'],
                 'fecha' => now()->format('Y-m-d'),
-                'numcomprobante' => $remito->id
+                'numcomprobante' => $remito->id,
+                "user_id" => auth()->user()->id
             ];
 
             // CREA INVENTARIOS SI NO EXISTEN

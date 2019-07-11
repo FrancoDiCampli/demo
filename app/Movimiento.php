@@ -11,8 +11,9 @@ class Movimiento extends Model
         'tipo',
         'cantidad',
         'fecha',
-        'numcomprobante'
-        ];
+        'numcomprobante',
+        'user_id'
+    ];
 
     public function inventario()
     {

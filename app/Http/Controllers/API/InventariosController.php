@@ -49,10 +49,17 @@ class InventariosController extends Controller
             $articulo->save();
         }
 
+
+
         if ($actualizar) {
-            $actualizar->cantidad = $data['cantidad'];
+            if ($request['movimiento'] == 'INCREMENTO') {
+                $actualizar->cantidad = $actualizar->cantidad + $data['cantidad'];
+                $mov->tipo = 'INCREMENTO';
+            } else {
+                $actualizar->cantidad = $actualizar->cantidad - $data['cantidad'];
+                $mov->tipo = $request['movimiento'];
+            }
             $actualizar->save();
-            $mov->tipo = 'ACTUALIZACION';
             $mov->inventario_id = $actualizar->id;
         } else {
             $inventario = Inventario::create($data);
@@ -62,6 +69,7 @@ class InventariosController extends Controller
 
         $mov->cantidad = $data['cantidad'];
         $mov->fecha = now();
+        $mov->user_id = auth()->user()->id;
         $mov->save();
 
         return (['message' => 'guardado']);

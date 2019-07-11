@@ -461,7 +461,6 @@ export default {
             this.detailClient = [];
             if (this.form.cliente == "0") {
                 // Establecer Cliente Como Consumidor Final
-                this.clientes = [];
                 this.detallesCliente = [];
                 this.form.cliente_id = 1;
                 this.form.cliente = "CONSUMIDOR FINAL";

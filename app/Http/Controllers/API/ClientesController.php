@@ -60,6 +60,10 @@ class ClientesController extends Controller
     {
         $cliente = Cliente::find($id);
         $facturas = $cliente->facturas;
+        foreach ($facturas as $factura) {
+            $fecha = new Carbon($factura->fecha);
+            $factura->fecha = $fecha->format('d-m-Y');
+        }
         $cuentas = collect();
 
         if (count($facturas) > 0) {

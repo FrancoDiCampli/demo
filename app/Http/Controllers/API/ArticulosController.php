@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Articulo;
-use App\Categoria;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreArticulo;
@@ -15,10 +14,18 @@ class ArticulosController extends Controller
 {
     public function index(Request $request)
     {
-        $articulos = Articulo::orderBy('id', 'desc')->buscar($request)->with('stock');
+        $articles = Articulo::orderBy('id', 'desc')->buscar($request)->get();
+        $articulos = collect();
+
+        foreach ($articles as $art) {
+            $stock = $art->inventarios->sum('cantidad');
+            $art = collect($art);
+            $art->put('stock', $stock);
+            $articulos->push($art);
+        }
 
         return [
-            'articulos' => $articulos->take($request->get('limit', null))->get(),
+            'articulos' => $articulos->take($request->get('limit', null)),
             'total' => $articulos->count()
         ];
     }
@@ -93,9 +100,15 @@ class ArticulosController extends Controller
     public function show($id)
     {
         $articulo = Articulo::find($id);
-        $stock = $articulo->stock;
+        $marca = $articulo->marca->marca;
+        $categoria = $articulo->categoria->categoria;
+        $stock = $articulo->inventarios->sum('cantidad');
         $inventarios = $articulo->inventarios;
-        return ['articulo' => $articulo, 'stock' => $stock, 'inventarios' => $inventarios];
+        foreach ($inventarios as $inventario) {
+            $inv = collect($inventario);
+            $inv->put('proveedor', $inventario->proveedor);
+        }
+        return ['articulo' => $articulo, 'stock' => $stock, 'inventarios' => $inventarios, 'marca' => $marca, 'categoria' => $categoria];
     }
 
     public function vencidos()

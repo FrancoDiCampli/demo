@@ -6,6 +6,7 @@ use Afip;
 use App\Cliente;
 use App\Factura;
 use App\Articulo;
+use Carbon\Carbon;
 use App\Inventario;
 use App\Movimiento;
 use App\Cuentacorriente;
@@ -17,9 +18,13 @@ class FacturasController extends Controller
 {
     public function index(Request $request)
     {
-        $facturas = Factura::orderBy('id', 'DESC');
+        $facturas = Factura::orderBy('id', 'DESC')->get();
+        foreach ($facturas as $factura) {
+            $fecha = new Carbon($factura->fecha);
+            $factura->fecha = $fecha->format('d-m-Y');
+        }
         return [
-            'facturas' => $facturas->take($request->get('limit', null))->get(),
+            'facturas' => $facturas->take($request->get('limit', null)),
             'total' => $facturas->count()
         ];
     }
@@ -169,10 +174,14 @@ class FacturasController extends Controller
             if ($factura->cliente_id <> 1) {
                 $cliente = Cliente::find($factura->cliente_id);
                 $atributos['documentounico'] = $cliente->documentounico;
-                if ($cliente->condicioniva <> 'CONSUMIDOR FINAL') {
-                    $atributos['tipo'] = 80;
+                if (strlen($cliente->documentounico) <= 8 && strlen($cliente->documentounico) >= 7) {
+                    $atributos['tipo'] = 96;
                 } else {
-                    $atributos['tipo'] = 86;
+                    if ($cliente->condicioniva <> 'CONSUMIDOR FINAL') {
+                        $atributos['tipo'] = 80;
+                    } else {
+                        $atributos['tipo'] = 86;
+                    }
                 }
             } else {
                 $atributos['documentounico'] = 0;

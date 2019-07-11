@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Inventario extends Model
 {
-    protected $fillable = ['cantidad','stockminimo','preciocosto','lote','vencimiento','articulo_id','supplier_id'];
+    protected $fillable = ['cantidad', 'lote', 'vencimiento', 'articulo_id', 'supplier_id'];
 
     public function articulo()
     {
@@ -17,9 +17,19 @@ class Inventario extends Model
     {
         return $this->hasMany('App\Movimiento');
     }
-    
+
     public function proveedor()
     {
         return $this->belongsTo('App\Supplier', 'supplier_id');
+    }
+
+    public function scopeBuscar($query, $request)
+    {
+        $lote = $request->get('lote');
+        $articulo_id = $request->get('articulo_id');
+
+        if (strlen($lote)) {
+            return $query->where('lote', $lote)->where('articulo_id', $articulo_id);
+        }
     }
 }

@@ -16,7 +16,7 @@
                 <v-text-field
                     v-model="form.utilidades"
                     :rules="[rules.required]"
-                    label="Utilidades"
+                    label="Utilidades %"
                     box
                     type="number"
                     class="input-number"

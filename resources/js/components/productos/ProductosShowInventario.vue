@@ -34,7 +34,11 @@
                                         v-model="form.cantidad"
                                         label="Cantidad"
                                         box
-                                        :rules="[rules.required]"
+                                        :rules="
+                                            movimiento == 'ALTA' || movimiento == 'INCREMENTO' || movimiento == 'MODIFICACION' ? 
+                                            [rules.required] : 
+                                            [rules.required, rules.cantidadMaxima]
+                                        "
                                     ></v-text-field>
                                 </v-flex>
                                 <v-flex xs12 sm4 px-3>
@@ -175,6 +179,7 @@
                                     movimiento == 'VENCIMIENTO'
                                 "
                                     >Disminuir</div>
+                                    <div v-else>Modificar</div>
                                 </v-btn>
                             </v-layout>
                         </v-form>
@@ -240,6 +245,7 @@
                                     movimiento == 'VENCIMIENTO'
                                 "
                             >Disminuir</div>
+                            <div v-else>Modificar</div>
                         </v-btn>
                     </v-layout>
                 </v-card-text>
@@ -291,8 +297,12 @@ export default {
             process: false,
             preventSaveDialog: false,
             msg: null,
+            cantidadMaxima: 999999999,
             rules: {
-                required: value => !!value || "Este campo es obligatorio"
+                required: value => !!value || "Este campo es obligatorio",
+                cantidadMaxima: value =>
+                    value * 1 <= this.cantidadMaxima ||
+                    "La cantidad no puede ser menor al lote existente"
             }
         };
     },
@@ -360,6 +370,7 @@ export default {
 
                     if (response.length > 0) {
                         this.form.lote = response[0].lote;
+                        this.cantidadMaxima = response[0].cantidad;
                         this.form.vencimiento = response[0].vencimiento;
                         this.form.supplier = response[0].supplier.razonsocial;
                         this.form.supplier_id = response[0].supplier.id;
@@ -372,6 +383,7 @@ export default {
                         ];
                         this.disabledMovimiento = false;
                     } else {
+                        this.cantidadMaxima = 999999999;
                         this.form.vencimiento = null;
                         this.form.supplier = null;
                         this.form.supplier_id = null;
@@ -405,15 +417,31 @@ export default {
 
             if (response.length > 0) {
                 this.form.lote = response[0].lote;
+                this.cantidadMaxima = response[0].cantidad;
                 this.form.vencimiento = response[0].vencimiento;
                 this.form.supplier = response[0].supplier.razonsocial;
                 this.form.supplier_id = response[0].supplier.id;
             } else {
+                this.form.lote = 999999999;
                 this.form.vencimiento = null;
                 this.form.supplier = null;
                 this.form.supplier_id = null;
             }
-            this.panelControl();
+
+            this.active = true;
+            this.form.costo = this.showData.articulo.costo;
+            this.form.utilidades = this.showData.articulo.utilidades;
+            if (this.showData.articulo.alicuota == 21) {
+                this.alicuota = 21;
+            } else {
+                this.alicuota = 10.5;
+            }
+            this.precio = this.showData.articulo.precio;
+
+            this.movimiento = "MODIFICACION";
+            this.movimientos = ["MODIFICACION"];
+            this.disabledMovimiento = true;
+            this.formPanel = [true];
         },
 
         selectSupplier(supplier) {
@@ -437,6 +465,13 @@ export default {
                         "Se agregarán " +
                         this.form.cantidad +
                         " productos al stock";
+                } else if (this.movimiento == "MODIFICACION") {
+                    this.msg =
+                        "Se modificará la cantidad del lote " +
+                        this.form.lote +
+                        " a " +
+                        this.form.cantidad +
+                        " productos";
                 } else {
                     this.msg =
                         "Se restarán " +

@@ -55,6 +55,9 @@ class InventariosController extends Controller
             if ($request['movimiento'] == 'INCREMENTO') {
                 $actualizar->cantidad = $actualizar->cantidad + $data['cantidad'];
                 $mov->tipo = 'INCREMENTO';
+            } else if ($request['movimiento'] == 'MODIFICACION') {
+                $actualizar->cantidad =  $data['cantidad'];
+                $mov->tipo = 'MODIFICACION';
             } else {
                 $actualizar->cantidad = $actualizar->cantidad - $data['cantidad'];
                 $mov->tipo = $request['movimiento'];

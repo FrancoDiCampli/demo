@@ -7721,6 +7721,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 // Axios
  // Vuex
 
@@ -7728,6 +7734,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ProductosShowInventario",
   data: function data() {
+    var _this = this;
+
     return {
       formPanel: [false],
       headers: [{
@@ -7758,9 +7766,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       process: false,
       preventSaveDialog: false,
       msg: null,
+      cantidadMaxima: 999999999,
       rules: {
         required: function required(value) {
           return !!value || "Este campo es obligatorio";
+        },
+        cantidadMaxima: function cantidadMaxima(value) {
+          return value * 1 <= _this.cantidadMaxima || "La cantidad no puede ser menor al lote existente";
         }
       }
     };
@@ -7840,6 +7852,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                 if (response.length > 0) {
                   this.form.lote = response[0].lote;
+                  this.cantidadMaxima = response[0].cantidad;
                   this.form.vencimiento = response[0].vencimiento;
                   this.form.supplier = response[0].supplier.razonsocial;
                   this.form.supplier_id = response[0].supplier.id;
@@ -7847,6 +7860,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   this.movimientos = ["INCREMENTO", "DEVOLUCION", "VENCIMIENTO", "DECREMENTO"];
                   this.disabledMovimiento = false;
                 } else {
+                  this.cantidadMaxima = 999999999;
                   this.form.vencimiento = null;
                   this.form.supplier = null;
                   this.form.supplier_id = null;
@@ -7928,18 +7942,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                 if (response.length > 0) {
                   this.form.lote = response[0].lote;
+                  this.cantidadMaxima = response[0].cantidad;
                   this.form.vencimiento = response[0].vencimiento;
                   this.form.supplier = response[0].supplier.razonsocial;
                   this.form.supplier_id = response[0].supplier.id;
                 } else {
+                  this.form.lote = 999999999;
                   this.form.vencimiento = null;
                   this.form.supplier = null;
                   this.form.supplier_id = null;
                 }
 
-                this.panelControl();
+                this.active = true;
+                this.form.costo = this.showData.articulo.costo;
+                this.form.utilidades = this.showData.articulo.utilidades;
 
-              case 6:
+                if (this.showData.articulo.alicuota == 21) {
+                  this.alicuota = 21;
+                } else {
+                  this.alicuota = 10.5;
+                }
+
+                this.precio = this.showData.articulo.precio;
+                this.movimiento = "MODIFICACION";
+                this.movimientos = ["MODIFICACION"];
+                this.disabledMovimiento = true;
+                this.formPanel = [true];
+
+              case 14:
               case "end":
                 return _context3.stop();
             }
@@ -7966,6 +7996,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           this.msg = "Se agregará el siguiente lote " + this.form.lote + " con stock de " + this.form.cantidad + " productos";
         } else if (this.movimiento == "INCREMENTO") {
           this.msg = "Se agregarán " + this.form.cantidad + " productos al stock";
+        } else if (this.movimiento == "MODIFICACION") {
+          this.msg = "Se modificará la cantidad del lote " + this.form.lote + " a " + this.form.cantidad + " productos";
         } else {
           this.msg = "Se restarán " + this.form.cantidad + " productos del stock";
         }
@@ -24222,7 +24254,15 @@ var render = function() {
                                     attrs: {
                                       label: "Cantidad",
                                       box: "",
-                                      rules: [_vm.rules.required]
+                                      rules:
+                                        _vm.movimiento == "ALTA" ||
+                                        _vm.movimiento == "INCREMENTO" ||
+                                        _vm.movimiento == "MODIFICACION"
+                                          ? [_vm.rules.required]
+                                          : [
+                                              _vm.rules.required,
+                                              _vm.rules.cantidadMaxima
+                                            ]
                                     },
                                     model: {
                                       value: _vm.form.cantidad,
@@ -24657,7 +24697,7 @@ var render = function() {
                                       _vm.movimiento == "DEVOLUCION" ||
                                       _vm.movimiento == "VENCIMIENTO"
                                     ? _c("div", [_vm._v("Disminuir")])
-                                    : _vm._e()
+                                    : _c("div", [_vm._v("Modificar")])
                                 ]
                               )
                             ],
@@ -24874,7 +24914,7 @@ var render = function() {
                               _vm.movimiento == "DEVOLUCION" ||
                               _vm.movimiento == "VENCIMIENTO"
                             ? _c("div", [_vm._v("Disminuir")])
-                            : _vm._e()
+                            : _c("div", [_vm._v("Modificar")])
                         ]
                       )
                     ],

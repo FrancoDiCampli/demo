@@ -3,13 +3,9 @@
         <v-btn dark fab fixed right bottom @click="goBack()" color="primary">
             <v-icon>fas fa-chevron-left</v-icon>
         </v-btn>
-        <v-card>
-            <v-card-text>
-                <div v-if="showData.cliente">
-                    <ClientesShow></ClientesShow>
-                </div>
-            </v-card-text>
-        </v-card>
+        <div v-if="showData.cliente">
+            <ClientesShow></ClientesShow>
+        </div>
     </div>
 </template>
 

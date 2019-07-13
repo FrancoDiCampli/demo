@@ -1915,7 +1915,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -2188,7 +2190,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     this.getAlerts();
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("auth", ["rol", "token"]), Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])("auth", ["account"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("auth", ["rol", "token"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])("auth", ["account"]), {
     screenWidth: function screenWidth() {
       return window.innerWidth;
     },
@@ -2203,7 +2205,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     }
   }),
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("auth", ["getUser", "logout"]), Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index"]), {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("auth", ["getUser", "logout"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index"]), {
     exit: function () {
       var _exit = _asyncToGenerator(
       /*#__PURE__*/
@@ -2281,7 +2283,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -2316,7 +2320,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -2434,7 +2440,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -2497,7 +2505,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Error_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Error.vue */ "./resources/js/auth/components/Error.vue");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -2581,7 +2591,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -2792,7 +2804,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Error_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Error.vue */ "./resources/js/auth/components/Error.vue");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -2924,7 +2938,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -3024,7 +3040,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   components: {
     UsersForm: _UsersForm_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("crudx", ["data", "form"]), Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])("auth", ["account"])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("crudx", ["data", "form"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])("auth", ["account"])),
   created: function created() {
     this.getUser();
   },
@@ -3033,7 +3049,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       url: "api/users/index"
     });
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index", "edit", "update", "destroy"]), Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("auth", ["getUser"]), {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index", "edit", "update", "destroy"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("auth", ["getUser"]), {
     updateUser: function () {
       var _updateUser = _asyncToGenerator(
       /*#__PURE__*/
@@ -3130,7 +3146,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -3354,7 +3372,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -3486,7 +3506,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -3617,7 +3639,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -3733,7 +3757,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -4024,7 +4050,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -4164,10 +4192,43 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4355,16 +4416,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 });
 
               case 4:
-                this.$refs.clientesEditForm.reset();
-                _context2.next = 7;
+                _context2.next = 6;
                 return this.show({
                   url: "/api/clientes/" + id
                 });
 
-              case 7:
+              case 6:
                 this.mode = "show";
+                this.$refs.clientesEditForm.reset();
                 this.index({
-                  url: "/api/clientes/index"
+                  url: "/api/clientes"
                 });
 
               case 9:
@@ -4443,7 +4504,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -4840,7 +4903,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -4981,7 +5046,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -5056,7 +5123,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -5835,7 +5904,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -6077,7 +6148,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -6476,7 +6549,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -6627,7 +6702,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       categorias: [],
       marcas: [],
       categoriaLastId: null,
-      medidas: ["unidades", "miligramos", "gramos", "kilogramos", "toneladas", "mililitros", "litros", "milimetros", "centímetros", "metros", "mm cúbicos", "cm cúbicos", "metros cuadrados", "metros cubicos", "gruesa", "packs", "otras unidades"],
+      medidas: ["Unidades", "Miligramos", "Gramos", "Kilogramos", "Toneladas", "Mililitros", "Litros", "Milimetros", "Centímetros", "Metros", "Mm Cúbicos", "Cm Cúbicos", "Metros Cuadrados", "Metros Cubicos", "Gruesa", "Packs", "Otras Unidades"],
       alicuotas: [21, 10.5],
       rules: {
         required: function required(value) {
@@ -6834,7 +6909,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -7073,14 +7150,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ProductosShowData_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProductosShowData.vue */ "./resources/js/components/productos/ProductosShowData.vue");
 /* harmony import */ var _ProductosShowInventario_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ProductosShowInventario.vue */ "./resources/js/components/productos/ProductosShowInventario.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _ProductosForm_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ProductosForm.vue */ "./resources/js/components/productos/ProductosForm.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -7237,7 +7317,127 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // Components
+
 
  // Vuex
 
@@ -7247,31 +7447,127 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       process: false,
-      mode: "show"
+      mode: "show",
+      foto: null,
+      rules: {
+        required: function required(value) {
+          return !!value || "Este campo es obligatorio";
+        },
+        max: function max(value) {
+          return value && value.length <= 190 || "Este campo no puede contener mas de 190 digitos";
+        }
+      }
     };
   },
   components: {
     ProductosShowData: _ProductosShowData_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    ProductosShowInventario: _ProductosShowInventario_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    ProductosShowInventario: _ProductosShowInventario_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    ProductosForm: _ProductosForm_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapState"])("crudx", ["showData"])),
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapActions"])("crudx", ["index", "destroy"]), {
-    deleteProducto: function () {
-      var _deleteProducto = _asyncToGenerator(
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapState"])("crudx", ["inProcess", "form", "showData"])),
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapActions"])("crudx", ["index", "show", "edit", "update", "destroy"]), {
+    editProducto: function () {
+      var _editProducto = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                _context.next = 2;
+                return this.edit({
+                  data: this.showData.articulo
+                });
+
+              case 2:
+                if (this.form.alicuota == "21.00") {
+                  this.form.alicuota = 21;
+                } else {
+                  this.form.alicuota = 10.5;
+                }
+
+                this.form.categoria = this.showData.articulo.categoria.categoria;
+                this.form.marca = this.showData.articulo.marca.marca;
+                console.log(this.form);
+                this.mode = "edit";
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function editProducto() {
+        return _editProducto.apply(this, arguments);
+      }
+
+      return editProducto;
+    }(),
+    updateProducto: function () {
+      var _updateProducto = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var id;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (!this.$refs.productosEditForm.validate()) {
+                  _context2.next = 9;
+                  break;
+                }
+
+                id = this.form.id;
+                _context2.next = 4;
+                return this.update({
+                  url: "/api/articulos/" + id
+                });
+
+              case 4:
+                _context2.next = 6;
+                return this.show({
+                  url: "/api/articulos/" + id
+                });
+
+              case 6:
+                this.mode = "show";
+                this.$refs.productosEditForm.reset();
+                this.index({
+                  url: "/api/articulos"
+                });
+
+              case 9:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function updateProducto() {
+        return _updateProducto.apply(this, arguments);
+      }
+
+      return updateProducto;
+    }(),
+    deleteProducto: function () {
+      var _deleteProducto = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
                 this.process = true;
-                _context.next = 3;
+                _context3.next = 3;
                 return this.destroy({
                   url: "/api/articulos/" + this.showData.articulo.id
                 });
 
               case 3:
-                _context.next = 5;
+                _context3.next = 5;
                 return this.index({
                   url: "/api/articulos"
                 });
@@ -7283,10 +7579,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 8:
               case "end":
-                return _context.stop();
+                return _context3.stop();
             }
           }
-        }, _callee, this);
+        }, _callee3, this);
       }));
 
       function deleteProducto() {
@@ -7310,7 +7606,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -7467,7 +7765,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -8078,7 +8378,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -8207,7 +8509,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -8892,7 +9196,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -9020,7 +9326,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -9262,7 +9570,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -9455,7 +9765,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -9711,7 +10023,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -9957,7 +10271,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -10109,14 +10425,12 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _components_clientes_ClientesShow_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/clientes/ClientesShow.vue */ "./resources/js/components/clientes/ClientesShow.vue");
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
-//
 //
 //
 //
@@ -10144,7 +10458,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       url: "/api/clientes/" + this.id
     });
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])("crudx", ["resetForm"]), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])("crudx", ["show"]), {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])("crudx", ["resetForm"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])("crudx", ["show"]), {
     goBack: function goBack() {
       this.resetForm();
       this.$router.push("/clientes");
@@ -10165,7 +10479,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _components_facturas_FacturasForm_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/facturas/FacturasForm.vue */ "./resources/js/components/facturas/FacturasForm.vue");
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -10288,7 +10604,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -10604,7 +10922,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _components_productos_ProductosIndex_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/productos/ProductosIndex.vue */ "./resources/js/components/productos/ProductosIndex.vue");
 /* harmony import */ var _components_productos_ProductosForm_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/productos/ProductosForm.vue */ "./resources/js/components/productos/ProductosForm.vue");
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -10662,7 +10982,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _components_productos_ProductosShow_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/productos/ProductosShow.vue */ "./resources/js/components/productos/ProductosShow.vue");
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -10696,7 +11018,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       url: "/api/articulos/" + this.id
     });
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])("crudx", ["resetForm"]), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])("crudx", ["show"]), {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])("crudx", ["resetForm"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])("crudx", ["show"]), {
     goBack: function goBack() {
       this.resetForm();
       this.$router.push("/productos");
@@ -10764,7 +11086,7 @@ exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base
 
 
 // module
-exports.push([module.i, ".vl-calendar {\n  display: inline-block;\n  position: relative;\n  background: #f6f6f6;\n  padding: 20px 0 0;\n  text-align: center;\n  color: #3e3a4e;\n  font-size: 14px;\n  user-select: none;\n}\n.vl-calendar__month {\n  display: inline-block;\n  margin-bottom: 30px;\n  width: 300px;\n}\n.vl-calendar__arrow {\n  position: absolute;\n  top: 15px;\n  background-repeat: no-repeat;\n  background-position: center center;\n  background-size: 75%;\n  cursor: pointer;\n  width: 24px;\n  height: 24px;\n}\n.vl-calendar__arrow--back {\n  left: 15px;\n  background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAMAAAAM7l6QAAAA0lBMVEUZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjSTOY05AAAARnRSTlMAAQIDBAUGBwgJCgsMDQ8QERITFBUXGBkaGx0eHyAiIyQnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8Pj9AQUJDREZHSElKS0xNUWPYUAAAAU1JREFUeNptk+lygjAURq8gFm2h1q3uWsVqtZUWXAGtIN/7v1KHSGxYzp9kcnKXJBMSUfRGXZMpl+rcRUS4f6tk5RYINovpdLkPEa7KCVmYhLBbUlyi78DvCrZowmuIuwc+DOJINmyFEjx5mPL5HJZEKVQPHWI04BQpgxZcHlihI6qUwwiLaGjh697iTP/X0ukahZv3YHmLcSJ8SCQFJ243WIstlmET6VjGySxuOa5P1MboZn/Slkyo1EePWRM4eRyL6SU0pm+Fcbmz5TpKztv+oGxyna8qu7R3g+hgHsV+n/QqNkT0jWfuDxgKesgu6RWfFFNa1YRHd0P1NuiUwyC+ryYOctY++r5K8fnMQtqWHPT4W+xgpuLLR8yJo1g4VkXb+YUhJCy8I1zzrqX2Dtdu9huc15Px2LB89g3S1FdnMJyZRrlUaq3mS4kE/gAULzTK6Ml9VwAAAABJRU5ErkJggg==\");\n}\n.vl-calendar__arrow--forward {\n  right: 15px;\n  background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAMAAAAM7l6QAAAAz1BMVEUZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjTQKaQcAAAARXRSTlMAAQIDBAUGBwgJCgsMDg8QERITFBUWGBkaGx0eHyAhIiMkJSYnKCkqLC0uLzAxMjQ1Nzg5Ojs/QEFCQ0RFRkdISUpLTE22Gs8EAAABVUlEQVR4AW3T4XaaMBwF8IvKRp2dU5F266qwMWXT1bWjqbMUanLf/5nWcIzByO9L/udcJRcIaHo3DMeDDlqF64KafIzfwzUVZPWQLZZ3gpSZj6beb6rNxEMtiAu+TGEFgmIIq5sqNYPhC256ODEqeWvme/6C63KvRqh9Ze7hTMRdt65V7vto8ZPf9DLnAtbtzfEZvZYdAEIFsJ44t3+PgIA5GgYvx8pjroArfoeTH67fkQJIeAU3/3LYSAILTvQ43O6MiuoztJzdt3isx09FZezJ2TFOeI0TFztTXkhbrZEmptoTcMEHJzU/H3Gl+6nm4RD8Ycas3jZmCitNzORXZadeXgO0WB52mfEe50L13IPm/eUSrg+VCs2r+8e1c7o/Fozt3Wz5OIDlzSUTWP4fytWlOdU3W1bX55/B812aJFkuqdYBHF60qagpkfbRxutPounQR8N/jIU0mXzMHWoAAAAASUVORK5CYII=\");\n}\n.vl-flex {\n  display: flex;\n  flex-wrap: wrap;\n}\n.vl-calendar-month {\n  padding: 0 20px;\n}\n.vl-calendar-month__title {\n  margin-bottom: 20px;\n  text-align: center;\n  font-weight: 600;\n}\n.vl-calendar-month__week-day {\n  display: inline-block;\n  margin-bottom: 10px;\n  width: 14%;\n  text-align: center;\n  color: #c83f3a;\n  font-size: 12px;\n}\n.vl-calendar-month__day {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  margin: 5px 0;\n  cursor: pointer;\n  width: 14%;\n  height: 24px;\n}\n.vl-calendar-month__day--offset-1 {\n  margin-left: calc(1 * 14%);\n}\n.vl-calendar-month__day--offset-2 {\n  margin-left: calc(2 * 14%);\n}\n.vl-calendar-month__day--offset-3 {\n  margin-left: calc(3 * 14%);\n}\n.vl-calendar-month__day--offset-4 {\n  margin-left: calc(4 * 14%);\n}\n.vl-calendar-month__day--offset-5 {\n  margin-left: calc(5 * 14%);\n}\n.vl-calendar-month__day--offset-6 {\n  margin-left: calc(6 * 14%);\n}\n.vl-calendar-month__day.disabled {\n  color: #b5b5b5;\n  pointer-events: none;\n}\n.vl-calendar-month__day.disabled--first {\n  border-top-left-radius: 14px;\n  border-bottom-left-radius: 14px;\n}\n.vl-calendar-month__day.disabled--last {\n  border-top-right-radius: 14px;\n  border-bottom-right-radius: 14px;\n}\n.vl-calendar-month__day.selected {\n  background: #c83f3a;\n  color: #FFF;\n  font-weight: 800;\n}\n.vl-calendar-month__day.selected--first {\n  border-top-left-radius: 14px;\n  border-bottom-left-radius: 14px;\n}\n.vl-calendar-month__day.selected--last {\n  border-top-right-radius: 14px;\n  border-bottom-right-radius: 14px;\n}", ""]);
+exports.push([module.i, ".vl-flex {\n  display: flex;\n}\n.vl-flex-wrap {\n  flex-wrap: wrap;\n}\n.vl-flex-column {\n  flex-direction: column;\n}\n.vl-calendar {\n  display: inline-block;\n  position: relative;\n  background: #F6F6F6;\n  padding: 20px 0 0;\n  text-align: center;\n  color: #3E3A4E;\n  font-size: 14px;\n  user-select: none;\n}\n.vl-calendar__month {\n  display: inline-block;\n  margin-bottom: 30px;\n  width: 300px;\n  max-width: 80vw;\n}\n.vl-calendar__arrow {\n  position: absolute;\n  top: 15px;\n  background-repeat: no-repeat;\n  background-position: center center;\n  background-size: 75%;\n  cursor: pointer;\n  width: 24px;\n  height: 24px;\n}\n.vl-calendar__arrow--back {\n  left: 15px;\n  background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAMAAAAM7l6QAAAA0lBMVEUZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjSTOY05AAAARnRSTlMAAQIDBAUGBwgJCgsMDQ8QERITFBUXGBkaGx0eHyAiIyQnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8Pj9AQUJDREZHSElKS0xNUWPYUAAAAU1JREFUeNptk+lygjAURq8gFm2h1q3uWsVqtZUWXAGtIN/7v1KHSGxYzp9kcnKXJBMSUfRGXZMpl+rcRUS4f6tk5RYINovpdLkPEa7KCVmYhLBbUlyi78DvCrZowmuIuwc+DOJINmyFEjx5mPL5HJZEKVQPHWI04BQpgxZcHlihI6qUwwiLaGjh697iTP/X0ukahZv3YHmLcSJ8SCQFJ243WIstlmET6VjGySxuOa5P1MboZn/Slkyo1EePWRM4eRyL6SU0pm+Fcbmz5TpKztv+oGxyna8qu7R3g+hgHsV+n/QqNkT0jWfuDxgKesgu6RWfFFNa1YRHd0P1NuiUwyC+ryYOctY++r5K8fnMQtqWHPT4W+xgpuLLR8yJo1g4VkXb+YUhJCy8I1zzrqX2Dtdu9huc15Px2LB89g3S1FdnMJyZRrlUaq3mS4kE/gAULzTK6Ml9VwAAAABJRU5ErkJggg==\");\n}\n.vl-calendar__arrow--forward {\n  right: 15px;\n  background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAMAAAAM7l6QAAAAz1BMVEUZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjQZJjTQKaQcAAAARXRSTlMAAQIDBAUGBwgJCgsMDg8QERITFBUWGBkaGx0eHyAhIiMkJSYnKCkqLC0uLzAxMjQ1Nzg5Ojs/QEFCQ0RFRkdISUpLTE22Gs8EAAABVUlEQVR4AW3T4XaaMBwF8IvKRp2dU5F266qwMWXT1bWjqbMUanLf/5nWcIzByO9L/udcJRcIaHo3DMeDDlqF64KafIzfwzUVZPWQLZZ3gpSZj6beb6rNxEMtiAu+TGEFgmIIq5sqNYPhC256ODEqeWvme/6C63KvRqh9Ze7hTMRdt65V7vto8ZPf9DLnAtbtzfEZvZYdAEIFsJ44t3+PgIA5GgYvx8pjroArfoeTH67fkQJIeAU3/3LYSAILTvQ43O6MiuoztJzdt3isx09FZezJ2TFOeI0TFztTXkhbrZEmptoTcMEHJzU/H3Gl+6nm4RD8Ycas3jZmCitNzORXZadeXgO0WB52mfEe50L13IPm/eUSrg+VCs2r+8e1c7o/Fozt3Wz5OIDlzSUTWP4fytWlOdU3W1bX55/B812aJFkuqdYBHF60qagpkfbRxutPounQR8N/jIU0mXzMHWoAAAAASUVORK5CYII=\");\n}\n.vl-calendar-month {\n  padding: 0 20px;\n}\n.vl-calendar-month__title {\n  margin-bottom: 20px;\n  text-align: center;\n  font-weight: 600;\n}\n.vl-calendar-month__week-numbers-column {\n  padding-top: 24px;\n}\n.vl-calendar-month__week-number {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  margin: 5px 0;\n  width: 100%;\n  height: 24px;\n  color: #A0A0A0;\n  font-size: 10px;\n}\n.vl-calendar-month__week-day {\n  display: inline-block;\n  margin-bottom: 10px;\n  width: 14%;\n  text-align: center;\n  color: #C83F3A;\n  font-size: 12px;\n}\n.vl-calendar-month__day {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  margin: 5px 0;\n  cursor: pointer;\n  width: 14%;\n  height: 24px;\n}\n.vl-calendar-month__day--offset-1 {\n  margin-left: calc(1 * 14%);\n}\n.vl-calendar-month__day--offset-2 {\n  margin-left: calc(2 * 14%);\n}\n.vl-calendar-month__day--offset-3 {\n  margin-left: calc(3 * 14%);\n}\n.vl-calendar-month__day--offset-4 {\n  margin-left: calc(4 * 14%);\n}\n.vl-calendar-month__day--offset-5 {\n  margin-left: calc(5 * 14%);\n}\n.vl-calendar-month__day--offset-6 {\n  margin-left: calc(6 * 14%);\n}\n.vl-calendar-month__day.disabled {\n  color: #B5B5B5;\n  pointer-events: none;\n}\n.vl-calendar-month__day.disabled--first {\n  border-top-left-radius: 14px;\n  border-bottom-left-radius: 14px;\n}\n.vl-calendar-month__day.disabled--last {\n  border-top-right-radius: 14px;\n  border-bottom-right-radius: 14px;\n}\n.vl-calendar-month__day.selected {\n  background: #C83F3A;\n  color: #FFF;\n  font-weight: 800;\n}\n.vl-calendar-month__day.selected.disabled {\n  border: 1px solid #3E3A4E;\n  background: #8e2b28;\n  color: #3E3A4E;\n}\n.vl-calendar-month__day.selected--first {\n  border-top-left-radius: 14px;\n  border-bottom-left-radius: 14px;\n}\n.vl-calendar-month__day.selected--last {\n  border-top-right-radius: 14px;\n  border-bottom-right-radius: 14px;\n}\n.vl-calendar-month__day:hover:not(.selected) {\n  border-radius: 14px;\n  background: #C83F3A;\n  color: #FFF;\n  font-weight: 800;\n}", ""]);
 
 // exports
 
@@ -10841,7 +11163,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "\n.profile-list {\r\n    border: solid 1.5px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\r\n    margin-top: 15px;\r\n    cursor: pointer;\n}\n.profile-list span {\r\n    color: #26a69a;\n}\nbody::-webkit-scrollbar {\r\n    width: 7px;\n}\nbody::-webkit-scrollbar-thumb {\r\n    background-color: rgba(38, 166, 154, 0.75);\n}\r\n", ""]);
+exports.push([module.i, "\n.profile-list {\n    border: solid 1.5px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n    margin-top: 15px;\n    cursor: pointer;\n}\n.profile-list span {\n    color: #26a69a;\n}\nbody::-webkit-scrollbar {\n    width: 7px;\n}\nbody::-webkit-scrollbar-thumb {\n    background-color: rgba(38, 166, 154, 0.75);\n}\n", ""]);
 
 // exports
 
@@ -10860,7 +11182,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.profile {\r\n    border: solid 3px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\r\n    color: #26a69a;\n}\r\n", ""]);
+exports.push([module.i, "\n.profile {\n    border: solid 3px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\n    color: #26a69a;\n}\n", ""]);
 
 // exports
 
@@ -10879,7 +11201,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\ninput[type=\"number\"] {\r\n    -moz-appearance: textfield;\n}\ninput[type=\"number\"]::-webkit-outer-spin-button,\r\ninput[type=\"number\"]::-webkit-inner-spin-button {\r\n    -webkit-appearance: none;\n}\n.capitalize input[type] {\r\n    text-transform: capitalize;\n}\n.loading {\r\n    position: fixed;\r\n    z-index: 999999;\r\n    left: 47.3%;\r\n    top: 44%;\n}\r\n", ""]);
+exports.push([module.i, "\ninput[type=\"number\"] {\n    -moz-appearance: textfield;\n}\ninput[type=\"number\"]::-webkit-outer-spin-button,\ninput[type=\"number\"]::-webkit-inner-spin-button {\n    -webkit-appearance: none;\n}\n.capitalize input[type] {\n    text-transform: capitalize;\n}\n.loading {\n    position: fixed;\n    z-index: 999999;\n    left: 47.3%;\n    top: 44%;\n}\n", ""]);
 
 // exports
 
@@ -10898,7 +11220,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.profile {\r\n    border: solid 3px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\r\n    color: #26a69a;\n}\r\n", ""]);
+exports.push([module.i, "\n.profile {\n    border: solid 3px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\n    color: #26a69a;\n}\n", ""]);
 
 // exports
 
@@ -10917,7 +11239,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.input-pagos {\r\n    width: 75px;\r\n    display: block;\r\n    margin-top: 8px;\r\n    padding: 10px 0px;\r\n    border: none;\r\n    border-bottom: 1px solid #9e9e9e;\r\n    transition: all 1s ease;\n}\n.input-pagos:focus {\r\n    outline: none;\r\n    border-bottom: 2px solid #26a69a;\r\n    transition: all 0.5s ease;\n}\n.pagos tbody tr {\r\n    border-bottom: none !important;\n}\r\n", ""]);
+exports.push([module.i, "\n.input-pagos {\n    width: 75px;\n    display: block;\n    margin-top: 8px;\n    padding: 10px 0px;\n    border: none;\n    border-bottom: 1px solid #9e9e9e;\n    transition: all 1s ease;\n}\n.input-pagos:focus {\n    outline: none;\n    border-bottom: 2px solid #26a69a;\n    transition: all 0.5s ease;\n}\n.pagos tbody tr {\n    border-bottom: none !important;\n}\n", ""]);
 
 // exports
 
@@ -10936,7 +11258,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.type-item {\r\n    margin: 5px 0px 5px -12px;\r\n    border: solid 1.5px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.type {\r\n    margin-top: 15px;\r\n    color: #26a69a;\n}\r\n", ""]);
+exports.push([module.i, "\n.type-item {\n    margin: 5px 0px 5px -12px;\n    border: solid 1.5px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.type {\n    margin-top: 15px;\n    color: #26a69a;\n}\n", ""]);
 
 // exports
 
@@ -10955,7 +11277,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\ninput[type=\"number\"] {\r\n    -moz-appearance: textfield;\n}\ninput[type=\"number\"]::-webkit-outer-spin-button,\r\ninput[type=\"number\"]::-webkit-inner-spin-button {\r\n    -webkit-appearance: none;\n}\n.data {\r\n    font-size: 12px;\r\n    line-height: 5px;\r\n    margin-top: 8px;\n}\n.search-table {\r\n    border: solid 2px #26a69a;\r\n    margin-top: -30px;\r\n    border-top: none;\r\n    margin-bottom: 20px;\r\n    border-radius: 0px 0px 5px 5px;\n}\n.expansion-border {\r\n    border-bottom: 1px solid #aaaaaa;\n}\n.expand-transition {\r\n    transition: all 0.5s ease;\n}\n.expand-enter,\r\n.expand-leave {\r\n    height: 0;\r\n    opacity: 0;\n}\r\n", ""]);
+exports.push([module.i, "\ninput[type=\"number\"] {\n    -moz-appearance: textfield;\n}\ninput[type=\"number\"]::-webkit-outer-spin-button,\ninput[type=\"number\"]::-webkit-inner-spin-button {\n    -webkit-appearance: none;\n}\n.data {\n    font-size: 12px;\n    line-height: 5px;\n    margin-top: 8px;\n}\n.search-table {\n    border: solid 2px #26a69a;\n    margin-top: -30px;\n    border-top: none;\n    margin-bottom: 20px;\n    border-radius: 0px 0px 5px 5px;\n}\n.expansion-border {\n    border-bottom: 1px solid #aaaaaa;\n}\n.expand-transition {\n    transition: all 0.5s ease;\n}\n.expand-enter,\n.expand-leave {\n    height: 0;\n    opacity: 0;\n}\n", ""]);
 
 // exports
 
@@ -10974,7 +11296,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.type-item {\r\n    margin: 5px 0px 5px -12px;\r\n    border: solid 1.5px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.type {\r\n    margin-top: 15px;\r\n    color: #26a69a;\n}\r\n", ""]);
+exports.push([module.i, "\n.type-item {\n    margin: 5px 0px 5px -12px;\n    border: solid 1.5px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.type {\n    margin-top: 15px;\n    color: #26a69a;\n}\n", ""]);
 
 // exports
 
@@ -10993,7 +11315,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.input-number input[type=\"number\"] {\r\n    -moz-appearance: textfield;\n}\n.input-number input::-webkit-outer-spin-button,\r\n.input-number input::-webkit-inner-spin-button {\r\n    -webkit-appearance: none;\n}\n.search-table {\r\n    border: solid 2px #26a69a;\r\n    margin-top: -30px;\r\n    border-top: none;\r\n    margin-bottom: 20px;\r\n    border-radius: 0px 0px 5px 5px;\n}\n.expansion-border {\r\n    border-bottom: 1px solid #aaaaaa;\n}\n.expand-transition {\r\n    transition: all 0.5s ease;\n}\n.expand-enter,\r\n.expand-leave {\r\n    height: 0;\r\n    opacity: 0;\n}\r\n", ""]);
+exports.push([module.i, "\n.input-number input[type=\"number\"] {\n    -moz-appearance: textfield;\n}\n.input-number input::-webkit-outer-spin-button,\n.input-number input::-webkit-inner-spin-button {\n    -webkit-appearance: none;\n}\n.search-table {\n    border: solid 2px #26a69a;\n    margin-top: -30px;\n    border-top: none;\n    margin-bottom: 20px;\n    border-radius: 0px 0px 5px 5px;\n}\n.expansion-border {\n    border-bottom: 1px solid #aaaaaa;\n}\n.expand-transition {\n    transition: all 0.5s ease;\n}\n.expand-enter,\n.expand-leave {\n    height: 0;\n    opacity: 0;\n}\n", ""]);
 
 // exports
 
@@ -11012,7 +11334,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.tringle-right-button {\r\n    position: relative;\r\n    width: 70px;\r\n    height: 70px;\r\n    border-top: solid 35px #26a69a;\r\n    border-right: solid 35px #26a69a;\r\n    border-left: solid 35px transparent;\r\n    border-bottom: solid 35px transparent;\r\n    cursor: pointer;\n}\n.tringle-right-button .icon {\r\n    position: absolute;\r\n    margin-top: -22px;\r\n    margin-left: 10px;\r\n    color: white;\r\n    font-size: 16px;\n}\n.tringle-left-button {\r\n    position: relative;\r\n    width: 50px;\r\n    height: 50px;\r\n    border-top: solid 25px transparent;\r\n    border-right: solid 25px transparent;\r\n    border-left: solid 25px;\r\n    border-bottom: solid 25px;\n}\n.tringle-left-button .icon {\r\n    position: absolute;\r\n    margin-top: 2px;\r\n    margin-left: -18px;\r\n    color: white;\r\n    font-size: 16px;\n}\n@media (min-width: 600px) {\n.tringle-right-button {\r\n        width: 60px;\r\n        height: 60px;\r\n        border-top: solid 30px #26a69a;\r\n        border-right: solid 30px #26a69a;\r\n        border-left: solid 30px transparent;\r\n        border-bottom: solid 30px transparent;\n}\n.tringle-right-button .icon {\r\n        margin-top: -20px;\r\n        margin-left: 8px;\n}\n.tringle-left-button {\r\n        width: 60px;\r\n        height: 60px;\r\n        border-top: solid 30px transparent;\r\n        border-right: solid 30px transparent;\r\n        border-left: solid 30px;\r\n        border-bottom: solid 30px;\n}\n.tringle-left-button .icon {\r\n        margin-top: 4px;\r\n        margin-left: -18px;\n}\n}\n@media (min-width: 1264px) {\n.tringle-right-button {\r\n        width: 50px;\r\n        height: 50px;\r\n        border-top: solid 25px #26a69a;\r\n        border-right: solid 25px #26a69a;\r\n        border-left: solid 25px transparent;\r\n        border-bottom: solid 25px transparent;\n}\n.tringle-right-button .icon {\r\n        margin-top: -16px;\r\n        margin-left: 8px;\r\n        font-size: 14px;\n}\n}\r\n", ""]);
+exports.push([module.i, "\n.tringle-right-button {\n    position: relative;\n    width: 70px;\n    height: 70px;\n    border-top: solid 35px #26a69a;\n    border-right: solid 35px #26a69a;\n    border-left: solid 35px transparent;\n    border-bottom: solid 35px transparent;\n    cursor: pointer;\n}\n.tringle-right-button .icon {\n    position: absolute;\n    margin-top: -22px;\n    margin-left: 10px;\n    color: white;\n    font-size: 16px;\n}\n.tringle-left-button {\n    position: relative;\n    width: 50px;\n    height: 50px;\n    border-top: solid 25px transparent;\n    border-right: solid 25px transparent;\n    border-left: solid 25px;\n    border-bottom: solid 25px;\n}\n.tringle-left-button .icon {\n    position: absolute;\n    margin-top: 2px;\n    margin-left: -18px;\n    color: white;\n    font-size: 16px;\n}\n@media (min-width: 600px) {\n.tringle-right-button {\n        width: 60px;\n        height: 60px;\n        border-top: solid 30px #26a69a;\n        border-right: solid 30px #26a69a;\n        border-left: solid 30px transparent;\n        border-bottom: solid 30px transparent;\n}\n.tringle-right-button .icon {\n        margin-top: -20px;\n        margin-left: 8px;\n}\n.tringle-left-button {\n        width: 60px;\n        height: 60px;\n        border-top: solid 30px transparent;\n        border-right: solid 30px transparent;\n        border-left: solid 30px;\n        border-bottom: solid 30px;\n}\n.tringle-left-button .icon {\n        margin-top: 4px;\n        margin-left: -18px;\n}\n}\n@media (min-width: 1264px) {\n.tringle-right-button {\n        width: 50px;\n        height: 50px;\n        border-top: solid 25px #26a69a;\n        border-right: solid 25px #26a69a;\n        border-left: solid 25px transparent;\n        border-bottom: solid 25px transparent;\n}\n.tringle-right-button .icon {\n        margin-top: -16px;\n        margin-left: 8px;\n        font-size: 14px;\n}\n}\n", ""]);
 
 // exports
 
@@ -15089,6 +15411,7 @@ return VueCroppa;
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_CollectionUtils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/CollectionUtils */ "./node_modules/vuelendar/utils/CollectionUtils.js");
 /* harmony import */ var _utils_DatesUtils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/DatesUtils */ "./node_modules/vuelendar/utils/DatesUtils.js");
+/* harmony import */ var _constants_days__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../constants/days */ "./node_modules/vuelendar/constants/days.js");
 //
 //
 //
@@ -15133,6 +15456,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+
 
 
 
@@ -15140,10 +15468,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'VlCalendarMonth',
   props: {
+    showWeeksNumber: Boolean,
     month: Number,
     year: Number,
     isSelected: Function,
-    isDisabled: Function
+    isDisabled: Function,
+    customClasses: Object,
+    firstDayOfWeek: {
+      type: String,
+      validator: v =>  _constants_days__WEBPACK_IMPORTED_MODULE_2__["DAYS_SHORTCUTS"].includes(v),
+      default: 'mon'
+    }
   },
 
   computed: {
@@ -15153,6 +15488,18 @@ __webpack_require__.r(__webpack_exports__);
 
     days () {
       return Object(_utils_CollectionUtils__WEBPACK_IMPORTED_MODULE_0__["createRange"])(1, Object(_utils_DatesUtils__WEBPACK_IMPORTED_MODULE_1__["countDays"])(this.month, this.year))
+    },
+
+    daysNames () {
+      return Object(_utils_CollectionUtils__WEBPACK_IMPORTED_MODULE_0__["transpose"])(_constants_days__WEBPACK_IMPORTED_MODULE_2__["DAYS_NAMES"], this.daysOffset)
+    },
+
+    daysOffset () {
+      return _constants_days__WEBPACK_IMPORTED_MODULE_2__["DAYS_SHORTCUTS"].indexOf(this.firstDayOfWeek)
+    },
+
+    weekNumbers () {
+      return Object(_utils_DatesUtils__WEBPACK_IMPORTED_MODULE_1__["getWeekNumbers"])(this.month, this.year)
     }
   },
 
@@ -15164,7 +15511,7 @@ __webpack_require__.r(__webpack_exports__);
     calculateClasses (day) {
       const classes = []
       if (day === 1) {
-        let offset = (new Date(this.year, this.month, 1).getDay() + 6) % 7
+        let offset = (new Date(this.year, this.month, 1).getDay() + 7 - this.daysOffset) % 7
         if (offset > 0) {
           classes.push(`vl-calendar-month__day--offset-${offset}`)
         }
@@ -15195,6 +15542,13 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
 
+      Object.keys(this.customClasses || {}).forEach(cl => {
+        const fn = this.customClasses[cl]
+        if (fn(date)) {
+          classes.push(cl)
+        }
+      })
+
       return classes
     }
   }
@@ -15214,6 +15568,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _vl_calendar_month__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vl-calendar-month */ "./node_modules/vuelendar/components/vl-calendar-month.vue");
 /* harmony import */ var _utils_DatesUtils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/DatesUtils */ "./node_modules/vuelendar/utils/DatesUtils.js");
+/* harmony import */ var _constants_days__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../constants/days */ "./node_modules/vuelendar/constants/days.js");
 //
 //
 //
@@ -15246,6 +15601,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -15258,43 +15621,52 @@ __webpack_require__.r(__webpack_exports__);
 
   props: {
     isSelected: Function,
-    isDisabled: Function
+    isDisabled: Function,
+    customClasses: Object,
+    showWeeksNumber: Boolean,
+    singleMonth: Boolean,
+    defaultDate: String,
+    firstDayOfWeek: {
+      type: String,
+      validator: v =>  _constants_days__WEBPACK_IMPORTED_MODULE_2__["DAYS_SHORTCUTS"].includes(v),
+      default: 'mon'
+    }
   },
 
   data () {
-    const today = _utils_DatesUtils__WEBPACK_IMPORTED_MODULE_1__["getToday"]();
+    const defaultDate = this.defaultDate ? _utils_DatesUtils__WEBPACK_IMPORTED_MODULE_1__["parseDate"](this.defaultDate) : _utils_DatesUtils__WEBPACK_IMPORTED_MODULE_1__["getToday"]()
     return {
-      currentMonthMonth: today.getMonth(),
-      currentMonthYear: today.getFullYear()
+      currentMonthMonth: defaultDate.getMonth(),
+      currentMonthYear: defaultDate.getFullYear()
     }
   },
 
   computed: {
     nextMonthMonth () {
-      return this.currentMonthMonth === 11 ? 0 : this.currentMonthMonth + 1;
+      return this.currentMonthMonth === 11 ? 0 : this.currentMonthMonth + 1
     },
 
     nextMonthYear () {
-      return this.currentMonthMonth === 11 ? this.currentMonthYear + 1 : this.currentMonthYear;
+      return this.currentMonthMonth === 11 ? this.currentMonthYear + 1 : this.currentMonthYear
     }
   },
 
   methods: {
     moveBack () {
       if (this.currentMonthMonth === 0) {
-        this.currentMonthMonth = 11;
-        this.currentMonthYear--;
+        this.currentMonthMonth = 11
+        this.currentMonthYear--
       } else {
-        this.currentMonthMonth--;
+        this.currentMonthMonth--
       }
     },
 
     moveForward () {
       if (this.currentMonthMonth === 11) {
-        this.currentMonthMonth = 0;
-        this.currentMonthYear++;
+        this.currentMonthMonth = 0
+        this.currentMonthYear++
       } else {
-        this.currentMonthMonth++;
+        this.currentMonthMonth++
       }
     }
   }
@@ -15313,6 +15685,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _vl_calendar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vl-calendar */ "./node_modules/vuelendar/components/vl-calendar.vue");
+/* harmony import */ var _constants_days__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants/days */ "./node_modules/vuelendar/constants/days.js");
 //
 //
 //
@@ -15322,6 +15695,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+
 
 
 
@@ -15333,12 +15712,26 @@ __webpack_require__.r(__webpack_exports__);
 
   props: {
     startDate: String,
-    endDate: String
+    endDate: String,
+    customClasses: Object,
+    showWeeksNumber: Boolean,
+    defaultDate: String,
+    blockStartDate: Boolean,
+    disabled: Boolean,
+    disabledDates: Object,
+    isDisabled: Function,
+    singleMonth: Boolean,
+    enableSingleDate: Boolean,
+    firstDayOfWeek: {
+      type: String,
+      validator: v =>  _constants_days__WEBPACK_IMPORTED_MODULE_1__["DAYS_SHORTCUTS"].includes(v),
+      default: 'mon'
+    }
   },
 
   methods: {
     emitDate (date) {
-      if (this.startDate && !this.endDate) {
+      if (this.blockStartDate || (this.startDate && !this.endDate && date >= this.startDate)) {
         this.$emit('update:endDate', date)
       } else {
         this.$emit('update:startDate', date)
@@ -15347,7 +15740,7 @@ __webpack_require__.r(__webpack_exports__);
           this.$emit('update:endDate', null)
         }
       }
-      this.$emit('focus');
+      this.$emit('focus')
     },
 
     isSelected (date) {
@@ -15360,11 +15753,21 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
 
-    isDisabled (date) {
-      if (this.startDate && !this.endDate) {
-        return date <= this.startDate
+    calculateDisabled (date) {
+      const isDisabled = this.isDisabled || (() => false)
+
+      if (this.disabled) {
+        return true
+      } else if (this.startDate && !this.endDate) {
+        return isDisabled(date) || (!this.enableSingleDate && date === this.startDate)
+      } else if (this.disabledDates) {
+        if (this.disabledDates.from) {
+          return date >= this.disabledDates.from
+        } else if (this.disabledDates.to) {
+          return date <= this.disabledDates.to
+        }
       } else {
-        return false
+        return isDisabled(date)
       }
     }
   }
@@ -15393,67 +15796,67 @@ var render = function() {
       _vm._v("\n    " + _vm._s(_vm.monthName) + " " + _vm._s(_vm.year) + "\n  ")
     ]),
     _vm._v(" "),
-    _vm._m(0),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "vl-flex" },
-      _vm._l(_vm.days, function(day) {
-        return _c(
-          "span",
-          {
-            key: day,
-            staticClass: "vl-calendar-month__day",
-            class: _vm.calculateClasses(day),
-            on: {
-              click: function($event) {
-                _vm.$emit("input", _vm.getDate(day))
-              }
-            }
-          },
-          [_vm._v("\n      " + _vm._s(day) + "\n    ")]
+    _c("div", { staticClass: "vl-flex" }, [
+      _vm.showWeeksNumber
+        ? _c(
+            "div",
+            { staticClass: "vl-calendar-month__week-numbers-column" },
+            _vm._l(_vm.weekNumbers, function(number) {
+              return _c(
+                "div",
+                { key: number, staticClass: "vl-calendar-month__week-number" },
+                [_vm._v("\n        " + _vm._s(number) + "\n      ")]
+              )
+            }),
+            0
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c("div", [
+        _c(
+          "div",
+          { staticClass: "vl-flex" },
+          _vm._l(_vm.daysNames, function(name) {
+            return _c(
+              "span",
+              { key: name, staticClass: "vl-calendar-month__week-day" },
+              [_vm._v(_vm._s(name))]
+            )
+          }),
+          0
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "vl-flex vl-flex-wrap" },
+          _vm._l(_vm.days, function(day) {
+            return _c(
+              "span",
+              {
+                key: day,
+                staticClass: "vl-calendar-month__day",
+                class: _vm.calculateClasses(day),
+                attrs: {
+                  "data-day": day,
+                  "data-month": _vm.month,
+                  "data-year": _vm.year
+                },
+                on: {
+                  click: function($event) {
+                    _vm.$emit("input", _vm.getDate(day))
+                  }
+                }
+              },
+              [_vm._v("\n          " + _vm._s(day) + "\n        ")]
+            )
+          }),
+          0
         )
-      }),
-      0
-    )
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "vl-flex" }, [
-      _c("span", { staticClass: "vl-calendar-month__week-day" }, [
-        _vm._v("\n      Mon\n    ")
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "vl-calendar-month__week-day" }, [
-        _vm._v("\n      Tue\n    ")
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "vl-calendar-month__week-day" }, [
-        _vm._v("\n      Wed\n    ")
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "vl-calendar-month__week-day" }, [
-        _vm._v("\n      Thu\n    ")
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "vl-calendar-month__week-day" }, [
-        _vm._v("\n      Fri\n    ")
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "vl-calendar-month__week-day" }, [
-        _vm._v("\n      Sat\n    ")
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "vl-calendar-month__week-day" }, [
-        _vm._v("\n      Sun\n    ")
       ])
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -15503,7 +15906,10 @@ var render = function() {
           month: _vm.currentMonthMonth,
           year: _vm.currentMonthYear,
           "is-selected": _vm.isSelected,
-          "is-disabled": _vm.isDisabled
+          "is-disabled": _vm.isDisabled,
+          "custom-classes": _vm.customClasses,
+          "show-weeks-number": _vm.showWeeksNumber,
+          "first-day-of-week": _vm.firstDayOfWeek
         },
         on: {
           input: function(date) {
@@ -15512,20 +15918,25 @@ var render = function() {
         }
       }),
       _vm._v(" "),
-      _c("vl-calendar-month", {
-        staticClass: "vl-calendar__month",
-        attrs: {
-          month: _vm.nextMonthMonth,
-          year: _vm.nextMonthYear,
-          "is-selected": _vm.isSelected,
-          "is-disabled": _vm.isDisabled
-        },
-        on: {
-          input: function(date) {
-            return _vm.$emit("input", date)
-          }
-        }
-      })
+      !_vm.singleMonth
+        ? _c("vl-calendar-month", {
+            staticClass: "vl-calendar__month",
+            attrs: {
+              month: _vm.nextMonthMonth,
+              year: _vm.nextMonthYear,
+              "is-selected": _vm.isSelected,
+              "is-disabled": _vm.isDisabled,
+              "custom-classes": _vm.customClasses,
+              "show-weeks-number": _vm.showWeeksNumber,
+              "first-day-of-week": _vm.firstDayOfWeek
+            },
+            on: {
+              input: function(date) {
+                return _vm.$emit("input", date)
+              }
+            }
+          })
+        : _vm._e()
     ],
     1
   )
@@ -15554,7 +15965,15 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("vl-calendar", {
     ref: "calendar",
-    attrs: { "is-selected": _vm.isSelected, "is-disabled": _vm.isDisabled },
+    attrs: {
+      "is-selected": _vm.isSelected,
+      "is-disabled": _vm.calculateDisabled,
+      "custom-classes": _vm.customClasses,
+      "show-weeks-number": _vm.showWeeksNumber,
+      "default-date": _vm.defaultDate,
+      "single-month": _vm.singleMonth,
+      "first-day-of-week": _vm.firstDayOfWeek
+    },
     on: {
       input: function(date) {
         return _vm.emitDate(date)
@@ -18774,317 +19193,379 @@ var render = function() {
     [
       _c(
         "v-layout",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.mode != "edit",
-              expression: "mode != 'edit'"
-            }
-          ],
-          attrs: { "justify-center": "", wrap: "" }
-        },
+        { attrs: { row: "" } },
         [
-          _c(
-            "v-menu",
-            {
-              scopedSlots: _vm._u([
-                {
-                  key: "activator",
-                  fn: function(ref) {
-                    var on = ref.on
-                    return [
-                      _c(
-                        "v-btn",
-                        _vm._g(
-                          {
-                            attrs: {
-                              absolute: "",
-                              right: "",
-                              flat: "",
-                              icon: "",
-                              dark: "",
-                              color: "primary"
-                            }
-                          },
-                          on
-                        ),
-                        [
-                          _c("v-icon", { attrs: { size: "medium" } }, [
-                            _vm._v("fas fa-ellipsis-v")
-                          ])
-                        ],
-                        1
-                      )
-                    ]
-                  }
-                }
-              ])
-            },
-            [
-              _vm._v(" "),
-              _c(
-                "v-list",
-                [
-                  _c(
-                    "v-list-tile",
-                    {
-                      on: {
-                        click: function($event) {
-                          return _vm.editCliente()
-                        }
-                      }
-                    },
-                    [_c("v-list-tile-title", [_vm._v("Editar")])],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-list-tile",
-                    {
-                      on: {
-                        click: function($event) {
-                          _vm.mode = "delete"
-                        }
-                      }
-                    },
-                    [_c("v-list-tile-title", [_vm._v("Eliminar")])],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
           _c(
             "v-flex",
             { attrs: { xs12: "" } },
             [
-              _c(
-                "v-layout",
-                { attrs: { "justify-center": "" } },
-                [
-                  _c(
-                    "v-avatar",
-                    { staticClass: "profile", attrs: { size: "86" } },
-                    [
-                      _c("span", { staticClass: "display-1" }, [
-                        _vm._v(_vm._s(_vm.clientProfile))
-                      ])
-                    ]
-                  )
-                ],
-                1
-              )
+              _c("v-card", [
+                _vm.mode == "edit"
+                  ? _c(
+                      "div",
+                      [
+                        _c(
+                          "v-card-title",
+                          [
+                            _c(
+                              "v-layout",
+                              { attrs: { "justify-space-between": "" } },
+                              [_c("h2", [_vm._v("Editar Cliente")])]
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("v-divider"),
+                        _vm._v(" "),
+                        _c(
+                          "v-card-text",
+                          [
+                            _c(
+                              "v-form",
+                              {
+                                ref: "clientesEditForm",
+                                on: {
+                                  submit: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.updateCliente($event)
+                                  }
+                                }
+                              },
+                              [
+                                _c("ClientesForm", { attrs: { mode: "edit" } }),
+                                _vm._v(" "),
+                                _c(
+                                  "v-layout",
+                                  { attrs: { "justify-center": "" } },
+                                  [
+                                    _c(
+                                      "v-btn",
+                                      {
+                                        attrs: {
+                                          disabled: _vm.inProcess,
+                                          outline: "",
+                                          color: "primary"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            _vm.mode = "show"
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("Cancelar")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-btn",
+                                      {
+                                        attrs: {
+                                          disabled: _vm.inProcess,
+                                          type: "submit",
+                                          color: "primary"
+                                        }
+                                      },
+                                      [_vm._v("Editar")]
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  : _c(
+                      "div",
+                      [
+                        _c("br"),
+                        _vm._v(" "),
+                        _c(
+                          "v-menu",
+                          {
+                            scopedSlots: _vm._u([
+                              {
+                                key: "activator",
+                                fn: function(ref) {
+                                  var on = ref.on
+                                  return [
+                                    _c(
+                                      "v-btn",
+                                      _vm._g(
+                                        {
+                                          attrs: {
+                                            absolute: "",
+                                            right: "",
+                                            flat: "",
+                                            icon: "",
+                                            dark: "",
+                                            color: "primary"
+                                          }
+                                        },
+                                        on
+                                      ),
+                                      [
+                                        _c(
+                                          "v-icon",
+                                          { attrs: { size: "medium" } },
+                                          [_vm._v("fas fa-ellipsis-v")]
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ]
+                                }
+                              }
+                            ])
+                          },
+                          [
+                            _vm._v(" "),
+                            _c(
+                              "v-list",
+                              [
+                                _c(
+                                  "v-list-tile",
+                                  {
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.editCliente()
+                                      }
+                                    }
+                                  },
+                                  [_c("v-list-tile-title", [_vm._v("Editar")])],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-list-tile",
+                                  {
+                                    on: {
+                                      click: function($event) {
+                                        _vm.mode = "delete"
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("v-list-tile-title", [
+                                      _vm._v("Eliminar")
+                                    ])
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-flex",
+                          { attrs: { xs12: "" } },
+                          [
+                            _c(
+                              "v-layout",
+                              { attrs: { "justify-center": "" } },
+                              [
+                                _c(
+                                  "v-avatar",
+                                  {
+                                    staticClass: "profile",
+                                    attrs: { size: "86" }
+                                  },
+                                  [
+                                    _c("span", { staticClass: "display-1" }, [
+                                      _vm._v(_vm._s(_vm.clientProfile))
+                                    ])
+                                  ]
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("v-flex", { attrs: { xs12: "" } }, [
+                          _c("br"),
+                          _vm._v(" "),
+                          _c(
+                            "h1",
+                            { staticClass: "text-xs-center primary--text" },
+                            [_vm._v(_vm._s(_vm.showData.cliente.razonsocial))]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("v-flex", { attrs: { xs12: "" } }, [
+                          _c(
+                            "h3",
+                            { staticClass: "text-xs-center primary--text" },
+                            [
+                              _vm._v(
+                                _vm._s(_vm.showData.cliente.documentounico)
+                              )
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("br"),
+                        _vm._v(" "),
+                        _vm.mode == "show"
+                          ? _c(
+                              "div",
+                              [
+                                _c(
+                                  "v-tabs",
+                                  {
+                                    attrs: {
+                                      "fixed-tabs": "",
+                                      grow: "",
+                                      "slider-color": "primary",
+                                      "active-class": "primary--text"
+                                    }
+                                  },
+                                  [
+                                    _c("v-tab", [_vm._v("Datos")]),
+                                    _vm._v(" "),
+                                    _c("v-tab", [_vm._v("Compras")]),
+                                    _vm._v(" "),
+                                    _c("v-tab", [_vm._v("Resumen Corriente")]),
+                                    _vm._v(" "),
+                                    _c("v-tab-item", [_c("DataIterator")], 1),
+                                    _vm._v(" "),
+                                    _c("v-tab-item", [
+                                      _vm.showData.facturas.length > 0
+                                        ? _c("div", [_c("FacturasTable")], 1)
+                                        : _c("div", [
+                                            _c("br"),
+                                            _vm._v(" "),
+                                            _c(
+                                              "h2",
+                                              { staticClass: "text-xs-center" },
+                                              [
+                                                _vm._v(
+                                                  "El cliente no ha realizado ninguna compra aun."
+                                                )
+                                              ]
+                                            )
+                                          ])
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("v-tab-item", [
+                                      _vm.showData.cuentas.length > 0
+                                        ? _c("div", [_c("CuentaTable")], 1)
+                                        : _c("div", [
+                                            _c("br"),
+                                            _vm._v(" "),
+                                            _c(
+                                              "h2",
+                                              { staticClass: "text-xs-center" },
+                                              [
+                                                _vm._v(
+                                                  "El cliente no tiene cuentas corrientes en su haber."
+                                                )
+                                              ]
+                                            )
+                                          ])
+                                    ])
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          : _vm.mode == "delete"
+                          ? _c(
+                              "div",
+                              [
+                                _c(
+                                  "v-alert",
+                                  { attrs: { value: true, color: "error" } },
+                                  [
+                                    _c(
+                                      "h2",
+                                      { staticClass: "text-xs-center" },
+                                      [_vm._v("¿Estas Seguro?")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("br"),
+                                    _vm._v(" "),
+                                    _c("v-divider", { attrs: { dark: "" } }),
+                                    _vm._v(" "),
+                                    _c("br"),
+                                    _vm._v(" "),
+                                    _c("p", { staticClass: "text-xs-center" }, [
+                                      _vm._v(
+                                        "¿Realmente deseas eliminar este Cliente?"
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("p", { staticClass: "text-xs-center" }, [
+                                      _vm._v("Este Cambio es Irreversible")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("br"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-layout",
+                                      { attrs: { "justify-center": "" } },
+                                      [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            staticClass:
+                                              "elevation-0 red--text",
+                                            attrs: { color: "white" },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.mode = "show"
+                                              }
+                                            }
+                                          },
+                                          [_vm._v("Cancelar")]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: {
+                                              outline: "",
+                                              color: "white"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.deleteCliente()
+                                              }
+                                            }
+                                          },
+                                          [_vm._v("Eliminar")]
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          : _vm._e()
+                      ],
+                      1
+                    )
+              ])
             ],
             1
-          ),
-          _vm._v(" "),
-          _c("v-flex", { attrs: { xs12: "" } }, [
-            _c("br"),
-            _vm._v(" "),
-            _c("h1", { staticClass: "text-xs-center primary--text" }, [
-              _vm._v(_vm._s(_vm.showData.cliente.razonsocial))
-            ])
-          ]),
-          _vm._v(" "),
-          _c("v-flex", { attrs: { xs12: "" } }, [
-            _c("h3", { staticClass: "text-xs-center primary--text" }, [
-              _vm._v(_vm._s(_vm.showData.cliente.documentounico))
-            ])
-          ])
+          )
         ],
         1
-      ),
-      _vm._v(" "),
-      _c("br"),
-      _vm._v(" "),
-      [
-        _vm.mode == "show"
-          ? _c(
-              "div",
-              [
-                _c(
-                  "v-tabs",
-                  {
-                    attrs: {
-                      "fixed-tabs": "",
-                      grow: "",
-                      "slider-color": "primary",
-                      "active-class": "primary--text"
-                    }
-                  },
-                  [
-                    _c("v-tab", [_vm._v("Datos")]),
-                    _vm._v(" "),
-                    _c("v-tab", [_vm._v("Compras")]),
-                    _vm._v(" "),
-                    _c("v-tab", [_vm._v("Resumen Corriente")]),
-                    _vm._v(" "),
-                    _c("v-tab-item", [_c("DataIterator")], 1),
-                    _vm._v(" "),
-                    _c("v-tab-item", [
-                      _vm.showData.facturas.length > 0
-                        ? _c("div", [_c("FacturasTable")], 1)
-                        : _c("div", [
-                            _c("br"),
-                            _vm._v(" "),
-                            _c("h2", { staticClass: "text-xs-center" }, [
-                              _vm._v(
-                                "El cliente no ha realizado ninguna compra aun."
-                              )
-                            ])
-                          ])
-                    ]),
-                    _vm._v(" "),
-                    _c("v-tab-item", [
-                      _vm.showData.cuentas.length > 0
-                        ? _c("div", [_c("CuentaTable")], 1)
-                        : _c("div", [
-                            _c("br"),
-                            _vm._v(" "),
-                            _c("h2", { staticClass: "text-xs-center" }, [
-                              _vm._v(
-                                "El cliente no tiene cuentas corrientes en su haber."
-                              )
-                            ])
-                          ])
-                    ])
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          : _vm.mode == "edit"
-          ? _c(
-              "div",
-              [
-                _c(
-                  "v-form",
-                  {
-                    ref: "clientesEditForm",
-                    on: {
-                      submit: function($event) {
-                        $event.preventDefault()
-                        return _vm.updateCliente($event)
-                      }
-                    }
-                  },
-                  [
-                    _c("ClientesForm", { attrs: { mode: "edit" } }),
-                    _vm._v(" "),
-                    _c(
-                      "v-layout",
-                      { attrs: { "justify-center": "" } },
-                      [
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: { outline: "", color: "primary" },
-                            on: {
-                              click: function($event) {
-                                _vm.mode = "show"
-                              }
-                            }
-                          },
-                          [_vm._v("Cancelar")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: {
-                              disabled: _vm.inProcess,
-                              type: "submit",
-                              color: "primary"
-                            }
-                          },
-                          [_vm._v("Editar")]
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          : _vm.mode == "delete"
-          ? _c(
-              "div",
-              [
-                _c(
-                  "v-alert",
-                  { attrs: { value: true, color: "error" } },
-                  [
-                    _c("h2", { staticClass: "text-xs-center" }, [
-                      _vm._v("¿Estas Seguro?")
-                    ]),
-                    _vm._v(" "),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c("v-divider", { attrs: { dark: "" } }),
-                    _vm._v(" "),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c("p", { staticClass: "text-xs-center" }, [
-                      _vm._v("¿Realmente deseas eliminar este Cliente?")
-                    ]),
-                    _vm._v(" "),
-                    _c("p", { staticClass: "text-xs-center" }, [
-                      _vm._v("Este Cambio es Irreversible")
-                    ]),
-                    _vm._v(" "),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c(
-                      "v-layout",
-                      { attrs: { "justify-center": "" } },
-                      [
-                        _c(
-                          "v-btn",
-                          {
-                            staticClass: "elevation-0 red--text",
-                            attrs: { color: "white" },
-                            on: {
-                              click: function($event) {
-                                _vm.mode = "show"
-                              }
-                            }
-                          },
-                          [_vm._v("Cancelar")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: { outline: "", color: "white" },
-                            on: {
-                              click: function($event) {
-                                return _vm.deleteCliente()
-                              }
-                            }
-                          },
-                          [_vm._v("Eliminar")]
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          : _vm._e()
-      ]
+      )
     ],
-    2
+    1
   )
 }
 var staticRenderFns = []
@@ -23306,116 +23787,339 @@ var render = function() {
             { attrs: { xs12: "" } },
             [
               _c("v-card", [
-                _c("div", {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.mode == "edit",
-                      expression: "mode == 'edit'"
-                    }
-                  ]
-                }),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: _vm.mode == "show",
-                        expression: "mode == 'show'"
-                      }
-                    ]
-                  },
-                  [
-                    _c(
-                      "v-img",
-                      {
-                        staticClass: "hidden-sm-and-up",
-                        attrs: {
-                          src: _vm.showData.articulo.foto,
-                          height: "250px"
-                        }
-                      },
+                _vm.mode == "edit"
+                  ? _c(
+                      "div",
                       [
                         _c(
-                          "v-layout",
-                          { attrs: { column: "", "fill-height": "" } },
+                          "v-card-title",
                           [
                             _c(
-                              "v-card-title",
+                              "v-layout",
+                              { attrs: { "justify-space-between": "" } },
+                              [_c("h2", [_vm._v("Editar Producto")])]
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("v-divider"),
+                        _vm._v(" "),
+                        _c(
+                          "v-card-text",
+                          [
+                            _c(
+                              "v-form",
+                              {
+                                ref: "productosEditForm",
+                                on: {
+                                  submit: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.updateProducto()
+                                  }
+                                }
+                              },
                               [
-                                _c("v-spacer"),
-                                _vm._v(" "),
                                 _c(
-                                  "v-menu",
+                                  "v-layout",
                                   {
-                                    staticStyle: { margin: "15px 0px" },
-                                    scopedSlots: _vm._u([
+                                    attrs: {
+                                      "justify-space-around": "",
+                                      wrap: ""
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "v-flex",
                                       {
-                                        key: "activator",
-                                        fn: function(ref) {
-                                          var on = ref.on
-                                          return [
-                                            _c(
-                                              "v-btn",
-                                              _vm._g(
-                                                {
-                                                  attrs: {
-                                                    absolute: "",
-                                                    right: "",
-                                                    flat: "",
-                                                    icon: "",
-                                                    dark: "",
-                                                    color: "white"
-                                                  }
+                                        attrs: { xs12: "", sm6: "", "px-2": "" }
+                                      },
+                                      [
+                                        _c(
+                                          "v-layout",
+                                          {
+                                            attrs: {
+                                              "justify-center": "",
+                                              wrap: ""
+                                            }
+                                          },
+                                          [
+                                            _c("croppa", {
+                                              attrs: {
+                                                "initial-image":
+                                                  _vm.showData.articulo.foto,
+                                                width: 250,
+                                                height: 250,
+                                                placeholder: "Foto",
+                                                "placeholder-color": "#000",
+                                                "placeholder-font-size": 24,
+                                                "canvas-color": "transparent",
+                                                "show-remove-button": false,
+                                                "show-loading": true,
+                                                "loading-size": 25,
+                                                "prevent-white-space": true,
+                                                "zoom-speed": 10
+                                              },
+                                              model: {
+                                                value: _vm.foto,
+                                                callback: function($$v) {
+                                                  _vm.foto = $$v
                                                 },
-                                                on
-                                              ),
+                                                expression: "foto"
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c(
+                                              "v-flex",
+                                              {
+                                                attrs: { xs12: "", "px-2": "" }
+                                              },
                                               [
                                                 _c(
-                                                  "v-icon",
-                                                  { attrs: { size: "medium" } },
-                                                  [_vm._v("fas fa-ellipsis-v")]
+                                                  "v-layout",
+                                                  {
+                                                    attrs: {
+                                                      "justify-center": ""
+                                                    }
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "v-btn",
+                                                      {
+                                                        attrs: {
+                                                          flat: "",
+                                                          icon: "",
+                                                          color: "primary"
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.foto.zoomIn()
+                                                          }
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("v-icon", [
+                                                          _vm._v(
+                                                            "fas fa-search-plus"
+                                                          )
+                                                        ])
+                                                      ],
+                                                      1
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "v-btn",
+                                                      {
+                                                        attrs: {
+                                                          flat: "",
+                                                          icon: "",
+                                                          color: "primary"
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.foto.zoomOut()
+                                                          }
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("v-icon", [
+                                                          _vm._v(
+                                                            "fas fa-search-minus"
+                                                          )
+                                                        ])
+                                                      ],
+                                                      1
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "v-btn",
+                                                      {
+                                                        attrs: {
+                                                          flat: "",
+                                                          icon: "",
+                                                          color: "primary"
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.foto.rotate()
+                                                          }
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("v-icon", [
+                                                          _vm._v(
+                                                            "fas fa-redo-alt"
+                                                          )
+                                                        ])
+                                                      ],
+                                                      1
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _vm.foto != null
+                                                      ? _c(
+                                                          "div",
+                                                          [
+                                                            _c(
+                                                              "v-btn",
+                                                              {
+                                                                directives: [
+                                                                  {
+                                                                    name:
+                                                                      "show",
+                                                                    rawName:
+                                                                      "v-show",
+                                                                    value: _vm.foto.hasImage(),
+                                                                    expression:
+                                                                      "foto.hasImage()"
+                                                                  }
+                                                                ],
+                                                                attrs: {
+                                                                  flat: "",
+                                                                  icon: "",
+                                                                  color:
+                                                                    "primary"
+                                                                },
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    return _vm.foto.remove()
+                                                                  }
+                                                                }
+                                                              },
+                                                              [
+                                                                _c("v-icon", [
+                                                                  _vm._v(
+                                                                    "fas fa-times"
+                                                                  )
+                                                                ])
+                                                              ],
+                                                              1
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "v-btn",
+                                                              {
+                                                                directives: [
+                                                                  {
+                                                                    name:
+                                                                      "show",
+                                                                    rawName:
+                                                                      "v-show",
+                                                                    value: !_vm.foto.hasImage(),
+                                                                    expression:
+                                                                      "!foto.hasImage()"
+                                                                  }
+                                                                ],
+                                                                attrs: {
+                                                                  flat: "",
+                                                                  icon: "",
+                                                                  color:
+                                                                    "primary"
+                                                                },
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    return _vm.foto.chooseFile()
+                                                                  }
+                                                                }
+                                                              },
+                                                              [
+                                                                _c("v-icon", [
+                                                                  _vm._v(
+                                                                    "fas fa-plus"
+                                                                  )
+                                                                ])
+                                                              ],
+                                                              1
+                                                            )
+                                                          ],
+                                                          1
+                                                        )
+                                                      : _vm._e()
+                                                  ],
+                                                  1
                                                 )
                                               ],
                                               1
                                             )
-                                          ]
-                                        }
-                                      }
-                                    ])
-                                  },
-                                  [
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    ),
                                     _vm._v(" "),
                                     _c(
-                                      "v-list",
+                                      "v-flex",
+                                      {
+                                        attrs: { xs12: "", sm6: "", "px-2": "" }
+                                      },
                                       [
                                         _c(
-                                          "v-list-tile",
+                                          "v-flex",
+                                          { attrs: { xs12: "", "px-2": "" } },
                                           [
-                                            _c("v-list-tile-title", [
-                                              _vm._v("Editar")
-                                            ])
+                                            _c("v-text-field", {
+                                              attrs: {
+                                                rules: [_vm.rules.required],
+                                                label: "Articulo",
+                                                hint: "Articulo",
+                                                box: "",
+                                                "single-line": ""
+                                              },
+                                              model: {
+                                                value: _vm.form.articulo,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.form,
+                                                    "articulo",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression: "form.articulo"
+                                              }
+                                            })
                                           ],
                                           1
                                         ),
                                         _vm._v(" "),
                                         _c(
-                                          "v-list-tile",
-                                          {
-                                            on: {
-                                              click: function($event) {
-                                                _vm.mode = "delete"
-                                              }
-                                            }
-                                          },
+                                          "v-flex",
+                                          { attrs: { xs12: "", "px-2": "" } },
                                           [
-                                            _c("v-list-tile-title", [
-                                              _vm._v("Eliminar")
-                                            ])
+                                            _c("v-textarea", {
+                                              attrs: {
+                                                rules: [
+                                                  _vm.rules.required,
+                                                  _vm.rules.max
+                                                ],
+                                                label: "Descripción",
+                                                hint: "Descripción",
+                                                box: "",
+                                                "single-line": "",
+                                                height: "165",
+                                                "no-resize": ""
+                                              },
+                                              model: {
+                                                value: _vm.form.descripcion,
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.form,
+                                                    "descripcion",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression: "form.descripcion"
+                                              }
+                                            })
                                           ],
                                           1
                                         )
@@ -23424,258 +24128,11 @@ var render = function() {
                                     )
                                   ],
                                   1
-                                )
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c("v-spacer"),
-                            _vm._v(" "),
-                            _c(
-                              "v-card-title",
-                              [
-                                _c(
-                                  "v-layout",
-                                  { attrs: { "justify-center": "", wrap: "" } },
-                                  [
-                                    _c("v-flex", { attrs: { xs12: "" } }, [
-                                      _c(
-                                        "h1",
-                                        {
-                                          staticClass:
-                                            "text-xs-center white--text"
-                                        },
-                                        [
-                                          _vm._v(
-                                            _vm._s(
-                                              _vm.showData.articulo.articulo
-                                            )
-                                          )
-                                        ]
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("v-flex", { attrs: { xs12: "" } }, [
-                                      _c(
-                                        "h3",
-                                        {
-                                          staticClass:
-                                            "text-xs-center white--text"
-                                        },
-                                        [
-                                          _vm._v(
-                                            _vm._s(
-                                              _vm.showData.articulo.descripcion
-                                            )
-                                          )
-                                        ]
-                                      )
-                                    ])
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "hidden-xs-only" },
-                      [
-                        _c("br"),
-                        _vm._v(" "),
-                        _c(
-                          "v-menu",
-                          {
-                            scopedSlots: _vm._u([
-                              {
-                                key: "activator",
-                                fn: function(ref) {
-                                  var on = ref.on
-                                  return [
-                                    _c(
-                                      "v-btn",
-                                      _vm._g(
-                                        {
-                                          attrs: {
-                                            absolute: "",
-                                            right: "",
-                                            flat: "",
-                                            icon: "",
-                                            dark: "",
-                                            color: "primary"
-                                          }
-                                        },
-                                        on
-                                      ),
-                                      [
-                                        _c(
-                                          "v-icon",
-                                          { attrs: { size: "medium" } },
-                                          [_vm._v("fas fa-ellipsis-v")]
-                                        )
-                                      ],
-                                      1
-                                    )
-                                  ]
-                                }
-                              }
-                            ])
-                          },
-                          [
-                            _vm._v(" "),
-                            _c(
-                              "v-list",
-                              [
-                                _c(
-                                  "v-list-tile",
-                                  [_c("v-list-tile-title", [_vm._v("Editar")])],
-                                  1
                                 ),
                                 _vm._v(" "),
-                                _c(
-                                  "v-list-tile",
-                                  {
-                                    on: {
-                                      click: function($event) {
-                                        _vm.mode = "delete"
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _c("v-list-tile-title", [
-                                      _vm._v("Eliminar")
-                                    ])
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-flex",
-                          { attrs: { xs12: "" } },
-                          [
-                            _c(
-                              "v-layout",
-                              { attrs: { "justify-center": "" } },
-                              [
-                                _c("v-avatar", { attrs: { size: "200" } }, [
-                                  _c("img", {
-                                    attrs: { src: _vm.showData.articulo.foto }
-                                  })
-                                ])
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c("v-flex", { attrs: { xs12: "" } }, [
-                          _c("br"),
-                          _vm._v(" "),
-                          _c(
-                            "h1",
-                            { staticClass: "text-xs-center primary--text" },
-                            [_vm._v(_vm._s(_vm.showData.articulo.articulo))]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("v-flex", { attrs: { xs12: "" } }, [
-                          _c(
-                            "h3",
-                            { staticClass: "text-xs-center primary--text" },
-                            [_vm._v(_vm._s(_vm.showData.articulo.descripcion))]
-                          )
-                        ])
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("br"),
-                    _vm._v(" "),
-                    _vm.mode == "show"
-                      ? _c(
-                          "div",
-                          [
-                            [
-                              _c(
-                                "div",
-                                [
-                                  _c(
-                                    "v-tabs",
-                                    {
-                                      attrs: {
-                                        "fixed-tabs": "",
-                                        grow: "",
-                                        "slider-color": "primary",
-                                        "active-class": "primary--text"
-                                      }
-                                    },
-                                    [
-                                      _c("v-tab", [_vm._v("Datos")]),
-                                      _vm._v(" "),
-                                      _c("v-tab", [_vm._v("Inventarios")]),
-                                      _vm._v(" "),
-                                      _c("v-tab-item", [
-                                        _c("div", [_c("ProductosShowData")], 1)
-                                      ]),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-tab-item",
-                                        [_c("ProductosShowInventario")],
-                                        1
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            ]
-                          ],
-                          2
-                        )
-                      : _vm.mode == "delete"
-                      ? _c(
-                          "div",
-                          [
-                            _c(
-                              "v-alert",
-                              { attrs: { value: true, color: "error" } },
-                              [
-                                _c("h2", { staticClass: "text-xs-center" }, [
-                                  _vm._v("¿Estas Seguro?")
-                                ]),
-                                _vm._v(" "),
                                 _c("br"),
                                 _vm._v(" "),
-                                _c("v-divider", { attrs: { dark: "" } }),
-                                _vm._v(" "),
-                                _c("br"),
-                                _vm._v(" "),
-                                _c("p", { staticClass: "text-xs-center" }, [
-                                  _vm._v(
-                                    "¿Realmente deseas eliminar este Producto?"
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("p", { staticClass: "text-xs-center" }, [
-                                  _vm._v("Este Cambio es Irreversible")
-                                ]),
-                                _vm._v(" "),
-                                _c("br"),
+                                _c("ProductosForm"),
                                 _vm._v(" "),
                                 _c(
                                   "v-layout",
@@ -23684,10 +24141,10 @@ var render = function() {
                                     _c(
                                       "v-btn",
                                       {
-                                        staticClass: "elevation-0 red--text",
                                         attrs: {
-                                          disabled: _vm.process,
-                                          color: "white"
+                                          disabled: _vm.inProcess,
+                                          outline: "",
+                                          color: "primary"
                                         },
                                         on: {
                                           click: function($event) {
@@ -23702,18 +24159,12 @@ var render = function() {
                                       "v-btn",
                                       {
                                         attrs: {
-                                          loading: _vm.process,
-                                          disabled: _vm.process,
-                                          outline: "",
-                                          color: "white"
-                                        },
-                                        on: {
-                                          click: function($event) {
-                                            return _vm.deleteProducto()
-                                          }
+                                          disabled: _vm.inProcess,
+                                          type: "submit",
+                                          color: "primary"
                                         }
                                       },
-                                      [_vm._v("Eliminar")]
+                                      [_vm._v("Editar")]
                                     )
                                   ],
                                   1
@@ -23724,10 +24175,455 @@ var render = function() {
                           ],
                           1
                         )
-                      : _vm._e()
-                  ],
-                  1
-                )
+                      ],
+                      1
+                    )
+                  : _c(
+                      "div",
+                      [
+                        _c(
+                          "v-img",
+                          {
+                            staticClass: "hidden-sm-and-up",
+                            attrs: {
+                              src: _vm.showData.articulo.foto,
+                              height: "250px"
+                            }
+                          },
+                          [
+                            _c(
+                              "v-layout",
+                              { attrs: { column: "", "fill-height": "" } },
+                              [
+                                _c(
+                                  "v-card-title",
+                                  [
+                                    _c("v-spacer"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-menu",
+                                      {
+                                        staticStyle: { margin: "15px 0px" },
+                                        scopedSlots: _vm._u([
+                                          {
+                                            key: "activator",
+                                            fn: function(ref) {
+                                              var on = ref.on
+                                              return [
+                                                _c(
+                                                  "v-btn",
+                                                  _vm._g(
+                                                    {
+                                                      attrs: {
+                                                        absolute: "",
+                                                        right: "",
+                                                        flat: "",
+                                                        icon: "",
+                                                        dark: "",
+                                                        color: "white"
+                                                      }
+                                                    },
+                                                    on
+                                                  ),
+                                                  [
+                                                    _c(
+                                                      "v-icon",
+                                                      {
+                                                        attrs: {
+                                                          size: "medium"
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "fas fa-ellipsis-v"
+                                                        )
+                                                      ]
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              ]
+                                            }
+                                          }
+                                        ])
+                                      },
+                                      [
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-list",
+                                          [
+                                            _c(
+                                              "v-list-tile",
+                                              {
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.editProducto()
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c("v-list-tile-title", [
+                                                  _vm._v("Editar")
+                                                ])
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "v-list-tile",
+                                              {
+                                                on: {
+                                                  click: function($event) {
+                                                    _vm.mode = "delete"
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c("v-list-tile-title", [
+                                                  _vm._v("Eliminar")
+                                                ])
+                                              ],
+                                              1
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c("v-spacer"),
+                                _vm._v(" "),
+                                _c(
+                                  "v-card-title",
+                                  [
+                                    _c(
+                                      "v-layout",
+                                      {
+                                        attrs: {
+                                          "justify-center": "",
+                                          wrap: ""
+                                        }
+                                      },
+                                      [
+                                        _c("v-flex", { attrs: { xs12: "" } }, [
+                                          _c(
+                                            "h1",
+                                            {
+                                              staticClass:
+                                                "text-xs-center white--text"
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.showData.articulo.articulo
+                                                )
+                                              )
+                                            ]
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("v-flex", { attrs: { xs12: "" } }, [
+                                          _c(
+                                            "h3",
+                                            {
+                                              staticClass:
+                                                "text-xs-center white--text"
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.showData.articulo
+                                                    .descripcion
+                                                )
+                                              )
+                                            ]
+                                          )
+                                        ])
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "hidden-xs-only" },
+                          [
+                            _c("br"),
+                            _vm._v(" "),
+                            _c(
+                              "v-menu",
+                              {
+                                scopedSlots: _vm._u([
+                                  {
+                                    key: "activator",
+                                    fn: function(ref) {
+                                      var on = ref.on
+                                      return [
+                                        _c(
+                                          "v-btn",
+                                          _vm._g(
+                                            {
+                                              attrs: {
+                                                absolute: "",
+                                                right: "",
+                                                flat: "",
+                                                icon: "",
+                                                dark: "",
+                                                color: "primary"
+                                              }
+                                            },
+                                            on
+                                          ),
+                                          [
+                                            _c(
+                                              "v-icon",
+                                              { attrs: { size: "medium" } },
+                                              [_vm._v("fas fa-ellipsis-v")]
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      ]
+                                    }
+                                  }
+                                ])
+                              },
+                              [
+                                _vm._v(" "),
+                                _c(
+                                  "v-list",
+                                  [
+                                    _c(
+                                      "v-list-tile",
+                                      {
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.editProducto()
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("v-list-tile-title", [
+                                          _vm._v("Editar")
+                                        ])
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-list-tile",
+                                      {
+                                        on: {
+                                          click: function($event) {
+                                            _vm.mode = "delete"
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("v-list-tile-title", [
+                                          _vm._v("Eliminar")
+                                        ])
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-flex",
+                              { attrs: { xs12: "" } },
+                              [
+                                _c(
+                                  "v-layout",
+                                  { attrs: { "justify-center": "" } },
+                                  [
+                                    _c("v-avatar", { attrs: { size: "200" } }, [
+                                      _c("img", {
+                                        attrs: {
+                                          src: _vm.showData.articulo.foto
+                                        }
+                                      })
+                                    ])
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("v-flex", { attrs: { xs12: "" } }, [
+                              _c("br"),
+                              _vm._v(" "),
+                              _c(
+                                "h1",
+                                { staticClass: "text-xs-center primary--text" },
+                                [_vm._v(_vm._s(_vm.showData.articulo.articulo))]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("v-flex", { attrs: { xs12: "" } }, [
+                              _c(
+                                "h3",
+                                { staticClass: "text-xs-center primary--text" },
+                                [
+                                  _vm._v(
+                                    _vm._s(_vm.showData.articulo.descripcion)
+                                  )
+                                ]
+                              )
+                            ])
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("br"),
+                        _vm._v(" "),
+                        _vm.mode == "show"
+                          ? _c(
+                              "div",
+                              [
+                                [
+                                  _c(
+                                    "div",
+                                    [
+                                      _c(
+                                        "v-tabs",
+                                        {
+                                          attrs: {
+                                            "fixed-tabs": "",
+                                            grow: "",
+                                            "slider-color": "primary",
+                                            "active-class": "primary--text"
+                                          }
+                                        },
+                                        [
+                                          _c("v-tab", [_vm._v("Datos")]),
+                                          _vm._v(" "),
+                                          _c("v-tab", [_vm._v("Inventarios")]),
+                                          _vm._v(" "),
+                                          _c("v-tab-item", [
+                                            _c(
+                                              "div",
+                                              [_c("ProductosShowData")],
+                                              1
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-tab-item",
+                                            [_c("ProductosShowInventario")],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ]
+                              ],
+                              2
+                            )
+                          : _vm.mode == "delete"
+                          ? _c(
+                              "div",
+                              [
+                                _c(
+                                  "v-alert",
+                                  { attrs: { value: true, color: "error" } },
+                                  [
+                                    _c(
+                                      "h2",
+                                      { staticClass: "text-xs-center" },
+                                      [_vm._v("¿Estas Seguro?")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("br"),
+                                    _vm._v(" "),
+                                    _c("v-divider", { attrs: { dark: "" } }),
+                                    _vm._v(" "),
+                                    _c("br"),
+                                    _vm._v(" "),
+                                    _c("p", { staticClass: "text-xs-center" }, [
+                                      _vm._v(
+                                        "¿Realmente deseas eliminar este Producto?"
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("p", { staticClass: "text-xs-center" }, [
+                                      _vm._v("Este Cambio es Irreversible")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("br"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-layout",
+                                      { attrs: { "justify-center": "" } },
+                                      [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            staticClass:
+                                              "elevation-0 red--text",
+                                            attrs: {
+                                              disabled: _vm.process,
+                                              color: "white"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.mode = "show"
+                                              }
+                                            }
+                                          },
+                                          [_vm._v("Cancelar")]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: {
+                                              loading: _vm.process,
+                                              disabled: _vm.process,
+                                              outline: "",
+                                              color: "white"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.deleteProducto()
+                                              }
+                                            }
+                                          },
+                                          [_vm._v("Eliminar")]
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          : _vm._e()
+                      ],
+                      1
+                    )
               ])
             ],
             1
@@ -27510,15 +28406,7 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c(
-        "v-card",
-        [
-          _c("v-card-text", [
-            _vm.showData.cliente ? _c("div", [_c("ClientesShow")], 1) : _vm._e()
-          ])
-        ],
-        1
-      )
+      _vm.showData.cliente ? _c("div", [_c("ClientesShow")], 1) : _vm._e()
     ],
     1
   )
@@ -28552,7 +29440,7 @@ module.exports = plugin;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /*!
-  * vue-router v3.0.6
+  * vue-router v3.0.7
   * (c) 2019 Evan You
   * @license MIT
   */
@@ -29940,10 +30828,8 @@ function createMatcher (
         }
       }
 
-      if (record) {
-        location.path = fillParams(record.path, location.params, ("named route \"" + name + "\""));
-        return _createRoute(record, location, redirectedFrom)
-      }
+      location.path = fillParams(record.path, location.params, ("named route \"" + name + "\""));
+      return _createRoute(record, location, redirectedFrom)
     } else if (location.path) {
       location.params = {};
       for (var i = 0; i < pathList.length; i++) {
@@ -30098,7 +30984,12 @@ var positionStore = Object.create(null);
 function setupScroll () {
   // Fix for #1585 for Firefox
   // Fix for #2195 Add optional third attribute to workaround a bug in safari https://bugs.webkit.org/show_bug.cgi?id=182678
-  window.history.replaceState({ key: getStateKey() }, '', window.location.href.replace(window.location.origin, ''));
+  // Fix for #2774 Support for apps loaded from Windows file shares not mapped to network drives: replaced location.origin with
+  // window.location.protocol + '//' + window.location.host
+  // location.host contains the port and location.hostname doesn't
+  var protocolAndPath = window.location.protocol + '//' + window.location.host;
+  var absolutePath = window.location.href.replace(protocolAndPath, '');
+  window.history.replaceState({ key: getStateKey() }, '', absolutePath);
   window.addEventListener('popstate', function (e) {
     saveScrollPosition();
     if (e.state && e.state.key) {
@@ -30670,7 +31561,6 @@ function bindEnterGuard (
 ) {
   return function routeEnterGuard (to, from, next) {
     return guard(to, from, function (cb) {
-      next(cb);
       if (typeof cb === 'function') {
         cbs.push(function () {
           // #750
@@ -30681,6 +31571,7 @@ function bindEnterGuard (
           poll(cb, match.instances, key, isValid);
         });
       }
+      next(cb);
     })
   }
 }
@@ -31215,7 +32106,7 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.0.6';
+VueRouter.version = '3.0.7';
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter);
@@ -43398,6 +44289,24 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/vuelendar/constants/days.js":
+/*!**************************************************!*\
+  !*** ./node_modules/vuelendar/constants/days.js ***!
+  \**************************************************/
+/*! exports provided: DAYS_SHORTCUTS, DAYS_NAMES */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DAYS_SHORTCUTS", function() { return DAYS_SHORTCUTS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DAYS_NAMES", function() { return DAYS_NAMES; });
+const DAYS_SHORTCUTS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
+const DAYS_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vuelendar/scss/vuelendar.scss?vue&type=style&index=0&lang=scss&":
 /*!**************************************************************************************!*\
   !*** ./node_modules/vuelendar/scss/vuelendar.scss?vue&type=style&index=0&lang=scss& ***!
@@ -43418,14 +44327,23 @@ __webpack_require__.r(__webpack_exports__);
 /*!*********************************************************!*\
   !*** ./node_modules/vuelendar/utils/CollectionUtils.js ***!
   \*********************************************************/
-/*! exports provided: createRange */
+/*! exports provided: createRange, transpose */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createRange", function() { return createRange; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "transpose", function() { return transpose; });
 function createRange (start, end) {
   return Array.from({ length: end - start + 1 }, (x, i) => i + start)
+}
+
+function transpose (array, offset) {
+  const table = [...array]
+  for (let i = 0; i < offset; i++) {
+    table.push(table.shift())
+  }
+  return table
 }
 
 
@@ -43435,14 +44353,17 @@ function createRange (start, end) {
 /*!****************************************************!*\
   !*** ./node_modules/vuelendar/utils/DatesUtils.js ***!
   \****************************************************/
-/*! exports provided: getToday, countDays, formatDate, getMonthName */
+/*! exports provided: getToday, countDays, parseDate, formatDate, getWeekNumbers, getWeekNumber, getMonthName */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getToday", function() { return getToday; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "countDays", function() { return countDays; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseDate", function() { return parseDate; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatDate", function() { return formatDate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getWeekNumbers", function() { return getWeekNumbers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getWeekNumber", function() { return getWeekNumber; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMonthName", function() { return getMonthName; });
 /* harmony import */ var _NumberUtils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NumberUtils */ "./node_modules/vuelendar/utils/NumberUtils.js");
 
@@ -43455,9 +44376,39 @@ function countDays (month, year) {
   return new Date(year, month + 1, 0).getDate()
 }
 
+function parseDate (string) {
+  return new Date(string)
+}
+
 function formatDate (day, month, year) {
   const date = new Date(year, month, day)
   return `${date.getFullYear()}-${Object(_NumberUtils__WEBPACK_IMPORTED_MODULE_0__["twoDigits"])(date.getMonth() + 1)}-${Object(_NumberUtils__WEBPACK_IMPORTED_MODULE_0__["twoDigits"])(date.getDate())}`
+}
+
+function getWeekNumbers (month, year) {
+  let weekNumbers = []
+  for (let i = 1; i <= countDays(month, year); i++) {
+    let weekNumber = getWeekNumber(new Date(year, month, i))
+    if (month === 11 && weekNumber === 1) {
+      weekNumber = weekNumbers[weekNumbers.length - 1] + 1
+      weekNumbers.push(weekNumber)
+      break
+    }
+    weekNumbers.push(weekNumber)
+  }
+  return Array.from(new Set(weekNumbers))
+}
+
+function getWeekNumber (date) {
+  date = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
+  // Set to nearest Thursday: current date + 4 - current day number
+  // Make Sunday's day number 7
+  date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7))
+
+  // Calculate full weeks to nearest Thursday
+  let yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1))
+  const oneDayInMs = 86400000
+  return Math.ceil(((date - yearStart) / oneDayInMs + 1) / 7)
 }
 
 function getMonthName (month) {
@@ -43473,7 +44424,7 @@ function getMonthName (month) {
     'September',
     'October',
     'November',
-    'December',
+    'December'
   ][month]
 }
 
@@ -74986,7 +75937,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\Gepetto-Point-Of-Sale\resources\js\main.js */"./resources/js/main.js");
+module.exports = __webpack_require__(/*! /opt/lampp/htdocs/Gepetto-Point-Of-Sale/resources/js/main.js */"./resources/js/main.js");
 
 
 /***/ })

@@ -27,7 +27,7 @@ class NotificationsController extends Controller
                     'icon' => 'fas fa-exclamation-circle',
                     'msg' => 'El producto ' . $proStock->articulo . ' necesita reposición',
                     'color' => 'error',
-                    'url' => ''
+                    'url' => '/productos/show/' . $proStock->id
                 ]);
             } elseif ($stock <= $proStock->stockminimo && $stock > 0) {
                 $notifications->push([
@@ -35,7 +35,7 @@ class NotificationsController extends Controller
                     'icon' => 'fas fa-box-open',
                     'msg' => 'El producto ' . $proStock->articulo . ' no posee suficiente stock',
                     'color' => 'warning',
-                    'url' => ''
+                    'url' => '/productos/show/' . $proStock->id
                 ]);
             }
         }
@@ -71,7 +71,7 @@ class NotificationsController extends Controller
                     'icon' => 'fas fa-clock',
                     'msg' => 'El producto ' . $article->articulo . ' ha vencido',
                     'color' => 'warning',
-                    'url' => ''
+                    'url' => '/productos/show/' . $article->id
                 ]);
             }
         }

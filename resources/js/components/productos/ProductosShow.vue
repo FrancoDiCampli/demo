@@ -3,8 +3,127 @@
         <v-layout row>
             <v-flex xs12>
                 <v-card>
-                    <div v-show="mode == 'edit'"></div>
-                    <div v-show="mode == 'show'">
+                    <div v-if="mode == 'edit'">
+                        <v-card-title>
+                            <v-layout justify-space-between>
+                                <h2>Editar Producto</h2>
+                            </v-layout>
+                        </v-card-title>
+                        <v-divider></v-divider>
+                        <v-card-text>
+                            <v-form ref="productosEditForm" @submit.prevent="updateProducto()">
+                                <v-layout justify-space-around wrap>
+                                    <v-flex xs12 sm6 px-2>
+                                        <v-layout justify-center wrap>
+                                            <croppa
+                                                v-model="foto"
+                                                :initial-image="showData.articulo.foto"
+                                                :width="250"
+                                                :height="250"
+                                                placeholder="Foto"
+                                                placeholder-color="#000"
+                                                :placeholder-font-size="24"
+                                                canvas-color="transparent"
+                                                :show-remove-button="false"
+                                                :show-loading="true"
+                                                :loading-size="25"
+                                                :prevent-white-space="true"
+                                                :zoom-speed="10"
+                                            ></croppa>
+                                            <v-flex xs12 px-2>
+                                                <v-layout justify-center>
+                                                    <v-btn
+                                                        flat
+                                                        icon
+                                                        color="primary"
+                                                        @click="foto.zoomIn()"
+                                                    >
+                                                        <v-icon>fas fa-search-plus</v-icon>
+                                                    </v-btn>
+                                                    <v-btn
+                                                        flat
+                                                        icon
+                                                        color="primary"
+                                                        @click="foto.zoomOut()"
+                                                    >
+                                                        <v-icon>fas fa-search-minus</v-icon>
+                                                    </v-btn>
+                                                    <v-btn
+                                                        flat
+                                                        icon
+                                                        color="primary"
+                                                        @click="foto.rotate()"
+                                                    >
+                                                        <v-icon>fas fa-redo-alt</v-icon>
+                                                    </v-btn>
+                                                    <div v-if="foto != null">
+                                                        <v-btn
+                                                            v-show="foto.hasImage()"
+                                                            flat
+                                                            icon
+                                                            color="primary"
+                                                            @click="foto.remove()"
+                                                        >
+                                                            <v-icon>fas fa-times</v-icon>
+                                                        </v-btn>
+                                                        <v-btn
+                                                            v-show="!foto.hasImage()"
+                                                            flat
+                                                            icon
+                                                            color="primary"
+                                                            @click="foto.chooseFile()"
+                                                        >
+                                                            <v-icon>fas fa-plus</v-icon>
+                                                        </v-btn>
+                                                    </div>
+                                                </v-layout>
+                                            </v-flex>
+                                        </v-layout>
+                                    </v-flex>
+                                    <v-flex xs12 sm6 px-2>
+                                        <v-flex xs12 px-2>
+                                            <v-text-field
+                                                v-model="form.articulo"
+                                                :rules="[rules.required]"
+                                                label="Articulo"
+                                                hint="Articulo"
+                                                box
+                                                single-line
+                                            ></v-text-field>
+                                        </v-flex>
+                                        <v-flex xs12 px-2>
+                                            <v-textarea
+                                                v-model="form.descripcion"
+                                                :rules="[rules.required,rules.max]"
+                                                label="Descripción"
+                                                hint="Descripción"
+                                                box
+                                                single-line
+                                                height="165"
+                                                no-resize
+                                            ></v-textarea>
+                                        </v-flex>
+                                    </v-flex>
+                                </v-layout>
+                                <br />
+                                <ProductosForm></ProductosForm>
+                                <v-layout justify-center>
+                                    <v-btn
+                                        :disabled="inProcess"
+                                        @click="mode = 'show'"
+                                        outline
+                                        color="primary"
+                                    >Cancelar</v-btn>
+                                    <v-btn
+                                        :disabled="inProcess"
+                                        type="submit"
+                                        color="primary"
+                                    >Editar</v-btn>
+                                </v-layout>
+                            </v-form>
+                        </v-card-text>
+                    </div>
+                    <div v-else>
                         <v-img
                             class="hidden-sm-and-up"
                             :src="showData.articulo.foto"
@@ -29,7 +148,7 @@
                                             </v-btn>
                                         </template>
                                         <v-list>
-                                            <v-list-tile>
+                                            <v-list-tile @click="editProducto()">
                                                 <v-list-tile-title>Editar</v-list-tile-title>
                                             </v-list-tile>
                                             <v-list-tile @click="mode = 'delete'">
@@ -66,7 +185,7 @@
                                     </v-btn>
                                 </template>
                                 <v-list>
-                                    <v-list-tile>
+                                    <v-list-tile @click="editProducto()">
                                         <v-list-tile-title>Editar</v-list-tile-title>
                                     </v-list-tile>
                                     <v-list-tile @click="mode = 'delete'">
@@ -155,6 +274,7 @@
 // Components
 import ProductosShowData from "./ProductosShowData.vue";
 import ProductosShowInventario from "./ProductosShowInventario.vue";
+import ProductosForm from "./ProductosForm.vue";
 
 // Vuex
 import { mapState, mapActions } from "vuex";
@@ -165,21 +285,57 @@ export default {
     data() {
         return {
             process: false,
-            mode: "show"
+            mode: "show",
+            foto: null,
+            rules: {
+                required: value => !!value || "Este campo es obligatorio",
+                max: value =>
+                    (value && value.length <= 190) ||
+                    "Este campo no puede contener mas de 190 digitos"
+            }
         };
     },
 
     components: {
         ProductosShowData,
-        ProductosShowInventario
+        ProductosShowInventario,
+        ProductosForm
     },
 
     computed: {
-        ...mapState("crudx", ["showData"])
+        ...mapState("crudx", ["inProcess", "form", "showData"])
     },
 
     methods: {
-        ...mapActions("crudx", ["index", "destroy"]),
+        ...mapActions("crudx", ["index", "show", "edit", "update", "destroy"]),
+
+        editProducto: async function() {
+            await this.edit({ data: this.showData.articulo });
+
+            if (this.form.alicuota == "21.00") {
+                this.form.alicuota = 21;
+            } else {
+                this.form.alicuota = 10.5;
+            }
+
+            this.form.categoria = this.showData.articulo.categoria.categoria;
+            this.form.marca = this.showData.articulo.marca.marca;
+
+            console.log(this.form);
+
+            this.mode = "edit";
+        },
+
+        updateProducto: async function() {
+            if (this.$refs.productosEditForm.validate()) {
+                let id = this.form.id;
+                await this.update({ url: "/api/articulos/" + id });
+                await this.show({ url: "/api/articulos/" + id });
+                this.mode = "show";
+                this.$refs.productosEditForm.reset();
+                this.index({ url: "/api/articulos" });
+            }
+        },
 
         deleteProducto: async function() {
             this.process = true;

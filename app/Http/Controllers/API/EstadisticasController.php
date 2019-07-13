@@ -95,7 +95,22 @@ class EstadisticasController extends Controller
     {
 
         $vendedores = (array) $request->vendedor;
-        $fechas = (array) $request->fechas;
+        $fec = (array) $request->fechas;
+        $fechas = array();
+        if (count($fec) > 0) {
+            if (!$fec[1]) {
+                $hasta = new Carbon($fec[0]);
+                $hasta->addDay(1);
+                array_push($fechas, $fec[0]);
+                array_push($fechas, $hasta->format('Y-m-d'));
+            } else {
+                $hasta = new Carbon($fec[1]);
+                $hasta->addDay(1);
+                array_push($fechas, $fec[0]);
+                array_push($fechas, $hasta->format('Y-m-d'));
+            }
+        }
+        // return $fechas;
         $articulos = (array) $request->producto;
         $condicion = (array) $request->condicion;
         $clientes = (array) $request->clientes;

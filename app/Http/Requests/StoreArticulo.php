@@ -26,7 +26,7 @@ class StoreArticulo extends FormRequest
         return [
             'codprov' => 'nullable|unique:articulos|max:13',
             'codarticulo' => 'required|unique:articulos|min:13|max:13',
-            'articulo' => 'required|unique:articulos',
+            'articulo' => 'required|min:1|max:190|unique:articulos',
             'descripcion' => 'required|max:190',
             'medida' => 'required',
             'costo' => 'required',

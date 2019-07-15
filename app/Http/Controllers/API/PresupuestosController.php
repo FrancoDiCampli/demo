@@ -13,9 +13,18 @@ use App\Http\Controllers\Controller;
 
 class PresupuestosController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return $presupuestos = Presupuesto::orderBy('id', 'DESC')->get();
+
+        $presupuestos = Presupuesto::orderBy('id', 'DESC')->get();
+        foreach ($presupuestos as $presupuesto) {
+            $fecha = new Carbon($presupuesto->fecha);
+            $presupuesto->fecha = $fecha->format('d-m-Y');
+        }
+        return [
+            'presupuestos' => $presupuestos->take($request->get('limit', null)),
+            'total' => $presupuestos->count()
+        ];
     }
 
     public function store(Request $request)

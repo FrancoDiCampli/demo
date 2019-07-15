@@ -2,30 +2,40 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
 import NotFound from "./views/NotFound.vue";
+import RoutesTree from "./views/RoutesTreeView.vue";
 
 //_______________________VIEWS_______________________//
 
-// Facturas Views
-import FacturasIndex from "./views/facturas/index.vue";
-import FacturasCreate from "./views/facturas/create.vue";
+// Ventas Views
+import FacturasIndex from "./views/ventas/index.vue";
+import FacturasCreate from "./views/ventas/create.vue";
+import FacturasEdit from "./views/ventas/edit.vue";
+
+//Presupuestos Views
+import PresupuestosIndex from "./views/presupuestos/index.vue";
+import PresupuestosCreate from "./views/presupuestos/create.vue";
 
 // Clientes Views
 import ClientesIndex from "./views/clientes/index.vue";
-import ClientesShow from "./views/clientes/show.vue";
 import ClientesCreate from "./views/clientes/create.vue";
-
-// Proveedores
-import ProveedoresIndex from "./views/proveedores/index.vue";
-// import ProveedoresShow from "./views/proveedores/show.vue";
-// import ProveedoresCreate from "./views/proveedores/create.vue";
+import ClientesShow from "./views/clientes/show.vue";
 
 // Productos Views
 import ProductosIndex from "./views/productos/index.vue";
-import ProductosShow from "./views/productos/show.vue";
 import ProductosCreate from "./views/productos/create.vue";
+import ProductosShow from "./views/productos/show.vue";
+
+// Proveedores Views
+import ProveedoresIndex from "./views/proveedores/index.vue";
+import ProveedoresCreate from "./views/proveedores/create.vue";
+import ProveedoresShow from "./views/proveedores/show.vue";
+
+// Compras Views
+import ComprasIndex from "./views/compras/index.vue";
+import ComprasCreate from "./views/compras/create.vue";
 
 // Reportes Views
-import Reporte from "./views/reportes/Reporte.vue";
+import ReportesIndex from "./views/reportes/index.vue";
 
 // Users Views
 import Users from "./auth/views/Users.vue";
@@ -142,6 +152,14 @@ export default new Router({
             path: "*",
             component: NotFound
         },
+        {
+            path: "/routesTree",
+            name: "routes tree",
+            component: RoutesTree,
+            meta: {
+                permissions: superAdminOnly
+            }
+        },
 
         // Ventas Routes
         {
@@ -152,11 +170,36 @@ export default new Router({
                 permissions: allUsers
             }
         },
-
         {
             path: "/ventas/nueva",
             name: "nueva venta",
             component: FacturasCreate,
+            meta: {
+                permissions: allUsers
+            }
+        },
+        {
+            path: "/ventas/edit",
+            name: "editar venta",
+            component: FacturasEdit,
+            meta: {
+                permissions: allUsers
+            }
+        },
+
+        // Presupuestos Routes
+        {
+            path: "/presupuestos",
+            name: "presupuestos",
+            component: PresupuestosIndex,
+            meta: {
+                permissions: allUsers
+            }
+        },
+        {
+            path: "/presupuestos/nuevo",
+            name: "nueva presupuesto",
+            component: PresupuestosCreate,
             meta: {
                 permissions: allUsers
             }
@@ -171,7 +214,14 @@ export default new Router({
                 permissions: allUsers
             }
         },
-
+        {
+            path: "/clientes/nuevo",
+            name: "nuevo cliente",
+            component: ClientesCreate,
+            meta: {
+                permissions: allUsers
+            }
+        },
         {
             path: "/clientes/show/:id",
             name: "ver cliente",
@@ -182,10 +232,28 @@ export default new Router({
             }
         },
 
+        // Productos Routes
         {
-            path: "/clientes/nuevo",
-            name: "nuevo cliente",
-            component: ClientesCreate,
+            path: "/productos",
+            name: "productos",
+            component: ProductosIndex,
+            meta: {
+                permissions: allUsers
+            }
+        },
+        {
+            path: "/productos/nuevo",
+            name: "nuevo producto",
+            component: ProductosCreate,
+            meta: {
+                permissions: allUsers
+            }
+        },
+        {
+            path: "/productos/show/:id",
+            name: "ver producto",
+            component: ProductosShow,
+            props: true,
             meta: {
                 permissions: allUsers
             }
@@ -200,48 +268,37 @@ export default new Router({
                 permissions: allUsers
             }
         },
-
-        // {
-        //     path: "/suppliers/show/:id",
-        //     name: "ver supplier",
-        //     component: ProveedoresShow,
-        //     props: true,
-        //     meta: {
-        //         permissions: allUsers
-        //     }
-        // },
-
-        // {
-        //     path: "/suppliers/nuevo",
-        //     name: "nuevo supplier",
-        //     component: ProveedoresCreate,
-        //     meta: {
-        //         permissions: allUsers
-        //     }
-        // },
-
-        // Productos Routes
         {
-            path: "/productos",
-            name: "productos",
-            component: ProductosIndex,
+            path: "/proveedores/nuevo",
+            name: "nuevo proveedor",
+            component: ProveedoresCreate,
             meta: {
                 permissions: allUsers
             }
         },
         {
-            path: "/productos/show/:id",
-            name: "ver producto",
-            component: ProductosShow,
+            path: "/proveedores/show/:id",
+            name: "ver proveedor",
+            component: ProveedoresShow,
             props: true,
             meta: {
                 permissions: allUsers
             }
         },
+
+        // Compras Routes
         {
-            path: "/productos/nuevo",
-            name: "nuevo producto",
-            component: ProductosCreate,
+            path: "/compras",
+            name: "compras",
+            component: ComprasIndex,
+            meta: {
+                permissions: allUsers
+            }
+        },
+        {
+            path: "/compras/nuevo",
+            name: "nueva compra",
+            component: ComprasCreate,
             meta: {
                 permissions: allUsers
             }
@@ -249,9 +306,9 @@ export default new Router({
 
         // Reportes Routes
         {
-            path: "/reporte",
-            name: "reporte",
-            component: Reporte,
+            path: "/reportes",
+            name: "reportes",
+            component: ReportesIndex,
             meta: {
                 permissions: superAdminOnly
             }
@@ -266,7 +323,6 @@ export default new Router({
                 permissions: adminSuperAdmin
             }
         },
-
         // Roles Routes
         {
             path: "/roles",
@@ -276,7 +332,6 @@ export default new Router({
                 permissions: superAdminOnly
             }
         },
-
         // Auth Routes
         {
             path: "/login",

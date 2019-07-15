@@ -28,7 +28,7 @@ export default {
 
         goBack() {
             this.resetForm();
-            this.$router.push("/facturas");
+            this.$router.push("/ventas");
         }
     }
 };

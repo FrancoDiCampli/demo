@@ -13,7 +13,7 @@
 import { mapState, mapActions } from "vuex";
 
 // Components
-import ReporteIndex from "../components/reportes/ReporteIndex.vue";
+import ReporteIndex from "../../components/reportes/ReporteIndex.vue";
 
 export default {
     name: "Reporte",

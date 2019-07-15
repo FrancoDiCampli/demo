@@ -277,9 +277,15 @@
                             </v-flex>
                             <v-flex xs12>
                                 <v-layout justify-center>
-                                    <v-btn @click="cancelFactura()" outline color="primary">Cancelar</v-btn>
+                                    <v-btn
+                                        :disabled="inProcess"
+                                        @click="cancelFactura()"
+                                        outline
+                                        color="primary"
+                                    >Cancelar</v-btn>
                                     <v-btn
                                         :disabled="detalles.length > 0 ? false : true"
+                                        :loading="inProcess"
                                         type="submit"
                                         color="primary"
                                     >Guardar</v-btn>
@@ -308,11 +314,17 @@
                         <v-layout justify-end wrap>
                             <v-btn
                                 @click="comprobanteCreditoDialog = false;"
+                                :disabled="inProcess"
                                 outline
                                 color="primary"
                             >Cancelar</v-btn>
 
-                            <v-btn @click="saveFactura()" color="primary">Grabar</v-btn>
+                            <v-btn
+                                :disabled="inProcess"
+                                :loading="inProcess"
+                                @click="saveFactura()"
+                                color="primary"
+                            >Grabar</v-btn>
                         </v-layout>
                     </v-card-text>
                 </v-card>
@@ -376,7 +388,7 @@ export default {
     },
 
     computed: {
-        ...mapState("crudx", ["form"]),
+        ...mapState("crudx", ["inProcess", "form"]),
 
         //_________________________Computed Productos________________________//
 
@@ -529,25 +541,55 @@ export default {
                 this.form.producto_id = producto.id;
                 this.form.producto = producto.articulo;
                 this.form.precio = producto.precio;
-                this.stock = producto.stock;
+
+                var find = this.detalles.find(
+                    detalle => detalle.producto === producto.articulo
+                );
+
+                if (find) {
+                    let cantidadExistente = Number(find.cantidad);
+                    this.stock = producto.stock - cantidadExistente;
+                } else {
+                    this.stock = producto.stock;
+                }
             }
         },
 
         //LLenar Array de Detalles
         fillDetalles() {
             if (this.cantidad) {
-                // Crear un Nuevo Detalle
-                let detalle = {
-                    articulo_id: this.form.producto_id,
-                    producto: this.form.producto,
-                    cantidad: this.cantidad,
-                    precio: this.form.precio,
-                    subtotal: this.subtotalProdcuto
-                };
+                var find = this.detalles.find(
+                    detalle => detalle.producto === this.form.producto
+                );
 
-                // Añadir el Detalle al Array de Detalles
-                this.detalles.push(detalle);
-                this.form.detalle = this.detalles;
+                if (find) {
+                    // Buscar el indice del la tabla detalles que coicide con el detalle existente
+                    let indexDetalle = this.detalles.indexOf(find);
+
+                    // Sumar a la cantidad del detalle existente la nueva cantidad
+                    let nuevaCantidad =
+                        Number(this.detalles[indexDetalle].cantidad) +
+                        Number(this.cantidad);
+
+                    // Actualizar el detalle
+                    this.detalles[indexDetalle].cantidad = nuevaCantidad;
+                    this.detalles[indexDetalle].subtotal =
+                        Number(this.detalles[indexDetalle].subtotal) *
+                        nuevaCantidad;
+                } else {
+                    // Crear un Nuevo Detalle
+                    let detalle = {
+                        articulo_id: this.form.producto_id,
+                        producto: this.form.producto,
+                        cantidad: this.cantidad,
+                        precio: this.form.precio,
+                        subtotal: this.subtotalProdcuto
+                    };
+
+                    // Añadir el Detalle al Array de Detalles
+                    this.detalles.push(detalle);
+                    this.form.detalle = this.detalles;
+                }
 
                 // Reiniciar el Formulario de Detalles
                 this.form.producto_id = null;

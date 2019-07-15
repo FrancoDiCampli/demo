@@ -24,8 +24,8 @@ import ProductosIndex from "./views/productos/index.vue";
 import ProductosShow from "./views/productos/show.vue";
 import ProductosCreate from "./views/productos/create.vue";
 
-// Reportes
-import Reporte from "./views/Reporte.vue";
+// Reportes Views
+import Reporte from "./views/reportes/Reporte.vue";
 
 // Users Views
 import Users from "./auth/views/Users.vue";
@@ -128,16 +128,6 @@ const superAdminOnly = [
 
 //____________________PERMISSIONS____________________//
 
-// ELIMINAR _____________________________________
-
-// Inventarios
-import Inventario from "./views/Inventario.vue";
-
-// Remitos
-import Remito from "./views/Remito.vue";
-import RemitoNew from "./views/RemitoNew.vue";
-// ELIMINAR _____________________________________
-
 Vue.use(Router);
 
 export default new Router({
@@ -153,10 +143,10 @@ export default new Router({
             component: NotFound
         },
 
-        // Facturas Routes
+        // Ventas Routes
         {
-            path: "/facturas",
-            name: "facturas",
+            path: "/ventas",
+            name: "ventas",
             component: FacturasIndex,
             meta: {
                 permissions: allUsers
@@ -164,8 +154,8 @@ export default new Router({
         },
 
         {
-            path: "/facturas/nueva",
-            name: "nueva factura",
+            path: "/ventas/nueva",
+            name: "nueva venta",
             component: FacturasCreate,
             meta: {
                 permissions: allUsers
@@ -203,8 +193,8 @@ export default new Router({
 
         // Proveedores Routes
         {
-            path: "/suppliers",
-            name: "suppliers",
+            path: "/proveedores",
+            name: "proveedores",
             component: ProveedoresIndex,
             meta: {
                 permissions: allUsers
@@ -263,7 +253,7 @@ export default new Router({
             name: "reporte",
             component: Reporte,
             meta: {
-                permissions: allUsers
+                permissions: superAdminOnly
             }
         },
 
@@ -303,47 +293,6 @@ export default new Router({
             meta: {
                 permissions: allUsers
             }
-        },
-
-        // ELIMINAR _____________________________________
-
-        //Reportes Routes
-        {
-            path: "/reporte",
-            name: "reporte",
-            component: Reporte,
-            meta: {
-                permissions: allUsers
-            }
-        },
-
-        //Inventario Routes
-        {
-            path: "/inventario",
-            name: "inventario",
-            component: Inventario,
-            meta: {
-                permissions: allUsers
-            }
-        },
-
-        //Remitos Routes
-        {
-            path: "/remito",
-            name: "remito",
-            component: Remito,
-            meta: {
-                permissions: allUsers
-            }
-        },
-        {
-            path: "/compras/nueva",
-            name: "RemitoNew",
-            component: RemitoNew,
-            meta: {
-                permissions: allUsers
-            }
         }
-        // ELIMINAR _____________________________________
     ]
 });

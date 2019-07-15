@@ -122,13 +122,19 @@
             <v-flex xs12 sm6 px-3>
                 <v-text-field
                     v-model="codigo"
+                    disabled
                     :rules="[rules.required, rules.cod]"
                     label="Codigo"
                     box
                 ></v-text-field>
             </v-flex>
             <v-flex xs12 sm6 px-3>
-                <v-text-field v-model="form.codprov" label="Codigo del Proveedor" box></v-text-field>
+                <v-text-field
+                    v-model="form.codprov"
+                    :disabled="mode == 'edit'"
+                    label="Codigo del Proveedor"
+                    box
+                ></v-text-field>
             </v-flex>
         </v-layout>
     </div>
@@ -143,6 +149,8 @@ import axios from "axios";
 
 export default {
     name: "ProductosForm",
+
+    props: ["mode"],
 
     data() {
         return {
@@ -184,31 +192,35 @@ export default {
         codigo: {
             set() {},
             get() {
-                if (this.form.categoria) {
-                    if (this.form.categoria.length >= 3) {
-                        let codigo =
-                            this.form.categoria[0] +
-                            this.form.categoria[1] +
-                            this.form.categoria[2];
+                if (this.mode == "create") {
+                    if (this.form.categoria) {
+                        if (this.form.categoria.length >= 3) {
+                            let codigo =
+                                this.form.categoria[0] +
+                                this.form.categoria[1] +
+                                this.form.categoria[2];
 
-                        let newId = this.categoriaLastId + 1;
-                        let number = newId.toString();
-                        let zeroLength = 10 - number.length;
+                            let newId = this.categoriaLastId + 1;
+                            let number = newId.toString();
+                            let zeroLength = 10 - number.length;
 
-                        for (let i = 0; i < zeroLength; i++) {
-                            codigo += "0";
+                            for (let i = 0; i < zeroLength; i++) {
+                                codigo += "0";
+                            }
+
+                            codigo += number;
+                            this.form.codarticulo = codigo.toUpperCase();
+                            return codigo.toUpperCase();
+                        } else {
+                            this.form.codarticulo = null;
+                            return null;
                         }
-
-                        codigo += number;
-                        this.form.codarticulo = codigo.toUpperCase();
-                        return codigo.toUpperCase();
                     } else {
                         this.form.codarticulo = null;
                         return null;
                     }
                 } else {
-                    this.form.codarticulo = null;
-                    return null;
+                    return this.form.codarticulo;
                 }
             }
         },

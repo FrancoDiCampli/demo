@@ -213,7 +213,7 @@ export default {
                 {
                     title: "Ventas",
                     icon: "fas fa-dollar-sign",
-                    url: "/facturas",
+                    url: "/ventas",
                     divider: false,
                     rol: "seller"
                 },
@@ -234,7 +234,7 @@ export default {
                 {
                     title: "Proveedores",
                     icon: "fas fa-truck-moving",
-                    url: "/suppliers",
+                    url: "/proveedores",
                     divider: false,
                     rol: "seller"
                 },

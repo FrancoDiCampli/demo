@@ -23,7 +23,7 @@
                     small
                     color="primary"
                     slot="activator"
-                    @click="$router.push('facturas/nueva')"
+                    @click="$router.push('ventas/nueva')"
                 >
                     <v-icon style="display: inline-flex;">fas fa-dollar-sign</v-icon>
                 </v-btn>
@@ -32,11 +32,28 @@
         </v-speed-dial>
 
         <!-- Index de factura -->
-        <v-card>
-            <v-card-text>
-                <FacturasIndex></FacturasIndex>
-            </v-card-text>
-        </v-card>
+        <v-tabs
+            v-model="tabVentas"
+            right
+            hide-slider
+            color="transparent"
+            active-class="primary--text"
+        >
+            <v-tab>Ventas</v-tab>
+            <v-tab>Presupuestos</v-tab>
+            <v-tab-item>
+                <v-card>
+                    <v-card-text>
+                        <FacturasIndex></FacturasIndex>
+                    </v-card-text>
+                </v-card>
+            </v-tab-item>
+            <v-tab-item>
+                <v-card>
+                    <v-card-text>Presupuestos</v-card-text>
+                </v-card>
+            </v-tab-item>
+        </v-tabs>
     </div>
 </template>
 
@@ -49,7 +66,8 @@ export default {
 
     data() {
         return {
-            fab: false
+            fab: false,
+            tabVentas: null
         };
     },
 

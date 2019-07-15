@@ -88,7 +88,7 @@
                         </v-flex>
                     </v-layout>
                     <br />
-                    <ProductosForm></ProductosForm>
+                    <ProductosForm mode="create"></ProductosForm>
                     <v-layout justify-center>
                         <v-btn :disabled="loadingButton" type="submit" color="primary">Guardar</v-btn>
                     </v-layout>

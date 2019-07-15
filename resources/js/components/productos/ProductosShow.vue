@@ -106,7 +106,7 @@
                                     </v-flex>
                                 </v-layout>
                                 <br />
-                                <ProductosForm></ProductosForm>
+                                <ProductosForm mode="edit"></ProductosForm>
                                 <v-layout justify-center>
                                     <v-btn
                                         :disabled="inProcess"
@@ -226,9 +226,7 @@
                                         <v-tab>Datos</v-tab>
                                         <v-tab>Inventarios</v-tab>
                                         <v-tab-item>
-                                            <div>
-                                                <ProductosShowData></ProductosShowData>
-                                            </div>
+                                            <ProductosShowData></ProductosShowData>
                                         </v-tab-item>
                                         <v-tab-item>
                                             <ProductosShowInventario></ProductosShowInventario>

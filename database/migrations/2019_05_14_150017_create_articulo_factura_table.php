@@ -15,7 +15,8 @@ class CreateArticuloFacturaTable extends Migration
     {
         Schema::create('articulo_factura', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('codarticulo');
+            $table->string('codprov')->nullable();
+            $table->string('codarticulo');
             $table->string('articulo');
             $table->string('medida');
             $table->integer('cantidad');

@@ -15,6 +15,7 @@ class CreateArticuloRemitoTable extends Migration
     {
         Schema::create('articulo_remito', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('codprov')->nullable();
             $table->string('codarticulo');
             $table->string('articulo');
             $table->string('medida');

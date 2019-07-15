@@ -218,6 +218,13 @@ export default {
                     rol: "seller"
                 },
                 {
+                    title: "Compras",
+                    icon: "fas fa-shopping-cart",
+                    url: "/compras",
+                    divider: false,
+                    rol: "seller"
+                },
+                {
                     title: "Clientes",
                     icon: "fas fa-users",
                     url: "/clientes",

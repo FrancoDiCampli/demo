@@ -14,6 +14,10 @@ import ClientesIndex from "./views/clientes/index.vue";
 import ClientesShow from "./views/clientes/show.vue";
 import ClientesCreate from "./views/clientes/create.vue";
 
+// Compras
+import RemitosIndex from "./views/compras/index";
+import RemitosCreate from "./views/compras/create";
+
 // Proveedores
 import ProveedoresIndex from "./views/proveedores/index.vue";
 // import ProveedoresShow from "./views/proveedores/show.vue";
@@ -157,6 +161,24 @@ export default new Router({
             path: "/ventas/nueva",
             name: "nueva venta",
             component: FacturasCreate,
+            meta: {
+                permissions: allUsers
+            }
+        },
+
+        // Compras Routes
+        {
+            path: "/compras",
+            name: "compras",
+            component: RemitosIndex,
+            meta: {
+                permissions: allUsers
+            }
+        },
+        {
+            path: "/compras/nueva",
+            name: "nueva compra",
+            component: RemitosCreate,
             meta: {
                 permissions: allUsers
             }

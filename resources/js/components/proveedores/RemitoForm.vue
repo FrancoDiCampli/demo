@@ -40,7 +40,7 @@
             <v-form ref="formFindSupplier">
               <v-text-field
                 @keyup="findSupplier()"
-                v-model="supplier"
+                v-model="form.supplier"
                 label="Proveedor"
                 box
                 single-line
@@ -50,11 +50,11 @@
             <!-- Tabla Proveedores -->
             <transition name="expand">
               <v-data-table
-                v-show="supplier != null && supplier != '' && customers.length > 0"
+                v-show="form.supplier && suppliers.length > 0"
                 no-data-text="El Proveedores no se encuentra en la base de datos."
                 hide-actions
                 hide-headers
-                :items="customers"
+                :items="suppliers"
                 class="search-table"
               >
                 <template v-slot:items="supplier">
@@ -317,7 +317,7 @@ export default {
   data() {
     return {
       //Data Proveedor
-      supplier: "",
+      suppliers: "",
       detailSupplier: [],
       customers: [],
 
@@ -422,27 +422,26 @@ export default {
   methods: {
     ...mapActions("crudx", ["index", "save"]),
 
-    //Metodos Clientes
+    //Metodos Proveedores
 
-    // Buscar los clientes
+    // Buscar los Proveedores
     findSupplier: async function() {
       this.detailSupplier = [];
 
-      if (this.$refs.formFindSupplier.validate()) {
+      if (this.form.supplier) {
         let response = await this.index({
           url: "/api/suppliers",
-          buscarProveedor: this.supplier
+          buscarProveedor: this.form.supplier
         });
-
-        this.customers = response;
+        this.suppliers = response.suppliers;
       }
     },
 
     // Seleccionar un Proveedor
     selectSupplier(supplier) {
-      this.customers = [];
+      this.suppliers = [];
       this.detailSupplier = [];
-      this.supplier = supplier.razonsocial;
+      this.form.supplier = supplier.razonsocial;
       this.form.supplier_id = supplier.id;
 
       axios

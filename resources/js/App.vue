@@ -53,7 +53,7 @@
         >
             <v-list dense>
                 <div v-for="alert in alerts" :key="alert.iden">
-                    <v-list-tile my-2 @click="$router.push(alert.url)">
+                    <v-list-tile my-2 @click="goNotification(alert)">
                         <v-list-tile-action>
                             <v-icon :color="alert.color">{{ alert.icon }}</v-icon>
                         </v-list-tile-action>
@@ -301,7 +301,7 @@ export default {
     },
     methods: {
         ...mapActions("auth", ["getUser", "logout"]),
-        ...mapActions("crudx", ["index"]),
+        ...mapActions("crudx", ["index", "show"]),
         exit: async function() {
             await this.logout();
             this.$router.push("/");
@@ -318,6 +318,16 @@ export default {
                 .catch(error => {
                     console.log(error);
                 });
+        },
+
+        goNotification: async function(alert) {
+            if (alert.type == "producto") {
+                await this.show({ url: "/api/articulos/" + alert.id });
+                this.$router.push("/productos/show/" + alert.id);
+            } else if (alert.type == "cliente") {
+                await this.show({ url: "/api/clientes/" + alert.id });
+                this.$router.push("/clientes/show/" + alert.id);
+            }
         }
     }
 };

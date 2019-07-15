@@ -2205,7 +2205,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     }
   }),
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("auth", ["getUser", "logout"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index"]), {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("auth", ["getUser", "logout"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index", "show"]), {
     exit: function () {
       var _exit = _asyncToGenerator(
       /*#__PURE__*/
@@ -2267,6 +2267,57 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       return getAlerts;
+    }(),
+    goNotification: function () {
+      var _goNotification = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(alert) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                if (!(alert.type == "producto")) {
+                  _context3.next = 6;
+                  break;
+                }
+
+                _context3.next = 3;
+                return this.show({
+                  url: "/api/articulos/" + alert.id
+                });
+
+              case 3:
+                this.$router.push("/productos/show/" + alert.id);
+                _context3.next = 10;
+                break;
+
+              case 6:
+                if (!(alert.type == "cliente")) {
+                  _context3.next = 10;
+                  break;
+                }
+
+                _context3.next = 9;
+                return this.show({
+                  url: "/api/clientes/" + alert.id
+                });
+
+              case 9:
+                this.$router.push("/clientes/show/" + alert.id);
+
+              case 10:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function goNotification(_x) {
+        return _goNotification.apply(this, arguments);
+      }
+
+      return goNotification;
     }()
   })
 });
@@ -14964,7 +15015,7 @@ var render = function() {
                       attrs: { "my-2": "" },
                       on: {
                         click: function($event) {
-                          return _vm.$router.push(alert.url)
+                          return _vm.goNotification(alert)
                         }
                       }
                     },

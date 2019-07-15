@@ -4,8 +4,9 @@
         <template>
             <v-data-table
                 hide-actions
+                no-data-text="No existe ninguna factura registrada"
                 :headers="headers"
-                :items="data.facturas"
+                :items="facturas.facturas"
                 :loading="inProcess"
             >
                 <v-progress-linear v-slot:progress color="primary" indeterminate></v-progress-linear>
@@ -70,7 +71,7 @@
             <v-layout justify-center>
                 <v-btn
                     :loading="loadingButton"
-                    :disabled="limit >= data.total || loadingButton"
+                    :disabled="limit >= facturas.total || loadingButton"
                     @click="loadMore()"
                     color="primary"
                     outline
@@ -120,6 +121,7 @@ export default {
 
     data() {
         return {
+            facturas: [],
             limit: 10,
             loadingButton: false,
             headers: [
@@ -137,20 +139,34 @@ export default {
     },
 
     computed: {
-        ...mapState("crudx", ["data", "inProcess"])
+        ...mapState("crudx", ["inProcess"])
     },
 
     mounted() {
-        this.index({ url: "api/facturas", limit: this.limit });
+        this.getFacturas();
     },
 
     methods: {
         ...mapActions("crudx", ["index"]),
 
+        getFacturas: async function() {
+            let response = await this.index({
+                url: "/api/facturas",
+                limit: this.limit
+            });
+            this.facturas = response;
+
+            console.log(this.facturas);
+        },
+
         loadMore: async function() {
             this.limit += this.limit;
             this.loadingButton = true;
-            await this.index({ url: "api/facturas", limit: this.limit });
+            let response = await this.index({
+                url: "/api/facturas",
+                limit: this.limit
+            });
+            this.facturas = response;
             this.loadingButton = false;
         },
 

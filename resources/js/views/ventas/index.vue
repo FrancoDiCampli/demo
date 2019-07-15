@@ -50,7 +50,9 @@
             </v-tab-item>
             <v-tab-item>
                 <v-card>
-                    <v-card-text>Presupuestos</v-card-text>
+                    <v-card-text>
+                        <PresupuestosIndex></PresupuestosIndex>
+                    </v-card-text>
                 </v-card>
             </v-tab-item>
         </v-tabs>
@@ -60,6 +62,7 @@
 <script>
 // Components
 import FacturasIndex from "../../components/facturas/FacturasIndex.vue";
+import PresupuestosIndex from "../../components/presupuestos/PresupuestosIndex.vue";
 
 export default {
     name: "Facturas",
@@ -72,7 +75,8 @@ export default {
     },
 
     components: {
-        FacturasIndex
+        FacturasIndex,
+        PresupuestosIndex
     }
 };
 </script>

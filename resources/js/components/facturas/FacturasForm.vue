@@ -649,6 +649,7 @@ export default {
                 if (this.$refs.formFactura.validate()) {
                     //Guardar Factura
                     await this.save({ url: "/api/facturas" });
+                    this.comprobanteCreditoDialog = false;
                     //Activar Snackbar
                     this.snackbar = true;
                     //Reset Formularios
@@ -656,6 +657,7 @@ export default {
                     await this.$refs.formDetalles.reset();
                     await this.$refs.formFactura.reset();
                     //Establecer Valores Predeterminados
+
                     this.form.cliente_id = 1;
                     this.form.cliente = "CONSUMIDOR FINAL";
                     this.condicion = "CONTADO";

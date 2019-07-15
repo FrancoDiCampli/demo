@@ -5825,7 +5825,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 }
 
                 this.comprobanteCreditoDialog = true;
-                _context3.next = 20;
+                _context3.next = 21;
                 break;
 
               case 4:
@@ -5836,7 +5836,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.snackbarText = this.tipo;
 
                 if (!this.$refs.formFactura.validate()) {
-                  _context3.next = 20;
+                  _context3.next = 21;
                   break;
                 }
 
@@ -5846,25 +5846,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 });
 
               case 10:
-                //Activar Snackbar
+                this.comprobanteCreditoDialog = false; //Activar Snackbar
+
                 this.snackbar = true; //Reset Formularios
 
                 this.detalles = [];
-                _context3.next = 14;
+                _context3.next = 15;
                 return this.$refs.formDetalles.reset();
 
-              case 14:
-                _context3.next = 16;
+              case 15:
+                _context3.next = 17;
                 return this.$refs.formFactura.reset();
 
-              case 16:
+              case 17:
                 //Establecer Valores Predeterminados
                 this.form.cliente_id = 1;
                 this.form.cliente = "CONSUMIDOR FINAL";
                 this.condicion = "CONTADO";
                 this.tipo = "REMITO X";
 
-              case 20:
+              case 21:
               case "end":
                 return _context3.stop();
             }
@@ -9910,7 +9911,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "\n.profile-list {\n    border: solid 1.5px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n    margin-top: 15px;\n    cursor: pointer;\n}\n.profile-list span {\n    color: #26a69a;\n}\nbody::-webkit-scrollbar {\n    width: 7px;\n}\nbody::-webkit-scrollbar-thumb {\n    background-color: rgba(38, 166, 154, 0.75);\n}\n", ""]);
+exports.push([module.i, "\n.profile-list {\r\n    border: solid 1.5px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\r\n    margin-top: 15px;\r\n    cursor: pointer;\n}\n.profile-list span {\r\n    color: #26a69a;\n}\nbody::-webkit-scrollbar {\r\n    width: 7px;\n}\nbody::-webkit-scrollbar-thumb {\r\n    background-color: rgba(38, 166, 154, 0.75);\n}\r\n", ""]);
 
 // exports
 
@@ -9929,7 +9930,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.profile {\n    border: solid 3px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\n    color: #26a69a;\n}\n", ""]);
+exports.push([module.i, "\n.profile {\r\n    border: solid 3px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\r\n    color: #26a69a;\n}\r\n", ""]);
 
 // exports
 
@@ -9948,7 +9949,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\ninput[type=\"number\"] {\n    -moz-appearance: textfield;\n}\ninput[type=\"number\"]::-webkit-outer-spin-button,\ninput[type=\"number\"]::-webkit-inner-spin-button {\n    -webkit-appearance: none;\n}\n.capitalize input[type] {\n    text-transform: capitalize;\n}\n.loading {\n    position: fixed;\n    z-index: 999999;\n    left: 47.3%;\n    top: 44%;\n}\n", ""]);
+exports.push([module.i, "\ninput[type=\"number\"] {\r\n    -moz-appearance: textfield;\n}\ninput[type=\"number\"]::-webkit-outer-spin-button,\r\ninput[type=\"number\"]::-webkit-inner-spin-button {\r\n    -webkit-appearance: none;\n}\n.capitalize input[type] {\r\n    text-transform: capitalize;\n}\n.loading {\r\n    position: fixed;\r\n    z-index: 999999;\r\n    left: 47.3%;\r\n    top: 44%;\n}\r\n", ""]);
 
 // exports
 
@@ -9967,7 +9968,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.profile {\n    border: solid 3px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\n    color: #26a69a;\n}\n", ""]);
+exports.push([module.i, "\n.profile {\r\n    border: solid 3px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\r\n    color: #26a69a;\n}\r\n", ""]);
 
 // exports
 
@@ -9986,7 +9987,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.input-pagos {\n    width: 75px;\n    display: block;\n    margin-top: 8px;\n    padding: 10px 0px;\n    border: none;\n    border-bottom: 1px solid #9e9e9e;\n    transition: all 1s ease;\n}\n.input-pagos:focus {\n    outline: none;\n    border-bottom: 2px solid #26a69a;\n    transition: all 0.5s ease;\n}\n.pagos tbody tr {\n    border-bottom: none !important;\n}\n", ""]);
+exports.push([module.i, "\n.input-pagos {\r\n    width: 75px;\r\n    display: block;\r\n    margin-top: 8px;\r\n    padding: 10px 0px;\r\n    border: none;\r\n    border-bottom: 1px solid #9e9e9e;\r\n    transition: all 1s ease;\n}\n.input-pagos:focus {\r\n    outline: none;\r\n    border-bottom: 2px solid #26a69a;\r\n    transition: all 0.5s ease;\n}\n.pagos tbody tr {\r\n    border-bottom: none !important;\n}\r\n", ""]);
 
 // exports
 
@@ -10005,7 +10006,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.type-item {\n    margin: 5px 0px 5px -12px;\n    border: solid 1.5px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.type {\n    margin-top: 15px;\n    color: #26a69a;\n}\n", ""]);
+exports.push([module.i, "\n.type-item {\r\n    margin: 5px 0px 5px -12px;\r\n    border: solid 1.5px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.type {\r\n    margin-top: 15px;\r\n    color: #26a69a;\n}\r\n", ""]);
 
 // exports
 
@@ -10024,7 +10025,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\ninput[type=\"number\"] {\n    -moz-appearance: textfield;\n}\ninput[type=\"number\"]::-webkit-outer-spin-button,\ninput[type=\"number\"]::-webkit-inner-spin-button {\n    -webkit-appearance: none;\n}\n.data {\n    font-size: 12px;\n    line-height: 5px;\n    margin-top: 8px;\n}\n.search-table {\n    border: solid 2px #26a69a;\n    margin-top: -30px;\n    border-top: none;\n    margin-bottom: 20px;\n    border-radius: 0px 0px 5px 5px;\n}\n.expansion-border {\n    border-bottom: 1px solid #aaaaaa;\n}\n.expand-transition {\n    transition: all 0.5s ease;\n}\n.expand-enter,\n.expand-leave {\n    height: 0;\n    opacity: 0;\n}\n", ""]);
+exports.push([module.i, "\ninput[type=\"number\"] {\r\n    -moz-appearance: textfield;\n}\ninput[type=\"number\"]::-webkit-outer-spin-button,\r\ninput[type=\"number\"]::-webkit-inner-spin-button {\r\n    -webkit-appearance: none;\n}\n.data {\r\n    font-size: 12px;\r\n    line-height: 5px;\r\n    margin-top: 8px;\n}\n.search-table {\r\n    border: solid 2px #26a69a;\r\n    margin-top: -30px;\r\n    border-top: none;\r\n    margin-bottom: 20px;\r\n    border-radius: 0px 0px 5px 5px;\n}\n.expansion-border {\r\n    border-bottom: 1px solid #aaaaaa;\n}\n.expand-transition {\r\n    transition: all 0.5s ease;\n}\n.expand-enter,\r\n.expand-leave {\r\n    height: 0;\r\n    opacity: 0;\n}\r\n", ""]);
 
 // exports
 
@@ -10043,7 +10044,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.type-item {\n    margin: 5px 0px 5px -12px;\n    border: solid 1.5px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.type {\n    margin-top: 15px;\n    color: #26a69a;\n}\n", ""]);
+exports.push([module.i, "\n.type-item {\r\n    margin: 5px 0px 5px -12px;\r\n    border: solid 1.5px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.type {\r\n    margin-top: 15px;\r\n    color: #26a69a;\n}\r\n", ""]);
 
 // exports
 
@@ -10062,7 +10063,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.input-number input[type=\"number\"] {\n    -moz-appearance: textfield;\n}\n.input-number input::-webkit-outer-spin-button,\n.input-number input::-webkit-inner-spin-button {\n    -webkit-appearance: none;\n}\n.search-table {\n    border: solid 2px #26a69a;\n    margin-top: -30px;\n    border-top: none;\n    margin-bottom: 20px;\n    border-radius: 0px 0px 5px 5px;\n}\n.expansion-border {\n    border-bottom: 1px solid #aaaaaa;\n}\n.expand-transition {\n    transition: all 0.5s ease;\n}\n.expand-enter,\n.expand-leave {\n    height: 0;\n    opacity: 0;\n}\n", ""]);
+exports.push([module.i, "\n.input-number input[type=\"number\"] {\r\n    -moz-appearance: textfield;\n}\n.input-number input::-webkit-outer-spin-button,\r\n.input-number input::-webkit-inner-spin-button {\r\n    -webkit-appearance: none;\n}\n.search-table {\r\n    border: solid 2px #26a69a;\r\n    margin-top: -30px;\r\n    border-top: none;\r\n    margin-bottom: 20px;\r\n    border-radius: 0px 0px 5px 5px;\n}\n.expansion-border {\r\n    border-bottom: 1px solid #aaaaaa;\n}\n.expand-transition {\r\n    transition: all 0.5s ease;\n}\n.expand-enter,\r\n.expand-leave {\r\n    height: 0;\r\n    opacity: 0;\n}\r\n", ""]);
 
 // exports
 
@@ -10081,7 +10082,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.tringle-right-button {\n    position: relative;\n    width: 70px;\n    height: 70px;\n    border-top: solid 35px #26a69a;\n    border-right: solid 35px #26a69a;\n    border-left: solid 35px transparent;\n    border-bottom: solid 35px transparent;\n    cursor: pointer;\n}\n.tringle-right-button .icon {\n    position: absolute;\n    margin-top: -22px;\n    margin-left: 10px;\n    color: white;\n    font-size: 16px;\n}\n.tringle-left-button {\n    position: relative;\n    width: 50px;\n    height: 50px;\n    border-top: solid 25px transparent;\n    border-right: solid 25px transparent;\n    border-left: solid 25px;\n    border-bottom: solid 25px;\n}\n.tringle-left-button .icon {\n    position: absolute;\n    margin-top: 2px;\n    margin-left: -18px;\n    color: white;\n    font-size: 16px;\n}\n@media (min-width: 600px) {\n.tringle-right-button {\n        width: 60px;\n        height: 60px;\n        border-top: solid 30px #26a69a;\n        border-right: solid 30px #26a69a;\n        border-left: solid 30px transparent;\n        border-bottom: solid 30px transparent;\n}\n.tringle-right-button .icon {\n        margin-top: -20px;\n        margin-left: 8px;\n}\n.tringle-left-button {\n        width: 60px;\n        height: 60px;\n        border-top: solid 30px transparent;\n        border-right: solid 30px transparent;\n        border-left: solid 30px;\n        border-bottom: solid 30px;\n}\n.tringle-left-button .icon {\n        margin-top: 4px;\n        margin-left: -18px;\n}\n}\n@media (min-width: 1264px) {\n.tringle-right-button {\n        width: 50px;\n        height: 50px;\n        border-top: solid 25px #26a69a;\n        border-right: solid 25px #26a69a;\n        border-left: solid 25px transparent;\n        border-bottom: solid 25px transparent;\n}\n.tringle-right-button .icon {\n        margin-top: -16px;\n        margin-left: 8px;\n        font-size: 14px;\n}\n}\n", ""]);
+exports.push([module.i, "\n.tringle-right-button {\r\n    position: relative;\r\n    width: 70px;\r\n    height: 70px;\r\n    border-top: solid 35px #26a69a;\r\n    border-right: solid 35px #26a69a;\r\n    border-left: solid 35px transparent;\r\n    border-bottom: solid 35px transparent;\r\n    cursor: pointer;\n}\n.tringle-right-button .icon {\r\n    position: absolute;\r\n    margin-top: -22px;\r\n    margin-left: 10px;\r\n    color: white;\r\n    font-size: 16px;\n}\n.tringle-left-button {\r\n    position: relative;\r\n    width: 50px;\r\n    height: 50px;\r\n    border-top: solid 25px transparent;\r\n    border-right: solid 25px transparent;\r\n    border-left: solid 25px;\r\n    border-bottom: solid 25px;\n}\n.tringle-left-button .icon {\r\n    position: absolute;\r\n    margin-top: 2px;\r\n    margin-left: -18px;\r\n    color: white;\r\n    font-size: 16px;\n}\n@media (min-width: 600px) {\n.tringle-right-button {\r\n        width: 60px;\r\n        height: 60px;\r\n        border-top: solid 30px #26a69a;\r\n        border-right: solid 30px #26a69a;\r\n        border-left: solid 30px transparent;\r\n        border-bottom: solid 30px transparent;\n}\n.tringle-right-button .icon {\r\n        margin-top: -20px;\r\n        margin-left: 8px;\n}\n.tringle-left-button {\r\n        width: 60px;\r\n        height: 60px;\r\n        border-top: solid 30px transparent;\r\n        border-right: solid 30px transparent;\r\n        border-left: solid 30px;\r\n        border-bottom: solid 30px;\n}\n.tringle-left-button .icon {\r\n        margin-top: 4px;\r\n        margin-left: -18px;\n}\n}\n@media (min-width: 1264px) {\n.tringle-right-button {\r\n        width: 50px;\r\n        height: 50px;\r\n        border-top: solid 25px #26a69a;\r\n        border-right: solid 25px #26a69a;\r\n        border-left: solid 25px transparent;\r\n        border-bottom: solid 25px transparent;\n}\n.tringle-right-button .icon {\r\n        margin-top: -16px;\r\n        margin-left: 8px;\r\n        font-size: 14px;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -72228,7 +72229,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /opt/lampp/htdocs/Gepetto-Point-Of-Sale/resources/js/main.js */"./resources/js/main.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\Gepetto-Point-Of-Sale\resources\js\main.js */"./resources/js/main.js");
 
 
 /***/ })

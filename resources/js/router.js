@@ -205,6 +205,24 @@ export default new Router({
             }
         },
 
+        // Compras Routes
+        {
+            path: "/compras",
+            name: "compras",
+            component: ComprasIndex,
+            meta: {
+                permissions: allUsers
+            }
+        },
+        {
+            path: "/compras/nueva",
+            name: "nueva compra",
+            component: ComprasCreate,
+            meta: {
+                permissions: allUsers
+            }
+        },
+
         // Clientes Routes
         {
             path: "/clientes",

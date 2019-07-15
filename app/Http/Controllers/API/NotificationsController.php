@@ -24,6 +24,7 @@ class NotificationsController extends Controller
             if ($stock <= 0) {
                 $notifications->push([
                     'id' => $proStock->id,
+                    'type' => 'producto',
                     'icon' => 'fas fa-exclamation-circle',
                     'msg' => 'El producto ' . $proStock->articulo . ' necesita reposición',
                     'color' => 'error',
@@ -32,6 +33,7 @@ class NotificationsController extends Controller
             } elseif ($stock <= $proStock->stockminimo && $stock > 0) {
                 $notifications->push([
                     'id' => $proStock->id,
+                    'type' => 'producto',
                     'icon' => 'fas fa-box-open',
                     'msg' => 'El producto ' . $proStock->articulo . ' no posee suficiente stock',
                     'color' => 'warning',
@@ -68,6 +70,7 @@ class NotificationsController extends Controller
             if ($hoy > $fechavenc) {
                 $notifications->push([
                     'id' => $article->id,
+                    'type' => 'producto',
                     'icon' => 'fas fa-clock',
                     'msg' => 'El producto ' . $article->articulo . ' ha vencido',
                     'color' => 'warning',
@@ -92,6 +95,7 @@ class NotificationsController extends Controller
                 $cliente = Cliente::find($factura->cliente_id);
                 $notifications->push([
                     'id' => $cliente->id,
+                    'type' => 'cliente',
                     'icon' => 'fas fa-user-clock',
                     'msg' => 'El cliente ' . $cliente->razonsocial . ' no ha cumplido con el pago a su vencimiento',
                     'color' => 'error',

@@ -9,15 +9,26 @@ use App\Inventario;
 use App\Movimiento;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Carbon;
 
 class RemitosController extends Controller
 {
     public function index(Request $request)
     {
-        $remitos = Remito::orderBy('id', 'DESC');
+        $rems = Remito::orderBy('id', 'DESC')->get();
+        $remitos = collect();
+
+        foreach ($rems as $rem) {
+            $proveedor = Supplier::find($rem->supplier_id);
+            $fecha = new Carbon($rem->fecha);
+            $rem->fecha = $fecha->format('d-m-Y');
+            $rem = collect($rem);
+            $rem->put('proveedor', $proveedor);
+            $remitos->push($rem);
+        }
 
         return [
-            'facturas' => $remitos->take($request->get('limit', null))->get(),
+            'remitos' => $remitos->take($request->get('limit', null)),
             'total' => $remitos->count()
         ];
     }

@@ -209,7 +209,7 @@ export default new Router({
         {
             path: "/compras",
             name: "compras",
-            component: RemitosIndex,
+            component: ComprasIndex,
             meta: {
                 permissions: allUsers
             }
@@ -217,7 +217,7 @@ export default new Router({
         {
             path: "/compras/nueva",
             name: "nueva compra",
-            component: RemitosCreate,
+            component: ComprasCreate,
             meta: {
                 permissions: allUsers
             }

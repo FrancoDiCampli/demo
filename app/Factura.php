@@ -21,7 +21,7 @@ class Factura extends Model
     public function articulos()
     {
         return $this->belongsToMany('App\Articulo')
-            ->withPivot('codarticulo', 'articulo', 'medida', 'cantidad', 'bonificacion', 'alicuota', 'preciounitario', 'subtotal');
+            ->withPivot('codprov', 'codarticulo', 'articulo', 'medida', 'cantidad', 'bonificacion', 'alicuota', 'preciounitario', 'subtotal');
     }
 
     public function cuenta()

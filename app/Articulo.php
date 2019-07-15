@@ -42,7 +42,7 @@ class Articulo extends Model
     public function facturas()
     {
         return $this->belongsToMany('App\Factura')
-            ->withPivot('codarticulo', 'articulo', 'medida', 'cantidad', 'bonificacion', 'alicuota', 'preciounitario', 'subtotal');
+            ->withPivot('codprov', 'codarticulo', 'articulo', 'medida', 'cantidad', 'bonificacion', 'alicuota', 'preciounitario', 'subtotal');
     }
 
     public function remitos()

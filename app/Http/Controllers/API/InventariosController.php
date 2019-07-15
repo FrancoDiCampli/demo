@@ -29,6 +29,7 @@ class InventariosController extends Controller
         return $inventarios->take(1);
     }
 
+    // CREA INVENTARIO DE NO EXISTIR, CASO CONTRARIO LO ACTUALIZA
     public function store(StoreInventario $request)
     {
         $data = $request->validated();
@@ -48,8 +49,6 @@ class InventariosController extends Controller
             $articulo->precio = $request['precio'] * 1;
             $articulo->save();
         }
-
-
 
         if ($actualizar) {
             if ($request['movimiento'] == 'INCREMENTO') {
@@ -77,8 +76,6 @@ class InventariosController extends Controller
 
         return (['message' => 'guardado']);
     }
-
-
 
     public function update(UpdateInventario $request, $id)
     {

@@ -56,6 +56,7 @@ class RemitosController extends Controller
         foreach ($request->get('detalle') as $detail) {
             $articulo = Articulo::find($detail['articulo_id'] * 1);
             $detalles = array(
+                'codprov' => $articulo['codprov'],
                 'codarticulo' => $articulo['codarticulo'],
                 'articulo' => $articulo['articulo'],
                 'cantidad' => $detail['cantidad'],

@@ -51,6 +51,7 @@ class PresupuestosController extends Controller
         foreach ($request->get('detalle') as $detail) {
             $articulo = Articulo::find($detail['articulo_id'] * 1);
             $detalles = array(
+                'codprov' => $articulo['codprov'],
                 'codarticulo' => $articulo['codarticulo'],
                 'articulo' => $articulo['articulo'],
                 'cantidad' => $detail['cantidad'],
@@ -68,14 +69,16 @@ class PresupuestosController extends Controller
         $presupuesto->articulos()->attach($det);
 
         // if ( $request->crearFactura ) {
-        //     $this->crearFactura($request,$presupuesto);
+        //     $this->crearFactura($request,$presupuesto->id);
         // }
 
         return ['msg' => 'presupuesto guardado'];
     }
 
-    public function crearFactura(Request $request, $presupuesto)
+    // CREA UNA FACTURA A PARTIR DEL PRESUPUESTO
+    public function crearFactura(Request $request, $id)
     {
+        $presupuesto = Presupuesto::find($id);
         $facturas = Factura::get();
         $ids = $facturas->keys();
         $numFac = $ids->max() + 2;

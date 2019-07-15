@@ -145,41 +145,4 @@ class ClientesController extends Controller
         $contribuyente = $afip->RegisterScopeFour->GetTaxpayerDetails($num);
         return json_encode($contribuyente);
     }
-
-    public function morosos()
-    {
-        $cuentas = Cuentacorriente::all();
-        $movimientos = collect();
-        $moves = collect();
-        $deudores = collect();
-
-        foreach ($cuentas as $cuenta) {
-            $movimientos->push($cuenta->movimientos);
-        }
-
-        foreach ($movimientos as $move) {
-            foreach ($move as $mov) {
-                $moves->push($mov);
-            }
-        }
-
-        for ($i = 0; $i < count($moves); $i++) {
-            $hoy = now();
-            $fechamov = new Carbon($moves[$i]->fecha);
-            $diff = $hoy->diffInDays($fechamov);
-            if ($diff > 30) {
-                $id = $moves[$i]->ctacte_id;
-                $cuenta = Cuentacorriente::find($id);
-                $factura = Factura::find($cuenta->factura_id);
-                $cliente = Cliente::find($factura->cliente_id);
-                $deudores->push([
-                    'id' => $cliente->id,
-                    'razonsocial' => $cliente->razonsocial
-                ]);
-            }
-        }
-        if ($deudores) {
-            return $deudores->unique()->values();
-        } else $deudores = collect([]);
-    }
 }

@@ -22,12 +22,12 @@
 
 <script>
 // components
-import ReporteVentas from "./ReporteVentas.vue";
-import ReporteCompras from "./ReporteCompras.vue";
-import ReporteInventario from "./ReporteInventarios.vue";
+import ReporteVentas from "../../components/reportes/ReporteVentas.vue";
+import ReporteCompras from "../../components/reportes/ReporteCompras.vue";
+import ReporteInventario from "../../components/reportes/ReporteInventarios.vue";
 
 export default {
-    name: "ReporteIndex",
+    name: "Reportes",
 
     components: {
         ReporteVentas,
@@ -36,5 +36,3 @@ export default {
     }
 };
 </script>
-
-

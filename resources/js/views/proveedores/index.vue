@@ -1,22 +1,7 @@
 <template>
     <div>
-        <v-btn
-            dark
-            fab
-            fixed
-            right
-            bottom
-            @click="$router.push('/suppliers/nuevo')"
-            color="primary"
-        >
-            <v-icon>fas fa-plus</v-icon>
-        </v-btn>
-
-        <v-card>
-            <v-card-text>
-                <ProveedoresIndex></ProveedoresIndex>
-            </v-card-text>
-        </v-card>
+        <h1>Vista Index de Proveedores</h1>
+        <ProveedoresIndex></ProveedoresIndex>
     </div>
 </template>
 
@@ -35,3 +20,4 @@ export default {
 
 <style>
 </style>
+

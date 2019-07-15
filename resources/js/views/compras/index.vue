@@ -1,20 +1,14 @@
 <template>
     <div>
-        <!-- Boton para agregar un nuevo remito -->
-        <v-btn dark fab fixed right bottom @click="$router.push('/compras/nueva')" color="primary">
-            <v-icon>fas fa-plus</v-icon>
-        </v-btn>
-        <!-- Index Remitos -->
-        <v-card>
-            <v-card-text>
-                <RemitosIndex></RemitosIndex>
-            </v-card-text>
-        </v-card>
+        <h1>Vista Index Compras</h1>
+        <RemitosIndex></RemitosIndex>
     </div>
 </template>
 
 <script>
-import RemitosIndex from "../../components/proveedores/RemitosIndex.vue";
+// Components
+import RemitosIndex from "../../components/remitos/RemitosIndex.vue";
+
 export default {
     name: "Remitos",
 

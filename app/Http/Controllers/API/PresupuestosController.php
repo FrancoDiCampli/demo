@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Cliente;
 use App\Factura;
 use App\Articulo;
+use Carbon\Carbon;
 use App\Inventario;
 use App\Movimiento;
 use App\Presupuesto;
@@ -32,8 +33,6 @@ class PresupuestosController extends Controller
         $atributos = $request;
         $cliente = Cliente::find($atributos['cliente_id']);
         $atributos['cuit'] = $cliente->documentounico;
-        $vto = $request->get('vto', now()->addMonth(1)->format('Y-m-d'));
-        $atributos['vencimiento'] = $vto;
 
         if (Presupuesto::all()->last()) {
             $id = Presupuesto::all()->last()->id + 1;

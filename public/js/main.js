@@ -8891,6 +8891,50 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
  //Vuex
 
 
@@ -8907,6 +8951,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       quantity: null,
       lote: null,
       price: null,
+      vence: null,
       stock: 0,
       products: [],
       details: [],
@@ -8920,6 +8965,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         text: "Lote",
         sortable: false
       }, {
+        text: "Vence",
+        sortable: false
+      }, {
         text: "Precio",
         sortable: false,
         "class": "hidden-xs-only"
@@ -8930,6 +8978,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         text: "",
         sortable: false
       }],
+      modalVencimiento: false,
       //Data General
       snackbar: false,
       snackbarText: "",
@@ -9121,6 +9170,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           articulo: this.article,
           cantidad: this.quantity,
           lote: this.lote,
+          vence: this.vence,
           precio: this.price,
           subtotal: this.subtotal
         };
@@ -26422,7 +26472,7 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "v-flex",
-                        { attrs: { xs11: "", sm2: "", "mx-1": "" } },
+                        { attrs: { xs11: "", sm3: "", "mx-1": "" } },
                         [
                           _c("v-text-field", {
                             attrs: {
@@ -26466,7 +26516,7 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "v-flex",
-                        { attrs: { xs11: "", sm2: "", "mx-1": "" } },
+                        { attrs: { xs11: "", sm3: "", "mx-1": "" } },
                         [
                           _c("v-text-field", {
                             attrs: {
@@ -26510,7 +26560,132 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "v-flex",
-                        { attrs: { xs11: "", sm2: "", "mx-1": "" } },
+                        { attrs: { xs12: "", sm4: "", "px-3": "" } },
+                        [
+                          _c(
+                            "v-dialog",
+                            {
+                              ref: "vencimiento",
+                              attrs: {
+                                disabled:
+                                  _vm.article == null || _vm.article == ""
+                                    ? true
+                                    : false,
+                                "return-value": _vm.vence,
+                                persistent: "",
+                                lazy: "",
+                                "full-width": "",
+                                width: "290px"
+                              },
+                              on: {
+                                "update:returnValue": function($event) {
+                                  _vm.vence = $event
+                                },
+                                "update:return-value": function($event) {
+                                  _vm.vence = $event
+                                }
+                              },
+                              scopedSlots: _vm._u([
+                                {
+                                  key: "activator",
+                                  fn: function(ref) {
+                                    var on = ref.on
+                                    return [
+                                      _c(
+                                        "v-text-field",
+                                        _vm._g(
+                                          {
+                                            attrs: {
+                                              label: "Fecha de Vencimiento",
+                                              rules: [_vm.rules.required],
+                                              box: "",
+                                              readonly: ""
+                                            },
+                                            model: {
+                                              value: _vm.vence,
+                                              callback: function($$v) {
+                                                _vm.vence = $$v
+                                              },
+                                              expression: "vence"
+                                            }
+                                          },
+                                          on
+                                        )
+                                      )
+                                    ]
+                                  }
+                                }
+                              ]),
+                              model: {
+                                value: _vm.modalVencimiento,
+                                callback: function($$v) {
+                                  _vm.modalVencimiento = $$v
+                                },
+                                expression: "modalVencimiento"
+                              }
+                            },
+                            [
+                              _vm._v(" "),
+                              _c(
+                                "v-date-picker",
+                                {
+                                  attrs: {
+                                    scrollable: "",
+                                    locale: "es",
+                                    format: "DD/MM/YYYY",
+                                    color: "primary"
+                                  },
+                                  model: {
+                                    value: _vm.vence,
+                                    callback: function($$v) {
+                                      _vm.vence = $$v
+                                    },
+                                    expression: "vence"
+                                  }
+                                },
+                                [
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: { flat: "", color: "primary" },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.modalVencimiento = false
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Cancel")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: { flat: "", color: "primary" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.$refs.vencimiento.save(
+                                            _vm.vence
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("OK")]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-flex",
+                        { attrs: { xs11: "", sm4: "", "mx-1": "" } },
                         [
                           _c("v-text-field", {
                             attrs: {
@@ -26554,7 +26729,7 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "v-flex",
-                        { attrs: { xs11: "", sm2: "", "mx-1": "" } },
+                        { attrs: { xs11: "", sm4: "", "mx-1": "" } },
                         [
                           _c("v-text-field", {
                             attrs: {
@@ -26765,6 +26940,8 @@ var render = function() {
                                   ],
                                   1
                                 ),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(detail.item.vence))]),
                                 _vm._v(" "),
                                 _c(
                                   "td",

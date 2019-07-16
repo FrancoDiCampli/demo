@@ -484,7 +484,6 @@ export default {
                     buscarCliente: this.form.cliente,
                     limit: 5
                 });
-
                 this.clientes = response.clientes;
             }
         },

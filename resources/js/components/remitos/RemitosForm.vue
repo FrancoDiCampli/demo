@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-form ref="formFactura" @submit.prevent="saveFactura">
-      <!-- Facturas Headers -->
+    <v-form ref="formRemito" @submit.prevent="saveFactura">
+      <!-- Remito Headers -->
       <div>
         <v-card-title>
           <v-layout justify-space-around wrap>
@@ -37,15 +37,12 @@
         <v-layout justify-space-around wrap>
           <v-flex xs11 sm11>
             <!-- Input Proveedor -->
-            <v-form ref="formFindSupplier">
               <v-text-field
                 @keyup="findSupplier()"
                 v-model="form.supplier"
                 label="Proveedor"
                 box
-                single-line
               ></v-text-field>
-            </v-form>
 
             <!-- Tabla Proveedores -->
             <transition name="expand">
@@ -58,7 +55,8 @@
                 class="search-table"
               >
                 <template v-slot:items="supplier">
-                  <tr @click="selectSupplier(supplier.item)" style="cursor: pointer;">
+                  <tr @click="selectSupplier(supplier.item)" 
+                      style="cursor: pointer;">
                     <td>{{ supplier.item.cuit }}</td>
                     <td>{{ supplier.item.razonsocial }}</td>
                   </tr>
@@ -320,9 +318,9 @@ export default {
   data() {
     return {
       //Data Proveedor
-      suppliers: "",
+      suppliers: [],
       detailSupplier: [],
-      customers: [],
+
 
       //Data Articulos
       article: null,
@@ -351,7 +349,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("crudx", ["form"]),
+    ...mapState("crudx", ["inProcess", "form"]),
 
     //Computed Articulos
     subtotal: {
@@ -418,25 +416,19 @@ export default {
     }
   },
 
-  mounted() {
-    //Mounted Clientes
-  },
-
   methods: {
     ...mapActions("crudx", ["index", "save"]),
-
-    //Metodos Proveedores
 
     // Buscar los Proveedores
     findSupplier: async function() {
       this.detailSupplier = [];
-
       if (this.form.supplier) {
         let response = await this.index({
           url: "/api/suppliers",
-          buscarProveedor: this.form.supplier
+          buscarProveedor: this.form.supplier,
+          limit: 5
         });
-        this.suppliers = response.suppliers;
+        this.suppliers = response.proveedores;
       }
     },
 
@@ -444,6 +436,7 @@ export default {
     selectSupplier(supplier) {
       this.suppliers = [];
       this.detailSupplier = [];
+      
       this.form.supplier = supplier.razonsocial;
       this.form.supplier_id = supplier.id;
 
@@ -535,7 +528,7 @@ export default {
     saveFactura: async function() {
       //Establecer Mensaje del Snackbar
       this.snackbarText = this.tipo;
-      if (this.$refs.formFactura.validate()) {
+      if (this.$refs.formRemito.validate()) {
         //Guardar Factura
         await this.save({ url: "/api/remitos" });
         //Activar Snackbar
@@ -543,7 +536,7 @@ export default {
         //Reset Formularios
         this.details = [];
         await this.$refs.formDetalles.reset();
-        await this.$refs.formFactura.reset();
+        await this.$refs.formRemito.reset();
       }
     },
 
@@ -554,7 +547,7 @@ export default {
       await this.$refs.formFindSupplier.reset();
       await this.$refs.formFindArticle.reset();
       await this.$refs.formDetalles.reset();
-      await this.$refs.formFactura.reset();
+      await this.$refs.formRemito.reset();
     }
   }
 };

@@ -148,7 +148,7 @@
                                                 'cursor: pointer;' : 
                                                 ''"
                                         >
-                                            <td>{{ producto.item.codarticulo }}</td>
+                                            <td class="hidden-xs-only">{{ producto.item.codarticulo }}</td>
                                             <td>{{ producto.item.articulo }}</td>
                                             <td>{{ producto.item.precio }}</td>
                                             <td>
@@ -205,7 +205,7 @@
                                 </td>
                                 <td class="hidden-xs-only">{{ detalle.item.precio }}</td>
                                 <td>{{ detalle.item.subtotal }}</td>
-                                <td>
+                                <td style="padding: 0px;">
                                     <v-btn
                                         @click="removeDetalle(detalle.item)"
                                         flat

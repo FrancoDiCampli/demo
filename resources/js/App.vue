@@ -48,7 +48,8 @@
             v-show="token !== null"
             v-model="notificationDrawer"
             right
-            absolute
+            fixed
+            hide-overlay
             temporary
         >
             <v-list dense>
@@ -154,20 +155,6 @@
                     </div>
                 </div>
 
-                <!-- <v-list-tile to="/inventario" v-show="rol == 'superAdmin'">
-                    <v-list-tile-action>
-                        <v-icon>fas fa-boxes</v-icon>
-                    </v-list-tile-action>
-                </v-list-tile>
-                <v-divider></v-divider>
-
-                <v-list-tile to="/remito" v-show="rol == 'superAdmin'">
-                    <v-list-tile-action>
-                        <v-icon>fas fa-money-check</v-icon>
-                    </v-list-tile-action>
-                </v-list-tile>
-                <v-divider></v-divider>-->
-
                 <!-- Cerrar Sesión -->
                 <v-list-tile @click="exit()">
                     <v-list-tile-action>
@@ -218,9 +205,9 @@ export default {
                     rol: "seller"
                 },
                 {
-                    title: "Compras",
-                    icon: "fas fa-shopping-cart",
-                    url: "/compras",
+                    title: "Presupuestos",
+                    icon: "fas fa-file",
+                    url: "/presupuestos",
                     divider: false,
                     rol: "seller"
                 },
@@ -242,6 +229,13 @@ export default {
                     title: "Proveedores",
                     icon: "fas fa-truck-moving",
                     url: "/proveedores",
+                    divider: false,
+                    rol: "seller"
+                },
+                {
+                    title: "Compras",
+                    icon: "fas fa-shopping-cart",
+                    url: "/compras",
                     divider: false,
                     rol: "seller"
                 },

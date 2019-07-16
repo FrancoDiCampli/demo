@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Cliente;
 use App\Factura;
 use App\Articulo;
+use Carbon\Carbon;
 use App\Inventario;
 use App\Movimiento;
 use App\Presupuesto;
@@ -15,7 +16,6 @@ class PresupuestosController extends Controller
 {
     public function index(Request $request)
     {
-
         $presupuestos = Presupuesto::orderBy('id', 'DESC')->get();
         foreach ($presupuestos as $presupuesto) {
             $fecha = new Carbon($presupuesto->fecha);

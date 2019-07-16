@@ -6,7 +6,7 @@
                 hide-actions
                 no-data-text="No existe ningun presupuesto registrado"
                 :headers="headers"
-                :items="presupuestos.presupuestos"
+                :items="data.presupuestos"
                 :loading="inProcess"
             >
                 <v-progress-linear v-slot:progress color="primary" indeterminate></v-progress-linear>
@@ -25,7 +25,7 @@
                             </template>
                             <v-list>
                                 <v-list-tile>
-                                    <v-list-tile-title>Grabar</v-list-tile-title>
+                                    <v-list-tile-title>Facturar</v-list-tile-title>
                                 </v-list-tile>
                             </v-list>
                         </v-menu>
@@ -35,40 +35,12 @@
             <v-layout justify-center>
                 <v-btn
                     :loading="loadingButton"
-                    :disabled="limit >= presupuestos.total || loadingButton"
+                    :disabled="limit >= data.total || loadingButton"
                     @click="loadMore()"
                     color="primary"
                     outline
                 >Cargar Más</v-btn>
             </v-layout>
-
-            <!-- modal grabar factura -->
-            <!-- <v-dialog v-model="grabarFacturasDialog" width="750" persistent>
-                <v-card>
-                    <v-card-title>
-                        <h2>¿Estás Seguro?</h2>
-                    </v-card-title>
-                    <v-divider></v-divider>
-                    <v-card-text>¿Estás seguro que deseas grabar esta Factura? este cambio es irreversible</v-card-text>
-                    <v-card-text>
-                        <v-layout justify-end wrap>
-                            <v-btn
-                                @click="grabarFacturasDialog = false;"
-                                outline
-                                color="primary"
-                                :disabled="process"
-                            >Cancelar</v-btn>
-
-                            <v-btn
-                                :loading="process"
-                                :disabled="process"
-                                @click="grabarFactura()"
-                                color="primary"
-                            >Grabar</v-btn>
-                        </v-layout>
-                    </v-card-text>
-                </v-card>
-            </v-dialog>-->
         </template>
     </div>
 </template>
@@ -102,35 +74,20 @@ export default {
     },
 
     computed: {
-        ...mapState("crudx", ["inProcess"])
+        ...mapState("crudx", ["inProcess", "data"])
     },
 
     mounted() {
-        this.getPresupuestos();
+        this.index({ url: "/api/presupuestos", limit: this.limit });
     },
 
     methods: {
         ...mapActions("crudx", ["index"]),
 
-        getPresupuestos: async function() {
-            let response = await this.index({
-                url: "/api/presupuestos",
-                limit: this.limit
-            });
-
-            this.presupuestos = response;
-
-            console.log(this.presupuestos);
-        },
-
         loadMore: async function() {
             this.limit += this.limit;
             this.loadingButton = true;
-            let response = await this.index({
-                url: "/api/presupuestos",
-                limit: this.limit
-            });
-            this.presupuestos = response;
+            await this.index({ url: "/api/presupuestos", limit: this.limit });
             this.loadingButton = false;
         }
     }

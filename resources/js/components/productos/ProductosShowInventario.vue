@@ -54,7 +54,7 @@
 
                                 <v-flex xs12 sm6 px-3>
                                     <v-dialog
-                                        ref="nacimiento"
+                                        ref="vencimiento"
                                         v-model="modalVencimiento"
                                         :return-value.sync="form.vencimiento"
                                         persistent
@@ -88,7 +88,7 @@
                                             <v-btn
                                                 flat
                                                 color="primary"
-                                                @click="$refs.nacimiento.save(form.vencimiento)"
+                                                @click="$refs.vencimiento.save(form.vencimiento)"
                                             >OK</v-btn>
                                         </v-date-picker>
                                     </v-dialog>

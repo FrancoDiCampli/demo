@@ -137,7 +137,7 @@
             </v-flex>
 
             <!-- Input Cantidad -->
-            <v-flex xs11 sm2 mx-1>
+            <v-flex xs11 sm3 mx-1>
               <v-text-field
                 v-model="quantity"
                 :disabled="article == null || article == '' ? true : false"
@@ -150,7 +150,7 @@
             </v-flex>
 
             <!-- Lote -->
-            <v-flex xs11 sm2 mx-1>
+            <v-flex xs11 sm3 mx-1>
               <v-text-field
                 v-model="lote"
                 :disabled="article == null || article == '' ? true : false"
@@ -162,8 +162,51 @@
               ></v-text-field>
             </v-flex>
 
+            <v-flex xs12 sm4 px-3>
+                <v-dialog
+                :disabled="article == null || article == '' ? true : false"
+                    ref="vencimiento"
+                    v-model="modalVencimiento"
+                    :return-value.sync="vence"
+                    persistent
+                    lazy
+                    full-width
+                    width="290px"
+                >
+                    <template v-slot:activator="{ on }">
+                        <v-text-field
+                            v-model="vence"
+                            label="Fecha de Vencimiento"
+                            :rules="[rules.required]"
+                            box
+                            readonly
+                            v-on="on"
+                        ></v-text-field>
+                    </template>
+                    <v-date-picker
+                        v-model="vence"
+                        scrollable
+                        locale="es"
+                        format="DD/MM/YYYY"
+                        color="primary"
+                    >
+                        <v-spacer></v-spacer>
+                        <v-btn
+                            flat
+                            color="primary"
+                            @click="modalVencimiento = false"
+                        >Cancel</v-btn>
+                        <v-btn
+                            flat
+                            color="primary"
+                            @click="$refs.vencimiento.save(vence)"
+                        >OK</v-btn>
+                    </v-date-picker>
+                </v-dialog>
+            </v-flex>
+
             <!-- Input Precio -->
-            <v-flex xs11 sm2 mx-1>
+            <v-flex xs11 sm4 mx-1>
               <v-text-field
                 v-model="price"
                 :disabled="article == null || article == '' ? true : false"
@@ -176,7 +219,7 @@
             </v-flex>
 
             <!-- Input Subtotal -->
-            <v-flex xs11 sm2 mx-1>
+            <v-flex xs11 sm4 mx-1>
               <v-text-field
                 v-model="subtotal"
                 :rules="[rules.required]"
@@ -221,6 +264,7 @@
                     </template>
                   </v-edit-dialog>
                 </td>
+                <td>{{ detail.item.vence }}</td>
                 <td>
                   <v-edit-dialog :return-value.sync="detail.item.precio" lazy>
                     {{ detail.item.precio }}
@@ -328,6 +372,7 @@ export default {
       quantity: null,
       lote: null,
       price: null,
+      vence: null,
       stock: 0,
       products: [],
       details: [],
@@ -335,10 +380,13 @@ export default {
         { text: "Articulo", sortable: false },
         { text: "Cantidad", sortable: false },
         { text: "Lote", sortable: false },
+        { text: "Vence", sortable: false },
         { text: "Precio", sortable: false, class: "hidden-xs-only" },
         { text: "Subtotal", sortable: false },
         { text: "", sortable: false }
       ],
+
+      modalVencimiento: false,
 
       //Data General
       snackbar: false,
@@ -489,6 +537,7 @@ export default {
           articulo: this.article,
           cantidad: this.quantity,
           lote: this.lote,
+          vence: this.vence,
           precio: this.price,
           subtotal: this.subtotal
         };

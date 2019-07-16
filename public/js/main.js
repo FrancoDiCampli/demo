@@ -8891,8 +8891,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
  //Vuex
 
 
@@ -8901,9 +8899,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       //Data Proveedor
-      suppliers: "",
+      suppliers: [],
       detailSupplier: [],
-      customers: [],
       //Data Articulos
       article: null,
       article_id: null,
@@ -8943,7 +8940,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("crudx", ["form"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("crudx", ["inProcess", "form"]), {
     //Computed Articulos
     subtotal: {
       set: function set() {},
@@ -9002,10 +8999,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     }
   }),
-  mounted: function mounted() {//Mounted Clientes
-  },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index", "save"]), {
-    //Metodos Proveedores
     // Buscar los Proveedores
     findSupplier: function () {
       var _findSupplier = _asyncToGenerator(
@@ -9026,12 +9020,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 _context.next = 4;
                 return this.index({
                   url: "/api/suppliers",
-                  buscarProveedor: this.form.supplier
+                  buscarProveedor: this.form.supplier,
+                  limit: 5
                 });
 
               case 4:
                 response = _context.sent;
-                this.suppliers = response.suppliers;
+                this.suppliers = response.proveedores;
 
               case 6:
               case "end":
@@ -9165,7 +9160,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 //Establecer Mensaje del Snackbar
                 this.snackbarText = this.tipo;
 
-                if (!this.$refs.formFactura.validate()) {
+                if (!this.$refs.formRemito.validate()) {
                   _context3.next = 10;
                   break;
                 }
@@ -9185,7 +9180,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 8:
                 _context3.next = 10;
-                return this.$refs.formFactura.reset();
+                return this.$refs.formRemito.reset();
 
               case 10:
               case "end":
@@ -9225,7 +9220,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 7:
                 _context4.next = 9;
-                return this.$refs.formFactura.reset();
+                return this.$refs.formRemito.reset();
 
               case 9:
               case "end":
@@ -9272,6 +9267,22 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -9374,7 +9385,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       return loadMore;
-    }()
+    }(),
+    comprasPDF: function comprasPDF(id) {
+      window.open("/api/comprasPDF/" + id);
+    }
   })
 });
 
@@ -25998,7 +26012,7 @@ var render = function() {
       _c(
         "v-form",
         {
-          ref: "formFactura",
+          ref: "formRemito",
           on: {
             submit: function($event) {
               $event.preventDefault()
@@ -26112,32 +26126,21 @@ var render = function() {
                     "v-flex",
                     { attrs: { xs11: "", sm11: "" } },
                     [
-                      _c(
-                        "v-form",
-                        { ref: "formFindSupplier" },
-                        [
-                          _c("v-text-field", {
-                            attrs: {
-                              label: "Proveedor",
-                              box: "",
-                              "single-line": ""
-                            },
-                            on: {
-                              keyup: function($event) {
-                                return _vm.findSupplier()
-                              }
-                            },
-                            model: {
-                              value: _vm.form.supplier,
-                              callback: function($$v) {
-                                _vm.$set(_vm.form, "supplier", $$v)
-                              },
-                              expression: "form.supplier"
-                            }
-                          })
-                        ],
-                        1
-                      ),
+                      _c("v-text-field", {
+                        attrs: { label: "Proveedor", box: "" },
+                        on: {
+                          keyup: function($event) {
+                            return _vm.findSupplier()
+                          }
+                        },
+                        model: {
+                          value: _vm.form.supplier,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "supplier", $$v)
+                          },
+                          expression: "form.supplier"
+                        }
+                      }),
                       _vm._v(" "),
                       _c(
                         "transition",
@@ -27113,7 +27116,81 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", { staticClass: "hidden-xs-only" }, [
                       _vm._v(_vm._s(remito.item.fecha))
-                    ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      [
+                        _c(
+                          "v-menu",
+                          {
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "activator",
+                                  fn: function(ref) {
+                                    var on = ref.on
+                                    return [
+                                      _c(
+                                        "v-btn",
+                                        _vm._g(
+                                          {
+                                            attrs: {
+                                              flat: "",
+                                              icon: "",
+                                              dark: "",
+                                              color: "primary"
+                                            }
+                                          },
+                                          on
+                                        ),
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { size: "medium" } },
+                                            [_vm._v("fas fa-ellipsis-v")]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ]
+                                  }
+                                }
+                              ],
+                              null,
+                              true
+                            )
+                          },
+                          [
+                            _vm._v(" "),
+                            _c(
+                              "v-list",
+                              [
+                                _c(
+                                  "v-list-tile",
+                                  {
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.comprasPDF(remito.item.id)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("v-list-tile-title", [
+                                      _vm._v("Imprimir")
+                                    ])
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
                   ]
                 }
               }

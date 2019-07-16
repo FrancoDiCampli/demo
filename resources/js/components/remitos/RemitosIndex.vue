@@ -15,6 +15,22 @@
                     <td class="hidden-sm-and-down">{{ remito.item.proveedor.razonsocial }}</td>
                     <td>{{ remito.item.total }}</td>
                     <td class="hidden-xs-only">{{ remito.item.fecha }}</td>
+                    <!-- menu acciones de facturas -->
+                    <td>
+                        <v-menu>
+                            <template v-slot:activator="{ on }">
+                                <v-btn flat icon dark color="primary" v-on="on">
+                                    <v-icon size="medium">fas fa-ellipsis-v</v-icon>
+                                </v-btn>
+                            </template>
+                            <v-list>
+                                <!-- imprimir factura -->
+                                <v-list-tile @click="comprasPDF(remito.item.id)">
+                                    <v-list-tile-title>Imprimir</v-list-tile-title>
+                                </v-list-tile>
+                            </v-list>
+                        </v-menu>
+                    </td>
                 </template>
             </v-data-table>
             <v-layout justify-center>
@@ -73,6 +89,10 @@ export default {
             this.loadingButton = true;
             await this.index({ url: "/api/remitos", limit: this.limit });
             this.loadingButton = false;
+        },
+
+        comprasPDF: function(id) {
+            window.open("/api/comprasPDF/" + id);
         }
     }
 };

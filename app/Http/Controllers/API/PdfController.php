@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Remito;
 use App\Cliente;
 use App\Factura;
+use App\Supplier;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -32,6 +34,17 @@ class PdfController extends Controller
         $cliente = Cliente::find($factura->cliente_id);
         $detalles = DB::table('articulo_factura')->where('factura_id', $factura->id)->get();
         $pdf = app('dompdf.wrapper')->loadView('remitosPDF', compact('factura', 'detalles', 'cliente'))->setPaper('A4');
+        return $pdf->stream();
+    }
+
+    public function comprasPDF($id)
+    {
+        $remito = Remito::find($id);
+        $fecha = new Carbon($remito->fecha);
+        $remito->fecha = $fecha->format('d-m-Y');
+        $proveedor = Supplier::find($remito->supplier_id);
+        $detalles = DB::table('articulo_remito')->where('remito_id', $remito->id)->get();
+        $pdf = app('dompdf.wrapper')->loadView('comprasPDF', compact('remito', 'detalles', 'proveedor'))->setPaper('A4');
         return $pdf->stream();
     }
 }

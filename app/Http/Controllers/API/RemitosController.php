@@ -93,7 +93,7 @@ class RemitosController extends Controller
 
             $data = [
                 'inventario_id' => '',
-                'tipo' => 'ALTA',
+                'tipo' => 'COMPRA',
                 'cantidad' => $detail['cantidad'],
                 'fecha' => now()->format('Y-m-d'),
                 'numcomprobante' => $remito->id,

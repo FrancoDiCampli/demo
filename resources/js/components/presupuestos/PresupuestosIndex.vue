@@ -24,7 +24,7 @@
                                 </v-btn>
                             </template>
                             <v-list>
-                                <v-list-tile>
+                                <v-list-tile @click="presupuestosPDF(presupuesto.item.id)">
                                     <v-list-tile-title>Imprimir</v-list-tile-title>
                                 </v-list-tile>
                                 <v-list-tile @click="facturar(presupuesto.item.id)">
@@ -97,6 +97,10 @@ export default {
         facturar: async function(id) {
             await localStorage.setItem("presupuestoID", id);
             this.$router.push("/ventas/edit");
+        },
+
+        presupuestosPDF: function(id) {
+            window.open("/api/presupuestosPDF/" + id);
         }
     }
 };

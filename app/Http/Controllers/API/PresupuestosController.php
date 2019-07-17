@@ -76,11 +76,7 @@ class PresupuestosController extends Controller
 
         $presupuesto->articulos()->attach($det);
 
-        // if ( $request->crearFactura ) {
-        //     $this->crearFactura($request,$presupuesto->id);
-        // }
-
-        return ['msg' => 'presupuesto guardado'];
+        return $presupuesto->id;
     }
 
     public function update(Request $request, $id)

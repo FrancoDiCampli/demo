@@ -28,14 +28,6 @@
                 </v-card-title>
                 <v-divider></v-divider>
                 <br />
-
-                <!-- Snackbar -->
-                <v-snackbar color="primary" v-model="snackbar" :timeout="6000" right top>
-                    {{ snackbarText }} GUARDADO
-                    <v-btn color="white" flat @click="snackbar = false" icon>
-                        <v-icon>fas fa-times</v-icon>
-                    </v-btn>
-                </v-snackbar>
             </div>
             <!---------------------->
             <!-- Facturas Clientes -->
@@ -392,8 +384,6 @@ export default {
 
             //_________________________Data General________________________//
             process: false,
-            snackbar: false,
-            snackbarText: "",
             rules: {
                 required: value => !!value || "Este campo es obligatorio",
                 maxStock: value =>
@@ -723,8 +713,6 @@ export default {
                 this.form.condicion = this.condicion;
                 this.form.tipo = this.tipo;
 
-                //Establecer Mensaje del Snackbar
-                this.snackbarText = this.tipo;
                 if (this.$refs.formFactura.validate()) {
                     //Cerrar modal y activar el indicador de carga
                     this.comprobanteCreditoDialog = false;
@@ -737,8 +725,6 @@ export default {
                     } else {
                         window.open("/api/facturasPDF/" + resID);
                     }
-                    //Activar Snackbar
-                    this.snackbar = true;
                     //Reset Formularios
                     this.detalles = [];
                     await this.$refs.formDetalles.reset();

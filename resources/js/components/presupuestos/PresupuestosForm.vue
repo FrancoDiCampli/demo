@@ -607,7 +607,9 @@ export default {
             if (this.$refs.formPresupuesto.validate()) {
                 this.process = true;
                 //Guardar Presupuestos
-                await this.save({ url: "/api/presupuestos" });
+                let resID = await this.save({ url: "/api/presupuestos" });
+                //Imprimir PDF de Presupuestos
+                window.open("/api/presupuestosPDF/" + resID);
                 //Reset Formularios
                 this.detalles = [];
                 await this.$refs.formDetalles.reset();

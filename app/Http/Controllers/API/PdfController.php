@@ -7,6 +7,7 @@ use App\Cliente;
 use App\Factura;
 use App\Supplier;
 use Carbon\Carbon;
+use App\Presupuesto;
 use App\Inicialsetting;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -37,6 +38,18 @@ class PdfController extends Controller
         $cliente = Cliente::find($factura->cliente_id);
         $detalles = DB::table('articulo_factura')->where('factura_id', $factura->id)->get();
         $pdf = app('dompdf.wrapper')->loadView('remitosPDF', compact('configuracion', 'factura', 'detalles', 'cliente'))->setPaper('A4');
+        return $pdf->stream();
+    }
+
+    public function presupuestosPDF($id)
+    {
+        $configuracion = Inicialsetting::all()->first();
+        $presupuesto = Presupuesto::find($id);
+        $fecha = new Carbon($presupuesto->fecha);
+        $presupuesto->fecha = $fecha->format('d-m-Y');
+        $cliente = Cliente::find($presupuesto->cliente_id);
+        $detalles = DB::table('articulo_presupuesto')->where('presupuesto_id', $presupuesto->id)->get();
+        $pdf = app('dompdf.wrapper')->loadView('presupuestosPDF', compact('configuracion', 'presupuesto', 'detalles', 'cliente'))->setPaper('A4');
         return $pdf->stream();
     }
 

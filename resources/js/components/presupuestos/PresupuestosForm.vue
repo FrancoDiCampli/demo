@@ -455,8 +455,14 @@ export default {
                 url: "/api/presupuestos",
                 limit: 1
             });
-            this.numPresupuesto =
-                Number(response.presupuestos[0].numpresupuesto) + 1;
+
+            if (response.presupuestos.length > 0) {
+                this.numPresupuesto =
+                    Number(response.presupuestos[0].numpresupuesto) + 1;
+            } else {
+                let response = await this.index({ url: "/api/configuracion" });
+                this.numPresupuesto = response.numpresupuesto;
+            }
         },
 
         //_________________________Methods Clientes________________________//
@@ -601,7 +607,9 @@ export default {
             if (this.$refs.formPresupuesto.validate()) {
                 this.process = true;
                 //Guardar Presupuestos
-                await this.save({ url: "/api/presupuestos" });
+                let resID = await this.save({ url: "/api/presupuestos" });
+                //Imprimir PDF de Presupuestos
+                window.open("/api/presupuestosPDF/" + resID);
                 //Reset Formularios
                 this.detalles = [];
                 await this.$refs.formDetalles.reset();

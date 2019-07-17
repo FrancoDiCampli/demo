@@ -5621,13 +5621,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 //Axios
  //Vuex
 
@@ -5641,6 +5634,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       //_________________________Data Headers_________________________//
       numFactura: null,
+      point: null,
       //_________________________Data Clientes________________________//
       detallesCliente: [],
       clientes: [],
@@ -5688,8 +5682,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       comprobanteCreditoDialog: false,
       //_________________________Data General________________________//
       process: false,
-      snackbar: false,
-      snackbarText: "",
       rules: {
         required: function required(value) {
           return !!value || "Este campo es obligatorio";
@@ -5770,30 +5762,117 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   mounted: function mounted() {
     //_________________________Mounted Headers_________________________//
-    this.lastFactura(); //_________________________Mounted Clientes________________________//
+    this.lastFactura();
+    this.getPoint(); //_________________________Mounted Clientes________________________//
 
     this.form.cliente_id = 1;
     this.form.cliente = "CONSUMIDOR FINAL";
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index", "show", "save"]), {
-    //_________________________Methods Edit____________________________//
-    getPresupuesto: function () {
-      var _getPresupuesto = _asyncToGenerator(
+    //_________________________Methods Headers_________________________//
+    // Buscar la ultima factura para establecer el número de la factura actual
+    lastFactura: function () {
+      var _lastFactura = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(id) {
-        var response, i, detalle;
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var response, _response;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                _context.next = 2;
+                return this.index({
+                  url: "/api/facturas",
+                  limit: 1
+                });
+
+              case 2:
+                response = _context.sent;
+
+                if (!(response.facturas.length > 0)) {
+                  _context.next = 7;
+                  break;
+                }
+
+                this.numFactura = Number(response.facturas[0].numfactura) + 1;
+                _context.next = 11;
+                break;
+
+              case 7:
+                _context.next = 9;
+                return this.index({
+                  url: "/api/configuracion"
+                });
+
+              case 9:
+                _response = _context.sent;
+                this.numFactura = _response.numfactura;
+
+              case 11:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function lastFactura() {
+        return _lastFactura.apply(this, arguments);
+      }
+
+      return lastFactura;
+    }(),
+    getPoint: function () {
+      var _getPoint = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return this.index({
+                  url: "/api/configuracion"
+                });
+
+              case 2:
+                response = _context2.sent;
+                this.point = response.puntoventa;
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function getPoint() {
+        return _getPoint.apply(this, arguments);
+      }
+
+      return getPoint;
+    }(),
+    //_________________________Methods Edit____________________________//
+    getPresupuesto: function () {
+      var _getPresupuesto = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(id) {
+        var response, i, detalle;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
                 this.process = true;
-                _context.next = 3;
+                _context3.next = 3;
                 return this.show({
                   url: "/api/presupuestos/" + id
                 });
 
               case 3:
-                response = _context.sent;
+                response = _context3.sent;
 
                 if (response.cliente.id != 1) {
                   this.selectCliente(response.cliente);
@@ -5819,10 +5898,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 9:
               case "end":
-                return _context.stop();
+                return _context3.stop();
             }
           }
-        }, _callee, this);
+        }, _callee3, this);
       }));
 
       function getPresupuesto(_x) {
@@ -5831,56 +5910,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       return getPresupuesto;
     }(),
-    //_________________________Methods Headers_________________________//
-    // Buscar la ultima factura para establecer el número de la factura actual
-    lastFactura: function () {
-      var _lastFactura = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return this.index({
-                  url: "/api/facturas",
-                  limit: 1
-                });
-
-              case 2:
-                response = _context2.sent;
-                this.numFactura = Number(response.facturas[0].numfactura) + 1;
-
-              case 4:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function lastFactura() {
-        return _lastFactura.apply(this, arguments);
-      }
-
-      return lastFactura;
-    }(),
     //_________________________Methods Clientes________________________//
     // Buscar los Clientes
     findCliente: function () {
       var _findCliente = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
         var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 this.detailClient = [];
 
                 if (!(this.form.cliente == "0")) {
-                  _context3.next = 8;
+                  _context4.next = 8;
                   break;
                 }
 
@@ -5889,16 +5933,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.form.cliente_id = 1;
                 this.form.cliente = "CONSUMIDOR FINAL";
                 this.condicion = "CONTADO";
-                _context3.next = 13;
+                _context4.next = 13;
                 break;
 
               case 8:
                 if (!this.form.cliente) {
-                  _context3.next = 13;
+                  _context4.next = 13;
                   break;
                 }
 
-                _context3.next = 11;
+                _context4.next = 11;
                 return this.index({
                   url: "/api/clientes",
                   buscarCliente: this.form.cliente,
@@ -5906,15 +5950,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 });
 
               case 11:
-                response = _context3.sent;
+                response = _context4.sent;
                 this.clientes = response.clientes;
 
               case 13:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
 
       function findCliente() {
@@ -5945,11 +5989,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     findProducto: function () {
       var _findProducto = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
         var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 // Reiniciar Cantidad, Precio y Stock
                 this.cantidad = null;
@@ -5957,11 +6001,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.stock = 0; // Buscar Productos
 
                 if (!this.form.producto) {
-                  _context4.next = 8;
+                  _context5.next = 8;
                   break;
                 }
 
-                _context4.next = 6;
+                _context5.next = 6;
                 return this.index({
                   url: "/api/articulos",
                   buscarArticulo: this.form.producto,
@@ -5969,15 +6013,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 });
 
               case 6:
-                response = _context4.sent;
+                response = _context5.sent;
                 this.productos = response.articulos;
 
               case 8:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee5, this);
       }));
 
       function findProducto() {
@@ -6080,30 +6124,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     saveFactura: function () {
       var _saveFactura = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
         var resID;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 if (!(this.condicion == "CREDITO / DEBITO" && !this.form.compago)) {
-                  _context5.next = 4;
+                  _context6.next = 4;
                   break;
                 }
 
                 this.comprobanteCreditoDialog = true;
-                _context5.next = 26;
+                _context6.next = 24;
                 break;
 
               case 4:
                 //Establecer Campos no establecidos
                 this.form.condicion = this.condicion;
-                this.form.tipo = this.tipo; //Establecer Mensaje del Snackbar
-
-                this.snackbarText = this.tipo;
+                this.form.tipo = this.tipo;
 
                 if (!this.$refs.formFactura.validate()) {
-                  _context5.next = 26;
+                  _context6.next = 24;
                   break;
                 }
 
@@ -6111,33 +6153,31 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.comprobanteCreditoDialog = false;
                 this.process = true; //Guardar Factura
 
-                _context5.next = 12;
+                _context6.next = 11;
                 return this.save({
                   url: "/api/facturas"
                 });
 
-              case 12:
-                resID = _context5.sent;
+              case 11:
+                resID = _context6.sent;
 
                 //Retornar el pdf de factura
                 if (this.tipo == "REMITO X") {
                   window.open("/api/remitosPDF/" + resID);
                 } else {
                   window.open("/api/facturasPDF/" + resID);
-                } //Activar Snackbar
+                } //Reset Formularios
 
-
-                this.snackbar = true; //Reset Formularios
 
                 this.detalles = [];
-                _context5.next = 18;
+                _context6.next = 16;
                 return this.$refs.formDetalles.reset();
 
-              case 18:
-                _context5.next = 20;
+              case 16:
+                _context6.next = 18;
                 return this.$refs.formFactura.reset();
 
-              case 20:
+              case 18:
                 //Establecer Valores Predeterminados
                 this.form.cliente_id = 1;
                 this.form.cliente = "CONSUMIDOR FINAL";
@@ -6150,12 +6190,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   this.$router.push("/ventas");
                 }
 
-              case 26:
+              case 24:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee6, this);
       }));
 
       function saveFactura() {
@@ -6168,18 +6208,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     cancelFactura: function () {
       var _cancelFactura = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 //Reset Formularios
                 this.detalles = [];
-                _context6.next = 3;
+                _context7.next = 3;
                 return this.$refs.formDetalles.reset();
 
               case 3:
-                _context6.next = 5;
+                _context7.next = 5;
                 return this.$refs.formFactura.reset();
 
               case 5:
@@ -6191,10 +6231,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 9:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee7, this);
       }));
 
       function cancelFactura() {
@@ -6345,6 +6385,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //Axios
  //Vuex
 
@@ -6355,7 +6409,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       facturas: [],
       limit: 10,
-      loadingButton: false,
       headers: [{
         text: "Tipo",
         sortable: false,
@@ -6390,7 +6443,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       limit: this.limit
     });
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index"]), {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index", "destroy"]), {
     loadMore: function () {
       var _loadMore = _asyncToGenerator(
       /*#__PURE__*/
@@ -6400,7 +6453,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             switch (_context.prev = _context.next) {
               case 0:
                 this.limit += this.limit;
-                this.loadingButton = true;
+                this.process = true;
                 _context.next = 4;
                 return this.index({
                   url: "/api/facturas",
@@ -6408,7 +6461,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 });
 
               case 4:
-                this.loadingButton = false;
+                this.process = false;
 
               case 5:
               case "end":
@@ -6441,6 +6494,44 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         console.log(error);
       });
     },
+    anularFactura: function () {
+      var _anularFactura = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(id) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                this.process = true;
+                _context2.next = 3;
+                return this.destroy({
+                  url: "/api/facturas/" + id
+                });
+
+              case 3:
+                _context2.next = 5;
+                return this.index({
+                  url: "/api/facturas",
+                  limit: this.limit
+                });
+
+              case 5:
+                this.process = false;
+
+              case 6:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function anularFactura(_x) {
+        return _anularFactura.apply(this, arguments);
+      }
+
+      return anularFactura;
+    }(),
     facturaPDF: function facturaPDF(id) {
       window.open("/api/facturasPDF/" + id);
     },
@@ -6933,7 +7024,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _lastPresupuesto = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var response;
+        var response, _response;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -6946,9 +7038,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 2:
                 response = _context.sent;
-                this.numPresupuesto = Number(response.presupuestos[0].numpresupuesto) + 1;
 
-              case 4:
+                if (!(response.presupuestos.length > 0)) {
+                  _context.next = 7;
+                  break;
+                }
+
+                this.numPresupuesto = Number(response.presupuestos[0].numpresupuesto) + 1;
+                _context.next = 11;
+                break;
+
+              case 7:
+                _context.next = 9;
+                return this.index({
+                  url: "/api/configuracion"
+                });
+
+              case 9:
+                _response = _context.sent;
+                this.numPresupuesto = _response.numpresupuesto;
+
+              case 11:
               case "end":
                 return _context.stop();
             }
@@ -7148,12 +7258,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _savePresupuesto = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        var resID;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 if (!this.$refs.formPresupuesto.validate()) {
-                  _context4.next = 11;
+                  _context4.next = 13;
                   break;
                 }
 
@@ -7165,20 +7276,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 });
 
               case 4:
-                //Reset Formularios
+                resID = _context4.sent;
+                //Imprimir PDF de Presupuestos
+                window.open("/api/presupuestosPDF/" + resID); //Reset Formularios
+
                 this.detalles = [];
-                _context4.next = 7;
+                _context4.next = 9;
                 return this.$refs.formDetalles.reset();
 
-              case 7:
-                _context4.next = 9;
+              case 9:
+                _context4.next = 11;
                 return this.$refs.formPresupuesto.reset();
 
-              case 9:
+              case 11:
                 this.process = false;
                 this.$router.push("/presupuestos");
 
-              case 11:
+              case 13:
               case "end":
                 return _context4.stop();
             }
@@ -7412,7 +7526,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       return facturar;
-    }()
+    }(),
+    presupuestosPDF: function presupuestosPDF(id) {
+      window.open("/api/presupuestosPDF/" + id);
+    }
   })
 });
 
@@ -22167,7 +22284,11 @@ var render = function() {
                         [
                           _c("p", [
                             _c("b", [_vm._v("Punto de Venta:")]),
-                            _vm._v(" 0003\n                            "),
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(_vm.point) +
+                                "\n                            "
+                            ),
                             _c("b", [_vm._v("Comprobante Nº:")]),
                             _vm._v(
                               "\n                            " +
@@ -22186,47 +22307,7 @@ var render = function() {
               _vm._v(" "),
               _c("v-divider"),
               _vm._v(" "),
-              _c("br"),
-              _vm._v(" "),
-              _c(
-                "v-snackbar",
-                {
-                  attrs: {
-                    color: "primary",
-                    timeout: 6000,
-                    right: "",
-                    top: ""
-                  },
-                  model: {
-                    value: _vm.snackbar,
-                    callback: function($$v) {
-                      _vm.snackbar = $$v
-                    },
-                    expression: "snackbar"
-                  }
-                },
-                [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(_vm.snackbarText) +
-                      " GUARDADO\n                "
-                  ),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { color: "white", flat: "", icon: "" },
-                      on: {
-                        click: function($event) {
-                          _vm.snackbar = false
-                        }
-                      }
-                    },
-                    [_c("v-icon", [_vm._v("fas fa-times")])],
-                    1
-                  )
-                ],
-                1
-              )
+              _c("br")
             ],
             1
           ),
@@ -23196,17 +23277,9 @@ var render = function() {
                       { staticClass: "hidden-xs-only" },
                       [
                         _c("v-avatar", { staticClass: "type-item" }, [
-                          factura.item.cae == null
-                            ? _c("div", [
-                                _c("p", { staticClass: "title type" }, [
-                                  _vm._v("X")
-                                ])
-                              ])
-                            : _c("div", [
-                                _c("p", { staticClass: "title type" }, [
-                                  _vm._v("C")
-                                ])
-                              ])
+                          _c("p", { staticClass: "title type" }, [
+                            _vm._v(_vm._s(factura.item.letracomprobante))
+                          ])
                         ])
                       ],
                       1
@@ -23314,6 +23387,7 @@ var render = function() {
                                         expression: "factura.item.cae != null"
                                       }
                                     ],
+                                    attrs: { disabled: _vm.process },
                                     on: {
                                       click: function($event) {
                                         return _vm.facturaPDF(factura.item.id)
@@ -23335,10 +23409,14 @@ var render = function() {
                                       {
                                         name: "show",
                                         rawName: "v-show",
-                                        value: factura.item.cae == null,
-                                        expression: "factura.item.cae == null"
+                                        value:
+                                          factura.item.cae == null &&
+                                          factura.item.pagada == true,
+                                        expression:
+                                          "factura.item.cae == null && factura.item.pagada == true"
                                       }
                                     ],
+                                    attrs: { disabled: _vm.process },
                                     on: {
                                       click: function($event) {
                                         _vm.factura_id = factura.item.id
@@ -23357,10 +23435,21 @@ var render = function() {
                                       {
                                         name: "show",
                                         rawName: "v-show",
-                                        value: factura.item.cae == null,
-                                        expression: "factura.item.cae == null"
+                                        value:
+                                          factura.item.cae == null &&
+                                          factura.item.pagada == true,
+                                        expression:
+                                          "factura.item.cae == null && factura.item.pagada == true"
                                       }
-                                    ]
+                                    ],
+                                    attrs: { disabled: _vm.process },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.anularFactura(
+                                          factura.item.id
+                                        )
+                                      }
+                                    }
                                   },
                                   [_c("v-list-tile-title", [_vm._v("Anular")])],
                                   1
@@ -23404,8 +23493,8 @@ var render = function() {
               "v-btn",
               {
                 attrs: {
-                  loading: _vm.loadingButton,
-                  disabled: _vm.limit >= _vm.data.total || _vm.loadingButton,
+                  loading: _vm.process,
+                  disabled: _vm.limit >= _vm.data.total || _vm.process,
                   color: "primary",
                   outline: ""
                 },
@@ -23441,51 +23530,104 @@ var render = function() {
                 _vm._v(" "),
                 _c("v-divider"),
                 _vm._v(" "),
-                _c("v-card-text", [
-                  _vm._v(
-                    "¿Estás seguro que deseas grabar esta Factura? este cambio es irreversible"
-                  )
-                ]),
-                _vm._v(" "),
                 _c(
-                  "v-card-text",
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.process,
+                        expression: "process"
+                      }
+                    ]
+                  },
                   [
                     _c(
-                      "v-layout",
-                      { attrs: { "justify-end": "", wrap: "" } },
+                      "v-card-text",
                       [
                         _c(
-                          "v-btn",
-                          {
-                            attrs: {
-                              outline: "",
-                              color: "primary",
-                              disabled: _vm.process
-                            },
-                            on: {
-                              click: function($event) {
-                                _vm.grabarFacturasDialog = false
+                          "v-layout",
+                          { attrs: { "justify-center": "" } },
+                          [
+                            _c("v-progress-circular", {
+                              attrs: {
+                                size: 70,
+                                width: 7,
+                                color: "primary",
+                                indeterminate: ""
                               }
-                            }
-                          },
-                          [_vm._v("Cancelar")]
-                        ),
-                        _vm._v(" "),
+                            })
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.process,
+                        expression: "!process"
+                      }
+                    ]
+                  },
+                  [
+                    _c("v-card-text", [
+                      _vm._v(
+                        "¿Estás seguro que deseas grabar esta Factura? este cambio es irreversible"
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "v-card-text",
+                      [
                         _c(
-                          "v-btn",
-                          {
-                            attrs: {
-                              loading: _vm.process,
-                              disabled: _vm.process,
-                              color: "primary"
-                            },
-                            on: {
-                              click: function($event) {
-                                return _vm.grabarFactura()
-                              }
-                            }
-                          },
-                          [_vm._v("Grabar")]
+                          "v-layout",
+                          { attrs: { "justify-end": "", wrap: "" } },
+                          [
+                            _c(
+                              "v-btn",
+                              {
+                                attrs: {
+                                  outline: "",
+                                  color: "primary",
+                                  disabled: _vm.process
+                                },
+                                on: {
+                                  click: function($event) {
+                                    _vm.grabarFacturasDialog = false
+                                  }
+                                }
+                              },
+                              [_vm._v("Cancelar")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-btn",
+                              {
+                                attrs: {
+                                  disabled: _vm.process,
+                                  color: "primary"
+                                },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.grabarFactura()
+                                  }
+                                }
+                              },
+                              [_vm._v("Grabar")]
+                            )
+                          ],
+                          1
                         )
                       ],
                       1
@@ -24643,6 +24785,15 @@ var render = function() {
                               [
                                 _c(
                                   "v-list-tile",
+                                  {
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.presupuestosPDF(
+                                          presupuesto.item.id
+                                        )
+                                      }
+                                    }
+                                  },
                                   [
                                     _c("v-list-tile-title", [
                                       _vm._v("Imprimir")

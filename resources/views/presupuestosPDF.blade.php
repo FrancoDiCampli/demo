@@ -133,12 +133,8 @@
         }
 
         .header-middle h1 {
-            font-size: 30px;
-            margin-top: 30px;
-        }
-
-        .header-middle p {
-            font-size: 12px;
+            font-size: 45px;
+            margin-top: 45px;
         }
 
         .type {
@@ -181,19 +177,6 @@
             text-align: right;
         }
 
-        .footer .afip table {
-            border: none;
-        }
-
-        .footer .afip table tr th {
-            background-color: #ffffff;
-        }
-
-        .footer .afip table th,
-        td {
-            border: none;
-        }
-
         .page-break {
             page-break-after: always;
         }
@@ -210,8 +193,7 @@
             <br>
             <div class="header-middle">
                 <div class="type">
-                    <h1><b>{{$factura->letracomprobante}}</b></h1>
-                    <p><b>{{$factura->codcomprobante}}</b></p>
+                    <h1><b>X</b></h1>
                 </div>
             </div>
             <div class="header-left">
@@ -222,9 +204,9 @@
             </div>
             <div class="v-divider"></div>
             <div class="header-right">
-                <h2 class="center">FACTURA</h2>
-                <p><b>Punto de Venta: </b>000{{$configuracion->puntoventa}}<b> Comprobante Nº: </b>{{$factura->comprobanteafip}}</p>
-                <p><b>Fecha de Emisión: </b>{{$factura->fecha}}</p>
+                <h2 class="center">PRESUPUESTO</h2>
+                <p><b>Punto de Venta: </b>0000{{$configuracion->puntoventa}}<b> Comprobante Nº: </b>{{$presupuesto->numpresupuesto}}</p>
+                <p><b>Fecha de Emisión: </b>{{$presupuesto->fecha}}</p>
                 <p><b>Cuit: </b>{{$configuracion->cuit}}</p>
                 <p><b>Ingresos Brutos: </b>{{$configuracion->cuit}}</p>
                 <p><b>Inicio de Actividades: </b>{{$configuracion->inicioactividades}}</p>
@@ -237,7 +219,7 @@
             <p><b>Razón Social: </b>{{$cliente->razonsocial}}</p>
             <p><b>Condición Frente al IVA: </b>{{$cliente->condicioniva}}</p>
             <p><b>Domicilio: </b>{{$cliente->direccion}}</p>
-            <p><b>Condición de Venta: </b>{{$factura->condicionventa}}</p>
+            <p><b>Condición de Venta: </b>{{$presupuesto->condicionventa}}</p>
         </div>
         <br>
         <div class="body">
@@ -265,36 +247,15 @@
         <br>
         <div class="footer">
             <div class="details">
-                <p><b>Subtotal: </b>${{$factura->subtotal}}</p>
-                <p><b>Bonificación: </b>{{$factura->bonificacion}}%</p>
-                <p><b>Recargo: </b>{{$factura->recargo}}%</p>
-                <p><b>Total: </b>${{$factura->total}}</p>
-            </div>
-            <br>
-            <div class="afip">
-                <table>
-                    <tr>
-                        <th style="text-align: left;"><img src="./img/afip.png" width="150px" height="auto"></th>
-                        <th style="text-align: center;">
-                            <p><b>Comprobante Autorizado</b></p>
-                        </th>
-                        <th style="text-align: right;">
-                            <p><b>CAE Nº: </b>{{$factura->cae}}</p>
-                            <p><b>Fecha de Vto. de CAE: </b>{{$factura->fechavto}}</p>
-                        </th>
-                    </tr>
-                </table>
-            </div>
-            <div class="barcode">
-                <p style="font-size: 10px; line-height: 2px;"><b>Esta Administración Federal no se responsabiliza por los datos ingresados en el detalle de la operación</b></p>
-                {!! $barcode !!}
-                <p style="line-height: 8px;">{{ $factura->codbarra }}</p>
+                <p><b>Subtotal: </b>${{$presupuesto->subtotal}}</p>
+                <p><b>Bonificación: </b>{{$presupuesto->bonificacion}}%</p>
+                <p><b>Recargo: </b>{{$presupuesto->recargo}}%</p>
+                <p><b>Total: </b>${{$presupuesto->total}}</p>
             </div>
         </div>
     </div>
 
     <div class="page-break"></div>
-
 
     <div class="container">
         <div class="pre-header">
@@ -304,8 +265,7 @@
             <br>
             <div class="header-middle">
                 <div class="type">
-                    <h1><b>{{$factura->letracomprobante}}</b></h1>
-                    <p><b>{{$factura->codcomprobante}}</b></p>
+                    <h1><b>X</b></h1>
                 </div>
             </div>
             <div class="header-left">
@@ -316,9 +276,9 @@
             </div>
             <div class="v-divider"></div>
             <div class="header-right">
-                <h2 class="center">FACTURA</h2>
-                <p><b>Punto de Venta: </b>000{{$configuracion->puntoventa}}<b> Comprobante Nº: </b>{{$factura->comprobanteafip}}</p>
-                <p><b>Fecha de Emisión: </b>{{$factura->fecha}}</p>
+                <h2 class="center">PRESUPUESTO</h2>
+                <p><b>Punto de Venta: </b>0000{{$configuracion->puntoventa}}<b> Comprobante Nº: </b>{{$presupuesto->numfactura}}</p>
+                <p><b>Fecha de Emisión: </b>{{$presupuesto->fecha}}</p>
                 <p><b>Cuit: </b>{{$configuracion->cuit}}</p>
                 <p><b>Ingresos Brutos: </b>{{$configuracion->cuit}}</p>
                 <p><b>Inicio de Actividades: </b>{{$configuracion->inicioactividades}}</p>
@@ -331,7 +291,7 @@
             <p><b>Razón Social: </b>{{$cliente->razonsocial}}</p>
             <p><b>Condición Frente al IVA: </b>{{$cliente->condicioniva}}</p>
             <p><b>Domicilio: </b>{{$cliente->direccion}}</p>
-            <p><b>Condición de Venta: </b>{{$factura->condicionventa}}</p>
+            <p><b>Condición de Venta: </b>{{$presupuesto->condicionventa}}</p>
         </div>
         <br>
         <div class="body">
@@ -359,30 +319,10 @@
         <br>
         <div class="footer">
             <div class="details">
-                <p><b>Subtotal: </b>${{$factura->subtotal}}</p>
-                <p><b>Bonificación: </b>{{$factura->bonificacion}}%</p>
-                <p><b>Recargo: </b>{{$factura->recargo}}%</p>
-                <p><b>Total: </b>${{$factura->total}}</p>
-            </div>
-            <br>
-            <div class="afip">
-                <table>
-                    <tr>
-                        <th style="text-align: left;"><img src="./img/afip.png" width="150px" height="auto"></th>
-                        <th style="text-align: center;">
-                            <p><b>Comprobante Autorizado</b></p>
-                        </th>
-                        <th style="text-align: right;">
-                            <p><b>CAE Nº: </b>{{$factura->cae}}</p>
-                            <p><b>Fecha de Vto. de CAE: </b>{{$factura->fechavto}}</p>
-                        </th>
-                    </tr>
-                </table>
-            </div>
-            <div class="barcode">
-                <p style="font-size: 10px; line-height: 2px;"><b>Esta Administración Federal no se responsabiliza por los datos ingresados en el detalle de la operación</b></p>
-                {!! $barcode !!}
-                <p style="line-height: 8px;">{{ $factura->codbarra }}</p>
+                <p><b>Subtotal: </b>${{$presupuesto->subtotal}}</p>
+                <p><b>Bonificación: </b>{{$presupuesto->bonificacion}}%</p>
+                <p><b>Recargo: </b>{{$presupuesto->recargo}}%</p>
+                <p><b>Total: </b>${{$presupuesto->total}}</p>
             </div>
         </div>
     </div>

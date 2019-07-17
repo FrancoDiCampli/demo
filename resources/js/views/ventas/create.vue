@@ -4,7 +4,7 @@
             <v-icon>fas fa-chevron-left</v-icon>
         </v-btn>
         <v-card>
-            <FacturasForm></FacturasForm>
+            <FacturasForm mode="create"></FacturasForm>
         </v-card>
     </div>
 </template>

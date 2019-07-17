@@ -289,22 +289,4 @@ export default {
 </script>
 
 <style>
-input[type="number"] {
-    -moz-appearance: textfield;
-}
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-}
-
-.capitalize input[type] {
-    text-transform: capitalize;
-}
-
-.loading {
-    position: fixed;
-    z-index: 999999;
-    left: 47.3%;
-    top: 44%;
-}
 </style>

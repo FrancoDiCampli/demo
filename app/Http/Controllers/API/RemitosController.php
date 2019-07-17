@@ -7,9 +7,10 @@ use App\Articulo;
 use App\Supplier;
 use App\Inventario;
 use App\Movimiento;
+use App\Inicialsetting;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Carbon;
+use App\Http\Controllers\Controller;
 
 class RemitosController extends Controller
 {
@@ -43,9 +44,9 @@ class RemitosController extends Controller
         $proveedor = Supplier::find($atributos['supplier_id']);
 
         if (Remito::all()->last()) {
-            $id = Remito::all()->last()->id + 1;
+            $id = Remito::all()->last()->numremito + 1;
         } else {
-            $id = 1;
+            $id = Inicialsetting::all()->first()->numremito + 1;
         }
 
         // ALMACENAMIENTO DE REMITO

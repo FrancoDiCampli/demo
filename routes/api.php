@@ -50,6 +50,7 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('cuentascorrientes', 'API\CuentacorrientesController');
     Route::apiResource('pagos', 'API\PagosController');
     Route::apiResource('recibos', 'API\RecibosController');
+    Route::apiResource('configuracion', 'API\InicialsettingsController');
 
     //Afip Routes
     Route::get('/buscarAfip/{num}', 'API\ClientesController@buscarAfip');

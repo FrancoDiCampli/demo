@@ -267,6 +267,13 @@ export default {
                     rol: "superAdmin"
                 },
                 {
+                    title: "Configuraciones",
+                    icon: "fas fa-cog",
+                    url: "/configuraciones",
+                    divider: true,
+                    rol: "superAdmin"
+                },
+                {
                     title: "Mi Cuenta",
                     icon: "fas fa-user-circle",
                     url: "/account",

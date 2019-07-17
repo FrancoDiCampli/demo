@@ -197,19 +197,19 @@
                 </div>
             </div>
             <div class="header-left">
-                <h2 class="center">Controller</h2>
-                <p><b>Razón Social: </b>Controller: Programación y Diseño</p>
-                <p><b>Domicilio Comercial: </b>Manuel Guitierrez 160</p>
-                <p><b>Condición Frente al IVA: </b>Responsable Monotributo</p>
+                <h2 class="center">{{$configuracion->nombrefantasia}}</h2>
+                <p><b>Razón Social: </b>{{$configuracion->razonsocial}}</p>
+                <p><b>Domicilio Comercial: </b>{{$configuracion->domiciliocomercial}}</p>
+                <p><b>Condición Frente al IVA: </b>{{$configuracion->condicioniva}}</p>
             </div>
             <div class="v-divider"></div>
             <div class="header-right">
                 <h2 class="center">REMITO</h2>
-                <p><b>Punto de Venta: </b>0003<b> Comprobante Nº: </b>{{$factura->numfactura}}</p>
+                <p><b>Punto de Venta: </b>0000{{$configuracion->puntoventa}}<b> Comprobante Nº: </b>{{$factura->numfactura}}</p>
                 <p><b>Fecha de Emisión: </b>{{$factura->fecha}}</p>
-                <p><b>Cuit: </b>20123456780</p>
-                <p><b>Ingresos Brutos: </b>20123456780</p>
-                <p><b>Inicio de Actividades: </b>01-01-2001</p>
+                <p><b>Cuit: </b>{{$configuracion->cuit}}</p>
+                <p><b>Ingresos Brutos: </b>{{$configuracion->cuit}}</p>
+                <p><b>Inicio de Actividades: </b>{{$configuracion->inicioactividades}}</p>
             </div>
         </div>
         <br><br>
@@ -269,19 +269,19 @@
                 </div>
             </div>
             <div class="header-left">
-                <h2 class="center">Controller</h2>
-                <p><b>Razón Social: </b>Controller: Programación y Diseño</p>
-                <p><b>Domicilio Comercial: </b>Manuel Guitierrez 160</p>
-                <p><b>Condición Frente al IVA: </b>Responsable Monotributo</p>
+                <h2 class="center">{{$configuracion->nombrefantasia}}</h2>
+                <p><b>Razón Social: </b>{{$configuracion->razonsocial}}</p>
+                <p><b>Domicilio Comercial: </b>{{$configuracion->domiciliocomercial}}</p>
+                <p><b>Condición Frente al IVA: </b>{{$configuracion->condicioniva}}</p>
             </div>
             <div class="v-divider"></div>
             <div class="header-right">
                 <h2 class="center">REMITO</h2>
-                <p><b>Punto de Venta: </b>0003<b> Comprobante Nº: </b>{{$factura->numfactura}}</p>
+                <p><b>Punto de Venta: </b>0000{{$configuracion->puntoventa}}<b> Comprobante Nº: </b>{{$factura->numfactura}}</p>
                 <p><b>Fecha de Emisión: </b>{{$factura->fecha}}</p>
-                <p><b>Cuit: </b>20123456780</p>
-                <p><b>Ingresos Brutos: </b>20123456780</p>
-                <p><b>Inicio de Actividades: </b>01-01-2001</p>
+                <p><b>Cuit: </b>{{$configuracion->cuit}}</p>
+                <p><b>Ingresos Brutos: </b>{{$configuracion->cuit}}</p>
+                <p><b>Inicio de Actividades: </b>{{$configuracion->inicioactividades}}</p>
             </div>
         </div>
         <br><br>

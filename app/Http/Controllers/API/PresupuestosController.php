@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\Inventario;
 use App\Movimiento;
 use App\Presupuesto;
+use App\Inicialsetting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -35,14 +36,14 @@ class PresupuestosController extends Controller
         $atributos['cuit'] = $cliente->documentounico;
 
         if (Presupuesto::all()->last()) {
-            $id = Presupuesto::all()->last()->id + 1;
+            $id = Presupuesto::all()->last()->numpresupuesto + 1;
         } else {
-            $id = 1;
+            $id = Inicialsetting::all()->first()->numpresupuesto + 1;
         }
 
         // ALMACENAMIENTO DE PRESUPUESTO
         $presupuesto = Presupuesto::create([
-            "ptoventa" => 1,
+            "ptoventa" => Inicialsetting::all()->first()->puntoventa,
             "cuit" => $atributos['cuit'],
             "numpresupuesto" => $id,
             "bonificacion" => $atributos['bonificacion'],

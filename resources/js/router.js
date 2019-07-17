@@ -47,6 +47,9 @@ import Roles from "./auth/views/Roles.vue";
 import Login from "./auth/views/Login.vue";
 import Account from "./auth/views/Account.vue";
 
+// Configuraciones Views
+import ConfiguracionesIndex from "./views/configuraciones/index.vue";
+
 //_______________________VIEWS_______________________//
 
 //____________________PERMISSIONS____________________//
@@ -357,6 +360,15 @@ export default new Router({
             component: Login,
             meta: {
                 permissions: visitorOnly
+            }
+        },
+        // Configuraciones
+        {
+            path: "/configuraciones",
+            name: "configuraciones",
+            component: ConfiguracionesIndex,
+            meta: {
+                permissions: superAdminOnly
             }
         },
         {

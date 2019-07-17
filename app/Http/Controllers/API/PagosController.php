@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Pago;
+use App\Inicialsetting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -22,9 +23,9 @@ class PagosController extends Controller
         ]);
 
         if (Pago::all()->last()) {
-            $id = Pago::all()->last()->id+1;
+            $id = Pago::all()->last()->numpago + 1;
         } else {
-            $id = 1;
+            $id = Inicialsetting::all()->first()->numpago + 1;
         }
 
         $pago = Pago::create([

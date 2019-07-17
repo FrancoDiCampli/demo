@@ -212,9 +212,9 @@
         <br><br>
         <div class="pre-body">
             <br>
-            <p><b>CUIT: </b>20-34959041-8</p>
-            <p><b>Razón Social: </b>CONTROLLER</p>
-            <p><b>Domicilio: </b>Manuel Gutierrez 160</p>
+            <p><b>CUIT: </b>{{$configuracion->cuit}}</p>
+            <p><b>Razón Social: </b>{{$configuracion->nombrefantasia}}</p>
+            <p><b>Domicilio: </b>{{$configuracion->domiciliocomercial}}</p>
         </div>
         <br>
         <div class="body">

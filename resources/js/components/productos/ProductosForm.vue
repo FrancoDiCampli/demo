@@ -9,7 +9,6 @@
                     label="Costo"
                     box
                     type="number"
-                    class="input-number"
                 ></v-text-field>
             </v-flex>
             <v-flex xs12 sm6 lg3 px-3>
@@ -19,7 +18,6 @@
                     label="Utilidades %"
                     box
                     type="number"
-                    class="input-number"
                 ></v-text-field>
             </v-flex>
             <v-flex xs12 sm6 lg3 px-3>
@@ -38,7 +36,6 @@
                     label="Precio"
                     box
                     type="number"
-                    class="input-number"
                     disabled
                 ></v-text-field>
             </v-flex>
@@ -58,7 +55,6 @@
                     label="Stock Minimo"
                     box
                     type="number"
-                    class="input-number"
                 ></v-text-field>
             </v-flex>
             <v-flex xs12 sm6 px-3>
@@ -303,33 +299,4 @@ export default {
 </script>
 
 <style>
-.input-number input[type="number"] {
-    -moz-appearance: textfield;
-}
-.input-number input::-webkit-outer-spin-button,
-.input-number input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-}
-
-.search-table {
-    border: solid 2px #26a69a;
-    margin-top: -30px;
-    border-top: none;
-    margin-bottom: 20px;
-    border-radius: 0px 0px 5px 5px;
-}
-
-.expansion-border {
-    border-bottom: 1px solid #aaaaaa;
-}
-
-.expand-transition {
-    transition: all 0.5s ease;
-}
-
-.expand-enter,
-.expand-leave {
-    height: 0;
-    opacity: 0;
-}
 </style>

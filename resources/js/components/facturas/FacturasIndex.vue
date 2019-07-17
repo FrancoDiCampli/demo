@@ -6,7 +6,7 @@
                 hide-actions
                 no-data-text="No existe ninguna factura registrada"
                 :headers="headers"
-                :items="facturas.facturas"
+                :items="data.facturas"
                 :loading="inProcess"
             >
                 <v-progress-linear v-slot:progress color="primary" indeterminate></v-progress-linear>
@@ -71,7 +71,7 @@
             <v-layout justify-center>
                 <v-btn
                     :loading="loadingButton"
-                    :disabled="limit >= facturas.total || loadingButton"
+                    :disabled="limit >= data.total || loadingButton"
                     @click="loadMore()"
                     color="primary"
                     outline
@@ -139,34 +139,20 @@ export default {
     },
 
     computed: {
-        ...mapState("crudx", ["inProcess"])
+        ...mapState("crudx", ["inProcess", "data"])
     },
 
     mounted() {
-        this.getFacturas();
+        this.index({ url: "/api/facturas", limit: this.limit });
     },
 
     methods: {
         ...mapActions("crudx", ["index"]),
 
-        getFacturas: async function() {
-            let response = await this.index({
-                url: "/api/facturas",
-                limit: this.limit
-            });
-            this.facturas = response;
-
-            console.log(this.facturas);
-        },
-
         loadMore: async function() {
             this.limit += this.limit;
             this.loadingButton = true;
-            let response = await this.index({
-                url: "/api/facturas",
-                limit: this.limit
-            });
-            this.facturas = response;
+            await this.index({ url: "/api/facturas", limit: this.limit });
             this.loadingButton = false;
         },
 
@@ -175,7 +161,6 @@ export default {
             axios
                 .get("/api/solicitarCae/" + this.factura_id)
                 .then(response => {
-                    console.log(response.data);
                     this.index({ url: "/api/facturas", limit: this.limit });
                     this.factura_id = null;
                     this.grabarFacturasDialog = false;
@@ -196,16 +181,3 @@ export default {
     }
 };
 </script>
-
-<style>
-.type-item {
-    margin: 5px 0px 5px -12px;
-    border: solid 1.5px #26a69a;
-    background-color: rgba(65, 184, 131, 0.25);
-}
-
-.type {
-    margin-top: 15px;
-    color: #26a69a;
-}
-</style>

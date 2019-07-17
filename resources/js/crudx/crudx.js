@@ -7,7 +7,8 @@ const state = {
     form: {},
     errors: null,
     data: [],
-    showData: []
+    showData: [],
+    notifications: []
 };
 
 const mutations = {
@@ -27,6 +28,10 @@ const mutations = {
         state.showData = showData;
     },
 
+    fillNotifications(state, notifications) {
+        state.notifications = notifications;
+    },
+
     resetForm(state) {
         state.form = {};
     },
@@ -43,16 +48,21 @@ const mutations = {
         state.showData = [];
     },
 
+    resetNotifications() {
+        state.notifications = [];
+    },
+
     resetAll() {
         state.form = {};
         state.errors = null;
         state.data = [];
         state.showData = [];
+        state.notifications = [];
     }
 };
 
 const actions = {
-    index: function({ state, commit }, params) {
+    index: function({ state, commit, dispatch }, params) {
         state.inProcess = true;
         commit("resetErrors");
         return new Promise(resolve => {
@@ -61,6 +71,7 @@ const actions = {
                 .then(response => {
                     commit("fillData", response.data);
                     state.inProcess = false;
+                    dispatch("getNotifications");
                     resolve(response.data);
                 })
                 .catch(error => {
@@ -80,6 +91,7 @@ const actions = {
                 .then(response => {
                     commit("fillShowData", response.data);
                     state.inProcess = false;
+                    dispatch("getNotifications");
                     resolve(response.data);
                 })
                 .catch(error => {
@@ -99,6 +111,7 @@ const actions = {
                 .then(response => {
                     commit("resetForm");
                     state.inProcess = false;
+                    dispatch("getNotifications");
                     resolve(response.data);
                 })
                 .catch(error => {
@@ -125,6 +138,7 @@ const actions = {
                 .then(response => {
                     commit("resetForm");
                     state.inProcess = false;
+                    dispatch("getNotifications");
                     resolve(response.data);
                 })
                 .catch(error => {
@@ -143,11 +157,26 @@ const actions = {
                 .delete(params.url)
                 .then(response => {
                     state.inProcess = false;
+                    dispatch("getNotifications");
                     resolve(response.data);
                 })
                 .catch(error => {
                     commit("fillErrors", error.response.data);
                     state.inProcess = false;
+                    throw new Error(error);
+                });
+        });
+    },
+
+    getNotifications: function({ commit }) {
+        return new Promise(resolve => {
+            axios
+                .get("/api/notifications")
+                .then(response => {
+                    commit("fillNotifications", response.data);
+                    resolve(response.data);
+                })
+                .catch(error => {
                     throw new Error(error);
                 });
         });

@@ -24,11 +24,11 @@
             </v-btn>
             <v-spacer></v-spacer>
             <v-btn flat icon @click="notificationDrawer = !notificationDrawer">
-                <div v-if="alerts.length > 0">
+                <div v-if="notifications.length > 0">
                     <v-badge left color="error">
                         <template v-slot:badge>
-                            <div v-if="alerts.length <= 99">
-                                <span>{{ alerts.length }}</span>
+                            <div v-if="notifications.length <= 99">
+                                <span>{{ notifications.length }}</span>
                             </div>
                             <div v-else>
                                 <span>99+</span>
@@ -53,7 +53,7 @@
             temporary
         >
             <v-list dense>
-                <div v-for="alert in alerts" :key="alert.iden">
+                <div v-for="alert in notifications" :key="alert.iden">
                     <v-list-tile my-2 @click="goNotification(alert)">
                         <v-list-tile-action>
                             <v-icon :color="alert.color">{{ alert.icon }}</v-icon>
@@ -278,11 +278,10 @@ export default {
         if (this.token !== null) {
             this.getUser();
         }
-
-        this.getAlerts();
     },
     computed: {
         ...mapState("auth", ["rol", "token"]),
+        ...mapState("crudx", ["notifications"]),
         ...mapGetters("auth", ["account"]),
 
         screenWidth() {
@@ -310,17 +309,6 @@ export default {
             this.mini = true;
         },
 
-        getAlerts: async function() {
-            axios
-                .get("/api/notifications")
-                .then(response => {
-                    this.alerts = response.data;
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        },
-
         goNotification: async function(alert) {
             if (alert.type == "producto") {
                 await this.show({ url: "/api/articulos/" + alert.id });
@@ -335,6 +323,27 @@ export default {
 </script>
 
 <style>
+/* Estilos Personalizados:
+    Los estilos establecidos dentro de esta etiqueta afectaran a todos los componentes
+    siempre y cuando se usen las clases en los mismos.
+    Esta implementación es contraria a la recomendada, pero debido a que los componentes 
+    de Vuetify son externos no podemos utilizar la etiqueta Syle Scope en cada componente,
+    como recomienda Vuejs, para establecer los estilos.
+    Para evitar repitir las clases entre componentes provocando modificaciones no deseadas
+    en los mismos, se estableceran todos los estilos de forma global en esta etiqueta.
+*/
+
+/* Estilos para el avatar de perfil */
+.profile {
+    border: solid 3px #26a69a;
+    background-color: rgba(65, 184, 131, 0.25);
+}
+
+.profile span {
+    color: #26a69a;
+}
+
+/* Estilos para el avatar de perfil en el sidenav */
 .profile-list {
     border: solid 1.5px #26a69a;
     background-color: rgba(65, 184, 131, 0.25);
@@ -344,10 +353,190 @@ export default {
 .profile-list span {
     color: #26a69a;
 }
+
+/* Estilos para el scrollbar */
 body::-webkit-scrollbar {
     width: 7px;
 }
 body::-webkit-scrollbar-thumb {
     background-color: rgba(38, 166, 154, 0.75);
+}
+
+/* Estilo para el indicador de carga circular absoluto */
+.loading {
+    position: fixed;
+    z-index: 999999;
+    left: 47.3%;
+    top: 44%;
+}
+
+/* Estilos para los inputs númericos */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+/* Estilos para los imputs con la primera letra mayuscula */
+.capitalize input[type] {
+    text-transform: capitalize;
+}
+
+/* Estilos para los campos de pago en las cuentas corrientes del cliente (ClientesShowCuentaTable) */
+.input-pagos {
+    width: 75px;
+    display: block;
+    margin-top: 8px;
+    padding: 10px 0px;
+    border: none;
+    border-bottom: 1px solid #9e9e9e;
+    transition: all 1s ease;
+}
+
+.input-pagos:focus {
+    outline: none;
+    border-bottom: 2px solid #26a69a;
+    transition: all 0.5s ease;
+}
+
+.pagos tbody tr {
+    border-bottom: none !important;
+}
+
+/* Estilos para indicar el tipo de comprobante */
+.type-item {
+    margin: 5px 0px 5px -12px;
+    border: solid 1.5px #26a69a;
+    background-color: rgba(65, 184, 131, 0.25);
+}
+
+.type {
+    margin-top: 15px;
+    color: #26a69a;
+}
+
+/* Estilos para los search Table */
+.search-table {
+    border: solid 2px #26a69a;
+    margin-top: -30px;
+    border-top: none;
+    margin-bottom: 20px;
+    border-radius: 0px 0px 5px 5px;
+}
+
+.expansion-border {
+    border-bottom: 1px solid #aaaaaa;
+}
+
+/* Estilos para la animacion de expanción en las Search Table */
+.expand-transition {
+    transition: all 0.5s ease;
+}
+
+.expand-enter,
+.expand-leave {
+    height: 0;
+    opacity: 0;
+}
+
+/* Estilos para los Headers de factura */
+.dataFactura {
+    font-size: 12px;
+    line-height: 5px;
+    margin-top: 12px;
+}
+
+/* Estilos para los Headers de presupuesto */
+.dataPresupuesto {
+    font-size: 12px;
+    line-height: 5px;
+    margin-top: 12px;
+}
+
+/* Estilos para las esquinas de los cards de productos */
+.tringle-right-button {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    border-top: solid 35px #26a69a;
+    border-right: solid 35px #26a69a;
+    border-left: solid 35px transparent;
+    border-bottom: solid 35px transparent;
+    cursor: pointer;
+}
+
+.tringle-right-button .icon {
+    position: absolute;
+    margin-top: -22px;
+    margin-left: 10px;
+    color: white;
+    font-size: 16px;
+}
+
+.tringle-left-button {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-top: solid 25px transparent;
+    border-right: solid 25px transparent;
+    border-left: solid 25px;
+    border-bottom: solid 25px;
+}
+
+.tringle-left-button .icon {
+    position: absolute;
+    margin-top: 2px;
+    margin-left: -18px;
+    color: white;
+    font-size: 16px;
+}
+
+@media (min-width: 600px) {
+    .tringle-right-button {
+        width: 60px;
+        height: 60px;
+        border-top: solid 30px #26a69a;
+        border-right: solid 30px #26a69a;
+        border-left: solid 30px transparent;
+        border-bottom: solid 30px transparent;
+    }
+
+    .tringle-right-button .icon {
+        margin-top: -20px;
+        margin-left: 8px;
+    }
+
+    .tringle-left-button {
+        width: 60px;
+        height: 60px;
+        border-top: solid 30px transparent;
+        border-right: solid 30px transparent;
+        border-left: solid 30px;
+        border-bottom: solid 30px;
+    }
+
+    .tringle-left-button .icon {
+        margin-top: 4px;
+        margin-left: -18px;
+    }
+}
+
+@media (min-width: 1264px) {
+    .tringle-right-button {
+        width: 50px;
+        height: 50px;
+        border-top: solid 25px #26a69a;
+        border-right: solid 25px #26a69a;
+        border-left: solid 25px transparent;
+        border-bottom: solid 25px transparent;
+    }
+
+    .tringle-right-button .icon {
+        margin-top: -16px;
+        margin-left: 8px;
+        font-size: 14px;
+    }
 }
 </style>

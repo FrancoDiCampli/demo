@@ -1,16 +1,25 @@
 <template>
     <div>
-        <v-form ref="formPresupuesto" @submit.prevent="savePresupuesto">
+        <template>
+            <!-- Barra de progreso circular -->
+            <div class="loading" v-show="process">
+                <v-layout justify-center>
+                    <v-progress-circular :size="70" :width="7" color="primary" indeterminate></v-progress-circular>
+                </v-layout>
+            </div>
+        </template>
+        <v-form v-show="!process" ref="formPresupuesto" @submit.prevent="savePresupuesto">
             <!-- Facturas Headers -->
             <div>
                 <v-card-title>
-                    <v-layout justify-space-around wrap>
+                    <v-layout justify-space-between wrap>
                         <v-flex xs12 sm5 mx-1>
-                            <h1 class="text-xs-center text-sm-left">Nuevo Presupuesto</h1>
+                            <h2 class="text-xs-center text-sm-left">Nuevo Presupuesto</h2>
                         </v-flex>
-                        <v-flex xs12 sm5 mx-1 class="data text-xs-center text-sm-right">
+                        <v-flex xs12 sm5 mx-1 class="dataPresupuesto text-xs-center text-sm-right">
                             <p>
-                                <b>Presupuesto Nº:</b> 2
+                                <b>Presupuesto Nº:</b>
+                                {{ numPresupuesto }}
                             </p>
                         </v-flex>
                     </v-layout>
@@ -323,6 +332,8 @@ export default {
 
     data() {
         return {
+            //_________________________Data Headers_________________________//
+            numPresupuesto: null,
             //_________________________Data Clientes________________________//
             detallesCliente: [],
             clientes: [],
@@ -347,6 +358,7 @@ export default {
             ],
 
             //_________________________Data General________________________//
+            process: false,
             rules: {
                 required: value => !!value || "Este campo es obligatorio"
             }
@@ -424,6 +436,9 @@ export default {
     },
 
     mounted() {
+        //_________________________Mounted Headers_________________________//
+        this.lastPresupuesto();
+
         //_________________________Mounted Clientes________________________//
         this.form.cliente_id = 1;
         this.form.cliente = "CONSUMIDOR FINAL";
@@ -431,6 +446,18 @@ export default {
 
     methods: {
         ...mapActions("crudx", ["index", "save"]),
+
+        //_________________________Methods Headers_________________________//
+
+        // Buscar el ultimo presupuesto para establecer el número del presupuesto actual
+        lastPresupuesto: async function() {
+            let response = await this.index({
+                url: "/api/presupuestos",
+                limit: 1
+            });
+            this.numPresupuesto =
+                Number(response.presupuestos[0].numpresupuesto) + 1;
+        },
 
         //_________________________Methods Clientes________________________//
 
@@ -572,16 +599,15 @@ export default {
         //Guardar Factura
         savePresupuesto: async function() {
             if (this.$refs.formPresupuesto.validate()) {
-                console.log(this.form);
-                // //Guardar Factura
-                // await this.save({ url: "/api/facturas" });
-                // //Reset Formularios
-                // this.detalles = [];
-                // await this.$refs.formDetalles.reset();
-                // await this.$refs.formFactura.reset();
-                // //Establecer Valores Predeterminados
-                // this.form.cliente_id = 1;
-                // this.form.cliente = "CONSUMIDOR FINAL";
+                this.process = true;
+                //Guardar Presupuestos
+                await this.save({ url: "/api/presupuestos" });
+                //Reset Formularios
+                this.detalles = [];
+                await this.$refs.formDetalles.reset();
+                await this.$refs.formPresupuesto.reset();
+                this.process = false;
+                this.$router.push("/presupuestos");
             }
         },
 
@@ -600,39 +626,4 @@ export default {
 </script>
 
 <style>
-input[type="number"] {
-    -moz-appearance: textfield;
-}
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-}
-
-.data {
-    font-size: 12px;
-    line-height: 5px;
-    margin-top: 20px;
-}
-
-.search-table {
-    border: solid 2px #26a69a;
-    margin-top: -30px;
-    border-top: none;
-    margin-bottom: 20px;
-    border-radius: 0px 0px 5px 5px;
-}
-
-.expansion-border {
-    border-bottom: 1px solid #aaaaaa;
-}
-
-.expand-transition {
-    transition: all 0.5s ease;
-}
-
-.expand-enter,
-.expand-leave {
-    height: 0;
-    opacity: 0;
-}
 </style>

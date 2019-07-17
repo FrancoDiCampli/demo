@@ -1,19 +1,26 @@
 <template>
     <div>
-        <v-form ref="formFactura" @submit.prevent="saveFactura">
+        <template>
+            <!-- Barra de progreso circular -->
+            <div class="loading" v-show="process">
+                <v-layout justify-center>
+                    <v-progress-circular :size="70" :width="7" color="primary" indeterminate></v-progress-circular>
+                </v-layout>
+            </div>
+        </template>
+        <v-form ref="formFactura" @submit.prevent="saveFactura" v-show="!process">
             <!-- Facturas Headers -->
             <div>
                 <v-card-title>
-                    <v-layout justify-space-around wrap>
+                    <v-layout justify-space-between wrap>
                         <v-flex xs12 sm5 mx-1>
-                            <h1 class="text-xs-center text-sm-left">Nueva Factura</h1>
+                            <h2 class="text-xs-center text-sm-left">Nueva Factura</h2>
                         </v-flex>
-                        <v-flex xs12 sm5 mx-1 class="data text-xs-center text-sm-right">
+                        <v-flex xs12 sm5 mx-1 class="dataFactura text-xs-center text-sm-right">
                             <p>
                                 <b>Punto de Venta:</b> 0003
-                            </p>
-                            <p>
-                                <b>Comprobante Nº:</b> 2
+                                <b>Comprobante Nº:</b>
+                                {{ numFactura }}
                             </p>
                         </v-flex>
                     </v-layout>
@@ -148,7 +155,9 @@
                                                 'cursor: pointer;' : 
                                                 ''"
                                         >
-                                            <td class="hidden-xs-only">{{ producto.item.codarticulo }}</td>
+                                            <td
+                                                class="hidden-xs-only"
+                                            >{{ producto.item.codarticulo }}</td>
                                             <td>{{ producto.item.articulo }}</td>
                                             <td>{{ producto.item.precio }}</td>
                                             <td>
@@ -285,7 +294,6 @@
                                     >Cancelar</v-btn>
                                     <v-btn
                                         :disabled="detalles.length > 0 ? false : true"
-                                        :loading="inProcess"
                                         type="submit"
                                         color="primary"
                                     >Guardar</v-btn>
@@ -296,6 +304,7 @@
                 </v-layout>
                 <br />
             </div>
+            <!-- Modal para agregar el comprobante de pago cuando la condicion es Credito/Debito -->
             <v-dialog v-model="comprobanteCreditoDialog" width="400" persistent>
                 <v-card>
                     <v-card-title>
@@ -321,7 +330,6 @@
 
                             <v-btn
                                 :disabled="inProcess"
-                                :loading="inProcess"
                                 @click="saveFactura()"
                                 color="primary"
                             >Grabar</v-btn>
@@ -344,8 +352,13 @@ import { mapState, mapMutations, mapActions } from "vuex";
 export default {
     name: "FacturasUnique",
 
+    props: ["mode"],
+
     data() {
         return {
+            //_________________________Data Headers_________________________//
+            numFactura: null,
+
             //_________________________Data Clientes________________________//
             detallesCliente: [],
             clientes: [],
@@ -377,6 +390,7 @@ export default {
             comprobanteCreditoDialog: false,
 
             //_________________________Data General________________________//
+            process: false,
             snackbar: false,
             snackbarText: "",
             rules: {
@@ -388,7 +402,7 @@ export default {
     },
 
     computed: {
-        ...mapState("crudx", ["inProcess", "form"]),
+        ...mapState("crudx", ["inProcess", "form", "showData"]),
 
         //_________________________Computed Productos________________________//
 
@@ -457,14 +471,68 @@ export default {
         }
     },
 
+    created() {
+        //___________________________Created Edit___________________________//
+        if (this.mode == "edit") {
+            let id = Number(localStorage.getItem("presupuestoID"));
+
+            this.getPresupuesto(id);
+        }
+    },
+
     mounted() {
+        //_________________________Mounted Headers_________________________//
+        this.lastFactura();
+
         //_________________________Mounted Clientes________________________//
         this.form.cliente_id = 1;
         this.form.cliente = "CONSUMIDOR FINAL";
     },
 
     methods: {
-        ...mapActions("crudx", ["index", "save"]),
+        ...mapActions("crudx", ["index", "show", "save"]),
+
+        //_________________________Methods Edit____________________________//
+
+        getPresupuesto: async function(id) {
+            this.process = true;
+            let response = await this.show({ url: "/api/presupuestos/" + id });
+
+            if (response.cliente.id != 1) {
+                this.selectCliente(response.cliente);
+            }
+
+            for (let i = 0; i < response.detalles.length; i++) {
+                // Crear un Nuevo Detalle
+                let detalle = {
+                    articulo_id: response.detalles[i].articulo_id,
+                    producto: response.detalles[i].articulo,
+                    cantidad: response.detalles[i].cantidad,
+                    precio: response.detalles[i].preciounitario,
+                    subtotal: response.detalles[i].subtotal
+                };
+
+                // Añadir el Detalle al Array de Detalles
+                this.detalles.push(detalle);
+                this.form.detalle = this.detalles;
+            }
+
+            this.form.bonificacion = response.bonificacion;
+            this.form.recargo = response.recargo;
+
+            this.process = false;
+        },
+
+        //_________________________Methods Headers_________________________//
+
+        // Buscar la ultima factura para establecer el número de la factura actual
+        lastFactura: async function() {
+            let response = await this.index({
+                url: "/api/facturas",
+                limit: 1
+            });
+            this.numFactura = Number(response.facturas[0].numfactura) + 1;
+        },
 
         //_________________________Methods Clientes________________________//
 
@@ -646,9 +714,17 @@ export default {
                 //Establecer Mensaje del Snackbar
                 this.snackbarText = this.tipo;
                 if (this.$refs.formFactura.validate()) {
-                    //Guardar Factura
-                    await this.save({ url: "/api/facturas" });
+                    //Cerrar modal y activar el indicador de carga
                     this.comprobanteCreditoDialog = false;
+                    this.process = true;
+                    //Guardar Factura
+                    let resID = await this.save({ url: "/api/facturas" });
+                    //Retornar el pdf de factura
+                    if (this.tipo == "REMITO X") {
+                        window.open("/api/remitosPDF/" + resID);
+                    } else {
+                        window.open("/api/facturasPDF/" + resID);
+                    }
                     //Activar Snackbar
                     this.snackbar = true;
                     //Reset Formularios
@@ -656,11 +732,15 @@ export default {
                     await this.$refs.formDetalles.reset();
                     await this.$refs.formFactura.reset();
                     //Establecer Valores Predeterminados
-
                     this.form.cliente_id = 1;
                     this.form.cliente = "CONSUMIDOR FINAL";
                     this.condicion = "CONTADO";
                     this.tipo = "REMITO X";
+                    //Desactivar el indicador de carga
+                    this.process = false;
+                    if (this.mode == "edit") {
+                        this.$router.push("/ventas");
+                    }
                 }
             }
         },
@@ -682,39 +762,4 @@ export default {
 </script>
 
 <style>
-input[type="number"] {
-    -moz-appearance: textfield;
-}
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-}
-
-.data {
-    font-size: 12px;
-    line-height: 5px;
-    margin-top: 8px;
-}
-
-.search-table {
-    border: solid 2px #26a69a;
-    margin-top: -30px;
-    border-top: none;
-    margin-bottom: 20px;
-    border-radius: 0px 0px 5px 5px;
-}
-
-.expansion-border {
-    border-bottom: 1px solid #aaaaaa;
-}
-
-.expand-transition {
-    transition: all 0.5s ease;
-}
-
-.expand-enter,
-.expand-leave {
-    height: 0;
-    opacity: 0;
-}
 </style>

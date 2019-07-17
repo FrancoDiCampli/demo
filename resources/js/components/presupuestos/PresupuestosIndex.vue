@@ -25,6 +25,9 @@
                             </template>
                             <v-list>
                                 <v-list-tile>
+                                    <v-list-tile-title>Imprimir</v-list-tile-title>
+                                </v-list-tile>
+                                <v-list-tile @click="facturar(presupuesto.item.id)">
                                     <v-list-tile-title>Facturar</v-list-tile-title>
                                 </v-list-tile>
                             </v-list>
@@ -74,7 +77,7 @@ export default {
     },
 
     computed: {
-        ...mapState("crudx", ["inProcess", "data"])
+        ...mapState("crudx", ["inProcess", "data", "showData"])
     },
 
     mounted() {
@@ -82,13 +85,18 @@ export default {
     },
 
     methods: {
-        ...mapActions("crudx", ["index"]),
+        ...mapActions("crudx", ["index", "show"]),
 
         loadMore: async function() {
             this.limit += this.limit;
             this.loadingButton = true;
             await this.index({ url: "/api/presupuestos", limit: this.limit });
             this.loadingButton = false;
+        },
+
+        facturar: async function(id) {
+            await localStorage.setItem("presupuestoID", id);
+            this.$router.push("/ventas/edit");
         }
     }
 };

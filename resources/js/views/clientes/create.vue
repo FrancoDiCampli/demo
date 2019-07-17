@@ -1,35 +1,37 @@
 <template>
-    <v-card>
-        <v-btn dark fab fixed right bottom @click="goBack()" color="primary">
-            <v-icon>fas fa-chevron-left</v-icon>
-        </v-btn>
-        <!-- Header -->
-        <v-card-text>
-            <v-layout justify-space-between>
-                <h2>Nuevo Cliente</h2>
-            </v-layout>
-        </v-card-text>
-        <v-divider></v-divider>
-        <!-- Body -->
-        <v-card-text>
-            <template>
-                <!-- Barra de progreso circular -->
-                <div class="loading" v-show="inProcess">
-                    <v-layout justify-center>
-                        <v-progress-circular :size="70" :width="7" color="primary" indeterminate></v-progress-circular>
-                    </v-layout>
-                </div>
-            </template>
-            <!-- Formulario para agregar un cliente -->
-            <v-form ref="clientesForm" @submit.prevent="saveCliente">
-                <!-- Componente Formulario -->
-                <ClientesForm mode="new"></ClientesForm>
+    <div>
+        <template>
+            <!-- Barra de progreso circular -->
+            <div class="loading" v-show="inProcess || process">
                 <v-layout justify-center>
-                    <v-btn :disabled="inProcess" type="submit" color="primary">Guardar</v-btn>
+                    <v-progress-circular :size="70" :width="7" color="primary" indeterminate></v-progress-circular>
                 </v-layout>
-            </v-form>
-        </v-card-text>
-    </v-card>
+            </div>
+        </template>
+        <v-card v-show="!process">
+            <v-btn dark fab fixed right bottom @click="goBack()" color="primary">
+                <v-icon>fas fa-chevron-left</v-icon>
+            </v-btn>
+            <!-- Header -->
+            <v-card-text>
+                <v-layout justify-space-between>
+                    <h2>Nuevo Cliente</h2>
+                </v-layout>
+            </v-card-text>
+            <v-divider></v-divider>
+            <!-- Body -->
+            <v-card-text>
+                <!-- Formulario para agregar un cliente -->
+                <v-form ref="clientesForm" @submit.prevent="saveCliente">
+                    <!-- Componente Formulario -->
+                    <ClientesForm mode="new"></ClientesForm>
+                    <v-layout justify-center>
+                        <v-btn :disabled="inProcess" type="submit" color="primary">Guardar</v-btn>
+                    </v-layout>
+                </v-form>
+            </v-card-text>
+        </v-card>
+    </div>
 </template>
 
 <script>
@@ -41,6 +43,12 @@ import ClientesForm from "../../components/clientes/ClientesForm.vue";
 
 export default {
     name: "ClienteCreate",
+
+    data() {
+        return {
+            process: false
+        };
+    },
 
     computed: {
         ...mapState("crudx", ["inProcess"])
@@ -55,10 +63,12 @@ export default {
 
         saveCliente: async function() {
             if (this.$refs.clientesForm.validate()) {
+                this.process = true;
                 await this.save({ url: "/api/clientes" });
                 await this.index({ url: "/api/clientes" });
                 this.$refs.clientesForm.resetValidation();
                 this.$refs.clientesForm.reset();
+                this.process = false;
                 this.$router.push("/clientes");
             }
         },
@@ -70,6 +80,3 @@ export default {
     }
 };
 </script>
-
-<style>
-</style>

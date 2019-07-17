@@ -355,23 +355,4 @@ export default {
 </script>
 
 <style>
-.input-pagos {
-    width: 75px;
-    display: block;
-    margin-top: 8px;
-    padding: 10px 0px;
-    border: none;
-    border-bottom: 1px solid #9e9e9e;
-    transition: all 1s ease;
-}
-
-.input-pagos:focus {
-    outline: none;
-    border-bottom: 2px solid #26a69a;
-    transition: all 0.5s ease;
-}
-
-.pagos tbody tr {
-    border-bottom: none !important;
-}
 </style>

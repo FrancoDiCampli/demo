@@ -181,16 +181,3 @@ export default {
     }
 };
 </script>
-
-<style>
-.type-item {
-    margin: 5px 0px 5px -12px;
-    border: solid 1.5px #26a69a;
-    background-color: rgba(65, 184, 131, 0.25);
-}
-
-.type {
-    margin-top: 15px;
-    color: #26a69a;
-}
-</style>

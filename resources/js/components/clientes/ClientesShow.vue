@@ -204,13 +204,3 @@ export default {
 };
 </script>
 
-<style>
-.profile {
-    border: solid 3px #26a69a;
-    background-color: rgba(65, 184, 131, 0.25);
-}
-
-.profile span {
-    color: #26a69a;
-}
-</style>

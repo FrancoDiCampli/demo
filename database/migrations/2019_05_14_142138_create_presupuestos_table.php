@@ -23,7 +23,7 @@ class CreatePresupuestosTable extends Migration
             $table->decimal('recargo', 8, 2);
             $table->decimal('subtotal', 8, 2);
             $table->decimal('total', 8, 2);
-            $table->string('vencimiento');
+            $table->string('vencimiento')->nullable();
             $table->UnsignedBigInteger('cliente_id');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();

@@ -19,7 +19,7 @@ class FacturasController extends Controller
 {
     public function index(Request $request)
     {
-        $facturas = Factura::orderBy('id', 'DESC')->get();
+        $facturas = Factura::orderBy('numfactura', 'DESC')->get();
         foreach ($facturas as $factura) {
             $fecha = new Carbon($factura->fecha);
             $factura->fecha = $fecha->format('d-m-Y');
@@ -150,7 +150,7 @@ class FacturasController extends Controller
                 unset($article);
             }
         }
-        return (['message' => 'guardado']);
+        return $factura->id;
     }
     public function update(Request $request, $id)
     {

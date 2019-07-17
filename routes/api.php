@@ -27,27 +27,28 @@ Route::middleware('auth:api')->group(function () {
     // Notifications Api Routes
     Route::get('notifications', 'API\NotificationsController@getNotifications');
 
-    // Categorias Api Routes
-    Route::apiResource('categorias', 'API\CategoriasController', ['only' => ['index', 'show', 'store']]);
+    // Facturas Api Routes
+    Route::apiResource('facturas', 'API\FacturasController', ['except' => ['create', 'edit']]);
 
-    // Marcas Api Routes
-    Route::apiResource('marcas', 'API\MarcasController', ['only' => ['index', 'show', 'store']]);
-
-    // Articulos Api Routess
-    Route::apiResource('articulos', 'API\ArticulosController', ['except' => ['create', 'edit']]);
+    // Presupuestos Api Routes
+    Route::apiResource('presupuestos', 'API\PresupuestosController', ['except' => ['create', 'edit']]);
 
     // Clientes Api Routes
     Route::apiResource('clientes', 'API\ClientesController', ['except' => ['create', 'edit']]);
-
-    // Cuentas Corrientes Api Routes
     Route::post('/pagarcuentas', 'API\CuentacorrientesController@pagar');
 
-    Route::apiResource('suppliers', 'API\SuppliersController');
-    Route::apiResource('inventarios', 'API\InventariosController');
-    Route::apiResource('facturas', 'API\FacturasController');
+    // Articulos Api Routess
+    Route::apiResource('articulos', 'API\ArticulosController', ['except' => ['create', 'edit']]);
+    Route::apiResource('categorias', 'API\CategoriasController', ['only' => ['index', 'show', 'store']]);
+    Route::apiResource('marcas', 'API\MarcasController', ['only' => ['index', 'show', 'store']]);
+    Route::apiResource('inventarios', 'API\InventariosController', ['only' => ['store']]);
+
+    // Proveedores Api Routes
+    Route::apiResource('suppliers', 'API\SuppliersController',  ['except' => ['create', 'edit']]);
+
     Route::apiResource('remitos', 'API\RemitosController');
-    Route::apiResource('presupuestos', 'API\PresupuestosController');
-    Route::apiResource('cuentascorrientes', 'API\CuentacorrientesController');
+
+
     Route::apiResource('pagos', 'API\PagosController');
     Route::apiResource('recibos', 'API\RecibosController');
     Route::apiResource('configuracion', 'API\InicialsettingsController');

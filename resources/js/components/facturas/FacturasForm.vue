@@ -18,7 +18,8 @@
                         </v-flex>
                         <v-flex xs12 sm5 mx-1 class="dataFactura text-xs-center text-sm-right">
                             <p>
-                                <b>Punto de Venta:</b> 0003
+                                <b>Punto de Venta:</b>
+                                {{point}}
                                 <b>Comprobante Nº:</b>
                                 {{ numFactura }}
                             </p>
@@ -358,7 +359,7 @@ export default {
         return {
             //_________________________Data Headers_________________________//
             numFactura: null,
-
+            point: null,
             //_________________________Data Clientes________________________//
             detallesCliente: [],
             clientes: [],
@@ -483,7 +484,7 @@ export default {
     mounted() {
         //_________________________Mounted Headers_________________________//
         this.lastFactura();
-
+        this.getPoint();
         //_________________________Mounted Clientes________________________//
         this.form.cliente_id = 1;
         this.form.cliente = "CONSUMIDOR FINAL";
@@ -491,6 +492,28 @@ export default {
 
     methods: {
         ...mapActions("crudx", ["index", "show", "save"]),
+
+        //_________________________Methods Headers_________________________//
+
+        // Buscar la ultima factura para establecer el número de la factura actual
+        lastFactura: async function() {
+            let response = await this.index({
+                url: "/api/facturas",
+                limit: 1
+            });
+
+            if (response.facturas.length > 0) {
+                this.numFactura = Number(response.facturas[0].numfactura) + 1;
+            } else {
+                let response = await this.index({ url: "/api/configuracion" });
+                this.numFactura = response.numfactura;
+            }
+        },
+
+        getPoint: async function() {
+            let response = await this.index({ url: "/api/configuracion" });
+            this.point = response.puntoventa;
+        },
 
         //_________________________Methods Edit____________________________//
 
@@ -521,17 +544,6 @@ export default {
             this.form.recargo = response.recargo;
 
             this.process = false;
-        },
-
-        //_________________________Methods Headers_________________________//
-
-        // Buscar la ultima factura para establecer el número de la factura actual
-        lastFactura: async function() {
-            let response = await this.index({
-                url: "/api/facturas",
-                limit: 1
-            });
-            this.numFactura = Number(response.facturas[0].numfactura) + 1;
         },
 
         //_________________________Methods Clientes________________________//

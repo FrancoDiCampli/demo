@@ -455,8 +455,14 @@ export default {
                 url: "/api/presupuestos",
                 limit: 1
             });
-            this.numPresupuesto =
-                Number(response.presupuestos[0].numpresupuesto) + 1;
+
+            if (response.presupuestos.length > 0) {
+                this.numPresupuesto =
+                    Number(response.presupuestos[0].numpresupuesto) + 1;
+            } else {
+                let response = await this.index({ url: "/api/configuracion" });
+                this.numPresupuesto = response.numpresupuesto;
+            }
         },
 
         //_________________________Methods Clientes________________________//

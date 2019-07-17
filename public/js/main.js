@@ -5685,6 +5685,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 //Axios
  //Vuex
 
@@ -5698,6 +5699,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       //_________________________Data Headers_________________________//
       numFactura: null,
+      point: null,
       //_________________________Data Clientes________________________//
       detallesCliente: [],
       clientes: [],
@@ -5827,30 +5829,117 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   mounted: function mounted() {
     //_________________________Mounted Headers_________________________//
-    this.lastFactura(); //_________________________Mounted Clientes________________________//
+    this.lastFactura();
+    this.getPoint(); //_________________________Mounted Clientes________________________//
 
     this.form.cliente_id = 1;
     this.form.cliente = "CONSUMIDOR FINAL";
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index", "show", "save"]), {
-    //_________________________Methods Edit____________________________//
-    getPresupuesto: function () {
-      var _getPresupuesto = _asyncToGenerator(
+    //_________________________Methods Headers_________________________//
+    // Buscar la ultima factura para establecer el número de la factura actual
+    lastFactura: function () {
+      var _lastFactura = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(id) {
-        var response, i, detalle;
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var response, _response;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                _context.next = 2;
+                return this.index({
+                  url: "/api/facturas",
+                  limit: 1
+                });
+
+              case 2:
+                response = _context.sent;
+
+                if (!(response.facturas.length > 0)) {
+                  _context.next = 7;
+                  break;
+                }
+
+                this.numFactura = Number(response.facturas[0].numfactura) + 1;
+                _context.next = 11;
+                break;
+
+              case 7:
+                _context.next = 9;
+                return this.index({
+                  url: "/api/configuracion"
+                });
+
+              case 9:
+                _response = _context.sent;
+                this.numFactura = _response.numfactura;
+
+              case 11:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function lastFactura() {
+        return _lastFactura.apply(this, arguments);
+      }
+
+      return lastFactura;
+    }(),
+    getPoint: function () {
+      var _getPoint = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return this.index({
+                  url: "/api/configuracion"
+                });
+
+              case 2:
+                response = _context2.sent;
+                this.point = response.puntoventa;
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function getPoint() {
+        return _getPoint.apply(this, arguments);
+      }
+
+      return getPoint;
+    }(),
+    //_________________________Methods Edit____________________________//
+    getPresupuesto: function () {
+      var _getPresupuesto = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(id) {
+        var response, i, detalle;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
                 this.process = true;
-                _context.next = 3;
+                _context3.next = 3;
                 return this.show({
                   url: "/api/presupuestos/" + id
                 });
 
               case 3:
-                response = _context.sent;
+                response = _context3.sent;
 
                 if (response.cliente.id != 1) {
                   this.selectCliente(response.cliente);
@@ -5876,10 +5965,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 9:
               case "end":
-                return _context.stop();
+                return _context3.stop();
             }
           }
-        }, _callee, this);
+        }, _callee3, this);
       }));
 
       function getPresupuesto(_x) {
@@ -5888,56 +5977,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       return getPresupuesto;
     }(),
-    //_________________________Methods Headers_________________________//
-    // Buscar la ultima factura para establecer el número de la factura actual
-    lastFactura: function () {
-      var _lastFactura = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return this.index({
-                  url: "/api/facturas",
-                  limit: 1
-                });
-
-              case 2:
-                response = _context2.sent;
-                this.numFactura = Number(response.facturas[0].numfactura) + 1;
-
-              case 4:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function lastFactura() {
-        return _lastFactura.apply(this, arguments);
-      }
-
-      return lastFactura;
-    }(),
     //_________________________Methods Clientes________________________//
     // Buscar los Clientes
     findCliente: function () {
       var _findCliente = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
         var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 this.detailClient = [];
 
                 if (!(this.form.cliente == "0")) {
-                  _context3.next = 8;
+                  _context4.next = 8;
                   break;
                 }
 
@@ -5946,16 +6000,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.form.cliente_id = 1;
                 this.form.cliente = "CONSUMIDOR FINAL";
                 this.condicion = "CONTADO";
-                _context3.next = 13;
+                _context4.next = 13;
                 break;
 
               case 8:
                 if (!this.form.cliente) {
-                  _context3.next = 13;
+                  _context4.next = 13;
                   break;
                 }
 
-                _context3.next = 11;
+                _context4.next = 11;
                 return this.index({
                   url: "/api/clientes",
                   buscarCliente: this.form.cliente,
@@ -5963,15 +6017,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 });
 
               case 11:
-                response = _context3.sent;
+                response = _context4.sent;
                 this.clientes = response.clientes;
 
               case 13:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
 
       function findCliente() {
@@ -6002,11 +6056,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     findProducto: function () {
       var _findProducto = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
         var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 // Reiniciar Cantidad, Precio y Stock
                 this.cantidad = null;
@@ -6014,11 +6068,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.stock = 0; // Buscar Productos
 
                 if (!this.form.producto) {
-                  _context4.next = 8;
+                  _context5.next = 8;
                   break;
                 }
 
-                _context4.next = 6;
+                _context5.next = 6;
                 return this.index({
                   url: "/api/articulos",
                   buscarArticulo: this.form.producto,
@@ -6026,15 +6080,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 });
 
               case 6:
-                response = _context4.sent;
+                response = _context5.sent;
                 this.productos = response.articulos;
 
               case 8:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee5, this);
       }));
 
       function findProducto() {
@@ -6137,19 +6191,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     saveFactura: function () {
       var _saveFactura = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
         var resID;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 if (!(this.condicion == "CREDITO / DEBITO" && !this.form.compago)) {
-                  _context5.next = 4;
+                  _context6.next = 4;
                   break;
                 }
 
                 this.comprobanteCreditoDialog = true;
-                _context5.next = 26;
+                _context6.next = 26;
                 break;
 
               case 4:
@@ -6160,7 +6214,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.snackbarText = this.tipo;
 
                 if (!this.$refs.formFactura.validate()) {
-                  _context5.next = 26;
+                  _context6.next = 26;
                   break;
                 }
 
@@ -6168,13 +6222,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.comprobanteCreditoDialog = false;
                 this.process = true; //Guardar Factura
 
-                _context5.next = 12;
+                _context6.next = 12;
                 return this.save({
                   url: "/api/facturas"
                 });
 
               case 12:
-                resID = _context5.sent;
+                resID = _context6.sent;
 
                 //Retornar el pdf de factura
                 if (this.tipo == "REMITO X") {
@@ -6187,11 +6241,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.snackbar = true; //Reset Formularios
 
                 this.detalles = [];
-                _context5.next = 18;
+                _context6.next = 18;
                 return this.$refs.formDetalles.reset();
 
               case 18:
-                _context5.next = 20;
+                _context6.next = 20;
                 return this.$refs.formFactura.reset();
 
               case 20:
@@ -6209,10 +6263,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 26:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee6, this);
       }));
 
       function saveFactura() {
@@ -6225,18 +6279,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     cancelFactura: function () {
       var _cancelFactura = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 //Reset Formularios
                 this.detalles = [];
-                _context6.next = 3;
+                _context7.next = 3;
                 return this.$refs.formDetalles.reset();
 
               case 3:
-                _context6.next = 5;
+                _context7.next = 5;
                 return this.$refs.formFactura.reset();
 
               case 5:
@@ -6248,10 +6302,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 9:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee7, this);
       }));
 
       function cancelFactura() {
@@ -6990,7 +7044,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _lastPresupuesto = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var response;
+        var response, _response;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -7003,9 +7058,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 2:
                 response = _context.sent;
-                this.numPresupuesto = Number(response.presupuestos[0].numpresupuesto) + 1;
 
-              case 4:
+                if (!(response.presupuestos.length > 0)) {
+                  _context.next = 7;
+                  break;
+                }
+
+                this.numPresupuesto = Number(response.presupuestos[0].numpresupuesto) + 1;
+                _context.next = 11;
+                break;
+
+              case 7:
+                _context.next = 9;
+                return this.index({
+                  url: "/api/configuracion"
+                });
+
+              case 9:
+                _response = _context.sent;
+                this.numPresupuesto = _response.numpresupuesto;
+
+              case 11:
               case "end":
                 return _context.stop();
             }
@@ -22360,7 +22433,11 @@ var render = function() {
                         [
                           _c("p", [
                             _c("b", [_vm._v("Punto de Venta:")]),
-                            _vm._v(" 0003\n                            "),
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(_vm.point) +
+                                "\n                            "
+                            ),
                             _c("b", [_vm._v("Comprobante Nº:")]),
                             _vm._v(
                               "\n                            " +
@@ -79184,7 +79261,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /opt/lampp/htdocs/provisorio/Gepetto-Point-Of-Sale/resources/js/main.js */"./resources/js/main.js");
+module.exports = __webpack_require__(/*! /opt/lampp/htdocs/Gepetto-Point-Of-Sale/resources/js/main.js */"./resources/js/main.js");
 
 
 /***/ })

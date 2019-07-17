@@ -27,8 +27,6 @@ class InicialsettingsTableSeeder extends Seeder
             'nombrefantasia' => 'CONTROLLER',
             'domiciliocomercial' => 'Manuel Gutierrez 160',
             'tagline' => 'Diseño y Programación',
-            'cert' => 'storage/carpeta/',
-            'key' => 'storage/carpeta/',
             'numfactura' => 107,
             'numremito' => 51,
             'numpresupuesto' => 89,

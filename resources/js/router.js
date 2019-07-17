@@ -49,6 +49,7 @@ import Account from "./auth/views/Account.vue";
 
 // Configuraciones Views
 import ConfiguracionesIndex from "./views/configuraciones/index.vue";
+import ConfiguracionesActualizar from "./views/configuraciones/actualizar.vue";
 
 //_______________________VIEWS_______________________//
 
@@ -367,6 +368,14 @@ export default new Router({
             path: "/configuraciones",
             name: "configuraciones",
             component: ConfiguracionesIndex,
+            meta: {
+                permissions: superAdminOnly
+            }
+        },
+        {
+            path: "/configuraciones/actualizar",
+            name: "actualizacion configuraciones",
+            component: ConfiguracionesActualizar,
             meta: {
                 permissions: superAdminOnly
             }

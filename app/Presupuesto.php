@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Presupuesto extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = ['ptoventa', 'numpresupuesto', 'cuit', 'fecha', 'bonificacion', 'recargo', 'subtotal', 'total', 'vencimiento', 'cliente_id', 'user_id'];
 
     public function user()

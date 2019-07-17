@@ -106,4 +106,10 @@ class PresupuestosController extends Controller
         $presupuesto->put('cliente', $cliente);
         return $presupuesto;
     }
+
+    public function destroy($id)
+    {
+        $presupuesto = Presupuesto::find($id);
+        $presupuesto->delete();
+    }
 }

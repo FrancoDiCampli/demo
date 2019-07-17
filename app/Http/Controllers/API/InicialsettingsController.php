@@ -10,7 +10,8 @@ class InicialsettingsController extends Controller
 {
     public function index()
     {
-        return $configuracion = Inicialsetting::get();
+        $configuracion = Inicialsetting::get();
+        return $configuracion[0];
     }
 
     public function update(Request $request, $id)

@@ -5678,14 +5678,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 //Axios
  //Vuex
 
@@ -5747,8 +5739,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       comprobanteCreditoDialog: false,
       //_________________________Data General________________________//
       process: false,
-      snackbar: false,
-      snackbarText: "",
       rules: {
         required: function required(value) {
           return !!value || "Este campo es obligatorio";
@@ -6203,18 +6193,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 }
 
                 this.comprobanteCreditoDialog = true;
-                _context6.next = 26;
+                _context6.next = 24;
                 break;
 
               case 4:
                 //Establecer Campos no establecidos
                 this.form.condicion = this.condicion;
-                this.form.tipo = this.tipo; //Establecer Mensaje del Snackbar
-
-                this.snackbarText = this.tipo;
+                this.form.tipo = this.tipo;
 
                 if (!this.$refs.formFactura.validate()) {
-                  _context6.next = 26;
+                  _context6.next = 24;
                   break;
                 }
 
@@ -6222,12 +6210,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.comprobanteCreditoDialog = false;
                 this.process = true; //Guardar Factura
 
-                _context6.next = 12;
+                _context6.next = 11;
                 return this.save({
                   url: "/api/facturas"
                 });
 
-              case 12:
+              case 11:
                 resID = _context6.sent;
 
                 //Retornar el pdf de factura
@@ -6235,20 +6223,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   window.open("/api/remitosPDF/" + resID);
                 } else {
                   window.open("/api/facturasPDF/" + resID);
-                } //Activar Snackbar
+                } //Reset Formularios
 
-
-                this.snackbar = true; //Reset Formularios
 
                 this.detalles = [];
-                _context6.next = 18;
+                _context6.next = 16;
                 return this.$refs.formDetalles.reset();
 
-              case 18:
-                _context6.next = 20;
+              case 16:
+                _context6.next = 18;
                 return this.$refs.formFactura.reset();
 
-              case 20:
+              case 18:
                 //Establecer Valores Predeterminados
                 this.form.cliente_id = 1;
                 this.form.cliente = "CONSUMIDOR FINAL";
@@ -6261,7 +6247,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   this.$router.push("/ventas");
                 }
 
-              case 26:
+              case 24:
               case "end":
                 return _context6.stop();
             }
@@ -6456,6 +6442,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //Axios
  //Vuex
 
@@ -6466,7 +6466,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       facturas: [],
       limit: 10,
-      loadingButton: false,
       headers: [{
         text: "Tipo",
         sortable: false,
@@ -6501,7 +6500,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       limit: this.limit
     });
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index"]), {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index", "destroy"]), {
     loadMore: function () {
       var _loadMore = _asyncToGenerator(
       /*#__PURE__*/
@@ -6511,7 +6510,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             switch (_context.prev = _context.next) {
               case 0:
                 this.limit += this.limit;
-                this.loadingButton = true;
+                this.process = true;
                 _context.next = 4;
                 return this.index({
                   url: "/api/facturas",
@@ -6519,7 +6518,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 });
 
               case 4:
-                this.loadingButton = false;
+                this.process = false;
 
               case 5:
               case "end":
@@ -6552,6 +6551,44 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         console.log(error);
       });
     },
+    anularFactura: function () {
+      var _anularFactura = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(id) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                this.process = true;
+                _context2.next = 3;
+                return this.destroy({
+                  url: "/api/facturas/" + id
+                });
+
+              case 3:
+                _context2.next = 5;
+                return this.index({
+                  url: "/api/facturas",
+                  limit: this.limit
+                });
+
+              case 5:
+                this.process = false;
+
+              case 6:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function anularFactura(_x) {
+        return _anularFactura.apply(this, arguments);
+      }
+
+      return anularFactura;
+    }(),
     facturaPDF: function facturaPDF(id) {
       window.open("/api/facturasPDF/" + id);
     },
@@ -7278,12 +7315,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _savePresupuesto = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        var resID;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 if (!this.$refs.formPresupuesto.validate()) {
-                  _context4.next = 11;
+                  _context4.next = 13;
                   break;
                 }
 
@@ -7295,20 +7333,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 });
 
               case 4:
-                //Reset Formularios
+                resID = _context4.sent;
+                //Imprimir PDF de Presupuestos
+                window.open("/api/presupuestosPDF/" + resID); //Reset Formularios
+
                 this.detalles = [];
-                _context4.next = 7;
+                _context4.next = 9;
                 return this.$refs.formDetalles.reset();
 
-              case 7:
-                _context4.next = 9;
+              case 9:
+                _context4.next = 11;
                 return this.$refs.formPresupuesto.reset();
 
-              case 9:
+              case 11:
                 this.process = false;
                 this.$router.push("/presupuestos");
 
-              case 11:
+              case 13:
               case "end":
                 return _context4.stop();
             }
@@ -7542,7 +7583,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       return facturar;
-    }()
+    }(),
+    presupuestosPDF: function presupuestosPDF(id) {
+      window.open("/api/presupuestosPDF/" + id);
+    }
   })
 });
 
@@ -22456,47 +22500,7 @@ var render = function() {
               _vm._v(" "),
               _c("v-divider"),
               _vm._v(" "),
-              _c("br"),
-              _vm._v(" "),
-              _c(
-                "v-snackbar",
-                {
-                  attrs: {
-                    color: "primary",
-                    timeout: 6000,
-                    right: "",
-                    top: ""
-                  },
-                  model: {
-                    value: _vm.snackbar,
-                    callback: function($$v) {
-                      _vm.snackbar = $$v
-                    },
-                    expression: "snackbar"
-                  }
-                },
-                [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(_vm.snackbarText) +
-                      " GUARDADO\n                "
-                  ),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { color: "white", flat: "", icon: "" },
-                      on: {
-                        click: function($event) {
-                          _vm.snackbar = false
-                        }
-                      }
-                    },
-                    [_c("v-icon", [_vm._v("fas fa-times")])],
-                    1
-                  )
-                ],
-                1
-              )
+              _c("br")
             ],
             1
           ),
@@ -23466,17 +23470,9 @@ var render = function() {
                       { staticClass: "hidden-xs-only" },
                       [
                         _c("v-avatar", { staticClass: "type-item" }, [
-                          factura.item.cae == null
-                            ? _c("div", [
-                                _c("p", { staticClass: "title type" }, [
-                                  _vm._v("X")
-                                ])
-                              ])
-                            : _c("div", [
-                                _c("p", { staticClass: "title type" }, [
-                                  _vm._v("C")
-                                ])
-                              ])
+                          _c("p", { staticClass: "title type" }, [
+                            _vm._v(_vm._s(factura.item.letracomprobante))
+                          ])
                         ])
                       ],
                       1
@@ -23584,6 +23580,7 @@ var render = function() {
                                         expression: "factura.item.cae != null"
                                       }
                                     ],
+                                    attrs: { disabled: _vm.process },
                                     on: {
                                       click: function($event) {
                                         return _vm.facturaPDF(factura.item.id)
@@ -23605,10 +23602,14 @@ var render = function() {
                                       {
                                         name: "show",
                                         rawName: "v-show",
-                                        value: factura.item.cae == null,
-                                        expression: "factura.item.cae == null"
+                                        value:
+                                          factura.item.cae == null &&
+                                          factura.item.pagada == true,
+                                        expression:
+                                          "factura.item.cae == null && factura.item.pagada == true"
                                       }
                                     ],
+                                    attrs: { disabled: _vm.process },
                                     on: {
                                       click: function($event) {
                                         _vm.factura_id = factura.item.id
@@ -23627,10 +23628,21 @@ var render = function() {
                                       {
                                         name: "show",
                                         rawName: "v-show",
-                                        value: factura.item.cae == null,
-                                        expression: "factura.item.cae == null"
+                                        value:
+                                          factura.item.cae == null &&
+                                          factura.item.pagada == true,
+                                        expression:
+                                          "factura.item.cae == null && factura.item.pagada == true"
                                       }
-                                    ]
+                                    ],
+                                    attrs: { disabled: _vm.process },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.anularFactura(
+                                          factura.item.id
+                                        )
+                                      }
+                                    }
                                   },
                                   [_c("v-list-tile-title", [_vm._v("Anular")])],
                                   1
@@ -23674,8 +23686,8 @@ var render = function() {
               "v-btn",
               {
                 attrs: {
-                  loading: _vm.loadingButton,
-                  disabled: _vm.limit >= _vm.data.total || _vm.loadingButton,
+                  loading: _vm.process,
+                  disabled: _vm.limit >= _vm.data.total || _vm.process,
                   color: "primary",
                   outline: ""
                 },
@@ -23711,51 +23723,104 @@ var render = function() {
                 _vm._v(" "),
                 _c("v-divider"),
                 _vm._v(" "),
-                _c("v-card-text", [
-                  _vm._v(
-                    "¿Estás seguro que deseas grabar esta Factura? este cambio es irreversible"
-                  )
-                ]),
-                _vm._v(" "),
                 _c(
-                  "v-card-text",
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.process,
+                        expression: "process"
+                      }
+                    ]
+                  },
                   [
                     _c(
-                      "v-layout",
-                      { attrs: { "justify-end": "", wrap: "" } },
+                      "v-card-text",
                       [
                         _c(
-                          "v-btn",
-                          {
-                            attrs: {
-                              outline: "",
-                              color: "primary",
-                              disabled: _vm.process
-                            },
-                            on: {
-                              click: function($event) {
-                                _vm.grabarFacturasDialog = false
+                          "v-layout",
+                          { attrs: { "justify-center": "" } },
+                          [
+                            _c("v-progress-circular", {
+                              attrs: {
+                                size: 70,
+                                width: 7,
+                                color: "primary",
+                                indeterminate: ""
                               }
-                            }
-                          },
-                          [_vm._v("Cancelar")]
-                        ),
-                        _vm._v(" "),
+                            })
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.process,
+                        expression: "!process"
+                      }
+                    ]
+                  },
+                  [
+                    _c("v-card-text", [
+                      _vm._v(
+                        "¿Estás seguro que deseas grabar esta Factura? este cambio es irreversible"
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "v-card-text",
+                      [
                         _c(
-                          "v-btn",
-                          {
-                            attrs: {
-                              loading: _vm.process,
-                              disabled: _vm.process,
-                              color: "primary"
-                            },
-                            on: {
-                              click: function($event) {
-                                return _vm.grabarFactura()
-                              }
-                            }
-                          },
-                          [_vm._v("Grabar")]
+                          "v-layout",
+                          { attrs: { "justify-end": "", wrap: "" } },
+                          [
+                            _c(
+                              "v-btn",
+                              {
+                                attrs: {
+                                  outline: "",
+                                  color: "primary",
+                                  disabled: _vm.process
+                                },
+                                on: {
+                                  click: function($event) {
+                                    _vm.grabarFacturasDialog = false
+                                  }
+                                }
+                              },
+                              [_vm._v("Cancelar")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-btn",
+                              {
+                                attrs: {
+                                  disabled: _vm.process,
+                                  color: "primary"
+                                },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.grabarFactura()
+                                  }
+                                }
+                              },
+                              [_vm._v("Grabar")]
+                            )
+                          ],
+                          1
                         )
                       ],
                       1
@@ -24913,6 +24978,15 @@ var render = function() {
                               [
                                 _c(
                                   "v-list-tile",
+                                  {
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.presupuestosPDF(
+                                          presupuesto.item.id
+                                        )
+                                      }
+                                    }
+                                  },
                                   [
                                     _c("v-list-tile-title", [
                                       _vm._v("Imprimir")

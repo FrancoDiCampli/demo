@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Pago;
 use App\Recibo;
 use App\Factura;
+use App\Inicialsetting;
 use App\Cuentacorriente;
 use App\Movimientocuenta;
 use Illuminate\Http\Request;
@@ -17,21 +18,21 @@ class RecibosController extends Controller
 
     public function index()
     {
-         return $recibos = Recibo::get();
+        return $recibos = Recibo::get();
     }
 
     public function store(Request $request)
     {
         $atributos = $request;
 
-        $pagos = Array();
+        $pagos = array();
         array_push($pagos, $atributos->pago);
         $total = 0;
 
         if (Recibo::all()->last()) {
-            $idrecibo = Recibo::all()->last()->id+1;
+            $idrecibo = Recibo::all()->last()->numrecibo + 1;
         } else {
-            $idrecibo = 1;
+            $idrecibo = Inicialsetting::all()->first()->numrecibo + 1;
         }
 
         $recibo = Recibo::create([
@@ -42,9 +43,9 @@ class RecibosController extends Controller
 
         foreach ($pagos as $pay) {
             if (Pago::all()->last()) {
-                $idpago = Pago::all()->last()->id+1;
+                $idpago = Pago::all()->last()->numpago + 1;
             } else {
-                $idpago = 1;
+                $idpago = Inicialsetting::all()->first()->numpago + 1;
             }
             $pago = Pago::create([
                 'ctacte_id' => $pay['ctacte_id'],
@@ -70,11 +71,11 @@ class RecibosController extends Controller
             if ($cuenta->saldo == 0) {
                 $cuenta->estado = 'CANCELADA';
                 $cuenta->save();
-    
+
                 $factura = Factura::find($cuenta->factura_id);
                 $factura->pagada = true;
                 $factura->save();
-    
+
                 $movimiento = Movimientocuenta::create([
                     'ctacte_id' => $pago->ctacte_id,
                     'tipo' => 'CANCELADA',

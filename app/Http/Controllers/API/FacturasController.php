@@ -9,6 +9,7 @@ use App\Articulo;
 use Carbon\Carbon;
 use App\Inventario;
 use App\Movimiento;
+use App\Inicialsetting;
 use App\Cuentacorriente;
 use App\Movimientocuenta;
 use Illuminate\Http\Request;
@@ -49,13 +50,13 @@ class FacturasController extends Controller
             $atributos['letracomprobante'] = 'X';
         }
         if (Factura::all()->last()) {
-            $id = Factura::all()->last()->id + 1;
+            $id = Factura::all()->last()->numfactura + 1;
         } else {
-            $id = 1;
+            $id = Inicialsetting::all()->first()->numfactura + 1;
         }
         // ALMACENAMIENTO DE FACTURA
         $factura = Factura::create([
-            "ptoventa" => 1,
+            "ptoventa" => Inicialsetting::all()->first()->puntoventa,
             'codcomprobante' => $atributos['codcomprobante'],
             'letracomprobante' => $atributos['letracomprobante'],
             "cuit" => $atributos['cuit'], //cliente
@@ -201,7 +202,7 @@ class FacturasController extends Controller
             }
             $data = array(
                 'CantReg'         => 1, // Cantidad de comprobantes a registrar
-                'PtoVta'         => 1, // Punto de venta
+                'PtoVta'         => $atributos['puntoventa'], // Punto de venta
                 'CbteTipo'         => $atributos['codcomprobante'], // Tipo de comprobante (ver tipos disponibles)
                 'Concepto'         => $atributos['concepto'], // Concepto del Comprobante: (1)Productos, (2)Servicios, (3)Productos y Servicios
                 'DocTipo'         => $atributos['tipo'], // Tipo de documento del comprador (ver tipos disponibles)
@@ -221,10 +222,10 @@ class FacturasController extends Controller
                 'MonId'         => 'PES', //Tipo de moneda usada en el comprobante (ver tipos disponibles)('PES' para pesos argentinos)
                 'MonCotiz'         => 1, // Cotización de la moneda usada (1 para pesos argentinos)
             );
-            $afip = new Afip(array('CUIT' => 20349590418));
+            $afip = new Afip(array('CUIT' => Inicialsetting::all()->first()->cuit));
             $res = $afip->ElectronicBilling->CreateNextVoucher($data);
             $fec = str_replace('-', '', $res['CAEFchVto']);
-            $nroCodBar = '203495904180' . $atributos['codcomprobante'] . '0000' . $atributos['puntoventa'] . $res['CAE'] . $fec;
+            $nroCodBar = Inicialsetting::all()->first()->cuit . $atributos['codcomprobante'] . '0000' . $atributos['puntoventa'] . $res['CAE'] . $fec;
             $codeBar = $this->digitoVerificador($nroCodBar);
             $factura->cae = $res['CAE'];
             $factura->fechavto = $res['CAEFchVto'];

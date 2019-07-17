@@ -7,10 +7,9 @@ use App\Recibo;
 use App\Cuentacorriente;
 use App\Movimientocuenta;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
-use function GuzzleHttp\json_encode;
 use App\Factura;
+use App\Inicialsetting;
 
 class CuentacorrientesController extends Controller
 {
@@ -27,8 +26,8 @@ class CuentacorrientesController extends Controller
                 $cuenta->update();
                 $total = $total + $pay['value'];
                 if (Pago::all()->last() == null) {
-                    $numpago = 1;
-                } else $numpago = Pago::all()->last()->id + 1;
+                    $numpago = Inicialsetting::all()->first()->numpago + 1;
+                } else $numpago = Pago::all()->last()->numpago + 1;
 
                 $pago = Pago::create([
                     'ctacte_id' => $cuenta->id,
@@ -54,7 +53,9 @@ class CuentacorrientesController extends Controller
                 $factura->pagada = true;
                 $factura->update();
                 $total = $total + $pay['value'];
-                $numpago = Pago::all()->last()->id + 1;
+                if (Pago::all()->last() == null) {
+                    $numpago = Inicialsetting::all()->first()->numpago + 1;
+                } else $numpago = Pago::all()->last()->numpago + 1;
                 $pago = Pago::create([
                     'ctacte_id' => $cuenta->id,
                     'importe' => $pay['value'],
@@ -74,8 +75,8 @@ class CuentacorrientesController extends Controller
 
         // ALMACENAMIENTO DE RECIBO
         if (Recibo::all()->last() == null) {
-            $numrecibo = 1;
-        } else $numrecibo = Recibo::all()->last()->id + 1;
+            $numrecibo = Inicialsetting::all()->first()->numrecibo + 1;
+        } else $numrecibo = Recibo::all()->last()->numrecibo + 1;
         $recibo = Recibo::create([
             'fecha' => now()->format('Ymd'),
             'ctacte_id' => $cuenta->id,

@@ -209,7 +209,7 @@ class FacturasController extends Controller
                 'DocNro'         => $atributos['documentounico'], // Numero de documento del comprador
                 'CbteDesde'     => 1, // Numero de comprobante o numero del primer comprobante en caso de ser mas de uno
                 'CbteHasta'     => 1, // Numero de comprobante o numero del ultimo comprobante en caso de ser mas de uno
-                'CbteFch'         => $atributos['fechacomprobante'], // (Opcional) Fecha del comprobante (yyyymmdd) o fecha actual si es nulo
+                'CbteFch'         => now()->format('Ymd'), // (Opcional) Fecha del comprobante (yyyymmdd) o fecha actual si es nulo
                 'ImpTotal'         => $atributos['importetotal'], // Importe total del comprobante
                 'ImpTotConc'     => 0, // Importe neto no gravado
                 'ImpNeto'         => $atributos['importetotal'], // Importe neto gravado
@@ -241,6 +241,7 @@ class FacturasController extends Controller
             $factura->codbarra = $codeBar;
             $factura->codcomprobante = 11;
             $factura->letracomprobante = 'C';
+            $factura->fecha = now()->format('Ymd');
             $factura->save();
         }
         return (['message' => 'guardado']);

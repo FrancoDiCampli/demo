@@ -27,6 +27,7 @@ class CreatePresupuestosTable extends Migration
             $table->UnsignedBigInteger('cliente_id');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('cliente_id')->references('id')->on('clientes');
             $table->foreign('user_id')->references('id')->on('users');

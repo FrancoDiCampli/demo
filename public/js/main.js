@@ -5175,121 +5175,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -5331,6 +5233,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   name: "ConfiguracionesIndex",
   data: function data() {
     return {
+      configuraciones: [],
       headers: [{
         text: "CUIT",
         sortable: false
@@ -5343,13 +5246,51 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }]
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])("crudx", ["data", "inProcess"])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("crudx", ["data", "inProcess"])),
   mounted: function mounted() {
-    this.index({
-      url: "/api/configuracion"
-    });
+    this.getConfiguraciones();
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])("crudx", ["index"]))
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index"]), {
+    getConfiguraciones: function () {
+      var _getConfiguraciones = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var response, config, objet;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return this.index({
+                  url: "/api/configuracion"
+                });
+
+              case 2:
+                response = _context.sent;
+
+                for (config in response) {
+                  objet = {
+                    alias: config,
+                    value: response[config]
+                  };
+                  this.configuraciones.push(objet);
+                }
+
+              case 4:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function getConfiguraciones() {
+        return _getConfiguraciones.apply(this, arguments);
+      }
+
+      return getConfiguraciones;
+    }()
+  })
 });
 
 /***/ }),
@@ -21540,248 +21481,102 @@ var render = function() {
     "div",
     [
       _c(
-        "v-card",
+        "v-container",
+        { attrs: { fluid: "", "grid-list-md": "" } },
         [
           _c(
-            "v-container",
-            { attrs: { fluid: "", "grid-list-md": "" } },
+            "v-layout",
+            { attrs: { "justify-end": "" } },
             [
-              _vm._l(_vm.data, function(item) {
-                return [
+              _c(
+                "v-menu",
+                {
+                  scopedSlots: _vm._u([
+                    {
+                      key: "activator",
+                      fn: function(ref) {
+                        var on = ref.on
+                        return [
+                          _c(
+                            "v-btn",
+                            _vm._g(
+                              {
+                                attrs: {
+                                  flat: "",
+                                  icon: "",
+                                  dark: "",
+                                  color: "primary"
+                                }
+                              },
+                              on
+                            ),
+                            [
+                              _c("v-icon", { attrs: { size: "high" } }, [
+                                _vm._v("fas fa-tools")
+                              ])
+                            ],
+                            1
+                          )
+                        ]
+                      }
+                    }
+                  ])
+                },
+                [
+                  _vm._v(" "),
                   _c(
                     "v-list",
-                    { key: item, attrs: { "two-line": "" } },
                     [
-                      _c("v-divider"),
-                      _vm._v(" "),
                       _c(
-                        "v-list-tile-content",
-                        [
-                          _c("v-list-tile-title", [_c("b", [_vm._v("CUIT")])]),
-                          _vm._v(" "),
-                          _c("v-list-tile-sub-title", {
-                            domProps: { innerHTML: _vm._s(item.cuit) }
-                          })
-                        ],
+                        "v-list-tile",
+                        [_c("v-list-tile-title", [_vm._v("Actualizar")])],
                         1
-                      ),
-                      _vm._v(" "),
-                      _c("v-divider"),
-                      _vm._v(" "),
-                      _c(
-                        "v-list-tile-content",
-                        [
-                          _c("v-list-tile-title", [
-                            _c("b", [_vm._v("Razón Social")])
-                          ]),
-                          _vm._v(" "),
-                          _c("v-list-tile-sub-title", {
-                            domProps: { innerHTML: _vm._s(item.razonsocial) }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("v-divider"),
-                      _vm._v(" "),
-                      _c(
-                        "v-list-tile-content",
-                        [
-                          _c("v-list-tile-title", [
-                            _c("b", [_vm._v("Dirección")])
-                          ]),
-                          _vm._v(" "),
-                          _c("v-list-tile-sub-title", {
-                            domProps: { innerHTML: _vm._s(item.direccion) }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("v-divider"),
-                      _vm._v(" "),
-                      _c(
-                        "v-list-tile-content",
-                        [
-                          _c("v-list-tile-title", [
-                            _c("b", [_vm._v("Localidad")])
-                          ]),
-                          _vm._v(" "),
-                          _c("v-list-tile-sub-title", {
-                            domProps: { innerHTML: _vm._s(item.localidad) }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("v-divider"),
-                      _vm._v(" "),
-                      _c(
-                        "v-list-tile-content",
-                        [
-                          _c("v-list-tile-title", [
-                            _c("b", [_vm._v("Provincia")])
-                          ]),
-                          _vm._v(" "),
-                          _c("v-list-tile-sub-title", {
-                            domProps: { innerHTML: _vm._s(item.provincia) }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("v-divider"),
-                      _vm._v(" "),
-                      _c(
-                        "v-list-tile-content",
-                        [
-                          _c("v-list-tile-title", [
-                            _c("b", [_vm._v("Código Postal")])
-                          ]),
-                          _vm._v(" "),
-                          _c("v-list-tile-sub-title", {
-                            domProps: { innerHTML: _vm._s(item.codigopostal) }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("v-divider"),
-                      _vm._v(" "),
-                      _c(
-                        "v-list-tile-content",
-                        [
-                          _c("v-list-tile-title", [
-                            _c("b", [_vm._v("Teléfono")])
-                          ]),
-                          _vm._v(" "),
-                          _c("v-list-tile-sub-title", {
-                            domProps: { innerHTML: _vm._s(item.telefono) }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("v-divider"),
-                      _vm._v(" "),
-                      _c(
-                        "v-list-tile-content",
-                        [
-                          _c("v-list-tile-title", [_c("b", [_vm._v("Email")])]),
-                          _vm._v(" "),
-                          _c("v-list-tile-sub-title", {
-                            domProps: { innerHTML: _vm._s(item.email) }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("v-divider"),
-                      _vm._v(" "),
-                      _c(
-                        "v-list-tile-content",
-                        [
-                          _c("v-list-tile-title", [
-                            _c("b", [_vm._v("Inicio Actividades")])
-                          ]),
-                          _vm._v(" "),
-                          _c("v-list-tile-sub-title", {
-                            domProps: {
-                              innerHTML: _vm._s(item.inicioactividades)
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("v-divider"),
-                      _vm._v(" "),
-                      _c(
-                        "v-list-tile-content",
-                        [
-                          _c("v-list-tile-title", [
-                            _c("b", [_vm._v("Nombre Fantasia")])
-                          ]),
-                          _vm._v(" "),
-                          _c("v-list-tile-sub-title", {
-                            domProps: { innerHTML: _vm._s(item.nombrefantasia) }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("v-divider"),
-                      _vm._v(" "),
-                      _c(
-                        "v-list-tile-content",
-                        [
-                          _c("v-list-tile-title", [
-                            _c("b", [_vm._v("Domicilio Comercial")])
-                          ]),
-                          _vm._v(" "),
-                          _c("v-list-tile-sub-title", {
-                            domProps: {
-                              innerHTML: _vm._s(item.domiciliocomercial)
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("v-divider"),
-                      _vm._v(" "),
-                      _c(
-                        "v-list-tile-content",
-                        [
-                          _c("v-list-tile-title", [
-                            _c("b", [_vm._v("Leyenda")])
-                          ]),
-                          _vm._v(" "),
-                          _c("v-list-tile-sub-title", {
-                            domProps: { innerHTML: _vm._s(item.tagline) }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("v-divider"),
-                      _vm._v(" "),
-                      _c(
-                        "v-list-tile-content",
-                        [
-                          _c("v-list-tile-title", [_c("b", [_vm._v("Email")])]),
-                          _vm._v(" "),
-                          _c("v-list-tile-sub-title", {
-                            domProps: { innerHTML: _vm._s(item.email) }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("v-divider"),
-                      _vm._v(" "),
-                      _c(
-                        "v-list-tile-content",
-                        [
-                          _c("v-list-tile-title", [
-                            _c("b", [_vm._v("Punto de Venta Nº.")])
-                          ]),
-                          _vm._v(" "),
-                          _c("v-list-tile-sub-title", {
-                            domProps: { innerHTML: _vm._s(item.puntoventa) }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("v-divider")
+                      )
                     ],
                     1
                   )
-                ]
-              })
+                ],
+                1
+              )
             ],
-            2
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-expansion-panel",
+            _vm._l(_vm.configuraciones, function(config) {
+              return _c(
+                "v-expansion-panel-content",
+                {
+                  key: config.alias,
+                  scopedSlots: _vm._u(
+                    [
+                      {
+                        key: "header",
+                        fn: function() {
+                          return [
+                            _c("div", [_c("b", [_vm._v(_vm._s(config.alias))])])
+                          ]
+                        },
+                        proxy: true
+                      }
+                    ],
+                    null,
+                    true
+                  )
+                },
+                [
+                  _vm._v(" "),
+                  _c(
+                    "v-card",
+                    [_c("v-card-text", [_vm._v(_vm._s(config.value))])],
+                    1
+                  )
+                ],
+                1
+              )
+            }),
+            1
           )
         ],
         1

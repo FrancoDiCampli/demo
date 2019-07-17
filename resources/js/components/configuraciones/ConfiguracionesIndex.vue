@@ -1,139 +1,33 @@
 <template>
     <div>
-        <v-card>
-            <v-container fluid grid-list-md>
-                <template v-for="(item) in data">
-                    <v-list two-line :key="item">
-                        <v-divider></v-divider>
-                        <v-list-tile-content>
-                            <v-list-tile-title>
-                                <b>CUIT</b>
-                            </v-list-tile-title>
-                            <v-list-tile-sub-title v-html="item.cuit"></v-list-tile-sub-title>
-                        </v-list-tile-content>
-
-                        <v-divider></v-divider>
-
-                        <v-list-tile-content>
-                            <v-list-tile-title>
-                                <b>Razón Social</b>
-                            </v-list-tile-title>
-                            <v-list-tile-sub-title v-html="item.razonsocial"></v-list-tile-sub-title>
-                        </v-list-tile-content>
-
-                        <v-divider></v-divider>
-
-                        <v-list-tile-content>
-                            <v-list-tile-title>
-                                <b>Dirección</b>
-                            </v-list-tile-title>
-                            <v-list-tile-sub-title v-html="item.direccion"></v-list-tile-sub-title>
-                        </v-list-tile-content>
-
-                        <v-divider></v-divider>
-
-                        <v-list-tile-content>
-                            <v-list-tile-title>
-                                <b>Localidad</b>
-                            </v-list-tile-title>
-                            <v-list-tile-sub-title v-html="item.localidad"></v-list-tile-sub-title>
-                        </v-list-tile-content>
-
-                        <v-divider></v-divider>
-
-                        <v-list-tile-content>
-                            <v-list-tile-title>
-                                <b>Provincia</b>
-                            </v-list-tile-title>
-                            <v-list-tile-sub-title v-html="item.provincia"></v-list-tile-sub-title>
-                        </v-list-tile-content>
-
-                        <v-divider></v-divider>
-
-                        <v-list-tile-content>
-                            <v-list-tile-title>
-                                <b>Código Postal</b>
-                            </v-list-tile-title>
-                            <v-list-tile-sub-title v-html="item.codigopostal"></v-list-tile-sub-title>
-                        </v-list-tile-content>
-
-                        <v-divider></v-divider>
-
-                        <v-list-tile-content>
-                            <v-list-tile-title>
-                                <b>Teléfono</b>
-                            </v-list-tile-title>
-                            <v-list-tile-sub-title v-html="item.telefono"></v-list-tile-sub-title>
-                        </v-list-tile-content>
-
-                        <v-divider></v-divider>
-
-                        <v-list-tile-content>
-                            <v-list-tile-title>
-                                <b>Email</b>
-                            </v-list-tile-title>
-                            <v-list-tile-sub-title v-html="item.email"></v-list-tile-sub-title>
-                        </v-list-tile-content>
-
-                        <v-divider></v-divider>
-
-                        <v-list-tile-content>
-                            <v-list-tile-title>
-                                <b>Inicio Actividades</b>
-                            </v-list-tile-title>
-                            <v-list-tile-sub-title v-html="item.inicioactividades"></v-list-tile-sub-title>
-                        </v-list-tile-content>
-
-                        <v-divider></v-divider>
-
-                        <v-list-tile-content>
-                            <v-list-tile-title>
-                                <b>Nombre Fantasia</b>
-                            </v-list-tile-title>
-                            <v-list-tile-sub-title v-html="item.nombrefantasia"></v-list-tile-sub-title>
-                        </v-list-tile-content>
-
-                        <v-divider></v-divider>
-
-                        <v-list-tile-content>
-                            <v-list-tile-title>
-                                <b>Domicilio Comercial</b>
-                            </v-list-tile-title>
-                            <v-list-tile-sub-title v-html="item.domiciliocomercial"></v-list-tile-sub-title>
-                        </v-list-tile-content>
-
-                        <v-divider></v-divider>
-
-                        <v-list-tile-content>
-                            <v-list-tile-title>
-                                <b>Leyenda</b>
-                            </v-list-tile-title>
-                            <v-list-tile-sub-title v-html="item.tagline"></v-list-tile-sub-title>
-                        </v-list-tile-content>
-
-                        <v-divider></v-divider>
-
-                        <v-list-tile-content>
-                            <v-list-tile-title>
-                                <b>Email</b>
-                            </v-list-tile-title>
-                            <v-list-tile-sub-title v-html="item.email"></v-list-tile-sub-title>
-                        </v-list-tile-content>
-
-                        <v-divider></v-divider>
-
-                        <v-list-tile-content>
-                            <v-list-tile-title>
-                                <b>Punto de Venta Nº.</b>
-                            </v-list-tile-title>
-                            <v-list-tile-sub-title v-html="item.puntoventa"></v-list-tile-sub-title>
-                        </v-list-tile-content>
-
-                        <v-divider></v-divider>
+        <v-container fluid grid-list-md>
+            <v-layout justify-end>
+                <v-menu>
+                    <template v-slot:activator="{ on }">
+                        <v-btn flat icon dark color="primary" v-on="on">
+                            <v-icon size="high">fas fa-tools</v-icon>
+                        </v-btn>
+                    </template>
+                    <v-list>
+                        <v-list-tile>
+                            <v-list-tile-title>Actualizar</v-list-tile-title>
+                        </v-list-tile>
                     </v-list>
-                </template>
-            </v-container>
-        </v-card>
+                </v-menu>
+            </v-layout>
+            <v-expansion-panel>
+                <v-expansion-panel-content v-for="config in configuraciones" :key="config.alias">
+                    <template v-slot:header>
+                        <div>
+                            <b>{{ config.alias }}</b>
+                        </div>
+                    </template>
+                    <v-card>
+                        <v-card-text>{{config.value}}</v-card-text>
+                    </v-card>
+                </v-expansion-panel-content>
+            </v-expansion-panel>
+        </v-container>
     </div>
 </template>
 
@@ -146,6 +40,7 @@ export default {
     name: "ConfiguracionesIndex",
     data() {
         return {
+            configuraciones: [],
             headers: [
                 { text: "CUIT", sortable: false },
                 { text: "RAZON SOCIAL", sortable: false },
@@ -158,11 +53,24 @@ export default {
     },
 
     mounted() {
-        this.index({ url: "/api/configuracion" });
+        this.getConfiguraciones();
     },
 
     methods: {
-        ...mapActions("crudx", ["index"])
+        ...mapActions("crudx", ["index"]),
+
+        getConfiguraciones: async function() {
+            let response = await this.index({ url: "/api/configuracion" });
+
+            for (const config in response) {
+                let objet = {
+                    alias: config,
+                    value: response[config]
+                };
+
+                this.configuraciones.push(objet);
+            }
+        }
     }
 };
 </script>

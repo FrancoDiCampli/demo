@@ -222,10 +222,18 @@ class FacturasController extends Controller
                 'MonId'         => 'PES', //Tipo de moneda usada en el comprobante (ver tipos disponibles)('PES' para pesos argentinos)
                 'MonCotiz'         => 1, // Cotización de la moneda usada (1 para pesos argentinos)
             );
-            $afip = new Afip(array('CUIT' => Inicialsetting::all()->first()->cuit));
+            $cuituser = Inicialsetting::all()->first()->cuit;
+            $afip = new Afip(
+                array(
+                    'CUIT' => $cuituser,
+                    'res_folder' => storage_path(
+                        '/' . $cuituser . '/'
+                    )
+                )
+            );
             $res = $afip->ElectronicBilling->CreateNextVoucher($data);
             $fec = str_replace('-', '', $res['CAEFchVto']);
-            $nroCodBar = Inicialsetting::all()->first()->cuit . $atributos['codcomprobante'] . '0000' . $atributos['puntoventa'] . $res['CAE'] . $fec;
+            $nroCodBar = $cuituser . $atributos['codcomprobante'] . '0000' . $atributos['puntoventa'] . $res['CAE'] . $fec;
             $codeBar = $this->digitoVerificador($nroCodBar);
             $factura->cae = $res['CAE'];
             $factura->fechavto = $res['CAEFchVto'];

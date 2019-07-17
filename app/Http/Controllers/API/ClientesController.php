@@ -6,13 +6,14 @@ use Afip;
 use App\Cliente;
 use App\Factura;
 use Carbon\Carbon;
+use App\Inicialsetting;
+use App\Cuentacorriente;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreCliente;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateCliente;
 use function GuzzleHttp\json_encode;
 use Intervention\Image\Facades\Image;
-use App\Cuentacorriente;
 
 class ClientesController extends Controller
 {
@@ -141,7 +142,15 @@ class ClientesController extends Controller
     public function buscarAfip($num)
     {
         $num = $num * 1;
-        $afip = new Afip(array('CUIT' => 20349590418));
+        $cuituser = Inicialsetting::all()->first()->cuit;
+        $afip = new Afip(
+            array(
+                'CUIT' => $cuituser,
+                'res_folder' => storage_path(
+                    '/' . $cuituser . '/'
+                )
+            )
+        );
         $contribuyente = $afip->RegisterScopeFour->GetTaxpayerDetails($num);
         return json_encode($contribuyente);
     }

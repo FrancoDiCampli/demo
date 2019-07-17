@@ -4,15 +4,17 @@
             <v-layout justify-end>
                 <v-menu>
                     <template v-slot:activator="{ on }">
-                        <v-btn flat icon dark color="primary" v-on="on">
+                        <v-btn
+                            flat
+                            icon
+                            dark
+                            color="primary"
+                            v-on="on"
+                            @click="$router.push('/configuraciones/actualizar');"
+                        >
                             <v-icon size="high">fas fa-tools</v-icon>
                         </v-btn>
                     </template>
-                    <v-list>
-                        <v-list-tile>
-                            <v-list-tile-title>Actualizar</v-list-tile-title>
-                        </v-list-tile>
-                    </v-list>
                 </v-menu>
             </v-layout>
             <v-expansion-panel>

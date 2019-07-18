@@ -14,10 +14,9 @@ class InicialsettingsController extends Controller
         return $configuracion[0];
     }
 
-    public function update(Request $request)
+    public function store(Request $request)
     {
         $configuracion = Inicialsetting::find(1);
-        $atributos = $request;
 
         if ($configuracion->cuit) {
             $container = storage_path('/' . $configuracion->cuit . '/');
@@ -26,19 +25,20 @@ class InicialsettingsController extends Controller
             }
         }
 
-        if ($request->get('cert')) {
-            $request->get('cert')->store($configuracion->cuit, 'cert');
+        if ($request->file->getClientOriginalExtension() == 'pem') {
+            $request->file->move($container, 'cert');
+        } else if ($request->file->getClientOriginalExtension() == 'key') {
+            $request->file->move($container, 'key');
         }
 
-        if ($request->get('key')) {
-            $request->get('key')->store($configuracion->cuit, 'key');
-        }
+        return response()->json(['success' => 'You have successfully upload file.']);
+    }
 
-        $cert = $container . 'cert';
-        $key = $container . 'key';
+    public function update(Request $request)
+    {
+        $configuracion = Inicialsetting::find(1);
+        $atributos = $request;
 
-        $configuracion->cert = $cert;
-        $configuracion->key = $key;
         $configuracion->update();
 
         return ['msg' => 'actualización exitosa'];

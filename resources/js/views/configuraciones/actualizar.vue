@@ -1,17 +1,21 @@
 <template>
     <div>
         <v-card>
-            <h1>actualizar</h1>
+            <ConfiguracionesActualizar></ConfiguracionesActualizar>
         </v-card>
     </div>
 </template>
 
 <script>
+import ConfiguracionesActualizar from "../../components/configuraciones/ConfiguracionesActualizar.vue";
 export default {
+    name: "ConfiguracionesAct",
 
-}
+    components: {
+        ConfiguracionesActualizar
+    }
+};
 </script>
 
 <style>
-
 </style>

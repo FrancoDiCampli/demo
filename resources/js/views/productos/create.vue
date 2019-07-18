@@ -1,6 +1,14 @@
 <template>
     <div>
-        <v-card>
+        <template>
+            <!-- Barra de progreso circular -->
+            <div class="loading" v-show="process">
+                <v-layout justify-center>
+                    <v-progress-circular :size="70" :width="7" color="primary" indeterminate></v-progress-circular>
+                </v-layout>
+            </div>
+        </template>
+        <v-card v-show="!process">
             <v-card-text>
                 <v-layout justify-space-between>
                     <h2>Nuevo Producto</h2>
@@ -90,7 +98,7 @@
                     <br />
                     <ProductosForm mode="create"></ProductosForm>
                     <v-layout justify-center>
-                        <v-btn :disabled="loadingButton" type="submit" color="primary">Guardar</v-btn>
+                        <v-btn :disabled="process" type="submit" color="primary">Guardar</v-btn>
                     </v-layout>
                 </v-form>
             </v-card-text>
@@ -120,17 +128,12 @@
                 <v-card-text>
                     <v-layout justify-end>
                         <v-btn
-                            :disabled="loadingButton"
+                            :disabled="process"
                             @click="saveCategoriaMarcaDialog = false"
                             outline
                             color="primary"
                         >CANCELAR</v-btn>
-                        <v-btn
-                            :loading="loadingButton"
-                            :disabled="loadingButton"
-                            @click="confirmSave()"
-                            color="primary"
-                        >ACEPTAR</v-btn>
+                        <v-btn :disabled="process" @click="confirmSave()" color="primary">ACEPTAR</v-btn>
                     </v-layout>
                 </v-card-text>
             </v-card>
@@ -163,7 +166,7 @@ export default {
                     (value && value.length <= 190) ||
                     "Este campo no puede contener mas de 190 digitos"
             },
-            loadingButton: false
+            process: false
         };
     },
 
@@ -178,10 +181,13 @@ export default {
     methods: {
         ...mapActions("crudx", ["save"]),
 
-        preventSave() {
+        preventSave: async function() {
             if (this.$refs.productosForm.validate()) {
                 if (this.form.categoria_id && this.form.marca_id) {
-                    this.saveProducto();
+                    this.process = true;
+                    await this.saveProducto();
+                    this.process = false;
+                    this.$router.push("/productos");
                 } else {
                     if (!this.form.categoria_id) {
                         this.msgCategoria =
@@ -203,6 +209,8 @@ export default {
         },
 
         confirmSave: async function() {
+            this.process = true;
+            this.saveCategoriaMarcaDialog = false;
             if (!this.form.categoria_id) {
                 this.form.categoria_id = await this.saveCategoria();
             }
@@ -211,7 +219,9 @@ export default {
                 this.form.marca_id = await this.saveMarca();
             }
 
-            this.saveProducto();
+            await this.saveProducto();
+            this.process = false;
+            this.$router.push("/productos");
         },
 
         saveCategoria() {
@@ -245,12 +255,8 @@ export default {
         },
 
         saveProducto: async function() {
-            this.loadingButton = true;
             this.form.foto = this.foto.generateDataUrl();
             await this.save({ url: "/api/articulos" });
-            this.saveCategoriaMarcaDialog = false;
-            this.$router.push("/productos");
-            this.loadingButton = false;
         }
     }
 };

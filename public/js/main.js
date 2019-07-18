@@ -4352,6 +4352,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 // Vuex
  // Components
 
@@ -4363,7 +4371,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   name: "ClientesShow",
   data: function data() {
     return {
-      mode: "show"
+      mode: "show",
+      process: false
     };
   },
   components: {
@@ -4429,30 +4438,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             switch (_context2.prev = _context2.next) {
               case 0:
                 if (!this.$refs.clientesEditForm.validate()) {
-                  _context2.next = 9;
+                  _context2.next = 11;
                   break;
                 }
 
                 id = this.form.id;
-                _context2.next = 4;
+                this.process = true;
+                _context2.next = 5;
                 return this.update({
                   url: "/api/clientes/" + id
                 });
 
-              case 4:
-                _context2.next = 6;
+              case 5:
+                _context2.next = 7;
                 return this.show({
                   url: "/api/clientes/" + id
                 });
 
-              case 6:
+              case 7:
+                this.process = false;
                 this.mode = "show";
                 this.$refs.clientesEditForm.reset();
                 this.index({
                   url: "/api/clientes"
                 });
 
-              case 9:
+              case 11:
               case "end":
                 return _context2.stop();
             }
@@ -4474,22 +4485,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _context3.next = 2;
+                this.process = true;
+                _context3.next = 3;
                 return this.destroy({
                   url: "/api/clientes/" + this.showData.cliente.id
                 });
 
-              case 2:
-                _context3.next = 4;
+              case 3:
+                _context3.next = 5;
                 return this.index({
                   url: "/api/clientes"
                 });
 
-              case 4:
+              case 5:
+                this.process = false;
                 this.mode = "show";
                 this.$router.push("/clientes");
 
-              case 6:
+              case 8:
               case "end":
                 return _context3.stop();
             }
@@ -6399,6 +6412,47 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //Axios
  //Vuex
 
@@ -6432,6 +6486,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         sortable: false
       }],
       grabarFacturasDialog: false,
+      anularFacturaDialog: false,
       factura_id: null,
       process: false
     };
@@ -6497,7 +6552,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     anularFactura: function () {
       var _anularFactura = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(id) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -6505,20 +6560,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.process = true;
                 _context2.next = 3;
                 return this.destroy({
-                  url: "/api/facturas/" + id
+                  url: "/api/facturas/" + this.factura_id
                 });
 
               case 3:
-                _context2.next = 5;
+                this.anularFacturaDialog = false;
+                _context2.next = 6;
                 return this.index({
                   url: "/api/facturas",
                   limit: this.limit
                 });
 
-              case 5:
+              case 6:
                 this.process = false;
 
-              case 6:
+              case 7:
               case "end":
                 return _context2.stop();
             }
@@ -6526,7 +6582,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, _callee2, this);
       }));
 
-      function anularFactura(_x) {
+      function anularFactura() {
         return _anularFactura.apply(this, arguments);
       }
 
@@ -7424,6 +7480,52 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //Axios
  //Vuex
 
@@ -7453,8 +7555,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         text: "",
         sortable: false
       }],
-      grabarFacturasDialog: false,
-      factura_id: null,
+      eliminarPresupuestoDialog: false,
+      presupuesto_id: null,
       process: false
     };
   },
@@ -7465,7 +7567,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       limit: this.limit
     });
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index", "show"]), {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index", "show", "destroy"]), {
     loadMore: function () {
       var _loadMore = _asyncToGenerator(
       /*#__PURE__*/
@@ -7526,6 +7628,45 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       return facturar;
+    }(),
+    eliminarPresupuesto: function () {
+      var _eliminarPresupuesto = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                this.process = true;
+                _context3.next = 3;
+                return this.destroy({
+                  url: "/api/presupuestos/" + this.presupuesto_id
+                });
+
+              case 3:
+                this.eliminarPresupuestoDialog = false;
+                _context3.next = 6;
+                return this.index({
+                  url: "/api/presupuestos",
+                  limit: this.limit
+                });
+
+              case 6:
+                this.process = false;
+
+              case 7:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function eliminarPresupuesto() {
+        return _eliminarPresupuesto.apply(this, arguments);
+      }
+
+      return eliminarPresupuesto;
     }(),
     presupuestosPDF: function presupuestosPDF(id) {
       window.open("/api/presupuestosPDF/" + id);
@@ -12093,6 +12234,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 // Components
  // Axios
 
@@ -12115,7 +12259,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           return value && value.length <= 190 || "Este campo no puede contener mas de 190 digitos";
         }
       },
-      loadingButton: false
+      process: false
     };
   },
   components: {
@@ -12123,63 +12267,107 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapState"])("crudx", ["form"])),
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapActions"])("crudx", ["save"]), {
-    preventSave: function preventSave() {
-      if (this.$refs.productosForm.validate()) {
-        if (this.form.categoria_id && this.form.marca_id) {
-          this.saveProducto();
-        } else {
-          if (!this.form.categoria_id) {
-            this.msgCategoria = "Se añadirá la siguiente categoría a la base de datos: “" + this.form.categoria + "”.";
-          }
-
-          if (!this.form.marca_id) {
-            this.msgMarca = "Se añadirá la siguiente marca a la base de datos: “" + this.form.marca + "”.";
-          }
-
-          this.saveCategoriaMarcaDialog = true;
-        }
-      }
-    },
-    confirmSave: function () {
-      var _confirmSave = _asyncToGenerator(
+    preventSave: function () {
+      var _preventSave = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (this.form.categoria_id) {
-                  _context.next = 4;
+                if (!this.$refs.productosForm.validate()) {
+                  _context.next = 12;
                   break;
                 }
 
-                _context.next = 3;
-                return this.saveCategoria();
-
-              case 3:
-                this.form.categoria_id = _context.sent;
-
-              case 4:
-                if (this.form.marca_id) {
-                  _context.next = 8;
+                if (!(this.form.categoria_id && this.form.marca_id)) {
+                  _context.next = 9;
                   break;
                 }
 
-                _context.next = 7;
-                return this.saveMarca();
+                this.process = true;
+                _context.next = 5;
+                return this.saveProducto();
 
-              case 7:
-                this.form.marca_id = _context.sent;
-
-              case 8:
-                this.saveProducto();
+              case 5:
+                this.process = false;
+                this.$router.push("/productos");
+                _context.next = 12;
+                break;
 
               case 9:
+                if (!this.form.categoria_id) {
+                  this.msgCategoria = "Se añadirá la siguiente categoría a la base de datos: “" + this.form.categoria + "”.";
+                }
+
+                if (!this.form.marca_id) {
+                  this.msgMarca = "Se añadirá la siguiente marca a la base de datos: “" + this.form.marca + "”.";
+                }
+
+                this.saveCategoriaMarcaDialog = true;
+
+              case 12:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee, this);
+      }));
+
+      function preventSave() {
+        return _preventSave.apply(this, arguments);
+      }
+
+      return preventSave;
+    }(),
+    confirmSave: function () {
+      var _confirmSave = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                this.process = true;
+                this.saveCategoriaMarcaDialog = false;
+
+                if (this.form.categoria_id) {
+                  _context2.next = 6;
+                  break;
+                }
+
+                _context2.next = 5;
+                return this.saveCategoria();
+
+              case 5:
+                this.form.categoria_id = _context2.sent;
+
+              case 6:
+                if (this.form.marca_id) {
+                  _context2.next = 10;
+                  break;
+                }
+
+                _context2.next = 9;
+                return this.saveMarca();
+
+              case 9:
+                this.form.marca_id = _context2.sent;
+
+              case 10:
+                _context2.next = 12;
+                return this.saveProducto();
+
+              case 12:
+                this.process = false;
+                this.$router.push("/productos");
+
+              case 14:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
       }));
 
       function confirmSave() {
@@ -12217,29 +12405,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     saveProducto: function () {
       var _saveProducto = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                this.loadingButton = true;
                 this.form.foto = this.foto.generateDataUrl();
-                _context2.next = 4;
+                _context3.next = 3;
                 return this.save({
                   url: "/api/articulos"
                 });
 
-              case 4:
-                this.saveCategoriaMarcaDialog = false;
-                this.$router.push("/productos");
-                this.loadingButton = false;
-
-              case 7:
+              case 3:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee3, this);
       }));
 
       function saveProducto() {
@@ -12733,7 +12915,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* Estilos Personalizados:\r\n    Los estilos establecidos dentro de esta etiqueta afectaran a todos los componentes\r\n    siempre y cuando se usen las clases en los mismos.\r\n    Esta implementación es contraria a la recomendada, pero debido a que los componentes \r\n    de Vuetify son externos no podemos utilizar la etiqueta Syle Scope en cada componente,\r\n    como recomienda Vuejs, para establecer los estilos.\r\n    Para evitar repitir las clases entre componentes provocando modificaciones no deseadas\r\n    en los mismos, se estableceran todos los estilos de forma global en esta etiqueta.\r\n*/\r\n\r\n/* Estilos para el avatar de perfil */\n.profile {\r\n    border: solid 3px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\r\n    color: #26a69a;\n}\r\n\r\n/* Estilos para el avatar de perfil en el sidenav */\n.profile-list {\r\n    border: solid 1.5px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\r\n    margin-top: 15px;\r\n    cursor: pointer;\n}\n.profile-list span {\r\n    color: #26a69a;\n}\r\n\r\n/* Estilos para el scrollbar */\nbody::-webkit-scrollbar {\r\n    width: 7px;\n}\nbody::-webkit-scrollbar-thumb {\r\n    background-color: rgba(38, 166, 154, 0.75);\n}\r\n\r\n/* Estilo para el indicador de carga circular absoluto */\n.loading {\r\n    position: fixed;\r\n    z-index: 999999;\r\n    left: 47.3%;\r\n    top: 44%;\n}\r\n\r\n/* Estilos para los inputs númericos */\ninput[type=\"number\"] {\r\n    -moz-appearance: textfield;\n}\ninput[type=\"number\"]::-webkit-outer-spin-button,\r\ninput[type=\"number\"]::-webkit-inner-spin-button {\r\n    -webkit-appearance: none;\n}\r\n\r\n/* Estilos para los imputs con la primera letra mayuscula */\n.capitalize input[type] {\r\n    text-transform: capitalize;\n}\r\n\r\n/* Estilos para los campos de pago en las cuentas corrientes del cliente (ClientesShowCuentaTable) */\n.input-pagos {\r\n    width: 75px;\r\n    display: block;\r\n    margin-top: 8px;\r\n    padding: 10px 0px;\r\n    border: none;\r\n    border-bottom: 1px solid #9e9e9e;\r\n    transition: all 1s ease;\n}\n.input-pagos:focus {\r\n    outline: none;\r\n    border-bottom: 2px solid #26a69a;\r\n    transition: all 0.5s ease;\n}\n.pagos tbody tr {\r\n    border-bottom: none !important;\n}\r\n\r\n/* Estilos para indicar el tipo de comprobante */\n.type-item {\r\n    margin: 5px 0px 5px -12px;\r\n    border: solid 1.5px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.type {\r\n    margin-top: 15px;\r\n    color: #26a69a;\n}\r\n\r\n/* Estilos para los search Table */\n.search-table {\r\n    border: solid 2px #26a69a;\r\n    margin-top: -30px;\r\n    border-top: none;\r\n    margin-bottom: 20px;\r\n    border-radius: 0px 0px 5px 5px;\n}\n.expansion-border {\r\n    border-bottom: 1px solid #aaaaaa;\n}\r\n\r\n/* Estilos para la animacion de expanción en las Search Table */\n.expand-transition {\r\n    transition: all 0.5s ease;\n}\n.expand-enter,\r\n.expand-leave {\r\n    height: 0;\r\n    opacity: 0;\n}\r\n\r\n/* Estilos para los Headers de factura */\n.dataFactura {\r\n    font-size: 12px;\r\n    line-height: 5px;\r\n    margin-top: 12px;\n}\r\n\r\n/* Estilos para los Headers de presupuesto */\n.dataPresupuesto {\r\n    font-size: 12px;\r\n    line-height: 5px;\r\n    margin-top: 12px;\n}\r\n\r\n/* Estilos para las esquinas de los cards de productos */\n.tringle-right-button {\r\n    position: relative;\r\n    width: 70px;\r\n    height: 70px;\r\n    border-top: solid 35px #26a69a;\r\n    border-right: solid 35px #26a69a;\r\n    border-left: solid 35px transparent;\r\n    border-bottom: solid 35px transparent;\r\n    cursor: pointer;\n}\n.tringle-right-button .icon {\r\n    position: absolute;\r\n    margin-top: -22px;\r\n    margin-left: 10px;\r\n    color: white;\r\n    font-size: 16px;\n}\n.tringle-left-button {\r\n    position: relative;\r\n    width: 50px;\r\n    height: 50px;\r\n    border-top: solid 25px transparent;\r\n    border-right: solid 25px transparent;\r\n    border-left: solid 25px;\r\n    border-bottom: solid 25px;\n}\n.tringle-left-button .icon {\r\n    position: absolute;\r\n    margin-top: 2px;\r\n    margin-left: -18px;\r\n    color: white;\r\n    font-size: 16px;\n}\n@media (min-width: 600px) {\n.tringle-right-button {\r\n        width: 60px;\r\n        height: 60px;\r\n        border-top: solid 30px #26a69a;\r\n        border-right: solid 30px #26a69a;\r\n        border-left: solid 30px transparent;\r\n        border-bottom: solid 30px transparent;\n}\n.tringle-right-button .icon {\r\n        margin-top: -20px;\r\n        margin-left: 8px;\n}\n.tringle-left-button {\r\n        width: 60px;\r\n        height: 60px;\r\n        border-top: solid 30px transparent;\r\n        border-right: solid 30px transparent;\r\n        border-left: solid 30px;\r\n        border-bottom: solid 30px;\n}\n.tringle-left-button .icon {\r\n        margin-top: 4px;\r\n        margin-left: -18px;\n}\n}\n@media (min-width: 1264px) {\n.tringle-right-button {\r\n        width: 50px;\r\n        height: 50px;\r\n        border-top: solid 25px #26a69a;\r\n        border-right: solid 25px #26a69a;\r\n        border-left: solid 25px transparent;\r\n        border-bottom: solid 25px transparent;\n}\n.tringle-right-button .icon {\r\n        margin-top: -16px;\r\n        margin-left: 8px;\r\n        font-size: 14px;\n}\n}\r\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Estilos Personalizados:\n    Los estilos establecidos dentro de esta etiqueta afectaran a todos los componentes\n    siempre y cuando se usen las clases en los mismos.\n    Esta implementación es contraria a la recomendada, pero debido a que los componentes \n    de Vuetify son externos no podemos utilizar la etiqueta Syle Scope en cada componente,\n    como recomienda Vuejs, para establecer los estilos.\n    Para evitar repitir las clases entre componentes provocando modificaciones no deseadas\n    en los mismos, se estableceran todos los estilos de forma global en esta etiqueta.\n*/\n\n/* Estilos para el avatar de perfil */\n.profile {\n    border: solid 3px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\n    color: #26a69a;\n}\n\n/* Estilos para el avatar de perfil en el sidenav */\n.profile-list {\n    border: solid 1.5px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n    margin-top: 15px;\n    cursor: pointer;\n}\n.profile-list span {\n    color: #26a69a;\n}\n\n/* Estilos para el scrollbar */\nbody::-webkit-scrollbar {\n    width: 7px;\n}\nbody::-webkit-scrollbar-thumb {\n    background-color: rgba(38, 166, 154, 0.75);\n}\n\n/* Estilo para el indicador de carga circular absoluto */\n.loading {\n    position: fixed;\n    z-index: 999999;\n    left: 47.3%;\n    top: 44%;\n}\n\n/* Estilos para los inputs númericos */\ninput[type=\"number\"] {\n    -moz-appearance: textfield;\n}\ninput[type=\"number\"]::-webkit-outer-spin-button,\ninput[type=\"number\"]::-webkit-inner-spin-button {\n    -webkit-appearance: none;\n}\n\n/* Estilos para los imputs con la primera letra mayuscula */\n.capitalize input[type] {\n    text-transform: capitalize;\n}\n\n/* Estilos para los campos de pago en las cuentas corrientes del cliente (ClientesShowCuentaTable) */\n.input-pagos {\n    width: 75px;\n    display: block;\n    margin-top: 8px;\n    padding: 10px 0px;\n    border: none;\n    border-bottom: 1px solid #9e9e9e;\n    transition: all 1s ease;\n}\n.input-pagos:focus {\n    outline: none;\n    border-bottom: 2px solid #26a69a;\n    transition: all 0.5s ease;\n}\n.pagos tbody tr {\n    border-bottom: none !important;\n}\n\n/* Estilos para indicar el tipo de comprobante */\n.type-item {\n    margin: 5px 0px 5px -12px;\n    border: solid 1.5px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.type {\n    margin-top: 15px;\n    color: #26a69a;\n}\n\n/* Estilos para los search Table */\n.search-table {\n    border: solid 2px #26a69a;\n    margin-top: -30px;\n    border-top: none;\n    margin-bottom: 20px;\n    border-radius: 0px 0px 5px 5px;\n}\n.expansion-border {\n    border-bottom: 1px solid #aaaaaa;\n}\n\n/* Estilos para la animacion de expanción en las Search Table */\n.expand-transition {\n    transition: all 0.5s ease;\n}\n.expand-enter,\n.expand-leave {\n    height: 0;\n    opacity: 0;\n}\n\n/* Estilos para los Headers de factura */\n.dataFactura {\n    font-size: 12px;\n    line-height: 5px;\n    margin-top: 12px;\n}\n\n/* Estilos para los Headers de presupuesto */\n.dataPresupuesto {\n    font-size: 12px;\n    line-height: 5px;\n    margin-top: 12px;\n}\n\n/* Estilos para las esquinas de los cards de productos */\n.tringle-right-button {\n    position: relative;\n    width: 70px;\n    height: 70px;\n    border-top: solid 35px #26a69a;\n    border-right: solid 35px #26a69a;\n    border-left: solid 35px transparent;\n    border-bottom: solid 35px transparent;\n    cursor: pointer;\n}\n.tringle-right-button .icon {\n    position: absolute;\n    margin-top: -22px;\n    margin-left: 10px;\n    color: white;\n    font-size: 16px;\n}\n.tringle-left-button {\n    position: relative;\n    width: 50px;\n    height: 50px;\n    border-top: solid 25px transparent;\n    border-right: solid 25px transparent;\n    border-left: solid 25px;\n    border-bottom: solid 25px;\n}\n.tringle-left-button .icon {\n    position: absolute;\n    margin-top: 2px;\n    margin-left: -18px;\n    color: white;\n    font-size: 16px;\n}\n@media (min-width: 600px) {\n.tringle-right-button {\n        width: 60px;\n        height: 60px;\n        border-top: solid 30px #26a69a;\n        border-right: solid 30px #26a69a;\n        border-left: solid 30px transparent;\n        border-bottom: solid 30px transparent;\n}\n.tringle-right-button .icon {\n        margin-top: -20px;\n        margin-left: 8px;\n}\n.tringle-left-button {\n        width: 60px;\n        height: 60px;\n        border-top: solid 30px transparent;\n        border-right: solid 30px transparent;\n        border-left: solid 30px;\n        border-bottom: solid 30px;\n}\n.tringle-left-button .icon {\n        margin-top: 4px;\n        margin-left: -18px;\n}\n}\n@media (min-width: 1264px) {\n.tringle-right-button {\n        width: 50px;\n        height: 50px;\n        border-top: solid 25px #26a69a;\n        border-right: solid 25px #26a69a;\n        border-left: solid 25px transparent;\n        border-bottom: solid 25px transparent;\n}\n.tringle-right-button .icon {\n        margin-top: -16px;\n        margin-left: 8px;\n        font-size: 14px;\n}\n}\n", ""]);
 
 // exports
 
@@ -12752,7 +12934,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.profile {\r\n    border: solid 3px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\r\n    color: #26a69a;\n}\r\n", ""]);
+exports.push([module.i, "\n.profile {\n    border: solid 3px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\n    color: #26a69a;\n}\n", ""]);
 
 // exports
 
@@ -12771,7 +12953,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.type-item {\r\n    margin: 5px 0px 5px -12px;\r\n    border: solid 1.5px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.type {\r\n    margin-top: 15px;\r\n    color: #26a69a;\n}\r\n", ""]);
+exports.push([module.i, "\n.type-item {\n    margin: 5px 0px 5px -12px;\n    border: solid 1.5px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.type {\n    margin-top: 15px;\n    color: #26a69a;\n}\n", ""]);
 
 // exports
 
@@ -12790,7 +12972,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.fa-chevron-down.vanished {\r\n    opacity: 0;\n}\r\n", ""]);
+exports.push([module.i, "\n.fa-chevron-down.vanished {\n    opacity: 0;\n}\n", ""]);
 
 // exports
 
@@ -20469,9 +20651,54 @@ var render = function() {
   return _c(
     "div",
     [
+      [
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.process,
+                expression: "process"
+              }
+            ],
+            staticClass: "loading"
+          },
+          [
+            _c(
+              "v-layout",
+              { attrs: { "justify-center": "" } },
+              [
+                _c("v-progress-circular", {
+                  attrs: {
+                    size: 70,
+                    width: 7,
+                    color: "primary",
+                    indeterminate: ""
+                  }
+                })
+              ],
+              1
+            )
+          ],
+          1
+        )
+      ],
+      _vm._v(" "),
       _c(
         "v-layout",
-        { attrs: { row: "" } },
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.process,
+              expression: "!process"
+            }
+          ],
+          attrs: { row: "" }
+        },
         [
           _c(
             "v-flex",
@@ -20843,7 +21070,7 @@ var render = function() {
         1
       )
     ],
-    1
+    2
   )
 }
 var staticRenderFns = []
@@ -23445,9 +23672,8 @@ var render = function() {
                                     attrs: { disabled: _vm.process },
                                     on: {
                                       click: function($event) {
-                                        return _vm.anularFactura(
-                                          factura.item.id
-                                        )
+                                        _vm.factura_id = factura.item.id
+                                        _vm.anularFacturaDialog = true
                                       }
                                     }
                                   },
@@ -23625,6 +23851,138 @@ var render = function() {
                                 }
                               },
                               [_vm._v("Grabar")]
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "v-dialog",
+          {
+            attrs: { width: "750", persistent: "" },
+            model: {
+              value: _vm.anularFacturaDialog,
+              callback: function($$v) {
+                _vm.anularFacturaDialog = $$v
+              },
+              expression: "anularFacturaDialog"
+            }
+          },
+          [
+            _c(
+              "v-card",
+              [
+                _c("v-card-title", [_c("h2", [_vm._v("¿Estás Seguro?")])]),
+                _vm._v(" "),
+                _c("v-divider"),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.process,
+                        expression: "process"
+                      }
+                    ]
+                  },
+                  [
+                    _c(
+                      "v-card-text",
+                      [
+                        _c(
+                          "v-layout",
+                          { attrs: { "justify-center": "" } },
+                          [
+                            _c("v-progress-circular", {
+                              attrs: {
+                                size: 70,
+                                width: 7,
+                                color: "primary",
+                                indeterminate: ""
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.process,
+                        expression: "!process"
+                      }
+                    ]
+                  },
+                  [
+                    _c("v-card-text", [
+                      _vm._v(
+                        "¿Estás seguro que deseas anular esta Factura? este cambio es irreversible"
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "v-card-text",
+                      [
+                        _c(
+                          "v-layout",
+                          { attrs: { "justify-end": "", wrap: "" } },
+                          [
+                            _c(
+                              "v-btn",
+                              {
+                                attrs: {
+                                  outline: "",
+                                  color: "primary",
+                                  disabled: _vm.process
+                                },
+                                on: {
+                                  click: function($event) {
+                                    _vm.anularFacturaDialog = false
+                                  }
+                                }
+                              },
+                              [_vm._v("Cancelar")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-btn",
+                              {
+                                attrs: {
+                                  disabled: _vm.process,
+                                  color: "primary"
+                                },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.anularFactura()
+                                  }
+                                }
+                              },
+                              [_vm._v("Anular")]
                             )
                           ],
                           1
@@ -24817,6 +25175,24 @@ var render = function() {
                                     ])
                                   ],
                                   1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-list-tile",
+                                  {
+                                    on: {
+                                      click: function($event) {
+                                        _vm.presupuesto_id = presupuesto.item.id
+                                        _vm.eliminarPresupuestoDialog = true
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("v-list-tile-title", [
+                                      _vm._v("Eliminar")
+                                    ])
+                                  ],
+                                  1
                                 )
                               ],
                               1
@@ -24869,6 +25245,138 @@ var render = function() {
                 }
               },
               [_vm._v("Cargar Más")]
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "v-dialog",
+          {
+            attrs: { width: "750", persistent: "" },
+            model: {
+              value: _vm.eliminarPresupuestoDialog,
+              callback: function($$v) {
+                _vm.eliminarPresupuestoDialog = $$v
+              },
+              expression: "eliminarPresupuestoDialog"
+            }
+          },
+          [
+            _c(
+              "v-card",
+              [
+                _c("v-card-title", [_c("h2", [_vm._v("¿Estás Seguro?")])]),
+                _vm._v(" "),
+                _c("v-divider"),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.process,
+                        expression: "process"
+                      }
+                    ]
+                  },
+                  [
+                    _c(
+                      "v-card-text",
+                      [
+                        _c(
+                          "v-layout",
+                          { attrs: { "justify-center": "" } },
+                          [
+                            _c("v-progress-circular", {
+                              attrs: {
+                                size: 70,
+                                width: 7,
+                                color: "primary",
+                                indeterminate: ""
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.process,
+                        expression: "!process"
+                      }
+                    ]
+                  },
+                  [
+                    _c("v-card-text", [
+                      _vm._v(
+                        "¿Estás seguro que deseas eliminar este Presupuesto? este cambio es irreversible"
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "v-card-text",
+                      [
+                        _c(
+                          "v-layout",
+                          { attrs: { "justify-end": "", wrap: "" } },
+                          [
+                            _c(
+                              "v-btn",
+                              {
+                                attrs: {
+                                  outline: "",
+                                  color: "primary",
+                                  disabled: _vm.process
+                                },
+                                on: {
+                                  click: function($event) {
+                                    _vm.eliminarPresupuestoDialog = false
+                                  }
+                                }
+                              },
+                              [_vm._v("Cancelar")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-btn",
+                              {
+                                attrs: {
+                                  disabled: _vm.process,
+                                  color: "primary"
+                                },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.eliminarPresupuesto()
+                                  }
+                                }
+                              },
+                              [_vm._v("Eliminar")]
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
             )
           ],
           1
@@ -30899,8 +31407,53 @@ var render = function() {
   return _c(
     "div",
     [
+      [
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.process,
+                expression: "process"
+              }
+            ],
+            staticClass: "loading"
+          },
+          [
+            _c(
+              "v-layout",
+              { attrs: { "justify-center": "" } },
+              [
+                _c("v-progress-circular", {
+                  attrs: {
+                    size: 70,
+                    width: 7,
+                    color: "primary",
+                    indeterminate: ""
+                  }
+                })
+              ],
+              1
+            )
+          ],
+          1
+        )
+      ],
+      _vm._v(" "),
       _c(
         "v-card",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.process,
+              expression: "!process"
+            }
+          ]
+        },
         [
           _c(
             "v-card-text",
@@ -31192,7 +31745,7 @@ var render = function() {
                         "v-btn",
                         {
                           attrs: {
-                            disabled: _vm.loadingButton,
+                            disabled: _vm.process,
                             type: "submit",
                             color: "primary"
                           }
@@ -31280,7 +31833,7 @@ var render = function() {
                         "v-btn",
                         {
                           attrs: {
-                            disabled: _vm.loadingButton,
+                            disabled: _vm.process,
                             outline: "",
                             color: "primary"
                           },
@@ -31296,11 +31849,7 @@ var render = function() {
                       _c(
                         "v-btn",
                         {
-                          attrs: {
-                            loading: _vm.loadingButton,
-                            disabled: _vm.loadingButton,
-                            color: "primary"
-                          },
+                          attrs: { disabled: _vm.process, color: "primary" },
                           on: {
                             click: function($event) {
                               return _vm.confirmSave()
@@ -31322,7 +31871,7 @@ var render = function() {
         1
       )
     ],
-    1
+    2
   )
 }
 var staticRenderFns = []
@@ -79244,7 +79793,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\Gepetto-Point-Of-Sale\resources\js\main.js */"./resources/js/main.js");
+module.exports = __webpack_require__(/*! /opt/lampp/htdocs/Gepetto-Point-Of-Sale/resources/js/main.js */"./resources/js/main.js");
 
 
 /***/ })

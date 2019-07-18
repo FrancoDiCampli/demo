@@ -60,7 +60,7 @@
                                 <v-list-tile
                                     :disabled="process"
                                     v-show="factura.item.cae == null && factura.item.pagada == true"
-                                    @click="anularFactura(factura.item.id)"
+                                    @click="factura_id = factura.item.id; anularFacturaDialog = true;"
                                 >
                                     <v-list-tile-title>Anular</v-list-tile-title>
                                 </v-list-tile>
@@ -119,6 +119,47 @@
                     </div>
                 </v-card>
             </v-dialog>
+
+            <!-- modal anular factura -->
+            <v-dialog v-model="anularFacturaDialog" width="750" persistent>
+                <v-card>
+                    <v-card-title>
+                        <h2>¿Estás Seguro?</h2>
+                    </v-card-title>
+                    <v-divider></v-divider>
+                    <div v-show="process">
+                        <v-card-text>
+                            <v-layout justify-center>
+                                <v-progress-circular
+                                    :size="70"
+                                    :width="7"
+                                    color="primary"
+                                    indeterminate
+                                ></v-progress-circular>
+                            </v-layout>
+                        </v-card-text>
+                    </div>
+                    <div v-show="!process">
+                        <v-card-text>¿Estás seguro que deseas anular esta Factura? este cambio es irreversible</v-card-text>
+                        <v-card-text>
+                            <v-layout justify-end wrap>
+                                <v-btn
+                                    @click="anularFacturaDialog = false;"
+                                    outline
+                                    color="primary"
+                                    :disabled="process"
+                                >Cancelar</v-btn>
+
+                                <v-btn
+                                    :disabled="process"
+                                    @click="anularFactura()"
+                                    color="primary"
+                                >Anular</v-btn>
+                            </v-layout>
+                        </v-card-text>
+                    </div>
+                </v-card>
+            </v-dialog>
         </template>
     </div>
 </template>
@@ -146,6 +187,7 @@ export default {
                 { text: "", sortable: false }
             ],
             grabarFacturasDialog: false,
+            anularFacturaDialog: false,
             factura_id: null,
             process: false
         };
@@ -184,9 +226,10 @@ export default {
                 });
         },
 
-        anularFactura: async function(id) {
+        anularFactura: async function() {
             this.process = true;
-            await this.destroy({ url: "/api/facturas/" + id });
+            await this.destroy({ url: "/api/facturas/" + this.factura_id });
+            this.anularFacturaDialog = false;
             await this.index({ url: "/api/facturas", limit: this.limit });
             this.process = false;
         },

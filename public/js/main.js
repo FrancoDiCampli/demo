@@ -5234,6 +5234,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.common["Authorization"] = "Bearer " + localStorage.getItem("accsess_token");
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -5242,12 +5250,16 @@ axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.common["Authorizat
       fileKey: null,
       keyName: "",
       fileCert: null,
-      keyCert: ""
+      keyCert: "",
+      process: false
     };
   },
   methods: {
     submitFile: function submitFile() {
+      var _this = this;
+
       if (this.fileKey != null && this.fileCert != null) {
+        this.process = true;
         var formData = new FormData();
         formData.append("key", this.fileKey);
         formData.append("cert", this.fileCert);
@@ -5256,7 +5268,13 @@ axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.common["Authorizat
             "Content-Type": "multipart/form-data"
           }
         }).then(function (response) {
-          console.log(response.data);
+          _this.fileKey = null;
+          _this.fileCert = null;
+          _this.keyName = "";
+          _this.keyCert = "";
+          _this.process = false;
+
+          _this.$router.push("/configuraciones");
         })["catch"](function (error) {
           console.log(error);
         });
@@ -22499,8 +22517,53 @@ var render = function() {
   return _c(
     "div",
     [
+      [
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.process,
+                expression: "process"
+              }
+            ],
+            staticClass: "loading"
+          },
+          [
+            _c(
+              "v-layout",
+              { attrs: { "justify-center": "" } },
+              [
+                _c("v-progress-circular", {
+                  attrs: {
+                    size: 70,
+                    width: 7,
+                    color: "primary",
+                    indeterminate: ""
+                  }
+                })
+              ],
+              1
+            )
+          ],
+          1
+        )
+      ],
+      _vm._v(" "),
       _c(
         "v-card",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.process,
+              expression: "!process"
+            }
+          ]
+        },
         [
           _c(
             "v-card-text",
@@ -22686,7 +22749,7 @@ var render = function() {
         1
       )
     ],
-    1
+    2
   )
 }
 var staticRenderFns = []

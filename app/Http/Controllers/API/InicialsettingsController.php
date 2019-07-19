@@ -27,10 +27,12 @@ class InicialsettingsController extends Controller
 
         if ($request->cert->getClientOriginalExtension() == 'pem') {
             $request->cert->move($container, 'cert');
-        } else if ($request->key->getClientOriginalExtension() == 'key') {
-            $request->key->move($container, 'key');
         } else if ($request->cert->getClientOriginalExtension() == 'crt') {
             $request->cert->move($container, 'cert');
+        }
+
+        if ($request->key->getClientOriginalExtension() == 'key') {
+            $request->key->move($container, 'key');
         }
     }
 

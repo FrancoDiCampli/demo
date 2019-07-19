@@ -12,6 +12,16 @@ use Illuminate\Support\Carbon;
 
 class ArticulosController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('scopes:articulos-index')->only('index');
+        $this->middleware('scopes:articulos-store')->only('store');
+        $this->middleware('scopes:articulos-update')->only('update');
+        $this->middleware('scopes:articulos-show')->only('show');
+        $this->middleware('scopes:articulos-destroy')->only('destroy');
+    }
+
     public function index(Request $request)
     {
         $articles = Articulo::orderBy('id', 'desc')->buscar($request)->get();

@@ -8,6 +8,11 @@ use App\Http\Controllers\Controller;
 
 class CategoriasController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(Request $request)
     {
         $categorias = Categoria::orderBy('id', 'desc')

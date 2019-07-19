@@ -15,6 +15,15 @@ use App\Http\Controllers\Controller;
 
 class PresupuestosController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('scopes:presupuestos-index')->only('index');
+        $this->middleware('scopes:presupuestos-store')->only('store');
+        $this->middleware('scopes:presupuestos-show')->only('show');
+        $this->middleware('scopes:presupuestos-destroy')->only('destroy');
+    }
+
     public function index(Request $request)
     {
         $presupuestos = Presupuesto::orderBy('numpresupuesto', 'DESC')->get();
@@ -77,15 +86,6 @@ class PresupuestosController extends Controller
         $presupuesto->articulos()->attach($det);
 
         return $presupuesto->id;
-    }
-
-    public function update(Request $request, $id)
-    {
-        $presupuesto = Presupuesto::find($id);
-        if ($request->get('crearFactura')) {
-            $this->crearFactura($request, $presupuesto);
-        }
-        return (['message' => 'factura creada']);
     }
 
     public function show($id)

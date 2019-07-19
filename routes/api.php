@@ -57,10 +57,6 @@ Route::middleware('auth:api')->group(function () {
     /*Remitos*/
     Route::apiResource('remitos', 'API\RemitosController');
 
-
-
-    Route::apiResource('pagos', 'API\PagosController');
-    Route::apiResource('recibos', 'API\RecibosController');
     Route::apiResource('configuracion', 'API\InicialsettingsController');
 
     //Afip Routes

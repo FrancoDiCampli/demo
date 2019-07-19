@@ -26,4 +26,9 @@ class Supplier extends Model
                 ->orWhere('razonsocial', 'LIKE', "$proveedor%");
         }
     }
+
+    public function remitos()
+    {
+        return $this->hasMany(Remito::class);
+    }
 }

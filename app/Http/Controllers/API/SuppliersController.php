@@ -8,6 +8,11 @@ use App\Http\Controllers\Controller;
 
 class SuppliersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(Request $request)
     {
         $suppliers = Supplier::orderBy('razonsocial', 'asc')
@@ -67,6 +72,13 @@ class SuppliersController extends Controller
 
     public function show($id)
     {
-        return $supplier = Supplier::find($id);
+        $supplier = Supplier::find($id);
+        $remitos = $supplier->remitos;
+        foreach ($remitos as $remito) {
+            $fecha = new Carbon($remito->fecha);
+            $remito->fecha = $fecha->format('d-m-Y');
+        }
+
+        return ['proveedor' => $supplier, 'remitos' => $remitos];
     }
 }

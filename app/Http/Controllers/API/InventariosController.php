@@ -13,6 +13,12 @@ use App\Http\Requests\UpdateInventario;
 
 class InventariosController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('scopes:inventarios-index')->only('index');
+        $this->middleware('scopes:inventarios-store')->only('store');
+    }
 
     public function index(Request $request)
     {

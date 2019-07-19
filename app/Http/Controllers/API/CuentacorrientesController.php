@@ -13,6 +13,12 @@ use App\Inicialsetting;
 
 class CuentacorrientesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('scopes:cuentacorrientes-pagar')->only('pagar');
+    }
+
     // PAGOS PARCIALES O TOTALES 
     public function pagar(Request $request)
     {

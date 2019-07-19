@@ -1,6 +1,14 @@
 <template>
     <div>
-        <v-card>
+        <template>
+            <!-- Barra de progreso circular -->
+            <div class="loading" v-show="process">
+                <v-layout justify-center>
+                    <v-progress-circular :size="70" :width="7" color="primary" indeterminate></v-progress-circular>
+                </v-layout>
+            </div>
+        </template>
+        <v-card v-show="!process">
             <v-card-text>
                 <v-layout justify-space-between>
                     <h2>Cargar Certificados</h2>
@@ -89,13 +97,15 @@ export default {
             fileKey: null,
             keyName: "",
             fileCert: null,
-            keyCert: ""
+            keyCert: "",
+            process: false
         };
     },
 
     methods: {
         submitFile() {
             if (this.fileKey != null && this.fileCert != null) {
+                this.process = true;
                 let formData = new FormData();
                 formData.append("key", this.fileKey);
                 formData.append("cert", this.fileCert);
@@ -107,7 +117,12 @@ export default {
                         }
                     })
                     .then(response => {
-                        console.log(response.data);
+                        this.fileKey = null;
+                        this.fileCert = null;
+                        this.keyName = "";
+                        this.keyCert = "";
+                        this.process = false;
+                        this.$router.push("/configuraciones");
                     })
                     .catch(error => {
                         console.log(error);

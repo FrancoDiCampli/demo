@@ -84,8 +84,6 @@ class CuentacorrientesController extends Controller
             'numrecibo' => $numrecibo
         ]);
         $recibo->pagos()->attach($aux);
-        return [
-            'msg' => 'cuenta actualizada'
-        ];
+        return $recibo->id;
     }
 }

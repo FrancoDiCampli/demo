@@ -340,7 +340,8 @@ export default {
             if (this.selected.length > 0) {
                 this.loadingButton = true;
                 this.form.pago = this.selected;
-                await this.save({ url: "/api/pagarcuentas" });
+                var reciboID = await this.save({ url: "/api/pagarcuentas" });
+                window.open("/api/recibosPDF/" + reciboID);
                 await this.show({
                     url: "/api/clientes/" + this.showData.cliente.id
                 });

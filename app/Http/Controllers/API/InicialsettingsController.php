@@ -25,13 +25,13 @@ class InicialsettingsController extends Controller
             }
         }
 
-        if ($request->file->getClientOriginalExtension() == 'pem') {
-            $request->file->move($container, 'cert');
-        } else if ($request->file->getClientOriginalExtension() == 'key') {
-            $request->file->move($container, 'key');
+        if ($request->cert->getClientOriginalExtension() == 'pem') {
+            $request->cert->move($container, 'cert');
+        } else if ($request->key->getClientOriginalExtension() == 'key') {
+            $request->key->move($container, 'key');
+        } else if ($request->cert->getClientOriginalExtension() == 'crt') {
+            $request->cert->move($container, 'cert');
         }
-
-        return response()->json(['success' => 'You have successfully upload file.']);
     }
 
     public function update(Request $request)

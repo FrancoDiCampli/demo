@@ -4870,12 +4870,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _pagarCuentas = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var reciboID;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 if (!(this.selected.length > 0)) {
-                  _context.next = 11;
+                  _context.next = 13;
                   break;
                 }
 
@@ -4887,18 +4888,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 });
 
               case 5:
-                _context.next = 7;
+                reciboID = _context.sent;
+                window.open("/api/recibosPDF/" + reciboID);
+                _context.next = 9;
                 return this.show({
                   url: "/api/clientes/" + this.showData.cliente.id
                 });
 
-              case 7:
+              case 9:
                 this.selected = [];
                 this.loadingButton = false;
                 this.pagarCuentasDialog = false;
                 this.snackbar = true;
 
-              case 11:
+              case 13:
               case "end":
                 return _context.stop();
             }
@@ -5141,6 +5144,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue2_dropzone_dist_vue2Dropzone_min_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue2-dropzone/dist/vue2Dropzone.min.css */ "./node_modules/vue2-dropzone/dist/vue2Dropzone.min.css");
 /* harmony import */ var vue2_dropzone_dist_vue2Dropzone_min_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue2_dropzone_dist_vue2Dropzone_min_css__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -5153,14 +5158,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 
+
+axios__WEBPACK_IMPORTED_MODULE_3___default.a.defaults.headers.common["Authorization"] = "Bearer " + localStorage.getItem("accsess_token");
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ConfiguracionesActualizar",
   data: function data() {
     return {
-      uploadOptions: {}
+      uploadOptions: {},
+      file: ""
     };
   },
   components: {
@@ -5179,7 +5190,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
       };
     },
-    saveFile: function saveFile() {}
+    submitFile: function submitFile() {
+      var formData = new FormData();
+      formData.append("file", this.file);
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("/api/configuracion", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      }).then(function (response) {
+        console.log(response.data);
+      })["catch"](function (error) {
+        console.log(response.data);
+      });
+    },
+    handleFileUpload: function handleFileUpload() {
+      this.file = this.$refs.file.files[0];
+    }
   })
 });
 
@@ -9197,25 +9223,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                if (!this.showData.inventarios.length) {
+                  _context.next = 9;
+                  break;
+                }
+
                 if (!this.form.lote) {
-                  _context.next = 8;
+                  _context.next = 9;
                   break;
                 }
 
                 if (!(this.form.lote.length > 0)) {
-                  _context.next = 8;
+                  _context.next = 9;
                   break;
                 }
 
                 this.process = true;
-                _context.next = 5;
+                _context.next = 6;
                 return this.index({
                   url: "/api/inventarios",
                   lote: this.form.lote,
                   articulo_id: this.showData.articulo.id
                 });
 
-              case 5:
+              case 6:
                 response = _context.sent;
                 this.process = false;
 
@@ -9238,7 +9269,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   this.disabledMovimiento = true;
                 }
 
-              case 8:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -22165,7 +22196,31 @@ var render = function() {
       _c("vue-dropzone", {
         ref: "myVueDropzone",
         attrs: { id: "dropzone", options: _vm.uploadOptions }
-      })
+      }),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("input", {
+        ref: "file",
+        attrs: { type: "file", id: "file" },
+        on: {
+          change: function($event) {
+            return _vm.handleFileUpload()
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c(
+        "v-btn",
+        {
+          on: {
+            click: function($event) {
+              return _vm.submitFile()
+            }
+          }
+        },
+        [_vm._v("upload")]
+      )
     ],
     1
   )

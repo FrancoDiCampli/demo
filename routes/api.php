@@ -72,6 +72,7 @@ Route::get('facturasPDF/{id}', 'API\PdfController@facturasPDF');
 Route::get('remitosPDF/{id}', 'API\PdfController@remitosPDF');
 Route::get('presupuestosPDF/{id}', 'API\PdfController@presupuestosPDF');
 Route::get('comprasPDF/{id}', 'API\PdfController@comprasPDF');
+Route::get('recibosPDF/{id}', 'API\PdfController@recibosPDF');
 
 
 Route::get('estadisticas/rejunte', 'API\EstadisticasController@rejunte');

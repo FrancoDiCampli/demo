@@ -357,39 +357,42 @@ export default {
         },
 
         findLote: async function() {
-            if (this.form.lote) {
-                if (this.form.lote.length > 0) {
-                    this.process = true;
-                    let response = await this.index({
-                        url: "/api/inventarios",
-                        lote: this.form.lote,
-                        articulo_id: this.showData.articulo.id
-                    });
+            if (this.showData.inventarios.length) {
+                if (this.form.lote) {
+                    if (this.form.lote.length > 0) {
+                        this.process = true;
+                        let response = await this.index({
+                            url: "/api/inventarios",
+                            lote: this.form.lote,
+                            articulo_id: this.showData.articulo.id
+                        });
 
-                    this.process = false;
+                        this.process = false;
 
-                    if (response.length > 0) {
-                        this.form.lote = response[0].lote;
-                        this.cantidadMaxima = response[0].cantidad;
-                        this.form.vencimiento = response[0].vencimiento;
-                        this.form.supplier = response[0].supplier.razonsocial;
-                        this.form.supplier_id = response[0].supplier.id;
-                        this.movimiento = "INCREMENTO";
-                        this.movimientos = [
-                            "INCREMENTO",
-                            "DEVOLUCION",
-                            "VENCIMIENTO",
-                            "DECREMENTO"
-                        ];
-                        this.disabledMovimiento = false;
-                    } else {
-                        this.cantidadMaxima = 999999999;
-                        this.form.vencimiento = null;
-                        this.form.supplier = null;
-                        this.form.supplier_id = null;
-                        this.movimiento = "ALTA";
-                        this.movimientos = ["ALTA"];
-                        this.disabledMovimiento = true;
+                        if (response.length > 0) {
+                            this.form.lote = response[0].lote;
+                            this.cantidadMaxima = response[0].cantidad;
+                            this.form.vencimiento = response[0].vencimiento;
+                            this.form.supplier =
+                                response[0].supplier.razonsocial;
+                            this.form.supplier_id = response[0].supplier.id;
+                            this.movimiento = "INCREMENTO";
+                            this.movimientos = [
+                                "INCREMENTO",
+                                "DEVOLUCION",
+                                "VENCIMIENTO",
+                                "DECREMENTO"
+                            ];
+                            this.disabledMovimiento = false;
+                        } else {
+                            this.cantidadMaxima = 999999999;
+                            this.form.vencimiento = null;
+                            this.form.supplier = null;
+                            this.form.supplier_id = null;
+                            this.movimiento = "ALTA";
+                            this.movimientos = ["ALTA"];
+                            this.disabledMovimiento = true;
+                        }
                     }
                 }
             }

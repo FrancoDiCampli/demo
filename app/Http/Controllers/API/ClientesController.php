@@ -17,6 +17,16 @@ use Intervention\Image\Facades\Image;
 
 class ClientesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('scopes:clientes-index')->only('index');
+        $this->middleware('scopes:clientes-store')->only('store');
+        $this->middleware('scopes:clientes-update')->only('update');
+        $this->middleware('scopes:clientes-show')->only('show');
+        $this->middleware('scopes:clientes-destroy')->only('destroy');
+    }
+
     public function index(Request $request)
     {
 

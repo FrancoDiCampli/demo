@@ -14,6 +14,14 @@ use App\Http\Controllers\Controller;
 
 class RemitosController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('scopes:remitos-index')->only('index');
+        $this->middleware('scopes:remitos-store')->only('store');
+        $this->middleware('scopes:remitos-show')->only('show');
+    }
+
     public function index(Request $request)
     {
         $rems = Remito::orderBy('id', 'DESC')->get();

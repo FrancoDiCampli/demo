@@ -17,6 +17,11 @@ use Picqer\Barcode\BarcodeGeneratorHTML;
 
 class PdfController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function facturasPDF($id)
     {
         $configuracion = Inicialsetting::all()->first();

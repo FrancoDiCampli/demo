@@ -8,6 +8,11 @@ use App\Inicialsetting;
 
 class InicialsettingsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $configuracion = Inicialsetting::get();

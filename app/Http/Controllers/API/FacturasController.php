@@ -17,6 +17,15 @@ use App\Http\Controllers\Controller;
 
 class FacturasController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('scopes:facturas-index')->only('index');
+        $this->middleware('scopes:facturas-store')->only('store');
+        $this->middleware('scopes:facturas-show')->only('show');
+        $this->middleware('scopes:facturas-destroy')->only('destroy');
+    }
+
     public function index(Request $request)
     {
         $facturas = Factura::orderBy('numfactura', 'DESC')->get();

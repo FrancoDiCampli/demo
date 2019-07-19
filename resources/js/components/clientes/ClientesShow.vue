@@ -1,6 +1,14 @@
 <template>
     <div>
-        <v-layout row>
+        <template>
+            <!-- Barra de progreso circular -->
+            <div class="loading" v-show="process">
+                <v-layout justify-center>
+                    <v-progress-circular :size="70" :width="7" color="primary" indeterminate></v-progress-circular>
+                </v-layout>
+            </div>
+        </template>
+        <v-layout row v-show="!process">
             <v-flex xs12>
                 <v-card>
                     <div v-if="mode == 'edit'">
@@ -143,7 +151,8 @@ export default {
 
     data() {
         return {
-            mode: "show"
+            mode: "show",
+            process: false
         };
     },
 
@@ -184,8 +193,10 @@ export default {
         updateCliente: async function() {
             if (this.$refs.clientesEditForm.validate()) {
                 let id = this.form.id;
+                this.process = true;
                 await this.update({ url: "/api/clientes/" + id });
                 await this.show({ url: "/api/clientes/" + id });
+                this.process = false;
                 this.mode = "show";
                 this.$refs.clientesEditForm.reset();
                 this.index({ url: "/api/clientes" });
@@ -193,10 +204,12 @@ export default {
         },
 
         deleteCliente: async function() {
+            this.process = true;
             await this.destroy({
                 url: "/api/clientes/" + this.showData.cliente.id
             });
             await this.index({ url: "/api/clientes" });
+            this.process = false;
             this.mode = "show";
             this.$router.push("/clientes");
         }

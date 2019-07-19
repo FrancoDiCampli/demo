@@ -1,8 +1,6 @@
 <template>
     <div>
-        <v-card>
-            <ConfiguracionesActualizar></ConfiguracionesActualizar>
-        </v-card>
+        <ConfiguracionesActualizar></ConfiguracionesActualizar>
     </div>
 </template>
 

@@ -24,7 +24,7 @@
                 <!-- Formulario para agregar un cliente -->
                 <v-form ref="clientesForm" @submit.prevent="saveCliente">
                     <!-- Componente Formulario -->
-                    <ClientesForm mode="new"></ClientesForm>
+                    <ClientesForm mode="create"></ClientesForm>
                     <v-layout justify-center>
                         <v-btn :disabled="inProcess" type="submit" color="primary">Guardar</v-btn>
                     </v-layout>
@@ -59,6 +59,7 @@ export default {
     },
 
     methods: {
+        ...mapMutations("crudx", ["resetForm"]),
         ...mapActions("crudx", ["index", "save"]),
 
         saveCliente: async function() {
@@ -74,7 +75,7 @@ export default {
         },
 
         goBack() {
-            this.$refs.clientesForm.reset();
+            this.resetForm();
             this.$router.push("/clientes");
         }
     }

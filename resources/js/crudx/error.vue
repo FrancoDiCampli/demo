@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="errors" style="color: #FF5252;">
+        <div v-if="errors" class="errors-input" style="color: #FF5252;">
             <div v-for="error in error_messages" :key="error.id">{{ error }}</div>
         </div>
     </div>
@@ -23,3 +23,9 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+.errors-input {
+    margin-top: -28px;
+}
+</style>

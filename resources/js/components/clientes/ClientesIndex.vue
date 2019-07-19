@@ -74,7 +74,7 @@ export default {
     },
 
     methods: {
-        ...mapActions("crudx", ["index", "show"]),
+        ...mapActions("crudx", ["index"]),
 
         loadMore: async function() {
             this.limit += this.limit;

@@ -15,9 +15,6 @@
 </template>
 
 <script>
-// Vuex
-import { mapState, mapActions } from "vuex";
-
 // Components
 import ClientesIndex from "../../components/clientes/ClientesIndex.vue";
 

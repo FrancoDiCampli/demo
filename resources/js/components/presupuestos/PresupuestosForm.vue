@@ -1,14 +1,6 @@
 <template>
     <div>
-        <template>
-            <!-- Barra de progreso circular -->
-            <div class="loading" v-show="process">
-                <v-layout justify-center>
-                    <v-progress-circular :size="70" :width="7" color="primary" indeterminate></v-progress-circular>
-                </v-layout>
-            </div>
-        </template>
-        <v-form v-show="!process" ref="formPresupuesto" @submit.prevent="savePresupuesto">
+        <v-form ref="formPresupuesto" @submit.prevent="savePresupuesto">
             <!-- Facturas Headers -->
             <div>
                 <v-card-title>
@@ -41,7 +33,7 @@
                             label="Cliente"
                             box
                         ></v-text-field>
-
+                        <Error tag="cliente_id"></Error>
                         <!-- Tabla Clientes -->
                         <transition name="expand">
                             <v-data-table
@@ -101,6 +93,7 @@
                                 >OK</v-btn>
                             </v-date-picker>
                         </v-dialog>
+                        <Error tag="vencimiento"></Error>
                     </v-flex>
                 </v-layout>
                 <!-- Detalles Clientes -->
@@ -255,6 +248,7 @@
                                     label="Bonificacion"
                                     box
                                 ></v-text-field>
+                                <Error tag="bonificacion"></Error>
                             </v-flex>
                             <v-flex xs12>
                                 <v-text-field
@@ -263,6 +257,7 @@
                                     label="Recargo"
                                     box
                                 ></v-text-field>
+                                <Error tag="recargo"></Error>
                             </v-flex>
                             <v-flex xs12>
                                 <v-text-field
@@ -278,12 +273,13 @@
                         <v-layout justify-space-around wrap>
                             <v-flex xs12>
                                 <v-text-field
-                                    v-model="subtotalFactura"
+                                    v-model="subtotalPresupuesto"
                                     disabled
                                     :rules="[rules.required]"
                                     label="Subtotal"
                                     box
                                 ></v-text-field>
+                                <Error tag="subtotal"></Error>
                             </v-flex>
                             <v-flex xs12>
                                 <v-text-field
@@ -293,6 +289,7 @@
                                     label="Total"
                                     box
                                 ></v-text-field>
+                                <Error tag="total"></Error>
                             </v-flex>
                             <v-flex xs12>
                                 <v-layout justify-center>
@@ -321,6 +318,9 @@
 </template>
 
 <script>
+// Components
+import Error from "../../crudx/error.vue";
+
 //Axios
 import axios from "axios";
 
@@ -358,11 +358,14 @@ export default {
             ],
 
             //_________________________Data General________________________//
-            process: false,
             rules: {
                 required: value => !!value || "Este campo es obligatorio"
             }
         };
+    },
+
+    components: {
+        Error
     },
 
     computed: {
@@ -383,7 +386,7 @@ export default {
         },
 
         //_________________________Computed Resumen________________________//
-        subtotalFactura: {
+        subtotalPresupuesto: {
             set() {},
 
             get() {
@@ -404,7 +407,7 @@ export default {
         total: {
             set() {},
             get() {
-                if (this.subtotalFactura != null) {
+                if (this.subtotalPresupuesto != null) {
                     let boni = 0;
                     let reca = 0;
 
@@ -412,7 +415,7 @@ export default {
                         if (this.form.bonificacion.length > 0) {
                             boni =
                                 (this.form.bonificacion *
-                                    this.subtotalFactura) /
+                                    this.subtotalPresupuesto) /
                                 100;
                         }
                     }
@@ -420,11 +423,11 @@ export default {
                     if (this.form.recargo) {
                         if (this.form.recargo.length > 0) {
                             reca =
-                                (this.form.recargo * this.subtotalFactura) /
+                                (this.form.recargo * this.subtotalPresupuesto) /
                                 100;
                         }
                     }
-                    let total = this.subtotalFactura - boni + reca;
+                    let total = this.subtotalPresupuesto - boni + reca;
                     this.form.total = total.toFixed(2);
                     return total.toFixed(2);
                 } else {
@@ -605,7 +608,6 @@ export default {
         //Guardar Factura
         savePresupuesto: async function() {
             if (this.$refs.formPresupuesto.validate()) {
-                this.process = true;
                 //Guardar Presupuestos
                 let resID = await this.save({ url: "/api/presupuestos" });
                 //Imprimir PDF de Presupuestos
@@ -614,7 +616,6 @@ export default {
                 this.detalles = [];
                 await this.$refs.formDetalles.reset();
                 await this.$refs.formPresupuesto.reset();
-                this.process = false;
                 this.$router.push("/presupuestos");
             }
         },

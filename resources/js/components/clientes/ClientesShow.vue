@@ -1,14 +1,6 @@
 <template>
     <div>
-        <template>
-            <!-- Barra de progreso circular -->
-            <div class="loading" v-show="process">
-                <v-layout justify-center>
-                    <v-progress-circular :size="70" :width="7" color="primary" indeterminate></v-progress-circular>
-                </v-layout>
-            </div>
-        </template>
-        <v-layout row v-show="!process">
+        <v-layout row>
             <v-flex xs12>
                 <v-card>
                     <div v-if="mode == 'edit'">
@@ -29,6 +21,7 @@
                                         color="primary"
                                     >Cancelar</v-btn>
                                     <v-btn
+                                        :loading="inProcess"
                                         :disabled="inProcess"
                                         type="submit"
                                         color="primary"
@@ -121,11 +114,18 @@
                                 <br />
                                 <v-layout justify-center>
                                     <v-btn
+                                        :disabled="inProcess"
                                         @click="mode = 'show'"
                                         class="elevation-0 red--text"
                                         color="white"
                                     >Cancelar</v-btn>
-                                    <v-btn @click="deleteCliente()" outline color="white">Eliminar</v-btn>
+                                    <v-btn
+                                        :loading="inProcess"
+                                        :disabled="inProcess"
+                                        @click="deleteCliente()"
+                                        outline
+                                        color="white"
+                                    >Eliminar</v-btn>
                                 </v-layout>
                             </v-alert>
                         </div>
@@ -151,8 +151,7 @@ export default {
 
     data() {
         return {
-            mode: "show",
-            process: false
+            mode: "show"
         };
     },
 
@@ -193,10 +192,8 @@ export default {
         updateCliente: async function() {
             if (this.$refs.clientesEditForm.validate()) {
                 let id = this.form.id;
-                this.process = true;
                 await this.update({ url: "/api/clientes/" + id });
                 await this.show({ url: "/api/clientes/" + id });
-                this.process = false;
                 this.mode = "show";
                 this.$refs.clientesEditForm.reset();
                 this.index({ url: "/api/clientes" });
@@ -204,12 +201,10 @@ export default {
         },
 
         deleteCliente: async function() {
-            this.process = true;
             await this.destroy({
                 url: "/api/clientes/" + this.showData.cliente.id
             });
             await this.index({ url: "/api/clientes" });
-            this.process = false;
             this.mode = "show";
             this.$router.push("/clientes");
         }

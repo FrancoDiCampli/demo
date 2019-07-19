@@ -19,7 +19,6 @@
         </v-layout>
         <v-layout justify-space-around wrap>
             <v-flex xs12 sm6 px-3>
-                <Error tag="documentounico"></Error>
                 <v-text-field
                     :disabled="process"
                     v-model="form.documentounico"
@@ -29,81 +28,81 @@
                     label="Documento"
                     box
                 ></v-text-field>
+                <Error tag="documentounico"></Error>
             </v-flex>
             <v-flex xs12 sm6 px-3>
-                <Error tag="condicioniva"></Error>
                 <v-select
-                    :disabled="disabled"
+                    :disabled="process"
                     v-model="form.condicioniva"
                     :rules="[rules.required, rules.max]"
                     :items="condiciones"
                     label="Condición Frente al IVA"
                     box
                 ></v-select>
+                <Error tag="condicioniva"></Error>
             </v-flex>
             <v-flex xs12 sm6 px-3>
-                <Error tag="razonsocial"></Error>
                 <v-text-field
-                    :disabled="disabled"
+                    :disabled="process"
                     v-model="form.razonsocial"
                     :rules="[rules.required, rules.max]"
                     label="Apellido y Nombre"
                     class="capitalize"
                     box
                 ></v-text-field>
+                <Error tag="razonsocial"></Error>
             </v-flex>
             <v-flex xs12 sm6 px-3>
-                <Error tag="telefono"></Error>
                 <v-text-field
-                    :disabled="disabled"
+                    :disabled="process"
                     v-model="form.telefono"
                     type="number"
                     class="input-number"
                     label="TEL/CEL"
                     box
                 ></v-text-field>
+                <Error tag="telefono"></Error>
             </v-flex>
             <v-flex xs12 px-3>
                 <Error tag="email"></Error>
-                <v-text-field :disabled="disabled" v-model="form.email" label="Email" box></v-text-field>
+                <v-text-field :disabled="process" v-model="form.email" label="Email" box></v-text-field>
             </v-flex>
             <v-flex xs12 px-3>
-                <Error tag="direccion"></Error>
                 <v-text-field
-                    :disabled="disabled"
+                    :disabled="process"
                     v-model="form.direccion"
                     :rules="[rules.required, rules.max]"
                     label="Domicilio"
                     class="capitalize"
                     box
                 ></v-text-field>
+                <Error tag="direccion"></Error>
             </v-flex>
             <v-flex xs12 sm4 px-3>
-                <Error tag="provincia"></Error>
                 <v-text-field
-                    :disabled="disabled"
+                    :disabled="process"
                     v-model="form.provincia"
                     :rules="[rules.required, rules.max]"
                     label="Provincia"
                     class="capitalize"
                     box
                 ></v-text-field>
+                <Error tag="provincia"></Error>
             </v-flex>
             <v-flex xs12 sm4 px-3>
-                <Error tag="localidad"></Error>
                 <v-text-field
-                    :disabled="disabled"
+                    :disabled="process"
                     v-model="form.localidad"
                     :rules="[rules.required, rules.max]"
                     label="Localidad"
                     class="capitalize"
                     box
                 ></v-text-field>
+                <Error tag="localidad"></Error>
             </v-flex>
             <v-flex xs12 sm4 px-3>
-                <Error tag="codigopostal"></Error>
                 <v-text-field
-                    :disabled="disabled"
+                    :disabled="process"
                     v-model="form.codigopostal"
                     :rules="[rules.required]"
                     type="number"
@@ -111,14 +110,20 @@
                     label="Codigo Postal"
                     box
                 ></v-text-field>
+                <Error tag="codigopostal"></Error>
             </v-flex>
         </v-layout>
     </div>
 </template>
 
 <script>
+// Components
 import Error from "../../crudx/error.vue";
+
+// Vuex
 import Vuex, { mapState, mapActions, mapMutations } from "vuex";
+
+// Axios
 import axios from "axios";
 export default {
     name: "ClientesCreate",
@@ -128,7 +133,6 @@ export default {
     data() {
         return {
             alertCliente: false,
-            disabled: false,
             documentoExistente: null,
             condiciones: [
                 "CONSUMIDOR FINAL",
@@ -157,7 +161,7 @@ export default {
     mounted() {
         if (this.mode == "edit") {
             this.documentoExistente = this.form.documentounico;
-        } else if (this.mode == "new") {
+        } else if (this.mode == "create") {
             this.documentoExistente = null;
         }
     },
@@ -168,10 +172,9 @@ export default {
         findCliente() {
             if (this.form.documentounico) {
                 this.alertCliente = false;
-                this.disabled = false;
+
                 if (this.form.documentounico.length == 11) {
                     this.process = true;
-                    this.disabled = true;
 
                     axios
                         .get("/api/clientes", {
@@ -183,7 +186,7 @@ export default {
                         .then(response => {
                             if (response.data.total > 0) {
                                 this.process = false;
-                                if (this.mode == "new") {
+                                if (this.mode == "create") {
                                     this.alertCliente = true;
                                 } else if (this.mode == "edit") {
                                     if (
@@ -191,10 +194,8 @@ export default {
                                         this.form.documentounico
                                     ) {
                                         this.alertCliente = false;
-                                        this.disabled = false;
                                     } else {
                                         this.alertCliente = true;
-                                        this.disabled = true;
                                     }
                                 }
                             } else {
@@ -204,7 +205,6 @@ export default {
                         .catch(error => {
                             console.log(error);
                             this.process = false;
-                            this.disabled = false;
                         });
                 }
             }
@@ -218,13 +218,11 @@ export default {
                         this.fillData(response.data);
                     } else {
                         this.process = false;
-                        this.disabled = false;
                     }
                 })
                 .catch(error => {
                     console.log(error);
                     this.process = false;
-                    this.disabled = false;
                 });
         },
 
@@ -282,7 +280,6 @@ export default {
 
             this.fillForm(formData);
             this.process = false;
-            this.disabled = false;
         }
     }
 };

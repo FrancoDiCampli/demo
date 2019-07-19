@@ -90,6 +90,7 @@
                                                 box
                                                 single-line
                                             ></v-text-field>
+                                            <Error tag="articulo"></Error>
                                         </v-flex>
                                         <v-flex xs12 px-2>
                                             <v-textarea
@@ -102,6 +103,7 @@
                                                 height="165"
                                                 no-resize
                                             ></v-textarea>
+                                            <Error tag="descripcion"></Error>
                                         </v-flex>
                                     </v-flex>
                                 </v-layout>
@@ -115,6 +117,7 @@
                                         color="primary"
                                     >Cancelar</v-btn>
                                     <v-btn
+                                        :loading="inProcess"
                                         :disabled="inProcess"
                                         type="submit"
                                         color="primary"
@@ -247,13 +250,13 @@
                                 <v-layout justify-center>
                                     <v-btn
                                         @click="mode = 'show'"
-                                        :disabled="process"
+                                        :disabled="inProcess"
                                         class="elevation-0 red--text"
                                         color="white"
                                     >Cancelar</v-btn>
                                     <v-btn
-                                        :loading="process"
-                                        :disabled="process"
+                                        :loading="inProcess"
+                                        :disabled="inProcess"
                                         @click="deleteProducto()"
                                         outline
                                         color="white"
@@ -273,6 +276,7 @@
 import ProductosShowData from "./ProductosShowData.vue";
 import ProductosShowInventario from "./ProductosShowInventario.vue";
 import ProductosForm from "./ProductosForm.vue";
+import Error from "../../crudx/error.vue";
 
 // Vuex
 import { mapState, mapActions } from "vuex";
@@ -282,7 +286,6 @@ export default {
 
     data() {
         return {
-            process: false,
             mode: "show",
             foto: null,
             rules: {
@@ -297,7 +300,8 @@ export default {
     components: {
         ProductosShowData,
         ProductosShowInventario,
-        ProductosForm
+        ProductosForm,
+        Error
     },
 
     computed: {
@@ -319,8 +323,6 @@ export default {
             this.form.categoria = this.showData.articulo.categoria.categoria;
             this.form.marca = this.showData.articulo.marca.marca;
 
-            console.log(this.form);
-
             this.mode = "edit";
         },
 
@@ -336,13 +338,11 @@ export default {
         },
 
         deleteProducto: async function() {
-            this.process = true;
             await this.destroy({
                 url: "/api/articulos/" + this.showData.articulo.id
             });
             await this.index({ url: "/api/articulos" });
             this.mode = "show";
-            this.process = false;
             this.$router.push("/productos");
         }
     }

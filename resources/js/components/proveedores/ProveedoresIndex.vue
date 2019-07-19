@@ -9,13 +9,12 @@
             >
                 <v-progress-linear v-slot:progress color="primary" indeterminate></v-progress-linear>
                 <template v-slot:items="supplier">
-                    <td class="hidden-xs-only">{{ supplier.item.cuit }}</td>
+                    <td class="hidden-sm-and-down">{{ supplier.item.cuit }}</td>
                     <td>{{ supplier.item.razonsocial }}</td>
-                    <td>{{ supplier.item.direccion }}</td>
-                    <td>{{ supplier.item.telefono }}</td>
+                    <td class="hidden-xs-only">{{ supplier.item.telefono }}</td>
                     <td>
                         <v-btn
-                            @click="$router.push('/suppliers/show/' + supplier.item.id);"
+                            @click="$router.push('/proveedores/show/' + supplier.item.id);"
                             flat
                             icon
                             color="primary"
@@ -25,6 +24,15 @@
                     </td>
                 </template>
             </v-data-table>
+            <v-layout justify-center>
+                <v-btn
+                    :loading="loadingButton"
+                    :disabled="limit >= data.total || loadingButton"
+                    @click="loadMore()"
+                    color="primary"
+                    outline
+                >Cargar Más</v-btn>
+            </v-layout>
         </template>
     </div>
 </template>
@@ -39,10 +47,13 @@ export default {
             limit: 10,
             loadingButton: false,
             headers: [
-                { text: "CUIT", sortable: false, class: "hidden-xs-only" },
-                { text: "Razón Social", sortable: false },
-                { text: "Dirección", sortable: false },
-                { text: "Teléfono", sortable: false },
+                {
+                    text: "CUIL/CUIT",
+                    sortable: false,
+                    class: "hidden-sm-and-down"
+                },
+                { text: "Apellido y Nombre", sortable: false },
+                { text: "Teléfono", sortable: false, class: "hidden-xs-only" },
                 { text: "", sortable: false }
             ]
         };
@@ -61,12 +72,12 @@ export default {
     },
 
     methods: {
-        ...mapActions("crudx", ["index", "show"]),
+        ...mapActions("crudx", ["index"]),
 
         loadMore: async function() {
             this.limit += this.limit;
             this.loadingButton = true;
-            await this.index({ url: "api/clientes", limit: this.limit });
+            await this.index({ url: "api/suppliers", limit: this.limit });
             this.loadingButton = false;
         }
     }

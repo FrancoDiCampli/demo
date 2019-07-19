@@ -10,6 +10,7 @@
                     box
                     type="number"
                 ></v-text-field>
+                <Error tag="costo"></Error>
             </v-flex>
             <v-flex xs12 sm6 lg3 px-3>
                 <v-text-field
@@ -19,6 +20,7 @@
                     box
                     type="number"
                 ></v-text-field>
+                <Error tag="utilidades"></Error>
             </v-flex>
             <v-flex xs12 sm6 lg3 px-3>
                 <v-select
@@ -28,6 +30,7 @@
                     label="Alicuota %"
                     box
                 ></v-select>
+                <Error tag="alicuota"></Error>
             </v-flex>
             <v-flex xs12 sm6 lg3 px-3>
                 <v-text-field
@@ -38,6 +41,7 @@
                     type="number"
                     disabled
                 ></v-text-field>
+                <Error tag="precio"></Error>
             </v-flex>
             <v-flex xs12 sm6 px-3>
                 <v-select
@@ -47,6 +51,7 @@
                     label="Medida"
                     box
                 ></v-select>
+                <Error tag="medido"></Error>
             </v-flex>
             <v-flex xs12 sm6 px-3>
                 <v-text-field
@@ -56,6 +61,7 @@
                     box
                     type="number"
                 ></v-text-field>
+                <Error tag="stockminimo"></Error>
             </v-flex>
             <v-flex xs12 sm6 px-3>
                 <!-- Input Categorias -->
@@ -67,7 +73,7 @@
                     append-icon="fas fa-caret-down"
                     box
                 ></v-text-field>
-
+                <Error tag="categoria_id"></Error>
                 <!-- Tabla Categorias -->
                 <transition name="expand">
                     <v-data-table
@@ -96,7 +102,7 @@
                     append-icon="fas fa-caret-down"
                     box
                 ></v-text-field>
-
+                <Error tag="marca_id"></Error>
                 <!-- Tabla Marcas -->
                 <transition name="expand">
                     <v-data-table
@@ -123,6 +129,7 @@
                     label="Codigo"
                     box
                 ></v-text-field>
+                <Error tag="codarticulo"></Error>
             </v-flex>
             <v-flex xs12 sm6 px-3>
                 <v-text-field
@@ -131,12 +138,16 @@
                     label="Codigo del Proveedor"
                     box
                 ></v-text-field>
+                <Error tag="codprov"></Error>
             </v-flex>
         </v-layout>
     </div>
 </template>
 
 <script>
+// Components
+import Error from "../../crudx/error.vue";
+
 //Vuex
 import { mapState, mapActions } from "vuex";
 
@@ -180,6 +191,10 @@ export default {
                     "Este campo debe contener si o si 13 digitos"
             }
         };
+    },
+
+    components: {
+        Error
     },
 
     computed: {

@@ -19,6 +19,7 @@ class CreateSuppliersTable extends Migration
             $table->bigInteger('cuit');
             $table->string('direccion');
             $table->string('telefono');
+            $table->string('email')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

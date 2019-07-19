@@ -1,5 +1,8 @@
 <template>
     <div>
+        <v-btn dark fab fixed right bottom @click="goBack()" color="primary">
+            <v-icon>fas fa-chevron-left</v-icon>
+        </v-btn>
         <template>
             <!-- Barra de progreso circular -->
             <div class="loading" v-show="process">
@@ -80,6 +83,7 @@
                                     box
                                     single-line
                                 ></v-text-field>
+                                <Error tag="articulo"></Error>
                             </v-flex>
                             <v-flex xs12 px-2>
                                 <v-textarea
@@ -92,6 +96,7 @@
                                     height="165"
                                     no-resize
                                 ></v-textarea>
+                                <Error tag="descripcion"></Error>
                             </v-flex>
                         </v-flex>
                     </v-layout>
@@ -144,12 +149,13 @@
 <script>
 // Components
 import ProductosForm from "../../components/productos/ProductosForm.vue";
+import Error from "../../crudx/error.vue";
 
 // Axios
 import axios from "axios";
 
 // Vuex
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapMutations } from "vuex";
 
 export default {
     name: "ProductoNew",
@@ -171,7 +177,8 @@ export default {
     },
 
     components: {
-        ProductosForm
+        ProductosForm,
+        Error
     },
 
     computed: {
@@ -179,6 +186,7 @@ export default {
     },
 
     methods: {
+        ...mapMutations("crudx", ["resetForm"]),
         ...mapActions("crudx", ["save"]),
 
         preventSave: async function() {
@@ -257,6 +265,11 @@ export default {
         saveProducto: async function() {
             this.form.foto = this.foto.generateDataUrl();
             await this.save({ url: "/api/articulos" });
+        },
+
+        goBack() {
+            this.resetForm();
+            this.$router.push("/productos");
         }
     }
 };

@@ -43,7 +43,7 @@
                             label="Cliente"
                             box
                         ></v-text-field>
-
+                        <Error tag="cliente_id"></Error>
                         <!-- Tabla Clientes -->
                         <transition name="expand">
                             <v-data-table
@@ -78,6 +78,7 @@
                             label="Condición"
                             box
                         ></v-select>
+                        <Error tag="condicion"></Error>
                     </v-flex>
                 </v-layout>
                 <!-- Detalles Clientes -->
@@ -236,6 +237,7 @@
                                     label="Bonificacion"
                                     box
                                 ></v-text-field>
+                                <Error tag="bonificacion"></Error>
                             </v-flex>
                             <v-flex xs12>
                                 <v-text-field
@@ -244,6 +246,7 @@
                                     label="Recargo"
                                     box
                                 ></v-text-field>
+                                <Error tag="recargo"></Error>
                             </v-flex>
                             <v-flex xs12>
                                 <v-select
@@ -254,6 +257,7 @@
                                     label="Tipo Comprobante"
                                     box
                                 ></v-select>
+                                <Error tag="tipo"></Error>
                             </v-flex>
                         </v-layout>
                     </v-flex>
@@ -267,6 +271,7 @@
                                     label="Subtotal"
                                     box
                                 ></v-text-field>
+                                <Error tag="subtotal"></Error>
                             </v-flex>
                             <v-flex xs12>
                                 <v-text-field
@@ -276,6 +281,7 @@
                                     label="Total"
                                     box
                                 ></v-text-field>
+                                <Error tag="total"></Error>
                             </v-flex>
                             <v-flex xs12>
                                 <v-layout justify-center>
@@ -286,6 +292,7 @@
                                         color="primary"
                                     >Cancelar</v-btn>
                                     <v-btn
+                                        :loading="inProcess"
                                         :disabled="detalles.length > 0 ? false : true"
                                         type="submit"
                                         color="primary"
@@ -311,6 +318,7 @@
                             label="Nº Comprobante Credito / Debito"
                             box
                         ></v-text-field>
+                        <Error tag="compago"></Error>
                     </v-card-text>
                     <v-card-text>
                         <v-layout justify-end wrap>
@@ -322,6 +330,7 @@
                             >Cancelar</v-btn>
 
                             <v-btn
+                                :loading="inProcess"
                                 :disabled="inProcess"
                                 @click="saveFactura()"
                                 color="primary"
@@ -336,6 +345,9 @@
 </template>
 
 <script>
+//Components
+import Error from "../../crudx/error.vue";
+
 //Axios
 import axios from "axios";
 
@@ -390,6 +402,10 @@ export default {
                     value * 1 <= this.stock || "Stock Insuficiente"
             }
         };
+    },
+
+    components: {
+        Error
     },
 
     computed: {
@@ -716,7 +732,6 @@ export default {
                 if (this.$refs.formFactura.validate()) {
                     //Cerrar modal y activar el indicador de carga
                     this.comprobanteCreditoDialog = false;
-                    this.process = true;
                     //Guardar Factura
                     let resID = await this.save({ url: "/api/facturas" });
                     //Retornar el pdf de factura
@@ -735,7 +750,6 @@ export default {
                     this.condicion = "CONTADO";
                     this.tipo = "REMITO X";
                     //Desactivar el indicador de carga
-                    this.process = false;
                     if (this.mode == "edit") {
                         this.$router.push("/ventas");
                     }

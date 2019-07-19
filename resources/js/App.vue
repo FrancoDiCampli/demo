@@ -244,7 +244,7 @@ export default {
                     icon: "fas fa-clipboard",
                     url: "/reporte",
                     divider: true,
-                    rol: "seller"
+                    rol: "superAdmin"
                 },
                 {
                     title: "Usuarios",
@@ -264,7 +264,7 @@ export default {
                     title: "Configuraciones",
                     icon: "fas fa-cog",
                     url: "/configuraciones",
-                    divider: true,
+                    divider: false,
                     rol: "superAdmin"
                 },
                 {

@@ -13,6 +13,20 @@ use App\Http\Requests\UpdateInventario;
 
 class InventariosController extends Controller
 {
+
+    public function index(Request $request)
+    {
+        $inventories = Inventario::buscar($request)->get();
+        $inventarios = collect();
+        foreach ($inventories as $inventory) {
+            $proveedor = Supplier::find($inventory->supplier_id);
+            $inventory = collect($inventory);
+            $inventory->put('supplier', $proveedor);
+            $inventarios->push($inventory);
+        }
+        return $inventarios->take(1);
+    }
+
     // CREA INVENTARIO DE NO EXISTIR, CASO CONTRARIO LO ACTUALIZA
     public function store(StoreInventario $request)
     {

@@ -1,7 +1,12 @@
 <template>
     <div>
-        <h1>Vista Show de Proveedores</h1>
-        <ProveedoresShow></ProveedoresShow>
+        <v-btn @click="log()">log</v-btn>
+        <v-btn dark fab fixed right bottom @click="goBack()" color="primary">
+            <v-icon>fas fa-chevron-left</v-icon>
+        </v-btn>
+        <div>
+            <ProveedoresShow></ProveedoresShow>
+        </div>
     </div>
 </template>
 
@@ -9,11 +14,38 @@
 // Components
 import ProveedoresShow from "../../components/proveedores/ProveedoresShow.vue";
 
+// Vuex
+import { mapState, mapMutations, mapActions } from "vuex";
+
 export default {
-    name: "ProveedoresShow",
+    name: "ShowProveedores",
+
+    props: ["id"],
 
     components: {
         ProveedoresShow
+    },
+
+    computed: {
+        ...mapState("crudx", ["showData"])
+    },
+
+    mounted() {
+        this.show({ url: "/api/suppliers/" + this.id });
+    },
+
+    methods: {
+        ...mapMutations("crudx", ["resetForm"]),
+        ...mapActions("crudx", ["show"]),
+
+        goBack() {
+            this.resetForm();
+            this.$router.push("/proveedores");
+        },
+
+        log() {
+            console.log(this.showData);
+        }
     }
 };
 </script>

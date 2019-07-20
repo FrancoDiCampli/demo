@@ -12,19 +12,30 @@
             <v-icon>fas fa-plus</v-icon>
         </v-btn>
 
-        <v-dialog v-model="createRolesDialog" width="400" persistent>
+        <v-dialog v-model="createRolesDialog" width="500" persistent>
             <v-card>
                 <v-card-text>
-                    <h2>New Role</h2>
+                    <h2>Nuevo Rol</h2>
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-card-text>
                     <v-form ref="roleForm" @submit.prevent="saveRole">
                         <RolesForm></RolesForm>
-                        <br>
+                        <br />
                         <v-layout justify-end>
-                            <v-btn @click="createRolesDialog = false" outline color="error">Cancel</v-btn>
-                            <v-btn class="elevation-0" type="submit" color="primary">Save</v-btn>
+                            <v-btn
+                                :disabled="inProcess"
+                                @click="createRolesDialog = false"
+                                outline
+                                color="primary"
+                            >Cancelar</v-btn>
+                            <v-btn
+                                :loading="inProcess"
+                                :disabled="inProcess"
+                                class="elevation-0"
+                                type="submit"
+                                color="primary"
+                            >Guardar</v-btn>
                         </v-layout>
                     </v-form>
                 </v-card-text>
@@ -59,7 +70,7 @@ export default {
     },
 
     computed: {
-        ...mapState("crudx", ["form"])
+        ...mapState("crudx", ["form", "showData", "inProcess"])
     },
 
     methods: {
@@ -68,12 +79,23 @@ export default {
         saveRole: async function() {
             if (this.$refs.roleForm.validate()) {
                 let permission = "";
+                let description = "";
                 for (let i = 0; i < this.form.scope.length; i++) {
-                    permission = permission + this.form.scope[i] + " ";
+                    let find = this.showData.find(
+                        permiso => permiso.id === this.form.scope[i]
+                    );
+
+                    if (find) {
+                        permission = permission + find.id + " ";
+                        description = description + find.description + ", ";
+                    }
                 }
+
                 this.form.permission = permission;
-                await this.save({ url: "api/role/save" });
-                this.index({ url: "api/role/index" });
+                this.form.description = description;
+                await this.save({ url: "/api/roles" });
+                this.$refs.roleForm.reset();
+                this.index({ url: "/api/roles" });
                 this.createRolesDialog = false;
             }
         }

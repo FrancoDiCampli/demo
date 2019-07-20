@@ -1,6 +1,6 @@
 <template>
     <div>
-        <br>
+        <br />
         <v-layout justify-center>
             <v-flex xs10 lg8>
                 <v-layout justify-center>
@@ -21,16 +21,13 @@
                                                 <v-list-tile
                                                     @click="editAccount(); editDialog = true"
                                                 >
-                                                    <v-list-tile-title>Editar Datos</v-list-tile-title>
-                                                </v-list-tile>
-                                                <v-list-tile @click="deleteDialog = true">
-                                                    <v-list-tile-title>Eliminar mi Cuenta</v-list-tile-title>
+                                                    <v-list-tile-title>Editar</v-list-tile-title>
                                                 </v-list-tile>
                                             </v-list>
                                         </v-menu>
                                     </v-layout>
-                                    <br>
-                                    <br>
+                                    <br />
+                                    <br />
                                     <v-layout justify-center wrap>
                                         <v-flex xs12>
                                             <v-layout justify-center>
@@ -40,7 +37,7 @@
                                             </v-layout>
                                         </v-flex>
                                         <v-flex xs12>
-                                            <br>
+                                            <br />
                                             <h1
                                                 class="text-xs-center primary--text"
                                             >{{ account.user.name }}</h1>
@@ -56,7 +53,7 @@
                         </v-card-text>
                     </v-card>
                     <!-- Edit Account Dialog -->
-                    <v-dialog v-model="editDialog" width="400" persistent>
+                    <v-dialog v-model="editDialog" width="500" persistent>
                         <v-card>
                             <v-form ref="edit_form" @submit.prevent="edit()">
                                 <v-card-text>
@@ -70,39 +67,21 @@
                                 <v-card-text>
                                     <v-layout justify-end wrap>
                                         <v-btn
+                                            :disabled="inProcess"
                                             @click="editDialog = false;"
                                             outline
-                                            color="error"
+                                            color="primary"
                                         >Cancelar</v-btn>
                                         <v-btn
+                                            :loading="inProcess"
+                                            :disabled="inProcess"
                                             type="submit"
-                                            color="success"
+                                            color="primary"
                                             class="elevation-0"
                                         >Editar</v-btn>
                                     </v-layout>
                                 </v-card-text>
                             </v-form>
-                        </v-card>
-                    </v-dialog>
-                    <!-- Delete Account Dialog -->
-                    <v-dialog v-model="deleteDialog" width="400" persistent>
-                        <v-card>
-                            <v-card-title>
-                                <h2>¿Estás Seguro?</h2>
-                            </v-card-title>
-                            <v-divider></v-divider>
-                            <v-card-text>¿Estás seguro que deseas eliminar tu Cuenta? este cambio es irreversible</v-card-text>
-                            <v-divider></v-divider>
-                            <v-card-text>
-                                <v-layout justify-end wrap>
-                                    <v-btn
-                                        @click="deleteDialog = false;"
-                                        outline
-                                        color="success"
-                                    >Cancelar</v-btn>
-                                    <v-btn @click="erase()" color="error">Eliminar</v-btn>
-                                </v-layout>
-                            </v-card-text>
                         </v-card>
                     </v-dialog>
                 </v-layout>
@@ -130,6 +109,7 @@ export default {
     },
 
     computed: {
+        ...mapState("auth", ["inProcess"]),
         ...mapGetters("auth", ["account"])
     },
 
@@ -138,22 +118,14 @@ export default {
     },
 
     methods: {
-        ...mapActions("auth", [
-            "getUser",
-            "editAccount",
-            "updateAccount",
-            "deleteAccount"
-        ]),
+        ...mapActions("auth", ["getUser", "editAccount", "updateAccount"]),
+
         edit: async function() {
             if (this.$refs.edit_form.validate()) {
                 await this.updateAccount();
                 await this.getUser();
                 this.editDialog = false;
             }
-        },
-        erase: async function() {
-            await this.deleteAccount();
-            this.$router.push("/");
         }
     }
 };

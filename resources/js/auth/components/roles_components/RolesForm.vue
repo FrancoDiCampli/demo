@@ -1,38 +1,39 @@
 <template>
     <div>
         <v-layout justify-center wrap>
-            <v-flex xs10>
-                <Error tag="role"></Error>
+            <v-flex xs12 px-3>
                 <v-text-field
                     v-model="form.role"
                     :rules="[rules.required]"
                     label="Rol"
-                    hint="Rol"
                     color="primary"
                     box
-                    single-line
                 ></v-text-field>
+                <Error tag="role"></Error>
             </v-flex>
-            <v-flex xs10>
-                <Error tag="permission"></Error>
+            <v-flex xs12 px-3>
                 <v-select
                     v-model="form.scope"
                     :items="showData"
-                    item-text="id"
+                    item-text="description"
                     item-value="id"
                     label="Permisos"
                     color="primary"
                     multiple
+                    chips
                     box
-                    single-line
                 ></v-select>
+                <Error tag="permission"></Error>
             </v-flex>
         </v-layout>
     </div>
 </template>
 
 <script>
+//Components
 import Error from "../Error.vue";
+
+// Vuex
 import { mapState, mapActions } from "vuex";
 
 export default {
@@ -56,7 +57,7 @@ export default {
     },
 
     mounted() {
-        this.show({ url: "api/role/show" });
+        this.show({ url: "/api/roles/show" });
     },
 
     methods: {

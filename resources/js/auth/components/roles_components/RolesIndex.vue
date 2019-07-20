@@ -1,11 +1,18 @@
 <template>
     <div>
         <!-- Roles Table -->
-        <template>
-            <v-data-table hide-actions :headers="headers" :items="data">
-                <template v-slot:items="rol">
-                    <td>{{ rol.item.role }}</td>
-                    <td>{{ rol.item.permission }}</td>
+        <v-data-table :headers="headers" hide-actions :items="data" expand item-key="id">
+            <template v-slot:items="rol">
+                <tr>
+                    <td
+                        style="cursor: pointer;"
+                        @click="rol.expanded = !rol.expanded"
+                    >{{ rol.item.role }}</td>
+                    <td
+                        style="cursor: pointer;"
+                        @click="rol.expanded = !rol.expanded"
+                        class="tokens-description hidden-xs-only"
+                    >{{ rol.item.description }}</td>
                     <td>
                         <v-menu>
                             <template v-slot:activator="{ on }">
@@ -27,30 +34,58 @@
                             </v-list>
                         </v-menu>
                     </td>
-                </template>
-            </v-data-table>
-        </template>
+                </tr>
+            </template>
+            <template v-slot:expand="rol">
+                <v-card flat>
+                    <v-card-text>
+                        <v-list two-line>
+                            <template>
+                                <v-subheader>Permisos</v-subheader>
+                                <v-divider></v-divider>
+                                <v-list-tile v-for="token in rol.item.tokens" :key="token.id">
+                                    <v-list-tile-content>
+                                        <v-list-tile-title>{{ token.description }}</v-list-tile-title>
+                                        <v-list-tile-sub-title>{{ token.index }}</v-list-tile-sub-title>
+                                    </v-list-tile-content>
+                                </v-list-tile>
+                            </template>
+                        </v-list>
+                    </v-card-text>
+                </v-card>
+            </template>
+        </v-data-table>
         <!-- Edit Roles Dialog -->
-        <v-dialog v-model="editRolesDialog" width="400" persistent>
+        <v-dialog v-model="editRolesDialog" width="500" persistent>
             <v-card>
                 <v-card-text>
-                    <h2>Editar ROl</h2>
+                    <h2>Editar Rol</h2>
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-card-text>
                     <v-form ref="roleForm" @submit.prevent="updateRole()">
                         <RolesForm></RolesForm>
-                        <br>
+                        <br />
                         <v-layout justify-end>
-                            <v-btn @click="editRolesDialog = false" outline color="error">Cancelar</v-btn>
-                            <v-btn type="submit" color="primary">Editar</v-btn>
+                            <v-btn
+                                :disabled="inProcess"
+                                @click="closeEdit()"
+                                outline
+                                color="primary"
+                            >Cancelar</v-btn>
+                            <v-btn
+                                :loading="inProcess"
+                                :disabled="inProcess"
+                                type="submit"
+                                color="primary"
+                            >Editar</v-btn>
                         </v-layout>
                     </v-form>
                 </v-card-text>
             </v-card>
         </v-dialog>
         <!-- Delete Roles Dialog -->
-        <v-dialog v-model="deleteRolesDialog" width="400" persistent>
+        <v-dialog v-model="deleteRolesDialog" width="500" persistent>
             <v-card>
                 <v-card-title>
                     <h2>¿Estás Seguro?</h2>
@@ -60,8 +95,18 @@
                 <v-divider></v-divider>
                 <v-card-text>
                     <v-layout justify-end wrap>
-                        <v-btn @click="deleteRolesDialog = false;" outline color="success">Cancelar</v-btn>
-                        <v-btn @click="erase()" color="error">Eliminar</v-btn>
+                        <v-btn
+                            :disabled="inProcess"
+                            @click="deleteRolesDialog = false;"
+                            outline
+                            color="primary"
+                        >Cancelar</v-btn>
+                        <v-btn
+                            :loading="inProcess"
+                            :disabled="inProcess"
+                            @click="erase()"
+                            color="primary"
+                        >Eliminar</v-btn>
                     </v-layout>
                 </v-card-text>
             </v-card>
@@ -83,7 +128,7 @@ export default {
             roleID: null,
             headers: [
                 { text: "Rol", sortable: false },
-                { text: "Permission", sortable: false },
+                { text: "Permisos", class: "hidden-xs-only", sortable: false },
                 { text: "", sortable: false }
             ]
         };
@@ -102,35 +147,77 @@ export default {
     },
 
     computed: {
-        ...mapState("crudx", ["data", "form"])
+        ...mapState("crudx", ["data", "form", "showData", "inProcess"])
     },
 
     mounted() {
-        this.index({ url: "api/role/index" });
+        this.index({ url: "/api/roles" });
     },
 
     methods: {
         ...mapActions("crudx", ["index", "edit", "update", "destroy"]),
 
+        closeEdit: async function() {
+            await this.index({ url: "/api/roles" });
+            this.editRolesDialog = false;
+        },
+
         updateRole: async function() {
             if (this.$refs.roleForm.validate()) {
                 let permission = "";
+                let description = "";
                 for (let i = 0; i < this.form.scope.length; i++) {
-                    permission = permission + this.form.scope[i] + " ";
+                    let find = this.showData.find(
+                        permiso => permiso.id === this.form.scope[i]
+                    );
+
+                    if (find) {
+                        permission = permission + find.id + " ";
+                        description = description + find.description + ", ";
+                    }
                 }
+
                 this.form.permission = permission;
-                await this.update({ url: "api/role/edit/" + this.form.id });
-                this.index({ url: "api/role/index" });
+                this.form.description = description;
+                await this.update({ url: "/api/roles/" + this.form.id });
+                this.$refs.roleForm.reset();
+                this.index({ url: "/api/roles" });
                 this.editRolesDialog = false;
             }
         },
 
         erase: async function() {
-            await this.destroy({ url: "api/role/delete/" + this.roleID });
-            this.index({ url: "api/role/index" });
+            await this.destroy({ url: "/api/roles/" + this.roleID });
+            this.index({ url: "/api/roles" });
             this.roleID = null;
             this.deleteRolesDialog = false;
+        },
+
+        log() {
+            console.log(this.data);
         }
     }
 };
 </script>
+
+<style>
+.tokens-description {
+    display: inline-block;
+    margin-top: 26px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+@media (min-width: 600px) {
+    .tokens-description {
+        max-width: 200px;
+    }
+}
+
+@media (min-width: 960px) {
+    .tokens-description {
+        max-width: 400px;
+    }
+}
+</style>

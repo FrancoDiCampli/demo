@@ -31,17 +31,47 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Passport::tokensCan([
-            // Role Tokens
-            'get-role' => 'Get Role`s',
-            'save-role' => 'Save Role`s',
-            'edit-role' => 'Edit Role`s',
-            'delete-role' => 'Delete Role`s',
-
             // Users Tokens
-            'get-users' => 'Get Users',
-            'save-users' => 'Save Users',
-            'edit-users' => 'Edit Users',
-            'delete-users' => 'Delete Users',
+            'users-index' => 'Listar Usuarios',
+            'users-store' => 'Guardar Usuarios',
+            'users-update' => 'Editar Usuarios',
+            'users-destroy' => 'Eliminar Usuarios',
+
+            // Tokens de Articulos
+            'articulos-index' => 'Listar productos',
+            'articulos-show' => 'Ver productos',
+            'articulos-store' => 'Guardar productos',
+            'articulos-update' => 'Editar productos',
+            'articulos-destroy' => 'Eliminar productos',
+
+            // Tokens de Inventarios
+            'inventarios-index' => 'Listar inventarios de productos',
+            'inventarios-store' => 'Guardar y modificar inventarios de productos',
+
+            // Tokens de Clientes
+            'clientes-index' => 'Listar clientes',
+            'clientes-show' => 'Ver clientes',
+            'clientes-store' => 'Guardar clientes',
+            'clientes-update' => 'Editar clientes',
+            'clientes-destroy' => 'Eliminar clientes',
+
+            // Tokens de Cuentas Corrientes
+            'cuentascorrientes-pagar' => 'Registrar pagos de Cuentas Corrientes',
+
+            // Tokens de Facturas
+            'facturas-index' => 'Listar facturas',
+            'facturas-store' => 'Guardar facturas',
+            'facturas-update' => 'Grabar ventas X en AFIP',
+            'facturas-destroy' => 'Anular facturas',
+
+            // Tokens de Presupuestos
+            'presupuestos-index' => 'Listar presupuestos',
+            'presupuestos-store' => 'Guardar presupuestos',
+            'presupuestos-destroy' => 'Eliminar presupuestos',
+
+            // Tokens de Remitos
+            'remitos-index' => 'Listar compras',
+            'remitos-store' => 'Guardar compras',
         ]);
     }
 }

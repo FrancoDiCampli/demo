@@ -1,7 +1,7 @@
 <template>
     <div>
-        <br>
-        <br>
+        <br />
+        <br />
         <v-layout justify-center>
             <v-flex xs10 lg8>
                 <v-layout justify-center>
@@ -33,11 +33,15 @@
                                     >
                                         <div v-if="errors">{{ errors.error_description }}</div>
                                     </v-alert>
-                                    <br>
+                                    <br />
                                     <v-form ref="loginForm" @submit.prevent="loginValidate()">
                                         <LoginForm></LoginForm>
                                         <v-layout justify-center wrap>
-                                            <v-btn type class="elevation-0" color="primary">Log In</v-btn>
+                                            <v-btn
+                                                type
+                                                class="elevation-0"
+                                                color="primary"
+                                            >Iniciar Sesión</v-btn>
                                         </v-layout>
                                     </v-form>
                                 </v-flex>

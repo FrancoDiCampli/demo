@@ -1,32 +1,27 @@
 <template>
     <div>
         <v-layout justify-center wrap>
-            <v-flex xs10>
-                <Error tag="name"></Error>
+            <v-flex xs12 px-3>
                 <v-text-field
                     v-model="form.name"
                     :rules="[rules.required]"
                     label="Nombre"
-                    hint="Nombre"
                     color="primary"
                     box
-                    single-line
                 ></v-text-field>
+                <Error tag="name"></Error>
             </v-flex>
-            <v-flex xs10>
-                <Error tag="email"></Error>
+            <v-flex xs12 px-3>
                 <v-text-field
                     v-model="form.email"
                     :rules="[rules.required]"
                     label="Email"
-                    hint="Email"
                     color="primary"
                     box
-                    single-line
                 ></v-text-field>
+                <Error tag="email"></Error>
             </v-flex>
-            <v-flex xs10>
-                <Error tag="password"></Error>
+            <v-flex xs12 px-3>
                 <v-text-field
                     v-model="form.password"
                     :rules="[rules.required, rules.max, rules.min]"
@@ -34,13 +29,12 @@
                     @click:append="password = !password"
                     :type="password ? 'text' : 'password'"
                     label="Contraseña"
-                    hint="Contraseña"
                     color="primary"
                     box
-                    single-line
                 ></v-text-field>
+                <Error tag="password"></Error>
             </v-flex>
-            <v-flex xs10>
+            <v-flex xs12 px-3>
                 <v-text-field
                     v-model="form.password_confirm"
                     :rules="[rules.required, rules.max, rules.min]"
@@ -48,14 +42,12 @@
                     @click:append="confirm_password = !confirm_password"
                     :type="confirm_password ? 'text' : 'password'"
                     label="Confirmar Contraseña"
-                    hint="Confirmar Contraseña"
                     color="primary"
                     box
-                    single-line
                 ></v-text-field>
+                <Error tag="password_confirm"></Error>
             </v-flex>
-            <v-flex xs10>
-                <Error tag="role_id"></Error>
+            <v-flex xs12 px-3>
                 <v-select
                     v-model="form.role_id"
                     :items="showData"
@@ -64,15 +56,18 @@
                     label="Rol"
                     color="primary"
                     box
-                    single-line
                 ></v-select>
+                <Error tag="role_id"></Error>
             </v-flex>
         </v-layout>
     </div>
 </template>
 
 <script>
+// Components
 import Error from "../Error.vue";
+
+// Vuex
 import { mapState, mapActions } from "vuex";
 
 export default {
@@ -104,7 +99,7 @@ export default {
     },
 
     mounted() {
-        this.show({ url: "api/role/index" });
+        this.show({ url: "/api/roles" });
     },
 
     methods: {

@@ -85,7 +85,7 @@
                             <span class="title">{{ account.profile }}</span>
                         </v-avatar>
 
-                        <v-list-tile-content style="margin: 15px 0 0 15px;">
+                        <v-list-tile-content @click="$router.push('/account')" style="cursor: pointer; margin: 15px 0 0 15px;">
                             <v-list-tile-title class="primary--text">
                                 <b>{{ account.user.name }}</b>
                             </v-list-tile-title>

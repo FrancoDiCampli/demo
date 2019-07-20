@@ -79,15 +79,6 @@ class PresupuestosController extends Controller
         return $presupuesto->id;
     }
 
-    public function update(Request $request, $id)
-    {
-        $presupuesto = Presupuesto::find($id);
-        if ($request->get('crearFactura')) {
-            $this->crearFactura($request, $presupuesto);
-        }
-        return (['message' => 'factura creada']);
-    }
-
     public function show($id)
     {
         // RETORNA LOS DETALLES DE UN PRESUPUESTO

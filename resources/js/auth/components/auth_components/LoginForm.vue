@@ -1,17 +1,16 @@
 <template>
     <div>
         <v-layout wrap justify-center>
-            <v-flex xs11>
+            <v-flex xs12 px-3>
                 <v-text-field
                     v-model="form.username"
                     :rules="[rules.required]"
                     label="Email"
                     color="primary"
                     box
-                    single-line
                 ></v-text-field>
             </v-flex>
-            <v-flex xs11>
+            <v-flex xs12 px-3>
                 <v-text-field
                     v-model="form.password"
                     :rules="[rules.required]"
@@ -21,7 +20,6 @@
                     label="Contraseña"
                     color="primary"
                     box
-                    single-line
                 ></v-text-field>
             </v-flex>
         </v-layout>

@@ -1,32 +1,33 @@
 <template>
     <div>
         <v-layout wrap justify-center>
-            <v-flex xs10>
+            <v-flex xs12 px-3>
                 <v-text-field
                     v-model="form.name"
                     :rules="[rules.required, rules.max]"
                     label="Nombre"
-                    hint="Nombre"
-                    :persistent-hint="form.name ? true : false"
                     color="primary"
                     box
-                    single-line
                 ></v-text-field>
+                <Error tag="name"></Error>
             </v-flex>
-            <v-flex xs10>
+            <v-flex xs12 px-3>
                 <v-text-field
                     v-model="form.email"
                     :rules="[rules.required, rules.max]"
                     label="Email"
-                    hint="Email"
-                    :persistent-hint="form.name ? true : false"
                     color="primary"
                     box
-                    single-line
                 ></v-text-field>
+                <Error tag="email"></Error>
             </v-flex>
-            <v-btn flat color="info" v-show="!changePass" @click="changePass = true">Change Password</v-btn>
-            <v-flex xs10 v-show="changePass">
+            <v-btn
+                flat
+                color="info"
+                v-show="!changePass"
+                @click="changePass = true"
+            >Cambiar Contraseña</v-btn>
+            <v-flex xs12 px-3 v-show="changePass">
                 <v-text-field
                     v-model="form.current_password"
                     :rules="changePass ? [rules.required, rules.max, rules.min] : []"
@@ -34,14 +35,12 @@
                     @click:append="currentPass = !currentPass"
                     :type="currentPass ? 'text' : 'password'"
                     label="Contraseña Actual"
-                    hint="Contraseña Actual"
-                    :persistent-hint="form.current_password ? true : false"
                     color="primary"
                     box
-                    single-line
                 ></v-text-field>
+                <Error tag="current_password"></Error>
             </v-flex>
-            <v-flex xs10 v-show="changePass">
+            <v-flex xs12 px-3 v-show="changePass">
                 <v-text-field
                     v-model="form.password"
                     :rules="changePass ? [rules.required, rules.max, rules.min] : []"
@@ -49,14 +48,12 @@
                     @click:append="newPass = !newPass"
                     :type="newPass ? 'text' : 'password'"
                     label="Nueva Contraseña"
-                    hint="Nueva Contraseña"
-                    :persistent-hint="form.password ? true : false"
                     color="primary"
                     box
-                    single-line
                 ></v-text-field>
+                <Error tag="password"></Error>
             </v-flex>
-            <v-flex xs10 v-show="changePass">
+            <v-flex xs12 px-3 v-show="changePass">
                 <v-text-field
                     v-model="form.confirm_password"
                     :rules="changePass ? [rules.required, rules.max, rules.min] : []"
@@ -64,18 +61,20 @@
                     @click:append="confirmPass = !confirmPass"
                     :type="confirmPass ? 'text' : 'password'"
                     label="Cofirmar Contraseña"
-                    hint="Cofirmar Contraseña"
-                    :persistent-hint="form.confirm_password ? true : false"
                     color="primary"
                     box
-                    single-line
                 ></v-text-field>
+                <Error tag="confirm_password"></Error>
             </v-flex>
         </v-layout>
     </div>
 </template>
 
 <script>
+//Components
+import Error from "../Error.vue";
+
+// Vuex
 import { mapState } from "vuex";
 
 export default {
@@ -97,6 +96,10 @@ export default {
                     "Este campo debe contener al menos 6 digitos"
             }
         };
+    },
+
+    components: {
+        Error
     },
 
     computed: {

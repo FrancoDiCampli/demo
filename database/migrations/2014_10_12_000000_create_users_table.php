@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->text('role');
             $table->text('permission')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
 

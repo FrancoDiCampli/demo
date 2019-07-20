@@ -12,19 +12,29 @@
             <v-icon>fas fa-plus</v-icon>
         </v-btn>
 
-        <v-dialog v-model="createUsersDialog" width="400" persistent>
+        <v-dialog v-model="createUsersDialog" width="500" persistent>
             <v-card>
                 <v-card-text>
-                    <h2>New User</h2>
+                    <h2>Nuevo Usuario</h2>
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-card-text>
                     <v-form ref="usersForm" @submit.prevent="saveUser">
                         <UsersForm></UsersForm>
-                        <br>
+                        <br />
                         <v-layout justify-end>
-                            <v-btn @click="createUsersDialog = false" outline color="error">Cancel</v-btn>
-                            <v-btn type="submit" color="primary">Save</v-btn>
+                            <v-btn
+                                :disabled="inProcess"
+                                @click="createUsersDialog = false"
+                                outline
+                                color="primary"
+                            >Cancelar</v-btn>
+                            <v-btn
+                                :loading="inProcess"
+                                :disabled="inProcess"
+                                type="submit"
+                                color="primary"
+                            >Guardar</v-btn>
                         </v-layout>
                     </v-form>
                 </v-card-text>
@@ -59,7 +69,7 @@ export default {
     },
 
     computed: {
-        ...mapState("crudx", ["form"])
+        ...mapState("crudx", ["form", "inProcess"])
     },
 
     methods: {
@@ -67,8 +77,9 @@ export default {
 
         saveUser: async function() {
             if (this.$refs.usersForm.validate()) {
-                await this.save({ url: "api/users/save" });
-                this.index({ url: "api/users/index" });
+                await this.save({ url: "/api/users" });
+                this.$refs.usersForm.reset();
+                this.index({ url: "/api/users" });
                 this.createUsersDialog = false;
             }
         }

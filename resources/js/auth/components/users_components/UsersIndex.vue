@@ -41,17 +41,27 @@
                 <v-card-text>
                     <v-form ref="userForm" @submit.prevent="updateUser()">
                         <UsersForm></UsersForm>
-                        <br>
+                        <br />
                         <v-layout justify-end>
-                            <v-btn @click="editUsersDialog = false" outline color="error">Cancilar</v-btn>
-                            <v-btn type="submit" color="primary">Editar</v-btn>
+                            <v-btn
+                                :disabled="inProcess"
+                                @click="closeEdit()"
+                                outline
+                                color="primary"
+                            >Cancelar</v-btn>
+                            <v-btn
+                                :loading="inProcess"
+                                :disabled="inProcess"
+                                type="submit"
+                                color="primary"
+                            >Editar</v-btn>
                         </v-layout>
                     </v-form>
                 </v-card-text>
             </v-card>
         </v-dialog>
-        <!-- Delete Roles Dialog -->
-        <v-dialog v-model="deleteUsersDialog" width="400" persistent>
+        <!-- Delete Users Dialog -->
+        <v-dialog v-model="deleteUsersDialog" width="500" persistent>
             <v-card>
                 <v-card-title>
                     <h2>¿Estás Seguro?</h2>
@@ -61,8 +71,18 @@
                 <v-divider></v-divider>
                 <v-card-text>
                     <v-layout justify-end wrap>
-                        <v-btn @click="deleteUsersDialog = false;" outline color="success">Cancelar</v-btn>
-                        <v-btn @click="erase()" color="error">Eliminar</v-btn>
+                        <v-btn
+                            :disabled="inProcess"
+                            @click="deleteUsersDialog = false;"
+                            outline
+                            color="primary"
+                        >Cancelar</v-btn>
+                        <v-btn
+                            :loading="inProcess"
+                            :disabled="inProcess"
+                            @click="erase()"
+                            color="primary"
+                        >Eliminar</v-btn>
                     </v-layout>
                 </v-card-text>
             </v-card>
@@ -71,7 +91,10 @@
 </template>
 
 <script>
+// Components
 import UsersForm from "./UsersForm.vue";
+
+// Vuex
 import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
@@ -83,7 +106,7 @@ export default {
             deleteUsersDialog: false,
             userID: null,
             headers: [
-                { text: "Name", sortable: false },
+                { text: "Nombre", sortable: false },
                 { text: "Email", sortable: false },
                 { text: "", sortable: false }
             ]
@@ -95,7 +118,7 @@ export default {
     },
 
     computed: {
-        ...mapState("crudx", ["data", "form"]),
+        ...mapState("crudx", ["data", "form", "inProcess"]),
         ...mapGetters("auth", ["account"])
     },
 
@@ -104,22 +127,30 @@ export default {
     },
 
     mounted() {
-        this.index({ url: "api/users/index" });
+        this.index({ url: "/api/users" });
     },
 
     methods: {
         ...mapActions("crudx", ["index", "edit", "update", "destroy"]),
         ...mapActions("auth", ["getUser"]),
+
+        closeEdit: async function() {
+            await this.index({ url: "/api/users" });
+            this.editUsersDialog = false;
+        },
+
         updateUser: async function() {
             if (this.$refs.userForm.validate()) {
-                await this.update({ url: "api/users/edit/" + this.form.id });
-                this.index({ url: "api/users/index" });
+                await this.update({ url: "/api/users/" + this.form.id });
+                this.$refs.userForm.reset();
+                this.index({ url: "/api/users" });
                 this.editUsersDialog = false;
             }
         },
+
         erase: async function() {
-            await this.destroy({ url: "api/users/delete/" + this.userID });
-            this.index({ url: "api/users/index" });
+            await this.destroy({ url: "/api/users/" + this.userID });
+            this.index({ url: "/api/users" });
             this.userID = null;
             this.deleteUsersDialog = false;
         }

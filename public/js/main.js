@@ -5005,6 +5005,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.pagoTotal = null;
       this.pagarCuentasDialog = false;
     },
+    recibosPDF: function recibosPDF(id) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default()({
+        url: "/api/recibosPDF/" + id,
+        method: "GET",
+        responseType: "blob"
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data]));
+        var link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "recibo" + id + ".pdf");
+        document.body.appendChild(link);
+        link.click();
+      });
+    },
     pagarCuentas: function () {
       var _pagarCuentas = _asyncToGenerator(
       /*#__PURE__*/
@@ -5028,7 +5042,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 5:
                 reciboID = _context.sent;
-                window.open("/api/recibosPDF/" + reciboID);
+                this.recibosPDF(reciboID);
                 _context.next = 9;
                 return this.show({
                   url: "/api/clientes/" + this.showData.cliente.id
@@ -6412,6 +6426,35 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.form.detalle = this.detalles;
     },
     //_________________________Methods Generales________________________//
+    // Imprimir
+    facturaPDF: function facturaPDF(id) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default()({
+        url: "/api/facturasPDF/" + id,
+        method: "GET",
+        responseType: "blob"
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data]));
+        var link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "factura" + id + ".pdf");
+        document.body.appendChild(link);
+        link.click();
+      });
+    },
+    remitosPDF: function remitosPDF(id) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default()({
+        url: "/api/remitosPDF/" + id,
+        method: "GET",
+        responseType: "blob"
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data]));
+        var link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "remito" + id + ".pdf");
+        document.body.appendChild(link);
+        link.click();
+      });
+    },
     //Comprobar el metodo de pago
     verifyCondicion: function verifyCondicion() {
       if (this.condicion == "CUENTA CORRIENTE") {
@@ -6467,9 +6510,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                 //Retornar el pdf de factura
                 if (this.tipo == "REMITO X") {
-                  window.open("/api/remitosPDF/" + resID);
+                  this.remitosPDF(resID);
                 } else {
-                  window.open("/api/facturasPDF/" + resID);
+                  this.facturaPDF(resId);
                 } //Reset Formularios
 
 
@@ -6878,10 +6921,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return anularFactura;
     }(),
     facturaPDF: function facturaPDF(id) {
-      window.open("/api/facturasPDF/" + id);
+      axios__WEBPACK_IMPORTED_MODULE_1___default()({
+        url: "/api/facturasPDF/" + id,
+        method: "GET",
+        responseType: "blob"
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data]));
+        var link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "factura" + id + ".pdf");
+        document.body.appendChild(link);
+        link.click();
+      });
     },
     remitosPDF: function remitosPDF(id) {
-      window.open("/api/remitosPDF/" + id);
+      axios__WEBPACK_IMPORTED_MODULE_1___default()({
+        url: "/api/remitosPDF/" + id,
+        method: "GET",
+        responseType: "blob"
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data]));
+        var link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "remito" + id + ".pdf");
+        document.body.appendChild(link);
+        link.click();
+      });
     }
   })
 });
@@ -7600,7 +7665,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.form.detalle = this.detalles;
     },
     //_________________________Methods Generales________________________//
-    //Guardar Factura
+    // Imprimir Presupuesto
+    presupuestosPDF: function presupuestosPDF(id) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default()({
+        url: "/api/presupuestosPDF/" + id,
+        method: "GET",
+        responseType: "blob"
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data]));
+        var link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "presupuesto" + id + ".pdf");
+        document.body.appendChild(link);
+        link.click();
+      });
+    },
+    //Guardar Presupuesto
     savePresupuesto: function () {
       var _savePresupuesto = _asyncToGenerator(
       /*#__PURE__*/
@@ -7623,7 +7703,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 3:
                 resID = _context4.sent;
                 //Imprimir PDF de Presupuestos
-                window.open("/api/presupuestosPDF/" + resID); //Reset Formularios
+                this.presupuestosPDF(resID); //Reset Formularios
 
                 this.detalles = [];
                 _context4.next = 8;
@@ -7650,7 +7730,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       return savePresupuesto;
     }(),
-    //Resetear Factura
+    //Resetear Presupuesto
     cancelPresupuesto: function () {
       var _cancelPresupuesto = _asyncToGenerator(
       /*#__PURE__*/
@@ -7815,7 +7895,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //Axios
- //Vuex
+
+axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.headers.common["Authorization"] = "Bearer " + localStorage.getItem("accsess_token"); //Vuex
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -7957,8 +8038,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return eliminarPresupuesto;
     }(),
     presupuestosPDF: function presupuestosPDF(id) {
-      var token = localStorage.getItem("accsess_token");
-      window.open("/api/presupuestosPDF/" + id + "?api_token=" + token);
+      axios__WEBPACK_IMPORTED_MODULE_1___default()({
+        url: "/api/presupuestosPDF/" + id,
+        method: "GET",
+        responseType: "blob"
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data]));
+        var link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "presupuesto" + id + ".pdf");
+        document.body.appendChild(link);
+        link.click();
+      });
     }
   })
 });
@@ -11004,7 +11095,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return loadMore;
     }(),
     comprasPDF: function comprasPDF(id) {
-      window.open("/api/comprasPDF/" + id);
+      axios__WEBPACK_IMPORTED_MODULE_1___default()({
+        url: "/api/comprasPDF/" + id,
+        method: "GET",
+        responseType: "blob"
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data]));
+        var link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "compra" + id + ".pdf");
+        document.body.appendChild(link);
+        link.click();
+      });
     }
   })
 });

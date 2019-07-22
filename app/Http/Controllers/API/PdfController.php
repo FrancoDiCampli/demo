@@ -17,6 +17,11 @@ use Picqer\Barcode\BarcodeGeneratorHTML;
 
 class PdfController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function facturasPDF($id)
     {
         $configuracion = Inicialsetting::all()->first();
@@ -28,7 +33,7 @@ class PdfController extends Controller
         $generator = new BarcodeGeneratorHTML();
         $barcode = $generator->getBarcode($factura->codbarra, $generator::TYPE_INTERLEAVED_2_5);
         $pdf = app('dompdf.wrapper')->loadView('facturasPDF', compact('configuracion', 'factura', 'detalles', 'cliente', 'barcode'))->setPaper('A4');
-        return $pdf->stream();
+        return $pdf->download();
     }
 
     public function remitosPDF($id)
@@ -40,7 +45,7 @@ class PdfController extends Controller
         $cliente = Cliente::find($factura->cliente_id);
         $detalles = DB::table('articulo_factura')->where('factura_id', $factura->id)->get();
         $pdf = app('dompdf.wrapper')->loadView('remitosPDF', compact('configuracion', 'factura', 'detalles', 'cliente'))->setPaper('A4');
-        return $pdf->stream();
+        return $pdf->download();
     }
 
     public function presupuestosPDF($id)
@@ -52,7 +57,7 @@ class PdfController extends Controller
         $cliente = Cliente::find($presupuesto->cliente_id);
         $detalles = DB::table('articulo_presupuesto')->where('presupuesto_id', $presupuesto->id)->get();
         $pdf = app('dompdf.wrapper')->loadView('presupuestosPDF', compact('configuracion', 'presupuesto', 'detalles', 'cliente'))->setPaper('A4');
-        return $pdf->stream();
+        return $pdf->download();
     }
 
     public function comprasPDF($id)
@@ -64,7 +69,7 @@ class PdfController extends Controller
         $proveedor = Supplier::find($remito->supplier_id);
         $detalles = DB::table('articulo_remito')->where('remito_id', $remito->id)->get();
         $pdf = app('dompdf.wrapper')->loadView('comprasPDF', compact('configuracion', 'remito', 'detalles', 'proveedor'))->setPaper('A4');
-        return $pdf->stream();
+        return $pdf->download();
     }
 
     public function recibosPDF($id)
@@ -79,6 +84,6 @@ class PdfController extends Controller
         // $pagos = DB::table('pago_recibo')->where('recibo_id', $recibo->id)->get();
         $pagos = $recibo->pagos;
         $pdf = app('dompdf.wrapper')->loadView('recibosPDF', compact('configuracion', 'recibo', 'pagos', 'cuenta', 'cliente'))->setPaper('A5');
-        return $pdf->stream();
+        return $pdf->download();
     }
 }

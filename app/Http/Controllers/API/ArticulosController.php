@@ -29,8 +29,24 @@ class ArticulosController extends Controller
 
         foreach ($articles as $art) {
             $stock = $art->inventarios->sum('cantidad');
+            $inventarios = $art->inventarios;
             $art = collect($art);
             $art->put('stock', $stock);
+            if (count($inventarios) == 0) {
+                $art->put('vencido', false);
+            } else {
+                foreach ($inventarios as $inventario) {
+                    $hoy = now();
+                    $fechavenc = new Carbon($inventario->vencimiento);
+                    if ($hoy > $fechavenc) {
+                        $art->put('vencido', true);
+                    } else {
+                        $art->put('vencido', false);
+                    }
+                }
+            }
+
+
             $articulos->push($art);
         }
 

@@ -211,7 +211,7 @@
             <div class="header-middle">
                 <div class="type">
                     <h1><b>{{$factura->letracomprobante}}</b></h1>
-                    <p><b>{{$factura->codcomprobante}}</b></p>
+                    <p><b>COD. {{$factura->codcomprobante}}</b></p>
                 </div>
             </div>
             <div class="header-left">
@@ -305,7 +305,7 @@
             <div class="header-middle">
                 <div class="type">
                     <h1><b>{{$factura->letracomprobante}}</b></h1>
-                    <p><b>{{$factura->codcomprobante}}</b></p>
+                    <p><b>COD. {{$factura->codcomprobante}}</b></p>
                 </div>
             </div>
             <div class="header-left">

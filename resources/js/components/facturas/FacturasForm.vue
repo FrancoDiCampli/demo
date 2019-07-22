@@ -706,6 +706,41 @@ export default {
 
         //_________________________Methods Generales________________________//
 
+        // Imprimir
+        facturaPDF: function(id) {
+            axios({
+                url: "/api/facturasPDF/" + id,
+                method: "GET",
+                responseType: "blob"
+            }).then(response => {
+                const url = window.URL.createObjectURL(
+                    new Blob([response.data])
+                );
+                const link = document.createElement("a");
+                link.href = url;
+                link.setAttribute("download", "factura" + id + ".pdf");
+                document.body.appendChild(link);
+                link.click();
+            });
+        },
+
+        remitosPDF: function(id) {
+            axios({
+                url: "/api/remitosPDF/" + id,
+                method: "GET",
+                responseType: "blob"
+            }).then(response => {
+                const url = window.URL.createObjectURL(
+                    new Blob([response.data])
+                );
+                const link = document.createElement("a");
+                link.href = url;
+                link.setAttribute("download", "remito" + id + ".pdf");
+                document.body.appendChild(link);
+                link.click();
+            });
+        },
+
         //Comprobar el metodo de pago
         verifyCondicion() {
             if (this.condicion == "CUENTA CORRIENTE") {
@@ -736,9 +771,9 @@ export default {
                     let resID = await this.save({ url: "/api/facturas" });
                     //Retornar el pdf de factura
                     if (this.tipo == "REMITO X") {
-                        window.open("/api/remitosPDF/" + resID);
+                        this.remitosPDF(resID);
                     } else {
-                        window.open("/api/facturasPDF/" + resID);
+                        this.facturaPDF(resId);
                     }
                     //Reset Formularios
                     this.detalles = [];

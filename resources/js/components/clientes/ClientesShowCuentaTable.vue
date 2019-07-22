@@ -126,21 +126,56 @@
                                         </tr>
                                     </template>
                                     <template v-slot:items="cuenta">
-                                        <tr
-                                            @click="cuenta.expanded = !cuenta.expanded"
-                                            class="text-xs-center"
-                                            style="cursor: pointer;"
-                                        >
+                                        <tr class="text-xs-center">
                                             <td
+                                                @click="cuenta.expanded = !cuenta.expanded"
+                                                style="cursor: pointer;"
                                                 class="hidden-xs-only"
                                             >{{ cuenta.item.factura.numfactura }}</td>
-                                            <td>{{ cuenta.item.importe }}</td>
-                                            <td>{{ cuenta.item.saldo }}</td>
-                                            <td class="hidden-sm-and-down">{{ cuenta.item.alta }}</td>
                                             <td
+                                                @click="cuenta.expanded = !cuenta.expanded"
+                                                style="cursor: pointer;"
+                                            >{{ cuenta.item.importe }}</td>
+                                            <td
+                                                @click="cuenta.expanded = !cuenta.expanded"
+                                                style="cursor: pointer;"
+                                            >{{ cuenta.item.saldo }}</td>
+                                            <td
+                                                @click="cuenta.expanded = !cuenta.expanded"
+                                                style="cursor: pointer;"
+                                                class="hidden-sm-and-down"
+                                            >{{ cuenta.item.alta }}</td>
+                                            <td
+                                                @click="cuenta.expanded = !cuenta.expanded"
+                                                style="cursor: pointer;"
                                                 class="hidden-sm-and-down"
                                             >{{ cuenta.item.ultimopago }}</td>
-                                            <td>{{ cuenta.item.estado }}</td>
+                                            <td
+                                                @click="cuenta.expanded = !cuenta.expanded"
+                                                style="cursor: pointer;"
+                                            >{{ cuenta.item.estado }}</td>
+                                            <td>
+                                                <v-menu
+                                                    :disabled="cuenta.item.movimientos.length <= 1"
+                                                >
+                                                    <template v-slot:activator="{ on }">
+                                                        <v-btn
+                                                            flat
+                                                            icon
+                                                            dark
+                                                            :color="cuenta.item.movimientos.length <= 1 ? 'grey' : 'primary'"
+                                                            v-on="on"
+                                                        >
+                                                            <v-icon size="medium">fas fa-ellipsis-v</v-icon>
+                                                        </v-btn>
+                                                    </template>
+                                                    <v-list>
+                                                        <v-list-tile>
+                                                            <v-list-tile-title>Imprimir Recibo</v-list-tile-title>
+                                                        </v-list-tile>
+                                                    </v-list>
+                                                </v-menu>
+                                            </td>
                                         </tr>
                                     </template>
                                     <template v-slot:expand="cuenta">
@@ -249,7 +284,8 @@ export default {
                     sortable: false,
                     class: "hidden-sm-and-down"
                 },
-                { text: "Estado", sortable: false }
+                { text: "Estado", sortable: false },
+                { text: "", sortable: false }
             ],
             selected: [],
             state: true,
@@ -336,12 +372,29 @@ export default {
             this.pagarCuentasDialog = false;
         },
 
+        recibosPDF: function(id) {
+            axios({
+                url: "/api/recibosPDF/" + id,
+                method: "GET",
+                responseType: "blob"
+            }).then(response => {
+                const url = window.URL.createObjectURL(
+                    new Blob([response.data])
+                );
+                const link = document.createElement("a");
+                link.href = url;
+                link.setAttribute("download", "recibo" + id + ".pdf");
+                document.body.appendChild(link);
+                link.click();
+            });
+        },
+
         pagarCuentas: async function() {
             if (this.selected.length > 0) {
                 this.loadingButton = true;
                 this.form.pago = this.selected;
                 var reciboID = await this.save({ url: "/api/pagarcuentas" });
-                window.open("/api/recibosPDF/" + reciboID);
+                this.recibosPDF(reciboID);
                 await this.show({
                     url: "/api/clientes/" + this.showData.cliente.id
                 });

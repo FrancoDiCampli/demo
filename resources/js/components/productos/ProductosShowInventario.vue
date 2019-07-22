@@ -94,7 +94,7 @@
                                     </v-dialog>
                                 </v-flex>
                                 <v-flex xs12 sm6 px-3>
-                                    <!-- Input Clientes -->
+                                    <!-- Input Proveeder -->
                                     <v-text-field
                                         @keyup="findSuppliers()"
                                         v-model="form.supplier"
@@ -104,7 +104,7 @@
                                         box
                                     ></v-text-field>
 
-                                    <!-- Tabla Clientes -->
+                                    <!-- Tabla Proveedores -->
                                     <transition name="expand">
                                         <v-data-table
                                             v-show="form.supplier && suppliers.length > 0"

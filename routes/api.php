@@ -52,11 +52,18 @@ Route::middleware('auth:api')->group(function () {
 
     Route::apiResource('configuracion', 'API\InicialsettingsController');
 
-    //Afip Routes
+    /*Afip*/
     Route::get('/buscarAfip/{num}', 'API\ClientesController@buscarAfip');
     Route::get('/solicitarCae/{id}', 'API\FacturasController@solicitarCAE');
-    Route::get('estadisticas/vfecha', 'API\EstadisticasController@vfecha');
 
+    /*Afip*/
+    Route::get('facturasPDF/{id}', 'API\PdfController@facturasPDF');
+    Route::get('remitosPDF/{id}', 'API\PdfController@remitosPDF');
+    Route::get('presupuestosPDF/{id}', 'API\PdfController@presupuestosPDF');
+    Route::get('comprasPDF/{id}', 'API\PdfController@comprasPDF');
+    Route::get('recibosPDF/{id}', 'API\PdfController@recibosPDF');
+
+    Route::get('estadisticas/vfecha', 'API\EstadisticasController@vfecha');
 
     Route::get('/buscarcuentas/{lista}', 'API\CuentacorrientesController@buscarCuentas');
     Route::get('/movimientos/{id}', 'API\CuentacorrientesController@detalles');
@@ -66,12 +73,7 @@ Route::middleware('auth:api')->group(function () {
 Route::post('/login', 'AuthController@login');
 Route::post('/register', 'AuthController@register');
 
-// PDF Routes
-Route::get('facturasPDF/{id}', 'API\PdfController@facturasPDF');
-Route::get('remitosPDF/{id}', 'API\PdfController@remitosPDF');
-Route::get('presupuestosPDF/{id}', 'API\PdfController@presupuestosPDF');
-Route::get('comprasPDF/{id}', 'API\PdfController@comprasPDF');
-Route::get('recibosPDF/{id}', 'API\PdfController@recibosPDF');
+
 
 
 Route::get('estadisticas/rejunte', 'API\EstadisticasController@rejunte');

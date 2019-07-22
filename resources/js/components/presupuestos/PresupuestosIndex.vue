@@ -97,6 +97,8 @@
 <script>
 //Axios
 import axios from "axios";
+axios.defaults.headers.common["Authorization"] =
+    "Bearer " + localStorage.getItem("accsess_token");
 
 //Vuex
 import { mapState, mapMutations, mapActions } from "vuex";
@@ -156,7 +158,20 @@ export default {
         },
 
         presupuestosPDF: function(id) {
-            window.open("/api/presupuestosPDF/" + id);
+            axios({
+                url: "/api/presupuestosPDF/" + id,
+                method: "GET",
+                responseType: "blob"
+            }).then(response => {
+                const url = window.URL.createObjectURL(
+                    new Blob([response.data])
+                );
+                const link = document.createElement("a");
+                link.href = url;
+                link.setAttribute("download", "presupuesto" + id + ".pdf");
+                document.body.appendChild(link);
+                link.click();
+            });
         }
     }
 };

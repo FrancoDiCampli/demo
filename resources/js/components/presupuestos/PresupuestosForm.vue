@@ -605,13 +605,31 @@ export default {
 
         //_________________________Methods Generales________________________//
 
-        //Guardar Factura
+        // Imprimir Presupuesto
+        presupuestosPDF: function(id) {
+            axios({
+                url: "/api/presupuestosPDF/" + id,
+                method: "GET",
+                responseType: "blob"
+            }).then(response => {
+                const url = window.URL.createObjectURL(
+                    new Blob([response.data])
+                );
+                const link = document.createElement("a");
+                link.href = url;
+                link.setAttribute("download", "presupuesto" + id + ".pdf");
+                document.body.appendChild(link);
+                link.click();
+            });
+        },
+
+        //Guardar Presupuesto
         savePresupuesto: async function() {
             if (this.$refs.formPresupuesto.validate()) {
                 //Guardar Presupuestos
                 let resID = await this.save({ url: "/api/presupuestos" });
                 //Imprimir PDF de Presupuestos
-                window.open("/api/presupuestosPDF/" + resID);
+                this.presupuestosPDF(resID);
                 //Reset Formularios
                 this.detalles = [];
                 await this.$refs.formDetalles.reset();
@@ -620,7 +638,7 @@ export default {
             }
         },
 
-        //Resetear Factura
+        //Resetear Presupuesto
         cancelPresupuesto: async function() {
             //Reset Formularios
             this.detalles = [];

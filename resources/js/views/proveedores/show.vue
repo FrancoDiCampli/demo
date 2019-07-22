@@ -1,10 +1,9 @@
 <template>
     <div>
-        <v-btn @click="log()">log</v-btn>
         <v-btn dark fab fixed right bottom @click="goBack()" color="primary">
             <v-icon>fas fa-chevron-left</v-icon>
         </v-btn>
-        <div>
+        <div v-if="showData.proveedor">
             <ProveedoresShow></ProveedoresShow>
         </div>
     </div>
@@ -41,10 +40,6 @@ export default {
         goBack() {
             this.resetForm();
             this.$router.push("/proveedores");
-        },
-
-        log() {
-            console.log(this.showData);
         }
     }
 };

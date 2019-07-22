@@ -67,6 +67,7 @@ class AuthServiceProvider extends ServiceProvider
             // Tokens de Presupuestos
             'presupuestos-index' => 'Listar presupuestos',
             'presupuestos-store' => 'Guardar presupuestos',
+            'presupuestos-show' => 'Facturar un Presupuesto',
             'presupuestos-destroy' => 'Eliminar presupuestos',
 
             // Tokens de Remitos

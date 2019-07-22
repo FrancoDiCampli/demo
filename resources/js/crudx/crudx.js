@@ -1,3 +1,5 @@
+import router from "../router";
+
 import axios from "axios";
 axios.defaults.headers.common["Authorization"] =
     "Bearer " + localStorage.getItem("accsess_token");
@@ -95,6 +97,12 @@ const actions = {
                     resolve(response.data);
                 })
                 .catch(error => {
+                    if (
+                        error.response.status == 403 ||
+                        error.response.status == 403
+                    ) {
+                        router.push("/account");
+                    }
                     commit("fillErrors", error.response.data);
                     state.inProcess = false;
                     throw new Error(error);

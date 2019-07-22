@@ -156,7 +156,8 @@ export default {
         },
 
         presupuestosPDF: function(id) {
-            window.open("/api/presupuestosPDF/" + id);
+            let token = localStorage.getItem("accsess_token");
+            window.open("/api/presupuestosPDF/" + id + "?api_token=" + token);
         }
     }
 };

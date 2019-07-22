@@ -7957,7 +7957,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return eliminarPresupuesto;
     }(),
     presupuestosPDF: function presupuestosPDF(id) {
-      window.open("/api/presupuestosPDF/" + id);
+      var token = localStorage.getItem("accsess_token");
+      window.open("/api/presupuestosPDF/" + id + "?api_token=" + token);
     }
   })
 });
@@ -13468,7 +13469,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.tokens-description {\n    display: inline-block;\n    margin-top: 26px;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n    overflow: hidden;\n}\n@media (min-width: 600px) {\n.tokens-description {\n        max-width: 200px;\n}\n}\n@media (min-width: 960px) {\n.tokens-description {\n        max-width: 400px;\n}\n}\n", ""]);
+exports.push([module.i, "\n.tokens-description {\r\n    display: inline-block;\r\n    margin-top: 26px;\r\n    text-overflow: ellipsis;\r\n    white-space: nowrap;\r\n    overflow: hidden;\n}\n@media (min-width: 600px) {\n.tokens-description {\r\n        max-width: 200px;\n}\n}\n@media (min-width: 960px) {\n.tokens-description {\r\n        max-width: 400px;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -78808,10 +78809,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../router */ "./resources/js/router.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 
-axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.common["Authorization"] = "Bearer " + localStorage.getItem("accsess_token");
+
+axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.headers.common["Authorization"] = "Bearer " + localStorage.getItem("accsess_token");
 var state = {
   inProcess: false,
   form: {},
@@ -78867,7 +78870,7 @@ var actions = {
     state.inProcess = true;
     commit("resetErrors");
     return new Promise(function (resolve) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(params.url, {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(params.url, {
         params: params
       }).then(function (response) {
         commit("fillData", response.data);
@@ -78888,7 +78891,7 @@ var actions = {
     state.inProcess = true;
     commit("resetErrors");
     return new Promise(function (resolve) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(params.url, {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(params.url, {
         params: params
       }).then(function (response) {
         commit("fillShowData", response.data);
@@ -78896,6 +78899,10 @@ var actions = {
         dispatch("getNotifications");
         resolve(response.data);
       })["catch"](function (error) {
+        if (error.response.status == 403 || error.response.status == 403) {
+          _router__WEBPACK_IMPORTED_MODULE_0__["default"].push("/account");
+        }
+
         commit("fillErrors", error.response.data);
         state.inProcess = false;
         throw new Error(error);
@@ -78909,7 +78916,7 @@ var actions = {
     state.inProcess = true;
     commit("resetErrors");
     return new Promise(function (resolve) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(params.url, state.form).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(params.url, state.form).then(function (response) {
         commit("resetForm");
         state.inProcess = false;
         dispatch("getNotifications");
@@ -78935,7 +78942,7 @@ var actions = {
     state.inProcess = true;
     commit("resetErrors");
     return new Promise(function (resolve) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(params.url, state.form).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.put(params.url, state.form).then(function (response) {
         commit("resetForm");
         state.inProcess = false;
         dispatch("getNotifications");
@@ -78953,7 +78960,7 @@ var actions = {
     state.inProcess = true;
     commit("resetErrors");
     return new Promise(function (resolve) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"](params.url).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"](params.url).then(function (response) {
         state.inProcess = false;
         dispatch("getNotifications");
         resolve(response.data);
@@ -78967,7 +78974,7 @@ var actions = {
   getNotifications: function getNotifications(_ref7) {
     var commit = _ref7.commit;
     return new Promise(function (resolve) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/notifications").then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/notifications").then(function (response) {
         commit("fillNotifications", response.data);
         resolve(response.data);
       })["catch"](function (error) {

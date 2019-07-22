@@ -16,7 +16,7 @@ class CuentacorrientesController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('scopes:cuentacorrientes-pagar')->only('pagar');
+        $this->middleware('scopes:cuentascorrientes-pagar')->only('pagar');
     }
 
     // PAGOS PARCIALES O TOTALES 

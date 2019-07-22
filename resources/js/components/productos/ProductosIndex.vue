@@ -1,5 +1,6 @@
 <template>
     <div>
+        <v-btn @click="log()">log</v-btn>
         <!-- Productos Table -->
         <v-tabs
             v-model="tabsProductos"
@@ -32,7 +33,15 @@
                                     </div>
                                     <div>
                                         <v-layout justify-start>
-                                            <div v-if="articulo.stock > 0">
+                                            <div v-if="articulo.vencido">
+                                                <div
+                                                    class="tringle-left-button"
+                                                    style="color: #FF8F00;"
+                                                >
+                                                    <i class="fas fa-clock icon"></i>
+                                                </div>
+                                            </div>
+                                            <div v-else-if="!articulo.vencido">
                                                 <div
                                                     v-if="
                                                     articulo.stock <= articulo.stockminimo &&
@@ -46,7 +55,9 @@
                                                         <i class="fas fa-box-open icon"></i>
                                                     </div>
                                                 </div>
-                                                <div v-else-if="articulo.stock == 0">
+                                                <div
+                                                    v-else-if="articulo.stock == 0 || articulo.inventarios.length <= 0"
+                                                >
                                                     <div
                                                         class="tringle-left-button"
                                                         style="color: #FF5252;"
@@ -54,21 +65,15 @@
                                                         <i class="fas fa-exclamation-circle icon"></i>
                                                     </div>
                                                 </div>
-                                                <div v-else>
+                                                <div
+                                                    v-else-if="articulo.stock > articulo.stockminimo"
+                                                >
                                                     <div
                                                         class="tringle-left-button"
                                                         style="color: #4CAF50;"
                                                     >
                                                         <i class="fas fa-check icon"></i>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div v-else>
-                                                <div
-                                                    class="tringle-left-button"
-                                                    style="color: #FF5252;"
-                                                >
-                                                    <i class="fas fa-exclamation-circle icon"></i>
                                                 </div>
                                             </div>
                                         </v-layout>
@@ -187,6 +192,10 @@ export default {
                 limit: this.limit
             });
             this.loadingButton = false;
+        },
+
+        log() {
+            console.log(this.data);
         }
     }
 };

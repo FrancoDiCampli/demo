@@ -1,17 +1,12 @@
 <template>
     <div>
-        <v-form ref="formRemito" @submit.prevent="saveFactura">
+        <v-form ref="formCompra" @submit.prevent="saveCompra">
             <!-- Compras Headers -->
             <div>
                 <v-card-title>
-                    <v-layout justify-space-between wrap>
-                        <v-flex xs12 sm5 mx-1>
+                    <v-layout>
+                        <v-flex mx-1>
                             <h2 class="text-xs-center text-sm-left">Nueva Compra</h2>
-                        </v-flex>
-                        <v-flex xs12 sm5 mx-1 class="dataPresupuesto text-xs-center text-sm-right">
-                            <p>
-                                <b>Compra Nº:</b>
-                            </p>
                         </v-flex>
                     </v-layout>
                 </v-card-title>
@@ -21,42 +16,67 @@
             <!---------------------->
             <!-- Compras Proveedor -->
             <div>
-                <!-- Formulario -->
                 <v-layout justify-space-around wrap>
-                    <v-flex xs12 px-3>
-                        <!-- Input Proveedor -->
+                    <v-flex xs12 sm6 px-3>
+                        <!-- Input Proveedores -->
                         <v-text-field
-                            @keyup="findSupplier()"
+                            @keyup="findProveedor()"
                             v-model="form.supplier"
+                            :rules="[rules.required]"
                             label="Proveedor"
                             box
                         ></v-text-field>
+                        <Error tag="supplier_id"></Error>
                         <!-- Tabla Proveedores -->
                         <transition name="expand">
-                            <v-data-table
-                                v-show="form.supplier && suppliers.length > 0"
-                                no-data-text="El Proveedores no se encuentra en la base de datos."
-                                hide-actions
-                                hide-headers
-                                :items="suppliers"
-                                class="search-table"
-                            >
-                                <template v-slot:items="supplier">
-                                    <tr
-                                        @click="selectSupplier(supplier.item)"
-                                        style="cursor: pointer;"
+                            <div v-show="proveedoresSearchTable">
+                                <div v-if="inProcess" class="search-table">
+                                    <v-layout justify-center>
+                                        <v-flex xs12 pa-3>
+                                            <v-layout justify-center>
+                                                <v-progress-circular indeterminate color="primary"></v-progress-circular>
+                                            </v-layout>
+                                        </v-flex>
+                                    </v-layout>
+                                </div>
+                                <div v-else>
+                                    <v-data-table
+                                        no-data-text="El proveedor no se encuentra en la base de datos."
+                                        hide-actions
+                                        hide-headers
+                                        :items="proveedores"
+                                        class="search-table"
                                     >
-                                        <td>{{ supplier.item.cuit }}</td>
-                                        <td>{{ supplier.item.razonsocial }}</td>
-                                    </tr>
-                                </template>
-                            </v-data-table>
+                                        <template v-slot:items="proveedor">
+                                            <tr
+                                                @click="selectProveedor(proveedor.item)"
+                                                style="cursor: pointer;"
+                                            >
+                                                <td>{{ proveedor.item.cuit }}</td>
+                                                <td>{{ proveedor.item.razonsocial }}</td>
+                                            </tr>
+                                        </template>
+                                    </v-data-table>
+                                </div>
+                            </div>
                         </transition>
                     </v-flex>
+
+                    <!-- Input Nº Remito -->
+                    <v-flex xs12 sm6 px-3>
+                        <v-text-field
+                            v-model="form.numremito"
+                            :rules="[rules.required]"
+                            label="Nº Remito"
+                            box
+                        ></v-text-field>
+                        <Error tag="numremito"></Error>
+                    </v-flex>
                 </v-layout>
+
                 <!-- Detalles Proveedor -->
-                <v-layout v-if="detailSupplier.supplier" justify-space-around>
-                    <v-flex xs11>
+                <v-layout v-if="detallesProveedor.proveedor" justify-space-around>
+                    <v-flex xs12 px-3>
                         <template>
                             <v-expansion-panel class="elevation-0 expansion-border">
                                 <v-expansion-panel-content>
@@ -66,15 +86,15 @@
                                     <v-card-text>
                                         <p>
                                             <b>CUIT:</b>
-                                            {{detailSupplier.supplier.cuit}}
+                                            {{ detallesProveedor.proveedor.cuit }}
                                         </p>
                                         <p>
                                             <b>Razón Social:</b>
-                                            {{detailSupplier.supplier.razonsocial}}
+                                            {{ detallesProveedor.proveedor.razonsocial }}
                                         </p>
                                         <p>
                                             <b>Domicilio:</b>
-                                            {{detailSupplier.supplier.direccion}}
+                                            {{ detallesProveedor.proveedor.direccion }}
                                         </p>
                                     </v-card-text>
                                 </v-expansion-panel-content>
@@ -85,7 +105,7 @@
                 </v-layout>
             </div>
             <!---------------------->
-            <!-- Compras Articulo -->
+            <!-- Compras Productos -->
             <div>
                 <!-- Formulario -->
                 <v-form ref="formDetalles">
@@ -102,71 +122,61 @@
 
                             <!-- Tabla Buscar Productos -->
                             <transition>
-                                <v-data-table
-                                    v-show="form.producto && productos.length > 0"
-                                    no-data-text="El producto no se encuentra en la base de datos."
-                                    hide-actions
-                                    :headers="productosHeaders"
-                                    :items="productos"
-                                    class="search-table"
-                                >
-                                    <template v-slot:items="producto">
-                                        <tr
-                                            @click="selectProducto(producto.item)"
-                                            :style="
-                                            producto.item.stock ? 
-                                            'cursor: pointer;' : 
-                                            ''"
+                                <div v-show="productosSearchTable">
+                                    <div v-if="inProcess" class="search-table">
+                                        <v-layout justify-center>
+                                            <v-flex xs12 pa-3>
+                                                <v-layout justify-center>
+                                                    <v-progress-circular
+                                                        indeterminate
+                                                        color="primary"
+                                                    ></v-progress-circular>
+                                                </v-layout>
+                                            </v-flex>
+                                        </v-layout>
+                                    </div>
+                                    <div v-else>
+                                        <v-data-table
+                                            no-data-text="El producto no se encuentra en la base de datos."
+                                            hide-actions
+                                            :headers="productosHeaders"
+                                            :items="productos"
+                                            class="search-table"
                                         >
-                                            <td
-                                                class="hidden-xs-only"
-                                            >{{ producto.item.codarticulo }}</td>
-                                            <td>{{ producto.item.articulo }}</td>
-                                            <td>{{ producto.item.precio }}</td>
-                                            <td>
-                                                <div v-if="producto.item.stock <= 0">0</div>
-                                                <div v-else>{{ producto.item.stock }}</div>
-                                            </td>
-                                        </tr>
-                                    </template>
-                                </v-data-table>
+                                            <template v-slot:items="producto">
+                                                <tr
+                                                    @click="selectProducto(producto.item)"
+                                                    style="cursor: pointer;"
+                                                >
+                                                    <td
+                                                        class="hidden-xs-only"
+                                                    >{{ producto.item.codarticulo }}</td>
+                                                    <td>{{ producto.item.articulo }}</td>
+                                                    <td>{{ producto.item.precio }}</td>
+                                                    <td>
+                                                        <div v-if="producto.item.stock <= 0">0</div>
+                                                        <div v-else>{{ producto.item.stock }}</div>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </v-data-table>
+                                    </div>
+                                </div>
                             </transition>
                         </v-flex>
-                    </v-layout>
-                    <v-layout justify-space-around wrap>
-                        <v-flex xs12 sm6 px-3>
+                        <!-- Input Lote -->
+                        <v-flex xs12 sm4 px-3>
                             <v-text-field
                                 v-model="form.lote"
                                 @keyup="findLote()"
+                                :disabled="form.producto_id ? false : true"
                                 label="Lote"
                                 box
                                 :rules="[rules.required]"
                             ></v-text-field>
                         </v-flex>
-                        <v-flex xs12 sm6 px-3>
-                            <v-text-field
-                                v-model="form.cantidad"
-                                label="Cantidad"
-                                box
-                                :rules="
-                                movimiento == 'ALTA' || movimiento == 'INCREMENTO' || movimiento == 'MODIFICACION' ? 
-                                [rules.required] : 
-                                [rules.required, rules.cantidadMaxima]
-                            "
-                            ></v-text-field>
-                        </v-flex>
-                        <v-flex xs12 sm6 px-3>
-                            <v-select
-                                v-model="movimiento"
-                                :disabled="disabledMovimiento"
-                                :items="movimientos"
-                                :rules="[rules.required]"
-                                label="Movimiento"
-                                box
-                            ></v-select>
-                        </v-flex>
-
-                        <v-flex xs12 sm6 px-3>
+                        <!-- Input Vencimiento -->
+                        <v-flex xs12 sm4 px-3>
                             <v-dialog
                                 ref="vencimiento"
                                 v-model="modalVencimiento"
@@ -180,6 +190,7 @@
                                     <v-text-field
                                         v-model="form.vencimiento"
                                         label="Fecha de Vencimiento"
+                                        :disabled="form.producto_id ? false : true"
                                         :rules="[rules.required]"
                                         box
                                         readonly
@@ -207,99 +218,68 @@
                                 </v-date-picker>
                             </v-dialog>
                         </v-flex>
-                        <v-flex xs12 sm6 lg3 px-3>
+                        <!-- Input Movimiento -->
+                        <v-flex xs12 sm4 px-3>
+                            <v-text-field v-model="form.movimiento" label="Movimiento" disabled box></v-text-field>
+                        </v-flex>
+                        <!-- Input Cantidad -->
+                        <v-flex xs12 sm4 px-3>
                             <v-text-field
-                                v-model="form.costo"
-                                :rules="[rules.required]"
-                                label="Costo"
-                                box
                                 type="number"
-                                class="input-number"
+                                v-model="cantidad"
+                                :disabled="form.producto_id ? false : true"
+                                @keyup.enter="fillDetalles()"
+                                label="Cantidad"
+                                box
                             ></v-text-field>
                         </v-flex>
-                        <v-flex xs12 sm6 lg3 px-3>
+                        <!-- Input Precio -->
+                        <v-flex xs12 sm4 px-3>
                             <v-text-field
-                                v-model="form.utilidades"
-                                :rules="[rules.required]"
-                                label="Utilidades %"
+                                v-model="form.preciounitario"
+                                label="Precio de Compra"
+                                :disabled="form.producto_id ? false : true"
                                 box
-                                type="number"
-                                class="input-number"
                             ></v-text-field>
                         </v-flex>
-                        <v-flex xs12 sm6 lg3 px-3>
-                            <v-select
-                                v-model="alicuota"
-                                :items="alicuotas"
-                                :rules="[rules.required]"
-                                label="Alicuota %"
-                                box
-                            ></v-select>
-                        </v-flex>
-                        <v-flex xs12 sm6 lg3 px-3>
-                            <v-text-field
-                                v-model="precio"
-                                :rules="[rules.required]"
-                                label="Precio"
-                                box
-                                type="number"
-                                class="input-number"
-                                disabled
-                            ></v-text-field>
+                        <!-- Input Subtotal -->
+                        <v-flex xs12 sm4 px-3>
+                            <v-text-field v-model="subtotalProdcuto" label="Subtotal" disabled box></v-text-field>
                         </v-flex>
                     </v-layout>
                 </v-form>
-
                 <!-- Tabla Detalles -->
                 <v-layout justify-space-around>
-                    <v-flex xs11>
+                    <v-flex xs12 px-3>
                         <v-data-table :headers="detallesHeader" :items="detalles" hide-actions>
-                            <template v-slot:items="detail">
-                                <td>{{ detail.item.articulo }}</td>
+                            <template v-slot:items="detalle">
+                                <td @click="detalle.selected = !detalle.selected;">
+                                    <v-checkbox
+                                        :input-value="detalle.selected"
+                                        color="primary"
+                                        hide-details
+                                    ></v-checkbox>
+                                </td>
+                                <td>{{ detalle.item.producto }}</td>
                                 <td>
-                                    <v-edit-dialog :return-value.sync="detail.item.cantidad" lazy>
-                                        {{ detail.item.cantidad }}
+                                    <v-edit-dialog :return-value.sync="detalle.item.cantidad" lazy>
+                                        {{ detalle.item.cantidad }}
                                         <template v-slot:input>
                                             <v-text-field
-                                                v-model="detail.item.cantidad"
+                                                v-model="detalle.item.cantidad"
                                                 label="Cantidad"
                                                 single-line
-                                                @keyup="updateDetails()"
+                                                @keyup="updateDetalle()"
                                             ></v-text-field>
                                         </template>
                                     </v-edit-dialog>
                                 </td>
-                                <td>
-                                    <v-edit-dialog :return-value.sync="detail.item.lote" lazy>
-                                        {{ detail.item.lote }}
-                                        <template v-slot:input>
-                                            <v-text-field
-                                                v-model="detail.item.lote"
-                                                label="Lote"
-                                                single-line
-                                                @keyup="updateDetails()"
-                                            ></v-text-field>
-                                        </template>
-                                    </v-edit-dialog>
-                                </td>
-                                <td>{{ detail.item.vence }}</td>
-                                <td>
-                                    <v-edit-dialog :return-value.sync="detail.item.precio" lazy>
-                                        {{ detail.item.precio }}
-                                        <template v-slot:input>
-                                            <v-text-field
-                                                v-model="detail.item.precio"
-                                                label="Precio"
-                                                single-line
-                                                @keyup="updateDetails()"
-                                            ></v-text-field>
-                                        </template>
-                                    </v-edit-dialog>
-                                </td>
-                                <td>{{ detail.item.subtotal }}</td>
-                                <td>
+                                <td class="hidden-xs-only">{{ detalle.item.lote }}</td>
+                                <td class="hidden-sm-and-down">{{ detalle.item.preciounitario }}</td>
+                                <td>{{ detalle.item.subtotal }}</td>
+                                <td style="padding: 0px;">
                                     <v-btn
-                                        @click="removeDetail(detail.item)"
+                                        @click="removeDetalle(detalle.item)"
                                         flat
                                         icon
                                         color="primary"
@@ -317,59 +297,76 @@
             <br />
             <div>
                 <v-layout justify-space-around wrap>
-                    <v-flex xs12 sm5 mx-1>
+                    <v-flex xs12 sm6 px-3>
                         <v-layout justify-space-around wrap>
-                            <v-flex xs11>
+                            <v-flex xs12>
                                 <v-text-field
+                                    type="number"
                                     v-model="form.bonificacion"
                                     label="Bonificacion"
-                                    hint="Bonificacion"
                                     box
-                                    single-line
                                 ></v-text-field>
+                                <Error tag="bonificacion"></Error>
                             </v-flex>
-                            <v-flex xs11>
+                            <v-flex xs12>
                                 <v-text-field
+                                    type="number"
                                     v-model="form.recargo"
                                     label="Recargo"
-                                    hint="Recargo"
                                     box
-                                    single-line
+                                ></v-text-field>
+                                <Error tag="recargo"></Error>
+                            </v-flex>
+                            <v-flex xs12>
+                                <v-text-field
+                                    value="REMITO DE COMPRA"
+                                    label="Tipo Comprobante"
+                                    disabled
+                                    box
                                 ></v-text-field>
                             </v-flex>
                         </v-layout>
                     </v-flex>
-                    <v-flex xs12 sm5 mx-1>
+                    <v-flex xs12 sm6 px-3>
                         <v-layout justify-space-around wrap>
-                            <v-flex xs11>
+                            <v-flex xs12>
                                 <v-text-field
-                                    v-model="subtotalFactura"
+                                    v-model="subtotalCompra"
                                     disabled
                                     :rules="[rules.required]"
                                     label="Subtotal"
-                                    hint="Subtotal"
                                     box
-                                    single-line
                                 ></v-text-field>
+                                <Error tag="subtotal"></Error>
                             </v-flex>
-                            <v-flex xs11>
+                            <v-flex xs12>
                                 <v-text-field
                                     v-model="total"
                                     disabled
                                     :rules="[rules.required]"
                                     label="Total"
-                                    hint="Total"
                                     box
-                                    single-line
                                 ></v-text-field>
+                                <Error tag="total"></Error>
                             </v-flex>
-                            <v-flex xs11></v-flex>
+                            <v-flex xs12>
+                                <v-layout justify-center>
+                                    <v-btn
+                                        :disabled="inProcess"
+                                        @click="cancelCompra()"
+                                        outline
+                                        color="primary"
+                                    >Cancelar</v-btn>
+                                    <v-btn
+                                        :disabled="detalles.length > 0 ? false : true"
+                                        :loading="inProcess"
+                                        type="submit"
+                                        color="primary"
+                                    >Guardar</v-btn>
+                                </v-layout>
+                            </v-flex>
                         </v-layout>
                     </v-flex>
-                </v-layout>
-                <v-layout justify-center>
-                    <v-btn @click="cancelFactura()" outline color="primary">Cancelar</v-btn>
-                    <v-btn type="submit" color="primary">Guardar</v-btn>
                 </v-layout>
                 <br />
             </div>
@@ -379,45 +376,36 @@
 </template>
 
 <script>
-import axios from "axios";
+// Components
+import Error from "../../crudx/error.vue";
 
-//Vuex
-import { mapState, mapMutations, mapActions } from "vuex";
+// Vuex
+import { mapState, mapActions } from "vuex";
+
+// Axios
+import axios from "axios";
 
 export default {
     name: "RemitosForm",
 
     data() {
         return {
-            //_________________________Data Headers_________________________//
-            numFactura: null,
+            //______________________Data Proveedores________________________//
+            detallesProveedor: [],
+            proveedores: [],
+            proveedoresSearchTable: false,
 
-            //_________________________Data Proveedor_________________________//
-            suppliers: [],
-            detailSupplier: [],
+            //_________________________Data General________________________//
+            rules: {
+                required: value => !!value || "Este campo es obligatorio"
+            },
 
-            //_________________________Data Articulos_________________________//
+            //_________________________Data Productos________________________//
+            cantidad: null,
             modalVencimiento: false,
-            alicuota: null,
-            alicuotas: [21, 10.5],
-            suppliers: [],
-            active: false,
-            movimiento: "ALTA",
-            movimientos: [
-                "ALTA",
-                "INCREMENTO",
-                "DEVOLUCION",
-                "VENCIMIENTO",
-                "DECREMENTO",
-                "INCREMENTO"
-            ],
-            disabledMovimiento: true,
-            process: false,
-            preventSaveDialog: false,
-            msg: null,
-            cantidadMaxima: 999999999,
             productos: [],
             detalles: [],
+            selected: null,
             productosHeaders: [
                 { text: "Codigo", sortable: false, class: "hidden-xs-only" },
                 { text: "Articulo", sortable: false },
@@ -425,74 +413,61 @@ export default {
                 { text: "Stock", sortable: false }
             ],
             detallesHeader: [
+                { text: "Modificar", sortable: false },
                 { text: "Articulo", sortable: false },
                 { text: "Cantidad", sortable: false },
-                { text: "Precio", sortable: false, class: "hidden-xs-only" },
+                {
+                    text: "Lote",
+                    sortable: false,
+                    class: "hidden-xs-only"
+                },
+                {
+                    text: "Precio",
+                    sortable: false,
+                    class: "hidden-sm-and-down"
+                },
                 { text: "Subtotal", sortable: false },
+
                 { text: "", sortable: false }
             ],
-            //Data General
-            snackbar: false,
-            snackbarText: "",
-            rules: {
-                required: value => !!value || "Este campo es obligatorio",
-                cantidadMaxima: value =>
-                    value * 1 <= this.cantidadMaxima ||
-                    "La cantidad no puede ser menor al lote existente"
-            }
+            productosSearchTable: false,
+            formPanel: [0],
+            cantidadMaxima: 999999999
         };
     },
+
+    components: {
+        Error
+    },
+
     computed: {
         ...mapState("crudx", ["inProcess", "form"]),
+        //_________________________Computed Productos________________________//
 
-        //Computed Articulos
-        subtotal: {
+        subtotalProdcuto: {
             set() {},
-
             get() {
-                if (
-                    this.quantity != null &&
-                    this.quantity != "" &&
-                    this.price != null &&
-                    this.price != ""
-                ) {
-                    return this.price * this.quantity;
+                if (this.cantidad) {
+                    let sub = this.cantidad * this.form.preciounitario;
+                    return sub.toFixed(2);
                 } else {
                     return null;
                 }
             }
         },
 
-        precio: {
-            set() {},
-            get() {
-                if (this.active) {
-                    let ganancia =
-                        (this.form.utilidades * this.form.costo) / 100;
-                    ganancia = ganancia.toFixed(2);
-
-                    this.form.precio =
-                        Number(this.form.costo) + Number(ganancia);
-                    let pre = Number(this.form.costo) + Number(ganancia);
-                    return pre.toFixed(2);
-                } else {
-                    return null;
-                }
-            }
-        },
-
-        //Computed Resumen
-        subtotalFactura: {
+        //_________________________Computed Resumen________________________//
+        subtotalCompra: {
             set() {},
 
             get() {
-                if (this.details.length > 0) {
+                if (this.detalles.length > 0) {
                     let sub = 0;
-                    for (let i = 0; i < this.details.length; i++) {
-                        sub += this.details[i].subtotal * 1;
+                    for (let i = 0; i < this.detalles.length; i++) {
+                        sub += this.detalles[i].subtotal * 1;
                     }
-                    this.form.subtotal = sub;
-                    return sub;
+                    this.form.subtotal = sub.toFixed(2);
+                    return sub.toFixed(2);
                 } else {
                     this.form.subtotal = null;
                     return null;
@@ -503,15 +478,14 @@ export default {
         total: {
             set() {},
             get() {
-                if (this.subtotalFactura != null) {
+                if (this.subtotalCompra != null) {
                     let boni = 0;
                     let reca = 0;
 
                     if (this.form.bonificacion) {
                         if (this.form.bonificacion.length > 0) {
                             boni =
-                                (this.form.bonificacion *
-                                    this.subtotalFactura) /
+                                (this.form.bonificacion * this.subtotalCompra) /
                                 100;
                         }
                     }
@@ -519,12 +493,12 @@ export default {
                     if (this.form.recargo) {
                         if (this.form.recargo.length > 0) {
                             reca =
-                                (this.form.recargo * this.subtotalFactura) /
-                                100;
+                                (this.form.recargo * this.subtotalCompra) / 100;
                         }
                     }
-                    this.form.total = this.subtotalFactura - boni + reca;
-                    return this.subtotalFactura - boni + reca;
+                    let total = this.subtotalCompra - boni + reca;
+                    this.form.total = total.toFixed(2);
+                    return total.toFixed(2);
                 } else {
                     this.form.total = null;
                     return null;
@@ -533,139 +507,220 @@ export default {
         }
     },
 
+    mounted() {
+        //_________________________Methods Productos________________________//
+        this.form.movimiento = "ALTA";
+    },
+
     methods: {
         ...mapActions("crudx", ["index", "save"]),
 
-        // Buscar los Proveedores
-        findSupplier: async function() {
-            this.detailSupplier = [];
-            if (this.form.supplier) {
+        //_________________________Methods Proveedores________________________//
+
+        // Buscar los proveedores
+        findProveedor: async function() {
+            this.detallesProveedor = [];
+            this.proveedoresSearchTable = true;
+            if (this.form.supplier != null && this.form.supplier != "") {
                 let response = await this.index({
                     url: "/api/suppliers",
                     buscarProveedor: this.form.supplier,
                     limit: 5
                 });
-                this.suppliers = response.proveedores;
+                this.proveedores = response.proveedores;
+            } else {
+                this.proveedores = [];
             }
         },
 
-        // Seleccionar un Proveedor
-        selectSupplier(supplier) {
-            this.suppliers = [];
-            this.detailSupplier = [];
+        // Seleccionar un Cliente
+        selectProveedor(proveedor) {
+            // Reiniciar la Tabla de proveedores y el detalle
+            this.proveedores = [];
+            this.detallesProveedor = [];
+            this.proveedoresSearchTable = false;
+            // Establecer la Razon Social y el Id del Proveedor en el Formulario
+            this.form.supplier = proveedor.razonsocial;
+            this.form.supplier_id = proveedor.id;
 
-            this.form.supplier = supplier.razonsocial;
-            this.form.supplier_id = supplier.id;
-
+            // Establecer el Detalle de Proveedors
             axios
-                .get("/api/suppliers/" + supplier.id)
+                .get("/api/suppliers/" + proveedor.id)
                 .then(response => {
-                    this.detailSupplier = response.data;
+                    this.detallesProveedor = response.data;
                 })
                 .catch(error => {
                     console.log(error);
                 });
         },
 
-        //Metodos Articulos
+        //_________________________Methods Productos________________________//
 
-        //Buscar Articulo
-        findArticle: async function() {
-            this.$refs.formDetalles.resetValidation();
-            this.quantity = null;
-            this.price = null;
-            if (this.$refs.formFindArticle.validate()) {
+        // Buscar Producto
+        findProducto: async function() {
+            // Reiniciar Cantidad y Precio
+            this.cantidad = null;
+            this.form.precio = null;
+            // Activar Tabla de Busqueda
+            this.productosSearchTable = true;
+            // Buscar Productos
+            if (this.form.producto) {
                 let response = await this.index({
                     url: "/api/articulos",
-                    buscarArticulo: this.article,
+                    buscarArticulo: this.form.producto,
                     limit: 5
                 });
 
-                this.products = response.articulos;
+                this.productos = response.articulos;
             }
         },
 
-        //Seleccionar Articulo
-        selectArticle(article) {
-            this.products = [];
-            this.article_id = article.id;
-            this.article = article.articulo;
+        // Seleccionar Producto
+        selectProducto(producto) {
+            // Reiniciar la tabla de productos
+            this.productos = [];
+            // Desactivar Tabla de Busqueda
+            this.productosSearchTable = false;
+            // Seleccionar Producto
+            this.form.producto_id = producto.id;
+            this.form.producto = producto.articulo;
+            this.form.preciounitario = producto.precio;
+        },
 
-            if (article.stock.length > 0) {
-                this.stock = article.stock[0].total * 1;
-            } else {
-                this.stock = 0;
+        // Buscar Lote
+        findLote: async function() {
+            if (this.form.lote) {
+                if (this.form.lote.length > 0) {
+                    let response = await this.index({
+                        url: "/api/inventarios",
+                        lote: this.form.lote,
+                        articulo_id: this.form.producto_id
+                    });
+
+                    if (response.length > 0) {
+                        this.form.lote = response[0].lote;
+                        this.cantidadMaxima = response[0].cantidad;
+                        this.form.vencimiento = response[0].vencimiento;
+                        this.form.supplier = response[0].supplier.razonsocial;
+                        this.form.supplier_id = response[0].supplier.id;
+                        this.form.movimiento = "INCREMENTO";
+                    } else {
+                        this.cantidadMaxima = 999999999;
+                        this.form.vencimiento = null;
+                        this.form.movimiento = "ALTA";
+                    }
+                }
             }
         },
 
         //LLenar Array de Detalles
-        fillDetails() {
-            if (this.$refs.formDetalles.validate()) {
-                let detail = {
-                    articulo_id: this.article_id,
-                    articulo: this.article,
-                    cantidad: this.quantity,
-                    lote: this.lote,
-                    vence: this.vence,
-                    precio: this.price,
-                    subtotal: this.subtotal
-                };
+        fillDetalles() {
+            if (this.cantidad) {
+                var find = this.detalles.find(
+                    detalle => detalle.producto === this.form.producto
+                );
 
-                this.details.push(detail);
-                this.form.detalle = this.details;
+                if (find) {
+                    // Buscar el indice del la tabla detalles que coicide con el detalle existente
+                    let indexDetalle = this.detalles.indexOf(find);
 
+                    // Sumar a la cantidad del detalle existente la nueva cantidad
+                    let nuevaCantidad =
+                        Number(this.detalles[indexDetalle].cantidad) +
+                        Number(this.cantidad);
+
+                    // Actualizar el detalle
+                    this.detalles[indexDetalle].cantidad = nuevaCantidad;
+                    this.detalles[indexDetalle].subtotal =
+                        Number(this.detalles[indexDetalle].subtotal) *
+                        nuevaCantidad;
+                } else {
+                    // Crear un Nuevo Detalle
+                    let detalle = {
+                        selected: false,
+                        articulo_id: this.form.producto_id,
+                        producto: this.form.producto,
+                        cantidad: this.cantidad,
+                        lote: this.form.lote,
+                        vencimiento: this.form.vencimiento,
+                        preciounitario: this.form.preciounitario,
+                        subtotal: this.subtotalProdcuto
+                    };
+
+                    // Añadir el Detalle al Array de Detalles
+                    this.detalles.push(detalle);
+                    this.form.detalle = this.detalles;
+                }
+
+                // Reiniciar el Formulario de Detalles
+                this.form.producto_id = null;
                 this.$refs.formDetalles.reset();
-                this.stock = 0;
             }
         },
 
-        //Borrar un Detalle del Array
-        removeDetail(detail) {
-            let index = this.details.indexOf(detail);
-            this.details.splice(index, 1);
+        // Borrar un Detalle del Array
+        removeDetalle(prodcuto) {
+            let index = this.detalles.indexOf(prodcuto);
+            this.detalles.splice(index, 1);
 
-            this.form.detalle = this.details;
+            this.form.detalle = this.detalles;
         },
 
         //Actualizar cantidad y subtotal de un detalle
-        updateDetails() {
-            this.details.forEach(function(detail) {
-                if (detail.cantidad.length > 0) {
-                    detail.subtotal = detail.cantidad * detail.precio;
+        updateDetalle() {
+            this.detalles.forEach(function(detalle) {
+                if (detalle.cantidad.length > 0) {
+                    detalle.subtotal =
+                        detalle.cantidad * detalle.preciounitario;
                 } else {
-                    detail.subtotal = 0;
+                    detalle.subtotal = 0;
                 }
             });
 
-            this.form.detalle = this.details;
+            this.form.detalle = this.detalles;
         },
 
-        //Metodos Generales
+        //_________________________Methods Generales________________________//
 
-        //Guardar Factura
-        saveFactura: async function() {
-            //Establecer Mensaje del Snackbar
-            this.snackbarText = this.tipo;
-            if (this.$refs.formRemito.validate()) {
-                //Guardar Factura
-                await this.save({ url: "/api/remitos" });
-                //Activar Snackbar
-                this.snackbar = true;
+        // Imprimir Compra
+        remitosPDF: function(id) {
+            axios({
+                url: "/api/remitosPDF/" + id,
+                method: "GET",
+                responseType: "blob"
+            }).then(response => {
+                const url = window.URL.createObjectURL(
+                    new Blob([response.data])
+                );
+                const link = document.createElement("a");
+                link.href = url;
+                link.setAttribute("download", "compra" + id + ".pdf");
+                document.body.appendChild(link);
+                link.click();
+            });
+        },
+
+        //Guardar Compra
+        saveCompra: async function() {
+            if (this.$refs.formCompra.validate()) {
+                //Guardar Compras
+                let resID = await this.save({ url: "/api/suppliers" });
+                //Imprimir PDF de Compras
+                this.remitosPDF(resID);
                 //Reset Formularios
-                this.details = [];
+                this.detalles = [];
                 await this.$refs.formDetalles.reset();
-                await this.$refs.formRemito.reset();
+                await this.$refs.formCompra.reset();
+                this.$router.push("/compras");
             }
         },
 
-        //Resetear Factura
-        cancelFactura: async function() {
+        //Resetear Compra
+        cancelCompra: async function() {
             //Reset Formularios
-            this.details = [];
-            await this.$refs.formFindSupplier.reset();
-            await this.$refs.formFindArticle.reset();
+            this.detalles = [];
             await this.$refs.formDetalles.reset();
-            await this.$refs.formRemito.reset();
+            await this.$refs.formCompra.reset();
         }
     }
 };
@@ -673,3 +728,4 @@ export default {
 
 <style>
 </style>
+

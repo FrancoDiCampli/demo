@@ -46,24 +46,36 @@
                         <Error tag="cliente_id"></Error>
                         <!-- Tabla Clientes -->
                         <transition name="expand">
-                            <v-data-table
-                                v-show="form.cliente && clientes.length > 0"
-                                no-data-text="El cliente no se encuentra en la base de datos."
-                                hide-actions
-                                hide-headers
-                                :items="clientes"
-                                class="search-table"
-                            >
-                                <template v-slot:items="cliente">
-                                    <tr
-                                        @click="selectCliente(cliente.item)"
-                                        style="cursor: pointer;"
+                            <div v-show="clienteSearchTable">
+                                <div v-if="inProcess" class="search-table">
+                                    <v-layout justify-center>
+                                        <v-flex xs12 pa-3>
+                                            <v-layout justify-center>
+                                                <v-progress-circular indeterminate color="primary"></v-progress-circular>
+                                            </v-layout>
+                                        </v-flex>
+                                    </v-layout>
+                                </div>
+                                <div v-else>
+                                    <v-data-table
+                                        no-data-text="El cliente no se encuentra en la base de datos."
+                                        hide-actions
+                                        hide-headers
+                                        :items="clientes"
+                                        class="search-table"
                                     >
-                                        <td>{{ cliente.item.documentounico }}</td>
-                                        <td>{{ cliente.item.razonsocial }}</td>
-                                    </tr>
-                                </template>
-                            </v-data-table>
+                                        <template v-slot:items="cliente">
+                                            <tr
+                                                @click="selectCliente(cliente.item)"
+                                                style="cursor: pointer;"
+                                            >
+                                                <td>{{ cliente.item.documentounico }}</td>
+                                                <td>{{ cliente.item.razonsocial }}</td>
+                                            </tr>
+                                        </template>
+                                    </v-data-table>
+                                </div>
+                            </div>
                         </transition>
                     </v-flex>
 
@@ -133,34 +145,49 @@
 
                             <!-- Tabla Buscar Productos -->
                             <transition>
-                                <v-data-table
-                                    v-show="form.producto && productos.length > 0"
-                                    no-data-text="El producto no se encuentra en la base de datos."
-                                    hide-actions
-                                    :headers="productosHeaders"
-                                    :items="productos"
-                                    class="search-table"
-                                >
-                                    <template v-slot:items="producto">
-                                        <tr
-                                            @click="selectProducto(producto.item)"
-                                            :style="
+                                <div v-show="ProductoSearchTable">
+                                    <div v-if="inProcess" class="search-table">
+                                        <v-layout justify-center>
+                                            <v-flex xs12 pa-3>
+                                                <v-layout justify-center>
+                                                    <v-progress-circular
+                                                        indeterminate
+                                                        color="primary"
+                                                    ></v-progress-circular>
+                                                </v-layout>
+                                            </v-flex>
+                                        </v-layout>
+                                    </div>
+                                    <div v-else>
+                                        <v-data-table
+                                            no-data-text="El producto no se encuentra en la base de datos."
+                                            hide-actions
+                                            :headers="productosHeaders"
+                                            :items="productos"
+                                            class="search-table"
+                                        >
+                                            <template v-slot:items="producto">
+                                                <tr
+                                                    @click="selectProducto(producto.item)"
+                                                    :style="
                                                 producto.item.stock ? 
                                                 'cursor: pointer;' : 
                                                 ''"
-                                        >
-                                            <td
-                                                class="hidden-xs-only"
-                                            >{{ producto.item.codarticulo }}</td>
-                                            <td>{{ producto.item.articulo }}</td>
-                                            <td>{{ producto.item.precio }}</td>
-                                            <td>
-                                                <div v-if="producto.item.stock <= 0">0</div>
-                                                <div v-else>{{ producto.item.stock }}</div>
-                                            </td>
-                                        </tr>
-                                    </template>
-                                </v-data-table>
+                                                >
+                                                    <td
+                                                        class="hidden-xs-only"
+                                                    >{{ producto.item.codarticulo }}</td>
+                                                    <td>{{ producto.item.articulo }}</td>
+                                                    <td>{{ producto.item.precio }}</td>
+                                                    <td>
+                                                        <div v-if="producto.item.stock <= 0">0</div>
+                                                        <div v-else>{{ producto.item.stock }}</div>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </v-data-table>
+                                    </div>
+                                </div>
                             </transition>
                         </v-flex>
                         <!-- Input Cantidad -->
@@ -369,12 +396,14 @@ export default {
             clientes: [],
             condiciones: ["CONTADO", "CREDITO / DEBITO", "CUENTA CORRIENTE"],
             condicion: "CONTADO",
+            clienteSearchTable: false,
 
             //_________________________Data Productos________________________//
             cantidad: null,
             stock: 0,
             productos: [],
             detalles: [],
+            ProductoSearchTable: false,
             productosHeaders: [
                 { text: "Codigo", sortable: false, class: "hidden-xs-only" },
                 { text: "Articulo", sortable: false },
@@ -557,6 +586,7 @@ export default {
         // Buscar los Clientes
         findCliente: async function() {
             this.detailClient = [];
+            this.clienteSearchTable = true;
             if (this.form.cliente == "0") {
                 // Establecer Cliente Como Consumidor Final
                 this.detallesCliente = [];
@@ -579,7 +609,7 @@ export default {
             // Reiniciar la Tabla de Clientes y el Detalles
             this.clientes = [];
             this.detallesCliente = [];
-
+            this.clienteSearchTable = false;
             // Establecer la Razon Social y el Id del Cliente en el Formulario
             this.form.cliente = cliente.razonsocial;
             this.form.cliente_id = cliente.id;
@@ -603,6 +633,7 @@ export default {
             this.cantidad = null;
             this.form.precio = null;
             this.stock = 0;
+            this.ProductoSearchTable = true;
             // Buscar Productos
             if (this.form.producto) {
                 let response = await this.index({
@@ -621,7 +652,7 @@ export default {
             if (producto.stock > 0) {
                 // Reiniciar la tabla de productos
                 this.productos = [];
-
+                this.ProductoSearchTable = false;
                 // Seleccionar Producto
                 this.form.producto_id = producto.id;
                 this.form.producto = producto.articulo;

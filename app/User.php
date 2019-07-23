@@ -28,4 +28,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(Role::class, 'id', 'role_id');
     }
+
+    public function cliente()
+    {
+        return $this->belongsTo('App\Cliente');
+    }
+
+    public function facturas()
+    {
+        return $this->hasMany('App\Factura');
+    }
 }

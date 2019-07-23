@@ -51,16 +51,10 @@ class RemitosController extends Controller
 
         $proveedor = Supplier::find($atributos['supplier_id']);
 
-        if (Remito::all()->last()) {
-            $id = Remito::all()->last()->numremito + 1;
-        } else {
-            $id = Inicialsetting::all()->first()->numremito + 1;
-        }
-
         // ALMACENAMIENTO DE REMITO
         $remito = Remito::create([
             "ptoventa" => 1,
-            "numremito" => $id,
+            "numremito" => $atributos['numremito'],
             "fecha" => now()->format('Ymd'),
             "recargo" => $atributos['recargo'] * 1,
             "bonificacion" => $atributos['bonificacion'] * 1,
@@ -83,13 +77,20 @@ class RemitosController extends Controller
                 'medida' => $articulo['medida'],
                 'bonificacion' => 0,
                 'alicuota' => 0,
-                'preciounitario' => $detail['precio'],
-                'subtotal' => $detail['cantidad'] * $detail['precio'],
+                'preciounitario' => $detail['preciounitario'],
+                'subtotal' => $detail['cantidad'] * $detail['preciounitario'],
                 'lote' => $detail['lote'],
                 'articulo_id' => $detail['articulo_id'],
                 'remito_id' => $remito->id,
                 'created_at' => now()->format('Ymd'),
             );
+            // ACTUALIZA PRECIO DEL ARTICULO
+            if ($detail['selected']) {
+                $articulo->costo = $detail['preciounitario'] * 1;
+                $articulo->precio = (($detail['preciounitario'] * 1) * $articulo->utilidades) / 100;
+                $articulo->alicuota = $detail['alicuota'] * 1;
+                $articulo->update();
+            }
             $det[] = $detalles;
         }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use auth;
 use App\User;
+use App\Cliente;
 use App\Factura;
 use Carbon\Carbon;
 use App\Inventario;
@@ -31,74 +32,9 @@ class EstadisticasController extends Controller
         ];
         return Factura::reportes($request);
     }
-
-    public function todas()
-    {
-        $facturas = Factura::all();
-
-        return $facturas;
-    }
-
-    public function fecha(Request $request)
-    {
-
-        $from = $request->get('from');
-        $to = $request->get('to');
-
-
-        if ($from <> null && $to <> null) {
-            return $facturas = Factura::whereBetween('created_at', array($from, $to))->get();
-        } else {
-            return $facturas = Factura::all();
-        }
-    }
-
-    public function vendedor(Request $request)
-    {
-
-        // return $request->vendedores;
-
-        return $vendedores = Factura::whereIn('user_id', $request->vendedores)->get();
-
-        // if($from <> null && $to <> null) {
-        //     return $facturas = Factura::whereBetween('created_at', array($from, $to))->get();
-        // } else {
-        //     return $facturas = Factura::all();
-        // }
-
-    }
-
-    public function articulos(Request $request)
-    {
-
-        return $orders = DB::table('articulo_factura')
-            ->whereIn('articulo_id', [$request->articulo])
-            ->get();
-    }
-
-    public function vfecha()
-    {
-
-        $from = new Carbon('2019-06-04');
-        $to = new Carbon('2019-06-05');
-        $idproducto = 1;
-
-        return $facturas = Factura::where('articulo_id', '=', $idproducto)->whereBetween('created_at', array($from, $to))->get();
-    }
-
-    public function usuarios()
-    {
-        return User::all();
-    }
-
-    public function xvendedorfecha(Request $request)
-    {
-        return $request;
-    }
-
+    // Ventas
     public function reportes(Request $request)
     {
-
         $vendedores = (array) $request->vendedor;
         $fec = (array) $request->fechas;
         $fechas = array();
@@ -118,15 +54,15 @@ class EstadisticasController extends Controller
         // return $fechas;
         $articulos = (array) $request->producto;
         $condicion = (array) $request->condicion;
-        $clientes = (array) $request->clientes;
+        $clientes = (array) $request->cliente;
 
         if ($fechas[0] == null) {
-            $fechas = array('2019-01-01', '2020-01-01');
+            $factura = Factura::orderBy('created_at', 'ASC')->first();
+
+            $fechas = array($factura->created_at, now());
         }
-
         // Creo que esto soluciona, condiciona solo si se envio la info
-
-        $facturas = DB::table('facturas')
+        $facs = DB::table('facturas')
             ->when($fechas, function ($query) use ($fechas) {
                 return $query->whereBetween('created_at', $fechas);
             })
@@ -141,22 +77,27 @@ class EstadisticasController extends Controller
             })
             ->get();
 
-
-
-
-
+        $facturas = collect();
+        foreach ($facs as $factura) {
+            $fecha = new Carbon($factura->fecha);
+            $factura->fecha = $fecha->format('d-m-Y');
+            $cliente = Cliente::find($factura->cliente_id);
+            $vendedor = User::find($factura->user_id);
+            $factura = collect($factura);
+            $factura->put('cliente', $cliente);
+            $factura->put('vendedor', $vendedor);
+            $facturas->push($factura);
+        }
 
         return $facturas;
     }
 
+    // Productos
     public function inventarios(Request $request)
     {
-
-
         $articulos = (array) $request->producto;
         $fechas = (array) $request->fechas;
         $movimiento = (array) $request->movimiento;
-
 
         if ($fechas[0] == null) {
             $fechas = array('2019-01-01', '2020-01-01');
@@ -168,7 +109,6 @@ class EstadisticasController extends Controller
         foreach ($inventarios as $inventario) {
             array_push($res, $inventario->id);
         }
-
 
         return $movimientos = DB::table('movimientos')
             ->when($fechas, function ($query) use ($fechas) {
@@ -182,8 +122,7 @@ class EstadisticasController extends Controller
             })
             ->get();
     }
-
-
+    // Compras
     public function compras(Request $request)
     {
         $articulos = (array) $request->producto;
@@ -194,7 +133,6 @@ class EstadisticasController extends Controller
             $fechas = array('2019-01-01', '2020-01-01');
         }
 
-
         return $compras = DB::table('articulo_remito')
             ->when($fechas, function ($query) use ($fechas) {
                 return $query->whereBetween('created_at', $fechas);
@@ -202,7 +140,6 @@ class EstadisticasController extends Controller
             ->when($articulos, function ($query) use ($articulos) {
                 return $query->whereIn('articulo', $articulos);
             })
-
             ->get();
 
         $res = [];

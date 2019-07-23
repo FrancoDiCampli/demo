@@ -56,32 +56,19 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/buscarAfip/{num}', 'API\ClientesController@buscarAfip');
     Route::get('/solicitarCae/{id}', 'API\FacturasController@solicitarCAE');
 
-    /*Afip*/
+    /*PDFs*/
     Route::get('facturasPDF/{id}', 'API\PdfController@facturasPDF');
     Route::get('remitosPDF/{id}', 'API\PdfController@remitosPDF');
     Route::get('presupuestosPDF/{id}', 'API\PdfController@presupuestosPDF');
     Route::get('comprasPDF/{id}', 'API\PdfController@comprasPDF');
     Route::get('recibosPDF/{id}', 'API\PdfController@recibosPDF');
 
-    Route::get('estadisticas/vfecha', 'API\EstadisticasController@vfecha');
-
-    Route::get('/buscarcuentas/{lista}', 'API\CuentacorrientesController@buscarCuentas');
-    Route::get('/movimientos/{id}', 'API\CuentacorrientesController@detalles');
+    // Reportes
+    Route::post('estadisticas/reportes', 'API\EstadisticasController@reportes');
+    Route::post('estadisticas/inventarios', 'API\EstadisticasController@inventarios');
+    Route::post('estadisticas/compras', 'API\EstadisticasController@compras');
 });
 
 // Auth Routes
 Route::post('/login', 'AuthController@login');
 Route::post('/register', 'AuthController@register');
-
-
-
-
-Route::get('estadisticas/rejunte', 'API\EstadisticasController@rejunte');
-Route::get('estadisticas/xfecha', 'API\EstadisticasController@fecha');
-Route::get('estadisticas/xvendedor', 'API\EstadisticasController@vendedor');
-Route::get('estadisticas/xarticulo', 'API\EstadisticasController@articulos');
-Route::get('estadisticas/usuarios', 'API\EstadisticasController@usuarios');
-
-Route::post('estadisticas/reportes', 'API\EstadisticasController@reportes');
-Route::post('estadisticas/inventarios', 'API\EstadisticasController@inventarios');
-Route::post('estadisticas/compras', 'API\EstadisticasController@compras');

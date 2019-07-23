@@ -2155,7 +2155,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, {
         title: "Reportes",
         icon: "fas fa-clipboard",
-        url: "/reporte",
+        url: "/reportes",
         divider: true,
         rol: "superAdmin"
       }, {
@@ -12083,17 +12083,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -12105,32 +12094,42 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       condicionventa: [],
+      facturas: [],
       vendedor: [],
       sellers: [],
-      producto: null,
-      productoSelected: null,
-      articles: [],
+      clientes: [],
+      cliente: [],
       range: {},
       reports: [],
-      terms: ["CONTADO", "CREDITO / DEBITO", "CUENTA CORRIENTE"],
-      clients: [{
-        id: 2,
-        nombre: "Franco"
+      headers: [{
+        text: "Tipo",
+        sortable: false,
+        "class": "hidden-xs-only"
       }, {
-        id: 4,
-        nombre: "Juan"
+        text: "Nº Factura",
+        sortable: false
       }, {
-        id: 5,
-        nombre: "Maria"
+        text: "Importe",
+        sortable: false
       }, {
-        id: 6,
-        nombre: "Maria"
+        text: "Condición",
+        sortable: false,
+        "class": "hidden-xs-only"
+      }, {
+        text: "Cliente",
+        sortable: false,
+        "class": "hidden-xs-only"
+      }, {
+        text: "Vendedor",
+        sortable: false,
+        "class": "hidden-xs-only"
       }],
-      client: []
+      terms: ["CONTADO", "CREDITO / DEBITO", "CUENTA CORRIENTE"]
     };
   },
   mounted: function mounted() {
     this.getSellers();
+    this.getClients();
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index"]), {
     getSellers: function () {
@@ -12144,7 +12143,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context.next = 2;
                 return this.index({
-                  url: "api/users/index"
+                  url: "api/users"
                 });
 
               case 2:
@@ -12176,15 +12175,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context2.next = 2;
                 return this.index({
-                  url: "api/clientes/index"
+                  url: "api/clientes"
                 });
 
               case 2:
                 response = _context2.sent;
-                this.clients = response;
-                console.log(response);
+                this.clientes = response;
 
-              case 5:
+              case 4:
               case "end":
                 return _context2.stop();
             }
@@ -12198,44 +12196,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       return getClients;
     }(),
-    getArticles: function () {
-      var _getArticles = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var _this = this;
-
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                this.productoSelected = null;
-                axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/articulos", {
-                  params: {
-                    buscarArticulo: this.producto,
-                    limit: 5
-                  }
-                }).then(function (response) {
-                  _this.articles = response.data;
-                })["catch"](function (error) {
-                  console.log(error);
-                  _this.articles = [];
-                });
-
-              case 2:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3, this);
-      }));
-
-      function getArticles() {
-        return _getArticles.apply(this, arguments);
-      }
-
-      return getArticles;
-    }(),
     getReports: function getReports() {
+      var _this = this;
+
       var data = {
         vendedor: this.vendedor,
         producto: this.producto,
@@ -12244,7 +12207,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         clientes: this.client
       };
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("api/estadisticas/reportes", data).then(function (response) {
-        console.log(response.data);
+        _this.facturas = response.data;
       });
     }
   })
@@ -32768,7 +32731,7 @@ var render = function() {
         [
           _c(
             "v-flex",
-            { attrs: { xs11: "", sm5: "" } },
+            { attrs: { xs11: "", sm3: "" } },
             [
               _c("v-select", {
                 attrs: {
@@ -32776,9 +32739,15 @@ var render = function() {
                   items: _vm.sellers,
                   "item-text": "name",
                   "item-value": "id",
-                  label: "Vendedor",
+                  label: "vendedores",
                   box: "",
-                  "single-line": ""
+                  "single-line": "",
+                  multiple: ""
+                },
+                on: {
+                  change: function($event) {
+                    return _vm.getReports()
+                  }
                 },
                 model: {
                   value: _vm.vendedor,
@@ -32794,88 +32763,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-flex",
-            { attrs: { xs11: "", sm5: "" } },
-            [
-              _c("v-text-field", {
-                attrs: { label: "Producto", box: "", "single-line": "" },
-                on: {
-                  keyup: function($event) {
-                    return _vm.getArticles()
-                  }
-                },
-                model: {
-                  value: _vm.producto,
-                  callback: function($$v) {
-                    _vm.producto = $$v
-                  },
-                  expression: "producto"
-                }
-              }),
-              _vm._v(" "),
-              _c("v-data-table", {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value:
-                      _vm.productoSelected == null &&
-                      _vm.producto != null &&
-                      _vm.producto != "",
-                    expression:
-                      "productoSelected == null && producto != null && producto != ''"
-                  }
-                ],
-                staticClass: "search-table",
-                attrs: {
-                  "no-data-text":
-                    "El Producto no se encuentra en la base de datos.",
-                  "hide-actions": "",
-                  "hide-headers": "",
-                  items: _vm.articles
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "items",
-                    fn: function(article) {
-                      return [
-                        _c(
-                          "tr",
-                          {
-                            staticStyle: { cursor: "pointer" },
-                            on: {
-                              click: function($event) {
-                                _vm.productoSelected = article.item.id
-                                _vm.producto = article.item.articulo
-                              }
-                            }
-                          },
-                          [
-                            _c("td", [
-                              _vm._v(_vm._s(article.item.codarticulo))
-                            ]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(article.item.articulo))])
-                          ]
-                        )
-                      ]
-                    }
-                  }
-                ])
-              })
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-layout",
-        { attrs: { "justify-space-around": "" } },
-        [
-          _c(
-            "v-flex",
-            { attrs: { xs11: "", sm5: "" } },
+            { attrs: { xs11: "", sm3: "" } },
             [
               _c("v-select", {
                 attrs: {
@@ -32885,6 +32773,11 @@ var render = function() {
                   box: "",
                   "single-line": "",
                   multiple: ""
+                },
+                on: {
+                  change: function($event) {
+                    return _vm.getReports()
+                  }
                 },
                 model: {
                   value: _vm.condicionventa,
@@ -32900,25 +32793,30 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-flex",
-            { attrs: { xs11: "", sm5: "" } },
+            { attrs: { xs11: "", sm3: "" } },
             [
               _c("v-select", {
                 attrs: {
-                  hint: "Clientes",
-                  items: _vm.clients,
-                  "item-text": "nombre",
+                  hint: "cliente",
+                  items: _vm.clientes.clientes,
+                  "item-text": "razonsocial",
                   "item-value": "id",
                   label: "clientes",
                   box: "",
                   "single-line": "",
                   multiple: ""
                 },
+                on: {
+                  change: function($event) {
+                    return _vm.getReports()
+                  }
+                },
                 model: {
-                  value: _vm.client,
+                  value: _vm.cliente,
                   callback: function($$v) {
-                    _vm.client = $$v
+                    _vm.cliente = $$v
                   },
-                  expression: "client"
+                  expression: "cliente"
                 }
               })
             ],
@@ -32965,25 +32863,54 @@ var render = function() {
       _vm._v(" "),
       _c("br"),
       _vm._v(" "),
-      _c(
-        "v-layout",
-        { attrs: { "justify-center": "" } },
-        [
-          _c(
-            "v-btn",
-            {
-              attrs: { color: "primary" },
-              on: {
-                click: function($event) {
-                  return _vm.getReports()
-                }
-              }
-            },
-            [_vm._v("Filtrar")]
-          )
-        ],
-        1
-      )
+      _c("v-data-table", {
+        attrs: {
+          "hide-actions": "",
+          headers: _vm.headers,
+          items: _vm.facturas
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "items",
+            fn: function(factura) {
+              return [
+                _c(
+                  "td",
+                  { staticClass: "hidden-xs-only" },
+                  [
+                    _c("v-avatar", { staticClass: "type-item" }, [
+                      _c("p", { staticClass: "title type" }, [
+                        _vm._v(_vm._s(factura.item.letracomprobante))
+                      ])
+                    ])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("td", [
+                  factura.item.comprobanteafip != null
+                    ? _c("div", [_vm._v(_vm._s(factura.item.comprobanteafip))])
+                    : _c("div", [_vm._v(_vm._s(factura.item.id))])
+                ]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(factura.item.total))]),
+                _vm._v(" "),
+                _c("td", { staticClass: "hidden-xs-only" }, [
+                  _vm._v(_vm._s(factura.item.condicionventa))
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "hidden-xs-only" }, [
+                  _vm._v(_vm._s(factura.item.cliente.razonsocial))
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "hidden-xs-only" }, [
+                  _vm._v(_vm._s(factura.item.vendedor.name))
+                ])
+              ]
+            }
+          }
+        ])
+      })
     ],
     1
   )

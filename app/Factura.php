@@ -34,6 +34,11 @@ class Factura extends Model
         return $this->belongsTo('App\Cliente');
     }
 
+    public function vendedor()
+    {
+        return $this->belongsTo('App\User');
+    }
+
     public function scopeBuscar($query)
     {
         $request =  array(

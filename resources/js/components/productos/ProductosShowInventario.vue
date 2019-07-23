@@ -1,10 +1,13 @@
 <template>
     <div>
         <br />
+        <!-- Inventarios Header -->
         <v-layout justify-space-around>
+            <!-- stock total -->
             <v-flex xs6 px-3 mt-2>
                 <h2>Stock: {{ showData.stock }}</h2>
             </v-flex>
+            <!-- botón para agregar un nuevo inventario -->
             <v-flex>
                 <v-layout justify-end px-3>
                     <v-btn flat icon color="primary" @click="panelControl()">
@@ -14,12 +17,14 @@
                 </v-layout>
             </v-flex>
         </v-layout>
+        <!-- formulario para agregar o modificar un inventario -->
         <v-expansion-panel v-model="formPanel" expand>
             <v-expansion-panel-content expand-icon="fas fa-plus">
                 <v-card>
                     <v-card-text>
                         <v-form ref="inventariosForm" @submit.prevent="preventSave()">
                             <v-layout justify-space-around wrap>
+                                <!-- input lote -->
                                 <v-flex xs12 sm4 px-3>
                                     <v-text-field
                                         v-model="form.lote"
@@ -29,6 +34,7 @@
                                         :rules="[rules.required]"
                                     ></v-text-field>
                                 </v-flex>
+                                <!-- input cantidad -->
                                 <v-flex xs12 sm4 px-3>
                                     <v-text-field
                                         v-model="form.cantidad"
@@ -41,6 +47,7 @@
                                         "
                                     ></v-text-field>
                                 </v-flex>
+                                <!-- input movimiento -->
                                 <v-flex xs12 sm4 px-3>
                                     <v-select
                                         v-model="movimiento"
@@ -51,7 +58,7 @@
                                         box
                                     ></v-select>
                                 </v-flex>
-
+                                <!-- input vencimiento -->
                                 <v-flex xs12 sm6 px-3>
                                     <v-dialog
                                         ref="vencimiento"
@@ -93,82 +100,56 @@
                                         </v-date-picker>
                                     </v-dialog>
                                 </v-flex>
+                                <!-- Input Proveeder -->
                                 <v-flex xs12 sm6 px-3>
-                                    <!-- Input Proveeder -->
                                     <v-text-field
                                         @keyup="findSuppliers()"
                                         v-model="form.supplier"
                                         :rules="[rules.required]"
-                                        append-icon="fas fa-caret-down"
                                         label="Proveedor"
                                         box
                                     ></v-text-field>
-
                                     <!-- Tabla Proveedores -->
                                     <transition name="expand">
-                                        <v-data-table
-                                            v-show="form.supplier && suppliers.length > 0"
-                                            no-data-text="El proveedor no se encuentra en la base de datos."
-                                            hide-actions
-                                            hide-headers
-                                            :items="suppliers"
-                                            class="search-table"
-                                        >
-                                            <template v-slot:items="supplier">
-                                                <tr
-                                                    @click="selectSupplier(supplier.item)"
-                                                    style="cursor: pointer;"
+                                        <div v-show="proveedorSearchTable">
+                                            <div v-if="inProcess" class="search-table">
+                                                <v-layout justify-center>
+                                                    <v-flex xs12 pa-3>
+                                                        <v-layout justify-center>
+                                                            <v-progress-circular
+                                                                indeterminate
+                                                                color="primary"
+                                                            ></v-progress-circular>
+                                                        </v-layout>
+                                                    </v-flex>
+                                                </v-layout>
+                                            </div>
+                                            <div v-else>
+                                                <v-data-table
+                                                    v-show="form.supplier && suppliers.length > 0"
+                                                    no-data-text="El proveedor no se encuentra en la base de datos."
+                                                    hide-actions
+                                                    hide-headers
+                                                    :items="suppliers"
+                                                    class="search-table"
                                                 >
-                                                    <td>{{ supplier.item.cuit }}</td>
-                                                    <td>{{ supplier.item.razonsocial }}</td>
-                                                </tr>
-                                            </template>
-                                        </v-data-table>
+                                                    <template v-slot:items="supplier">
+                                                        <tr
+                                                            @click="selectSupplier(supplier.item)"
+                                                            style="cursor: pointer;"
+                                                        >
+                                                            <td>{{ supplier.item.cuit }}</td>
+                                                            <td>{{ supplier.item.razonsocial }}</td>
+                                                        </tr>
+                                                    </template>
+                                                </v-data-table>
+                                            </div>
+                                        </div>
                                     </transition>
-                                </v-flex>
-                                <v-flex xs12 sm6 lg3 px-3>
-                                    <v-text-field
-                                        v-model="form.costo"
-                                        :rules="[rules.required]"
-                                        label="Costo"
-                                        box
-                                        type="number"
-                                        class="input-number"
-                                    ></v-text-field>
-                                </v-flex>
-                                <v-flex xs12 sm6 lg3 px-3>
-                                    <v-text-field
-                                        v-model="form.utilidades"
-                                        :rules="[rules.required]"
-                                        label="Utilidades %"
-                                        box
-                                        type="number"
-                                        class="input-number"
-                                    ></v-text-field>
-                                </v-flex>
-                                <v-flex xs12 sm6 lg3 px-3>
-                                    <v-select
-                                        v-model="alicuota"
-                                        :items="alicuotas"
-                                        :rules="[rules.required]"
-                                        label="Alicuota %"
-                                        box
-                                    ></v-select>
-                                </v-flex>
-                                <v-flex xs12 sm6 lg3 px-3>
-                                    <v-text-field
-                                        v-model="precio"
-                                        :rules="[rules.required]"
-                                        label="Precio"
-                                        box
-                                        type="number"
-                                        class="input-number"
-                                        disabled
-                                    ></v-text-field>
                                 </v-flex>
                             </v-layout>
                             <v-layout justify-center>
-                                <v-btn :disabled="process" type="submit" color="primary">
+                                <v-btn :disabled="inProcess" type="submit" color="primary">
                                     <div
                                         v-if="movimiento == 'ALTA' || movimiento == 'INCREMENTO'"
                                     >Agregar</div>
@@ -187,6 +168,8 @@
                 </v-card>
             </v-expansion-panel-content>
         </v-expansion-panel>
+
+        <!-- Tabla de inventarios -->
         <div v-if="showData.inventarios.length > 0">
             <v-data-table hide-actions :headers="headers" :items="showData.inventarios">
                 <template v-slot:items="inventario">
@@ -216,24 +199,26 @@
             <h2 class="text-xs-center">¡Este producto no tiene inventario!</h2>
             <br />
         </div>
+
+        <!-- dialog verificador al guardar o modificar inventario -->
         <v-dialog v-model="preventSaveDialog" width="750" persistent>
             <v-card>
                 <v-card-title>
                     <h2>¿Estás Seguro?</h2>
                 </v-card-title>
                 <v-divider></v-divider>
-                <v-card-text>{{ this.msg }}</v-card-text>
+                <v-card-text>{{ msg }}</v-card-text>
                 <v-card-text>
                     <v-layout justify-end wrap>
                         <v-btn
-                            :disabled="process"
+                            :disabled="inProcess"
                             @click="preventSaveDialog = false"
                             outline
                             color="primary"
                         >Cancelar</v-btn>
                         <v-btn
-                            :loading="process"
-                            :disabled="process"
+                            :loading="inProcess"
+                            :disabled="inProcess"
                             @click="saveInventarios()"
                             color="primary"
                         >
@@ -266,7 +251,33 @@ export default {
 
     data() {
         return {
-            formPanel: [false],
+            formPanel: [false], //Panel formulario inventario
+            modalVencimiento: false,
+            alicuota: null,
+            alicuotas: [21, 10.5],
+            suppliers: [],
+            proveedorSearchTable: false,
+            movimiento: "ALTA",
+            movimientos: [
+                "ALTA",
+                "INCREMENTO",
+                "DEVOLUCION",
+                "VENCIMIENTO",
+                "DECREMENTO",
+                "INCREMENTO",
+                "MODIFICACION"
+            ],
+            disabledMovimiento: true,
+            preventSaveDialog: false,
+            msg: null,
+            cantidadMaxima: 999999999,
+            rules: {
+                required: value => !!value || "Este campo es obligatorio",
+                cantidadMaxima: value =>
+                    value * 1 <= this.cantidadMaxima ||
+                    "La cantidad no puede ser menor al lote existente"
+            },
+
             headers: [
                 { text: "Cantidad", sortable: false },
                 { text: "Lote", sortable: false },
@@ -277,98 +288,40 @@ export default {
                 },
                 { text: "Proveedor", sortable: false },
                 { text: "", sortable: false }
-            ],
-
-            modalVencimiento: false,
-            alicuota: null,
-            alicuotas: [21, 10.5],
-            suppliers: [],
-            active: false,
-            movimiento: "ALTA",
-            movimientos: [
-                "ALTA",
-                "INCREMENTO",
-                "DEVOLUCION",
-                "VENCIMIENTO",
-                "DECREMENTO",
-                "INCREMENTO"
-            ],
-            disabledMovimiento: true,
-            process: false,
-            preventSaveDialog: false,
-            msg: null,
-            cantidadMaxima: 999999999,
-            rules: {
-                required: value => !!value || "Este campo es obligatorio",
-                cantidadMaxima: value =>
-                    value * 1 <= this.cantidadMaxima ||
-                    "La cantidad no puede ser menor al lote existente"
-            }
+            ] // Header de la tabla de inventarios
         };
     },
 
     computed: {
-        ...mapState("crudx", ["showData", "form"]),
-
-        precio: {
-            set() {},
-            get() {
-                if (this.active) {
-                    let ganancia =
-                        (this.form.utilidades * this.form.costo) / 100;
-                    ganancia = ganancia.toFixed(2);
-
-                    this.form.precio =
-                        Number(this.form.costo) + Number(ganancia);
-                    let pre = Number(this.form.costo) + Number(ganancia);
-                    return pre.toFixed(2);
-                } else {
-                    return null;
-                }
-            }
-        }
+        ...mapState("crudx", ["showData", "form", "inProcess"])
     },
 
     methods: {
         ...mapActions("crudx", ["index", "save", "show"]),
 
+        // Activar o desactivar el panel del formulario de inventarios
         panelControl() {
             if (this.formPanel[0]) {
-                this.active = false;
                 this.$refs.inventariosForm.reset();
-                this.precio = null;
-                this.alicuota = null;
                 this.formPanel = [false];
             } else {
-                this.active = true;
                 this.movimiento = "ALTA";
                 this.movimientos = ["ALTA"];
                 this.disabledMovimiento = true;
-                this.form.costo = this.showData.articulo.costo;
-                this.form.utilidades = this.showData.articulo.utilidades;
-                if (this.showData.articulo.alicuota == 21) {
-                    this.alicuota = 21;
-                } else {
-                    this.alicuota = 10.5;
-                }
-                this.precio = this.showData.articulo.precio;
                 this.formPanel = [true];
             }
         },
 
+        // Buscar el lote
         findLote: async function() {
             if (this.showData.inventarios.length) {
                 if (this.form.lote) {
                     if (this.form.lote.length > 0) {
-                        this.process = true;
                         let response = await this.index({
                             url: "/api/inventarios",
                             lote: this.form.lote,
                             articulo_id: this.showData.articulo.id
                         });
-
-                        this.process = false;
-
                         if (response.length > 0) {
                             this.form.lote = response[0].lote;
                             this.cantidadMaxima = response[0].cantidad;
@@ -381,7 +334,8 @@ export default {
                                 "INCREMENTO",
                                 "DEVOLUCION",
                                 "VENCIMIENTO",
-                                "DECREMENTO"
+                                "DECREMENTO",
+                                "MODIFICACION"
                             ];
                             this.disabledMovimiento = false;
                         } else {
@@ -398,61 +352,27 @@ export default {
             }
         },
 
+        // Buscar Proveedor
         findSuppliers: async function() {
             this.form.supplier_id = null;
-            this.process = true;
+            this.proveedorSearchTable = true;
             let response = await this.index({
                 url: "/api/suppliers",
                 buscarProveedor: this.form.supplier,
                 limit: 5
             });
-            this.process = false;
             this.suppliers = response.proveedores;
         },
 
-        editInventario: async function(lote) {
-            this.form.lote = lote;
-            let response = await this.index({
-                url: "/api/inventarios",
-                lote: this.form.lote,
-                articulo_id: this.showData.articulo.id
-            });
-
-            if (response.length > 0) {
-                this.form.lote = response[0].lote;
-                this.cantidadMaxima = response[0].cantidad;
-                this.form.vencimiento = response[0].vencimiento;
-                this.form.supplier = response[0].supplier.razonsocial;
-                this.form.supplier_id = response[0].supplier.id;
-            } else {
-                this.form.lote = 999999999;
-                this.form.vencimiento = null;
-                this.form.supplier = null;
-                this.form.supplier_id = null;
-            }
-
-            this.active = true;
-            this.form.costo = this.showData.articulo.costo;
-            this.form.utilidades = this.showData.articulo.utilidades;
-            if (this.showData.articulo.alicuota == 21) {
-                this.alicuota = 21;
-            } else {
-                this.alicuota = 10.5;
-            }
-            this.precio = this.showData.articulo.precio;
-
-            this.movimiento = "MODIFICACION";
-            this.movimientos = ["MODIFICACION"];
-            this.disabledMovimiento = true;
-            this.formPanel = [true];
-        },
-
+        // Seleccionar Proveedor
         selectSupplier(supplier) {
+            this.proveedorSearchTable = false;
             this.form.supplier = supplier.razonsocial;
             this.form.supplier_id = supplier.id;
             this.suppliers = [];
         },
 
+        // Establecer el mensage del dialogo y activarlo
         preventSave() {
             if (this.$refs.inventariosForm.validate()) {
                 this.preventSaveDialog = true;
@@ -484,23 +404,17 @@ export default {
             }
         },
 
+        // Guardar Inventarios
         saveInventarios: async function() {
             if (this.$refs.inventariosForm.validate()) {
-                this.process = true;
                 this.form.movimiento = this.movimiento;
-                this.form.alicuota = this.alicuota;
-                this.form.precio = this.precio;
                 this.form.articulo_id = this.showData.articulo.id;
                 await this.save({ url: "/api/inventarios" });
                 this.formPanel = [false];
-                this.active = false;
-                this.precio = null;
-                this.alicuota = null;
                 await this.show({
                     url: "/api/articulos/" + this.showData.articulo.id
                 });
                 this.$refs.inventariosForm.reset();
-                this.process = false;
                 this.preventSaveDialog = false;
             }
         }

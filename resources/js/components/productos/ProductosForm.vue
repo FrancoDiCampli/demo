@@ -70,7 +70,6 @@
                     v-model="form.categoria"
                     :rules="[rules.required]"
                     label="Categoria"
-                    append-icon="fas fa-caret-down"
                     box
                 ></v-text-field>
                 <Error tag="categoria_id"></Error>
@@ -99,7 +98,6 @@
                     v-model="form.marca"
                     :rules="[rules.required]"
                     label="Marca"
-                    append-icon="fas fa-caret-down"
                     box
                 ></v-text-field>
                 <Error tag="marca_id"></Error>

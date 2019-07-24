@@ -170,6 +170,8 @@
                                 v-model="form.lote"
                                 @keyup="findLote()"
                                 :disabled="form.producto_id ? false : true"
+                                :error="loteExiste == form.lote ? true : false"
+                                error-messages="Ya existe un inventario con ese lote"
                                 label="Lote"
                                 box
                                 :rules="[rules.required]"
@@ -432,7 +434,8 @@ export default {
             ],
             productosSearchTable: false,
             formPanel: [0],
-            cantidadMaxima: 999999999
+            cantidadMaxima: 999999999,
+            loteExiste: null
         };
     },
 
@@ -589,26 +592,17 @@ export default {
 
         // Buscar Lote
         findLote: async function() {
-            if (this.form.lote) {
-                if (this.form.lote.length > 0) {
-                    let response = await this.index({
-                        url: "/api/inventarios",
-                        lote: this.form.lote,
-                        articulo_id: this.form.producto_id
-                    });
-
-                    if (response.length > 0) {
-                        this.form.lote = response[0].lote;
-                        this.cantidadMaxima = response[0].cantidad;
-                        this.form.vencimiento = response[0].vencimiento;
-                        this.form.supplier = response[0].supplier.razonsocial;
-                        this.form.supplier_id = response[0].supplier.id;
-                        this.form.movimiento = "INCREMENTO";
-                    } else {
-                        this.cantidadMaxima = 999999999;
-                        this.form.vencimiento = null;
-                        this.form.movimiento = "ALTA";
-                    }
+            if (this.form.lote != null && this.form.lote != "") {
+                this.loteExiste = null;
+                let response = await this.index({
+                    url: "/api/inventarios",
+                    lote: this.form.lote,
+                    articulo_id: this.form.producto_id
+                });
+                if (response.length > 0) {
+                    this.loteExiste = true;
+                } else {
+                    this.loteExiste = false;
                 }
             }
         },
@@ -617,8 +611,13 @@ export default {
         fillDetalles() {
             if (this.cantidad) {
                 var find = this.detalles.find(
-                    detalle => detalle.producto === this.form.producto
+                    detalle =>
+                        detalle.producto === this.form.producto &&
+                        detalle.lote === this.form.lote
                 );
+
+                console.log(this.form.producto);
+                console.log(find);
 
                 if (find) {
                     // Buscar el indice del la tabla detalles que coicide con el detalle existente
@@ -703,15 +702,16 @@ export default {
         //Guardar Compra
         saveCompra: async function() {
             if (this.$refs.formCompra.validate()) {
-                //Guardar Compras
-                let resID = await this.save({ url: "/api/suppliers" });
-                //Imprimir PDF de Compras
-                this.remitosPDF(resID);
-                //Reset Formularios
-                this.detalles = [];
-                await this.$refs.formDetalles.reset();
-                await this.$refs.formCompra.reset();
-                this.$router.push("/compras");
+                console.log(this.form);
+                // //Guardar Compras
+                // let resID = await this.save({ url: "/api/suppliers" });
+                // //Imprimir PDF de Compras
+                // this.remitosPDF(resID);
+                // //Reset Formularios
+                // this.detalles = [];
+                // await this.$refs.formDetalles.reset();
+                // await this.$refs.formCompra.reset();
+                // this.$router.push("/compras");
             }
         },
 

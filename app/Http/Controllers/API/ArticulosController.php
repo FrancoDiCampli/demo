@@ -122,7 +122,6 @@ class ArticulosController extends Controller
         return ['message' => 'eliminado'];
     }
 
-
     public function show($id)
     {
         $articulo = Articulo::find($id);
@@ -130,10 +129,24 @@ class ArticulosController extends Controller
         $categoria = $articulo->categoria->categoria;
         $stock = $articulo->inventarios->sum('cantidad');
         $inventarios = $articulo->inventarios;
+        $lotes = $this->lotes($id);
         foreach ($inventarios as $inventario) {
             $inv = collect($inventario);
             $inv->put('proveedor', $inventario->proveedor);
         }
-        return ['articulo' => $articulo, 'stock' => $stock, 'inventarios' => $inventarios, 'marca' => $marca, 'categoria' => $categoria];
+        return ['articulo' => $articulo, 'stock' => $stock, 'inventarios' => $inventarios, 'lotes' => $lotes, 'marca' => $marca, 'categoria' => $categoria];
+    }
+
+    public function lotes($id)
+    {
+        $articulo = Articulo::find($id);
+        $inventarios = $articulo->inventarios;
+        $lotes = collect();
+        foreach ($inventarios as $inventario) {
+            $lotes->push($inventario->lote);
+        }
+        $lotes = $lotes->sort();
+        $proximo = $lotes->max() + 1;
+        return ['lotes' => $lotes, 'proximo' => $proximo];
     }
 }

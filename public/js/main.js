@@ -11692,6 +11692,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -11702,6 +11720,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
+      producto: null,
+      productos: [],
       remitos: [],
       proveedor: [],
       suppliers: [],
@@ -11721,6 +11741,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   mounted: function mounted() {
     this.getSuppliers();
+    this.getProductos();
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index"]), {
     getCompras: function getCompras() {
@@ -11728,14 +11749,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       var data = {
         fechas: [this.range.start, this.range.end],
-        proveedor: this.proveedor
+        proveedor: this.proveedor,
+        producto: this.producto
       };
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("api/estadisticas/compras", data).then(function (response) {
         _this.remitos = response.data;
       });
     },
-    getSuppliers: function () {
-      var _getSuppliers = _asyncToGenerator(
+    getProductos: function () {
+      var _getProductos = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var response;
@@ -11745,12 +11767,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context.next = 2;
                 return this.index({
-                  url: "api/suppliers"
+                  url: "api/articulos"
                 });
 
               case 2:
                 response = _context.sent;
-                this.suppliers = response.proveedores;
+                this.productos = response.articulos;
 
               case 4:
               case "end":
@@ -11758,6 +11780,38 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             }
           }
         }, _callee, this);
+      }));
+
+      function getProductos() {
+        return _getProductos.apply(this, arguments);
+      }
+
+      return getProductos;
+    }(),
+    getSuppliers: function () {
+      var _getSuppliers = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return this.index({
+                  url: "api/suppliers"
+                });
+
+              case 2:
+                response = _context2.sent;
+                this.suppliers = response.proveedores;
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
       }));
 
       function getSuppliers() {
@@ -11847,6 +11901,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -11866,9 +11926,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         move: "COMPRA"
       }, {
         move: "VENTA"
+      }, {
+        move: "INCREMENTO"
+      }, {
+        move: "DEVOLUCION"
+      }, {
+        move: "VENCIMIENTO"
+      }, {
+        move: "DECREMENTO"
+      }, {
+        move: "MODIFICACION"
       }],
       headers: [{
-        text: "Tipo",
+        text: "Articulo",
+        sortable: false
+      }, {
+        text: "Movimiento",
         sortable: false
       }, {
         text: "Cantidad",
@@ -11962,6 +12035,11 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
 //
 //
 //
@@ -32396,7 +32474,7 @@ var render = function() {
         [
           _c(
             "v-flex",
-            { attrs: { xs11: "", sm6: "" } },
+            { attrs: { xs11: "", sm5: "" } },
             [
               _c("v-select", {
                 attrs: {
@@ -32420,6 +32498,33 @@ var render = function() {
                     _vm.proveedor = $$v
                   },
                   expression: "proveedor"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-flex",
+            { attrs: { xs11: "", sm5: "" } },
+            [
+              _c("v-select", {
+                attrs: {
+                  hint: "producto",
+                  items: _vm.productos,
+                  "item-text": "articulo",
+                  "item-value": "id",
+                  label: "productos",
+                  box: "",
+                  "single-line": "",
+                  multiple: ""
+                },
+                model: {
+                  value: _vm.producto,
+                  callback: function($$v) {
+                    _vm.producto = $$v
+                  },
+                  expression: "producto"
                 }
               })
             ],
@@ -32466,23 +32571,36 @@ var render = function() {
       _vm._v(" "),
       _c("br"),
       _vm._v(" "),
-      _c("v-data-table", {
-        attrs: { "hide-actions": "", headers: _vm.headers, items: _vm.remitos },
-        scopedSlots: _vm._u([
-          {
-            key: "items",
-            fn: function(remito) {
-              return [
-                _c("td", [_vm._v(_vm._s(remito.item.fecha))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(remito.item.total))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(remito.item.proveedor.razonsocial))])
-              ]
-            }
-          }
-        ])
-      })
+      this.remitos.length > 0
+        ? _c("v-data-table", {
+            attrs: {
+              "hide-actions": "",
+              headers: _vm.headers,
+              items: _vm.remitos
+            },
+            scopedSlots: _vm._u(
+              [
+                {
+                  key: "items",
+                  fn: function(remito) {
+                    return [
+                      _c("td", [_vm._v(_vm._s(remito.item.fecha))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(remito.item.total))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(_vm._s(remito.item.proveedor.razonsocial))
+                      ])
+                    ]
+                  }
+                }
+              ],
+              null,
+              false,
+              2856616956
+            )
+          })
+        : _vm._e()
     ],
     1
   )
@@ -32619,25 +32737,38 @@ var render = function() {
       _vm._v(" "),
       _c("br"),
       _vm._v(" "),
-      _c("v-data-table", {
-        attrs: { "hide-actions": "", headers: _vm.headers, items: _vm.reports },
-        scopedSlots: _vm._u([
-          {
-            key: "items",
-            fn: function(mov) {
-              return [
-                _c("td", [_vm._v(_vm._s(mov.item.tipo))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(mov.item.cantidad))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(mov.item.fecha))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(mov.item.vendedor.name))])
-              ]
-            }
-          }
-        ])
-      })
+      this.reports.length > 0
+        ? _c("v-data-table", {
+            attrs: {
+              "hide-actions": "",
+              headers: _vm.headers,
+              items: _vm.reports
+            },
+            scopedSlots: _vm._u(
+              [
+                {
+                  key: "items",
+                  fn: function(mov) {
+                    return [
+                      _c("td", [_vm._v(_vm._s(mov.item.articulo.articulo))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(mov.item.tipo))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(mov.item.cantidad))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(mov.item.fecha))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(mov.item.vendedor.name))])
+                    ]
+                  }
+                }
+              ],
+              null,
+              false,
+              1902373233
+            )
+          })
+        : _vm._e()
     ],
     1
   )
@@ -32805,54 +32936,63 @@ var render = function() {
       _vm._v(" "),
       _c("br"),
       _vm._v(" "),
-      _c("v-data-table", {
-        attrs: {
-          "hide-actions": "",
-          headers: _vm.headers,
-          items: _vm.facturas
-        },
-        scopedSlots: _vm._u([
-          {
-            key: "items",
-            fn: function(factura) {
-              return [
-                _c(
-                  "td",
-                  { staticClass: "hidden-xs-only" },
-                  [
-                    _c("v-avatar", { staticClass: "type-item" }, [
-                      _c("p", { staticClass: "title type" }, [
-                        _vm._v(_vm._s(factura.item.letracomprobante))
+      this.facturas.length > 0
+        ? _c("v-data-table", {
+            attrs: {
+              "hide-actions": "",
+              headers: _vm.headers,
+              items: _vm.facturas
+            },
+            scopedSlots: _vm._u(
+              [
+                {
+                  key: "items",
+                  fn: function(factura) {
+                    return [
+                      _c(
+                        "td",
+                        { staticClass: "hidden-xs-only" },
+                        [
+                          _c("v-avatar", { staticClass: "type-item" }, [
+                            _c("p", { staticClass: "title type" }, [
+                              _vm._v(_vm._s(factura.item.letracomprobante))
+                            ])
+                          ])
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("td", [
+                        factura.item.comprobanteafip != null
+                          ? _c("div", [
+                              _vm._v(_vm._s(factura.item.comprobanteafip))
+                            ])
+                          : _c("div", [_vm._v(_vm._s(factura.item.id))])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(factura.item.total))]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "hidden-xs-only" }, [
+                        _vm._v(_vm._s(factura.item.condicionventa))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "hidden-xs-only" }, [
+                        _vm._v(_vm._s(factura.item.cliente.razonsocial))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "hidden-xs-only" }, [
+                        _vm._v(_vm._s(factura.item.vendedor.name))
                       ])
-                    ])
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c("td", [
-                  factura.item.comprobanteafip != null
-                    ? _c("div", [_vm._v(_vm._s(factura.item.comprobanteafip))])
-                    : _c("div", [_vm._v(_vm._s(factura.item.id))])
-                ]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(factura.item.total))]),
-                _vm._v(" "),
-                _c("td", { staticClass: "hidden-xs-only" }, [
-                  _vm._v(_vm._s(factura.item.condicionventa))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "hidden-xs-only" }, [
-                  _vm._v(_vm._s(factura.item.cliente.razonsocial))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "hidden-xs-only" }, [
-                  _vm._v(_vm._s(factura.item.vendedor.name))
-                ])
-              ]
-            }
-          }
-        ])
-      })
+                    ]
+                  }
+                }
+              ],
+              null,
+              false,
+              1594467176
+            )
+          })
+        : _vm._e()
     ],
     1
   )

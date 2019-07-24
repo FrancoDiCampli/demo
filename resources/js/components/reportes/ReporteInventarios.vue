@@ -2,56 +2,30 @@
     <div>
         <v-layout justify-space-around>
             <v-flex xs11 sm5>
-                <!-- Input Productos -->
-
-                <v-layout justify-space-around wrap>
-                    <v-flex xs11>
-                        <!-- Input Buscar Articulos -->
-                        <v-form ref="formFindArticle">
-                            <v-text-field
-                                @keyup="findArticle()"
-                                autofocus
-                                v-model="article"
-                                label="Articulo"
-                                box
-                                single-line
-                            ></v-text-field>
-                        </v-form>
-
-                        <!-- Tabla Buscar Articulos -->
-                        <transition>
-                            <v-data-table
-                                v-show="article != null && article != '' && products.length > 0"
-                                no-data-text="El producto no se encuentra en la base de datos."
-                                hide-actions
-                                hide-headers
-                                :items="products"
-                                class="search-table"
-                            >
-                                <template v-slot:items="article">
-                                    <tr
-                                        @click="selectArticle(article.item)"
-                                        style="cursor: pointer;"
-                                    >
-                                        <td>{{ article.item.codarticulo }}</td>
-                                        <td>{{ article.item.articulo }}</td>
-                                    </tr>
-                                </template>
-                            </v-data-table>
-                        </transition>
-                    </v-flex>
-                </v-layout>
-            </v-flex>
-
-            <v-flex xs11 sm5>
-                <!-- Input Clientes -->
                 <v-select
-                    :items="movimiento"
-                    v-model="tmov"
-                    item-text="movimiento"
-                    item-value="movimiento"
-                    label="Outline style"
-                    outline
+                    v-model="producto"
+                    hint="producto"
+                    :items="productos"
+                    item-text="articulo"
+                    item-value="id"
+                    label="productos"
+                    box
+                    @change="getReports()"
+                    single-line
+                    multiple
+                ></v-select>
+            </v-flex>
+            <v-flex xs11 sm5>
+                <v-select
+                    v-model="movimiento"
+                    hint="movimiento"
+                    :items="movimientos"
+                    item-text="move"
+                    item-value="move"
+                    label="movimientos"
+                    box
+                    @change="getReports()"
+                    single-line
                     multiple
                 ></v-select>
             </v-flex>
@@ -62,9 +36,14 @@
             </v-flex>
         </v-layout>
         <br />
-        <v-layout justify-center>
-            <v-btn @click="getReports()" color="primary">Filtrar</v-btn>
-        </v-layout>
+        <v-data-table hide-actions :headers="headers" :items="reports">
+            <template v-slot:items="mov">
+                <td>{{ mov.item.tipo }}</td>
+                <td>{{ mov.item.cantidad }}</td>
+                <td>{{ mov.item.fecha }}</td>
+                <td>{{ mov.item.vendedor.name }}</td>
+            </template>
+        </v-data-table>
     </div>
 </template>
 
@@ -81,61 +60,47 @@ export default {
         return {
             range: {},
             producto: null,
-            tmov: null,
-            productoSelected: null,
-            article: null,
-            products: [],
-            article_id: null,
-            buscarArticulo: null,
-            movimiento: [
-                 {
-                    movimiento: "ALTA",
-                    valor: 0
+            productos: [],
+            reports: [],
+            movimiento: null,
+            movimientos: [
+                {
+                    move: "COMPRA"
                 },
                 {
-                    movimiento: "VENTA",
-                    valor: 1
-                },
-                { movimiento: "COMPRA", valor: 2 },
-                { movimiento: "DEVOLUCION", valor: 3 },
-                { movimiento: "VENCIMIENTO", valor: 4 }
+                    move: "VENTA"
+                }
             ],
-            rules: {
-                required: value => !!value || "Este campo es obligatorio"
-            }
+            headers: [
+                { text: "Tipo", sortable: false },
+                { text: "Cantidad", sortable: false },
+                { text: "Fecha", sortable: false },
+                { text: "Vendedor", sortable: false }
+            ]
         };
     },
-    computed: {
-        ...mapState("crudx", ["form"])
+
+    mounted() {
+        this.getProductos();
     },
 
     methods: {
-        ...mapActions("crudx", ["index", "save"]),
+        ...mapActions("crudx", ["index"]),
+
         getReports() {
             let data = {
-                producto: this.article_id,
+                producto: this.producto,
                 fechas: [this.range.start, this.range.end],
-                movimiento: this.tmov
+                movimiento: this.movimiento
             };
             axios.post("api/estadisticas/inventarios", data).then(response => {
-                console.log(response.data);
+                this.reports = response.data;
             });
         },
-        findArticle: async function() {
-            let response = await this.index({
-                url: "/api/articulos",
-                buscarArticulo: this.article,
-                limit: 5
-            });
 
-            this.products = response.articulos;
-        },
-
-        //Seleccionar Articulo
-        selectArticle(article) {
-            this.products = [];
-            this.article_id = article.id;
-            this.article = article.articulo;
+        getProductos: async function() {
+            let response = await this.index({ url: "api/articulos" });
+            this.productos = response.articulos;
         }
     }
 };

@@ -1,70 +1,34 @@
 <template>
     <div>
         <v-layout justify-space-around>
-            <v-flex xs11 sm5>
-                <!-- Input Productos -->
-
-                <v-layout justify-space-around wrap>
-                    <v-flex xs11>
-                        <!-- Input Buscar Articulos -->
-                        <v-form ref="formFindArticle">
-                            <v-text-field
-                                @keyup="findArticle()"
-                                autofocus
-                                v-model="article"
-                                label="Articulo"
-                                box
-                                single-line
-                            ></v-text-field>
-                        </v-form>
-
-                        <!-- Tabla Buscar Articulos -->
-                        <transition>
-                            <v-data-table
-                                v-show="article != null && article != '' && products.length > 0"
-                                no-data-text="El producto no se encuentra en la base de datos."
-                                hide-actions
-                                hide-headers
-                                :items="products"
-                                class="search-table"
-                            >
-                                <template v-slot:items="article">
-                                    <tr
-                                        @click="selectArticle(article.item)"
-                                        style="cursor: pointer;"
-                                    >
-                                        <td>{{ article.item.codarticulo }}</td>
-                                        <td>{{ article.item.articulo }}</td>
-                                    </tr>
-                                </template>
-                            </v-data-table>
-                        </transition>
-                    </v-flex>
-                </v-layout>
-            </v-flex>
-
-            <v-flex xs11 sm5>
-                <!-- Input Clientes -->
+            <v-flex xs11 sm6>
                 <v-select
-                    :items="movimiento"
-                    v-model="tmov"
-                    item-text="movimiento"
-                    item-value="movimiento"
-                    label="Outline style"
-                    outline
+                    v-model="proveedor"
+                    hint="proveedor"
+                    :items="suppliers"
+                    item-text="razonsocial"
+                    item-value="id"
+                    label="proveedores"
+                    box
+                    @change="getCompras()"
+                    single-line
                     multiple
                 ></v-select>
             </v-flex>
         </v-layout>
-        <v-layout>
+        <v-layout justify-center>
             <v-flex xs11>
                 <v-range-selector :start-date.sync="range.start" :end-date.sync="range.end" />
             </v-flex>
         </v-layout>
         <br />
-        <v-layout justify-center>
-            <v-btn @click="getReports()" color="primary">Filtrar</v-btn>
-        </v-layout>
+        <v-data-table hide-actions :headers="headers" :items="remitos">
+            <template v-slot:items="remito">
+                <td>{{ remito.item.fecha }}</td>
+                <td>{{ remito.item.total }}</td>
+                <td>{{ remito.item.proveedor.razonsocial }}</td>
+            </template>
+        </v-data-table>
     </div>
 </template>
 
@@ -73,69 +37,45 @@ import axios from "axios";
 import { mapActions, mapState } from "vuex";
 import VRangeSelector from "vuelendar/components/vl-range-selector";
 export default {
-    name: "ReporteInventarios",
+    name: "ReporteCompras",
     components: {
         VRangeSelector
     },
     data() {
         return {
+            remitos: [],
+            proveedor: [],
+            suppliers: [],
             range: {},
-            producto: null,
-            tmov: null,
-            productoSelected: null,
-            article: null,
-            products: [],
-            article_id: null,
-            buscarArticulo: null,
-            movimiento: [
-                {
-                    movimiento: "SANCOR",
-                    valor: 0
-                },
-                {
-                    movimiento: "ARCOR",
-                    valor: 1
-                },
-                { movimiento: "SURCO", valor: 2 },
-                { movimiento: "CARSA", valor: 3 },
-                { movimiento: "LA CUEVA DE DUMBO", valor: 4 }
-            ],
-            rules: {
-                required: value => !!value || "Este campo es obligatorio"
-            }
+            reports: [],
+            headers: [
+                { text: "Fecha", sortable: false },
+                { text: "Importe", sortable: false },
+                { text: "Proveedor", sortable: false }
+            ]
         };
     },
-    computed: {
-        ...mapState("crudx", ["form"])
+
+    mounted() {
+        this.getSuppliers();
     },
 
     methods: {
-        ...mapActions("crudx", ["index", "save"]),
-        getReports() {
+        ...mapActions("crudx", ["index"]),
+
+        getCompras() {
             let data = {
-                producto: this.article,
                 fechas: [this.range.start, this.range.end],
-                proveedor: this.tmov
+                proveedor: this.proveedor
             };
             axios.post("api/estadisticas/compras", data).then(response => {
-                console.log(response.data);
+                this.remitos = response.data;
             });
         },
-        findArticle: async function() {
-            let response = await this.index({
-                url: "/api/articulos",
-                buscarArticulo: this.article,
-                limit: 5
-            });
 
-            this.products = response.articulos;
-        },
-
-        //Seleccionar Articulo
-        selectArticle(article) {
-            this.products = [];
-            this.article_id = article.id;
-            this.article = article.articulo;
+        getSuppliers: async function() {
+            let response = await this.index({ url: "api/suppliers" });
+            this.suppliers = response.proveedores;
         }
     }
 };

@@ -11692,97 +11692,50 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "ReporteInventarios",
+  name: "ReporteCompras",
   components: {
     VRangeSelector: vuelendar_components_vl_range_selector__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   data: function data() {
     return {
+      remitos: [],
+      proveedor: [],
+      suppliers: [],
       range: {},
-      producto: null,
-      tmov: null,
-      productoSelected: null,
-      article: null,
-      products: [],
-      article_id: null,
-      buscarArticulo: null,
-      movimiento: [{
-        movimiento: "SANCOR",
-        valor: 0
+      reports: [],
+      headers: [{
+        text: "Fecha",
+        sortable: false
       }, {
-        movimiento: "ARCOR",
-        valor: 1
+        text: "Importe",
+        sortable: false
       }, {
-        movimiento: "SURCO",
-        valor: 2
-      }, {
-        movimiento: "CARSA",
-        valor: 3
-      }, {
-        movimiento: "LA CUEVA DE DUMBO",
-        valor: 4
-      }],
-      rules: {
-        required: function required(value) {
-          return !!value || "Este campo es obligatorio";
-        }
-      }
+        text: "Proveedor",
+        sortable: false
+      }]
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("crudx", ["form"])),
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index", "save"]), {
-    getReports: function getReports() {
+  mounted: function mounted() {
+    this.getSuppliers();
+  },
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index"]), {
+    getCompras: function getCompras() {
+      var _this = this;
+
       var data = {
-        producto: this.article,
         fechas: [this.range.start, this.range.end],
-        proveedor: this.tmov
+        proveedor: this.proveedor
       };
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("api/estadisticas/compras", data).then(function (response) {
-        console.log(response.data);
+        _this.remitos = response.data;
       });
     },
-    findArticle: function () {
-      var _findArticle = _asyncToGenerator(
+    getSuppliers: function () {
+      var _getSuppliers = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var response;
@@ -11792,14 +11745,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context.next = 2;
                 return this.index({
-                  url: "/api/articulos",
-                  buscarArticulo: this.article,
-                  limit: 5
+                  url: "api/suppliers"
                 });
 
               case 2:
                 response = _context.sent;
-                this.products = response.articulos;
+                this.suppliers = response.proveedores;
 
               case 4:
               case "end":
@@ -11809,18 +11760,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, _callee, this);
       }));
 
-      function findArticle() {
-        return _findArticle.apply(this, arguments);
+      function getSuppliers() {
+        return _getSuppliers.apply(this, arguments);
       }
 
-      return findArticle;
-    }(),
-    //Seleccionar Articulo
-    selectArticle: function selectArticle(article) {
-      this.products = [];
-      this.article_id = article.id;
-      this.article = article.articulo;
-    }
+      return getSuppliers;
+    }()
   })
 });
 
@@ -11902,27 +11847,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -11935,49 +11859,47 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       range: {},
       producto: null,
-      tmov: null,
-      productoSelected: null,
-      article: null,
-      products: [],
-      article_id: null,
-      buscarArticulo: null,
-      movimiento: [{
-        movimiento: "ALTA",
-        valor: 0
+      productos: [],
+      reports: [],
+      movimiento: null,
+      movimientos: [{
+        move: "COMPRA"
       }, {
-        movimiento: "VENTA",
-        valor: 1
-      }, {
-        movimiento: "COMPRA",
-        valor: 2
-      }, {
-        movimiento: "DEVOLUCION",
-        valor: 3
-      }, {
-        movimiento: "VENCIMIENTO",
-        valor: 4
+        move: "VENTA"
       }],
-      rules: {
-        required: function required(value) {
-          return !!value || "Este campo es obligatorio";
-        }
-      }
+      headers: [{
+        text: "Tipo",
+        sortable: false
+      }, {
+        text: "Cantidad",
+        sortable: false
+      }, {
+        text: "Fecha",
+        sortable: false
+      }, {
+        text: "Vendedor",
+        sortable: false
+      }]
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("crudx", ["form"])),
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index", "save"]), {
+  mounted: function mounted() {
+    this.getProductos();
+  },
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index"]), {
     getReports: function getReports() {
+      var _this = this;
+
       var data = {
-        producto: this.article_id,
+        producto: this.producto,
         fechas: [this.range.start, this.range.end],
-        movimiento: this.tmov
+        movimiento: this.movimiento
       };
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("api/estadisticas/inventarios", data).then(function (response) {
-        console.log(response.data);
+        _this.reports = response.data;
       });
     },
-    findArticle: function () {
-      var _findArticle = _asyncToGenerator(
+    getProductos: function () {
+      var _getProductos = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var response;
@@ -11987,14 +11909,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context.next = 2;
                 return this.index({
-                  url: "/api/articulos",
-                  buscarArticulo: this.article,
-                  limit: 5
+                  url: "api/articulos"
                 });
 
               case 2:
                 response = _context.sent;
-                this.products = response.articulos;
+                this.productos = response.articulos;
 
               case 4:
               case "end":
@@ -12004,18 +11924,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, _callee, this);
       }));
 
-      function findArticle() {
-        return _findArticle.apply(this, arguments);
+      function getProductos() {
+        return _getProductos.apply(this, arguments);
       }
 
-      return findArticle;
-    }(),
-    //Seleccionar Articulo
-    selectArticle: function selectArticle(article) {
-      this.products = [];
-      this.article_id = article.id;
-      this.article = article.articulo;
-    }
+      return getProductos;
+    }()
   })
 });
 
@@ -12218,7 +12132,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 2:
                 response = _context2.sent;
-                this.clientes = response;
+                this.clientes = response.clientes;
 
               case 4:
               case "end":
@@ -12242,7 +12156,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         producto: this.producto,
         fechas: [this.range.start, this.range.end],
         condicion: this.condicionventa,
-        clientes: this.client
+        clientes: this.cliente
       };
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("api/estadisticas/reportes", data).then(function (response) {
         _this.facturas = response.data;
@@ -32482,134 +32396,30 @@ var render = function() {
         [
           _c(
             "v-flex",
-            { attrs: { xs11: "", sm5: "" } },
-            [
-              _c(
-                "v-layout",
-                { attrs: { "justify-space-around": "", wrap: "" } },
-                [
-                  _c(
-                    "v-flex",
-                    { attrs: { xs11: "" } },
-                    [
-                      _c(
-                        "v-form",
-                        { ref: "formFindArticle" },
-                        [
-                          _c("v-text-field", {
-                            attrs: {
-                              autofocus: "",
-                              label: "Articulo",
-                              box: "",
-                              "single-line": ""
-                            },
-                            on: {
-                              keyup: function($event) {
-                                return _vm.findArticle()
-                              }
-                            },
-                            model: {
-                              value: _vm.article,
-                              callback: function($$v) {
-                                _vm.article = $$v
-                              },
-                              expression: "article"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "transition",
-                        [
-                          _c("v-data-table", {
-                            directives: [
-                              {
-                                name: "show",
-                                rawName: "v-show",
-                                value:
-                                  _vm.article != null &&
-                                  _vm.article != "" &&
-                                  _vm.products.length > 0,
-                                expression:
-                                  "article != null && article != '' && products.length > 0"
-                              }
-                            ],
-                            staticClass: "search-table",
-                            attrs: {
-                              "no-data-text":
-                                "El producto no se encuentra en la base de datos.",
-                              "hide-actions": "",
-                              "hide-headers": "",
-                              items: _vm.products
-                            },
-                            scopedSlots: _vm._u([
-                              {
-                                key: "items",
-                                fn: function(article) {
-                                  return [
-                                    _c(
-                                      "tr",
-                                      {
-                                        staticStyle: { cursor: "pointer" },
-                                        on: {
-                                          click: function($event) {
-                                            return _vm.selectArticle(
-                                              article.item
-                                            )
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _c("td", [
-                                          _vm._v(
-                                            _vm._s(article.item.codarticulo)
-                                          )
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("td", [
-                                          _vm._v(_vm._s(article.item.articulo))
-                                        ])
-                                      ]
-                                    )
-                                  ]
-                                }
-                              }
-                            ])
-                          })
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-flex",
-            { attrs: { xs11: "", sm5: "" } },
+            { attrs: { xs11: "", sm6: "" } },
             [
               _c("v-select", {
                 attrs: {
-                  items: _vm.movimiento,
-                  "item-text": "movimiento",
-                  "item-value": "movimiento",
-                  label: "Outline style",
-                  outline: "",
+                  hint: "proveedor",
+                  items: _vm.suppliers,
+                  "item-text": "razonsocial",
+                  "item-value": "id",
+                  label: "proveedores",
+                  box: "",
+                  "single-line": "",
                   multiple: ""
                 },
+                on: {
+                  change: function($event) {
+                    return _vm.getCompras()
+                  }
+                },
                 model: {
-                  value: _vm.tmov,
+                  value: _vm.proveedor,
                   callback: function($$v) {
-                    _vm.tmov = $$v
+                    _vm.proveedor = $$v
                   },
-                  expression: "tmov"
+                  expression: "proveedor"
                 }
               })
             ],
@@ -32621,6 +32431,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-layout",
+        { attrs: { "justify-center": "" } },
         [
           _c(
             "v-flex",
@@ -32655,25 +32466,23 @@ var render = function() {
       _vm._v(" "),
       _c("br"),
       _vm._v(" "),
-      _c(
-        "v-layout",
-        { attrs: { "justify-center": "" } },
-        [
-          _c(
-            "v-btn",
-            {
-              attrs: { color: "primary" },
-              on: {
-                click: function($event) {
-                  return _vm.getReports()
-                }
-              }
-            },
-            [_vm._v("Filtrar")]
-          )
-        ],
-        1
-      )
+      _c("v-data-table", {
+        attrs: { "hide-actions": "", headers: _vm.headers, items: _vm.remitos },
+        scopedSlots: _vm._u([
+          {
+            key: "items",
+            fn: function(remito) {
+              return [
+                _c("td", [_vm._v(_vm._s(remito.item.fecha))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(remito.item.total))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(remito.item.proveedor.razonsocial))])
+              ]
+            }
+          }
+        ])
+      })
     ],
     1
   )
@@ -32711,109 +32520,30 @@ var render = function() {
             "v-flex",
             { attrs: { xs11: "", sm5: "" } },
             [
-              _c(
-                "v-layout",
-                { attrs: { "justify-space-around": "", wrap: "" } },
-                [
-                  _c(
-                    "v-flex",
-                    { attrs: { xs11: "" } },
-                    [
-                      _c(
-                        "v-form",
-                        { ref: "formFindArticle" },
-                        [
-                          _c("v-text-field", {
-                            attrs: {
-                              autofocus: "",
-                              label: "Articulo",
-                              box: "",
-                              "single-line": ""
-                            },
-                            on: {
-                              keyup: function($event) {
-                                return _vm.findArticle()
-                              }
-                            },
-                            model: {
-                              value: _vm.article,
-                              callback: function($$v) {
-                                _vm.article = $$v
-                              },
-                              expression: "article"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "transition",
-                        [
-                          _c("v-data-table", {
-                            directives: [
-                              {
-                                name: "show",
-                                rawName: "v-show",
-                                value:
-                                  _vm.article != null &&
-                                  _vm.article != "" &&
-                                  _vm.products.length > 0,
-                                expression:
-                                  "article != null && article != '' && products.length > 0"
-                              }
-                            ],
-                            staticClass: "search-table",
-                            attrs: {
-                              "no-data-text":
-                                "El producto no se encuentra en la base de datos.",
-                              "hide-actions": "",
-                              "hide-headers": "",
-                              items: _vm.products
-                            },
-                            scopedSlots: _vm._u([
-                              {
-                                key: "items",
-                                fn: function(article) {
-                                  return [
-                                    _c(
-                                      "tr",
-                                      {
-                                        staticStyle: { cursor: "pointer" },
-                                        on: {
-                                          click: function($event) {
-                                            return _vm.selectArticle(
-                                              article.item
-                                            )
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _c("td", [
-                                          _vm._v(
-                                            _vm._s(article.item.codarticulo)
-                                          )
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("td", [
-                                          _vm._v(_vm._s(article.item.articulo))
-                                        ])
-                                      ]
-                                    )
-                                  ]
-                                }
-                              }
-                            ])
-                          })
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
+              _c("v-select", {
+                attrs: {
+                  hint: "producto",
+                  items: _vm.productos,
+                  "item-text": "articulo",
+                  "item-value": "id",
+                  label: "productos",
+                  box: "",
+                  "single-line": "",
+                  multiple: ""
+                },
+                on: {
+                  change: function($event) {
+                    return _vm.getReports()
+                  }
+                },
+                model: {
+                  value: _vm.producto,
+                  callback: function($$v) {
+                    _vm.producto = $$v
+                  },
+                  expression: "producto"
+                }
+              })
             ],
             1
           ),
@@ -32824,19 +32554,26 @@ var render = function() {
             [
               _c("v-select", {
                 attrs: {
-                  items: _vm.movimiento,
-                  "item-text": "movimiento",
-                  "item-value": "movimiento",
-                  label: "Outline style",
-                  outline: "",
+                  hint: "movimiento",
+                  items: _vm.movimientos,
+                  "item-text": "move",
+                  "item-value": "move",
+                  label: "movimientos",
+                  box: "",
+                  "single-line": "",
                   multiple: ""
                 },
+                on: {
+                  change: function($event) {
+                    return _vm.getReports()
+                  }
+                },
                 model: {
-                  value: _vm.tmov,
+                  value: _vm.movimiento,
                   callback: function($$v) {
-                    _vm.tmov = $$v
+                    _vm.movimiento = $$v
                   },
-                  expression: "tmov"
+                  expression: "movimiento"
                 }
               })
             ],
@@ -32882,25 +32619,25 @@ var render = function() {
       _vm._v(" "),
       _c("br"),
       _vm._v(" "),
-      _c(
-        "v-layout",
-        { attrs: { "justify-center": "" } },
-        [
-          _c(
-            "v-btn",
-            {
-              attrs: { color: "primary" },
-              on: {
-                click: function($event) {
-                  return _vm.getReports()
-                }
-              }
-            },
-            [_vm._v("Filtrar")]
-          )
-        ],
-        1
-      )
+      _c("v-data-table", {
+        attrs: { "hide-actions": "", headers: _vm.headers, items: _vm.reports },
+        scopedSlots: _vm._u([
+          {
+            key: "items",
+            fn: function(mov) {
+              return [
+                _c("td", [_vm._v(_vm._s(mov.item.tipo))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(mov.item.cantidad))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(mov.item.fecha))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(mov.item.vendedor.name))])
+              ]
+            }
+          }
+        ])
+      })
     ],
     1
   )
@@ -33003,7 +32740,7 @@ var render = function() {
               _c("v-select", {
                 attrs: {
                   hint: "cliente",
-                  items: _vm.clientes.clientes,
+                  items: _vm.clientes,
                   "item-text": "razonsocial",
                   "item-value": "id",
                   label: "clientes",

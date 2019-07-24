@@ -36,8 +36,14 @@
             </v-flex>
         </v-layout>
         <br />
-        <v-data-table hide-actions :headers="headers" :items="reports">
+        <v-data-table
+            v-if="this.reports.length > 0"
+            hide-actions
+            :headers="headers"
+            :items="reports"
+        >
             <template v-slot:items="mov">
+                <td>{{ mov.item.articulo.articulo }}</td>
                 <td>{{ mov.item.tipo }}</td>
                 <td>{{ mov.item.cantidad }}</td>
                 <td>{{ mov.item.fecha }}</td>
@@ -69,10 +75,26 @@ export default {
                 },
                 {
                     move: "VENTA"
+                },
+                {
+                    move: "INCREMENTO"
+                },
+                {
+                    move: "DEVOLUCION"
+                },
+                {
+                    move: "VENCIMIENTO"
+                },
+                {
+                    move: "DECREMENTO"
+                },
+                {
+                    move: "MODIFICACION"
                 }
             ],
             headers: [
-                { text: "Tipo", sortable: false },
+                { text: "Articulo", sortable: false },
+                { text: "Movimiento", sortable: false },
                 { text: "Cantidad", sortable: false },
                 { text: "Fecha", sortable: false },
                 { text: "Vendedor", sortable: false }

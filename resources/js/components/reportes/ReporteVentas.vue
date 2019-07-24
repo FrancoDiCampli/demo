@@ -49,7 +49,12 @@
             </v-flex>
         </v-layout>
         <br />
-        <v-data-table hide-actions :headers="headers" :items="facturas">
+        <v-data-table
+            v-if="this.facturas.length > 0"
+            hide-actions
+            :headers="headers"
+            :items="facturas"
+        >
             <template v-slot:items="factura">
                 <td class="hidden-xs-only">
                     <v-avatar class="type-item">

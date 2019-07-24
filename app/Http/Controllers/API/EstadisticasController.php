@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Movimiento;
+use App\Articulo;
 
 class EstadisticasController extends Controller
 {
@@ -21,7 +22,7 @@ class EstadisticasController extends Controller
     {
         $this->middleware('auth');
     }
-    // Ventas
+    // Ventas (Facturas)
     public function reportes(Request $request)
     {
         $vendedores = (array) $request->vendedor;
@@ -82,7 +83,7 @@ class EstadisticasController extends Controller
 
         return $facturas;
     }
-    // Productos
+    // Productos (Movimientos)
     public function inventarios(Request $request)
     {
         $articulos = (array) $request->producto;
@@ -126,8 +127,11 @@ class EstadisticasController extends Controller
                 $fecha = new Carbon($mov->fecha);
                 $mov->fecha = $fecha->format('d-m-Y');
                 $vendedor = User::find($mov->user_id);
+                $inv = Inventario::find($mov->inventario_id);
+                $art = Articulo::find($inv->articulo_id);
                 $mov = collect($mov);
                 $mov->put('vendedor', $vendedor);
+                $mov->put('articulo', $art);
                 $movimientos->push($mov);
             }
 
@@ -156,18 +160,22 @@ class EstadisticasController extends Controller
                 $fecha = new Carbon($mov->fecha);
                 $mov->fecha = $fecha->format('d-m-Y');
                 $vendedor = User::find($mov->user_id);
+                $inv = Inventario::find($mov->inventario_id);
+                $art = Articulo::find($inv->articulo_id);
                 $mov = collect($mov);
                 $mov->put('vendedor', $vendedor);
+                $mov->put('articulo', $art);
                 $movimientos->push($mov);
             }
 
             return $movimientos;
         }
     }
-    // Compras
+    // Compras (Remitos)
     public function compras(Request $request)
     {
         $proveedores = (array) $request->proveedor;
+        $productos = (array) $request->producto;
         $fec = (array) $request->fechas;
         $fechas = array();
         $remitos = collect();

@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-layout justify-space-around>
-            <v-flex xs11 sm6>
+            <v-flex xs11 sm5>
                 <v-select
                     v-model="proveedor"
                     hint="proveedor"
@@ -15,6 +15,19 @@
                     multiple
                 ></v-select>
             </v-flex>
+            <v-flex xs11 sm5>
+                <v-select
+                    v-model="producto"
+                    hint="producto"
+                    :items="productos"
+                    item-text="articulo"
+                    item-value="id"
+                    label="productos"
+                    box
+                    single-line
+                    multiple
+                ></v-select>
+            </v-flex>
         </v-layout>
         <v-layout justify-center>
             <v-flex xs11>
@@ -22,7 +35,12 @@
             </v-flex>
         </v-layout>
         <br />
-        <v-data-table hide-actions :headers="headers" :items="remitos">
+        <v-data-table
+            v-if="this.remitos.length > 0"
+            hide-actions
+            :headers="headers"
+            :items="remitos"
+        >
             <template v-slot:items="remito">
                 <td>{{ remito.item.fecha }}</td>
                 <td>{{ remito.item.total }}</td>
@@ -43,6 +61,8 @@ export default {
     },
     data() {
         return {
+            producto: null,
+            productos: [],
             remitos: [],
             proveedor: [],
             suppliers: [],
@@ -58,6 +78,7 @@ export default {
 
     mounted() {
         this.getSuppliers();
+        this.getProductos();
     },
 
     methods: {
@@ -66,11 +87,17 @@ export default {
         getCompras() {
             let data = {
                 fechas: [this.range.start, this.range.end],
-                proveedor: this.proveedor
+                proveedor: this.proveedor,
+                producto: this.producto
             };
             axios.post("api/estadisticas/compras", data).then(response => {
                 this.remitos = response.data;
             });
+        },
+
+        getProductos: async function() {
+            let response = await this.index({ url: "api/articulos" });
+            this.productos = response.articulos;
         },
 
         getSuppliers: async function() {

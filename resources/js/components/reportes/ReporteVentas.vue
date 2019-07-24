@@ -31,7 +31,7 @@
                 <v-select
                     v-model="cliente"
                     hint="cliente"
-                    :items="clientes.clientes"
+                    :items="clientes"
                     item-text="razonsocial"
                     item-value="id"
                     label="clientes"
@@ -118,7 +118,7 @@ export default {
         },
         getClients: async function() {
             let response = await this.index({ url: "api/clientes" });
-            this.clientes = response;
+            this.clientes = response.clientes;
         },
 
         getReports() {
@@ -127,7 +127,7 @@ export default {
                 producto: this.producto,
                 fechas: [this.range.start, this.range.end],
                 condicion: this.condicionventa,
-                clientes: this.client
+                clientes: this.cliente
             };
             axios.post("api/estadisticas/reportes", data).then(response => {
                 this.facturas = response.data;

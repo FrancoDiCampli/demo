@@ -242,7 +242,7 @@ export default {
                 {
                     title: "Reportes",
                     icon: "fas fa-clipboard",
-                    url: "/reporte",
+                    url: "/reportes",
                     divider: true,
                     rol: "superAdmin"
                 },

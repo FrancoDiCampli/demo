@@ -2155,7 +2155,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, {
         title: "Reportes",
         icon: "fas fa-clipboard",
-        url: "/reporte",
+        url: "/reportes",
         divider: true,
         rol: "superAdmin"
       }, {
@@ -11009,6 +11009,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 // Components
  // Vuex
 
@@ -11075,7 +11077,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }],
       productosSearchTable: false,
       formPanel: [0],
-      cantidadMaxima: 999999999
+      cantidadMaxima: 999999999,
+      loteExiste: null
     };
   },
   components: {
@@ -11282,16 +11285,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                if (!this.form.lote) {
+                if (!(this.form.lote != null && this.form.lote != "")) {
                   _context3.next = 6;
                   break;
                 }
 
-                if (!(this.form.lote.length > 0)) {
-                  _context3.next = 6;
-                  break;
-                }
-
+                this.loteExiste = null;
                 _context3.next = 4;
                 return this.index({
                   url: "/api/inventarios",
@@ -11303,16 +11302,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 response = _context3.sent;
 
                 if (response.length > 0) {
-                  this.form.lote = response[0].lote;
-                  this.cantidadMaxima = response[0].cantidad;
-                  this.form.vencimiento = response[0].vencimiento;
-                  this.form.supplier = response[0].supplier.razonsocial;
-                  this.form.supplier_id = response[0].supplier.id;
-                  this.form.movimiento = "INCREMENTO";
+                  this.loteExiste = true;
                 } else {
-                  this.cantidadMaxima = 999999999;
-                  this.form.vencimiento = null;
-                  this.form.movimiento = "ALTA";
+                  this.loteExiste = false;
                 }
 
               case 6:
@@ -11335,8 +11327,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (this.cantidad) {
         var find = this.detalles.find(function (detalle) {
-          return detalle.producto === _this2.form.producto;
+          return detalle.producto === _this2.form.producto && detalle.lote === _this2.form.lote;
         });
+        console.log(this.form.producto);
+        console.log(find);
 
         if (find) {
           // Buscar el indice del la tabla detalles que coicide con el detalle existente
@@ -11406,38 +11400,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _saveCompra = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-        var resID;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                if (!this.$refs.formCompra.validate()) {
-                  _context4.next = 11;
-                  break;
+                if (this.$refs.formCompra.validate()) {
+                  console.log(this.form); // //Guardar Compras
+                  // let resID = await this.save({ url: "/api/suppliers" });
+                  // //Imprimir PDF de Compras
+                  // this.remitosPDF(resID);
+                  // //Reset Formularios
+                  // this.detalles = [];
+                  // await this.$refs.formDetalles.reset();
+                  // await this.$refs.formCompra.reset();
+                  // this.$router.push("/compras");
                 }
 
-                _context4.next = 3;
-                return this.save({
-                  url: "/api/suppliers"
-                });
-
-              case 3:
-                resID = _context4.sent;
-                //Imprimir PDF de Compras
-                this.remitosPDF(resID); //Reset Formularios
-
-                this.detalles = [];
-                _context4.next = 8;
-                return this.$refs.formDetalles.reset();
-
-              case 8:
-                _context4.next = 10;
-                return this.$refs.formCompra.reset();
-
-              case 10:
-                this.$router.push("/compras");
-
-              case 11:
+              case 1:
               case "end":
                 return _context4.stop();
             }
@@ -12142,17 +12121,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -12164,32 +12132,42 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       condicionventa: [],
+      facturas: [],
       vendedor: [],
       sellers: [],
-      producto: null,
-      productoSelected: null,
-      articles: [],
+      clientes: [],
+      cliente: [],
       range: {},
       reports: [],
-      terms: ["CONTADO", "CREDITO / DEBITO", "CUENTA CORRIENTE"],
-      clients: [{
-        id: 2,
-        nombre: "Franco"
+      headers: [{
+        text: "Tipo",
+        sortable: false,
+        "class": "hidden-xs-only"
       }, {
-        id: 4,
-        nombre: "Juan"
+        text: "Nº Factura",
+        sortable: false
       }, {
-        id: 5,
-        nombre: "Maria"
+        text: "Importe",
+        sortable: false
       }, {
-        id: 6,
-        nombre: "Maria"
+        text: "Condición",
+        sortable: false,
+        "class": "hidden-xs-only"
+      }, {
+        text: "Cliente",
+        sortable: false,
+        "class": "hidden-xs-only"
+      }, {
+        text: "Vendedor",
+        sortable: false,
+        "class": "hidden-xs-only"
       }],
-      client: []
+      terms: ["CONTADO", "CREDITO / DEBITO", "CUENTA CORRIENTE"]
     };
   },
   mounted: function mounted() {
     this.getSellers();
+    this.getClients();
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index"]), {
     getSellers: function () {
@@ -12203,7 +12181,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context.next = 2;
                 return this.index({
-                  url: "api/users/index"
+                  url: "api/users"
                 });
 
               case 2:
@@ -12235,15 +12213,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context2.next = 2;
                 return this.index({
-                  url: "api/clientes/index"
+                  url: "api/clientes"
                 });
 
               case 2:
                 response = _context2.sent;
-                this.clients = response;
-                console.log(response);
+                this.clientes = response;
 
-              case 5:
+              case 4:
               case "end":
                 return _context2.stop();
             }
@@ -12257,44 +12234,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       return getClients;
     }(),
-    getArticles: function () {
-      var _getArticles = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var _this = this;
-
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                this.productoSelected = null;
-                axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/articulos", {
-                  params: {
-                    buscarArticulo: this.producto,
-                    limit: 5
-                  }
-                }).then(function (response) {
-                  _this.articles = response.data;
-                })["catch"](function (error) {
-                  console.log(error);
-                  _this.articles = [];
-                });
-
-              case 2:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3, this);
-      }));
-
-      function getArticles() {
-        return _getArticles.apply(this, arguments);
-      }
-
-      return getArticles;
-    }(),
     getReports: function getReports() {
+      var _this = this;
+
       var data = {
         vendedor: this.vendedor,
         producto: this.producto,
@@ -12303,7 +12245,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         clientes: this.client
       };
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("api/estadisticas/reportes", data).then(function (response) {
-        console.log(response.data);
+        _this.facturas = response.data;
       });
     }
   })
@@ -14087,7 +14029,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Estilos Personalizados:\n    Los estilos establecidos dentro de esta etiqueta afectaran a todos los componentes\n    siempre y cuando se usen las clases en los mismos.\n    Esta implementación es contraria a la recomendada, pero debido a que los componentes \n    de Vuetify son externos no podemos utilizar la etiqueta Syle Scope en cada componente,\n    como recomienda Vuejs, para establecer los estilos.\n    Para evitar repitir las clases entre componentes provocando modificaciones no deseadas\n    en los mismos, se estableceran todos los estilos de forma global en esta etiqueta.\n*/\n\n/* Estilos para el avatar de perfil */\n.profile {\n    border: solid 3px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\n    color: #26a69a;\n}\n\n/* Estilos para el avatar de perfil en el sidenav */\n.profile-list {\n    border: solid 1.5px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n    margin-top: 15px;\n    cursor: pointer;\n}\n.profile-list span {\n    color: #26a69a;\n}\n\n/* Estilos para el scrollbar */\nbody::-webkit-scrollbar {\n    width: 7px;\n}\nbody::-webkit-scrollbar-thumb {\n    background-color: rgba(38, 166, 154, 0.75);\n}\n\n/* Estilo para el indicador de carga circular absoluto */\n.loading {\n    position: fixed;\n    z-index: 999999;\n    left: 47.3%;\n    top: 44%;\n}\n\n/* Estilos para los inputs númericos */\ninput[type=\"number\"] {\n    -moz-appearance: textfield;\n}\ninput[type=\"number\"]::-webkit-outer-spin-button,\ninput[type=\"number\"]::-webkit-inner-spin-button {\n    -webkit-appearance: none;\n}\n\n/* Estilos para los imputs con la primera letra mayuscula */\n.capitalize input[type] {\n    text-transform: capitalize;\n}\n\n/* Estilos para los campos de pago en las cuentas corrientes del cliente (ClientesShowCuentaTable) */\n.input-pagos {\n    width: 75px;\n    display: block;\n    margin-top: 8px;\n    padding: 10px 0px;\n    border: none;\n    border-bottom: 1px solid #9e9e9e;\n    transition: all 1s ease;\n}\n.input-pagos:focus {\n    outline: none;\n    border-bottom: 2px solid #26a69a;\n    transition: all 0.5s ease;\n}\n.pagos tbody tr {\n    border-bottom: none !important;\n}\n\n/* Estilos para indicar el tipo de comprobante */\n.type-item {\n    margin: 5px 0px 5px -12px;\n    border: solid 1.5px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.type {\n    margin-top: 15px;\n    color: #26a69a;\n}\n\n/* Estilos para los search Table */\n.search-table {\n    border: solid 2px #26a69a;\n    margin-top: -30px;\n    border-top: none;\n    margin-bottom: 20px;\n    border-radius: 0px 0px 5px 5px;\n}\n.expansion-border {\n    border-bottom: 1px solid #aaaaaa;\n}\n\n/* Estilos para la animacion de expanción en las Search Table */\n.expand-transition {\n    transition: all 0.5s ease;\n}\n.expand-enter,\n.expand-leave {\n    height: 0;\n    opacity: 0;\n}\n\n/* Estilos para los Headers de factura */\n.dataFactura {\n    font-size: 12px;\n    line-height: 5px;\n    margin-top: 12px;\n}\n\n/* Estilos para los Headers de presupuesto */\n.dataPresupuesto {\n    font-size: 12px;\n    line-height: 5px;\n    margin-top: 12px;\n}\n\n/* Estilos para las esquinas de los cards de productos */\n.tringle-right-button {\n    position: relative;\n    width: 70px;\n    height: 70px;\n    border-top: solid 35px #26a69a;\n    border-right: solid 35px #26a69a;\n    border-left: solid 35px transparent;\n    border-bottom: solid 35px transparent;\n    cursor: pointer;\n}\n.tringle-right-button .icon {\n    position: absolute;\n    margin-top: -22px;\n    margin-left: 10px;\n    color: white;\n    font-size: 16px;\n}\n.tringle-left-button {\n    position: relative;\n    width: 50px;\n    height: 50px;\n    border-top: solid 25px transparent;\n    border-right: solid 25px transparent;\n    border-left: solid 25px;\n    border-bottom: solid 25px;\n}\n.tringle-left-button .icon {\n    position: absolute;\n    margin-top: 2px;\n    margin-left: -18px;\n    color: white;\n    font-size: 16px;\n}\n@media (min-width: 600px) {\n.tringle-right-button {\n        width: 60px;\n        height: 60px;\n        border-top: solid 30px #26a69a;\n        border-right: solid 30px #26a69a;\n        border-left: solid 30px transparent;\n        border-bottom: solid 30px transparent;\n}\n.tringle-right-button .icon {\n        margin-top: -20px;\n        margin-left: 8px;\n}\n.tringle-left-button {\n        width: 60px;\n        height: 60px;\n        border-top: solid 30px transparent;\n        border-right: solid 30px transparent;\n        border-left: solid 30px;\n        border-bottom: solid 30px;\n}\n.tringle-left-button .icon {\n        margin-top: 4px;\n        margin-left: -18px;\n}\n}\n@media (min-width: 1264px) {\n.tringle-right-button {\n        width: 50px;\n        height: 50px;\n        border-top: solid 25px #26a69a;\n        border-right: solid 25px #26a69a;\n        border-left: solid 25px transparent;\n        border-bottom: solid 25px transparent;\n}\n.tringle-right-button .icon {\n        margin-top: -16px;\n        margin-left: 8px;\n        font-size: 14px;\n}\n}\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* Estilos Personalizados:\r\n    Los estilos establecidos dentro de esta etiqueta afectaran a todos los componentes\r\n    siempre y cuando se usen las clases en los mismos.\r\n    Esta implementación es contraria a la recomendada, pero debido a que los componentes \r\n    de Vuetify son externos no podemos utilizar la etiqueta Syle Scope en cada componente,\r\n    como recomienda Vuejs, para establecer los estilos.\r\n    Para evitar repitir las clases entre componentes provocando modificaciones no deseadas\r\n    en los mismos, se estableceran todos los estilos de forma global en esta etiqueta.\r\n*/\r\n\r\n/* Estilos para el avatar de perfil */\n.profile {\r\n    border: solid 3px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\r\n    color: #26a69a;\n}\r\n\r\n/* Estilos para el avatar de perfil en el sidenav */\n.profile-list {\r\n    border: solid 1.5px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\r\n    margin-top: 15px;\r\n    cursor: pointer;\n}\n.profile-list span {\r\n    color: #26a69a;\n}\r\n\r\n/* Estilos para el scrollbar */\nbody::-webkit-scrollbar {\r\n    width: 7px;\n}\nbody::-webkit-scrollbar-thumb {\r\n    background-color: rgba(38, 166, 154, 0.75);\n}\r\n\r\n/* Estilo para el indicador de carga circular absoluto */\n.loading {\r\n    position: fixed;\r\n    z-index: 999999;\r\n    left: 47.3%;\r\n    top: 44%;\n}\r\n\r\n/* Estilos para los inputs númericos */\ninput[type=\"number\"] {\r\n    -moz-appearance: textfield;\n}\ninput[type=\"number\"]::-webkit-outer-spin-button,\r\ninput[type=\"number\"]::-webkit-inner-spin-button {\r\n    -webkit-appearance: none;\n}\r\n\r\n/* Estilos para los imputs con la primera letra mayuscula */\n.capitalize input[type] {\r\n    text-transform: capitalize;\n}\r\n\r\n/* Estilos para los campos de pago en las cuentas corrientes del cliente (ClientesShowCuentaTable) */\n.input-pagos {\r\n    width: 75px;\r\n    display: block;\r\n    margin-top: 8px;\r\n    padding: 10px 0px;\r\n    border: none;\r\n    border-bottom: 1px solid #9e9e9e;\r\n    transition: all 1s ease;\n}\n.input-pagos:focus {\r\n    outline: none;\r\n    border-bottom: 2px solid #26a69a;\r\n    transition: all 0.5s ease;\n}\n.pagos tbody tr {\r\n    border-bottom: none !important;\n}\r\n\r\n/* Estilos para indicar el tipo de comprobante */\n.type-item {\r\n    margin: 5px 0px 5px -12px;\r\n    border: solid 1.5px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.type {\r\n    margin-top: 15px;\r\n    color: #26a69a;\n}\r\n\r\n/* Estilos para los search Table */\n.search-table {\r\n    border: solid 2px #26a69a;\r\n    margin-top: -30px;\r\n    border-top: none;\r\n    margin-bottom: 20px;\r\n    border-radius: 0px 0px 5px 5px;\n}\n.expansion-border {\r\n    border-bottom: 1px solid #aaaaaa;\n}\r\n\r\n/* Estilos para la animacion de expanción en las Search Table */\n.expand-transition {\r\n    transition: all 0.5s ease;\n}\n.expand-enter,\r\n.expand-leave {\r\n    height: 0;\r\n    opacity: 0;\n}\r\n\r\n/* Estilos para los Headers de factura */\n.dataFactura {\r\n    font-size: 12px;\r\n    line-height: 5px;\r\n    margin-top: 12px;\n}\r\n\r\n/* Estilos para los Headers de presupuesto */\n.dataPresupuesto {\r\n    font-size: 12px;\r\n    line-height: 5px;\r\n    margin-top: 12px;\n}\r\n\r\n/* Estilos para las esquinas de los cards de productos */\n.tringle-right-button {\r\n    position: relative;\r\n    width: 70px;\r\n    height: 70px;\r\n    border-top: solid 35px #26a69a;\r\n    border-right: solid 35px #26a69a;\r\n    border-left: solid 35px transparent;\r\n    border-bottom: solid 35px transparent;\r\n    cursor: pointer;\n}\n.tringle-right-button .icon {\r\n    position: absolute;\r\n    margin-top: -22px;\r\n    margin-left: 10px;\r\n    color: white;\r\n    font-size: 16px;\n}\n.tringle-left-button {\r\n    position: relative;\r\n    width: 50px;\r\n    height: 50px;\r\n    border-top: solid 25px transparent;\r\n    border-right: solid 25px transparent;\r\n    border-left: solid 25px;\r\n    border-bottom: solid 25px;\n}\n.tringle-left-button .icon {\r\n    position: absolute;\r\n    margin-top: 2px;\r\n    margin-left: -18px;\r\n    color: white;\r\n    font-size: 16px;\n}\n@media (min-width: 600px) {\n.tringle-right-button {\r\n        width: 60px;\r\n        height: 60px;\r\n        border-top: solid 30px #26a69a;\r\n        border-right: solid 30px #26a69a;\r\n        border-left: solid 30px transparent;\r\n        border-bottom: solid 30px transparent;\n}\n.tringle-right-button .icon {\r\n        margin-top: -20px;\r\n        margin-left: 8px;\n}\n.tringle-left-button {\r\n        width: 60px;\r\n        height: 60px;\r\n        border-top: solid 30px transparent;\r\n        border-right: solid 30px transparent;\r\n        border-left: solid 30px;\r\n        border-bottom: solid 30px;\n}\n.tringle-left-button .icon {\r\n        margin-top: 4px;\r\n        margin-left: -18px;\n}\n}\n@media (min-width: 1264px) {\n.tringle-right-button {\r\n        width: 50px;\r\n        height: 50px;\r\n        border-top: solid 25px #26a69a;\r\n        border-right: solid 25px #26a69a;\r\n        border-left: solid 25px transparent;\r\n        border-bottom: solid 25px transparent;\n}\n.tringle-right-button .icon {\r\n        margin-top: -16px;\r\n        margin-left: 8px;\r\n        font-size: 14px;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -14106,7 +14048,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.tokens-description {\n    display: inline-block;\n    margin-top: 26px;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n    overflow: hidden;\n}\n@media (min-width: 600px) {\n.tokens-description {\n        max-width: 200px;\n}\n}\n@media (min-width: 960px) {\n.tokens-description {\n        max-width: 400px;\n}\n}\n", ""]);
+exports.push([module.i, "\n.tokens-description {\r\n    display: inline-block;\r\n    margin-top: 26px;\r\n    text-overflow: ellipsis;\r\n    white-space: nowrap;\r\n    overflow: hidden;\n}\n@media (min-width: 600px) {\n.tokens-description {\r\n        max-width: 200px;\n}\n}\n@media (min-width: 960px) {\n.tokens-description {\r\n        max-width: 400px;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -14125,7 +14067,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.profile {\n    border: solid 3px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\n    color: #26a69a;\n}\n", ""]);
+exports.push([module.i, "\n.profile {\r\n    border: solid 3px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\r\n    color: #26a69a;\n}\r\n", ""]);
 
 // exports
 
@@ -14144,7 +14086,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.fileContainer {\n    padding: 8px 32px;\n    width: auto;\n}\n.fileButton {\n    overflow: hidden;\n    display: inline-block;\n    position: relative;\n    cursor: pointer;\n    width: 100%;\n    height: 35px;\n    line-height: 35px;\n    padding: 0 1.5rem;\n    color: #26a69a;\n    font-size: 16px;\n    font-weight: 600;\n    font-family: \"Roboto\", sans-serif;\n    letter-spacing: 0.8px;\n    text-align: center;\n    text-decoration: none;\n    text-transform: uppercase;\n    vertical-align: middle;\n    white-space: nowrap;\n    outline: none;\n    border: none;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n    border-radius: 2px;\n    transition: all 0.3s ease-out;\n    border: solid 0.5px #26a69a;\n}\n.fileInput {\n    cursor: pointer;\n    height: 100%;\n    position: absolute;\n    top: 0;\n    right: 0;\n    z-index: 99;\n    font-size: 50px;\n    opacity: 0;\n    -moz-opacity: 0;\n    filter: Alpha(opacity=0);\n}\n.fileContent {\n    width: 100%;\n    height: 150px;\n    margin: 6px;\n    text-align: center;\n}\n.fileIcon {\n    margin-top: 16px;\n}\n.fileName {\n    font-size: 16px;\n    margin-top: -16px;\n}\n.card-enter-active,\n.card-leave-active {\n    transition: all 5s;\n}\n.card-enter,\n.card-leave-to {\n    opacity: 0;\n    transform: translateY(-30px);\n    transition: all 5s;\n}\n", ""]);
+exports.push([module.i, "\n.fileContainer {\r\n    padding: 8px 32px;\r\n    width: auto;\n}\n.fileButton {\r\n    overflow: hidden;\r\n    display: inline-block;\r\n    position: relative;\r\n    cursor: pointer;\r\n    width: 100%;\r\n    height: 35px;\r\n    line-height: 35px;\r\n    padding: 0 1.5rem;\r\n    color: #26a69a;\r\n    font-size: 16px;\r\n    font-weight: 600;\r\n    font-family: \"Roboto\", sans-serif;\r\n    letter-spacing: 0.8px;\r\n    text-align: center;\r\n    text-decoration: none;\r\n    text-transform: uppercase;\r\n    vertical-align: middle;\r\n    white-space: nowrap;\r\n    outline: none;\r\n    border: none;\r\n    -webkit-user-select: none;\r\n    -moz-user-select: none;\r\n    -ms-user-select: none;\r\n    user-select: none;\r\n    border-radius: 2px;\r\n    transition: all 0.3s ease-out;\r\n    border: solid 0.5px #26a69a;\n}\n.fileInput {\r\n    cursor: pointer;\r\n    height: 100%;\r\n    position: absolute;\r\n    top: 0;\r\n    right: 0;\r\n    z-index: 99;\r\n    font-size: 50px;\r\n    opacity: 0;\r\n    -moz-opacity: 0;\r\n    filter: Alpha(opacity=0);\n}\n.fileContent {\r\n    width: 100%;\r\n    height: 150px;\r\n    margin: 6px;\r\n    text-align: center;\n}\n.fileIcon {\r\n    margin-top: 16px;\n}\n.fileName {\r\n    font-size: 16px;\r\n    margin-top: -16px;\n}\n.card-enter-active,\r\n.card-leave-active {\r\n    transition: all 5s;\n}\n.card-enter,\r\n.card-leave-to {\r\n    opacity: 0;\r\n    transform: translateY(-30px);\r\n    transition: all 5s;\n}\r\n", ""]);
 
 // exports
 
@@ -14163,7 +14105,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.errors-input[data-v-ccc52fb6] {\n    margin-top: -28px;\n}\n", ""]);
+exports.push([module.i, "\n.errors-input[data-v-ccc52fb6] {\r\n    margin-top: -28px;\n}\r\n", ""]);
 
 // exports
 
@@ -14182,7 +14124,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.fa-chevron-down.vanished {\n    opacity: 0;\n}\n", ""]);
+exports.push([module.i, "\n.fa-chevron-down.vanished {\r\n    opacity: 0;\n}\r\n", ""]);
 
 // exports
 
@@ -31667,6 +31609,10 @@ var render = function() {
                           _c("v-text-field", {
                             attrs: {
                               disabled: _vm.form.producto_id ? false : true,
+                              error:
+                                _vm.loteExiste == _vm.form.lote ? true : false,
+                              "error-messages":
+                                "Ya existe un inventario con ese lote",
                               label: "Lote",
                               box: "",
                               rules: [_vm.rules.required]
@@ -32990,7 +32936,7 @@ var render = function() {
         [
           _c(
             "v-flex",
-            { attrs: { xs11: "", sm5: "" } },
+            { attrs: { xs11: "", sm3: "" } },
             [
               _c("v-select", {
                 attrs: {
@@ -32998,9 +32944,15 @@ var render = function() {
                   items: _vm.sellers,
                   "item-text": "name",
                   "item-value": "id",
-                  label: "Vendedor",
+                  label: "vendedores",
                   box: "",
-                  "single-line": ""
+                  "single-line": "",
+                  multiple: ""
+                },
+                on: {
+                  change: function($event) {
+                    return _vm.getReports()
+                  }
                 },
                 model: {
                   value: _vm.vendedor,
@@ -33016,88 +32968,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-flex",
-            { attrs: { xs11: "", sm5: "" } },
-            [
-              _c("v-text-field", {
-                attrs: { label: "Producto", box: "", "single-line": "" },
-                on: {
-                  keyup: function($event) {
-                    return _vm.getArticles()
-                  }
-                },
-                model: {
-                  value: _vm.producto,
-                  callback: function($$v) {
-                    _vm.producto = $$v
-                  },
-                  expression: "producto"
-                }
-              }),
-              _vm._v(" "),
-              _c("v-data-table", {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value:
-                      _vm.productoSelected == null &&
-                      _vm.producto != null &&
-                      _vm.producto != "",
-                    expression:
-                      "productoSelected == null && producto != null && producto != ''"
-                  }
-                ],
-                staticClass: "search-table",
-                attrs: {
-                  "no-data-text":
-                    "El Producto no se encuentra en la base de datos.",
-                  "hide-actions": "",
-                  "hide-headers": "",
-                  items: _vm.articles
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "items",
-                    fn: function(article) {
-                      return [
-                        _c(
-                          "tr",
-                          {
-                            staticStyle: { cursor: "pointer" },
-                            on: {
-                              click: function($event) {
-                                _vm.productoSelected = article.item.id
-                                _vm.producto = article.item.articulo
-                              }
-                            }
-                          },
-                          [
-                            _c("td", [
-                              _vm._v(_vm._s(article.item.codarticulo))
-                            ]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(article.item.articulo))])
-                          ]
-                        )
-                      ]
-                    }
-                  }
-                ])
-              })
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-layout",
-        { attrs: { "justify-space-around": "" } },
-        [
-          _c(
-            "v-flex",
-            { attrs: { xs11: "", sm5: "" } },
+            { attrs: { xs11: "", sm3: "" } },
             [
               _c("v-select", {
                 attrs: {
@@ -33107,6 +32978,11 @@ var render = function() {
                   box: "",
                   "single-line": "",
                   multiple: ""
+                },
+                on: {
+                  change: function($event) {
+                    return _vm.getReports()
+                  }
                 },
                 model: {
                   value: _vm.condicionventa,
@@ -33122,25 +32998,30 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-flex",
-            { attrs: { xs11: "", sm5: "" } },
+            { attrs: { xs11: "", sm3: "" } },
             [
               _c("v-select", {
                 attrs: {
-                  hint: "Clientes",
-                  items: _vm.clients,
-                  "item-text": "nombre",
+                  hint: "cliente",
+                  items: _vm.clientes.clientes,
+                  "item-text": "razonsocial",
                   "item-value": "id",
                   label: "clientes",
                   box: "",
                   "single-line": "",
                   multiple: ""
                 },
+                on: {
+                  change: function($event) {
+                    return _vm.getReports()
+                  }
+                },
                 model: {
-                  value: _vm.client,
+                  value: _vm.cliente,
                   callback: function($$v) {
-                    _vm.client = $$v
+                    _vm.cliente = $$v
                   },
-                  expression: "client"
+                  expression: "cliente"
                 }
               })
             ],
@@ -33187,25 +33068,54 @@ var render = function() {
       _vm._v(" "),
       _c("br"),
       _vm._v(" "),
-      _c(
-        "v-layout",
-        { attrs: { "justify-center": "" } },
-        [
-          _c(
-            "v-btn",
-            {
-              attrs: { color: "primary" },
-              on: {
-                click: function($event) {
-                  return _vm.getReports()
-                }
-              }
-            },
-            [_vm._v("Filtrar")]
-          )
-        ],
-        1
-      )
+      _c("v-data-table", {
+        attrs: {
+          "hide-actions": "",
+          headers: _vm.headers,
+          items: _vm.facturas
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "items",
+            fn: function(factura) {
+              return [
+                _c(
+                  "td",
+                  { staticClass: "hidden-xs-only" },
+                  [
+                    _c("v-avatar", { staticClass: "type-item" }, [
+                      _c("p", { staticClass: "title type" }, [
+                        _vm._v(_vm._s(factura.item.letracomprobante))
+                      ])
+                    ])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("td", [
+                  factura.item.comprobanteafip != null
+                    ? _c("div", [_vm._v(_vm._s(factura.item.comprobanteafip))])
+                    : _c("div", [_vm._v(_vm._s(factura.item.id))])
+                ]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(factura.item.total))]),
+                _vm._v(" "),
+                _c("td", { staticClass: "hidden-xs-only" }, [
+                  _vm._v(_vm._s(factura.item.condicionventa))
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "hidden-xs-only" }, [
+                  _vm._v(_vm._s(factura.item.cliente.razonsocial))
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "hidden-xs-only" }, [
+                  _vm._v(_vm._s(factura.item.vendedor.name))
+                ])
+              ]
+            }
+          }
+        ])
+      })
     ],
     1
   )
@@ -82633,7 +82543,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /opt/lampp/htdocs/Gepetto-Point-Of-Sale/resources/js/main.js */"./resources/js/main.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\Gepetto-Point-Of-Sale\resources\js\main.js */"./resources/js/main.js");
 
 
 /***/ })

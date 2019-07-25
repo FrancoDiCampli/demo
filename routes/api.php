@@ -50,6 +50,8 @@ Route::middleware('auth:api')->group(function () {
     /*Remitos*/
     Route::apiResource('remitos', 'API\RemitosController');
 
+    Route::apiResource('configuracion', 'API\InicialsettingsController');
+
     /*Afip*/
     Route::get('/buscarAfip/{num}', 'API\ClientesController@buscarAfip');
     Route::get('/solicitarCae/{id}', 'API\FacturasController@solicitarCAE');
@@ -65,11 +67,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('estadisticas/reportes', 'API\EstadisticasController@reportes');
     Route::post('estadisticas/inventarios', 'API\EstadisticasController@inventarios');
     Route::post('estadisticas/compras', 'API\EstadisticasController@compras');
-
-    /*Configuracion*/
-    Route::apiResource('configuracion', 'API\InicialsettingsController');
 });
 
-/* Auth */
+// Auth Routes
 Route::post('/login', 'AuthController@login');
 Route::post('/register', 'AuthController@register');

@@ -5,6 +5,11 @@ use App\Inicialsetting;
 
 class InicialsettingsTableSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
     public function run()
     {
         Inicialsetting::create([
@@ -30,4 +35,3 @@ class InicialsettingsTableSeeder extends Seeder
         ]);
     }
 }
-

@@ -61,7 +61,6 @@
                                         "
                                     ></v-text-field>
                                 </v-flex>
-
                                 <!-- input vencimiento -->
                                 <v-flex xs12 sm6 px-3>
                                     <v-dialog

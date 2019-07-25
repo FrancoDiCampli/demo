@@ -1,0 +1,22 @@
+<template>
+    <div>
+        <br>
+        <br>
+        <v-layout wrap>
+            <v-flex xs12>
+                <v-layout justify-center>
+                    <img src="images/logo.png" width="300" height="300">
+                </v-layout>
+            </v-flex>
+            <v-flex xs12>
+                <h1 class="text-xs-center display-2 font-weight-light">Passport Vue</h1>
+            </v-flex>
+        </v-layout>
+    </div>
+</template>
+
+<script>
+export default {
+    name: "Home"
+};
+</script>

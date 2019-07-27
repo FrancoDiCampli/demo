@@ -653,16 +653,14 @@ export default {
             this.productos = [];
             // Asignar el producto seleccionado
             this.productoSelected = producto;
+            // Controlar el movimiento
             await this.movimientosControl();
-            await this.lotesControl();
             // Desactivar Tabla de Busqueda
             this.productosSearchTable = false;
             // Seleccionar Producto
             this.form.producto_id = producto.id;
             this.form.producto = producto.articulo;
             this.form.preciounitario = producto.precio;
-
-            console.log(producto);
         },
 
         //LLenar Array de Detalles
@@ -713,6 +711,8 @@ export default {
                 this.$refs.formDetalles.reset();
 
                 this.checkSupplier();
+
+                console.log(this.detalles);
             }
         },
         // Borrar un Detalle del Array
@@ -736,17 +736,13 @@ export default {
 
         //____________________Methods Lotes Movimientos_____________________//
         // Controlar los movimientos disponibles
-        movimientosControl() {
+        movimientosControl: async function() {
             if (this.productoSelected.inventarios.length <= 0) {
                 this.movimiento = "ALTA";
-                this.disabledMovimientos = true;
-                this.lotesDisponibles = [1];
-                this.lote = 1;
+                await this.lotesControl();
             } else {
                 this.movimiento = "ALTA";
-                this.disabledMovimientos = false;
-                this.lotesDisponibles = [];
-                this.lote = null;
+                await this.lotesControl();
             }
         },
 
@@ -756,6 +752,7 @@ export default {
                 if (this.productoSelected.inventarios.length <= 0) {
                     this.lotesDisponibles = [1];
                     this.lote = 1;
+                    this.disabledMovimientos = true;
                     this.disabledLote = true;
                 } else {
                     let ultimoLote = this.productoSelected.inventarios[
@@ -766,6 +763,7 @@ export default {
                     this.lotesDisponibles = [proximoLote];
                     this.lote = proximoLote;
                     this.disabledLote = true;
+                    this.disabledMovimientos = false;
                 }
             } else {
                 this.lotesDisponibles = [];
@@ -781,6 +779,7 @@ export default {
                 this.lote = this.productoSelected.inventarios[0].lote;
                 await this.findLote();
                 this.disabledLote = false;
+                this.disabledMovimientos = false;
             }
         },
 
@@ -791,14 +790,32 @@ export default {
                 lote: this.lote,
                 articulo_id: this.form.producto_id
             });
+            console.log(response);
             if (response.length > 0) {
-                this.form.vencimiento = response[0].vencimiento;
-                this.form.supplier = response[0].supplier.razonsocial;
-                this.form.supplier_id = response[0].supplier.id;
+                if (this.form.supplier_id) {
+                    if (this.form.supplier_id != response[0].supplier.id) {
+                        this.proveedorDistinto = true;
+                    } else {
+                        this.proveedorDistinto = false;
+                        this.assignProveedor = true;
+                    }
+                } else {
+                    this.form.vencimiento = response[0].vencimiento;
+                    this.form.supplier = response[0].supplier.razonsocial;
+                    this.form.supplier_id = response[0].supplier.id;
+                    this.assignProveedor = true;
+                }
             } else {
-                this.form.vencimiento = null;
-                this.form.supplier = null;
-                this.form.supplier_id = null;
+                if (this.form.supplier_id) {
+                    this.form.vencimiento = null;
+                    this.assignProveedor = true;
+                } else {
+                    this.form.supplier = null;
+                    this.form.supplier_id = null;
+                    this.form.vencimiento = null;
+                    this.assignProveedor = false;
+                }
+                this.$refs.formDetalles.resetValidation();
             }
         },
         //_________________________Methods Generales________________________//

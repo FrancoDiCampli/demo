@@ -76,6 +76,7 @@
                                             <v-text-field
                                                 v-model="form.vencimiento"
                                                 label="Fecha de Vencimiento"
+                                                :disabled="disabledInputs"
                                                 :rules="[rules.required]"
                                                 box
                                                 readonly
@@ -108,6 +109,7 @@
                                     <v-text-field
                                         @keyup="findSuppliers()"
                                         v-model="form.supplier"
+                                        :disabled="disabledInputs"
                                         :rules="[rules.required]"
                                         label="Proveedor"
                                         box
@@ -259,6 +261,7 @@ export default {
             lotesDisponibles: [],
             lote: null,
             disabledLote: false,
+            disabledInputs: false,
             preventSaveDialog: false,
             msg: null,
             cantidadMaxima: 999999999,
@@ -327,7 +330,9 @@ export default {
                 this.lotesDisponibles = [];
                 this.lotesDisponibles.push(this.showData.lotes.proximo);
                 this.lote = this.showData.lotes.proximo;
+                await this.findLote();
                 this.disabledLote = true;
+                this.disabledInputs = false;
             } else {
                 this.lotesDisponibles = [];
                 for (let i = 0; i < this.showData.lotes.lotes.length; i++) {
@@ -336,6 +341,7 @@ export default {
                 this.lote = this.showData.lotes.lotes[0];
                 await this.findLote();
                 this.disabledLote = false;
+                this.disabledInputs = true;
             }
         },
 
@@ -355,6 +361,7 @@ export default {
                 this.form.vencimiento = null;
                 this.form.supplier = null;
                 this.form.supplier_id = null;
+                this.$refs.inventariosForm.resetValidation();
             }
         },
 

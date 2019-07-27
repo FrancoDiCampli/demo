@@ -9659,6 +9659,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 // Axios
  // Vuex
 
@@ -9682,6 +9684,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       lotesDisponibles: [],
       lote: null,
       disabledLote: false,
+      disabledInputs: false,
       preventSaveDialog: false,
       msg: null,
       cantidadMaxima: 999999999,
@@ -9784,18 +9787,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             switch (_context2.prev = _context2.next) {
               case 0:
                 if (!(this.movimiento == "ALTA")) {
-                  _context2.next = 7;
+                  _context2.next = 10;
                   break;
                 }
 
                 this.lotesDisponibles = [];
                 this.lotesDisponibles.push(this.showData.lotes.proximo);
                 this.lote = this.showData.lotes.proximo;
+                _context2.next = 6;
+                return this.findLote();
+
+              case 6:
                 this.disabledLote = true;
-                _context2.next = 13;
+                this.disabledInputs = false;
+                _context2.next = 17;
                 break;
 
-              case 7:
+              case 10:
                 this.lotesDisponibles = [];
 
                 for (i = 0; i < this.showData.lotes.lotes.length; i++) {
@@ -9803,13 +9811,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 }
 
                 this.lote = this.showData.lotes.lotes[0];
-                _context2.next = 12;
+                _context2.next = 15;
                 return this.findLote();
 
-              case 12:
+              case 15:
                 this.disabledLote = false;
+                this.disabledInputs = true;
 
-              case 13:
+              case 17:
               case "end":
                 return _context2.stop();
             }
@@ -9852,6 +9861,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   this.form.vencimiento = null;
                   this.form.supplier = null;
                   this.form.supplier_id = null;
+                  this.$refs.inventariosForm.resetValidation();
                 }
 
               case 4:
@@ -10671,6 +10681,460 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/remitos/FormularioPrueba.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/remitos/FormularioPrueba.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _crudx_error_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../crudx/error.vue */ "./resources/js/crudx/error.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// Components
+ // Vuex
+
+ // Axios
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "FormularioPrueba",
+  data: function data() {
+    return {
+      //______________________Data Proveedores________________________//
+      detallesProveedor: [],
+      proveedores: [],
+      proveedoresSearchTable: false,
+      notProveedor: true,
+      //_________________________Data Productos________________________//
+      productosSearchTable: false,
+      productos: [],
+      productosHeaders: [{
+        text: "Codigo",
+        sortable: false,
+        "class": "hidden-xs-only"
+      }, {
+        text: "Articulo",
+        sortable: false
+      }, {
+        text: "Precio",
+        sortable: false
+      }, {
+        text: "Stock",
+        sortable: false
+      }],
+      //____________________Data Lotes Movimientos____________________//
+      movimiento: "ALTA",
+      movimientos: ["ALTA", "INCREMENTO"],
+      disabledMovimiento: false,
+      //_________________________Data General________________________//
+      rules: {
+        required: function required(value) {
+          return !!value || "Este campo es obligatorio";
+        }
+      }
+    };
+  },
+  components: {
+    Error: _crudx_error_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("crudx", ["form", "inProcess"])),
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index", "save"]), {
+    //_________________________Methods Proveedores________________________//
+    // Buscar los proveedores
+    findProveedor: function () {
+      var _findProveedor = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                this.detallesProveedor = [];
+                this.proveedoresSearchTable = true;
+                this.notProveedor = true;
+
+                if (!(this.form.supplier != null && this.form.supplier != "")) {
+                  _context.next = 10;
+                  break;
+                }
+
+                _context.next = 6;
+                return this.index({
+                  url: "/api/suppliers",
+                  buscarProveedor: this.form.supplier,
+                  limit: 5
+                });
+
+              case 6:
+                response = _context.sent;
+                this.proveedores = response.proveedores;
+                _context.next = 11;
+                break;
+
+              case 10:
+                this.proveedores = [];
+
+              case 11:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function findProveedor() {
+        return _findProveedor.apply(this, arguments);
+      }
+
+      return findProveedor;
+    }(),
+    // Seleccionar un Proveedor
+    selectProveedor: function selectProveedor(proveedor) {
+      var _this = this;
+
+      // Reiniciar la Tabla de proveedores y el detalle
+      this.proveedores = [];
+      this.detallesProveedor = [];
+      this.proveedoresSearchTable = false; // Establecer la Razon Social y el Id del Proveedor en el Formulario
+
+      this.form.supplier = proveedor.razonsocial;
+      this.form.supplier_id = proveedor.id;
+      this.notProveedor = false; // Establecer el Detalle de Proveedors
+
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("/api/suppliers/" + proveedor.id).then(function (response) {
+        _this.detallesProveedor = response.data;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    //_________________________Methods Productos________________________//
+    // Buscar Producto
+    findProducto: function () {
+      var _findProducto = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                // Reiniciar Cantidad, Precio y el Producto Seleccionado
+                // Activar Tabla de Busqueda
+                this.productosSearchTable = true; // Buscar Productos
+
+                if (!this.form.producto) {
+                  _context2.next = 6;
+                  break;
+                }
+
+                _context2.next = 4;
+                return this.index({
+                  url: "/api/articulos",
+                  buscarArticulo: this.form.producto,
+                  limit: 5
+                });
+
+              case 4:
+                response = _context2.sent;
+                this.productos = response.articulos;
+
+              case 6:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function findProducto() {
+        return _findProducto.apply(this, arguments);
+      }
+
+      return findProducto;
+    }(),
+    // Seleccionar Producto
+    selectProducto: function () {
+      var _selectProducto = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(producto) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                // Reiniciar la tabla de productos
+                this.productos = []; // Controlar el movimiento
+
+                this.movimientosControl(producto); // Desactivar Tabla de Busqueda
+
+                this.productosSearchTable = false; // Seleccionar Producto
+
+                this.form.producto_id = producto.id;
+                this.form.producto = producto.articulo;
+                this.form.preciounitario = producto.precio;
+
+              case 6:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function selectProducto(_x) {
+        return _selectProducto.apply(this, arguments);
+      }
+
+      return selectProducto;
+    }(),
+    //____________________Methods Lotes Movimientos_____________________//
+    // Controlar los movimientos disponibles
+    movimientosControl: function () {
+      var _movimientosControl = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(producto) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                console.log(producto);
+                this.movimiento = "ALTA";
+
+                if (producto.inventarios.length <= 0) {
+                  this.disabledMovimiento = true;
+                } else {
+                  this.disabledMovimiento = false;
+                }
+
+              case 3:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function movimientosControl(_x2) {
+        return _movimientosControl.apply(this, arguments);
+      }
+
+      return movimientosControl;
+    }()
+  })
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/remitos/RemitosForm.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/remitos/RemitosForm.vue?vue&type=script&lang=js& ***!
@@ -11428,24 +11892,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 // Reiniciar la tabla de productos
                 this.productos = []; // Asignar el producto seleccionado
 
-                this.productoSelected = producto;
+                this.productoSelected = producto; // Controlar el movimiento
+
                 _context3.next = 4;
                 return this.movimientosControl();
 
               case 4:
-                _context3.next = 6;
-                return this.lotesControl();
-
-              case 6:
                 // Desactivar Tabla de Busqueda
                 this.productosSearchTable = false; // Seleccionar Producto
 
                 this.form.producto_id = producto.id;
                 this.form.producto = producto.articulo;
                 this.form.preciounitario = producto.precio;
-                console.log(producto);
 
-              case 11:
+              case 8:
               case "end":
                 return _context3.stop();
             }
@@ -11505,6 +11965,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.form.producto_id = null;
         this.$refs.formDetalles.reset();
         this.checkSupplier();
+        console.log(this.detalles);
       }
     },
     // Borrar un Detalle del Array
@@ -11526,37 +11987,65 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     //____________________Methods Lotes Movimientos_____________________//
     // Controlar los movimientos disponibles
-    movimientosControl: function movimientosControl() {
-      if (this.productoSelected.inventarios.length <= 0) {
-        this.movimiento = "ALTA";
-        this.disabledMovimientos = true;
-        this.lotesDisponibles = [1];
-        this.lote = 1;
-      } else {
-        this.movimiento = "ALTA";
-        this.disabledMovimientos = false;
-        this.lotesDisponibles = [];
-        this.lote = null;
-      }
-    },
-    // Controlar los lotes disponibles
-    lotesControl: function () {
-      var _lotesControl = _asyncToGenerator(
+    movimientosControl: function () {
+      var _movimientosControl = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-        var ultimoLote, proximoLote, i;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
+                if (!(this.productoSelected.inventarios.length <= 0)) {
+                  _context4.next = 6;
+                  break;
+                }
+
+                this.movimiento = "ALTA";
+                _context4.next = 4;
+                return this.lotesControl();
+
+              case 4:
+                _context4.next = 9;
+                break;
+
+              case 6:
+                this.movimiento = "ALTA";
+                _context4.next = 9;
+                return this.lotesControl();
+
+              case 9:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function movimientosControl() {
+        return _movimientosControl.apply(this, arguments);
+      }
+
+      return movimientosControl;
+    }(),
+    // Controlar los lotes disponibles
+    lotesControl: function () {
+      var _lotesControl = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        var ultimoLote, proximoLote, i;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
                 if (!(this.movimiento == "ALTA")) {
-                  _context4.next = 4;
+                  _context5.next = 4;
                   break;
                 }
 
                 if (this.productoSelected.inventarios.length <= 0) {
                   this.lotesDisponibles = [1];
                   this.lote = 1;
+                  this.disabledMovimientos = true;
                   this.disabledLote = true;
                 } else {
                   ultimoLote = this.productoSelected.inventarios[this.productoSelected.inventarios.length - 1].lote;
@@ -11564,9 +12053,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   this.lotesDisponibles = [proximoLote];
                   this.lote = proximoLote;
                   this.disabledLote = true;
+                  this.disabledMovimientos = false;
                 }
 
-                _context4.next = 10;
+                _context5.next = 11;
                 break;
 
               case 4:
@@ -11577,18 +12067,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 }
 
                 this.lote = this.productoSelected.inventarios[0].lote;
-                _context4.next = 9;
+                _context5.next = 9;
                 return this.findLote();
 
               case 9:
                 this.disabledLote = false;
+                this.disabledMovimientos = false;
 
-              case 10:
+              case 11:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee5, this);
       }));
 
       function lotesControl() {
@@ -11601,13 +12092,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     findLote: function () {
       var _findLote = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
         var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _context5.next = 2;
+                _context6.next = 2;
                 return this.index({
                   url: "/api/inventarios",
                   lote: this.lote,
@@ -11615,24 +12106,43 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 });
 
               case 2:
-                response = _context5.sent;
+                response = _context6.sent;
+                console.log(response);
 
                 if (response.length > 0) {
-                  this.form.vencimiento = response[0].vencimiento;
-                  this.form.supplier = response[0].supplier.razonsocial;
-                  this.form.supplier_id = response[0].supplier.id;
+                  if (this.form.supplier_id) {
+                    if (this.form.supplier_id != response[0].supplier.id) {
+                      this.proveedorDistinto = true;
+                    } else {
+                      this.proveedorDistinto = false;
+                      this.assignProveedor = true;
+                    }
+                  } else {
+                    this.form.vencimiento = response[0].vencimiento;
+                    this.form.supplier = response[0].supplier.razonsocial;
+                    this.form.supplier_id = response[0].supplier.id;
+                    this.assignProveedor = true;
+                  }
                 } else {
-                  this.form.vencimiento = null;
-                  this.form.supplier = null;
-                  this.form.supplier_id = null;
+                  if (this.form.supplier_id) {
+                    this.form.vencimiento = null;
+                    this.assignProveedor = true;
+                  } else {
+                    this.form.supplier = null;
+                    this.form.supplier_id = null;
+                    this.form.vencimiento = null;
+                    this.assignProveedor = false;
+                  }
+
+                  this.$refs.formDetalles.resetValidation();
                 }
 
-              case 4:
+              case 5:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee6, this);
       }));
 
       function findLote() {
@@ -11661,33 +12171,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     saveCompra: function () {
       var _saveCompra = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
         var resID;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 if (!this.$refs.formCompra.validate()) {
-                  _context6.next = 11;
+                  _context7.next = 11;
                   break;
                 }
 
-                _context6.next = 3;
+                _context7.next = 3;
                 return this.save({
                   url: "/api/suppliers"
                 });
 
               case 3:
-                resID = _context6.sent;
+                resID = _context7.sent;
                 //Imprimir PDF de Compras
                 this.remitosPDF(resID); //Reset Formularios
 
                 this.detalles = [];
-                _context6.next = 8;
+                _context7.next = 8;
                 return this.$refs.formDetalles.reset();
 
               case 8:
-                _context6.next = 10;
+                _context7.next = 10;
                 return this.$refs.formCompra.reset();
 
               case 10:
@@ -11695,10 +12205,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 11:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee7, this);
       }));
 
       function saveCompra() {
@@ -11711,26 +12221,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     cancelCompra: function () {
       var _cancelCompra = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
                 //Reset Formularios
                 this.detalles = [];
-                _context7.next = 3;
+                _context8.next = 3;
                 return this.$refs.formDetalles.reset();
 
               case 3:
-                _context7.next = 5;
+                _context8.next = 5;
                 return this.$refs.formCompra.reset();
 
               case 5:
               case "end":
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee8, this);
       }));
 
       function cancelCompra() {
@@ -13090,6 +13600,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _components_remitos_RemitosForm_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/remitos/RemitosForm.vue */ "./resources/js/components/remitos/RemitosForm.vue");
+/* harmony import */ var _components_remitos_FormularioPrueba_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/remitos/FormularioPrueba.vue */ "./resources/js/components/remitos/FormularioPrueba.vue");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { keys.push.apply(keys, Object.getOwnPropertySymbols(object)); } if (enumerableOnly) keys = keys.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -13111,10 +13622,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  // Components
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ComprasCreate",
   components: {
-    RemitosForm: _components_remitos_RemitosForm_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    RemitosForm: _components_remitos_RemitosForm_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    FormularioPrueba: _components_remitos_FormularioPrueba_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])("crudx", ["resetForm"]), {
     goBack: function goBack() {
@@ -14298,7 +14811,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* Estilos Personalizados:\r\n    Los estilos establecidos dentro de esta etiqueta afectaran a todos los componentes\r\n    siempre y cuando se usen las clases en los mismos.\r\n    Esta implementación es contraria a la recomendada, pero debido a que los componentes \r\n    de Vuetify son externos no podemos utilizar la etiqueta Syle Scope en cada componente,\r\n    como recomienda Vuejs, para establecer los estilos.\r\n    Para evitar repitir las clases entre componentes provocando modificaciones no deseadas\r\n    en los mismos, se estableceran todos los estilos de forma global en esta etiqueta.\r\n*/\r\n\r\n/* Estilos para el avatar de perfil */\n.profile {\r\n    border: solid 3px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\r\n    color: #26a69a;\n}\r\n\r\n/* Estilos para el avatar de perfil en el sidenav */\n.profile-list {\r\n    border: solid 1.5px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\r\n    margin-top: 15px;\r\n    cursor: pointer;\n}\n.profile-list span {\r\n    color: #26a69a;\n}\r\n\r\n/* Estilos para el scrollbar */\nbody::-webkit-scrollbar {\r\n    width: 7px;\n}\nbody::-webkit-scrollbar-thumb {\r\n    background-color: rgba(38, 166, 154, 0.75);\n}\r\n\r\n/* Estilo para el indicador de carga circular absoluto */\n.loading {\r\n    position: fixed;\r\n    z-index: 999999;\r\n    left: 47.3%;\r\n    top: 44%;\n}\r\n\r\n/* Estilos para los inputs númericos */\ninput[type=\"number\"] {\r\n    -moz-appearance: textfield;\n}\ninput[type=\"number\"]::-webkit-outer-spin-button,\r\ninput[type=\"number\"]::-webkit-inner-spin-button {\r\n    -webkit-appearance: none;\n}\r\n\r\n/* Estilos para los imputs con la primera letra mayuscula */\n.capitalize input[type] {\r\n    text-transform: capitalize;\n}\r\n\r\n/* Estilos para los campos de pago en las cuentas corrientes del cliente (ClientesShowCuentaTable) */\n.input-pagos {\r\n    width: 75px;\r\n    display: block;\r\n    margin-top: 8px;\r\n    padding: 10px 0px;\r\n    border: none;\r\n    border-bottom: 1px solid #9e9e9e;\r\n    transition: all 1s ease;\n}\n.input-pagos:focus {\r\n    outline: none;\r\n    border-bottom: 2px solid #26a69a;\r\n    transition: all 0.5s ease;\n}\n.pagos tbody tr {\r\n    border-bottom: none !important;\n}\r\n\r\n/* Estilos para indicar el tipo de comprobante */\n.type-item {\r\n    margin: 5px 0px 5px -12px;\r\n    border: solid 1.5px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.type {\r\n    margin-top: 15px;\r\n    color: #26a69a;\n}\r\n\r\n/* Estilos para los search Table */\n.search-table {\r\n    border: solid 2px #26a69a;\r\n    margin-top: -30px;\r\n    border-top: none;\r\n    margin-bottom: 20px;\r\n    border-radius: 0px 0px 5px 5px;\n}\n.expansion-border {\r\n    border-bottom: 1px solid #aaaaaa;\n}\r\n\r\n/* Estilos para la animacion de expanción en las Search Table */\n.expand-transition {\r\n    transition: all 0.5s ease;\n}\n.expand-enter,\r\n.expand-leave {\r\n    height: 0;\r\n    opacity: 0;\n}\r\n\r\n/* Estilos para los Headers de factura */\n.dataFactura {\r\n    font-size: 12px;\r\n    line-height: 5px;\r\n    margin-top: 12px;\n}\r\n\r\n/* Estilos para los Headers de presupuesto */\n.dataPresupuesto {\r\n    font-size: 12px;\r\n    line-height: 5px;\r\n    margin-top: 12px;\n}\r\n\r\n/* Estilos para las esquinas de los cards de productos */\n.tringle-right-button {\r\n    position: relative;\r\n    width: 70px;\r\n    height: 70px;\r\n    border-top: solid 35px #26a69a;\r\n    border-right: solid 35px #26a69a;\r\n    border-left: solid 35px transparent;\r\n    border-bottom: solid 35px transparent;\r\n    cursor: pointer;\n}\n.tringle-right-button .icon {\r\n    position: absolute;\r\n    margin-top: -22px;\r\n    margin-left: 10px;\r\n    color: white;\r\n    font-size: 16px;\n}\n.tringle-left-button {\r\n    position: relative;\r\n    width: 50px;\r\n    height: 50px;\r\n    border-top: solid 25px transparent;\r\n    border-right: solid 25px transparent;\r\n    border-left: solid 25px;\r\n    border-bottom: solid 25px;\n}\n.tringle-left-button .icon {\r\n    position: absolute;\r\n    margin-top: 2px;\r\n    margin-left: -18px;\r\n    color: white;\r\n    font-size: 16px;\n}\n@media (min-width: 600px) {\n.tringle-right-button {\r\n        width: 60px;\r\n        height: 60px;\r\n        border-top: solid 30px #26a69a;\r\n        border-right: solid 30px #26a69a;\r\n        border-left: solid 30px transparent;\r\n        border-bottom: solid 30px transparent;\n}\n.tringle-right-button .icon {\r\n        margin-top: -20px;\r\n        margin-left: 8px;\n}\n.tringle-left-button {\r\n        width: 60px;\r\n        height: 60px;\r\n        border-top: solid 30px transparent;\r\n        border-right: solid 30px transparent;\r\n        border-left: solid 30px;\r\n        border-bottom: solid 30px;\n}\n.tringle-left-button .icon {\r\n        margin-top: 4px;\r\n        margin-left: -18px;\n}\n}\n@media (min-width: 1264px) {\n.tringle-right-button {\r\n        width: 50px;\r\n        height: 50px;\r\n        border-top: solid 25px #26a69a;\r\n        border-right: solid 25px #26a69a;\r\n        border-left: solid 25px transparent;\r\n        border-bottom: solid 25px transparent;\n}\n.tringle-right-button .icon {\r\n        margin-top: -16px;\r\n        margin-left: 8px;\r\n        font-size: 14px;\n}\n}\r\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Estilos Personalizados:\n    Los estilos establecidos dentro de esta etiqueta afectaran a todos los componentes\n    siempre y cuando se usen las clases en los mismos.\n    Esta implementación es contraria a la recomendada, pero debido a que los componentes \n    de Vuetify son externos no podemos utilizar la etiqueta Syle Scope en cada componente,\n    como recomienda Vuejs, para establecer los estilos.\n    Para evitar repitir las clases entre componentes provocando modificaciones no deseadas\n    en los mismos, se estableceran todos los estilos de forma global en esta etiqueta.\n*/\n\n/* Estilos para el avatar de perfil */\n.profile {\n    border: solid 3px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\n    color: #26a69a;\n}\n\n/* Estilos para el avatar de perfil en el sidenav */\n.profile-list {\n    border: solid 1.5px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n    margin-top: 15px;\n    cursor: pointer;\n}\n.profile-list span {\n    color: #26a69a;\n}\n\n/* Estilos para el scrollbar */\nbody::-webkit-scrollbar {\n    width: 7px;\n}\nbody::-webkit-scrollbar-thumb {\n    background-color: rgba(38, 166, 154, 0.75);\n}\n\n/* Estilo para el indicador de carga circular absoluto */\n.loading {\n    position: fixed;\n    z-index: 999999;\n    left: 47.3%;\n    top: 44%;\n}\n\n/* Estilos para los inputs númericos */\ninput[type=\"number\"] {\n    -moz-appearance: textfield;\n}\ninput[type=\"number\"]::-webkit-outer-spin-button,\ninput[type=\"number\"]::-webkit-inner-spin-button {\n    -webkit-appearance: none;\n}\n\n/* Estilos para los imputs con la primera letra mayuscula */\n.capitalize input[type] {\n    text-transform: capitalize;\n}\n\n/* Estilos para los campos de pago en las cuentas corrientes del cliente (ClientesShowCuentaTable) */\n.input-pagos {\n    width: 75px;\n    display: block;\n    margin-top: 8px;\n    padding: 10px 0px;\n    border: none;\n    border-bottom: 1px solid #9e9e9e;\n    transition: all 1s ease;\n}\n.input-pagos:focus {\n    outline: none;\n    border-bottom: 2px solid #26a69a;\n    transition: all 0.5s ease;\n}\n.pagos tbody tr {\n    border-bottom: none !important;\n}\n\n/* Estilos para indicar el tipo de comprobante */\n.type-item {\n    margin: 5px 0px 5px -12px;\n    border: solid 1.5px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.type {\n    margin-top: 15px;\n    color: #26a69a;\n}\n\n/* Estilos para los search Table */\n.search-table {\n    border: solid 2px #26a69a;\n    margin-top: -30px;\n    border-top: none;\n    margin-bottom: 20px;\n    border-radius: 0px 0px 5px 5px;\n}\n.expansion-border {\n    border-bottom: 1px solid #aaaaaa;\n}\n\n/* Estilos para la animacion de expanción en las Search Table */\n.expand-transition {\n    transition: all 0.5s ease;\n}\n.expand-enter,\n.expand-leave {\n    height: 0;\n    opacity: 0;\n}\n\n/* Estilos para los Headers de factura */\n.dataFactura {\n    font-size: 12px;\n    line-height: 5px;\n    margin-top: 12px;\n}\n\n/* Estilos para los Headers de presupuesto */\n.dataPresupuesto {\n    font-size: 12px;\n    line-height: 5px;\n    margin-top: 12px;\n}\n\n/* Estilos para las esquinas de los cards de productos */\n.tringle-right-button {\n    position: relative;\n    width: 70px;\n    height: 70px;\n    border-top: solid 35px #26a69a;\n    border-right: solid 35px #26a69a;\n    border-left: solid 35px transparent;\n    border-bottom: solid 35px transparent;\n    cursor: pointer;\n}\n.tringle-right-button .icon {\n    position: absolute;\n    margin-top: -22px;\n    margin-left: 10px;\n    color: white;\n    font-size: 16px;\n}\n.tringle-left-button {\n    position: relative;\n    width: 50px;\n    height: 50px;\n    border-top: solid 25px transparent;\n    border-right: solid 25px transparent;\n    border-left: solid 25px;\n    border-bottom: solid 25px;\n}\n.tringle-left-button .icon {\n    position: absolute;\n    margin-top: 2px;\n    margin-left: -18px;\n    color: white;\n    font-size: 16px;\n}\n@media (min-width: 600px) {\n.tringle-right-button {\n        width: 60px;\n        height: 60px;\n        border-top: solid 30px #26a69a;\n        border-right: solid 30px #26a69a;\n        border-left: solid 30px transparent;\n        border-bottom: solid 30px transparent;\n}\n.tringle-right-button .icon {\n        margin-top: -20px;\n        margin-left: 8px;\n}\n.tringle-left-button {\n        width: 60px;\n        height: 60px;\n        border-top: solid 30px transparent;\n        border-right: solid 30px transparent;\n        border-left: solid 30px;\n        border-bottom: solid 30px;\n}\n.tringle-left-button .icon {\n        margin-top: 4px;\n        margin-left: -18px;\n}\n}\n@media (min-width: 1264px) {\n.tringle-right-button {\n        width: 50px;\n        height: 50px;\n        border-top: solid 25px #26a69a;\n        border-right: solid 25px #26a69a;\n        border-left: solid 25px transparent;\n        border-bottom: solid 25px transparent;\n}\n.tringle-right-button .icon {\n        margin-top: -16px;\n        margin-left: 8px;\n        font-size: 14px;\n}\n}\n", ""]);
 
 // exports
 
@@ -14317,7 +14830,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.tokens-description {\r\n    display: inline-block;\r\n    margin-top: 26px;\r\n    text-overflow: ellipsis;\r\n    white-space: nowrap;\r\n    overflow: hidden;\n}\n@media (min-width: 600px) {\n.tokens-description {\r\n        max-width: 200px;\n}\n}\n@media (min-width: 960px) {\n.tokens-description {\r\n        max-width: 400px;\n}\n}\r\n", ""]);
+exports.push([module.i, "\n.tokens-description {\n    display: inline-block;\n    margin-top: 26px;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n    overflow: hidden;\n}\n@media (min-width: 600px) {\n.tokens-description {\n        max-width: 200px;\n}\n}\n@media (min-width: 960px) {\n.tokens-description {\n        max-width: 400px;\n}\n}\n", ""]);
 
 // exports
 
@@ -14336,7 +14849,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.profile {\r\n    border: solid 3px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\r\n    color: #26a69a;\n}\r\n", ""]);
+exports.push([module.i, "\n.profile {\n    border: solid 3px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\n    color: #26a69a;\n}\n", ""]);
 
 // exports
 
@@ -14355,7 +14868,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.fileContainer {\r\n    padding: 8px 32px;\r\n    width: auto;\n}\n.fileButton {\r\n    overflow: hidden;\r\n    display: inline-block;\r\n    position: relative;\r\n    cursor: pointer;\r\n    width: 100%;\r\n    height: 35px;\r\n    line-height: 35px;\r\n    padding: 0 1.5rem;\r\n    color: #26a69a;\r\n    font-size: 16px;\r\n    font-weight: 600;\r\n    font-family: \"Roboto\", sans-serif;\r\n    letter-spacing: 0.8px;\r\n    text-align: center;\r\n    text-decoration: none;\r\n    text-transform: uppercase;\r\n    vertical-align: middle;\r\n    white-space: nowrap;\r\n    outline: none;\r\n    border: none;\r\n    -webkit-user-select: none;\r\n    -moz-user-select: none;\r\n    -ms-user-select: none;\r\n    user-select: none;\r\n    border-radius: 2px;\r\n    transition: all 0.3s ease-out;\r\n    border: solid 0.5px #26a69a;\n}\n.fileInput {\r\n    cursor: pointer;\r\n    height: 100%;\r\n    position: absolute;\r\n    top: 0;\r\n    right: 0;\r\n    z-index: 99;\r\n    font-size: 50px;\r\n    opacity: 0;\r\n    -moz-opacity: 0;\r\n    filter: Alpha(opacity=0);\n}\n.fileContent {\r\n    width: 100%;\r\n    height: 150px;\r\n    margin: 6px;\r\n    text-align: center;\n}\n.fileIcon {\r\n    margin-top: 16px;\n}\n.fileName {\r\n    font-size: 16px;\r\n    margin-top: -16px;\n}\n.card-enter-active,\r\n.card-leave-active {\r\n    transition: all 5s;\n}\n.card-enter,\r\n.card-leave-to {\r\n    opacity: 0;\r\n    transform: translateY(-30px);\r\n    transition: all 5s;\n}\r\n", ""]);
+exports.push([module.i, "\n.fileContainer {\n    padding: 8px 32px;\n    width: auto;\n}\n.fileButton {\n    overflow: hidden;\n    display: inline-block;\n    position: relative;\n    cursor: pointer;\n    width: 100%;\n    height: 35px;\n    line-height: 35px;\n    padding: 0 1.5rem;\n    color: #26a69a;\n    font-size: 16px;\n    font-weight: 600;\n    font-family: \"Roboto\", sans-serif;\n    letter-spacing: 0.8px;\n    text-align: center;\n    text-decoration: none;\n    text-transform: uppercase;\n    vertical-align: middle;\n    white-space: nowrap;\n    outline: none;\n    border: none;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n    border-radius: 2px;\n    transition: all 0.3s ease-out;\n    border: solid 0.5px #26a69a;\n}\n.fileInput {\n    cursor: pointer;\n    height: 100%;\n    position: absolute;\n    top: 0;\n    right: 0;\n    z-index: 99;\n    font-size: 50px;\n    opacity: 0;\n    -moz-opacity: 0;\n    filter: Alpha(opacity=0);\n}\n.fileContent {\n    width: 100%;\n    height: 150px;\n    margin: 6px;\n    text-align: center;\n}\n.fileIcon {\n    margin-top: 16px;\n}\n.fileName {\n    font-size: 16px;\n    margin-top: -16px;\n}\n.card-enter-active,\n.card-leave-active {\n    transition: all 5s;\n}\n.card-enter,\n.card-leave-to {\n    opacity: 0;\n    transform: translateY(-30px);\n    transition: all 5s;\n}\n", ""]);
 
 // exports
 
@@ -14374,7 +14887,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.errors-input[data-v-ccc52fb6] {\r\n    margin-top: -28px;\n}\r\n", ""]);
+exports.push([module.i, "\n.errors-input[data-v-ccc52fb6] {\n    margin-top: -28px;\n}\n", ""]);
 
 // exports
 
@@ -14393,7 +14906,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.fa-chevron-down.vanished {\r\n    opacity: 0;\n}\r\n", ""]);
+exports.push([module.i, "\n.fa-chevron-down.vanished {\n    opacity: 0;\n}\n", ""]);
 
 // exports
 
@@ -29875,6 +30388,8 @@ var render = function() {
                                                     attrs: {
                                                       label:
                                                         "Fecha de Vencimiento",
+                                                      disabled:
+                                                        _vm.disabledInputs,
                                                       rules: [
                                                         _vm.rules.required
                                                       ],
@@ -29985,6 +30500,7 @@ var render = function() {
                                 [
                                   _c("v-text-field", {
                                     attrs: {
+                                      disabled: _vm.disabledInputs,
                                       rules: [_vm.rules.required],
                                       label: "Proveedor",
                                       box: ""
@@ -31269,6 +31785,580 @@ var render = function() {
             ],
             1
           )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/remitos/FormularioPrueba.vue?vue&type=template&id=770984b4&":
+/*!***************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/remitos/FormularioPrueba.vue?vue&type=template&id=770984b4& ***!
+  \***************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "v-form",
+        {
+          ref: "formCompra",
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.saveCompra($event)
+            }
+          }
+        },
+        [
+          _c(
+            "div",
+            [
+              _c(
+                "v-card-title",
+                [
+                  _c(
+                    "v-layout",
+                    [
+                      _c("v-flex", { attrs: { "mx-1": "" } }, [
+                        _c(
+                          "h2",
+                          { staticClass: "text-xs-center text-sm-left" },
+                          [_vm._v("Nueva Compra")]
+                        )
+                      ])
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("v-divider"),
+              _vm._v(" "),
+              _c("br")
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            [
+              _c(
+                "v-layout",
+                { attrs: { "justify-space-around": "", wrap: "" } },
+                [
+                  _c(
+                    "v-flex",
+                    { attrs: { xs12: "", sm6: "", "px-3": "" } },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          rules: [_vm.rules.required],
+                          label: "Proveedor",
+                          box: ""
+                        },
+                        on: {
+                          keyup: function($event) {
+                            return _vm.findProveedor()
+                          }
+                        },
+                        model: {
+                          value: _vm.form.supplier,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "supplier", $$v)
+                          },
+                          expression: "form.supplier"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("Error", { attrs: { tag: "supplier_id" } }),
+                      _vm._v(" "),
+                      _c("transition", { attrs: { name: "expand" } }, [
+                        _c(
+                          "div",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.proveedoresSearchTable,
+                                expression: "proveedoresSearchTable"
+                              }
+                            ]
+                          },
+                          [
+                            _vm.inProcess
+                              ? _c(
+                                  "div",
+                                  { staticClass: "search-table" },
+                                  [
+                                    _c(
+                                      "v-layout",
+                                      { attrs: { "justify-center": "" } },
+                                      [
+                                        _c(
+                                          "v-flex",
+                                          { attrs: { xs12: "", "pa-3": "" } },
+                                          [
+                                            _c(
+                                              "v-layout",
+                                              {
+                                                attrs: { "justify-center": "" }
+                                              },
+                                              [
+                                                _c("v-progress-circular", {
+                                                  attrs: {
+                                                    indeterminate: "",
+                                                    color: "primary"
+                                                  }
+                                                })
+                                              ],
+                                              1
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              : _c(
+                                  "div",
+                                  [
+                                    _c("v-data-table", {
+                                      staticClass: "search-table",
+                                      attrs: {
+                                        "no-data-text":
+                                          "El proveedor no se encuentra en la base de datos.",
+                                        "hide-actions": "",
+                                        "hide-headers": "",
+                                        items: _vm.proveedores
+                                      },
+                                      scopedSlots: _vm._u([
+                                        {
+                                          key: "items",
+                                          fn: function(proveedor) {
+                                            return [
+                                              _c(
+                                                "tr",
+                                                {
+                                                  staticStyle: {
+                                                    cursor: "pointer"
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.selectProveedor(
+                                                        proveedor.item
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c("td", [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        proveedor.item.cuit
+                                                      )
+                                                    )
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _c("td", [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        proveedor.item
+                                                          .razonsocial
+                                                      )
+                                                    )
+                                                  ])
+                                                ]
+                                              )
+                                            ]
+                                          }
+                                        }
+                                      ])
+                                    })
+                                  ],
+                                  1
+                                )
+                          ]
+                        )
+                      ])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-flex",
+                    { attrs: { xs12: "", sm6: "", "px-3": "" } },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          disabled: _vm.notProveedor,
+                          rules: [_vm.rules.required],
+                          label: "Nº Remito",
+                          box: ""
+                        },
+                        model: {
+                          value: _vm.form.numremito,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "numremito", $$v)
+                          },
+                          expression: "form.numremito"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("Error", { attrs: { tag: "numremito" } })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _vm.detallesProveedor.proveedor
+                ? _c(
+                    "v-layout",
+                    { attrs: { "justify-space-around": "" } },
+                    [
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "", "px-3": "" } },
+                        [
+                          [
+                            _c(
+                              "v-expansion-panel",
+                              { staticClass: "elevation-0 expansion-border" },
+                              [
+                                _c(
+                                  "v-expansion-panel-content",
+                                  {
+                                    scopedSlots: _vm._u(
+                                      [
+                                        {
+                                          key: "header",
+                                          fn: function() {
+                                            return [
+                                              _c("div", [
+                                                _vm._v("Más Detalles")
+                                              ])
+                                            ]
+                                          },
+                                          proxy: true
+                                        }
+                                      ],
+                                      null,
+                                      false,
+                                      1000769171
+                                    )
+                                  },
+                                  [
+                                    _vm._v(" "),
+                                    _c("v-card-text", [
+                                      _c("p", [
+                                        _c("b", [_vm._v("CUIT:")]),
+                                        _vm._v(
+                                          "\n                                        " +
+                                            _vm._s(
+                                              _vm.detallesProveedor.proveedor
+                                                .cuit
+                                            ) +
+                                            "\n                                    "
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("p", [
+                                        _c("b", [_vm._v("Razón Social:")]),
+                                        _vm._v(
+                                          "\n                                        " +
+                                            _vm._s(
+                                              _vm.detallesProveedor.proveedor
+                                                .razonsocial
+                                            ) +
+                                            "\n                                    "
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("p", [
+                                        _c("b", [_vm._v("Domicilio:")]),
+                                        _vm._v(
+                                          "\n                                        " +
+                                            _vm._s(
+                                              _vm.detallesProveedor.proveedor
+                                                .direccion
+                                            ) +
+                                            "\n                                    "
+                                        )
+                                      ])
+                                    ])
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          _vm._v(" "),
+                          _c("br")
+                        ],
+                        2
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("v-form", { ref: "formDetalles" }, [
+            _c(
+              "div",
+              [
+                _c(
+                  "v-layout",
+                  { attrs: { "justify-space-around": "", wrap: "" } },
+                  [
+                    _c(
+                      "v-flex",
+                      { attrs: { xs12: "", "px-3": "" } },
+                      [
+                        _c("v-text-field", {
+                          attrs: {
+                            autofocus: "",
+                            disabled: _vm.notProveedor,
+                            label: "Producto",
+                            box: ""
+                          },
+                          on: {
+                            keyup: function($event) {
+                              return _vm.findProducto()
+                            }
+                          },
+                          model: {
+                            value: _vm.form.producto,
+                            callback: function($$v) {
+                              _vm.$set(_vm.form, "producto", $$v)
+                            },
+                            expression: "form.producto"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("transition", [
+                          _c(
+                            "div",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.productosSearchTable,
+                                  expression: "productosSearchTable"
+                                }
+                              ]
+                            },
+                            [
+                              _vm.inProcess
+                                ? _c(
+                                    "div",
+                                    { staticClass: "search-table" },
+                                    [
+                                      _c(
+                                        "v-layout",
+                                        { attrs: { "justify-center": "" } },
+                                        [
+                                          _c(
+                                            "v-flex",
+                                            { attrs: { xs12: "", "pa-3": "" } },
+                                            [
+                                              _c(
+                                                "v-layout",
+                                                {
+                                                  attrs: {
+                                                    "justify-center": ""
+                                                  }
+                                                },
+                                                [
+                                                  _c("v-progress-circular", {
+                                                    attrs: {
+                                                      indeterminate: "",
+                                                      color: "primary"
+                                                    }
+                                                  })
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                : _c(
+                                    "div",
+                                    [
+                                      _c("v-data-table", {
+                                        staticClass: "search-table",
+                                        attrs: {
+                                          "no-data-text":
+                                            "El producto no se encuentra en la base de datos.",
+                                          "hide-actions": "",
+                                          headers: _vm.productosHeaders,
+                                          items: _vm.productos
+                                        },
+                                        scopedSlots: _vm._u([
+                                          {
+                                            key: "items",
+                                            fn: function(producto) {
+                                              return [
+                                                _c(
+                                                  "tr",
+                                                  {
+                                                    staticStyle: {
+                                                      cursor: "pointer"
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        return _vm.selectProducto(
+                                                          producto.item
+                                                        )
+                                                      }
+                                                    }
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "td",
+                                                      {
+                                                        staticClass:
+                                                          "hidden-xs-only"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            producto.item
+                                                              .codarticulo
+                                                          )
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c("td", [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          producto.item.articulo
+                                                        )
+                                                      )
+                                                    ]),
+                                                    _vm._v(" "),
+                                                    _c("td", [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          producto.item.precio
+                                                        )
+                                                      )
+                                                    ]),
+                                                    _vm._v(" "),
+                                                    _c("td", [
+                                                      producto.item.stock <= 0
+                                                        ? _c("div", [
+                                                            _vm._v("0")
+                                                          ])
+                                                        : _c("div", [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                producto.item
+                                                                  .stock
+                                                              )
+                                                            )
+                                                          ])
+                                                    ])
+                                                  ]
+                                                )
+                                              ]
+                                            }
+                                          }
+                                        ])
+                                      })
+                                    ],
+                                    1
+                                  )
+                            ]
+                          )
+                        ])
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              [
+                _c(
+                  "v-layout",
+                  { attrs: { "justify-space-around": "", wrap: "" } },
+                  [
+                    _c(
+                      "v-flex",
+                      { attrs: { xs12: "", sm4: "", "px-3": "" } },
+                      [
+                        _c("v-select", {
+                          attrs: {
+                            disabled:
+                              _vm.notProveedor == false &&
+                              _vm.disabledMovimiento == false
+                                ? false
+                                : true,
+                            items: _vm.movimientos,
+                            rules: [_vm.rules.required],
+                            label: "Movimiento",
+                            box: ""
+                          },
+                          model: {
+                            value: _vm.movimiento,
+                            callback: function($$v) {
+                              _vm.movimiento = $$v
+                            },
+                            expression: "movimiento"
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          ])
         ],
         1
       )
@@ -33893,7 +34983,7 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("v-card", [_c("RemitosForm")], 1)
+      _c("v-card", [_c("FormularioPrueba")], 1)
     ],
     1
   )
@@ -80097,6 +81187,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/remitos/FormularioPrueba.vue":
+/*!**************************************************************!*\
+  !*** ./resources/js/components/remitos/FormularioPrueba.vue ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _FormularioPrueba_vue_vue_type_template_id_770984b4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormularioPrueba.vue?vue&type=template&id=770984b4& */ "./resources/js/components/remitos/FormularioPrueba.vue?vue&type=template&id=770984b4&");
+/* harmony import */ var _FormularioPrueba_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormularioPrueba.vue?vue&type=script&lang=js& */ "./resources/js/components/remitos/FormularioPrueba.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _FormularioPrueba_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FormularioPrueba_vue_vue_type_template_id_770984b4___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _FormularioPrueba_vue_vue_type_template_id_770984b4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/remitos/FormularioPrueba.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/remitos/FormularioPrueba.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/remitos/FormularioPrueba.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FormularioPrueba_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./FormularioPrueba.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/remitos/FormularioPrueba.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FormularioPrueba_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/remitos/FormularioPrueba.vue?vue&type=template&id=770984b4&":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/components/remitos/FormularioPrueba.vue?vue&type=template&id=770984b4& ***!
+  \*********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormularioPrueba_vue_vue_type_template_id_770984b4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./FormularioPrueba.vue?vue&type=template&id=770984b4& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/remitos/FormularioPrueba.vue?vue&type=template&id=770984b4&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormularioPrueba_vue_vue_type_template_id_770984b4___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormularioPrueba_vue_vue_type_template_id_770984b4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/remitos/RemitosForm.vue":
 /*!*********************************************************!*\
   !*** ./resources/js/components/remitos/RemitosForm.vue ***!
@@ -82762,7 +83921,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\xampp\htdocs\laravel-projects\Gepetto-Point-Of-Sale\resources\js\main.js */"./resources/js/main.js");
+module.exports = __webpack_require__(/*! /opt/lampp/htdocs/Gepetto-Point-Of-Sale/resources/js/main.js */"./resources/js/main.js");
 
 
 /***/ })

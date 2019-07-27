@@ -9659,17 +9659,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 // Axios
  // Vuex
 
@@ -9688,8 +9677,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       suppliers: [],
       proveedorSearchTable: false,
       movimiento: "ALTA",
-      movimientos: ["ALTA", "INCREMENTO", "DEVOLUCION", "VENCIMIENTO", "DECREMENTO", "INCREMENTO", "MODIFICACION"],
-      disabledMovimiento: true,
+      movimientos: ["ALTA", "INCREMENTO", "DEVOLUCION", "VENCIMIENTO", "DECREMENTO", "MODIFICACION"],
+      disabledMovimientos: false,
+      lotesDisponibles: [],
+      lote: null,
+      disabledLote: false,
       preventSaveDialog: false,
       msg: null,
       cantidadMaxima: 999999999,
@@ -9714,87 +9706,160 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, {
         text: "Proveedor",
         sortable: false
-      }, {
-        text: "",
-        sortable: false
       }] // Header de la tabla de inventarios
 
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("crudx", ["showData", "form", "inProcess"])),
+  mounted: function mounted() {
+    this.movimientosControl();
+    this.lotesControl();
+  },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index", "save", "show"]), {
-    // Activar o desactivar el panel del formulario de inventarios
-    panelControl: function panelControl() {
-      if (this.formPanel[0]) {
-        this.$refs.inventariosForm.reset();
-        this.formPanel = [false];
-      } else {
-        this.movimiento = "ALTA";
-        this.movimientos = ["ALTA"];
-        this.disabledMovimiento = true;
-        this.formPanel = [true];
-      }
+    log: function log() {
+      console.log(this.showData);
     },
-    // Buscar el lote
-    findLote: function () {
-      var _findLote = _asyncToGenerator(
+    // Activar o desactivar el panel del formulario de inventarios
+    panelControl: function () {
+      var _panelControl = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!this.showData.inventarios.length) {
-                  _context.next = 7;
+                if (!this.formPanel[0]) {
+                  _context.next = 5;
                   break;
                 }
 
-                if (!this.form.lote) {
-                  _context.next = 7;
-                  break;
-                }
-
-                if (!(this.form.lote.length > 0)) {
-                  _context.next = 7;
-                  break;
-                }
-
-                _context.next = 5;
-                return this.index({
-                  url: "/api/inventarios",
-                  lote: this.form.lote,
-                  articulo_id: this.showData.articulo.id
-                });
+                this.$refs.inventariosForm.reset();
+                this.formPanel = [false];
+                _context.next = 10;
+                break;
 
               case 5:
-                response = _context.sent;
-
-                if (response.length > 0) {
-                  this.form.lote = response[0].lote;
-                  this.cantidadMaxima = response[0].cantidad;
-                  this.form.vencimiento = response[0].vencimiento;
-                  this.form.supplier = response[0].supplier.razonsocial;
-                  this.form.supplier_id = response[0].supplier.id;
-                  this.movimiento = "INCREMENTO";
-                  this.movimientos = ["INCREMENTO", "DEVOLUCION", "VENCIMIENTO", "DECREMENTO", "MODIFICACION"];
-                  this.disabledMovimiento = false;
-                } else {
-                  this.cantidadMaxima = 999999999;
-                  this.form.vencimiento = null;
-                  this.form.supplier = null;
-                  this.form.supplier_id = null;
-                  this.movimiento = "ALTA";
-                  this.movimientos = ["ALTA"];
-                  this.disabledMovimiento = true;
-                }
+                _context.next = 7;
+                return this.movimientosControl();
 
               case 7:
+                _context.next = 9;
+                return this.lotesControl();
+
+              case 9:
+                this.formPanel = [true];
+
+              case 10:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee, this);
+      }));
+
+      function panelControl() {
+        return _panelControl.apply(this, arguments);
+      }
+
+      return panelControl;
+    }(),
+    movimientosControl: function movimientosControl() {
+      if (this.showData.lotes.lotes.length <= 0) {
+        this.movimiento = "ALTA";
+        this.disabledMovimientos = true;
+        this.lote = this.showData.lotes.proximo;
+      } else {
+        this.movimiento = "ALTA";
+        this.disabledMovimientos = false;
+        this.lote = null;
+      }
+    },
+    lotesControl: function () {
+      var _lotesControl = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var i;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (!(this.movimiento == "ALTA")) {
+                  _context2.next = 7;
+                  break;
+                }
+
+                this.lotesDisponibles = [];
+                this.lotesDisponibles.push(this.showData.lotes.proximo);
+                this.lote = this.showData.lotes.proximo;
+                this.disabledLote = true;
+                _context2.next = 13;
+                break;
+
+              case 7:
+                this.lotesDisponibles = [];
+
+                for (i = 0; i < this.showData.lotes.lotes.length; i++) {
+                  this.lotesDisponibles.push(this.showData.lotes.lotes[i]);
+                }
+
+                this.lote = this.showData.lotes.lotes[0];
+                _context2.next = 12;
+                return this.findLote();
+
+              case 12:
+                this.disabledLote = false;
+
+              case 13:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function lotesControl() {
+        return _lotesControl.apply(this, arguments);
+      }
+
+      return lotesControl;
+    }(),
+    findLote: function () {
+      var _findLote = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return this.index({
+                  url: "/api/inventarios",
+                  lote: this.lote,
+                  articulo_id: this.showData.articulo.id
+                });
+
+              case 2:
+                response = _context3.sent;
+
+                if (response.length > 0) {
+                  this.cantidadMaxima = response[0].cantidad;
+                  this.form.vencimiento = response[0].vencimiento;
+                  this.form.supplier = response[0].supplier.razonsocial;
+                  this.form.supplier_id = response[0].supplier.id;
+                } else {
+                  this.cantidadMaxima = 999999999;
+                  this.form.vencimiento = null;
+                  this.form.supplier = null;
+                  this.form.supplier_id = null;
+                }
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
       }));
 
       function findLote() {
@@ -9807,15 +9872,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     findSuppliers: function () {
       var _findSuppliers = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
         var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 this.form.supplier_id = null;
                 this.proveedorSearchTable = true;
-                _context2.next = 4;
+                _context4.next = 4;
                 return this.index({
                   url: "/api/suppliers",
                   buscarProveedor: this.form.supplier,
@@ -9823,15 +9888,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 });
 
               case 4:
-                response = _context2.sent;
+                response = _context4.sent;
                 this.suppliers = response.proveedores;
 
               case 6:
               case "end":
-                return _context2.stop();
+                return _context4.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee4, this);
       }));
 
       function findSuppliers() {
@@ -9853,13 +9918,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.preventSaveDialog = true;
 
         if (this.movimiento == "ALTA") {
-          this.msg = "Se agregará el siguiente lote " + this.form.lote + " con stock de " + this.form.cantidad + " productos";
+          this.msg = "Se agregará el siguiente lote " + this.lote + " con stock de " + this.form.cantidad + " productos";
         } else if (this.movimiento == "INCREMENTO") {
-          this.msg = "Se agregarán " + this.form.cantidad + " productos al stock";
+          this.msg = "Se agregarán " + this.cantidad + " productos al stock";
         } else if (this.movimiento == "MODIFICACION") {
-          this.msg = "Se modificará la cantidad del lote " + this.form.lote + " a " + this.form.cantidad + " productos";
+          this.msg = "Se modificará la cantidad del lote " + this.lote + " a " + this.cantidad + " productos";
         } else {
-          this.msg = "Se restarán " + this.form.cantidad + " productos del stock";
+          this.msg = "Se restarán " + this.cantidad + " productos del stock";
         }
       }
     },
@@ -9867,40 +9932,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     saveInventarios: function () {
       var _saveInventarios = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 if (!this.$refs.inventariosForm.validate()) {
-                  _context3.next = 10;
+                  _context5.next = 11;
                   break;
                 }
 
+                this.form.lote = this.lote;
                 this.form.movimiento = this.movimiento;
                 this.form.articulo_id = this.showData.articulo.id;
-                _context3.next = 5;
+                _context5.next = 6;
                 return this.save({
                   url: "/api/inventarios"
                 });
 
-              case 5:
+              case 6:
                 this.formPanel = [false];
-                _context3.next = 8;
+                _context5.next = 9;
                 return this.show({
                   url: "/api/articulos/" + this.showData.articulo.id
                 });
 
-              case 8:
+              case 9:
                 this.$refs.inventariosForm.reset();
                 this.preventSaveDialog = false;
 
-              case 10:
+              case 11:
               case "end":
-                return _context3.stop();
+                return _context5.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee5, this);
       }));
 
       function saveInventarios() {
@@ -11011,6 +11077,46 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // Components
  // Vuex
 
@@ -11025,12 +11131,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       detallesProveedor: [],
       proveedores: [],
       proveedoresSearchTable: false,
-      //_________________________Data General________________________//
-      rules: {
-        required: function required(value) {
-          return !!value || "Este campo es obligatorio";
-        }
-      },
+      proveedorDistinto: false,
+      assignProveedor: false,
       //_________________________Data Productos________________________//
       cantidad: null,
       modalVencimiento: false,
@@ -11075,10 +11177,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         text: "",
         sortable: false
       }],
+      productoSelected: null,
       productosSearchTable: false,
-      formPanel: [0],
-      cantidadMaxima: 999999999,
-      loteExiste: null
+      //____________________Data Lotes Movimientos____________________//
+      movimiento: "ALTA",
+      movimientos: ["ALTA", "INCREMENTO"],
+      disabledMovimientos: true,
+      lotesDisponibles: [],
+      lote: null,
+      disabledLote: false,
+      //_________________________Data General________________________//
+      rules: {
+        required: function required(value) {
+          return !!value || "Este campo es obligatorio";
+        }
+      },
+      process: false
     };
   },
   components: {
@@ -11096,6 +11210,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           return null;
         }
       }
+    },
+    detallesActualSupllier: function detallesActualSupllier() {
+      for (var i = 0; i < this.detalles.length; i++) {
+        if (this.detalles[i].supplier_id != this.form.supplier_id) {
+          return true;
+        }
+      }
+
+      return false;
     },
     //_________________________Computed Resumen________________________//
     subtotalCompra: {
@@ -11199,7 +11322,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       return findProveedor;
     }(),
-    // Seleccionar un Cliente
+    // Seleccionar un Proveedor
     selectProveedor: function selectProveedor(proveedor) {
       var _this = this;
 
@@ -11209,13 +11332,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.proveedoresSearchTable = false; // Establecer la Razon Social y el Id del Proveedor en el Formulario
 
       this.form.supplier = proveedor.razonsocial;
-      this.form.supplier_id = proveedor.id; // Establecer el Detalle de Proveedors
+      this.form.supplier_id = proveedor.id;
+      this.checkSupplier(); // Establecer el Detalle de Proveedors
 
       axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("/api/suppliers/" + proveedor.id).then(function (response) {
         _this.detallesProveedor = response.data;
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    // Verficar Proveedor
+    checkSupplier: function checkSupplier() {
+      for (var i = 0; i < this.detalles.length; i++) {
+        if (this.form.supplier_id) {
+          if (this.detalles[i].supplier_id == null) {
+            this.detalles[i].supplier_id = this.form.supplier_id;
+            this.detalles[i].actual_supplier = true;
+          } else {
+            if (this.detalles[i].supplier_id != this.form.supplier_id) {
+              if (this.detalles[i].assignProveedor) {
+                this.detalles[i].actual_supplier = false;
+              } else {
+                this.detalles[i].supplier_id = this.form.supplier_id;
+                this.detalles[i].actual_supplier = true;
+              }
+            } else {
+              this.detalles[i].actual_supplier = true;
+            }
+          }
+        } else {
+          this.detalles[i].supplier_id = null;
+          this.detalles[i].actual_supplier = true;
+        }
+      }
+
+      console.log(this.detalles);
     },
     //_________________________Methods Productos________________________//
     // Buscar Producto
@@ -11228,29 +11379,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                // Reiniciar Cantidad y Precio
+                // Reiniciar Cantidad, Precio y el Producto Seleccionado
                 this.cantidad = null;
-                this.form.precio = null; // Activar Tabla de Busqueda
+                this.form.precio = null;
+                this.productoSelected = null; // Activar Tabla de Busqueda
 
                 this.productosSearchTable = true; // Buscar Productos
 
                 if (!this.form.producto) {
-                  _context2.next = 8;
+                  _context2.next = 9;
                   break;
                 }
 
-                _context2.next = 6;
+                _context2.next = 7;
                 return this.index({
                   url: "/api/articulos",
                   buscarArticulo: this.form.producto,
                   limit: 5
                 });
 
-              case 6:
+              case 7:
                 response = _context2.sent;
                 this.productos = response.articulos;
 
-              case 8:
+              case 9:
               case "end":
                 return _context2.stop();
             }
@@ -11265,49 +11417,35 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return findProducto;
     }(),
     // Seleccionar Producto
-    selectProducto: function selectProducto(producto) {
-      // Reiniciar la tabla de productos
-      this.productos = []; // Desactivar Tabla de Busqueda
-
-      this.productosSearchTable = false; // Seleccionar Producto
-
-      this.form.producto_id = producto.id;
-      this.form.producto = producto.articulo;
-      this.form.preciounitario = producto.precio;
-    },
-    // Buscar Lote
-    findLote: function () {
-      var _findLote = _asyncToGenerator(
+    selectProducto: function () {
+      var _selectProducto = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var response;
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(producto) {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                if (!(this.form.lote != null && this.form.lote != "")) {
-                  _context3.next = 6;
-                  break;
-                }
+                // Reiniciar la tabla de productos
+                this.productos = []; // Asignar el producto seleccionado
 
-                this.loteExiste = null;
+                this.productoSelected = producto;
                 _context3.next = 4;
-                return this.index({
-                  url: "/api/inventarios",
-                  lote: this.form.lote,
-                  articulo_id: this.form.producto_id
-                });
+                return this.movimientosControl();
 
               case 4:
-                response = _context3.sent;
-
-                if (response.length > 0) {
-                  this.loteExiste = true;
-                } else {
-                  this.loteExiste = false;
-                }
+                _context3.next = 6;
+                return this.lotesControl();
 
               case 6:
+                // Desactivar Tabla de Busqueda
+                this.productosSearchTable = false; // Seleccionar Producto
+
+                this.form.producto_id = producto.id;
+                this.form.producto = producto.articulo;
+                this.form.preciounitario = producto.precio;
+                console.log(producto);
+
+              case 11:
               case "end":
                 return _context3.stop();
             }
@@ -11315,11 +11453,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, _callee3, this);
       }));
 
-      function findLote() {
-        return _findLote.apply(this, arguments);
+      function selectProducto(_x) {
+        return _selectProducto.apply(this, arguments);
       }
 
-      return findLote;
+      return selectProducto;
     }(),
     //LLenar Array de Detalles
     fillDetalles: function fillDetalles() {
@@ -11329,8 +11467,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var find = this.detalles.find(function (detalle) {
           return detalle.producto === _this2.form.producto && detalle.lote === _this2.form.lote;
         });
-        console.log(this.form.producto);
-        console.log(find);
 
         if (find) {
           // Buscar el indice del la tabla detalles que coicide con el detalle existente
@@ -11350,8 +11486,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             lote: this.form.lote,
             vencimiento: this.form.vencimiento,
             preciounitario: this.form.preciounitario,
-            subtotal: this.subtotalProdcuto
-          }; // Añadir el Detalle al Array de Detalles
+            subtotal: this.subtotalProdcuto,
+            supplier_id: null,
+            actual_supplier: true,
+            assignProveedor: this.assignProveedor
+          }; // Asignar el proveedor al detalle (si existe uno seleccionado)
+
+          if (this.form.supplier_id) {
+            detalle.supplier_id = this.form.supplier_id;
+          } // Añadir el Detalle al Array de Detalles
+
 
           this.detalles.push(detalle);
           this.form.detalle = this.detalles;
@@ -11360,6 +11504,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         this.form.producto_id = null;
         this.$refs.formDetalles.reset();
+        this.checkSupplier();
       }
     },
     // Borrar un Detalle del Array
@@ -11379,6 +11524,123 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
       this.form.detalle = this.detalles;
     },
+    //____________________Methods Lotes Movimientos_____________________//
+    // Controlar los movimientos disponibles
+    movimientosControl: function movimientosControl() {
+      if (this.productoSelected.inventarios.length <= 0) {
+        this.movimiento = "ALTA";
+        this.disabledMovimientos = true;
+        this.lotesDisponibles = [1];
+        this.lote = 1;
+      } else {
+        this.movimiento = "ALTA";
+        this.disabledMovimientos = false;
+        this.lotesDisponibles = [];
+        this.lote = null;
+      }
+    },
+    // Controlar los lotes disponibles
+    lotesControl: function () {
+      var _lotesControl = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        var ultimoLote, proximoLote, i;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                if (!(this.movimiento == "ALTA")) {
+                  _context4.next = 4;
+                  break;
+                }
+
+                if (this.productoSelected.inventarios.length <= 0) {
+                  this.lotesDisponibles = [1];
+                  this.lote = 1;
+                  this.disabledLote = true;
+                } else {
+                  ultimoLote = this.productoSelected.inventarios[this.productoSelected.inventarios.length - 1].lote;
+                  proximoLote = Number(ultimoLote) + 1;
+                  this.lotesDisponibles = [proximoLote];
+                  this.lote = proximoLote;
+                  this.disabledLote = true;
+                }
+
+                _context4.next = 10;
+                break;
+
+              case 4:
+                this.lotesDisponibles = [];
+
+                for (i = 0; i < this.productoSelected.inventarios.length; i++) {
+                  this.lotesDisponibles.push(this.productoSelected.inventarios[i].lote);
+                }
+
+                this.lote = this.productoSelected.inventarios[0].lote;
+                _context4.next = 9;
+                return this.findLote();
+
+              case 9:
+                this.disabledLote = false;
+
+              case 10:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function lotesControl() {
+        return _lotesControl.apply(this, arguments);
+      }
+
+      return lotesControl;
+    }(),
+    // Buscar el lote
+    findLote: function () {
+      var _findLote = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
+                return this.index({
+                  url: "/api/inventarios",
+                  lote: this.lote,
+                  articulo_id: this.form.producto_id
+                });
+
+              case 2:
+                response = _context5.sent;
+
+                if (response.length > 0) {
+                  this.form.vencimiento = response[0].vencimiento;
+                  this.form.supplier = response[0].supplier.razonsocial;
+                  this.form.supplier_id = response[0].supplier.id;
+                } else {
+                  this.form.vencimiento = null;
+                  this.form.supplier = null;
+                  this.form.supplier_id = null;
+                }
+
+              case 4:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+
+      function findLote() {
+        return _findLote.apply(this, arguments);
+      }
+
+      return findLote;
+    }(),
     //_________________________Methods Generales________________________//
     // Imprimir Compra
     remitosPDF: function remitosPDF(id) {
@@ -11399,29 +11661,44 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     saveCompra: function () {
       var _saveCompra = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+        var resID;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                if (this.$refs.formCompra.validate()) {
-                  console.log(this.form); // //Guardar Compras
-                  // let resID = await this.save({ url: "/api/suppliers" });
-                  // //Imprimir PDF de Compras
-                  // this.remitosPDF(resID);
-                  // //Reset Formularios
-                  // this.detalles = [];
-                  // await this.$refs.formDetalles.reset();
-                  // await this.$refs.formCompra.reset();
-                  // this.$router.push("/compras");
+                if (!this.$refs.formCompra.validate()) {
+                  _context6.next = 11;
+                  break;
                 }
 
-              case 1:
+                _context6.next = 3;
+                return this.save({
+                  url: "/api/suppliers"
+                });
+
+              case 3:
+                resID = _context6.sent;
+                //Imprimir PDF de Compras
+                this.remitosPDF(resID); //Reset Formularios
+
+                this.detalles = [];
+                _context6.next = 8;
+                return this.$refs.formDetalles.reset();
+
+              case 8:
+                _context6.next = 10;
+                return this.$refs.formCompra.reset();
+
+              case 10:
+                this.$router.push("/compras");
+
+              case 11:
               case "end":
-                return _context4.stop();
+                return _context6.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee6, this);
       }));
 
       function saveCompra() {
@@ -11434,26 +11711,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     cancelCompra: function () {
       var _cancelCompra = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 //Reset Formularios
                 this.detalles = [];
-                _context5.next = 3;
+                _context7.next = 3;
                 return this.$refs.formDetalles.reset();
 
               case 3:
-                _context5.next = 5;
+                _context7.next = 5;
                 return this.$refs.formCompra.reset();
 
               case 5:
               case "end":
-                return _context5.stop();
+                return _context7.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee7, this);
       }));
 
       function cancelCompra() {
@@ -29468,23 +29745,54 @@ var render = function() {
                                 "v-flex",
                                 { attrs: { xs12: "", sm4: "", "px-3": "" } },
                                 [
-                                  _c("v-text-field", {
+                                  _c("v-select", {
                                     attrs: {
-                                      label: "Lote",
-                                      box: "",
-                                      rules: [_vm.rules.required]
+                                      disabled: _vm.disabledMovimientos,
+                                      items: _vm.movimientos,
+                                      rules: [_vm.rules.required],
+                                      label: "Movimiento",
+                                      box: ""
                                     },
                                     on: {
-                                      keyup: function($event) {
+                                      change: function($event) {
+                                        return _vm.lotesControl()
+                                      }
+                                    },
+                                    model: {
+                                      value: _vm.movimiento,
+                                      callback: function($$v) {
+                                        _vm.movimiento = $$v
+                                      },
+                                      expression: "movimiento"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-flex",
+                                { attrs: { xs12: "", sm4: "", "px-3": "" } },
+                                [
+                                  _c("v-select", {
+                                    attrs: {
+                                      disabled: _vm.disabledLote,
+                                      items: _vm.lotesDisponibles,
+                                      rules: [_vm.rules.required],
+                                      label: "Lote",
+                                      box: ""
+                                    },
+                                    on: {
+                                      change: function($event) {
                                         return _vm.findLote()
                                       }
                                     },
                                     model: {
-                                      value: _vm.form.lote,
+                                      value: _vm.lote,
                                       callback: function($$v) {
-                                        _vm.$set(_vm.form, "lote", $$v)
+                                        _vm.lote = $$v
                                       },
-                                      expression: "form.lote"
+                                      expression: "lote"
                                     }
                                   })
                                 ],
@@ -29515,30 +29823,6 @@ var render = function() {
                                         _vm.$set(_vm.form, "cantidad", $$v)
                                       },
                                       expression: "form.cantidad"
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-flex",
-                                { attrs: { xs12: "", sm4: "", "px-3": "" } },
-                                [
-                                  _c("v-select", {
-                                    attrs: {
-                                      disabled: _vm.disabledMovimiento,
-                                      items: _vm.movimientos,
-                                      rules: [_vm.rules.required],
-                                      label: "Movimiento",
-                                      box: ""
-                                    },
-                                    model: {
-                                      value: _vm.movimiento,
-                                      callback: function($$v) {
-                                        _vm.movimiento = $$v
-                                      },
-                                      expression: "movimiento"
                                     }
                                   })
                                 ],
@@ -29948,90 +30232,14 @@ var render = function() {
                             _vm._v(
                               _vm._s(inventario.item.proveedor.razonsocial)
                             )
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "td",
-                            [
-                              _c(
-                                "v-menu",
-                                {
-                                  scopedSlots: _vm._u(
-                                    [
-                                      {
-                                        key: "activator",
-                                        fn: function(ref) {
-                                          var on = ref.on
-                                          return [
-                                            _c(
-                                              "v-btn",
-                                              _vm._g(
-                                                {
-                                                  attrs: {
-                                                    flat: "",
-                                                    icon: "",
-                                                    dark: "",
-                                                    color: "primary"
-                                                  }
-                                                },
-                                                on
-                                              ),
-                                              [
-                                                _c(
-                                                  "v-icon",
-                                                  { attrs: { size: "medium" } },
-                                                  [_vm._v("fas fa-ellipsis-v")]
-                                                )
-                                              ],
-                                              1
-                                            )
-                                          ]
-                                        }
-                                      }
-                                    ],
-                                    null,
-                                    true
-                                  )
-                                },
-                                [
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list",
-                                    [
-                                      _c(
-                                        "v-list-tile",
-                                        {
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.editInventario(
-                                                inventario.item.lote
-                                              )
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _c("v-list-tile-title", [
-                                            _vm._v("Editar")
-                                          ])
-                                        ],
-                                        1
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
+                          ])
                         ]
                       }
                     }
                   ],
                   null,
                   false,
-                  61509897
+                  41508097
                 )
               })
             ],
@@ -31093,6 +31301,41 @@ var render = function() {
   return _c(
     "div",
     [
+      [
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.process,
+                expression: "process"
+              }
+            ],
+            staticClass: "loading"
+          },
+          [
+            _c(
+              "v-layout",
+              { attrs: { "justify-center": "" } },
+              [
+                _c("v-progress-circular", {
+                  attrs: {
+                    size: 70,
+                    width: 7,
+                    color: "primary",
+                    indeterminate: ""
+                  }
+                })
+              ],
+              1
+            )
+          ],
+          1
+        )
+      ],
+      _vm._v(" "),
       _c(
         "v-form",
         {
@@ -31149,6 +31392,7 @@ var render = function() {
                       _c("v-text-field", {
                         attrs: {
                           rules: [_vm.rules.required],
+                          disabled: _vm.proveedorDistinto,
                           label: "Proveedor",
                           box: ""
                         },
@@ -31291,6 +31535,7 @@ var render = function() {
                       _c("v-text-field", {
                         attrs: {
                           rules: [_vm.rules.required],
+                          disabled: _vm.proveedorDistinto,
                           label: "Nº Remito",
                           box: ""
                         },
@@ -31424,6 +31669,7 @@ var render = function() {
                           _c("v-text-field", {
                             attrs: {
                               autofocus: "",
+                              disabled: _vm.proveedorDistinto,
                               label: "Producto",
                               box: ""
                             },
@@ -31596,30 +31842,124 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "v-flex",
+                        { attrs: { xs12: "", "px-3": "" } },
+                        [
+                          _c(
+                            "v-alert",
+                            {
+                              attrs: {
+                                value: _vm.proveedorDistinto,
+                                color: "error"
+                              }
+                            },
+                            [
+                              _c("div", { staticClass: "text-xs-center" }, [
+                                _vm._v(
+                                  "Este producto ya tiene un lote con este número asociado a otro proveedor, por favor cambie el número del lote."
+                                )
+                              ])
+                            ]
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-flex",
                         { attrs: { xs12: "", sm4: "", "px-3": "" } },
                         [
-                          _c("v-text-field", {
+                          _c("v-select", {
                             attrs: {
-                              disabled: _vm.form.producto_id ? false : true,
-                              error:
-                                _vm.loteExiste == _vm.form.lote ? true : false,
-                              "error-messages":
-                                "Ya existe un inventario con ese lote",
-                              label: "Lote",
-                              box: "",
-                              rules: [_vm.rules.required]
+                              disabled: _vm.disabledMovimientos,
+                              items: _vm.movimientos,
+                              rules: [_vm.rules.required],
+                              label: "Movimiento",
+                              box: ""
                             },
                             on: {
-                              keyup: function($event) {
+                              change: function($event) {
+                                return _vm.lotesControl()
+                              }
+                            },
+                            model: {
+                              value: _vm.movimiento,
+                              callback: function($$v) {
+                                _vm.movimiento = $$v
+                              },
+                              expression: "movimiento"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "", sm4: "", "px-3": "" } },
+                        [
+                          _c("v-select", {
+                            attrs: {
+                              disabled: _vm.disabledLote,
+                              items: _vm.lotesDisponibles,
+                              rules: [_vm.rules.required],
+                              label: "Lote",
+                              box: ""
+                            },
+                            on: {
+                              change: function($event) {
                                 return _vm.findLote()
                               }
                             },
                             model: {
-                              value: _vm.form.lote,
+                              value: _vm.lote,
                               callback: function($$v) {
-                                _vm.$set(_vm.form, "lote", $$v)
+                                _vm.lote = $$v
                               },
-                              expression: "form.lote"
+                              expression: "lote"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "", sm4: "", "px-3": "" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              type: "number",
+                              disabled:
+                                _vm.form.producto_id &&
+                                _vm.proveedorDistinto == false
+                                  ? false
+                                  : true,
+                              label: "Cantidad",
+                              box: ""
+                            },
+                            on: {
+                              keyup: function($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "enter",
+                                    13,
+                                    $event.key,
+                                    "Enter"
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.fillDetalles()
+                              }
+                            },
+                            model: {
+                              value: _vm.cantidad,
+                              callback: function($$v) {
+                                _vm.cantidad = $$v
+                              },
+                              expression: "cantidad"
                             }
                           })
                         ],
@@ -31669,9 +32009,11 @@ var render = function() {
                                           {
                                             attrs: {
                                               label: "Fecha de Vencimiento",
-                                              disabled: _vm.form.producto_id
-                                                ? false
-                                                : true,
+                                              disabled:
+                                                _vm.form.producto_id &&
+                                                _vm.proveedorDistinto == false
+                                                  ? false
+                                                  : true,
                                               rules: [_vm.rules.required],
                                               box: "",
                                               readonly: ""
@@ -31768,70 +32110,12 @@ var render = function() {
                         [
                           _c("v-text-field", {
                             attrs: {
-                              label: "Movimiento",
-                              disabled: "",
-                              box: ""
-                            },
-                            model: {
-                              value: _vm.form.movimiento,
-                              callback: function($$v) {
-                                _vm.$set(_vm.form, "movimiento", $$v)
-                              },
-                              expression: "form.movimiento"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-flex",
-                        { attrs: { xs12: "", sm4: "", "px-3": "" } },
-                        [
-                          _c("v-text-field", {
-                            attrs: {
-                              type: "number",
-                              disabled: _vm.form.producto_id ? false : true,
-                              label: "Cantidad",
-                              box: ""
-                            },
-                            on: {
-                              keyup: function($event) {
-                                if (
-                                  !$event.type.indexOf("key") &&
-                                  _vm._k(
-                                    $event.keyCode,
-                                    "enter",
-                                    13,
-                                    $event.key,
-                                    "Enter"
-                                  )
-                                ) {
-                                  return null
-                                }
-                                return _vm.fillDetalles()
-                              }
-                            },
-                            model: {
-                              value: _vm.cantidad,
-                              callback: function($$v) {
-                                _vm.cantidad = $$v
-                              },
-                              expression: "cantidad"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-flex",
-                        { attrs: { xs12: "", sm4: "", "px-3": "" } },
-                        [
-                          _c("v-text-field", {
-                            attrs: {
                               label: "Precio de Compra",
-                              disabled: _vm.form.producto_id ? false : true,
+                              disabled:
+                                _vm.form.producto_id &&
+                                _vm.proveedorDistinto == false
+                                  ? false
+                                  : true,
                               box: ""
                             },
                             model: {
@@ -31889,26 +32173,80 @@ var render = function() {
                             key: "items",
                             fn: function(detalle) {
                               return [
-                                _c(
-                                  "td",
-                                  {
-                                    on: {
-                                      click: function($event) {
-                                        detalle.selected = !detalle.selected
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _c("v-checkbox", {
-                                      attrs: {
-                                        "input-value": detalle.selected,
-                                        color: "primary",
-                                        "hide-details": ""
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
+                                _c("td", [
+                                  detalle.item.actual_supplier == false
+                                    ? _c(
+                                        "div",
+                                        [
+                                          _c(
+                                            "v-tooltip",
+                                            {
+                                              attrs: { top: "" },
+                                              scopedSlots: _vm._u(
+                                                [
+                                                  {
+                                                    key: "activator",
+                                                    fn: function(ref) {
+                                                      var on = ref.on
+                                                      return [
+                                                        _c(
+                                                          "v-icon",
+                                                          _vm._g(
+                                                            {
+                                                              attrs: {
+                                                                color: "error",
+                                                                dark: ""
+                                                              }
+                                                            },
+                                                            on
+                                                          ),
+                                                          [
+                                                            _vm._v(
+                                                              "fas fa-exclamation-circle"
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    }
+                                                  }
+                                                ],
+                                                null,
+                                                true
+                                              )
+                                            },
+                                            [
+                                              _vm._v(" "),
+                                              _c("span", [
+                                                _vm._v(
+                                                  "Este producto ya tiene un lote con este número asociado a otro proveedor, por favor cambie el número del lote."
+                                                )
+                                              ])
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    : _c(
+                                        "div",
+                                        {
+                                          on: {
+                                            click: function($event) {
+                                              detalle.selected = !detalle.selected
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c("v-checkbox", {
+                                            attrs: {
+                                              "input-value": detalle.selected,
+                                              color: "primary",
+                                              "hide-details": ""
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
+                                ]),
                                 _vm._v(" "),
                                 _c("td", [
                                   _vm._v(_vm._s(detalle.item.producto))
@@ -32080,6 +32418,7 @@ var render = function() {
                               _c("v-text-field", {
                                 attrs: {
                                   type: "number",
+                                  disabled: _vm.proveedorDistinto,
                                   label: "Bonificacion",
                                   box: ""
                                 },
@@ -32104,6 +32443,7 @@ var render = function() {
                               _c("v-text-field", {
                                 attrs: {
                                   type: "number",
+                                  disabled: _vm.proveedorDistinto,
                                   label: "Recargo",
                                   box: ""
                                 },
@@ -32231,7 +32571,9 @@ var render = function() {
                                     {
                                       attrs: {
                                         disabled:
-                                          _vm.detalles.length > 0
+                                          _vm.detalles.length > 0 &&
+                                          _vm.proveedorDistinto == false &&
+                                          _vm.detallesActualSupllier == false
                                             ? false
                                             : true,
                                         loading: _vm.inProcess,
@@ -32264,7 +32606,7 @@ var render = function() {
         ]
       )
     ],
-    1
+    2
   )
 }
 var staticRenderFns = []
@@ -82420,7 +82762,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\Gepetto-Point-Of-Sale\resources\js\main.js */"./resources/js/main.js");
+module.exports = __webpack_require__(/*! D:\xampp\htdocs\laravel-projects\Gepetto-Point-Of-Sale\resources\js\main.js */"./resources/js/main.js");
 
 
 /***/ })

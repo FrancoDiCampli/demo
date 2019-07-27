@@ -181,15 +181,39 @@
                                 >Este producto ya tiene un lote con este número asociado a otro proveedor, por favor cambie el número del lote.</div>
                             </v-alert>
                         </v-flex>
+                        <!-- Input Movimiento -->
+                        <v-flex xs12 sm4 px-3>
+                            <v-select
+                                v-model="movimiento"
+                                @change="lotesControl()"
+                                :disabled="disabledMovimientos"
+                                :items="movimientos"
+                                :rules="[rules.required]"
+                                label="Movimiento"
+                                box
+                            ></v-select>
+                        </v-flex>
                         <!-- Input Lote -->
                         <v-flex xs12 sm4 px-3>
-                            <v-text-field
-                                v-model="form.lote"
-                                @keyup="findLote()"
-                                :disabled="form.producto_id ? false : true"
+                            <v-select
+                                v-model="lote"
+                                @change="findLote()"
+                                :disabled="disabledLote"
+                                :items="lotesDisponibles"
+                                :rules="[rules.required]"
                                 label="Lote"
                                 box
-                                :rules="[rules.required]"
+                            ></v-select>
+                        </v-flex>
+                        <!-- Input Cantidad -->
+                        <v-flex xs12 sm4 px-3>
+                            <v-text-field
+                                type="number"
+                                v-model="cantidad"
+                                :disabled="form.producto_id && proveedorDistinto == false ? false : true"
+                                @keyup.enter="fillDetalles()"
+                                label="Cantidad"
+                                box
                             ></v-text-field>
                         </v-flex>
                         <!-- Input Vencimiento -->
@@ -234,21 +258,6 @@
                                     >OK</v-btn>
                                 </v-date-picker>
                             </v-dialog>
-                        </v-flex>
-                        <!-- Input Movimiento -->
-                        <v-flex xs12 sm4 px-3>
-                            <v-text-field v-model="form.movimiento" label="Movimiento" disabled box></v-text-field>
-                        </v-flex>
-                        <!-- Input Cantidad -->
-                        <v-flex xs12 sm4 px-3>
-                            <v-text-field
-                                type="number"
-                                v-model="cantidad"
-                                :disabled="form.producto_id && proveedorDistinto == false ? false : true"
-                                @keyup.enter="fillDetalles()"
-                                label="Cantidad"
-                                box
-                            ></v-text-field>
                         </v-flex>
                         <!-- Input Precio -->
                         <v-flex xs12 sm4 px-3>
@@ -423,10 +432,8 @@ export default {
             detallesProveedor: [],
             proveedores: [],
             proveedoresSearchTable: false,
-            //_________________________Data General________________________//
-            rules: {
-                required: value => !!value || "Este campo es obligatorio"
-            },
+            proveedorDistinto: false,
+            assignProveedor: false,
             //_________________________Data Productos________________________//
             cantidad: null,
             modalVencimiento: false,
@@ -456,10 +463,19 @@ export default {
                 { text: "Subtotal", sortable: false },
                 { text: "", sortable: false }
             ],
+            productoSelected: null,
             productosSearchTable: false,
-            formPanel: [0],
-            proveedorDistinto: false,
-            assignProveedor: false,
+            //____________________Data Lotes Movimientos____________________//
+            movimiento: "ALTA",
+            movimientos: ["ALTA", "INCREMENTO"],
+            disabledMovimientos: true,
+            lotesDisponibles: [],
+            lote: null,
+            disabledLote: false,
+            //_________________________Data General________________________//
+            rules: {
+                required: value => !!value || "Este campo es obligatorio"
+            },
             process: false
         };
     },
@@ -558,7 +574,7 @@ export default {
                 this.proveedores = [];
             }
         },
-        // Seleccionar un Cliente
+        // Seleccionar un Proveedor
         selectProveedor(proveedor) {
             // Reiniciar la Tabla de proveedores y el detalle
             this.proveedores = [];
@@ -578,76 +594,7 @@ export default {
                     console.log(error);
                 });
         },
-        //_________________________Methods Productos________________________//
-        // Buscar Producto
-        findProducto: async function() {
-            // Reiniciar Cantidad y Precio
-            this.cantidad = null;
-            this.form.precio = null;
-            // Activar Tabla de Busqueda
-            this.productosSearchTable = true;
-            // Buscar Productos
-            if (this.form.producto) {
-                let response = await this.index({
-                    url: "/api/articulos",
-                    buscarArticulo: this.form.producto,
-                    limit: 5
-                });
-                this.productos = response.articulos;
-            }
-        },
-        // Seleccionar Producto
-        selectProducto(producto) {
-            // Reiniciar la tabla de productos
-            this.productos = [];
-            // Desactivar Tabla de Busqueda
-            this.productosSearchTable = false;
-            // Seleccionar Producto
-            this.form.producto_id = producto.id;
-            this.form.producto = producto.articulo;
-            this.form.preciounitario = producto.precio;
-        },
-        // Buscar Lote
-        findLote: async function() {
-            if (this.form.lote) {
-                this.process = true;
-                if (this.form.lote.length > 0) {
-                    let response = await this.index({
-                        url: "/api/inventarios",
-                        lote: this.form.lote,
-                        articulo_id: this.form.producto_id
-                    });
-                    this.process = false;
-                    if (response.length > 0) {
-                        if (this.form.supplier_id) {
-                            if (
-                                this.form.supplier_id != response[0].supplier.id
-                            ) {
-                                this.proveedorDistinto = true;
-                            } else {
-                                this.proveedorDistinto = false;
-                                this.form.lote = response[0].lote;
-                                this.form.vencimiento = response[0].vencimiento;
-                                this.form.movimiento = "INCREMENTO";
-                            }
-                        } else {
-                            this.proveedorDistinto = false;
-                            this.form.lote = response[0].lote;
-                            this.form.vencimiento = response[0].vencimiento;
-                            this.form.supplier =
-                                response[0].supplier.razonsocial;
-                            this.form.supplier_id = response[0].supplier.id;
-                            this.form.movimiento = "INCREMENTO";
-                        }
-                        this.assignProveedor = true;
-                    } else {
-                        this.proveedorDistinto = false;
-                        this.form.movimiento = "ALTA";
-                        this.assignProveedor = false;
-                    }
-                }
-            }
-        },
+
         // Verficar Proveedor
         checkSupplier() {
             for (let i = 0; i < this.detalles.length; i++) {
@@ -680,6 +627,44 @@ export default {
 
             console.log(this.detalles);
         },
+
+        //_________________________Methods Productos________________________//
+        // Buscar Producto
+        findProducto: async function() {
+            // Reiniciar Cantidad, Precio y el Producto Seleccionado
+            this.cantidad = null;
+            this.form.precio = null;
+            this.productoSelected = null;
+            // Activar Tabla de Busqueda
+            this.productosSearchTable = true;
+            // Buscar Productos
+            if (this.form.producto) {
+                let response = await this.index({
+                    url: "/api/articulos",
+                    buscarArticulo: this.form.producto,
+                    limit: 5
+                });
+                this.productos = response.articulos;
+            }
+        },
+        // Seleccionar Producto
+        selectProducto: async function(producto) {
+            // Reiniciar la tabla de productos
+            this.productos = [];
+            // Asignar el producto seleccionado
+            this.productoSelected = producto;
+            await this.movimientosControl();
+            await this.lotesControl();
+            // Desactivar Tabla de Busqueda
+            this.productosSearchTable = false;
+            // Seleccionar Producto
+            this.form.producto_id = producto.id;
+            this.form.producto = producto.articulo;
+            this.form.preciounitario = producto.precio;
+
+            console.log(producto);
+        },
+
         //LLenar Array de Detalles
         fillDetalles() {
             if (this.cantidad) {
@@ -747,6 +732,74 @@ export default {
                 }
             });
             this.form.detalle = this.detalles;
+        },
+
+        //____________________Methods Lotes Movimientos_____________________//
+        // Controlar los movimientos disponibles
+        movimientosControl() {
+            if (this.productoSelected.inventarios.length <= 0) {
+                this.movimiento = "ALTA";
+                this.disabledMovimientos = true;
+                this.lotesDisponibles = [1];
+                this.lote = 1;
+            } else {
+                this.movimiento = "ALTA";
+                this.disabledMovimientos = false;
+                this.lotesDisponibles = [];
+                this.lote = null;
+            }
+        },
+
+        // Controlar los lotes disponibles
+        lotesControl: async function() {
+            if (this.movimiento == "ALTA") {
+                if (this.productoSelected.inventarios.length <= 0) {
+                    this.lotesDisponibles = [1];
+                    this.lote = 1;
+                    this.disabledLote = true;
+                } else {
+                    let ultimoLote = this.productoSelected.inventarios[
+                        this.productoSelected.inventarios.length - 1
+                    ].lote;
+                    let proximoLote = Number(ultimoLote) + 1;
+
+                    this.lotesDisponibles = [proximoLote];
+                    this.lote = proximoLote;
+                    this.disabledLote = true;
+                }
+            } else {
+                this.lotesDisponibles = [];
+                for (
+                    let i = 0;
+                    i < this.productoSelected.inventarios.length;
+                    i++
+                ) {
+                    this.lotesDisponibles.push(
+                        this.productoSelected.inventarios[i].lote
+                    );
+                }
+                this.lote = this.productoSelected.inventarios[0].lote;
+                await this.findLote();
+                this.disabledLote = false;
+            }
+        },
+
+        // Buscar el lote
+        findLote: async function() {
+            let response = await this.index({
+                url: "/api/inventarios",
+                lote: this.lote,
+                articulo_id: this.form.producto_id
+            });
+            if (response.length > 0) {
+                this.form.vencimiento = response[0].vencimiento;
+                this.form.supplier = response[0].supplier.razonsocial;
+                this.form.supplier_id = response[0].supplier.id;
+            } else {
+                this.form.vencimiento = null;
+                this.form.supplier = null;
+                this.form.supplier_id = null;
+            }
         },
         //_________________________Methods Generales________________________//
         // Imprimir Compra

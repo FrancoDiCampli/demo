@@ -253,7 +253,6 @@ export default {
                 "DEVOLUCION",
                 "VENCIMIENTO",
                 "DECREMENTO",
-                "INCREMENTO",
                 "MODIFICACION"
             ],
             disabledMovimientos: false,

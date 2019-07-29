@@ -73,12 +73,12 @@ class RemitosController extends Controller
                 'codprov' => $articulo['codprov'],
                 'codarticulo' => $articulo['codarticulo'],
                 'articulo' => $articulo['articulo'],
-                'cantidad' => $detail['cantidad'],
+                'cantidad' => $detail['cantidad'] * 1,
                 'medida' => $articulo['medida'],
                 'bonificacion' => 0,
                 'alicuota' => 0,
                 'preciounitario' => $detail['preciounitario'],
-                'subtotal' => $detail['cantidad'] * $detail['preciounitario'],
+                'subtotal' => $detail['subtotal'] * 1,
                 'lote' => $detail['lote'],
                 'articulo_id' => $detail['articulo_id'],
                 'remito_id' => $remito->id,
@@ -103,7 +103,7 @@ class RemitosController extends Controller
 
             $data = [
                 'inventario_id' => '',
-                'tipo' => 'COMPRA',
+                'tipo' => $detail['movimiento'],
                 'cantidad' => $detail['cantidad'],
                 'fecha' => now()->format('Y-m-d'),
                 'numcomprobante' => $remito->id,

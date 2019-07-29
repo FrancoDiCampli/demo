@@ -5530,6 +5530,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //Axios
  //Vuex
 
@@ -5538,7 +5562,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   name: "ConfiguracionesIndex",
   data: function data() {
     return {
-      configuraciones: [],
+      configAvanzada: [],
+      configStandard: [],
       headers: [{
         text: "CUIT",
         sortable: false
@@ -5551,7 +5576,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }]
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("crudx", ["data", "inProcess"])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("crudx", ["data", "inProcess"]), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("auth", ["rol", "token"])),
   mounted: function mounted() {
     this.getConfiguraciones();
   },
@@ -5560,7 +5585,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _getConfiguraciones = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var response, config, objet;
+        var response, configAvan, configStan, confi, objet, conf, _objet;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -5572,16 +5598,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 2:
                 response = _context.sent;
+                configAvan = response.avanzada;
+                configStan = response.standard;
 
-                for (config in response) {
+                for (confi in configAvan) {
                   objet = {
-                    alias: config,
-                    value: response[config]
+                    config: confi,
+                    value: configAvan[confi]
                   };
-                  this.configuraciones.push(objet);
+                  this.configAvanzada.push(objet);
                 }
 
-              case 4:
+                for (conf in configStan) {
+                  _objet = {
+                    config: conf,
+                    value: configStan[conf]
+                  };
+                  this.configStandard.push(_objet);
+                }
+
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -12160,6 +12196,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {
     this.getSellers();
     this.getClients();
+    axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("api/estadisticas/ventas").then(function (response) {
+      console.log(response);
+    });
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index"]), {
     getSellers: function () {
@@ -12227,8 +12266,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return getClients;
     }(),
     getReports: function getReports() {
-      var _this = this;
-
       var data = {
         vendedor: this.vendedor,
         producto: this.producto,
@@ -12236,8 +12273,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         condicion: this.condicionventa,
         clientes: this.cliente
       };
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("api/estadisticas/reportes", data).then(function (response) {
-        _this.facturas = response.data;
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("api/estadisticas/ventas", data).then(function (response) {
+        // this.facturas = response.data;
+        console.log(response.data);
       });
     }
   })
@@ -23984,39 +24022,120 @@ var render = function() {
           ),
           _vm._v(" "),
           _c(
-            "v-expansion-panel",
-            _vm._l(_vm.configuraciones, function(config) {
-              return _c(
-                "v-expansion-panel-content",
-                {
-                  key: config.alias,
-                  scopedSlots: _vm._u(
+            "v-card",
+            [
+              _c("v-layout", { attrs: { "justify-center": "" } }, [
+                _c("h1", [_vm._v("Configuración")])
+              ]),
+              _vm._v(" "),
+              _c("v-divider"),
+              _vm._v(" "),
+              _c(
+                "v-expansion-panel",
+                _vm._l(_vm.configStandard, function(item) {
+                  return _c(
+                    "v-expansion-panel-content",
+                    {
+                      key: item.config,
+                      scopedSlots: _vm._u(
+                        [
+                          {
+                            key: "header",
+                            fn: function() {
+                              return [
+                                _c("div", [
+                                  _c("b", [_vm._v(_vm._s(item.value.config))])
+                                ])
+                              ]
+                            },
+                            proxy: true
+                          }
+                        ],
+                        null,
+                        true
+                      )
+                    },
                     [
-                      {
-                        key: "header",
-                        fn: function() {
-                          return [
-                            _c("div", [_c("b", [_vm._v(_vm._s(config.alias))])])
-                          ]
-                        },
-                        proxy: true
-                      }
+                      _vm._v(" "),
+                      _c(
+                        "v-card",
+                        [_c("v-card-text", [_vm._v(_vm._s(item.value.value))])],
+                        1
+                      )
                     ],
-                    null,
-                    true
+                    1
                   )
+                }),
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.rol == "superAdmin",
+                      expression: "rol == 'superAdmin'"
+                    }
+                  ]
                 },
                 [
+                  _c("v-layout", { attrs: { "justify-center": "" } }, [
+                    _c("h1", [_vm._v("Avanzada")])
+                  ]),
+                  _vm._v(" "),
+                  _c("v-divider"),
                   _vm._v(" "),
                   _c(
-                    "v-card",
-                    [_c("v-card-text", [_vm._v(_vm._s(config.value))])],
+                    "v-expansion-panel",
+                    _vm._l(_vm.configAvanzada, function(item, i) {
+                      return _c(
+                        "v-expansion-panel-content",
+                        {
+                          key: i,
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "header",
+                                fn: function() {
+                                  return [
+                                    _c("div", [
+                                      _c("b", [
+                                        _vm._v(_vm._s(item.value.config))
+                                      ])
+                                    ])
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ],
+                            null,
+                            true
+                          )
+                        },
+                        [
+                          _vm._v(" "),
+                          _c(
+                            "v-card",
+                            [
+                              _c("v-card-text", [
+                                _vm._v(_vm._s(item.value.value))
+                              ])
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    }),
                     1
                   )
                 ],
                 1
               )
-            }),
+            ],
             1
           )
         ],

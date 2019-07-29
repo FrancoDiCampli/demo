@@ -64,7 +64,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('recibosPDF/{id}', 'API\PdfController@recibosPDF');
 
     // Reportes
-    Route::post('estadisticas/reportes', 'API\EstadisticasController@reportes');
+    Route::post('estadisticas/ventas', 'API\EstadisticasController@ventas');
     Route::post('estadisticas/inventarios', 'API\EstadisticasController@inventarios');
     Route::post('estadisticas/compras', 'API\EstadisticasController@compras');
 });

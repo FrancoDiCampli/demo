@@ -112,6 +112,9 @@ export default {
     mounted() {
         this.getSellers();
         this.getClients();
+        axios.post("api/estadisticas/ventas").then(response => {
+            console.log(response);
+        });
     },
 
     methods: {
@@ -134,8 +137,9 @@ export default {
                 condicion: this.condicionventa,
                 clientes: this.cliente
             };
-            axios.post("api/estadisticas/reportes", data).then(response => {
-                this.facturas = response.data;
+            axios.post("api/estadisticas/ventas", data).then(response => {
+                // this.facturas = response.data;
+                console.log(response.data);
             });
         }
     }

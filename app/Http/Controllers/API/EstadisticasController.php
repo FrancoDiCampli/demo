@@ -33,18 +33,32 @@ class EstadisticasController extends Controller
         $sellers = collect();
         $fecs = collect();
         $ventasVendedores = [];
+        $ventasClientes = [];
+        $ventasCondiciones = [];
+        $condiciones = collect(['CONTADO', 'CUENTA CORRIENTE', 'CREDITO / DEBITO']);
+        $clientes = [];
+        $clients = collect();
 
         foreach ($facturas as $factura) {
             $fecs->push($factura->fecha);
             $seller = User::find($factura->user_id);
             $sellers->push($seller);
+            $client = Cliente::find($factura->cliente_id);
+            $clients->push($client);
         }
-        $fecs;
+
+        // Fechas
+        $fechas = [
+            'fechaInicio' => $primera->fecha,
+            'fechaUltima' => $ultima->fecha,
+        ];
         $auxFechas = $fecs->unique();
         foreach ($auxFechas as $value) {
             $factus = Factura::where('fecha', $value)->get();
             array_push($ventasFecha, $factus);
         }
+
+        // Vendedores
         $auxVendedores = $sellers->unique();
         foreach ($auxVendedores as $key) {
             $facs = Factura::where('user_id', $key->id)->get();
@@ -52,16 +66,29 @@ class EstadisticasController extends Controller
             array_push($ventasVendedores, $facs);
         }
 
-        $fechas = [
-            'fechaInicio' => $primera->fecha,
-            'fechaUltima' => $ultima->fecha,
-        ];
+        // Clientes
+        $auxClientes = $clients->unique();
+        foreach ($auxClientes as $aux) {
+            $facturs = Factura::where('cliente_id', $aux->id)->get();
+            array_push($clientes, $aux);
+            array_push($ventasClientes, $facturs);
+        }
+
+        // Condiciones
+        foreach ($condiciones as $cond) {
+            $fa = Factura::where('condicionventa', $cond)->get();
+            array_push($ventasCondiciones, $fa);
+        }
 
         $ventas = [
             'fechas' => $fechas,
             'ventasFecha' => $ventasFecha,
             'vendedores' => $vendedores,
-            'ventasVendedores' => $ventasVendedores
+            'ventasVendedores' => $ventasVendedores,
+            'clientes' => $clientes,
+            'ventasClientes' => $ventasClientes,
+            'condiciones' => $condiciones,
+            'ventasCondiciones' => $ventasCondiciones
         ];
 
         return ['ventas' => $ventas];

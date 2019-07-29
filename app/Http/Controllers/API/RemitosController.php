@@ -120,8 +120,8 @@ class RemitosController extends Controller
                 $att['supplier_id'] = $remito->supplier_id;
                 $att['cantidad'] = $detail['cantidad'];
                 $att['stockminimo'] = 1;
-                $att['vencimiento'] = $detail['vence'];
-                $att['preciocosto'] = $detail['precio'];
+                $att['vencimiento'] = $detail['vencimiento'];
+                $att['preciocosto'] = $detail['preciounitario'];
                 $att['lote'] = $detail['lote'];
                 $arti = Inventario::create($att);
                 $data['inventario_id'] = $arti->id;

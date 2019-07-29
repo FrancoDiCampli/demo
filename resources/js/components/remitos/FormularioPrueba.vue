@@ -275,7 +275,7 @@
                 </div>
                 <!---------------------->
             </v-form>
-             <!-- Tabla Detalles -->
+            <!-- Tabla Detalles -->
             <v-layout justify-space-around wrap>
                 <v-flex xs12 px-3 mb-3 v-show="detallesProveedorDistinto">
                     <v-alert :value="detallesProveedorDistinto" color="error">
@@ -289,10 +289,7 @@
                         <template v-slot:items="detalle">
                             <td>
                                 <div v-if="detalle.item.proveedorDistinto">
-                                    <v-icon
-                                        color="error"
-                                        dark
-                                    >fas fa-exclamation-circle</v-icon>
+                                    <v-icon color="error" dark>fas fa-exclamation-circle</v-icon>
                                 </div>
                                 <div v-else @click="detalle.selected = !detalle.selected;">
                                     <v-checkbox
@@ -494,7 +491,11 @@ export default {
 
         //_________________________Computed Disabled________________________//
         blockProducto() {
-            if (!this.notProveedor && !this.proveedorDistinto && !this.detallesProveedorDistinto) {
+            if (
+                !this.notProveedor &&
+                !this.proveedorDistinto &&
+                !this.detallesProveedorDistinto
+            ) {
                 return false;
             } else {
                 return true;
@@ -505,7 +506,8 @@ export default {
             if (
                 !this.notProveedor &&
                 this.productoSelected != null &&
-                !this.disabledMovimiento && !this.detallesProveedorDistinto
+                !this.disabledMovimiento &&
+                !this.detallesProveedorDistinto
             ) {
                 return false;
             } else {
@@ -517,7 +519,8 @@ export default {
             if (
                 !this.notProveedor &&
                 this.productoSelected != null &&
-                !this.disabledLote && !this.detallesProveedorDistinto
+                !this.disabledLote &&
+                !this.detallesProveedorDistinto
             ) {
                 return false;
             } else {
@@ -526,7 +529,11 @@ export default {
         },
 
         blockDetalles() {
-            if (this.productoSelected != null && !this.proveedorDistinto && !this.detallesProveedorDistinto) {
+            if (
+                this.productoSelected != null &&
+                !this.proveedorDistinto &&
+                !this.detallesProveedorDistinto
+            ) {
                 return false;
             } else {
                 return true;
@@ -534,7 +541,12 @@ export default {
         },
 
         blockSave() {
-            if(!this.notProveedor && !this.proveedorDistinto && !this.detallesProveedorDistinto && this.detalles.length > 0) {
+            if (
+                !this.notProveedor &&
+                !this.proveedorDistinto &&
+                !this.detallesProveedorDistinto &&
+                this.detalles.length > 0
+            ) {
                 return false;
             } else {
                 return true;
@@ -552,12 +564,12 @@ export default {
                     return null;
                 }
             }
-        }, 
+        },
 
         detallesProveedorDistinto() {
-            if(this.detalles.length > 0) {
+            if (this.detalles.length > 0) {
                 for (let i = 0; i < this.detalles.length; i++) {
-                    if(this.detalles[i].proveedorDistinto == true) {
+                    if (this.detalles[i].proveedorDistinto == true) {
                         return true;
                     }
                 }
@@ -657,14 +669,13 @@ export default {
 
         // Verificar si el proveedor es igual al seleccionado en cada detalle
         checkSupplier() {
-            if(this.detalles.length > 0) {
+            if (this.detalles.length > 0) {
                 for (let i = 0; i < this.detalles.length; i++) {
-                    if (
-                        this.detalles[i].supplier_id !=
-                        this.form.supplier_id
-                    ) {
-                        if (this.detalles[i].movimiento == 'ALTA') {
-                            this.detalles[i].supplier_id = this.form.supplier_id;
+                    if (this.detalles[i].supplier_id != this.form.supplier_id) {
+                        if (this.detalles[i].movimiento == "ALTA") {
+                            this.detalles[
+                                i
+                            ].supplier_id = this.form.supplier_id;
                             this.detalles[i].proveedorDistinto = false;
                         } else {
                             this.detalles[i].proveedorDistinto = true;
@@ -814,7 +825,7 @@ export default {
                         subtotal: this.subtotalProdcuto,
                         supplier_id: this.form.supplier_id,
                         proveedorDistinto: false,
-                        movimiento: this.movimiento,
+                        movimiento: this.movimiento
                     };
                     // Añadir el Detalle al Array de Detalles
                     this.detalles.push(detalle);
@@ -868,16 +879,16 @@ export default {
         saveCompra: async function() {
             if (this.$refs.formCompra.validate()) {
                 console.log(this.form);
-                // //Descomentar para Guardar
-                // //Guardar Compras
-                // let resID = await this.save({ url: "/api/suppliers" });
-                // //Imprimir PDF de Compras
-                // this.remitosPDF(resID);
-                // //Reset Formularios
-                // this.detalles = [];
-                // await this.$refs.formDetalles.reset();
-                // await this.$refs.formCompra.reset();
-                // this.$router.push("/compras");
+                //Descomentar para Guardar
+                //Guardar Compras
+                let resID = await this.save({ url: "/api/remitos" });
+                //Imprimir PDF de Compras
+                this.remitosPDF(resID);
+                //Reset Formularios
+                this.detalles = [];
+                await this.$refs.formDetalles.reset();
+                await this.$refs.formCompra.reset();
+                this.$router.push("/compras");
             }
         },
         //Resetear Compra

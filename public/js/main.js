@@ -11161,9 +11161,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
 // Components
  // Vuex
 
@@ -11429,7 +11426,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.detalles.length > 0) {
         for (var i = 0; i < this.detalles.length; i++) {
           if (this.detalles[i].supplier_id != this.form.supplier_id) {
-            if (this.detalles[i].movimiento == 'ALTA') {
+            if (this.detalles[i].movimiento == "ALTA") {
               this.detalles[i].supplier_id = this.form.supplier_id;
               this.detalles[i].proveedorDistinto = false;
             } else {
@@ -11700,24 +11697,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _saveCompra = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        var resID;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                if (this.$refs.formCompra.validate()) {
-                  console.log(this.form); // //Descomentar para Guardar
-                  // //Guardar Compras
-                  // let resID = await this.save({ url: "/api/suppliers" });
-                  // //Imprimir PDF de Compras
-                  // this.remitosPDF(resID);
-                  // //Reset Formularios
-                  // this.detalles = [];
-                  // await this.$refs.formDetalles.reset();
-                  // await this.$refs.formCompra.reset();
-                  // this.$router.push("/compras");
+                if (!this.$refs.formCompra.validate()) {
+                  _context5.next = 12;
+                  break;
                 }
 
-              case 1:
+                console.log(this.form); //Descomentar para Guardar
+                //Guardar Compras
+
+                _context5.next = 4;
+                return this.save({
+                  url: "/api/remitos"
+                });
+
+              case 4:
+                resID = _context5.sent;
+                //Imprimir PDF de Compras
+                this.remitosPDF(resID); //Reset Formularios
+
+                this.detalles = [];
+                _context5.next = 9;
+                return this.$refs.formDetalles.reset();
+
+              case 9:
+                _context5.next = 11;
+                return this.$refs.formCompra.reset();
+
+              case 11:
+                this.$router.push("/compras");
+
+              case 12:
               case "end":
                 return _context5.stop();
             }

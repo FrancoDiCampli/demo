@@ -5600,6 +5600,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //Vuex
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -14353,7 +14388,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n/* Estilos Personalizados:\r\n    Los estilos establecidos dentro de esta etiqueta afectaran a todos los componentes\r\n    siempre y cuando se usen las clases en los mismos.\r\n    Esta implementación es contraria a la recomendada, pero debido a que los componentes \r\n    de Vuetify son externos no podemos utilizar la etiqueta Syle Scope en cada componente,\r\n    como recomienda Vuejs, para establecer los estilos.\r\n    Para evitar repitir las clases entre componentes provocando modificaciones no deseadas\r\n    en los mismos, se estableceran todos los estilos de forma global en esta etiqueta.\r\n*/\r\n\r\n/* Estilos para el avatar de perfil */\n.profile {\r\n    border: solid 3px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\r\n    color: #26a69a;\n}\r\n\r\n/* Estilos para el avatar de perfil en el sidenav */\n.profile-list {\r\n    border: solid 1.5px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\r\n    margin-top: 15px;\r\n    cursor: pointer;\n}\n.profile-list span {\r\n    color: #26a69a;\n}\r\n\r\n/* Estilos para el scrollbar */\nbody::-webkit-scrollbar {\r\n    width: 7px;\n}\nbody::-webkit-scrollbar-thumb {\r\n    background-color: rgba(38, 166, 154, 0.75);\n}\r\n\r\n/* Estilo para el indicador de carga circular absoluto */\n.loading {\r\n    position: fixed;\r\n    z-index: 999999;\r\n    left: 47.3%;\r\n    top: 44%;\n}\r\n\r\n/* Estilos para los inputs númericos */\ninput[type=\"number\"] {\r\n    -moz-appearance: textfield;\n}\ninput[type=\"number\"]::-webkit-outer-spin-button,\r\ninput[type=\"number\"]::-webkit-inner-spin-button {\r\n    -webkit-appearance: none;\n}\r\n\r\n/* Estilos para los imputs con la primera letra mayuscula */\n.capitalize input[type] {\r\n    text-transform: capitalize;\n}\r\n\r\n/* Estilos para los campos de pago en las cuentas corrientes del cliente (ClientesShowCuentaTable) */\n.input-pagos {\r\n    width: 75px;\r\n    display: block;\r\n    margin-top: 8px;\r\n    padding: 10px 0px;\r\n    border: none;\r\n    border-bottom: 1px solid #9e9e9e;\r\n    transition: all 1s ease;\n}\n.input-pagos:focus {\r\n    outline: none;\r\n    border-bottom: 2px solid #26a69a;\r\n    transition: all 0.5s ease;\n}\n.pagos tbody tr {\r\n    border-bottom: none !important;\n}\r\n\r\n/* Estilos para indicar el tipo de comprobante */\n.type-item {\r\n    margin: 5px 0px 5px -12px;\r\n    border: solid 1.5px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.type {\r\n    margin-top: 15px;\r\n    color: #26a69a;\n}\r\n\r\n/* Estilos para los search Table */\n.search-table {\r\n    border: solid 2px #26a69a;\r\n    margin-top: -30px;\r\n    border-top: none;\r\n    margin-bottom: 20px;\r\n    border-radius: 0px 0px 5px 5px;\n}\n.expansion-border {\r\n    border-bottom: 1px solid #aaaaaa;\n}\r\n\r\n/* Estilos para la animacion de expanción en las Search Table */\n.expand-transition {\r\n    transition: all 0.5s ease;\n}\n.expand-enter,\r\n.expand-leave {\r\n    height: 0;\r\n    opacity: 0;\n}\r\n\r\n/* Estilos para los Headers de factura */\n.dataFactura {\r\n    font-size: 12px;\r\n    line-height: 5px;\r\n    margin-top: 12px;\n}\r\n\r\n/* Estilos para los Headers de presupuesto */\n.dataPresupuesto {\r\n    font-size: 12px;\r\n    line-height: 5px;\r\n    margin-top: 12px;\n}\r\n\r\n/* Estilos para las esquinas de los cards de productos */\n.tringle-right-button {\r\n    position: relative;\r\n    width: 70px;\r\n    height: 70px;\r\n    border-top: solid 35px #26a69a;\r\n    border-right: solid 35px #26a69a;\r\n    border-left: solid 35px transparent;\r\n    border-bottom: solid 35px transparent;\r\n    cursor: pointer;\n}\n.tringle-right-button .icon {\r\n    position: absolute;\r\n    margin-top: -22px;\r\n    margin-left: 10px;\r\n    color: white;\r\n    font-size: 16px;\n}\n.tringle-left-button {\r\n    position: relative;\r\n    width: 50px;\r\n    height: 50px;\r\n    border-top: solid 25px transparent;\r\n    border-right: solid 25px transparent;\r\n    border-left: solid 25px;\r\n    border-bottom: solid 25px;\n}\n.tringle-left-button .icon {\r\n    position: absolute;\r\n    margin-top: 2px;\r\n    margin-left: -18px;\r\n    color: white;\r\n    font-size: 16px;\n}\n@media (min-width: 600px) {\n.tringle-right-button {\r\n        width: 60px;\r\n        height: 60px;\r\n        border-top: solid 30px #26a69a;\r\n        border-right: solid 30px #26a69a;\r\n        border-left: solid 30px transparent;\r\n        border-bottom: solid 30px transparent;\n}\n.tringle-right-button .icon {\r\n        margin-top: -20px;\r\n        margin-left: 8px;\n}\n.tringle-left-button {\r\n        width: 60px;\r\n        height: 60px;\r\n        border-top: solid 30px transparent;\r\n        border-right: solid 30px transparent;\r\n        border-left: solid 30px;\r\n        border-bottom: solid 30px;\n}\n.tringle-left-button .icon {\r\n        margin-top: 4px;\r\n        margin-left: -18px;\n}\n}\n@media (min-width: 1264px) {\n.tringle-right-button {\r\n        width: 50px;\r\n        height: 50px;\r\n        border-top: solid 25px #26a69a;\r\n        border-right: solid 25px #26a69a;\r\n        border-left: solid 25px transparent;\r\n        border-bottom: solid 25px transparent;\n}\n.tringle-right-button .icon {\r\n        margin-top: -16px;\r\n        margin-left: 8px;\r\n        font-size: 14px;\n}\n}\r\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Estilos Personalizados:\n    Los estilos establecidos dentro de esta etiqueta afectaran a todos los componentes\n    siempre y cuando se usen las clases en los mismos.\n    Esta implementación es contraria a la recomendada, pero debido a que los componentes \n    de Vuetify son externos no podemos utilizar la etiqueta Syle Scope en cada componente,\n    como recomienda Vuejs, para establecer los estilos.\n    Para evitar repitir las clases entre componentes provocando modificaciones no deseadas\n    en los mismos, se estableceran todos los estilos de forma global en esta etiqueta.\n*/\n\n/* Estilos para el avatar de perfil */\n.profile {\n    border: solid 3px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\n    color: #26a69a;\n}\n\n/* Estilos para el avatar de perfil en el sidenav */\n.profile-list {\n    border: solid 1.5px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n    margin-top: 15px;\n    cursor: pointer;\n}\n.profile-list span {\n    color: #26a69a;\n}\n\n/* Estilos para el scrollbar */\nbody::-webkit-scrollbar {\n    width: 7px;\n}\nbody::-webkit-scrollbar-thumb {\n    background-color: rgba(38, 166, 154, 0.75);\n}\n\n/* Estilo para el indicador de carga circular absoluto */\n.loading {\n    position: fixed;\n    z-index: 999999;\n    left: 47.3%;\n    top: 44%;\n}\n\n/* Estilos para los inputs númericos */\ninput[type=\"number\"] {\n    -moz-appearance: textfield;\n}\ninput[type=\"number\"]::-webkit-outer-spin-button,\ninput[type=\"number\"]::-webkit-inner-spin-button {\n    -webkit-appearance: none;\n}\n\n/* Estilos para los imputs con la primera letra mayuscula */\n.capitalize input[type] {\n    text-transform: capitalize;\n}\n\n/* Estilos para los campos de pago en las cuentas corrientes del cliente (ClientesShowCuentaTable) */\n.input-pagos {\n    width: 75px;\n    display: block;\n    margin-top: 8px;\n    padding: 10px 0px;\n    border: none;\n    border-bottom: 1px solid #9e9e9e;\n    transition: all 1s ease;\n}\n.input-pagos:focus {\n    outline: none;\n    border-bottom: 2px solid #26a69a;\n    transition: all 0.5s ease;\n}\n.pagos tbody tr {\n    border-bottom: none !important;\n}\n\n/* Estilos para indicar el tipo de comprobante */\n.type-item {\n    margin: 5px 0px 5px -12px;\n    border: solid 1.5px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.type {\n    margin-top: 15px;\n    color: #26a69a;\n}\n\n/* Estilos para los search Table */\n.search-table {\n    border: solid 2px #26a69a;\n    margin-top: -30px;\n    border-top: none;\n    margin-bottom: 20px;\n    border-radius: 0px 0px 5px 5px;\n}\n.expansion-border {\n    border-bottom: 1px solid #aaaaaa;\n}\n\n/* Estilos para la animacion de expanción en las Search Table */\n.expand-transition {\n    transition: all 0.5s ease;\n}\n.expand-enter,\n.expand-leave {\n    height: 0;\n    opacity: 0;\n}\n\n/* Estilos para los Headers de factura */\n.dataFactura {\n    font-size: 12px;\n    line-height: 5px;\n    margin-top: 12px;\n}\n\n/* Estilos para los Headers de presupuesto */\n.dataPresupuesto {\n    font-size: 12px;\n    line-height: 5px;\n    margin-top: 12px;\n}\n\n/* Estilos para las esquinas de los cards de productos */\n.tringle-right-button {\n    position: relative;\n    width: 70px;\n    height: 70px;\n    border-top: solid 35px #26a69a;\n    border-right: solid 35px #26a69a;\n    border-left: solid 35px transparent;\n    border-bottom: solid 35px transparent;\n    cursor: pointer;\n}\n.tringle-right-button .icon {\n    position: absolute;\n    margin-top: -22px;\n    margin-left: 10px;\n    color: white;\n    font-size: 16px;\n}\n.tringle-left-button {\n    position: relative;\n    width: 50px;\n    height: 50px;\n    border-top: solid 25px transparent;\n    border-right: solid 25px transparent;\n    border-left: solid 25px;\n    border-bottom: solid 25px;\n}\n.tringle-left-button .icon {\n    position: absolute;\n    margin-top: 2px;\n    margin-left: -18px;\n    color: white;\n    font-size: 16px;\n}\n@media (min-width: 600px) {\n.tringle-right-button {\n        width: 60px;\n        height: 60px;\n        border-top: solid 30px #26a69a;\n        border-right: solid 30px #26a69a;\n        border-left: solid 30px transparent;\n        border-bottom: solid 30px transparent;\n}\n.tringle-right-button .icon {\n        margin-top: -20px;\n        margin-left: 8px;\n}\n.tringle-left-button {\n        width: 60px;\n        height: 60px;\n        border-top: solid 30px transparent;\n        border-right: solid 30px transparent;\n        border-left: solid 30px;\n        border-bottom: solid 30px;\n}\n.tringle-left-button .icon {\n        margin-top: 4px;\n        margin-left: -18px;\n}\n}\n@media (min-width: 1264px) {\n.tringle-right-button {\n        width: 50px;\n        height: 50px;\n        border-top: solid 25px #26a69a;\n        border-right: solid 25px #26a69a;\n        border-left: solid 25px transparent;\n        border-bottom: solid 25px transparent;\n}\n.tringle-right-button .icon {\n        margin-top: -16px;\n        margin-left: 8px;\n        font-size: 14px;\n}\n}\n", ""]);
 
 // exports
 
@@ -14372,7 +14407,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.tokens-description {\r\n    display: inline-block;\r\n    margin-top: 26px;\r\n    text-overflow: ellipsis;\r\n    white-space: nowrap;\r\n    overflow: hidden;\n}\n@media (min-width: 600px) {\n.tokens-description {\r\n        max-width: 200px;\n}\n}\n@media (min-width: 960px) {\n.tokens-description {\r\n        max-width: 400px;\n}\n}\r\n", ""]);
+exports.push([module.i, "\n.tokens-description {\n    display: inline-block;\n    margin-top: 26px;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n    overflow: hidden;\n}\n@media (min-width: 600px) {\n.tokens-description {\n        max-width: 200px;\n}\n}\n@media (min-width: 960px) {\n.tokens-description {\n        max-width: 400px;\n}\n}\n", ""]);
 
 // exports
 
@@ -14391,7 +14426,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.profile {\r\n    border: solid 3px #26a69a;\r\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\r\n    color: #26a69a;\n}\r\n", ""]);
+exports.push([module.i, "\n.profile {\n    border: solid 3px #26a69a;\n    background-color: rgba(65, 184, 131, 0.25);\n}\n.profile span {\n    color: #26a69a;\n}\n", ""]);
 
 // exports
 
@@ -14410,7 +14445,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.fileContainer {\r\n    padding: 8px 32px;\r\n    width: auto;\n}\n.fileButton {\r\n    overflow: hidden;\r\n    display: inline-block;\r\n    position: relative;\r\n    cursor: pointer;\r\n    width: 100%;\r\n    height: 35px;\r\n    line-height: 35px;\r\n    padding: 0 1.5rem;\r\n    color: #26a69a;\r\n    font-size: 16px;\r\n    font-weight: 600;\r\n    font-family: \"Roboto\", sans-serif;\r\n    letter-spacing: 0.8px;\r\n    text-align: center;\r\n    text-decoration: none;\r\n    text-transform: uppercase;\r\n    vertical-align: middle;\r\n    white-space: nowrap;\r\n    outline: none;\r\n    border: none;\r\n    -webkit-user-select: none;\r\n    -moz-user-select: none;\r\n    -ms-user-select: none;\r\n    user-select: none;\r\n    border-radius: 2px;\r\n    transition: all 0.3s ease-out;\r\n    border: solid 0.5px #26a69a;\n}\n.fileInput {\r\n    cursor: pointer;\r\n    height: 100%;\r\n    position: absolute;\r\n    top: 0;\r\n    right: 0;\r\n    z-index: 99;\r\n    font-size: 50px;\r\n    opacity: 0;\r\n    -moz-opacity: 0;\r\n    filter: Alpha(opacity=0);\n}\n.fileContent {\r\n    width: 100%;\r\n    height: 150px;\r\n    margin: 6px;\r\n    text-align: center;\n}\n.fileIcon {\r\n    margin-top: 16px;\n}\n.fileName {\r\n    font-size: 16px;\r\n    margin-top: -16px;\n}\n.card-enter-active,\r\n.card-leave-active {\r\n    transition: all 5s;\n}\n.card-enter,\r\n.card-leave-to {\r\n    opacity: 0;\r\n    transform: translateY(-30px);\r\n    transition: all 5s;\n}\r\n", ""]);
+exports.push([module.i, "\n.fileContainer {\n    padding: 8px 32px;\n    width: auto;\n}\n.fileButton {\n    overflow: hidden;\n    display: inline-block;\n    position: relative;\n    cursor: pointer;\n    width: 100%;\n    height: 35px;\n    line-height: 35px;\n    padding: 0 1.5rem;\n    color: #26a69a;\n    font-size: 16px;\n    font-weight: 600;\n    font-family: \"Roboto\", sans-serif;\n    letter-spacing: 0.8px;\n    text-align: center;\n    text-decoration: none;\n    text-transform: uppercase;\n    vertical-align: middle;\n    white-space: nowrap;\n    outline: none;\n    border: none;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n    border-radius: 2px;\n    transition: all 0.3s ease-out;\n    border: solid 0.5px #26a69a;\n}\n.fileInput {\n    cursor: pointer;\n    height: 100%;\n    position: absolute;\n    top: 0;\n    right: 0;\n    z-index: 99;\n    font-size: 50px;\n    opacity: 0;\n    -moz-opacity: 0;\n    filter: Alpha(opacity=0);\n}\n.fileContent {\n    width: 100%;\n    height: 150px;\n    margin: 6px;\n    text-align: center;\n}\n.fileIcon {\n    margin-top: 16px;\n}\n.fileName {\n    font-size: 16px;\n    margin-top: -16px;\n}\n.card-enter-active,\n.card-leave-active {\n    transition: all 5s;\n}\n.card-enter,\n.card-leave-to {\n    opacity: 0;\n    transform: translateY(-30px);\n    transition: all 5s;\n}\n", ""]);
 
 // exports
 
@@ -14429,7 +14464,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.errors-input[data-v-ccc52fb6] {\r\n    margin-top: -28px;\n}\r\n", ""]);
+exports.push([module.i, "\n.errors-input[data-v-ccc52fb6] {\n    margin-top: -28px;\n}\n", ""]);
 
 // exports
 
@@ -14448,7 +14483,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.fa-chevron-down.vanished {\r\n    opacity: 0;\n}\r\n", ""]);
+exports.push([module.i, "\n.fa-chevron-down.vanished {\n    opacity: 0;\n}\n", ""]);
 
 // exports
 
@@ -24384,6 +24419,132 @@ var render = function() {
                                                 "\n                                    "
                                             )
                                           ]
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-dialog",
+                              {
+                                attrs: { width: "500", persistent: "" },
+                                model: {
+                                  value: _vm.provinciaDialog,
+                                  callback: function($$v) {
+                                    _vm.provinciaDialog = $$v
+                                  },
+                                  expression: "provinciaDialog"
+                                }
+                              },
+                              [
+                                _c(
+                                  "v-card",
+                                  [
+                                    _c("v-card-text", [
+                                      _c("h2", [_vm._v("Provincia")])
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("v-divider"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-card-text",
+                                      [
+                                        _c(
+                                          "v-layout",
+                                          {
+                                            attrs: {
+                                              "justify-center": "",
+                                              wrap: ""
+                                            }
+                                          },
+                                          [
+                                            _c(
+                                              "v-flex",
+                                              {
+                                                attrs: { xs12: "", "px-3": "" }
+                                              },
+                                              [
+                                                _c("v-text-field", {
+                                                  staticClass: "capitalize",
+                                                  attrs: {
+                                                    label: "Provincia",
+                                                    box: ""
+                                                  },
+                                                  model: {
+                                                    value:
+                                                      _vm.data.standard
+                                                        .provincia.value,
+                                                    callback: function($$v) {
+                                                      _vm.$set(
+                                                        _vm.data.standard
+                                                          .provincia,
+                                                        "value",
+                                                        $$v
+                                                      )
+                                                    },
+                                                    expression:
+                                                      "data.standard.provincia.value"
+                                                  }
+                                                })
+                                              ],
+                                              1
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c("v-divider"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-card-text",
+                                      [
+                                        _c(
+                                          "v-layout",
+                                          {
+                                            attrs: {
+                                              "justify-end": "",
+                                              wrap: ""
+                                            }
+                                          },
+                                          [
+                                            _c(
+                                              "v-btn",
+                                              {
+                                                attrs: {
+                                                  outline: "",
+                                                  color: "primary"
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    _vm.provinciaDialog = false
+                                                  }
+                                                }
+                                              },
+                                              [_vm._v("Cancelar")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "v-btn",
+                                              {
+                                                staticClass: "elevation-0",
+                                                attrs: {
+                                                  type: "submit",
+                                                  color: "primary"
+                                                }
+                                              },
+                                              [_vm._v("Editar")]
+                                            )
+                                          ],
+                                          1
                                         )
                                       ],
                                       1
@@ -82125,14 +82286,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!******************************************************!*\
   !*** ./resources/js/views/configuraciones/index.vue ***!
   \******************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_vue_vue_type_template_id_183aac69___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=183aac69& */ "./resources/js/views/configuraciones/index.vue?vue&type=template&id=183aac69&");
 /* harmony import */ var _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js& */ "./resources/js/views/configuraciones/index.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -82162,7 +82324,7 @@ component.options.__file = "resources/js/views/configuraciones/index.vue"
 /*!*******************************************************************************!*\
   !*** ./resources/js/views/configuraciones/index.vue?vue&type=script&lang=js& ***!
   \*******************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -83025,7 +83187,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\xampp\htdocs\laravel-projects\Gepetto-Point-Of-Sale\resources\js\main.js */"./resources/js/main.js");
+module.exports = __webpack_require__(/*! /opt/lampp/htdocs/Gepetto-Point-Of-Sale/resources/js/main.js */"./resources/js/main.js");
 
 
 /***/ })

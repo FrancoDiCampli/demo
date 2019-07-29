@@ -10900,6 +10900,234 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // Components
  // Vuex
 
@@ -10910,7 +11138,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   name: "FormularioPrueba",
   data: function data() {
     return {
-      //______________________Data Proveedores________________________//
+      //________________________Data Proveedores________________________//
       detallesProveedor: [],
       proveedores: [],
       proveedoresSearchTable: false,
@@ -10932,10 +11160,44 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         text: "Stock",
         sortable: false
       }],
+      productoSelected: null,
       //____________________Data Lotes Movimientos____________________//
       movimiento: "ALTA",
       movimientos: ["ALTA", "INCREMENTO"],
       disabledMovimiento: false,
+      lote: null,
+      lotes: [],
+      disabledLote: false,
+      proveedorDistinto: false,
+      //_________________________Data Detalles________________________//
+      cantidad: null,
+      vencimiento: null,
+      modalVencimiento: false,
+      detalles: [],
+      detallesHeader: [{
+        text: "Modificar",
+        sortable: false
+      }, {
+        text: "Articulo",
+        sortable: false
+      }, {
+        text: "Cantidad",
+        sortable: false
+      }, {
+        text: "Lote",
+        sortable: false,
+        "class": "hidden-xs-only"
+      }, {
+        text: "Precio",
+        sortable: false,
+        "class": "hidden-sm-and-down"
+      }, {
+        text: "Subtotal",
+        sortable: false
+      }, {
+        text: "",
+        sortable: false
+      }],
       //_________________________Data General________________________//
       rules: {
         required: function required(value) {
@@ -10947,7 +11209,114 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   components: {
     Error: _crudx_error_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("crudx", ["form", "inProcess"])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])("crudx", ["form", "inProcess"]), {
+    //_________________________Computed Disabled________________________//
+    blockProducto: function blockProducto() {
+      if (!this.notProveedor && !this.proveedorDistinto && !this.detallesProveedorDistinto) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    blockMovimiento: function blockMovimiento() {
+      if (!this.notProveedor && this.productoSelected != null && !this.disabledMovimiento && !this.detallesProveedorDistinto) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    blockLote: function blockLote() {
+      if (!this.notProveedor && this.productoSelected != null && !this.disabledLote && !this.detallesProveedorDistinto) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    blockDetalles: function blockDetalles() {
+      if (this.productoSelected != null && !this.proveedorDistinto && !this.detallesProveedorDistinto) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    blockSave: function blockSave() {
+      if (!this.notProveedor && !this.proveedorDistinto && !this.detallesProveedorDistinto && this.detalles.length > 0) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    //_________________________Computed Detalles________________________//
+    subtotalProdcuto: {
+      set: function set() {},
+      get: function get() {
+        if (this.cantidad) {
+          var sub = this.cantidad * this.form.preciounitario;
+          return sub.toFixed(2);
+        } else {
+          return null;
+        }
+      }
+    },
+    detallesProveedorDistinto: function detallesProveedorDistinto() {
+      if (this.detalles.length > 0) {
+        for (var i = 0; i < this.detalles.length; i++) {
+          if (this.detalles[i].proveedorDistinto == true) {
+            return true;
+          }
+        }
+      } else {
+        return false;
+      }
+    },
+    //_________________________Computed Resumen________________________//
+    subtotalCompra: {
+      set: function set() {},
+      get: function get() {
+        if (this.detalles.length > 0) {
+          var sub = 0;
+
+          for (var i = 0; i < this.detalles.length; i++) {
+            sub += this.detalles[i].subtotal * 1;
+          }
+
+          this.form.subtotal = sub.toFixed(2);
+          return sub.toFixed(2);
+        } else {
+          this.form.subtotal = null;
+          return null;
+        }
+      }
+    },
+    total: {
+      set: function set() {},
+      get: function get() {
+        if (this.subtotalCompra != null) {
+          var boni = 0;
+          var reca = 0;
+
+          if (this.form.bonificacion) {
+            if (this.form.bonificacion.length > 0) {
+              boni = this.form.bonificacion * this.subtotalCompra / 100;
+            }
+          }
+
+          if (this.form.recargo) {
+            if (this.form.recargo.length > 0) {
+              reca = this.form.recargo * this.subtotalCompra / 100;
+            }
+          }
+
+          var total = this.subtotalCompra - boni + reca;
+          this.form.total = total.toFixed(2);
+          return total.toFixed(2);
+        } else {
+          this.form.total = null;
+          return null;
+        }
+      }
+    }
+  }),
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])("crudx", ["index", "save"]), {
     //_________________________Methods Proveedores________________________//
     // Buscar los proveedores
@@ -11010,13 +11379,31 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.form.supplier = proveedor.razonsocial;
       this.form.supplier_id = proveedor.id;
-      this.notProveedor = false; // Establecer el Detalle de Proveedors
+      this.notProveedor = false;
+      this.checkSupplier(); // Establecer el Detalle de Proveedors
 
       axios__WEBPACK_IMPORTED_MODULE_3___default.a.get("/api/suppliers/" + proveedor.id).then(function (response) {
         _this.detallesProveedor = response.data;
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    // Verificar si el proveedor es igual al seleccionado en cada detalle
+    checkSupplier: function checkSupplier() {
+      if (this.detalles.length > 0) {
+        for (var i = 0; i < this.detalles.length; i++) {
+          if (this.detalles[i].supplier_id != this.form.supplier_id) {
+            if (this.detalles[i].movimiento == 'ALTA') {
+              this.detalles[i].supplier_id = this.form.supplier_id;
+              this.detalles[i].proveedorDistinto = false;
+            } else {
+              this.detalles[i].proveedorDistinto = true;
+            }
+          } else {
+            this.detalles[i].proveedorDistinto = false;
+          }
+        }
+      }
     },
     //_________________________Methods Productos________________________//
     // Buscar Producto
@@ -11031,25 +11418,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 // Reiniciar Cantidad, Precio y el Producto Seleccionado
                 // Activar Tabla de Busqueda
-                this.productosSearchTable = true; // Buscar Productos
+                this.productosSearchTable = true;
+                this.productoSelected = null; // Buscar Productos
 
                 if (!this.form.producto) {
-                  _context2.next = 6;
+                  _context2.next = 7;
                   break;
                 }
 
-                _context2.next = 4;
+                _context2.next = 5;
                 return this.index({
                   url: "/api/articulos",
                   buscarArticulo: this.form.producto,
                   limit: 5
                 });
 
-              case 4:
+              case 5:
                 response = _context2.sent;
                 this.productos = response.articulos;
 
-              case 6:
+              case 7:
               case "end":
                 return _context2.stop();
             }
@@ -11064,26 +11452,74 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return findProducto;
     }(),
     // Seleccionar Producto
-    selectProducto: function () {
-      var _selectProducto = _asyncToGenerator(
+    selectProducto: function selectProducto(producto) {
+      // Reiniciar la tabla de productos
+      this.productos = [];
+      this.productoSelected = producto; // Controlar el movimiento
+
+      this.movimientosControl(producto); // Desactivar Tabla de Busqueda
+
+      this.productosSearchTable = false; // Seleccionar Producto
+
+      this.form.producto_id = producto.id;
+      this.form.producto = producto.articulo;
+      this.form.preciounitario = producto.precio;
+    },
+    //____________________Methods Lotes Movimientos_____________________//
+    // Controlar los movimientos disponibles
+    movimientosControl: function movimientosControl(producto) {
+      this.movimiento = "ALTA";
+
+      if (producto.inventarios.length <= 0) {
+        this.disabledMovimiento = true;
+      } else {
+        this.disabledMovimiento = false;
+      }
+
+      this.lotesControl();
+    },
+    lotesControl: function () {
+      var _lotesControl = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(producto) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var ultimoLote, proximoLote, i;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                // Reiniciar la tabla de productos
-                this.productos = []; // Controlar el movimiento
+                // Comprobar el tipo de movimiento
+                if (this.movimiento == "ALTA") {
+                  // Comprobar si el articulo tiene inventarios o no
+                  if (this.productoSelected.inventarios.length <= 0) {
+                    // Si no tiene inventarios asignar el lote 1
+                    this.lotes = [1];
+                    this.lote = 1;
+                    this.disabledLote = true;
+                  } else {
+                    // Si tiene inventarios asignar el proximo lote
+                    ultimoLote = this.productoSelected.inventarios[this.productoSelected.inventarios.length - 1].lote;
+                    proximoLote = Number(ultimoLote) + 1;
+                    this.lotes = [proximoLote];
+                    this.lote = proximoLote;
+                    this.disabledLote = true;
+                  }
+                } else {
+                  // En caso de incremento asignar todos los lotes al select
+                  this.lotes = [];
 
-                this.movimientosControl(producto); // Desactivar Tabla de Busqueda
+                  for (i = 0; i < this.productoSelected.inventarios.length; i++) {
+                    this.lotes.push(this.productoSelected.inventarios[i].lote);
+                  }
 
-                this.productosSearchTable = false; // Seleccionar Producto
+                  this.lote = this.productoSelected.inventarios[0].lote; // await this.findLote();
 
-                this.form.producto_id = producto.id;
-                this.form.producto = producto.articulo;
-                this.form.preciounitario = producto.precio;
+                  this.disabledLote = false;
+                }
 
-              case 6:
+                _context3.next = 3;
+                return this.findLote();
+
+              case 3:
               case "end":
                 return _context3.stop();
             }
@@ -11091,32 +11527,47 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, _callee3, this);
       }));
 
-      function selectProducto(_x) {
-        return _selectProducto.apply(this, arguments);
+      function lotesControl() {
+        return _lotesControl.apply(this, arguments);
       }
 
-      return selectProducto;
+      return lotesControl;
     }(),
-    //____________________Methods Lotes Movimientos_____________________//
-    // Controlar los movimientos disponibles
-    movimientosControl: function () {
-      var _movimientosControl = _asyncToGenerator(
+    // Buscar el lote
+    findLote: function () {
+      var _findLote = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(producto) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                console.log(producto);
-                this.movimiento = "ALTA";
+                _context4.next = 2;
+                return this.index({
+                  url: "/api/inventarios",
+                  lote: this.lote,
+                  articulo_id: this.form.producto_id
+                });
 
-                if (producto.inventarios.length <= 0) {
-                  this.disabledMovimiento = true;
+              case 2:
+                response = _context4.sent;
+
+                if (response.length > 0) {
+                  if (this.form.supplier_id != response[0].supplier.id) {
+                    this.proveedorDistinto = true;
+                  } else {
+                    this.proveedorDistinto = false;
+                  }
+
+                  this.vencimiento = response[0].vencimiento;
                 } else {
-                  this.disabledMovimiento = false;
+                  this.proveedorDistinto = false;
+                  this.vencimiento = null;
+                  this.$refs.formDetalles.resetValidation();
                 }
 
-              case 3:
+              case 4:
               case "end":
                 return _context4.stop();
             }
@@ -11124,11 +11575,157 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, _callee4, this);
       }));
 
-      function movimientosControl(_x2) {
-        return _movimientosControl.apply(this, arguments);
+      function findLote() {
+        return _findLote.apply(this, arguments);
       }
 
-      return movimientosControl;
+      return findLote;
+    }(),
+    //____________________Methods Detalles_____________________//
+    //LLenar Array de Detalles
+    fillDetalles: function fillDetalles() {
+      var _this2 = this;
+
+      if (this.$refs.formDetalles.validate()) {
+        var find = this.detalles.find(function (detalle) {
+          return detalle.producto === _this2.form.producto && detalle.lote === _this2.lote;
+        });
+
+        if (find) {
+          // Buscar el indice del la tabla detalles que coicide con el detalle existente
+          var indexDetalle = this.detalles.indexOf(find); // Sumar a la cantidad del detalle existente la nueva cantidad
+
+          var nuevaCantidad = Number(this.detalles[indexDetalle].cantidad) + Number(this.cantidad); // Actualizar el detalle
+
+          this.detalles[indexDetalle].cantidad = nuevaCantidad;
+          this.detalles[indexDetalle].subtotal = Number(this.detalles[indexDetalle].subtotal) * nuevaCantidad;
+        } else {
+          // Crear un Nuevo Detalle
+          var detalle = {
+            selected: false,
+            articulo_id: this.form.producto_id,
+            producto: this.form.producto,
+            cantidad: this.cantidad,
+            lote: this.lote,
+            vencimiento: this.vencimiento,
+            preciounitario: this.form.preciounitario,
+            subtotal: this.subtotalProdcuto,
+            supplier_id: this.form.supplier_id,
+            proveedorDistinto: false,
+            movimiento: this.movimiento
+          }; // Añadir el Detalle al Array de Detalles
+
+          this.detalles.push(detalle);
+          this.form.detalle = this.detalles;
+        } // Reiniciar el Formulario de Detalles
+
+
+        this.form.producto_id = null;
+        this.productoSelected = null;
+        this.$refs.formDetalles.reset();
+        this.checkSupplier();
+      }
+    },
+    // Borrar un Detalle del Array
+    removeDetalle: function removeDetalle(prodcuto) {
+      var index = this.detalles.indexOf(prodcuto);
+      this.detalles.splice(index, 1);
+      this.form.detalle = this.detalles;
+      this.checkSupplier();
+    },
+    //Actualizar cantidad y subtotal de un detalle
+    updateDetalle: function updateDetalle() {
+      this.detalles.forEach(function (detalle) {
+        if (detalle.cantidad.length > 0) {
+          detalle.subtotal = detalle.cantidad * detalle.preciounitario;
+        } else {
+          detalle.subtotal = 0;
+        }
+      });
+    },
+    //_________________________Methods Generales________________________//
+    // Imprimir Compra
+    remitosPDF: function remitosPDF(id) {
+      axios__WEBPACK_IMPORTED_MODULE_3___default()({
+        url: "/api/remitosPDF/" + id,
+        method: "GET",
+        responseType: "blob"
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data]));
+        var link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "compra" + id + ".pdf");
+        document.body.appendChild(link);
+        link.click();
+      });
+    },
+    //Guardar Compra
+    saveCompra: function () {
+      var _saveCompra = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                if (this.$refs.formCompra.validate()) {
+                  console.log(this.form); // //Descomentar para Guardar
+                  // //Guardar Compras
+                  // let resID = await this.save({ url: "/api/suppliers" });
+                  // //Imprimir PDF de Compras
+                  // this.remitosPDF(resID);
+                  // //Reset Formularios
+                  // this.detalles = [];
+                  // await this.$refs.formDetalles.reset();
+                  // await this.$refs.formCompra.reset();
+                  // this.$router.push("/compras");
+                }
+
+              case 1:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+
+      function saveCompra() {
+        return _saveCompra.apply(this, arguments);
+      }
+
+      return saveCompra;
+    }(),
+    //Resetear Compra
+    cancelCompra: function () {
+      var _cancelCompra = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                //Reset Formularios
+                this.detalles = [];
+                _context6.next = 3;
+                return this.$refs.formDetalles.reset();
+
+              case 3:
+                _context6.next = 5;
+                return this.$refs.formCompra.reset();
+
+              case 5:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6, this);
+      }));
+
+      function cancelCompra() {
+        return _cancelCompra.apply(this, arguments);
+      }
+
+      return cancelCompra;
     }()
   })
 });
@@ -32146,7 +32743,7 @@ var render = function() {
                         _c("v-text-field", {
                           attrs: {
                             autofocus: "",
-                            disabled: _vm.notProveedor,
+                            disabled: _vm.blockProducto,
                             label: "Producto",
                             box: ""
                           },
@@ -32327,19 +32924,54 @@ var render = function() {
                   [
                     _c(
                       "v-flex",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.proveedorDistinto,
+                            expression: "proveedorDistinto"
+                          }
+                        ],
+                        attrs: { xs12: "", "px-3": "", "mb-3": "" }
+                      },
+                      [
+                        _c(
+                          "v-alert",
+                          {
+                            attrs: {
+                              value: _vm.proveedorDistinto,
+                              color: "error"
+                            }
+                          },
+                          [
+                            _c("div", { staticClass: "text-xs-center" }, [
+                              _vm._v(
+                                "Este producto ya tiene un lote con este número asociado a otro proveedor, por favor cambie el número del lote."
+                              )
+                            ])
+                          ]
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-flex",
                       { attrs: { xs12: "", sm4: "", "px-3": "" } },
                       [
                         _c("v-select", {
                           attrs: {
-                            disabled:
-                              _vm.notProveedor == false &&
-                              _vm.disabledMovimiento == false
-                                ? false
-                                : true,
+                            disabled: _vm.blockMovimiento,
                             items: _vm.movimientos,
                             rules: [_vm.rules.required],
                             label: "Movimiento",
                             box: ""
+                          },
+                          on: {
+                            change: function($event) {
+                              return _vm.lotesControl()
+                            }
                           },
                           model: {
                             value: _vm.movimiento,
@@ -32351,6 +32983,271 @@ var render = function() {
                         })
                       ],
                       1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-flex",
+                      { attrs: { xs12: "", sm4: "", "px-3": "" } },
+                      [
+                        _c("v-select", {
+                          attrs: {
+                            disabled: _vm.blockLote,
+                            items: _vm.lotes,
+                            rules: [_vm.rules.required],
+                            label: "Lote",
+                            box: ""
+                          },
+                          on: {
+                            change: function($event) {
+                              return _vm.findLote()
+                            }
+                          },
+                          model: {
+                            value: _vm.lote,
+                            callback: function($$v) {
+                              _vm.lote = $$v
+                            },
+                            expression: "lote"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-flex",
+                      { attrs: { xs12: "", sm4: "", "px-3": "" } },
+                      [
+                        _c("v-text-field", {
+                          attrs: {
+                            type: "number",
+                            disabled: _vm.blockDetalles,
+                            label: "Cantidad",
+                            box: ""
+                          },
+                          on: {
+                            keyup: function($event) {
+                              if (
+                                !$event.type.indexOf("key") &&
+                                _vm._k(
+                                  $event.keyCode,
+                                  "enter",
+                                  13,
+                                  $event.key,
+                                  "Enter"
+                                )
+                              ) {
+                                return null
+                              }
+                              return _vm.fillDetalles()
+                            }
+                          },
+                          model: {
+                            value: _vm.cantidad,
+                            callback: function($$v) {
+                              _vm.cantidad = $$v
+                            },
+                            expression: "cantidad"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-flex",
+                      { attrs: { xs12: "", sm4: "", "px-3": "" } },
+                      [
+                        _c(
+                          "v-dialog",
+                          {
+                            ref: "vencimiento",
+                            attrs: {
+                              "return-value": _vm.vencimiento,
+                              persistent: "",
+                              lazy: "",
+                              "full-width": "",
+                              width: "290px"
+                            },
+                            on: {
+                              "update:returnValue": function($event) {
+                                _vm.vencimiento = $event
+                              },
+                              "update:return-value": function($event) {
+                                _vm.vencimiento = $event
+                              }
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "activator",
+                                fn: function(ref) {
+                                  var on = ref.on
+                                  return [
+                                    _c(
+                                      "v-text-field",
+                                      _vm._g(
+                                        {
+                                          attrs: {
+                                            label: "Fecha de Vencimiento",
+                                            disabled: _vm.blockDetalles,
+                                            rules: [_vm.rules.required],
+                                            box: "",
+                                            readonly: ""
+                                          },
+                                          on: {
+                                            keyup: function($event) {
+                                              if (
+                                                !$event.type.indexOf("key") &&
+                                                _vm._k(
+                                                  $event.keyCode,
+                                                  "enter",
+                                                  13,
+                                                  $event.key,
+                                                  "Enter"
+                                                )
+                                              ) {
+                                                return null
+                                              }
+                                              return _vm.fillDetalles()
+                                            }
+                                          },
+                                          model: {
+                                            value: _vm.vencimiento,
+                                            callback: function($$v) {
+                                              _vm.vencimiento = $$v
+                                            },
+                                            expression: "vencimiento"
+                                          }
+                                        },
+                                        on
+                                      )
+                                    )
+                                  ]
+                                }
+                              }
+                            ]),
+                            model: {
+                              value: _vm.modalVencimiento,
+                              callback: function($$v) {
+                                _vm.modalVencimiento = $$v
+                              },
+                              expression: "modalVencimiento"
+                            }
+                          },
+                          [
+                            _vm._v(" "),
+                            _c(
+                              "v-date-picker",
+                              {
+                                attrs: {
+                                  scrollable: "",
+                                  locale: "es",
+                                  format: "DD/MM/YYYY",
+                                  color: "primary"
+                                },
+                                model: {
+                                  value: _vm.vencimiento,
+                                  callback: function($$v) {
+                                    _vm.vencimiento = $$v
+                                  },
+                                  expression: "vencimiento"
+                                }
+                              },
+                              [
+                                _c("v-spacer"),
+                                _vm._v(" "),
+                                _c(
+                                  "v-btn",
+                                  {
+                                    attrs: { flat: "", color: "primary" },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.modalVencimiento = false
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Cancel")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-btn",
+                                  {
+                                    attrs: { flat: "", color: "primary" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.$refs.vencimiento.save(
+                                          _vm.vencimiento
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("OK")]
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-flex",
+                      { attrs: { xs12: "", sm4: "", "px-3": "" } },
+                      [
+                        _c("v-text-field", {
+                          attrs: {
+                            label: "Precio de Compra",
+                            disabled: _vm.blockDetalles,
+                            box: ""
+                          },
+                          on: {
+                            keyup: function($event) {
+                              if (
+                                !$event.type.indexOf("key") &&
+                                _vm._k(
+                                  $event.keyCode,
+                                  "enter",
+                                  13,
+                                  $event.key,
+                                  "Enter"
+                                )
+                              ) {
+                                return null
+                              }
+                              return _vm.fillDetalles()
+                            }
+                          },
+                          model: {
+                            value: _vm.form.preciounitario,
+                            callback: function($$v) {
+                              _vm.$set(_vm.form, "preciounitario", $$v)
+                            },
+                            expression: "form.preciounitario"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-flex",
+                      { attrs: { xs12: "", sm4: "", "px-3": "" } },
+                      [
+                        _c("v-text-field", {
+                          attrs: { label: "Subtotal", disabled: "", box: "" },
+                          model: {
+                            value: _vm.subtotalProdcuto,
+                            callback: function($$v) {
+                              _vm.subtotalProdcuto = $$v
+                            },
+                            expression: "subtotalProdcuto"
+                          }
+                        })
+                      ],
+                      1
                     )
                   ],
                   1
@@ -32358,7 +33255,430 @@ var render = function() {
               ],
               1
             )
-          ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "v-layout",
+            { attrs: { "justify-space-around": "", wrap: "" } },
+            [
+              _c(
+                "v-flex",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.detallesProveedorDistinto,
+                      expression: "detallesProveedorDistinto"
+                    }
+                  ],
+                  attrs: { xs12: "", "px-3": "", "mb-3": "" }
+                },
+                [
+                  _c(
+                    "v-alert",
+                    {
+                      attrs: {
+                        value: _vm.detallesProveedorDistinto,
+                        color: "error"
+                      }
+                    },
+                    [
+                      _c("div", { staticClass: "text-xs-center" }, [
+                        _vm._v(
+                          "Uno o más productos del detalle ya tienen un lote asociado a otro proveedor, por favor elimine el detalle que que presente algún conflicto o cambie el proveedor."
+                        )
+                      ])
+                    ]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-flex",
+                { attrs: { xs12: "", "px-3": "" } },
+                [
+                  _c("v-data-table", {
+                    attrs: {
+                      headers: _vm.detallesHeader,
+                      items: _vm.detalles,
+                      "hide-actions": ""
+                    },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "items",
+                        fn: function(detalle) {
+                          return [
+                            _c("td", [
+                              detalle.item.proveedorDistinto
+                                ? _c(
+                                    "div",
+                                    [
+                                      _c(
+                                        "v-icon",
+                                        { attrs: { color: "error", dark: "" } },
+                                        [_vm._v("fas fa-exclamation-circle")]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                : _c(
+                                    "div",
+                                    {
+                                      on: {
+                                        click: function($event) {
+                                          detalle.selected = !detalle.selected
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("v-checkbox", {
+                                        attrs: {
+                                          "input-value": detalle.selected,
+                                          color: "primary",
+                                          "hide-details": ""
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(detalle.item.producto))]),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              [
+                                _c(
+                                  "v-edit-dialog",
+                                  {
+                                    attrs: {
+                                      "return-value": detalle.item.cantidad,
+                                      lazy: ""
+                                    },
+                                    on: {
+                                      "update:returnValue": function($event) {
+                                        return _vm.$set(
+                                          detalle.item,
+                                          "cantidad",
+                                          $event
+                                        )
+                                      },
+                                      "update:return-value": function($event) {
+                                        return _vm.$set(
+                                          detalle.item,
+                                          "cantidad",
+                                          $event
+                                        )
+                                      }
+                                    },
+                                    scopedSlots: _vm._u(
+                                      [
+                                        {
+                                          key: "input",
+                                          fn: function() {
+                                            return [
+                                              _c("v-text-field", {
+                                                attrs: {
+                                                  label: "Cantidad",
+                                                  "single-line": ""
+                                                },
+                                                on: {
+                                                  keyup: function($event) {
+                                                    return _vm.updateDetalle()
+                                                  }
+                                                },
+                                                model: {
+                                                  value: detalle.item.cantidad,
+                                                  callback: function($$v) {
+                                                    _vm.$set(
+                                                      detalle.item,
+                                                      "cantidad",
+                                                      $$v
+                                                    )
+                                                  },
+                                                  expression:
+                                                    "detalle.item.cantidad"
+                                                }
+                                              })
+                                            ]
+                                          },
+                                          proxy: true
+                                        }
+                                      ],
+                                      null,
+                                      true
+                                    )
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                " +
+                                        _vm._s(detalle.item.cantidad) +
+                                        "\n                                "
+                                    )
+                                  ]
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "hidden-xs-only" }, [
+                              _vm._v(_vm._s(detalle.item.lote))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "hidden-sm-and-down" }, [
+                              _vm._v(_vm._s(detalle.item.preciounitario))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(detalle.item.subtotal))]),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              { staticStyle: { padding: "0px" } },
+                              [
+                                _c(
+                                  "v-btn",
+                                  {
+                                    attrs: {
+                                      flat: "",
+                                      icon: "",
+                                      color: "primary"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.removeDetalle(detalle.item)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "v-icon",
+                                      { attrs: { size: "medium" } },
+                                      [_vm._v("fas fa-times")]
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("br"),
+          _vm._v(" "),
+          _c(
+            "div",
+            [
+              _c(
+                "v-layout",
+                { attrs: { "justify-space-around": "", wrap: "" } },
+                [
+                  _c(
+                    "v-flex",
+                    { attrs: { xs12: "", sm6: "", "px-3": "" } },
+                    [
+                      _c(
+                        "v-layout",
+                        { attrs: { "justify-space-around": "", wrap: "" } },
+                        [
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  type: "number",
+                                  disabled: _vm.blockProducto,
+                                  label: "Bonificacion",
+                                  box: ""
+                                },
+                                model: {
+                                  value: _vm.form.bonificacion,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "bonificacion", $$v)
+                                  },
+                                  expression: "form.bonificacion"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("Error", { attrs: { tag: "bonificacion" } })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  type: "number",
+                                  disabled: _vm.blockProducto,
+                                  label: "Recargo",
+                                  box: ""
+                                },
+                                model: {
+                                  value: _vm.form.recargo,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "recargo", $$v)
+                                  },
+                                  expression: "form.recargo"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("Error", { attrs: { tag: "recargo" } })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  value: "REMITO DE COMPRA",
+                                  label: "Tipo Comprobante",
+                                  disabled: "",
+                                  box: ""
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-flex",
+                    { attrs: { xs12: "", sm6: "", "px-3": "" } },
+                    [
+                      _c(
+                        "v-layout",
+                        { attrs: { "justify-space-around": "", wrap: "" } },
+                        [
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  disabled: "",
+                                  rules: [_vm.rules.required],
+                                  label: "Subtotal",
+                                  box: ""
+                                },
+                                model: {
+                                  value: _vm.subtotalCompra,
+                                  callback: function($$v) {
+                                    _vm.subtotalCompra = $$v
+                                  },
+                                  expression: "subtotalCompra"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("Error", { attrs: { tag: "subtotal" } })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  disabled: "",
+                                  rules: [_vm.rules.required],
+                                  label: "Total",
+                                  box: ""
+                                },
+                                model: {
+                                  value: _vm.total,
+                                  callback: function($$v) {
+                                    _vm.total = $$v
+                                  },
+                                  expression: "total"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("Error", { attrs: { tag: "total" } })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "" } },
+                            [
+                              _c(
+                                "v-layout",
+                                { attrs: { "justify-center": "" } },
+                                [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        disabled: _vm.inProcess,
+                                        outline: "",
+                                        color: "primary"
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.cancelCompra()
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Cancelar")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        disabled: _vm.blockSave,
+                                        loading: _vm.inProcess,
+                                        type: "submit",
+                                        color: "primary"
+                                      }
+                                    },
+                                    [_vm._v("Guardar")]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("br")
+            ],
+            1
+          )
         ],
         1
       )

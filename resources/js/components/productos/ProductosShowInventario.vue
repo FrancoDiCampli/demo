@@ -24,15 +24,29 @@
                     <v-card-text>
                         <v-form ref="inventariosForm" @submit.prevent="preventSave()">
                             <v-layout justify-space-around wrap>
+                                <!-- input movimiento -->
+                                <v-flex xs12 sm4 px-3>
+                                    <v-select
+                                        v-model="movimiento"
+                                        @change="lotesControl()"
+                                        :disabled="disabledMovimientos"
+                                        :items="movimientos"
+                                        :rules="[rules.required]"
+                                        label="Movimiento"
+                                        box
+                                    ></v-select>
+                                </v-flex>
                                 <!-- input lote -->
                                 <v-flex xs12 sm4 px-3>
-                                    <v-text-field
-                                        v-model="form.lote"
-                                        @keyup="findLote()"
+                                    <v-select
+                                        v-model="lote"
+                                        @change="findLote()"
+                                        :disabled="disabledLote"
+                                        :items="lotesDisponibles"
+                                        :rules="[rules.required]"
                                         label="Lote"
                                         box
-                                        :rules="[rules.required]"
-                                    ></v-text-field>
+                                    ></v-select>
                                 </v-flex>
                                 <!-- input cantidad -->
                                 <v-flex xs12 sm4 px-3>
@@ -46,17 +60,6 @@
                                             [rules.required, rules.cantidadMaxima]
                                         "
                                     ></v-text-field>
-                                </v-flex>
-                                <!-- input movimiento -->
-                                <v-flex xs12 sm4 px-3>
-                                    <v-select
-                                        v-model="movimiento"
-                                        :disabled="disabledMovimiento"
-                                        :items="movimientos"
-                                        :rules="[rules.required]"
-                                        label="Movimiento"
-                                        box
-                                    ></v-select>
                                 </v-flex>
                                 <!-- input vencimiento -->
                                 <v-flex xs12 sm6 px-3>
@@ -73,6 +76,7 @@
                                             <v-text-field
                                                 v-model="form.vencimiento"
                                                 label="Fecha de Vencimiento"
+                                                :disabled="disabledInputs"
                                                 :rules="[rules.required]"
                                                 box
                                                 readonly
@@ -105,6 +109,7 @@
                                     <v-text-field
                                         @keyup="findSuppliers()"
                                         v-model="form.supplier"
+                                        :disabled="disabledInputs"
                                         :rules="[rules.required]"
                                         label="Proveedor"
                                         box
@@ -177,20 +182,6 @@
                     <td>{{ inventario.item.lote }}</td>
                     <td class="hidden-xs-only">{{ inventario.item.vencimiento }}</td>
                     <td>{{ inventario.item.proveedor.razonsocial }}</td>
-                    <td>
-                        <v-menu>
-                            <template v-slot:activator="{ on }">
-                                <v-btn flat icon dark color="primary" v-on="on">
-                                    <v-icon size="medium">fas fa-ellipsis-v</v-icon>
-                                </v-btn>
-                            </template>
-                            <v-list>
-                                <v-list-tile @click="editInventario(inventario.item.lote)">
-                                    <v-list-tile-title>Editar</v-list-tile-title>
-                                </v-list-tile>
-                            </v-list>
-                        </v-menu>
-                    </td>
                 </template>
             </v-data-table>
         </div>
@@ -264,10 +255,13 @@ export default {
                 "DEVOLUCION",
                 "VENCIMIENTO",
                 "DECREMENTO",
-                "INCREMENTO",
                 "MODIFICACION"
             ],
-            disabledMovimiento: true,
+            disabledMovimientos: false,
+            lotesDisponibles: [],
+            lote: null,
+            disabledLote: false,
+            disabledInputs: false,
             preventSaveDialog: false,
             msg: null,
             cantidadMaxima: 999999999,
@@ -286,8 +280,7 @@ export default {
                     sortable: false,
                     class: "hidden-xs-only"
                 },
-                { text: "Proveedor", sortable: false },
-                { text: "", sortable: false }
+                { text: "Proveedor", sortable: false }
             ] // Header de la tabla de inventarios
         };
     },
@@ -296,59 +289,79 @@ export default {
         ...mapState("crudx", ["showData", "form", "inProcess"])
     },
 
+    mounted() {
+        this.movimientosControl();
+        this.lotesControl();
+    },
+
     methods: {
         ...mapActions("crudx", ["index", "save", "show"]),
 
+        log() {
+            console.log(this.showData);
+        },
+
         // Activar o desactivar el panel del formulario de inventarios
-        panelControl() {
+        panelControl: async function() {
             if (this.formPanel[0]) {
                 this.$refs.inventariosForm.reset();
                 this.formPanel = [false];
             } else {
-                this.movimiento = "ALTA";
-                this.movimientos = ["ALTA"];
-                this.disabledMovimiento = true;
+                await this.movimientosControl();
+                await this.lotesControl();
                 this.formPanel = [true];
             }
         },
 
-        // Buscar el lote
-        findLote: async function() {
-            if (this.showData.inventarios.length) {
-                if (this.form.lote) {
-                    if (this.form.lote.length > 0) {
-                        let response = await this.index({
-                            url: "/api/inventarios",
-                            lote: this.form.lote,
-                            articulo_id: this.showData.articulo.id
-                        });
-                        if (response.length > 0) {
-                            this.form.lote = response[0].lote;
-                            this.cantidadMaxima = response[0].cantidad;
-                            this.form.vencimiento = response[0].vencimiento;
-                            this.form.supplier =
-                                response[0].supplier.razonsocial;
-                            this.form.supplier_id = response[0].supplier.id;
-                            this.movimiento = "INCREMENTO";
-                            this.movimientos = [
-                                "INCREMENTO",
-                                "DEVOLUCION",
-                                "VENCIMIENTO",
-                                "DECREMENTO",
-                                "MODIFICACION"
-                            ];
-                            this.disabledMovimiento = false;
-                        } else {
-                            this.cantidadMaxima = 999999999;
-                            this.form.vencimiento = null;
-                            this.form.supplier = null;
-                            this.form.supplier_id = null;
-                            this.movimiento = "ALTA";
-                            this.movimientos = ["ALTA"];
-                            this.disabledMovimiento = true;
-                        }
-                    }
+        movimientosControl() {
+            if (this.showData.lotes.lotes.length <= 0) {
+                this.movimiento = "ALTA";
+                this.disabledMovimientos = true;
+                this.lote = this.showData.lotes.proximo;
+            } else {
+                this.movimiento = "ALTA";
+                this.disabledMovimientos = false;
+                this.lote = null;
+            }
+        },
+
+        lotesControl: async function() {
+            if (this.movimiento == "ALTA") {
+                this.lotesDisponibles = [];
+                this.lotesDisponibles.push(this.showData.lotes.proximo);
+                this.lote = this.showData.lotes.proximo;
+                await this.findLote();
+                this.disabledLote = true;
+                this.disabledInputs = false;
+            } else {
+                this.lotesDisponibles = [];
+                for (let i = 0; i < this.showData.lotes.lotes.length; i++) {
+                    this.lotesDisponibles.push(this.showData.lotes.lotes[i]);
                 }
+                this.lote = this.showData.lotes.lotes[0];
+                await this.findLote();
+                this.disabledLote = false;
+                this.disabledInputs = true;
+            }
+        },
+
+        findLote: async function() {
+            let response = await this.index({
+                url: "/api/inventarios",
+                lote: this.lote,
+                articulo_id: this.showData.articulo.id
+            });
+            if (response.length > 0) {
+                this.cantidadMaxima = response[0].cantidad;
+                this.form.vencimiento = response[0].vencimiento;
+                this.form.supplier = response[0].supplier.razonsocial;
+                this.form.supplier_id = response[0].supplier.id;
+            } else {
+                this.cantidadMaxima = 999999999;
+                this.form.vencimiento = null;
+                this.form.supplier = null;
+                this.form.supplier_id = null;
+                this.$refs.inventariosForm.resetValidation();
             }
         },
 
@@ -379,27 +392,23 @@ export default {
                 if (this.movimiento == "ALTA") {
                     this.msg =
                         "Se agregará el siguiente lote " +
-                        this.form.lote +
+                        this.lote +
                         " con stock de " +
                         this.form.cantidad +
                         " productos";
                 } else if (this.movimiento == "INCREMENTO") {
                     this.msg =
-                        "Se agregarán " +
-                        this.form.cantidad +
-                        " productos al stock";
+                        "Se agregarán " + this.cantidad + " productos al stock";
                 } else if (this.movimiento == "MODIFICACION") {
                     this.msg =
                         "Se modificará la cantidad del lote " +
-                        this.form.lote +
+                        this.lote +
                         " a " +
-                        this.form.cantidad +
+                        this.cantidad +
                         " productos";
                 } else {
                     this.msg =
-                        "Se restarán " +
-                        this.form.cantidad +
-                        " productos del stock";
+                        "Se restarán " + this.cantidad + " productos del stock";
                 }
             }
         },
@@ -407,6 +416,7 @@ export default {
         // Guardar Inventarios
         saveInventarios: async function() {
             if (this.$refs.inventariosForm.validate()) {
+                this.form.lote = this.lote;
                 this.form.movimiento = this.movimiento;
                 this.form.articulo_id = this.showData.articulo.id;
                 await this.save({ url: "/api/inventarios" });

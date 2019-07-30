@@ -62,24 +62,20 @@ class InicialsettingsController extends Controller
         $configuracion = Inicialsetting::find(1);
 
         if ($configuracion->cuit) {
-            $container = storage_path('/' . $configuracion->cuit . '/');
-            if (!file_exists($container)) {
-                mkdir($container, 777, true);
+            $path = base_path('vendor/afipsdk/afip.php/src/Afip_res');
+            if ($request->cert->getClientOriginalExtension() == 'pem') {
+                $request->cert->move($path, 'cert');
+            } else if ($request->cert->getClientOriginalExtension() == 'crt') {
+                $request->cert->move($path, 'cert');
+            }
+
+            if ($request->key->getClientOriginalExtension() == 'key') {
+                $request->key->move($path, 'key');
             }
         }
 
-        if ($request->cert->getClientOriginalExtension() == 'pem') {
-            $request->cert->move($container, 'cert');
-        } else if ($request->cert->getClientOriginalExtension() == 'crt') {
-            $request->cert->move($container, 'cert');
-        }
-
-        if ($request->key->getClientOriginalExtension() == 'key') {
-            $request->key->move($container, 'key');
-        }
-
-        $configuracion->cert = $container . 'cert';
-        $configuracion->key = $container . 'key';
+        $configuracion->cert = $path . 'cert';
+        $configuracion->key = $path . 'key';
         $configuracion->update();
     }
 

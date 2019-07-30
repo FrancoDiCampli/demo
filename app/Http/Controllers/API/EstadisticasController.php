@@ -27,7 +27,6 @@ class EstadisticasController extends Controller
     {
         // Traer todas la facturas y los detalles
         $facturas = Factura::orderBy('fecha', 'ASC')->get();
-
         // Establecer la fecha desde y hasta
         $inicio = $facturas->first();
         $ultima = $facturas->last();
@@ -35,15 +34,24 @@ class EstadisticasController extends Controller
         $to = $request->get('hasta', $ultima->fecha);
         $desde = new Carbon($from);
         $hasta = new Carbon($to);
+        $ventasFecha = [];
+        $fecs = collect();
+        $vendedores = [];
+        $ventasVendedores = [];
+        $sellers = collect();
+        $ventasClientes = [];
+        $clientes = [];
+        $clients = collect();
 
         // Buscar las facturas entre las fechas
         $facturas = Factura::where('fecha', '>=', $desde->format('Ymd'))->where('fecha', '<=', $hasta->format('Ymd'))->orderBy('fecha', 'ASC')->take($request->get('limit', null))->get();
-        $ventasFecha = [];
-
-        $fecs = collect();
 
         foreach ($facturas as $factura) {
             $fecs->push($factura->fecha);
+            $seller = User::find($factura->user_id);
+            $sellers->push($seller);
+            $client = Cliente::find($factura->cliente_id);
+            $clients->push($client);
         }
 
         // Fechas
@@ -60,11 +68,11 @@ class EstadisticasController extends Controller
             foreach ($otro as $a) {
                 $total += $a->total;
             }
-            $fecha = $ventasFecha[$i][0]['fecha'];
-            $fecha = new Carbon($fecha);
+            $fecha = $ventasFecha[$i][0]->fecha;
+            $fechaNew = new Carbon($fecha);
             $rows->push([
                 'fecha' =>
-                $fecha->format('d-m-Y'),
+                $fechaNew->format('d-m-Y'),
                 'total' => $total
             ]);
             $total = 0;
@@ -72,22 +80,8 @@ class EstadisticasController extends Controller
         $ventasFechasChart = collect();
         $ventasFechasChart->put('columns', $columns);
         $ventasFechasChart->put('rows', $rows);
+        // Fin Fechas
 
-        $ventas = [
-            'fechas' => ['desde' => $desde->format('Y-m-d'), 'hasta' => $hasta->format('Y-m-d')],
-            'ventasFecha' => $facturas,
-            'ventasFechaChart' => $ventasFechasChart,
-            'total' => count(Factura::all()),
-        ];
-
-        return ['ventas' => $ventas];
-    }
-
-    public function ventasVendedores(Request $request)
-    {
-        $vendedores = [];
-        $ventasVendedores = [];
-        $sellers = collect();
         // Vendedores
         $auxVendedores = $sellers->unique();
         foreach ($auxVendedores as $key) {
@@ -95,13 +89,7 @@ class EstadisticasController extends Controller
             array_push($vendedores, $key);
             array_push($ventasVendedores, $facs);
         }
-    }
-
-    public function ventasClientes()
-    {
-        $ventasClientes = [];
-        $clientes = [];
-        $clients = collect();
+        // Fin Vendedores
 
         // Clientes
         $auxClientes = $clients->unique();
@@ -110,6 +98,20 @@ class EstadisticasController extends Controller
             array_push($clientes, $aux);
             array_push($ventasClientes, $facturs);
         }
+        // Fin Clientes
+
+        $ventas = [
+            'fechas' => ['desde' => $desde->format('Y-m-d'), 'hasta' => $hasta->format('Y-m-d')],
+            'ventasFecha' => $facturas,
+            'ventasFechaChart' => $ventasFechasChart,
+            'total' => count(Factura::all()),
+            'vendedores' => $vendedores,
+            'ventasVendedores' => $ventasVendedores,
+            'clientes' => $clientes,
+            'ventasClientes' => $ventasClientes,
+        ];
+
+        return ['ventas' => $ventas];
     }
 
     public function ventasProductos(Request $request)

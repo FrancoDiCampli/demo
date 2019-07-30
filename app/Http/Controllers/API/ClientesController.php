@@ -153,14 +153,7 @@ class ClientesController extends Controller
     {
         $num = $num * 1;
         $cuituser = Inicialsetting::all()->first()->cuit;
-        $afip = new Afip(
-            array(
-                'CUIT' => $cuituser,
-                'res_folder' => storage_path(
-                    '/' . $cuituser . '/'
-                )
-            )
-        );
+        $afip = new Afip(array('CUIT' => $cuituser));
         $contribuyente = $afip->RegisterScopeFour->GetTaxpayerDetails($num);
         return json_encode($contribuyente);
     }

@@ -27,6 +27,24 @@
                 </v-data-table>
             </v-flex>
         </v-layout>
+
+        <v-layout justify-space-around>
+            <v-flex xs12 px-3>
+                <ve-pie :data="ventas.ventasVendedores"></ve-pie>
+            </v-flex>
+        </v-layout>
+
+        <v-layout justify-space-around>
+            <v-flex xs12 px-3>
+                <ve-pie :data="ventas.ventasClientes"></ve-pie>
+            </v-flex>
+        </v-layout>
+
+        <v-layout justify-space-around>
+            <v-flex xs12 px-3>
+                <ve-pie :data="ventas.ventasCondiciones"></ve-pie>
+            </v-flex>
+        </v-layout>
     </div>
 </template>
 

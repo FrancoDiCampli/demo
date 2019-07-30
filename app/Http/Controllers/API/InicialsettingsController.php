@@ -31,22 +31,22 @@ class InicialsettingsController extends Controller
         $titular = [
             'name' => 'Información del Titular',
             'configuraciones' => [
-                ['name' => 'Provincia', 'msg' => 'Provincia del titular. (Debe coincidir con los datos ingresados en AFIP).', 'config' => 'localidad', 'value' => $config->localidad, 'activeDialog' => false],
-                ['name' => 'Localidad', 'msg' => 'Localidad del titular. (Debe coincidir con los datos ingresados en AFIP).', 'config' => 'provincia', 'value' => $config->provincia, 'activeDialog' => false],
-                ['name' => 'Código Postal', 'msg' => 'Código postal del titular. (Debe coincidir con los datos ingresados en AFIP)', 'config' => 'codigopostal', 'value' => $config->codigopostal, 'activeDialog' => false],
-                ['name' => 'Dirección', 'msg' => 'Domicilio del titular. Solo incluir calle y número, piso y departamento (opcionales). (Debe coincidir con los datos ingresados en AFIP).', 'config' => 'direccion', 'value' => $config->direccion, 'activeDialog' => false],
-                ['name' => 'Teléfono / Celular', 'msg' => 'Teléfono o Celular del Titular.', 'config' => 'telefono', 'value' => $config->telefono, 'activeDialog' => false],
-                ['name' => 'Email', 'msg' => 'Correo Electrónico del titular', 'config' => 'email', 'value' => $config->email, 'activeDialog' => false]
+                ['name' => 'Provincia', 'msg' => 'Provincia del titular. (Debe coincidir con los datos ingresados en AFIP).', 'config' => 'provincia', 'value' => $config->provincia, 'activeDialog' => false, 'type' => 'text'],
+                ['name' => 'Localidad', 'msg' => 'Localidad del titular. (Debe coincidir con los datos ingresados en AFIP).', 'config' => 'localidad', 'value' => $config->localidad, 'activeDialog' => false, 'type' => 'text'],
+                ['name' => 'Código Postal', 'msg' => 'Código postal del titular. (Debe coincidir con los datos ingresados en AFIP)', 'config' => 'codigopostal', 'value' => $config->codigopostal, 'activeDialog' => false, 'type' => 'number'],
+                ['name' => 'Dirección', 'msg' => 'Domicilio del titular. Solo incluir calle y número, piso y departamento (opcionales). (Debe coincidir con los datos ingresados en AFIP).', 'config' => 'direccion', 'value' => $config->direccion, 'activeDialog' => false, 'type' => 'text'],
+                ['name' => 'Teléfono / Celular', 'msg' => 'Teléfono o Celular del Titular.', 'config' => 'telefono', 'value' => $config->telefono, 'activeDialog' => false, 'type' => 'number'],
+                ['name' => 'Email', 'msg' => 'Correo Electrónico del titular', 'config' => 'email', 'value' => $config->email, 'activeDialog' => false, 'type' => 'text']
             ]
         ];
 
         $comercial = [
             'name' => 'Información comercial',
             'configuraciones' => [
-                ['name' => 'Nombre Comercial', 'msg' => 'Nombre del comercio desde el cual se emitiran las facturas.', 'config' => 'nombrefantasia', 'value' => $config->nombrefantasia, 'activeDialog' => false],
-                ['name' => 'Lema', 'msg' => 'Lema del comercio desde el cual se emitiran las facturas.', 'config' => 'tagline', 'value' => $config->tagline, 'activeDialog' => false],
-                ['name' => 'Logo', 'msg' => 'Logo del comercio desde el cual se emitiran las facturas.', 'config' => 'logo', 'value' => $config->logo, 'activeDialog' => false],
-                ['name' => 'Domicilio Comercial', 'msg' => 'Domicilio del comercio desde el cual se emitirán las facturas.', 'config' => 'domiciliocomercial', 'value' => $config->domiciliocomercial, 'activeDialog' => false]
+                ['name' => 'Nombre Comercial', 'msg' => 'Nombre del comercio desde el cual se emitiran las facturas.', 'config' => 'nombrefantasia', 'value' => $config->nombrefantasia, 'activeDialog' => false, 'type' => 'text'],
+                ['name' => 'Lema', 'msg' => 'Lema del comercio desde el cual se emitiran las facturas.', 'config' => 'tagline', 'value' => $config->tagline, 'activeDialog' => false, 'type' => 'text'],
+                ['name' => 'Logo', 'msg' => 'Logo del comercio desde el cual se emitiran las facturas.', 'config' => 'logo', 'value' => $config->logo, 'activeDialog' => false, 'type' => 'img'],
+                ['name' => 'Domicilio Comercial', 'msg' => 'Domicilio del comercio desde el cual se emitirán las facturas.', 'config' => 'domiciliocomercial', 'value' => $config->domiciliocomercial, 'activeDialog' => false, 'type' => 'text']
             ]
         ];
 

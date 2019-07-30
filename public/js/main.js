@@ -5469,10 +5469,29 @@ axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.common["Authorizat
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/configuraciones/ConfiguracionesIndex.vue?vue&type=script&lang=js&":
-/*!***********************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/configuraciones/ConfiguracionesIndex.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/configuraciones/ConfiguracionesAvanzada.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/configuraciones/ConfiguracionesAvanzada.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/configuraciones/ConfiguracionesStandard.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/configuraciones/ConfiguracionesStandard.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5632,25 +5651,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
 //Vuex
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "ConfiguracionesIndex",
+  name: "ConfiguracionesStandard",
   data: function data() {
     return {
-      configAvanzada: false
+      standard: null,
+      foto: null
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])("crudx", ["data"])),
   mounted: function mounted() {
-    this.getConfiguraciones();
+    this.getConfigStandard();
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])("crudx", ["index"]), {
-    getConfiguraciones: function () {
-      var _getConfiguraciones = _asyncToGenerator(
+    getConfigStandard: function () {
+      var _getConfigStandard = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var response;
@@ -5665,9 +5681,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 2:
                 response = _context.sent;
-                console.log(response);
+                this.standard = response.standard;
+                console.log(this.standard);
 
-              case 4:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -5675,12 +5692,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, _callee, this);
       }));
 
-      function getConfiguraciones() {
-        return _getConfiguraciones.apply(this, arguments);
+      function getConfigStandard() {
+        return _getConfigStandard.apply(this, arguments);
       }
 
-      return getConfiguraciones;
-    }()
+      return getConfigStandard;
+    }(),
+    updateConfig: function updateConfig() {
+      var formularioStandard = {
+        provincia: this.standard[0].configuraciones[0].value,
+        localidad: this.standard[0].configuraciones[1].value,
+        codigopostal: this.standard[0].configuraciones[2].value,
+        direccion: this.standard[0].configuraciones[3].value,
+        telefono: this.standard[0].configuraciones[4].value,
+        email: this.standard[0].configuraciones[5].value,
+        nombrefantasia: this.standard[1].configuraciones[0].value,
+        tagline: this.standard[1].configuraciones[1].value,
+        domiciliocomercial: this.standard[1].configuraciones[3].value
+      };
+      console.log(formularioStandard);
+    }
   })
 });
 
@@ -13288,7 +13319,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_configuraciones_ConfiguracionesIndex_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/configuraciones/ConfiguracionesIndex.vue */ "./resources/js/components/configuraciones/ConfiguracionesIndex.vue");
+/* harmony import */ var _components_configuraciones_ConfiguracionesStandard_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/configuraciones/ConfiguracionesStandard.vue */ "./resources/js/components/configuraciones/ConfiguracionesStandard.vue");
+/* harmony import */ var _components_configuraciones_ConfiguracionesAvanzada_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/configuraciones/ConfiguracionesAvanzada.vue */ "./resources/js/components/configuraciones/ConfiguracionesAvanzada.vue");
 //
 //
 //
@@ -13298,11 +13330,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// Components
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Configuraciones",
+  data: function data() {
+    return {
+      avanzada: false
+    };
+  },
   components: {
-    ConfiguracionesIndex: _components_configuraciones_ConfiguracionesIndex_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    ConfiguracionesStandard: _components_configuraciones_ConfiguracionesStandard_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    ConfiguracionesAvanzada: _components_configuraciones_ConfiguracionesAvanzada_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
 });
 
@@ -24281,10 +24331,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/configuraciones/ConfiguracionesIndex.vue?vue&type=template&id=25bb63e2&":
-/*!***************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/configuraciones/ConfiguracionesIndex.vue?vue&type=template&id=25bb63e2& ***!
-  \***************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/configuraciones/ConfiguracionesAvanzada.vue?vue&type=template&id=32af51b4&":
+/*!******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/configuraciones/ConfiguracionesAvanzada.vue?vue&type=template&id=32af51b4& ***!
+  \******************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -24296,469 +24346,562 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _vm._l(_vm.data.standard, function(standard) {
-        return _c(
-          "div",
-          { key: standard.id },
-          [
-            _c(
-              "v-layout",
-              { attrs: { wrap: "" } },
-              [
-                _c("v-flex", { attrs: { xs12: "", "mb-3": "" } }, [
-                  _c("h2", [_vm._v(_vm._s(standard.name))])
-                ]),
-                _vm._v(" "),
-                _c(
-                  "v-flex",
-                  { attrs: { xs12: "", "mb-5": "" } },
-                  [
-                    _c(
-                      "v-expansion-panel",
-                      _vm._l(standard.configuraciones, function(config) {
-                        return _c(
-                          "v-expansion-panel-content",
-                          {
-                            key: config.id,
-                            attrs: { "expand-icon": "fas fa-caret-down" },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "header",
-                                  fn: function() {
-                                    return [
-                                      _c("div", [_vm._v(_vm._s(config.name))])
-                                    ]
-                                  },
-                                  proxy: true
-                                }
-                              ],
-                              null,
-                              true
-                            )
-                          },
-                          [
-                            _vm._v(" "),
-                            _c(
-                              "v-card",
-                              [
-                                _c(
-                                  "v-card-text",
-                                  [
-                                    _c(
-                                      "v-layout",
-                                      { attrs: { "justify-center": "" } },
-                                      [
-                                        _c(
-                                          "v-flex",
-                                          { attrs: { xs12: "", "px-2": "" } },
-                                          [
-                                            _c(
-                                              "v-layout",
-                                              {
-                                                attrs: {
-                                                  "justify-space-between": ""
-                                                }
-                                              },
-                                              [
-                                                _c("p", [
-                                                  _vm._v(_vm._s(config.value))
-                                                ]),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "v-btn",
-                                                  {
-                                                    staticStyle: {
-                                                      "margin-top": "-10px"
-                                                    },
-                                                    attrs: {
-                                                      flat: "",
-                                                      icon: "",
-                                                      color: "primary"
-                                                    }
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "v-icon",
-                                                      {
-                                                        attrs: {
-                                                          size: "medium"
-                                                        }
-                                                      },
-                                                      [_vm._v("fas fa-pen")]
-                                                    )
-                                                  ],
-                                                  1
-                                                )
-                                              ],
-                                              1
-                                            )
-                                          ],
-                                          1
-                                        )
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c("v-divider"),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-layout",
-                                      [
-                                        _c(
-                                          "v-flex",
-                                          { attrs: { xs12: "", "px-2": "" } },
-                                          [
-                                            _c("br"),
-                                            _vm._v(
-                                              "\n                                        " +
-                                                _vm._s(config.msg) +
-                                                "\n                                    "
-                                            )
-                                          ]
-                                        )
-                                      ],
-                                      1
-                                    )
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-dialog",
-                              {
-                                attrs: { width: "500", persistent: "" },
-                                model: {
-                                  value: _vm.provinciaDialog,
-                                  callback: function($$v) {
-                                    _vm.provinciaDialog = $$v
-                                  },
-                                  expression: "provinciaDialog"
-                                }
-                              },
-                              [
-                                _c(
-                                  "v-card",
-                                  [
-                                    _c("v-card-text", [
-                                      _c("h2", [_vm._v("Provincia")])
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("v-divider"),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-card-text",
-                                      [
-                                        _c(
-                                          "v-layout",
-                                          {
-                                            attrs: {
-                                              "justify-center": "",
-                                              wrap: ""
-                                            }
-                                          },
-                                          [
-                                            _c(
-                                              "v-flex",
-                                              {
-                                                attrs: { xs12: "", "px-3": "" }
-                                              },
-                                              [
-                                                _c("v-text-field", {
-                                                  staticClass: "capitalize",
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [_c("h1", [_vm._v("Configuraciones Avanzada")])])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/configuraciones/ConfiguracionesStandard.vue?vue&type=template&id=7210d65d&":
+/*!******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/configuraciones/ConfiguracionesStandard.vue?vue&type=template&id=7210d65d& ***!
+  \******************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.standard != null
+    ? _c(
+        "div",
+        _vm._l(_vm.standard, function(stan) {
+          return _c(
+            "div",
+            { key: stan.id },
+            [
+              _c(
+                "v-layout",
+                { attrs: { wrap: "" } },
+                [
+                  _c("v-flex", { attrs: { xs12: "", "mb-3": "" } }, [
+                    _c("h2", [_vm._v(_vm._s(stan.name))])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-flex",
+                    { attrs: { xs12: "", "mb-5": "" } },
+                    [
+                      _c(
+                        "v-expansion-panel",
+                        _vm._l(stan.configuraciones, function(config) {
+                          return _c(
+                            "v-expansion-panel-content",
+                            {
+                              key: config.id,
+                              attrs: { "expand-icon": "fas fa-caret-down" },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "header",
+                                    fn: function() {
+                                      return [
+                                        _c("div", [_vm._v(_vm._s(config.name))])
+                                      ]
+                                    },
+                                    proxy: true
+                                  }
+                                ],
+                                null,
+                                true
+                              )
+                            },
+                            [
+                              _vm._v(" "),
+                              _c(
+                                "v-card",
+                                [
+                                  _c(
+                                    "v-card-text",
+                                    [
+                                      config.type == "text" ||
+                                      config.type == "number"
+                                        ? _c(
+                                            "div",
+                                            [
+                                              _c(
+                                                "v-layout",
+                                                {
                                                   attrs: {
-                                                    label: "Provincia",
-                                                    box: ""
-                                                  },
-                                                  model: {
-                                                    value:
-                                                      _vm.data.standard
-                                                        .provincia.value,
-                                                    callback: function($$v) {
-                                                      _vm.$set(
-                                                        _vm.data.standard
-                                                          .provincia,
-                                                        "value",
-                                                        $$v
-                                                      )
-                                                    },
-                                                    expression:
-                                                      "data.standard.provincia.value"
+                                                    "justify-space-around": ""
                                                   }
-                                                })
-                                              ],
-                                              1
-                                            )
-                                          ],
-                                          1
-                                        )
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c("v-divider"),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-card-text",
-                                      [
-                                        _c(
-                                          "v-layout",
-                                          {
-                                            attrs: {
-                                              "justify-end": "",
-                                              wrap: ""
-                                            }
-                                          },
-                                          [
-                                            _c(
-                                              "v-btn",
-                                              {
-                                                attrs: {
-                                                  outline: "",
-                                                  color: "primary"
                                                 },
-                                                on: {
-                                                  click: function($event) {
-                                                    _vm.provinciaDialog = false
+                                                [
+                                                  _c(
+                                                    "v-flex",
+                                                    { attrs: { xs12: "" } },
+                                                    [
+                                                      _c(
+                                                        "v-layout",
+                                                        {
+                                                          attrs: {
+                                                            "justify-space-between":
+                                                              ""
+                                                          }
+                                                        },
+                                                        [
+                                                          _c(
+                                                            "v-flex",
+                                                            {
+                                                              attrs: {
+                                                                xs10: "",
+                                                                sm4: ""
+                                                              }
+                                                            },
+                                                            [
+                                                              _c(
+                                                                "v-layout",
+                                                                {
+                                                                  attrs: {
+                                                                    "justify-start":
+                                                                      ""
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "v-text-field",
+                                                                    {
+                                                                      attrs: {
+                                                                        type:
+                                                                          config.type ==
+                                                                          "number"
+                                                                            ? "number"
+                                                                            : "text",
+                                                                        label:
+                                                                          config.name,
+                                                                        box: ""
+                                                                      },
+                                                                      model: {
+                                                                        value:
+                                                                          config.value,
+                                                                        callback: function(
+                                                                          $$v
+                                                                        ) {
+                                                                          _vm.$set(
+                                                                            config,
+                                                                            "value",
+                                                                            $$v
+                                                                          )
+                                                                        },
+                                                                        expression:
+                                                                          "config.value"
+                                                                      }
+                                                                    }
+                                                                  )
+                                                                ],
+                                                                1
+                                                              )
+                                                            ],
+                                                            1
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "v-flex",
+                                                            {
+                                                              attrs: {
+                                                                xs2: "",
+                                                                s8: ""
+                                                              }
+                                                            },
+                                                            [
+                                                              _c(
+                                                                "v-layout",
+                                                                {
+                                                                  attrs: {
+                                                                    "justify-end":
+                                                                      ""
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "v-btn",
+                                                                    {
+                                                                      attrs: {
+                                                                        color:
+                                                                          "primary",
+                                                                        flat:
+                                                                          "",
+                                                                        icon: ""
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          return _vm.updateConfig()
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _c(
+                                                                        "v-icon",
+                                                                        {
+                                                                          attrs: {
+                                                                            size:
+                                                                              "medium"
+                                                                          }
+                                                                        },
+                                                                        [
+                                                                          _vm._v(
+                                                                            "fas fa-pen"
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                ],
+                                                                1
+                                                              )
+                                                            ],
+                                                            1
+                                                          )
+                                                        ],
+                                                        1
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        : config.type == "img"
+                                        ? _c(
+                                            "div",
+                                            [
+                                              _c(
+                                                "v-layout",
+                                                {
+                                                  attrs: {
+                                                    "justify-center": ""
                                                   }
-                                                }
-                                              },
-                                              [_vm._v("Cancelar")]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "v-btn",
-                                              {
-                                                staticClass: "elevation-0",
-                                                attrs: {
-                                                  type: "submit",
-                                                  color: "primary"
-                                                }
-                                              },
-                                              [_vm._v("Editar")]
-                                            )
-                                          ],
-                                          1
-                                        )
-                                      ],
-                                      1
-                                    )
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      }),
-                      1
-                    )
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          ],
-          1
-        )
-      }),
-      _vm._v(" "),
-      _c(
-        "v-layout",
-        { attrs: { "justify-center": "" } },
-        [
-          _c(
-            "v-btn",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: !_vm.configAvanzada,
-                  expression: "!configAvanzada"
-                }
-              ],
-              attrs: { color: "primary", flat: "" },
-              on: {
-                click: function($event) {
-                  _vm.configAvanzada = true
-                }
-              }
-            },
-            [_vm._v("Configuración Avanzada")]
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _vm._l(_vm.data.avanzada, function(avanzada) {
-        return _c(
-          "div",
-          {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.configAvanzada,
-                expression: "configAvanzada"
-              }
-            ],
-            key: avanzada.id
-          },
-          [
-            _c(
-              "v-layout",
-              { attrs: { wrap: "" } },
-              [
-                _c("v-flex", { attrs: { xs12: "", "mb-3": "" } }, [
-                  _c("h2", [_vm._v(_vm._s(avanzada.name))])
-                ]),
-                _vm._v(" "),
-                _c(
-                  "v-flex",
-                  { attrs: { xs12: "", "mb-5": "" } },
-                  [
-                    _c(
-                      "v-expansion-panel",
-                      _vm._l(avanzada.configuraciones, function(config) {
-                        return _c(
-                          "v-expansion-panel-content",
-                          {
-                            key: config.id,
-                            attrs: { "expand-icon": "fas fa-caret-down" },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "header",
-                                  fn: function() {
-                                    return [
-                                      _c("div", [_vm._v(_vm._s(config.name))])
-                                    ]
-                                  },
-                                  proxy: true
-                                }
-                              ],
-                              null,
-                              true
-                            )
-                          },
-                          [
-                            _vm._v(" "),
-                            _c(
-                              "v-card",
-                              [
-                                _c(
-                                  "v-card-text",
-                                  [
-                                    _c(
-                                      "v-layout",
-                                      { attrs: { "justify-center": "" } },
-                                      [
-                                        _c(
-                                          "v-flex",
-                                          { attrs: { xs12: "", "px-2": "" } },
-                                          [
-                                            _c(
-                                              "v-layout",
-                                              {
-                                                attrs: {
-                                                  "justify-space-between": ""
-                                                }
-                                              },
-                                              [
-                                                _c("p", [
-                                                  _vm._v(_vm._s(config.value))
-                                                ]),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "v-btn",
-                                                  {
-                                                    staticStyle: {
-                                                      "margin-top": "-10px"
-                                                    },
-                                                    attrs: {
-                                                      flat: "",
-                                                      icon: "",
-                                                      color: "primary"
-                                                    }
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "v-icon",
-                                                      {
-                                                        attrs: {
-                                                          size: "medium"
-                                                        }
-                                                      },
-                                                      [_vm._v("fas fa-pen")]
-                                                    )
-                                                  ],
-                                                  1
-                                                )
-                                              ],
-                                              1
-                                            )
-                                          ],
-                                          1
-                                        )
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c("v-divider"),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-layout",
-                                      [
-                                        _c(
-                                          "v-flex",
-                                          { attrs: { xs12: "", "px-2": "" } },
-                                          [
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-flex",
+                                                    [
+                                                      _c(
+                                                        "v-layout",
+                                                        {
+                                                          attrs: {
+                                                            "justify-end": ""
+                                                          }
+                                                        },
+                                                        [
+                                                          _c("croppa", {
+                                                            attrs: {
+                                                              width: 230,
+                                                              height: 230,
+                                                              placeholder:
+                                                                "Foto",
+                                                              "placeholder-color":
+                                                                "#000",
+                                                              "placeholder-font-size": 24,
+                                                              "canvas-color":
+                                                                "transparent",
+                                                              "show-remove-button": false,
+                                                              "show-loading": true,
+                                                              "loading-size": 25,
+                                                              "prevent-white-space": true,
+                                                              "zoom-speed": 10
+                                                            },
+                                                            model: {
+                                                              value: _vm.foto,
+                                                              callback: function(
+                                                                $$v
+                                                              ) {
+                                                                _vm.foto = $$v
+                                                              },
+                                                              expression: "foto"
+                                                            }
+                                                          })
+                                                        ],
+                                                        1
+                                                      )
+                                                    ],
+                                                    1
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-flex",
+                                                    [
+                                                      _c(
+                                                        "v-layout",
+                                                        {
+                                                          attrs: { column: "" }
+                                                        },
+                                                        [
+                                                          _c(
+                                                            "v-btn",
+                                                            {
+                                                              attrs: {
+                                                                flat: "",
+                                                                icon: "",
+                                                                color: "primary"
+                                                              },
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  return _vm.foto.zoomIn()
+                                                                }
+                                                              }
+                                                            },
+                                                            [
+                                                              _c("v-icon", [
+                                                                _vm._v(
+                                                                  "fas fa-search-plus"
+                                                                )
+                                                              ])
+                                                            ],
+                                                            1
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "v-btn",
+                                                            {
+                                                              attrs: {
+                                                                flat: "",
+                                                                icon: "",
+                                                                color: "primary"
+                                                              },
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  return _vm.foto.zoomOut()
+                                                                }
+                                                              }
+                                                            },
+                                                            [
+                                                              _c("v-icon", [
+                                                                _vm._v(
+                                                                  "fas fa-search-minus"
+                                                                )
+                                                              ])
+                                                            ],
+                                                            1
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "v-btn",
+                                                            {
+                                                              attrs: {
+                                                                flat: "",
+                                                                icon: "",
+                                                                color: "primary"
+                                                              },
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  return _vm.foto.rotate()
+                                                                }
+                                                              }
+                                                            },
+                                                            [
+                                                              _c("v-icon", [
+                                                                _vm._v(
+                                                                  "fas fa-redo-alt"
+                                                                )
+                                                              ])
+                                                            ],
+                                                            1
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _vm.foto != null
+                                                            ? _c(
+                                                                "div",
+                                                                [
+                                                                  _c(
+                                                                    "v-btn",
+                                                                    {
+                                                                      directives: [
+                                                                        {
+                                                                          name:
+                                                                            "show",
+                                                                          rawName:
+                                                                            "v-show",
+                                                                          value: _vm.foto.hasImage(),
+                                                                          expression:
+                                                                            "foto.hasImage()"
+                                                                        }
+                                                                      ],
+                                                                      attrs: {
+                                                                        flat:
+                                                                          "",
+                                                                        icon:
+                                                                          "",
+                                                                        color:
+                                                                          "primary"
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          return _vm.foto.remove()
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _c(
+                                                                        "v-icon",
+                                                                        [
+                                                                          _vm._v(
+                                                                            "fas fa-times"
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  _c(
+                                                                    "v-btn",
+                                                                    {
+                                                                      directives: [
+                                                                        {
+                                                                          name:
+                                                                            "show",
+                                                                          rawName:
+                                                                            "v-show",
+                                                                          value: !_vm.foto.hasImage(),
+                                                                          expression:
+                                                                            "!foto.hasImage()"
+                                                                        }
+                                                                      ],
+                                                                      attrs: {
+                                                                        flat:
+                                                                          "",
+                                                                        icon:
+                                                                          "",
+                                                                        color:
+                                                                          "primary"
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          return _vm.foto.chooseFile()
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _c(
+                                                                        "v-icon",
+                                                                        [
+                                                                          _vm._v(
+                                                                            "fas fa-plus"
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                ],
+                                                                1
+                                                              )
+                                                            : _vm._e(),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "v-btn",
+                                                            {
+                                                              attrs: {
+                                                                flat: "",
+                                                                icon: "",
+                                                                color: "primary"
+                                                              }
+                                                            },
+                                                            [
+                                                              _c(
+                                                                "v-icon",
+                                                                {
+                                                                  attrs: {
+                                                                    size:
+                                                                      "medium"
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    "fas fa-pen"
+                                                                  )
+                                                                ]
+                                                              )
+                                                            ],
+                                                            1
+                                                          )
+                                                        ],
+                                                        1
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      _c("v-divider"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-layout",
+                                        [
+                                          _c("v-flex", [
                                             _c("br"),
                                             _vm._v(
                                               "\n                                        " +
                                                 _vm._s(config.msg) +
                                                 "\n                                    "
                                             )
-                                          ]
-                                        )
-                                      ],
-                                      1
-                                    )
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      }),
-                      1
-                    )
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          ],
-          1
-        )
-      })
-    ],
-    2
-  )
+                                          ])
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        }),
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        }),
+        0
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -34419,7 +34562,63 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_c("v-card-text", [_c("ConfiguracionesIndex")], 1)], 1)
+  return _c(
+    "div",
+    [
+      _c(
+        "v-layout",
+        { attrs: { "justify-center": "" } },
+        [_c("ConfiguracionesStandard")],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-layout",
+        { attrs: { "justify-center": "" } },
+        [
+          _c(
+            "v-btn",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: !_vm.avanzada,
+                  expression: "!avanzada"
+                }
+              ],
+              attrs: { color: "primary", flat: "" },
+              on: {
+                click: function($event) {
+                  _vm.avanzada = true
+                }
+              }
+            },
+            [_vm._v("Configuración Avanzada")]
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-layout",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.avanzada,
+              expression: "avanzada"
+            }
+          ],
+          attrs: { "justify-center": "" }
+        },
+        [_c("ConfiguracionesAvanzada")],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -79486,17 +79685,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/configuraciones/ConfiguracionesIndex.vue":
-/*!**************************************************************************!*\
-  !*** ./resources/js/components/configuraciones/ConfiguracionesIndex.vue ***!
-  \**************************************************************************/
+/***/ "./resources/js/components/configuraciones/ConfiguracionesAvanzada.vue":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/configuraciones/ConfiguracionesAvanzada.vue ***!
+  \*****************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ConfiguracionesIndex_vue_vue_type_template_id_25bb63e2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ConfiguracionesIndex.vue?vue&type=template&id=25bb63e2& */ "./resources/js/components/configuraciones/ConfiguracionesIndex.vue?vue&type=template&id=25bb63e2&");
-/* harmony import */ var _ConfiguracionesIndex_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ConfiguracionesIndex.vue?vue&type=script&lang=js& */ "./resources/js/components/configuraciones/ConfiguracionesIndex.vue?vue&type=script&lang=js&");
+/* harmony import */ var _ConfiguracionesAvanzada_vue_vue_type_template_id_32af51b4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ConfiguracionesAvanzada.vue?vue&type=template&id=32af51b4& */ "./resources/js/components/configuraciones/ConfiguracionesAvanzada.vue?vue&type=template&id=32af51b4&");
+/* harmony import */ var _ConfiguracionesAvanzada_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ConfiguracionesAvanzada.vue?vue&type=script&lang=js& */ "./resources/js/components/configuraciones/ConfiguracionesAvanzada.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -79506,9 +79705,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ConfiguracionesIndex_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ConfiguracionesIndex_vue_vue_type_template_id_25bb63e2___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _ConfiguracionesIndex_vue_vue_type_template_id_25bb63e2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _ConfiguracionesAvanzada_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ConfiguracionesAvanzada_vue_vue_type_template_id_32af51b4___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ConfiguracionesAvanzada_vue_vue_type_template_id_32af51b4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -79518,38 +79717,107 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/configuraciones/ConfiguracionesIndex.vue"
+component.options.__file = "resources/js/components/configuraciones/ConfiguracionesAvanzada.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/configuraciones/ConfiguracionesIndex.vue?vue&type=script&lang=js&":
-/*!***************************************************************************************************!*\
-  !*** ./resources/js/components/configuraciones/ConfiguracionesIndex.vue?vue&type=script&lang=js& ***!
-  \***************************************************************************************************/
+/***/ "./resources/js/components/configuraciones/ConfiguracionesAvanzada.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************!*\
+  !*** ./resources/js/components/configuraciones/ConfiguracionesAvanzada.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfiguracionesIndex_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ConfiguracionesIndex.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/configuraciones/ConfiguracionesIndex.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfiguracionesIndex_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfiguracionesAvanzada_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ConfiguracionesAvanzada.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/configuraciones/ConfiguracionesAvanzada.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfiguracionesAvanzada_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/configuraciones/ConfiguracionesIndex.vue?vue&type=template&id=25bb63e2&":
-/*!*********************************************************************************************************!*\
-  !*** ./resources/js/components/configuraciones/ConfiguracionesIndex.vue?vue&type=template&id=25bb63e2& ***!
-  \*********************************************************************************************************/
+/***/ "./resources/js/components/configuraciones/ConfiguracionesAvanzada.vue?vue&type=template&id=32af51b4&":
+/*!************************************************************************************************************!*\
+  !*** ./resources/js/components/configuraciones/ConfiguracionesAvanzada.vue?vue&type=template&id=32af51b4& ***!
+  \************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfiguracionesIndex_vue_vue_type_template_id_25bb63e2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ConfiguracionesIndex.vue?vue&type=template&id=25bb63e2& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/configuraciones/ConfiguracionesIndex.vue?vue&type=template&id=25bb63e2&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfiguracionesIndex_vue_vue_type_template_id_25bb63e2___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfiguracionesAvanzada_vue_vue_type_template_id_32af51b4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ConfiguracionesAvanzada.vue?vue&type=template&id=32af51b4& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/configuraciones/ConfiguracionesAvanzada.vue?vue&type=template&id=32af51b4&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfiguracionesAvanzada_vue_vue_type_template_id_32af51b4___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfiguracionesIndex_vue_vue_type_template_id_25bb63e2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfiguracionesAvanzada_vue_vue_type_template_id_32af51b4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/configuraciones/ConfiguracionesStandard.vue":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/configuraciones/ConfiguracionesStandard.vue ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ConfiguracionesStandard_vue_vue_type_template_id_7210d65d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ConfiguracionesStandard.vue?vue&type=template&id=7210d65d& */ "./resources/js/components/configuraciones/ConfiguracionesStandard.vue?vue&type=template&id=7210d65d&");
+/* harmony import */ var _ConfiguracionesStandard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ConfiguracionesStandard.vue?vue&type=script&lang=js& */ "./resources/js/components/configuraciones/ConfiguracionesStandard.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ConfiguracionesStandard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ConfiguracionesStandard_vue_vue_type_template_id_7210d65d___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ConfiguracionesStandard_vue_vue_type_template_id_7210d65d___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/configuraciones/ConfiguracionesStandard.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/configuraciones/ConfiguracionesStandard.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************!*\
+  !*** ./resources/js/components/configuraciones/ConfiguracionesStandard.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfiguracionesStandard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ConfiguracionesStandard.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/configuraciones/ConfiguracionesStandard.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfiguracionesStandard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/configuraciones/ConfiguracionesStandard.vue?vue&type=template&id=7210d65d&":
+/*!************************************************************************************************************!*\
+  !*** ./resources/js/components/configuraciones/ConfiguracionesStandard.vue?vue&type=template&id=7210d65d& ***!
+  \************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfiguracionesStandard_vue_vue_type_template_id_7210d65d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ConfiguracionesStandard.vue?vue&type=template&id=7210d65d& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/configuraciones/ConfiguracionesStandard.vue?vue&type=template&id=7210d65d&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfiguracionesStandard_vue_vue_type_template_id_7210d65d___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ConfiguracionesStandard_vue_vue_type_template_id_7210d65d___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -82286,15 +82554,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!******************************************************!*\
   !*** ./resources/js/views/configuraciones/index.vue ***!
   \******************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_vue_vue_type_template_id_183aac69___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=183aac69& */ "./resources/js/views/configuraciones/index.vue?vue&type=template&id=183aac69&");
 /* harmony import */ var _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js& */ "./resources/js/views/configuraciones/index.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -82324,7 +82591,7 @@ component.options.__file = "resources/js/views/configuraciones/index.vue"
 /*!*******************************************************************************!*\
   !*** ./resources/js/views/configuraciones/index.vue?vue&type=script&lang=js& ***!
   \*******************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

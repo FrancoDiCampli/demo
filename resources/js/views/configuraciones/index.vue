@@ -1,19 +1,39 @@
 <template>
     <div>
-        <!-- Index configuracion -->
-        <v-card-text>
-            <ConfiguracionesIndex></ConfiguracionesIndex>
-        </v-card-text>
+        <v-layout justify-center>
+            <ConfiguracionesStandard></ConfiguracionesStandard>
+        </v-layout>
+        <v-layout justify-center>
+            <v-btn
+                v-show="!avanzada"
+                @click="avanzada = true"
+                color="primary"
+                flat
+            >Configuración Avanzada</v-btn>
+        </v-layout>
+        <v-layout justify-center v-show="avanzada">
+            <ConfiguracionesAvanzada></ConfiguracionesAvanzada>
+        </v-layout>
     </div>
 </template>
 
 <script>
-import ConfiguracionesIndex from "../../components/configuraciones/ConfiguracionesIndex.vue";
+// Components
+import ConfiguracionesStandard from "../../components/configuraciones/ConfiguracionesStandard.vue";
+import ConfiguracionesAvanzada from "../../components/configuraciones/ConfiguracionesAvanzada.vue";
+
 export default {
     name: "Configuraciones",
 
+    data() {
+        return {
+            avanzada: false
+        };
+    },
+
     components: {
-        ConfiguracionesIndex
+        ConfiguracionesStandard,
+        ConfiguracionesAvanzada
     }
 };
 </script>

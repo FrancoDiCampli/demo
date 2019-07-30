@@ -41,41 +41,6 @@
                                     </v-layout>
                                 </v-card-text>
                             </v-card>
-                            <v-dialog v-model="provinciaDialog" width="500" persistent>
-                                <v-card>
-                                    <v-card-text>
-                                        <h2>Provincia</h2>
-                                    </v-card-text>
-                                    <v-divider></v-divider>
-                                    <v-card-text>
-                                        <v-layout justify-center wrap>
-                                            <v-flex xs12 px-3>
-                                                <v-text-field
-                                                    v-model="data.standard.provincia.value"
-                                                    label="Provincia"
-                                                    class="capitalize"
-                                                    box
-                                                ></v-text-field>
-                                            </v-flex>
-                                        </v-layout>
-                                    </v-card-text>
-                                    <v-divider></v-divider>
-                                    <v-card-text>
-                                        <v-layout justify-end wrap>
-                                            <v-btn
-                                                @click="provinciaDialog = false;"
-                                                outline
-                                                color="primary"
-                                            >Cancelar</v-btn>
-                                            <v-btn
-                                                type="submit"
-                                                color="primary"
-                                                class="elevation-0"
-                                            >Editar</v-btn>
-                                        </v-layout>
-                                    </v-card-text>
-                                </v-card>
-                            </v-dialog>
                         </v-expansion-panel-content>
                     </v-expansion-panel>
                 </v-flex>

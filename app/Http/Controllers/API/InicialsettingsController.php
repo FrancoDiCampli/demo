@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Inicialsetting;
-use Illuminate\Support\Arr;
+use Intervention\Image\Facades\Image;
 
 class InicialsettingsController extends Controller
 {
@@ -100,13 +100,26 @@ class InicialsettingsController extends Controller
         $configuracion->update();
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $configuracion = Inicialsetting::find(1);
-        $atributos = $request;
+
+        if ($request->get('logo')) {
+            Image::make($request->get('logo'))->save(public_path('images/logo.png'));
+        }
+
+        $configuracion->provincia = $request['provincia'];
+        $configuracion->localidad = $request['localidad'];
+        $configuracion->codigopostal = $request['codigopostal'];
+        $configuracion->direccion = $request['direccion'];
+        $configuracion->telefono = $request['telefono'];
+        $configuracion->email = $request['email'];
+        $configuracion->nombrefantasia = $request['nombrefantasia'];
+        $configuracion->tagline = $request['tagline'];
+        $configuracion->domiciliocomercial = $request['domiciliocomercial'];
 
         $configuracion->update();
 
-        return ['msg' => 'actualización exitosa'];
+        return ['Actualizado'];
     }
 }

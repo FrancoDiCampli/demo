@@ -1,5 +1,11 @@
 <template>
     <div v-if="standard != null">
+        <v-snackbar color="primary" v-model="snackbarStandard" :timeout="6000" right top>
+            Datos Actualizados
+            <v-btn color="white" flat @click="snackbarStandard = false" icon>
+                <v-icon>fas fa-times</v-icon>
+            </v-btn>
+        </v-snackbar>
         <div v-for="stan in standard" :key="stan.id">
             <v-layout wrap>
                 <v-flex xs12 mb-3>
@@ -52,10 +58,10 @@
                                             <v-flex>
                                                 <v-layout justify-end>
                                                     <croppa
-                                                        v-model="foto"
+                                                        v-model="logo"
                                                         :width="230"
                                                         :height="230"
-                                                        placeholder="Foto"
+                                                        placeholder="Logo"
                                                         placeholder-color="#000"
                                                         :placeholder-font-size="24"
                                                         canvas-color="transparent"
@@ -64,6 +70,7 @@
                                                         :loading-size="25"
                                                         :prevent-white-space="true"
                                                         :zoom-speed="10"
+                                                        initial-image="images/logo.png"
                                                     ></croppa>
                                                 </v-layout>
                                             </v-flex>
@@ -73,7 +80,7 @@
                                                         flat
                                                         icon
                                                         color="primary"
-                                                        @click="foto.zoomIn()"
+                                                        @click="logo.zoomIn()"
                                                     >
                                                         <v-icon>fas fa-search-plus</v-icon>
                                                     </v-btn>
@@ -81,7 +88,7 @@
                                                         flat
                                                         icon
                                                         color="primary"
-                                                        @click="foto.zoomOut()"
+                                                        @click="logo.zoomOut()"
                                                     >
                                                         <v-icon>fas fa-search-minus</v-icon>
                                                     </v-btn>
@@ -89,33 +96,35 @@
                                                         flat
                                                         icon
                                                         color="primary"
-                                                        @click="foto.rotate()"
+                                                        @click="logo.rotate()"
                                                     >
                                                         <v-icon>fas fa-redo-alt</v-icon>
                                                     </v-btn>
-                                                    <div v-if="foto != null">
+                                                    <div v-if="logo != null">
                                                         <v-btn
-                                                            v-show="foto.hasImage()"
+                                                            v-show="logo.hasImage()"
                                                             flat
                                                             icon
                                                             color="primary"
-                                                            @click="foto.remove()"
+                                                            @click="logo.remove()"
                                                         >
                                                             <v-icon>fas fa-times</v-icon>
                                                         </v-btn>
                                                         <v-btn
-                                                            v-show="!foto.hasImage()"
+                                                            v-show="!logo.hasImage()"
                                                             flat
                                                             icon
                                                             color="primary"
-                                                            @click="foto.chooseFile()"
+                                                            @click="logo.chooseFile()"
                                                         >
                                                             <v-icon>fas fa-plus</v-icon>
                                                         </v-btn>
                                                     </div>
-                                                    <v-btn flat icon color="primary">
-                                                        <v-icon size="medium">fas fa-pen</v-icon>
-                                                    </v-btn>
+                                                    <div v-if="logo != null">
+                                                        <v-btn :disabled="!logo.hasImage()" flat icon color="primary" @click="updateConfig()">
+                                                            <v-icon size="medium">fas fa-pen</v-icon>
+                                                        </v-btn>
+                                                    </div>
                                                 </v-layout>
                                             </v-flex>
                                         </v-layout>
@@ -147,7 +156,8 @@ export default {
     data() {
         return {
             standard: null,
-            foto: null
+            logo: null,
+            snackbarStandard: false
         };
     },
 
@@ -156,29 +166,33 @@ export default {
     },
 
     methods: {
-        ...mapActions("crudx", ["index"]),
+        ...mapMutations('crudx', ['fillForm']),
+        ...mapActions("crudx", ["index", 'update']),
 
         getConfigStandard: async function() {
             let response = await this.index({ url: "/api/configuracion" });
             this.standard = response.standard;
-            console.log(this.standard);
         },
 
-        updateConfig() {
+        updateConfig: async function() {
             let formularioStandard = {
-                provincia: this.standard[0].configuraciones[0].value,
-                localidad: this.standard[0].configuraciones[1].value,
-                codigopostal: this.standard[0].configuraciones[2].value,
-                direccion: this.standard[0].configuraciones[3].value,
-                telefono: this.standard[0].configuraciones[4].value,
-                email: this.standard[0].configuraciones[5].value,
-                nombrefantasia: this.standard[1].configuraciones[0].value,
-                tagline: this.standard[1].configuraciones[1].value,
+                provincia:          this.standard[0].configuraciones[0].value,
+                localidad:          this.standard[0].configuraciones[1].value,
+                codigopostal:       this.standard[0].configuraciones[2].value,
+                direccion:          this.standard[0].configuraciones[3].value,
+                telefono:           this.standard[0].configuraciones[4].value,
+                email:              this.standard[0].configuraciones[5].value,
+                nombrefantasia:     this.standard[1].configuraciones[0].value,
+                tagline:            this.standard[1].configuraciones[1].value,
+                logo:               this.logo.generateDataUrl(),
                 domiciliocomercial: this.standard[1].configuraciones[3].value
             };
 
-            console.log(formularioStandard);
-        }
+            await this.fillForm(formularioStandard);
+            await this.update({url: '/api/configuracion/1'});
+
+            this.snackbarStandard = true;
+        },
     }
 };
 </script>

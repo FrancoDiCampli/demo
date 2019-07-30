@@ -5651,6 +5651,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //Vuex
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -5658,13 +5667,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       standard: null,
-      foto: null
+      logo: null,
+      snackbarStandard: false
     };
   },
   mounted: function mounted() {
     this.getConfigStandard();
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])("crudx", ["index"]), {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])('crudx', ['fillForm']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])("crudx", ["index", 'update']), {
     getConfigStandard: function () {
       var _getConfigStandard = _asyncToGenerator(
       /*#__PURE__*/
@@ -5682,9 +5692,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 2:
                 response = _context.sent;
                 this.standard = response.standard;
-                console.log(this.standard);
 
-              case 5:
+              case 4:
               case "end":
                 return _context.stop();
             }
@@ -5698,20 +5707,53 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       return getConfigStandard;
     }(),
-    updateConfig: function updateConfig() {
-      var formularioStandard = {
-        provincia: this.standard[0].configuraciones[0].value,
-        localidad: this.standard[0].configuraciones[1].value,
-        codigopostal: this.standard[0].configuraciones[2].value,
-        direccion: this.standard[0].configuraciones[3].value,
-        telefono: this.standard[0].configuraciones[4].value,
-        email: this.standard[0].configuraciones[5].value,
-        nombrefantasia: this.standard[1].configuraciones[0].value,
-        tagline: this.standard[1].configuraciones[1].value,
-        domiciliocomercial: this.standard[1].configuraciones[3].value
-      };
-      console.log(formularioStandard);
-    }
+    updateConfig: function () {
+      var _updateConfig = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var formularioStandard;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                formularioStandard = {
+                  provincia: this.standard[0].configuraciones[0].value,
+                  localidad: this.standard[0].configuraciones[1].value,
+                  codigopostal: this.standard[0].configuraciones[2].value,
+                  direccion: this.standard[0].configuraciones[3].value,
+                  telefono: this.standard[0].configuraciones[4].value,
+                  email: this.standard[0].configuraciones[5].value,
+                  nombrefantasia: this.standard[1].configuraciones[0].value,
+                  tagline: this.standard[1].configuraciones[1].value,
+                  logo: this.logo.generateDataUrl(),
+                  domiciliocomercial: this.standard[1].configuraciones[3].value
+                };
+                _context2.next = 3;
+                return this.fillForm(formularioStandard);
+
+              case 3:
+                _context2.next = 5;
+                return this.update({
+                  url: '/api/configuracion/1'
+                });
+
+              case 5:
+                this.snackbarStandard = true;
+
+              case 6:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function updateConfig() {
+        return _updateConfig.apply(this, arguments);
+      }
+
+      return updateConfig;
+    }()
   })
 });
 
@@ -24380,526 +24422,590 @@ var render = function() {
   return _vm.standard != null
     ? _c(
         "div",
-        _vm._l(_vm.standard, function(stan) {
-          return _c(
-            "div",
-            { key: stan.id },
+        [
+          _c(
+            "v-snackbar",
+            {
+              attrs: { color: "primary", timeout: 6000, right: "", top: "" },
+              model: {
+                value: _vm.snackbarStandard,
+                callback: function($$v) {
+                  _vm.snackbarStandard = $$v
+                },
+                expression: "snackbarStandard"
+              }
+            },
             [
+              _vm._v("\n        Datos Actualizados\n        "),
               _c(
-                "v-layout",
-                { attrs: { wrap: "" } },
-                [
-                  _c("v-flex", { attrs: { xs12: "", "mb-3": "" } }, [
-                    _c("h2", [_vm._v(_vm._s(stan.name))])
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "v-flex",
-                    { attrs: { xs12: "", "mb-5": "" } },
-                    [
-                      _c(
-                        "v-expansion-panel",
-                        _vm._l(stan.configuraciones, function(config) {
-                          return _c(
-                            "v-expansion-panel-content",
-                            {
-                              key: config.id,
-                              attrs: { "expand-icon": "fas fa-caret-down" },
-                              scopedSlots: _vm._u(
-                                [
-                                  {
-                                    key: "header",
-                                    fn: function() {
-                                      return [
-                                        _c("div", [_vm._v(_vm._s(config.name))])
-                                      ]
-                                    },
-                                    proxy: true
-                                  }
-                                ],
-                                null,
-                                true
-                              )
-                            },
-                            [
-                              _vm._v(" "),
-                              _c(
-                                "v-card",
-                                [
-                                  _c(
-                                    "v-card-text",
-                                    [
-                                      config.type == "text" ||
-                                      config.type == "number"
-                                        ? _c(
-                                            "div",
-                                            [
-                                              _c(
-                                                "v-layout",
-                                                {
-                                                  attrs: {
-                                                    "justify-space-around": ""
-                                                  }
-                                                },
-                                                [
-                                                  _c(
-                                                    "v-flex",
-                                                    { attrs: { xs12: "" } },
-                                                    [
-                                                      _c(
-                                                        "v-layout",
-                                                        {
-                                                          attrs: {
-                                                            "justify-space-between":
-                                                              ""
-                                                          }
-                                                        },
-                                                        [
-                                                          _c(
-                                                            "v-flex",
-                                                            {
-                                                              attrs: {
-                                                                xs10: "",
-                                                                sm4: ""
-                                                              }
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "v-layout",
-                                                                {
-                                                                  attrs: {
-                                                                    "justify-start":
-                                                                      ""
-                                                                  }
-                                                                },
-                                                                [
-                                                                  _c(
-                                                                    "v-text-field",
-                                                                    {
-                                                                      attrs: {
-                                                                        type:
-                                                                          config.type ==
-                                                                          "number"
-                                                                            ? "number"
-                                                                            : "text",
-                                                                        label:
-                                                                          config.name,
-                                                                        box: ""
-                                                                      },
-                                                                      model: {
-                                                                        value:
-                                                                          config.value,
-                                                                        callback: function(
-                                                                          $$v
-                                                                        ) {
-                                                                          _vm.$set(
-                                                                            config,
-                                                                            "value",
-                                                                            $$v
-                                                                          )
-                                                                        },
-                                                                        expression:
-                                                                          "config.value"
-                                                                      }
-                                                                    }
-                                                                  )
-                                                                ],
-                                                                1
-                                                              )
-                                                            ],
-                                                            1
-                                                          ),
-                                                          _vm._v(" "),
-                                                          _c(
-                                                            "v-flex",
-                                                            {
-                                                              attrs: {
-                                                                xs2: "",
-                                                                s8: ""
-                                                              }
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "v-layout",
-                                                                {
-                                                                  attrs: {
-                                                                    "justify-end":
-                                                                      ""
-                                                                  }
-                                                                },
-                                                                [
-                                                                  _c(
-                                                                    "v-btn",
-                                                                    {
-                                                                      attrs: {
-                                                                        color:
-                                                                          "primary",
-                                                                        flat:
-                                                                          "",
-                                                                        icon: ""
-                                                                      },
-                                                                      on: {
-                                                                        click: function(
-                                                                          $event
-                                                                        ) {
-                                                                          return _vm.updateConfig()
-                                                                        }
-                                                                      }
-                                                                    },
-                                                                    [
-                                                                      _c(
-                                                                        "v-icon",
-                                                                        {
-                                                                          attrs: {
-                                                                            size:
-                                                                              "medium"
-                                                                          }
-                                                                        },
-                                                                        [
-                                                                          _vm._v(
-                                                                            "fas fa-pen"
-                                                                          )
-                                                                        ]
-                                                                      )
-                                                                    ],
-                                                                    1
-                                                                  )
-                                                                ],
-                                                                1
-                                                              )
-                                                            ],
-                                                            1
-                                                          )
-                                                        ],
-                                                        1
-                                                      )
-                                                    ],
-                                                    1
-                                                  )
-                                                ],
-                                                1
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        : config.type == "img"
-                                        ? _c(
-                                            "div",
-                                            [
-                                              _c(
-                                                "v-layout",
-                                                {
-                                                  attrs: {
-                                                    "justify-center": ""
-                                                  }
-                                                },
-                                                [
-                                                  _c(
-                                                    "v-flex",
-                                                    [
-                                                      _c(
-                                                        "v-layout",
-                                                        {
-                                                          attrs: {
-                                                            "justify-end": ""
-                                                          }
-                                                        },
-                                                        [
-                                                          _c("croppa", {
-                                                            attrs: {
-                                                              width: 230,
-                                                              height: 230,
-                                                              placeholder:
-                                                                "Foto",
-                                                              "placeholder-color":
-                                                                "#000",
-                                                              "placeholder-font-size": 24,
-                                                              "canvas-color":
-                                                                "transparent",
-                                                              "show-remove-button": false,
-                                                              "show-loading": true,
-                                                              "loading-size": 25,
-                                                              "prevent-white-space": true,
-                                                              "zoom-speed": 10
-                                                            },
-                                                            model: {
-                                                              value: _vm.foto,
-                                                              callback: function(
-                                                                $$v
-                                                              ) {
-                                                                _vm.foto = $$v
-                                                              },
-                                                              expression: "foto"
-                                                            }
-                                                          })
-                                                        ],
-                                                        1
-                                                      )
-                                                    ],
-                                                    1
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "v-flex",
-                                                    [
-                                                      _c(
-                                                        "v-layout",
-                                                        {
-                                                          attrs: { column: "" }
-                                                        },
-                                                        [
-                                                          _c(
-                                                            "v-btn",
-                                                            {
-                                                              attrs: {
-                                                                flat: "",
-                                                                icon: "",
-                                                                color: "primary"
-                                                              },
-                                                              on: {
-                                                                click: function(
-                                                                  $event
-                                                                ) {
-                                                                  return _vm.foto.zoomIn()
-                                                                }
-                                                              }
-                                                            },
-                                                            [
-                                                              _c("v-icon", [
-                                                                _vm._v(
-                                                                  "fas fa-search-plus"
-                                                                )
-                                                              ])
-                                                            ],
-                                                            1
-                                                          ),
-                                                          _vm._v(" "),
-                                                          _c(
-                                                            "v-btn",
-                                                            {
-                                                              attrs: {
-                                                                flat: "",
-                                                                icon: "",
-                                                                color: "primary"
-                                                              },
-                                                              on: {
-                                                                click: function(
-                                                                  $event
-                                                                ) {
-                                                                  return _vm.foto.zoomOut()
-                                                                }
-                                                              }
-                                                            },
-                                                            [
-                                                              _c("v-icon", [
-                                                                _vm._v(
-                                                                  "fas fa-search-minus"
-                                                                )
-                                                              ])
-                                                            ],
-                                                            1
-                                                          ),
-                                                          _vm._v(" "),
-                                                          _c(
-                                                            "v-btn",
-                                                            {
-                                                              attrs: {
-                                                                flat: "",
-                                                                icon: "",
-                                                                color: "primary"
-                                                              },
-                                                              on: {
-                                                                click: function(
-                                                                  $event
-                                                                ) {
-                                                                  return _vm.foto.rotate()
-                                                                }
-                                                              }
-                                                            },
-                                                            [
-                                                              _c("v-icon", [
-                                                                _vm._v(
-                                                                  "fas fa-redo-alt"
-                                                                )
-                                                              ])
-                                                            ],
-                                                            1
-                                                          ),
-                                                          _vm._v(" "),
-                                                          _vm.foto != null
-                                                            ? _c(
-                                                                "div",
-                                                                [
-                                                                  _c(
-                                                                    "v-btn",
-                                                                    {
-                                                                      directives: [
-                                                                        {
-                                                                          name:
-                                                                            "show",
-                                                                          rawName:
-                                                                            "v-show",
-                                                                          value: _vm.foto.hasImage(),
-                                                                          expression:
-                                                                            "foto.hasImage()"
-                                                                        }
-                                                                      ],
-                                                                      attrs: {
-                                                                        flat:
-                                                                          "",
-                                                                        icon:
-                                                                          "",
-                                                                        color:
-                                                                          "primary"
-                                                                      },
-                                                                      on: {
-                                                                        click: function(
-                                                                          $event
-                                                                        ) {
-                                                                          return _vm.foto.remove()
-                                                                        }
-                                                                      }
-                                                                    },
-                                                                    [
-                                                                      _c(
-                                                                        "v-icon",
-                                                                        [
-                                                                          _vm._v(
-                                                                            "fas fa-times"
-                                                                          )
-                                                                        ]
-                                                                      )
-                                                                    ],
-                                                                    1
-                                                                  ),
-                                                                  _vm._v(" "),
-                                                                  _c(
-                                                                    "v-btn",
-                                                                    {
-                                                                      directives: [
-                                                                        {
-                                                                          name:
-                                                                            "show",
-                                                                          rawName:
-                                                                            "v-show",
-                                                                          value: !_vm.foto.hasImage(),
-                                                                          expression:
-                                                                            "!foto.hasImage()"
-                                                                        }
-                                                                      ],
-                                                                      attrs: {
-                                                                        flat:
-                                                                          "",
-                                                                        icon:
-                                                                          "",
-                                                                        color:
-                                                                          "primary"
-                                                                      },
-                                                                      on: {
-                                                                        click: function(
-                                                                          $event
-                                                                        ) {
-                                                                          return _vm.foto.chooseFile()
-                                                                        }
-                                                                      }
-                                                                    },
-                                                                    [
-                                                                      _c(
-                                                                        "v-icon",
-                                                                        [
-                                                                          _vm._v(
-                                                                            "fas fa-plus"
-                                                                          )
-                                                                        ]
-                                                                      )
-                                                                    ],
-                                                                    1
-                                                                  )
-                                                                ],
-                                                                1
-                                                              )
-                                                            : _vm._e(),
-                                                          _vm._v(" "),
-                                                          _c(
-                                                            "v-btn",
-                                                            {
-                                                              attrs: {
-                                                                flat: "",
-                                                                icon: "",
-                                                                color: "primary"
-                                                              }
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "v-icon",
-                                                                {
-                                                                  attrs: {
-                                                                    size:
-                                                                      "medium"
-                                                                  }
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    "fas fa-pen"
-                                                                  )
-                                                                ]
-                                                              )
-                                                            ],
-                                                            1
-                                                          )
-                                                        ],
-                                                        1
-                                                      )
-                                                    ],
-                                                    1
-                                                  )
-                                                ],
-                                                1
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        : _vm._e(),
-                                      _vm._v(" "),
-                                      _c("v-divider"),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-layout",
-                                        [
-                                          _c("v-flex", [
-                                            _c("br"),
-                                            _vm._v(
-                                              "\n                                        " +
-                                                _vm._s(config.msg) +
-                                                "\n                                    "
-                                            )
-                                          ])
-                                        ],
-                                        1
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        }),
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
+                "v-btn",
+                {
+                  attrs: { color: "white", flat: "", icon: "" },
+                  on: {
+                    click: function($event) {
+                      _vm.snackbarStandard = false
+                    }
+                  }
+                },
+                [_c("v-icon", [_vm._v("fas fa-times")])],
                 1
               )
             ],
             1
-          )
-        }),
-        0
+          ),
+          _vm._v(" "),
+          _vm._l(_vm.standard, function(stan) {
+            return _c(
+              "div",
+              { key: stan.id },
+              [
+                _c(
+                  "v-layout",
+                  { attrs: { wrap: "" } },
+                  [
+                    _c("v-flex", { attrs: { xs12: "", "mb-3": "" } }, [
+                      _c("h2", [_vm._v(_vm._s(stan.name))])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "v-flex",
+                      { attrs: { xs12: "", "mb-5": "" } },
+                      [
+                        _c(
+                          "v-expansion-panel",
+                          _vm._l(stan.configuraciones, function(config) {
+                            return _c(
+                              "v-expansion-panel-content",
+                              {
+                                key: config.id,
+                                attrs: { "expand-icon": "fas fa-caret-down" },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "header",
+                                      fn: function() {
+                                        return [
+                                          _c("div", [
+                                            _vm._v(_vm._s(config.name))
+                                          ])
+                                        ]
+                                      },
+                                      proxy: true
+                                    }
+                                  ],
+                                  null,
+                                  true
+                                )
+                              },
+                              [
+                                _vm._v(" "),
+                                _c(
+                                  "v-card",
+                                  [
+                                    _c(
+                                      "v-card-text",
+                                      [
+                                        config.type == "text" ||
+                                        config.type == "number"
+                                          ? _c(
+                                              "div",
+                                              [
+                                                _c(
+                                                  "v-layout",
+                                                  {
+                                                    attrs: {
+                                                      "justify-space-around": ""
+                                                    }
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "v-flex",
+                                                      { attrs: { xs12: "" } },
+                                                      [
+                                                        _c(
+                                                          "v-layout",
+                                                          {
+                                                            attrs: {
+                                                              "justify-space-between":
+                                                                ""
+                                                            }
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "v-flex",
+                                                              {
+                                                                attrs: {
+                                                                  xs10: "",
+                                                                  sm4: ""
+                                                                }
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "v-layout",
+                                                                  {
+                                                                    attrs: {
+                                                                      "justify-start":
+                                                                        ""
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "v-text-field",
+                                                                      {
+                                                                        attrs: {
+                                                                          type:
+                                                                            config.type ==
+                                                                            "number"
+                                                                              ? "number"
+                                                                              : "text",
+                                                                          label:
+                                                                            config.name,
+                                                                          box:
+                                                                            ""
+                                                                        },
+                                                                        model: {
+                                                                          value:
+                                                                            config.value,
+                                                                          callback: function(
+                                                                            $$v
+                                                                          ) {
+                                                                            _vm.$set(
+                                                                              config,
+                                                                              "value",
+                                                                              $$v
+                                                                            )
+                                                                          },
+                                                                          expression:
+                                                                            "config.value"
+                                                                        }
+                                                                      }
+                                                                    )
+                                                                  ],
+                                                                  1
+                                                                )
+                                                              ],
+                                                              1
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "v-flex",
+                                                              {
+                                                                attrs: {
+                                                                  xs2: "",
+                                                                  s8: ""
+                                                                }
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "v-layout",
+                                                                  {
+                                                                    attrs: {
+                                                                      "justify-end":
+                                                                        ""
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "v-btn",
+                                                                      {
+                                                                        attrs: {
+                                                                          color:
+                                                                            "primary",
+                                                                          flat:
+                                                                            "",
+                                                                          icon:
+                                                                            ""
+                                                                        },
+                                                                        on: {
+                                                                          click: function(
+                                                                            $event
+                                                                          ) {
+                                                                            return _vm.updateConfig()
+                                                                          }
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "v-icon",
+                                                                          {
+                                                                            attrs: {
+                                                                              size:
+                                                                                "medium"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "fas fa-pen"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    )
+                                                                  ],
+                                                                  1
+                                                                )
+                                                              ],
+                                                              1
+                                                            )
+                                                          ],
+                                                          1
+                                                        )
+                                                      ],
+                                                      1
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          : config.type == "img"
+                                          ? _c(
+                                              "div",
+                                              [
+                                                _c(
+                                                  "v-layout",
+                                                  {
+                                                    attrs: {
+                                                      "justify-center": ""
+                                                    }
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "v-flex",
+                                                      [
+                                                        _c(
+                                                          "v-layout",
+                                                          {
+                                                            attrs: {
+                                                              "justify-end": ""
+                                                            }
+                                                          },
+                                                          [
+                                                            _c("croppa", {
+                                                              attrs: {
+                                                                width: 230,
+                                                                height: 230,
+                                                                placeholder:
+                                                                  "Logo",
+                                                                "placeholder-color":
+                                                                  "#000",
+                                                                "placeholder-font-size": 24,
+                                                                "canvas-color":
+                                                                  "transparent",
+                                                                "show-remove-button": false,
+                                                                "show-loading": true,
+                                                                "loading-size": 25,
+                                                                "prevent-white-space": true,
+                                                                "zoom-speed": 10,
+                                                                "initial-image":
+                                                                  "images/logo.png"
+                                                              },
+                                                              model: {
+                                                                value: _vm.logo,
+                                                                callback: function(
+                                                                  $$v
+                                                                ) {
+                                                                  _vm.logo = $$v
+                                                                },
+                                                                expression:
+                                                                  "logo"
+                                                              }
+                                                            })
+                                                          ],
+                                                          1
+                                                        )
+                                                      ],
+                                                      1
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "v-flex",
+                                                      [
+                                                        _c(
+                                                          "v-layout",
+                                                          {
+                                                            attrs: {
+                                                              column: ""
+                                                            }
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "v-btn",
+                                                              {
+                                                                attrs: {
+                                                                  flat: "",
+                                                                  icon: "",
+                                                                  color:
+                                                                    "primary"
+                                                                },
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    return _vm.logo.zoomIn()
+                                                                  }
+                                                                }
+                                                              },
+                                                              [
+                                                                _c("v-icon", [
+                                                                  _vm._v(
+                                                                    "fas fa-search-plus"
+                                                                  )
+                                                                ])
+                                                              ],
+                                                              1
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "v-btn",
+                                                              {
+                                                                attrs: {
+                                                                  flat: "",
+                                                                  icon: "",
+                                                                  color:
+                                                                    "primary"
+                                                                },
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    return _vm.logo.zoomOut()
+                                                                  }
+                                                                }
+                                                              },
+                                                              [
+                                                                _c("v-icon", [
+                                                                  _vm._v(
+                                                                    "fas fa-search-minus"
+                                                                  )
+                                                                ])
+                                                              ],
+                                                              1
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "v-btn",
+                                                              {
+                                                                attrs: {
+                                                                  flat: "",
+                                                                  icon: "",
+                                                                  color:
+                                                                    "primary"
+                                                                },
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    return _vm.logo.rotate()
+                                                                  }
+                                                                }
+                                                              },
+                                                              [
+                                                                _c("v-icon", [
+                                                                  _vm._v(
+                                                                    "fas fa-redo-alt"
+                                                                  )
+                                                                ])
+                                                              ],
+                                                              1
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _vm.logo != null
+                                                              ? _c(
+                                                                  "div",
+                                                                  [
+                                                                    _c(
+                                                                      "v-btn",
+                                                                      {
+                                                                        directives: [
+                                                                          {
+                                                                            name:
+                                                                              "show",
+                                                                            rawName:
+                                                                              "v-show",
+                                                                            value: _vm.logo.hasImage(),
+                                                                            expression:
+                                                                              "logo.hasImage()"
+                                                                          }
+                                                                        ],
+                                                                        attrs: {
+                                                                          flat:
+                                                                            "",
+                                                                          icon:
+                                                                            "",
+                                                                          color:
+                                                                            "primary"
+                                                                        },
+                                                                        on: {
+                                                                          click: function(
+                                                                            $event
+                                                                          ) {
+                                                                            return _vm.logo.remove()
+                                                                          }
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "v-icon",
+                                                                          [
+                                                                            _vm._v(
+                                                                              "fas fa-times"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c(
+                                                                      "v-btn",
+                                                                      {
+                                                                        directives: [
+                                                                          {
+                                                                            name:
+                                                                              "show",
+                                                                            rawName:
+                                                                              "v-show",
+                                                                            value: !_vm.logo.hasImage(),
+                                                                            expression:
+                                                                              "!logo.hasImage()"
+                                                                          }
+                                                                        ],
+                                                                        attrs: {
+                                                                          flat:
+                                                                            "",
+                                                                          icon:
+                                                                            "",
+                                                                          color:
+                                                                            "primary"
+                                                                        },
+                                                                        on: {
+                                                                          click: function(
+                                                                            $event
+                                                                          ) {
+                                                                            return _vm.logo.chooseFile()
+                                                                          }
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "v-icon",
+                                                                          [
+                                                                            _vm._v(
+                                                                              "fas fa-plus"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    )
+                                                                  ],
+                                                                  1
+                                                                )
+                                                              : _vm._e(),
+                                                            _vm._v(" "),
+                                                            _vm.logo != null
+                                                              ? _c(
+                                                                  "div",
+                                                                  [
+                                                                    _c(
+                                                                      "v-btn",
+                                                                      {
+                                                                        attrs: {
+                                                                          disabled: !_vm.logo.hasImage(),
+                                                                          flat:
+                                                                            "",
+                                                                          icon:
+                                                                            "",
+                                                                          color:
+                                                                            "primary"
+                                                                        },
+                                                                        on: {
+                                                                          click: function(
+                                                                            $event
+                                                                          ) {
+                                                                            return _vm.updateConfig()
+                                                                          }
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "v-icon",
+                                                                          {
+                                                                            attrs: {
+                                                                              size:
+                                                                                "medium"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "fas fa-pen"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    )
+                                                                  ],
+                                                                  1
+                                                                )
+                                                              : _vm._e()
+                                                          ],
+                                                          1
+                                                        )
+                                                      ],
+                                                      1
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          : _vm._e(),
+                                        _vm._v(" "),
+                                        _c("v-divider"),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-layout",
+                                          [
+                                            _c("v-flex", [
+                                              _c("br"),
+                                              _vm._v(
+                                                "\n                                        " +
+                                                  _vm._s(config.msg) +
+                                                  "\n                                    "
+                                              )
+                                            ])
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          }),
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          })
+        ],
+        2
       )
     : _vm._e()
 }

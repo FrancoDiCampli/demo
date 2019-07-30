@@ -50,7 +50,8 @@ Route::middleware('auth:api')->group(function () {
     /*Remitos*/
     Route::apiResource('remitos', 'API\RemitosController');
 
-    Route::apiResource('configuracion', 'API\InicialsettingsController');
+    /*Configuraciones*/
+    Route::apiResource('configuracion', 'API\InicialsettingsController', ['only' => ['index', 'update']]);
 
     /*Afip*/
     Route::get('/buscarAfip/{num}', 'API\ClientesController@buscarAfip');

@@ -92,7 +92,7 @@
                             </v-flex>
                         </v-layout>
                         <ReporteVentas :ventas="ventas.ventas"></ReporteVentas>
-                        <v-layout justify-center>
+                        <!-- <v-layout justify-center>
                             <v-btn
                                 :loading="inProcess"
                                 :disabled="inProcess"
@@ -100,7 +100,7 @@
                                 color="primary"
                                 outline
                             >Cargar Más</v-btn>
-                        </v-layout>
+                        </v-layout>-->
                     </v-card-text>
                 </v-card>
             </v-tab-item>

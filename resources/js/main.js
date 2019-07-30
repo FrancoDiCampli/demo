@@ -11,6 +11,10 @@ import Croppa from "vue-croppa";
 import "vue-croppa/dist/vue-croppa.css";
 Vue.use(Croppa);
 
+import VCharts from "v-charts";
+
+Vue.use(VCharts);
+
 Vue.config.productionTip = false;
 Vue.use(VueRouterUserRoles, { router });
 

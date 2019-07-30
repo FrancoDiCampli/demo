@@ -15,17 +15,18 @@ class CreateInicialsettingsTable extends Migration
     {
         Schema::create('inicialsettings', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('cuit');
-            $table->string('razonsocial');
-            $table->string('direccion');
+            $table->bigInteger('cuit')->nullable();
+            $table->string('razonsocial')->nullable();
+            $table->string('direccion')->nullable();
             $table->string('telefono')->nullable();
             $table->string('email')->nullable();
-            $table->integer('codigopostal');
-            $table->string('localidad');
-            $table->string('provincia');
-            $table->string('condicioniva');
-            $table->string('inicioactividades');
-            $table->integer('puntoventa');
+            $table->integer('codigopostal')->nullable();
+            $table->string('localidad')->nullable();
+            $table->string('provincia')->nullable();
+            $table->string('condicioniva')->nullable();
+            $table->string('inicioactividades')->nullable();
+            $table->integer('puntoventa')->nullable();
+            $table->string('logo')->nullable();
             $table->string('nombrefantasia')->nullable();
             $table->string('domiciliocomercial')->nullable();
             $table->string('tagline')->nullable();

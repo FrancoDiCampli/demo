@@ -1,12 +1,5 @@
 <template>
     <div>
-        <template>
-            <div class="loading" v-show="process">
-                <v-layout justify-center>
-                    <v-progress-circular :size="70" :width="7" color="primary" indeterminate></v-progress-circular>
-                </v-layout>
-            </div>
-        </template>
         <v-form ref="formCompra" @submit.prevent="saveCompra">
             <!-- Compras Headers -->
             <div>
@@ -30,7 +23,6 @@
                             @keyup="findProveedor()"
                             v-model="form.supplier"
                             :rules="[rules.required]"
-                            :disabled="proveedorDistinto"
                             label="Proveedor"
                             box
                         ></v-text-field>
@@ -74,8 +66,8 @@
                     <v-flex xs12 sm6 px-3>
                         <v-text-field
                             v-model="form.numremito"
+                            :disabled="notProveedor"
                             :rules="[rules.required]"
-                            :disabled="proveedorDistinto"
                             label="Nº Remito"
                             box
                         ></v-text-field>
@@ -114,10 +106,9 @@
                 </v-layout>
             </div>
             <!---------------------->
-            <!-- Compras Productos -->
-            <div>
-                <!-- Formulario -->
-                <v-form ref="formDetalles">
+            <v-form ref="formDetalles">
+                <!-- Compras Productos -->
+                <div>
                     <v-layout justify-space-around wrap>
                         <v-flex xs12 px-3>
                             <!-- Input Buscar Productos -->
@@ -125,7 +116,7 @@
                                 @keyup="findProducto()"
                                 autofocus
                                 v-model="form.producto"
-                                :disabled="proveedorDistinto"
+                                :disabled="blockProducto"
                                 label="Producto"
                                 box
                             ></v-text-field>
@@ -174,7 +165,13 @@
                                 </div>
                             </transition>
                         </v-flex>
-                        <v-flex xs12 px-3>
+                    </v-layout>
+                </div>
+                <!---------------------->
+                <!-- Compras Lotes Movimientos -->
+                <div>
+                    <v-layout justify-space-around wrap>
+                        <v-flex xs12 px-3 mb-3 v-show="proveedorDistinto">
                             <v-alert :value="proveedorDistinto" color="error">
                                 <div
                                     class="text-xs-center"
@@ -186,7 +183,7 @@
                             <v-select
                                 v-model="movimiento"
                                 @change="lotesControl()"
-                                :disabled="disabledMovimientos"
+                                :disabled="blockMovimiento"
                                 :items="movimientos"
                                 :rules="[rules.required]"
                                 label="Movimiento"
@@ -198,8 +195,8 @@
                             <v-select
                                 v-model="lote"
                                 @change="findLote()"
-                                :disabled="disabledLote"
-                                :items="lotesDisponibles"
+                                :disabled="blockLote"
+                                :items="lotes"
                                 :rules="[rules.required]"
                                 label="Lote"
                                 box
@@ -209,9 +206,9 @@
                         <v-flex xs12 sm4 px-3>
                             <v-text-field
                                 type="number"
-                                v-model="cantidad"
-                                :disabled="form.producto_id && proveedorDistinto == false ? false : true"
                                 @keyup.enter="fillDetalles()"
+                                v-model="cantidad"
+                                :disabled="blockDetalles"
                                 label="Cantidad"
                                 box
                             ></v-text-field>
@@ -221,7 +218,7 @@
                             <v-dialog
                                 ref="vencimiento"
                                 v-model="modalVencimiento"
-                                :return-value.sync="form.vencimiento"
+                                :return-value.sync="vencimiento"
                                 persistent
                                 lazy
                                 full-width
@@ -229,9 +226,10 @@
                             >
                                 <template v-slot:activator="{ on }">
                                     <v-text-field
-                                        v-model="form.vencimiento"
+                                        v-model="vencimiento"
+                                        @keyup.enter="fillDetalles()"
                                         label="Fecha de Vencimiento"
-                                        :disabled="form.producto_id && proveedorDistinto == false ? false : true"
+                                        :disabled="blockDetalles"
                                         :rules="[rules.required]"
                                         box
                                         readonly
@@ -239,7 +237,7 @@
                                     ></v-text-field>
                                 </template>
                                 <v-date-picker
-                                    v-model="form.vencimiento"
+                                    v-model="vencimiento"
                                     scrollable
                                     locale="es"
                                     format="DD/MM/YYYY"
@@ -254,7 +252,7 @@
                                     <v-btn
                                         flat
                                         color="primary"
-                                        @click="$refs.vencimiento.save(form.vencimiento)"
+                                        @click="$refs.vencimiento.save(vencimiento)"
                                     >OK</v-btn>
                                 </v-date-picker>
                             </v-dialog>
@@ -263,8 +261,9 @@
                         <v-flex xs12 sm4 px-3>
                             <v-text-field
                                 v-model="form.preciounitario"
+                                @keyup.enter="fillDetalles()"
                                 label="Precio de Compra"
-                                :disabled="form.producto_id && proveedorDistinto == false ? false : true"
+                                :disabled="blockDetalles"
                                 box
                             ></v-text-field>
                         </v-flex>
@@ -273,65 +272,64 @@
                             <v-text-field v-model="subtotalProdcuto" label="Subtotal" disabled box></v-text-field>
                         </v-flex>
                     </v-layout>
-                </v-form>
-                <!-- Tabla Detalles -->
-                <v-layout justify-space-around>
-                    <v-flex xs12 px-3>
-                        <v-data-table :headers="detallesHeader" :items="detalles" hide-actions>
-                            <template v-slot:items="detalle">
-                                <td>
-                                    <div v-if="detalle.item.actual_supplier == false">
-                                        <v-tooltip top>
-                                            <template v-slot:activator="{ on }">
-                                                <v-icon
-                                                    color="error"
-                                                    dark
-                                                    v-on="on"
-                                                >fas fa-exclamation-circle</v-icon>
-                                            </template>
-                                            <span>Este producto ya tiene un lote con este número asociado a otro proveedor, por favor cambie el número del lote.</span>
-                                        </v-tooltip>
-                                    </div>
-                                    <div v-else @click="detalle.selected = !detalle.selected;">
-                                        <v-checkbox
-                                            :input-value="detalle.selected"
-                                            color="primary"
-                                            hide-details
-                                        ></v-checkbox>
-                                    </div>
-                                </td>
-                                <td>{{ detalle.item.producto }}</td>
-                                <td>
-                                    <v-edit-dialog :return-value.sync="detalle.item.cantidad" lazy>
-                                        {{ detalle.item.cantidad }}
-                                        <template v-slot:input>
-                                            <v-text-field
-                                                v-model="detalle.item.cantidad"
-                                                label="Cantidad"
-                                                single-line
-                                                @keyup="updateDetalle()"
-                                            ></v-text-field>
-                                        </template>
-                                    </v-edit-dialog>
-                                </td>
-                                <td class="hidden-xs-only">{{ detalle.item.lote }}</td>
-                                <td class="hidden-sm-and-down">{{ detalle.item.preciounitario }}</td>
-                                <td>{{ detalle.item.subtotal }}</td>
-                                <td style="padding: 0px;">
-                                    <v-btn
-                                        @click="removeDetalle(detalle.item)"
-                                        flat
-                                        icon
+                </div>
+                <!---------------------->
+            </v-form>
+            <!-- Tabla Detalles -->
+            <v-layout justify-space-around wrap>
+                <v-flex xs12 px-3 mb-3 v-show="detallesProveedorDistinto">
+                    <v-alert :value="detallesProveedorDistinto" color="error">
+                        <div
+                            class="text-xs-center"
+                        >Uno o más productos del detalle ya tienen un lote asociado a otro proveedor, por favor elimine el detalle que que presente algún conflicto o cambie el proveedor.</div>
+                    </v-alert>
+                </v-flex>
+                <v-flex xs12 px-3>
+                    <v-data-table :headers="detallesHeader" :items="detalles" hide-actions>
+                        <template v-slot:items="detalle">
+                            <td>
+                                <div v-if="detalle.item.proveedorDistinto">
+                                    <v-icon color="error" dark>fas fa-exclamation-circle</v-icon>
+                                </div>
+                                <div v-else @click="detalle.selected = !detalle.selected;">
+                                    <v-checkbox
+                                        :input-value="detalle.selected"
                                         color="primary"
-                                    >
-                                        <v-icon size="medium">fas fa-times</v-icon>
-                                    </v-btn>
-                                </td>
-                            </template>
-                        </v-data-table>
-                    </v-flex>
-                </v-layout>
-            </div>
+                                        hide-details
+                                    ></v-checkbox>
+                                </div>
+                            </td>
+                            <td>{{ detalle.item.producto }}</td>
+                            <td>
+                                <v-edit-dialog :return-value.sync="detalle.item.cantidad" lazy>
+                                    {{ detalle.item.cantidad }}
+                                    <template v-slot:input>
+                                        <v-text-field
+                                            v-model="detalle.item.cantidad"
+                                            label="Cantidad"
+                                            single-line
+                                            @keyup="updateDetalle()"
+                                        ></v-text-field>
+                                    </template>
+                                </v-edit-dialog>
+                            </td>
+                            <td class="hidden-xs-only">{{ detalle.item.lote }}</td>
+                            <td class="hidden-sm-and-down">{{ detalle.item.preciounitario }}</td>
+                            <td>{{ detalle.item.subtotal }}</td>
+                            <td style="padding: 0px;">
+                                <v-btn
+                                    @click="removeDetalle(detalle.item)"
+                                    flat
+                                    icon
+                                    color="primary"
+                                >
+                                    <v-icon size="medium">fas fa-times</v-icon>
+                                </v-btn>
+                            </td>
+                        </template>
+                    </v-data-table>
+                </v-flex>
+            </v-layout>
             <!---------------------->
             <!-- Compras Resumen -->
             <br />
@@ -343,7 +341,7 @@
                                 <v-text-field
                                     type="number"
                                     v-model="form.bonificacion"
-                                    :disabled="proveedorDistinto"
+                                    :disabled="blockProducto"
                                     label="Bonificacion"
                                     box
                                 ></v-text-field>
@@ -353,7 +351,7 @@
                                 <v-text-field
                                     type="number"
                                     v-model="form.recargo"
-                                    :disabled="proveedorDistinto"
+                                    :disabled="blockProducto"
                                     label="Recargo"
                                     box
                                 ></v-text-field>
@@ -400,7 +398,7 @@
                                         color="primary"
                                     >Cancelar</v-btn>
                                     <v-btn
-                                        :disabled="detalles.length > 0 && proveedorDistinto == false && detallesActualSupllier == false ? false : true"
+                                        :disabled="blockSave"
                                         :loading="inProcess"
                                         type="submit"
                                         color="primary"
@@ -420,32 +418,46 @@
 <script>
 // Components
 import Error from "../../crudx/error.vue";
+
 // Vuex
 import { mapState, mapActions } from "vuex";
+
 // Axios
 import axios from "axios";
+
 export default {
     name: "RemitosForm",
+
     data() {
         return {
-            //______________________Data Proveedores________________________//
+            //________________________Data Proveedores________________________//
             detallesProveedor: [],
             proveedores: [],
             proveedoresSearchTable: false,
-            proveedorDistinto: false,
-            assignProveedor: false,
+            notProveedor: true,
             //_________________________Data Productos________________________//
-            cantidad: null,
-            modalVencimiento: false,
+            productosSearchTable: false,
             productos: [],
-            detalles: [],
-            selected: null,
             productosHeaders: [
                 { text: "Codigo", sortable: false, class: "hidden-xs-only" },
                 { text: "Articulo", sortable: false },
                 { text: "Precio", sortable: false },
                 { text: "Stock", sortable: false }
             ],
+            productoSelected: null,
+            //____________________Data Lotes Movimientos____________________//
+            movimiento: "ALTA",
+            movimientos: ["ALTA", "INCREMENTO"],
+            disabledMovimiento: false,
+            lote: null,
+            lotes: [],
+            disabledLote: false,
+            proveedorDistinto: false,
+            //_________________________Data Detalles________________________//
+            cantidad: null,
+            vencimiento: null,
+            modalVencimiento: false,
+            detalles: [],
             detallesHeader: [
                 { text: "Modificar", sortable: false },
                 { text: "Articulo", sortable: false },
@@ -463,28 +475,85 @@ export default {
                 { text: "Subtotal", sortable: false },
                 { text: "", sortable: false }
             ],
-            productoSelected: null,
-            productosSearchTable: false,
-            //____________________Data Lotes Movimientos____________________//
-            movimiento: "ALTA",
-            movimientos: ["ALTA", "INCREMENTO"],
-            disabledMovimientos: true,
-            lotesDisponibles: [],
-            lote: null,
-            disabledLote: false,
             //_________________________Data General________________________//
             rules: {
                 required: value => !!value || "Este campo es obligatorio"
-            },
-            process: false
+            }
         };
     },
+
     components: {
         Error
     },
+
     computed: {
-        ...mapState("crudx", ["inProcess", "form"]),
-        //_________________________Computed Productos________________________//
+        ...mapState("crudx", ["form", "inProcess"]),
+
+        //_________________________Computed Disabled________________________//
+        blockProducto() {
+            if (
+                !this.notProveedor &&
+                !this.proveedorDistinto &&
+                !this.detallesProveedorDistinto
+            ) {
+                return false;
+            } else {
+                return true;
+            }
+        },
+
+        blockMovimiento() {
+            if (
+                !this.notProveedor &&
+                this.productoSelected != null &&
+                !this.disabledMovimiento &&
+                !this.detallesProveedorDistinto
+            ) {
+                return false;
+            } else {
+                return true;
+            }
+        },
+
+        blockLote() {
+            if (
+                !this.notProveedor &&
+                this.productoSelected != null &&
+                !this.disabledLote &&
+                !this.detallesProveedorDistinto
+            ) {
+                return false;
+            } else {
+                return true;
+            }
+        },
+
+        blockDetalles() {
+            if (
+                this.productoSelected != null &&
+                !this.proveedorDistinto &&
+                !this.detallesProveedorDistinto
+            ) {
+                return false;
+            } else {
+                return true;
+            }
+        },
+
+        blockSave() {
+            if (
+                !this.notProveedor &&
+                !this.proveedorDistinto &&
+                !this.detallesProveedorDistinto &&
+                this.detalles.length > 0
+            ) {
+                return false;
+            } else {
+                return true;
+            }
+        },
+
+        //_________________________Computed Detalles________________________//
         subtotalProdcuto: {
             set() {},
             get() {
@@ -497,15 +566,18 @@ export default {
             }
         },
 
-        detallesActualSupllier() {
-            for (let i = 0; i < this.detalles.length; i++) {
-                if (this.detalles[i].supplier_id != this.form.supplier_id) {
-                    return true;
+        detallesProveedorDistinto() {
+            if (this.detalles.length > 0) {
+                for (let i = 0; i < this.detalles.length; i++) {
+                    if (this.detalles[i].proveedorDistinto == true) {
+                        return true;
+                    }
                 }
+            } else {
+                return false;
             }
-
-            return false;
         },
+
         //_________________________Computed Resumen________________________//
         subtotalCompra: {
             set() {},
@@ -552,17 +624,16 @@ export default {
             }
         }
     },
-    mounted() {
-        //_________________________Methods Productos________________________//
-        this.form.movimiento = "ALTA";
-    },
+
     methods: {
         ...mapActions("crudx", ["index", "save"]),
+
         //_________________________Methods Proveedores________________________//
         // Buscar los proveedores
         findProveedor: async function() {
             this.detallesProveedor = [];
             this.proveedoresSearchTable = true;
+            this.notProveedor = true;
             if (this.form.supplier != null && this.form.supplier != "") {
                 let response = await this.index({
                     url: "/api/suppliers",
@@ -583,6 +654,7 @@ export default {
             // Establecer la Razon Social y el Id del Proveedor en el Formulario
             this.form.supplier = proveedor.razonsocial;
             this.form.supplier_id = proveedor.id;
+            this.notProveedor = false;
             this.checkSupplier();
             // Establecer el Detalle de Proveedors
             axios
@@ -595,48 +667,34 @@ export default {
                 });
         },
 
-        // Verficar Proveedor
+        // Verificar si el proveedor es igual al seleccionado en cada detalle
         checkSupplier() {
-            for (let i = 0; i < this.detalles.length; i++) {
-                if (this.form.supplier_id) {
-                    if (this.detalles[i].supplier_id == null) {
-                        this.detalles[i].supplier_id = this.form.supplier_id;
-                        this.detalles[i].actual_supplier = true;
-                    } else {
-                        if (
-                            this.detalles[i].supplier_id !=
-                            this.form.supplier_id
-                        ) {
-                            if (this.detalles[i].assignProveedor) {
-                                this.detalles[i].actual_supplier = false;
-                            } else {
-                                this.detalles[
-                                    i
-                                ].supplier_id = this.form.supplier_id;
-                                this.detalles[i].actual_supplier = true;
-                            }
+            if (this.detalles.length > 0) {
+                for (let i = 0; i < this.detalles.length; i++) {
+                    if (this.detalles[i].supplier_id != this.form.supplier_id) {
+                        if (this.detalles[i].movimiento == "ALTA") {
+                            this.detalles[
+                                i
+                            ].supplier_id = this.form.supplier_id;
+                            this.detalles[i].proveedorDistinto = false;
                         } else {
-                            this.detalles[i].actual_supplier = true;
+                            this.detalles[i].proveedorDistinto = true;
                         }
+                    } else {
+                        this.detalles[i].proveedorDistinto = false;
                     }
-                } else {
-                    this.detalles[i].supplier_id = null;
-                    this.detalles[i].actual_supplier = true;
                 }
             }
-
-            console.log(this.detalles);
         },
 
         //_________________________Methods Productos________________________//
         // Buscar Producto
         findProducto: async function() {
             // Reiniciar Cantidad, Precio y el Producto Seleccionado
-            this.cantidad = null;
-            this.form.precio = null;
-            this.productoSelected = null;
+
             // Activar Tabla de Busqueda
             this.productosSearchTable = true;
+            this.productoSelected = null;
             // Buscar Productos
             if (this.form.producto) {
                 let response = await this.index({
@@ -648,13 +706,12 @@ export default {
             }
         },
         // Seleccionar Producto
-        selectProducto: async function(producto) {
+        selectProducto(producto) {
             // Reiniciar la tabla de productos
             this.productos = [];
-            // Asignar el producto seleccionado
             this.productoSelected = producto;
             // Controlar el movimiento
-            await this.movimientosControl();
+            this.movimientosControl(producto);
             // Desactivar Tabla de Busqueda
             this.productosSearchTable = false;
             // Seleccionar Producto
@@ -663,14 +720,86 @@ export default {
             this.form.preciounitario = producto.precio;
         },
 
+        //____________________Methods Lotes Movimientos_____________________//
+        // Controlar los movimientos disponibles
+        movimientosControl(producto) {
+            this.movimiento = "ALTA";
+            if (producto.inventarios.length <= 0) {
+                this.disabledMovimiento = true;
+            } else {
+                this.disabledMovimiento = false;
+            }
+            this.lotesControl();
+        },
+
+        lotesControl: async function() {
+            // Comprobar el tipo de movimiento
+            if (this.movimiento == "ALTA") {
+                // Comprobar si el articulo tiene inventarios o no
+                if (this.productoSelected.inventarios.length <= 0) {
+                    // Si no tiene inventarios asignar el lote 1
+                    this.lotes = [1];
+                    this.lote = 1;
+                    this.disabledLote = true;
+                } else {
+                    // Si tiene inventarios asignar el proximo lote
+                    let ultimoLote = this.productoSelected.inventarios[
+                        this.productoSelected.inventarios.length - 1
+                    ].lote;
+                    let proximoLote = Number(ultimoLote) + 1;
+                    this.lotes = [proximoLote];
+                    this.lote = proximoLote;
+                    this.disabledLote = true;
+                }
+            } else {
+                // En caso de incremento asignar todos los lotes al select
+                this.lotes = [];
+                for (
+                    let i = 0;
+                    i < this.productoSelected.inventarios.length;
+                    i++
+                ) {
+                    this.lotes.push(this.productoSelected.inventarios[i].lote);
+                }
+                this.lote = this.productoSelected.inventarios[0].lote;
+                // await this.findLote();
+                this.disabledLote = false;
+            }
+
+            await this.findLote();
+        },
+
+        // Buscar el lote
+        findLote: async function() {
+            let response = await this.index({
+                url: "/api/inventarios",
+                lote: this.lote,
+                articulo_id: this.form.producto_id
+            });
+            if (response.length > 0) {
+                if (this.form.supplier_id != response[0].supplier.id) {
+                    this.proveedorDistinto = true;
+                } else {
+                    this.proveedorDistinto = false;
+                }
+                this.vencimiento = response[0].vencimiento;
+            } else {
+                this.proveedorDistinto = false;
+                this.vencimiento = null;
+                this.$refs.formDetalles.resetValidation();
+            }
+        },
+
+        //____________________Methods Detalles_____________________//
         //LLenar Array de Detalles
         fillDetalles() {
-            if (this.cantidad) {
+            if (this.$refs.formDetalles.validate()) {
                 var find = this.detalles.find(
                     detalle =>
                         detalle.producto === this.form.producto &&
-                        detalle.lote === this.form.lote
+                        detalle.lote === this.lote
                 );
+
                 if (find) {
                     // Buscar el indice del la tabla detalles que coicide con el detalle existente
                     let indexDetalle = this.detalles.indexOf(find);
@@ -690,29 +819,23 @@ export default {
                         articulo_id: this.form.producto_id,
                         producto: this.form.producto,
                         cantidad: this.cantidad,
-                        lote: this.form.lote,
-                        vencimiento: this.form.vencimiento,
+                        lote: this.lote,
+                        vencimiento: this.vencimiento,
                         preciounitario: this.form.preciounitario,
                         subtotal: this.subtotalProdcuto,
-                        supplier_id: null,
-                        actual_supplier: true,
-                        assignProveedor: this.assignProveedor
+                        supplier_id: this.form.supplier_id,
+                        proveedorDistinto: false,
+                        movimiento: this.movimiento
                     };
-                    // Asignar el proveedor al detalle (si existe uno seleccionado)
-                    if (this.form.supplier_id) {
-                        detalle.supplier_id = this.form.supplier_id;
-                    }
                     // Añadir el Detalle al Array de Detalles
                     this.detalles.push(detalle);
                     this.form.detalle = this.detalles;
                 }
                 // Reiniciar el Formulario de Detalles
                 this.form.producto_id = null;
+                this.productoSelected = null;
                 this.$refs.formDetalles.reset();
-
                 this.checkSupplier();
-
-                console.log(this.detalles);
             }
         },
         // Borrar un Detalle del Array
@@ -720,6 +843,7 @@ export default {
             let index = this.detalles.indexOf(prodcuto);
             this.detalles.splice(index, 1);
             this.form.detalle = this.detalles;
+            this.checkSupplier();
         },
         //Actualizar cantidad y subtotal de un detalle
         updateDetalle() {
@@ -731,93 +855,8 @@ export default {
                     detalle.subtotal = 0;
                 }
             });
-            this.form.detalle = this.detalles;
         },
 
-        //____________________Methods Lotes Movimientos_____________________//
-        // Controlar los movimientos disponibles
-        movimientosControl: async function() {
-            if (this.productoSelected.inventarios.length <= 0) {
-                this.movimiento = "ALTA";
-                await this.lotesControl();
-            } else {
-                this.movimiento = "ALTA";
-                await this.lotesControl();
-            }
-        },
-
-        // Controlar los lotes disponibles
-        lotesControl: async function() {
-            if (this.movimiento == "ALTA") {
-                if (this.productoSelected.inventarios.length <= 0) {
-                    this.lotesDisponibles = [1];
-                    this.lote = 1;
-                    this.disabledMovimientos = true;
-                    this.disabledLote = true;
-                } else {
-                    let ultimoLote = this.productoSelected.inventarios[
-                        this.productoSelected.inventarios.length - 1
-                    ].lote;
-                    let proximoLote = Number(ultimoLote) + 1;
-
-                    this.lotesDisponibles = [proximoLote];
-                    this.lote = proximoLote;
-                    this.disabledLote = true;
-                    this.disabledMovimientos = false;
-                }
-            } else {
-                this.lotesDisponibles = [];
-                for (
-                    let i = 0;
-                    i < this.productoSelected.inventarios.length;
-                    i++
-                ) {
-                    this.lotesDisponibles.push(
-                        this.productoSelected.inventarios[i].lote
-                    );
-                }
-                this.lote = this.productoSelected.inventarios[0].lote;
-                await this.findLote();
-                this.disabledLote = false;
-                this.disabledMovimientos = false;
-            }
-        },
-
-        // Buscar el lote
-        findLote: async function() {
-            let response = await this.index({
-                url: "/api/inventarios",
-                lote: this.lote,
-                articulo_id: this.form.producto_id
-            });
-            console.log(response);
-            if (response.length > 0) {
-                if (this.form.supplier_id) {
-                    if (this.form.supplier_id != response[0].supplier.id) {
-                        this.proveedorDistinto = true;
-                    } else {
-                        this.proveedorDistinto = false;
-                        this.assignProveedor = true;
-                    }
-                } else {
-                    this.form.vencimiento = response[0].vencimiento;
-                    this.form.supplier = response[0].supplier.razonsocial;
-                    this.form.supplier_id = response[0].supplier.id;
-                    this.assignProveedor = true;
-                }
-            } else {
-                if (this.form.supplier_id) {
-                    this.form.vencimiento = null;
-                    this.assignProveedor = true;
-                } else {
-                    this.form.supplier = null;
-                    this.form.supplier_id = null;
-                    this.form.vencimiento = null;
-                    this.assignProveedor = false;
-                }
-                this.$refs.formDetalles.resetValidation();
-            }
-        },
         //_________________________Methods Generales________________________//
         // Imprimir Compra
         remitosPDF: function(id) {
@@ -839,8 +878,10 @@ export default {
         //Guardar Compra
         saveCompra: async function() {
             if (this.$refs.formCompra.validate()) {
+                console.log(this.form);
+                //Descomentar para Guardar
                 //Guardar Compras
-                let resID = await this.save({ url: "/api/suppliers" });
+                let resID = await this.save({ url: "/api/remitos" });
                 //Imprimir PDF de Compras
                 this.remitosPDF(resID);
                 //Reset Formularios

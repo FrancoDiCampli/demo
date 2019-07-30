@@ -10,13 +10,6 @@
         </template>
         <v-card v-show="!process">
             <v-card-text>
-                <v-layout justify-space-between>
-                    <h2>Cargar Certificados</h2>
-                </v-layout>
-            </v-card-text>
-            <v-divider></v-divider>
-            <br />
-            <v-card-text>
                 <v-layout justify-space-between wrap>
                     <v-flex xs12 sm6>
                         <div class="fileContainer">
@@ -31,19 +24,31 @@
                                 />
                             </div>
                             <transition name="card">
-                                <v-card
-                                    class="mx-auto fileContent"
-                                    color="primary"
-                                    dark
-                                    v-show="fileKey != null"
-                                >
-                                    <v-card-text>
-                                        <v-icon class="fileIcon">fas fa-file fa-4x</v-icon>
-                                    </v-card-text>
-                                    <v-card-text>
-                                        <div class="fileName">{{ keyName }}</div>
-                                    </v-card-text>
-                                </v-card>
+                                <div v-if="!valueKey">
+                                    <v-card
+                                        class="mx-auto fileContent"
+                                        color="primary"
+                                        dark
+                                        v-show="fileKey != null"
+                                    >
+                                        <v-card-text>
+                                            <v-icon class="fileIcon">fas fa-file fa-4x</v-icon>
+                                        </v-card-text>
+                                        <v-card-text>
+                                            <div class="fileName">{{ keyName }}</div>
+                                        </v-card-text>
+                                    </v-card>
+                                </div>
+                                <div v-else>
+                                    <v-card class="mx-auto fileContent" color="primary" dark>
+                                        <v-card-text>
+                                            <v-icon class="fileIcon">fas fa-file fa-4x</v-icon>
+                                        </v-card-text>
+                                        <v-card-text>
+                                            <div class="fileName">archivo.key</div>
+                                        </v-card-text>
+                                    </v-card>
+                                </div>
                             </transition>
                         </div>
                     </v-flex>
@@ -60,19 +65,31 @@
                                 />
                             </div>
                             <transition name="card">
-                                <v-card
-                                    class="mx-auto fileContent"
-                                    color="primary"
-                                    dark
-                                    v-show="fileCert != null"
-                                >
-                                    <v-card-text>
-                                        <v-icon class="fileIcon">fas fa-file fa-4x</v-icon>
-                                    </v-card-text>
-                                    <v-card-text>
-                                        <div class="fileName">{{ keyCert }}</div>
-                                    </v-card-text>
-                                </v-card>
+                                <div v-if="!valueCert">
+                                    <v-card
+                                        class="mx-auto fileContent"
+                                        color="primary"
+                                        dark
+                                        v-show="fileCert != null"
+                                    >
+                                        <v-card-text>
+                                            <v-icon class="fileIcon">fas fa-file fa-4x</v-icon>
+                                        </v-card-text>
+                                        <v-card-text>
+                                            <div class="fileName">{{ keyCert }}</div>
+                                        </v-card-text>
+                                    </v-card>
+                                </div>
+                                <div v-else>
+                                    <v-card class="mx-auto fileContent" color="primary" dark>
+                                        <v-card-text>
+                                            <v-icon class="fileIcon">fas fa-file fa-4x</v-icon>
+                                        </v-card-text>
+                                        <v-card-text>
+                                            <div class="fileName">archivo.cert</div>
+                                        </v-card-text>
+                                    </v-card>
+                                </div>
                             </transition>
                         </div>
                     </v-flex>
@@ -92,6 +109,10 @@ axios.defaults.headers.common["Authorization"] =
     "Bearer " + localStorage.getItem("accsess_token");
 
 export default {
+    name: "ConfiguracionesCertificados",
+
+    props: ["valueCert", "valueKey"],
+
     data() {
         return {
             fileKey: null,
@@ -111,7 +132,7 @@ export default {
                 formData.append("cert", this.fileCert);
 
                 axios
-                    .post("/api/configuracion", formData, {
+                    .put("/api/configuracion/1", formData, {
                         headers: {
                             "Content-Type": "multipart/form-data"
                         }

@@ -4,7 +4,7 @@
             <v-icon>fas fa-chevron-left</v-icon>
         </v-btn>
         <v-card>
-            <FormularioPrueba></FormularioPrueba>
+            <RemitosForm></RemitosForm>
         </v-card>
     </div>
 </template>
@@ -15,14 +15,12 @@ import { mapMutations } from "vuex";
 
 // Components
 import RemitosForm from "../../components/remitos/RemitosForm.vue";
-import FormularioPrueba from "../../components/remitos/FormularioPrueba.vue";
 
 export default {
     name: "ComprasCreate",
 
     components: {
-        RemitosForm,
-        FormularioPrueba
+        RemitosForm
     },
 
     methods: {

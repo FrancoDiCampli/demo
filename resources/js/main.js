@@ -4,15 +4,18 @@ import App from "./App.vue";
 import router from "./router";
 import VueRouterUserRoles from "vue-router-user-roles";
 import store from "./store";
+
+// Vuetify
 import "./plugins/vuetify";
 import "@fortawesome/fontawesome-free/css/all.css";
 
+// Vue Croppa
 import Croppa from "vue-croppa";
 import "vue-croppa/dist/vue-croppa.css";
 Vue.use(Croppa);
 
+// VCharts
 import VCharts from "v-charts";
-
 Vue.use(VCharts);
 
 Vue.config.productionTip = false;
@@ -24,7 +27,9 @@ if (token) {
     axios
         .get("/api/user")
         .then(response => {
-            Vue.prototype.$user.set({ role: response.data.rol.role });
+            Vue.prototype.$user.set({
+                role: response.data.rol.role
+            });
         })
         .catch(error => {
             commit("fillErrors", error.response.data);

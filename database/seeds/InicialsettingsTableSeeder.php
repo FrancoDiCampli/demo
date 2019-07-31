@@ -24,7 +24,6 @@ class InicialsettingsTableSeeder extends Seeder
             'condicioniva' => null,
             'inicioactividades' => null,
             'puntoventa' => null,
-            'logo' => 'images/logo.png',
             'nombrefantasia' => 'Nombre Comercial',
             'domiciliocomercial' => 'Domicilio Comercial',
             'tagline' => 'Lema',

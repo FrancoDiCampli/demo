@@ -1,5 +1,5 @@
 <template>
-    <div v-if="standard != null">
+    <div>
         <v-snackbar color="primary" v-model="snackbarStandard" :timeout="6000" right top>
             Datos Actualizados
             <v-btn color="white" flat @click="snackbarStandard = false" icon>
@@ -40,7 +40,7 @@
                                                     <v-flex xs2 s8>
                                                         <v-layout justify-end>
                                                             <v-btn
-                                                                @click="updateConfig()"
+                                                                @click="updateStandardConfig()"
                                                                 color="primary"
                                                                 flat
                                                                 icon
@@ -121,7 +121,13 @@
                                                         </v-btn>
                                                     </div>
                                                     <div v-if="logo != null">
-                                                        <v-btn :disabled="!logo.hasImage()" flat icon color="primary" @click="updateConfig()">
+                                                        <v-btn
+                                                            @click="updateLogo()"
+                                                            :disabled="!logo.hasImage()"
+                                                            flat
+                                                            icon
+                                                            color="primary"
+                                                        >
                                                             <v-icon size="medium">fas fa-pen</v-icon>
                                                         </v-btn>
                                                     </div>
@@ -147,8 +153,10 @@
 </template>
 
 <script>
-//Vuex
-import { mapState, mapMutations, mapActions } from "vuex";
+// Axios
+import axios from "axios";
+axios.defaults.headers.common["Authorization"] =
+    "Bearer " + localStorage.getItem("accsess_token");
 
 export default {
     name: "ConfiguracionesStandard",
@@ -166,33 +174,53 @@ export default {
     },
 
     methods: {
-        ...mapMutations('crudx', ['fillForm']),
-        ...mapActions("crudx", ["index", 'update']),
-
-        getConfigStandard: async function() {
-            let response = await this.index({ url: "/api/configuracion" });
-            this.standard = response.standard;
+        getConfigStandard() {
+            axios
+                .get("/api/config/standard")
+                .then(response => {
+                    this.standard = response.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         },
 
-        updateConfig: async function() {
+        updateStandardConfig() {
             let formularioStandard = {
-                provincia:          this.standard[0].configuraciones[0].value,
-                localidad:          this.standard[0].configuraciones[1].value,
-                codigopostal:       this.standard[0].configuraciones[2].value,
-                direccion:          this.standard[0].configuraciones[3].value,
-                telefono:           this.standard[0].configuraciones[4].value,
-                email:              this.standard[0].configuraciones[5].value,
-                nombrefantasia:     this.standard[1].configuraciones[0].value,
-                tagline:            this.standard[1].configuraciones[1].value,
-                logo:               this.logo.generateDataUrl(),
+                provincia: this.standard[0].configuraciones[0].value,
+                localidad: this.standard[0].configuraciones[1].value,
+                codigopostal: this.standard[0].configuraciones[2].value,
+                direccion: this.standard[0].configuraciones[3].value,
+                telefono: this.standard[0].configuraciones[4].value,
+                email: this.standard[0].configuraciones[5].value,
+                nombrefantasia: this.standard[1].configuraciones[0].value,
+                tagline: this.standard[1].configuraciones[1].value,
                 domiciliocomercial: this.standard[1].configuraciones[3].value
             };
 
-            await this.fillForm(formularioStandard);
-            await this.update({url: '/api/configuracion/1'});
-
-            this.snackbarStandard = true;
+            axios
+                .post("/api/config/update/standard", formularioStandard)
+                .then(response => {
+                    this.snackbarStandard = true;
+                    this.getConfigStandard();
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         },
+
+        updateLogo() {
+            axios
+                .post("/api/config/update/logo", {
+                    logo: this.logo.generateDataUrl()
+                })
+                .then(response => {
+                    this.snackbarStandard = true;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
     }
 };
 </script>

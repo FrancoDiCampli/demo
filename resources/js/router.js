@@ -2,7 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
 import NotFound from "./views/NotFound.vue";
-import RoutesTree from "./views/RoutesTreeView.vue";
+import Unconfigured from "./views/Unconfigured.vue";
 
 //_______________________VIEWS_______________________//
 
@@ -56,6 +56,11 @@ import ConfiguracionesIndex from "./views/configuraciones/index.vue";
 
 const visitorOnly = [
     {
+        role: "unconfigured",
+        access: false,
+        redirect: "unconfigured"
+    },
+    {
         role: "visitor",
         access: true
     },
@@ -78,6 +83,11 @@ const visitorOnly = [
 
 const allUsers = [
     {
+        role: "unconfigured",
+        access: false,
+        redirect: "unconfigured"
+    },
+    {
         role: "visitor",
         access: false,
         redirect: "login"
@@ -97,6 +107,11 @@ const allUsers = [
 ];
 
 const adminSuperAdmin = [
+    {
+        role: "unconfigured",
+        access: false,
+        redirect: "unconfigured"
+    },
     {
         role: "visitor",
         access: false,
@@ -118,6 +133,11 @@ const adminSuperAdmin = [
 ];
 
 const superAdminOnly = [
+    {
+        role: "unconfigured",
+        access: false,
+        redirect: "unconfigured"
+    },
     {
         role: "visitor",
         access: false,
@@ -152,16 +172,13 @@ export default new Router({
             component: Home
         },
         {
-            path: "*",
-            component: NotFound
+            path: "/unconfigured",
+            name: "unconfigured",
+            component: Unconfigured
         },
         {
-            path: "/routesTree",
-            name: "routes tree",
-            component: RoutesTree,
-            meta: {
-                permissions: superAdminOnly
-            }
+            path: "*",
+            component: NotFound
         },
 
         // Ventas Routes
@@ -368,7 +385,31 @@ export default new Router({
             name: "configuraciones",
             component: ConfiguracionesIndex,
             meta: {
-                permissions: superAdminOnly
+                permissions: [
+                    {
+                        role: "unconfigured",
+                        access: true
+                    },
+                    {
+                        role: "visitor",
+                        access: false,
+                        redirect: "login"
+                    },
+                    {
+                        role: "superAdmin",
+                        access: true
+                    },
+                    {
+                        role: "admin",
+                        access: false,
+                        redirect: "account"
+                    },
+                    {
+                        role: "seller",
+                        access: false,
+                        redirect: "account"
+                    }
+                ]
             }
         },
 

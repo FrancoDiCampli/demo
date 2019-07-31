@@ -14,19 +14,9 @@ class InicialsettingsController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function getStandardConfig()
     {
         $config = Inicialsetting::find(1);
-        if ($config->cert) {
-            $cert = true;
-        } else {
-            $cert = false;
-        }
-        if ($config->key) {
-            $key = true;
-        } else {
-            $key = false;
-        }
 
         $titular = [
             'name' => 'Información del Titular',
@@ -45,10 +35,31 @@ class InicialsettingsController extends Controller
             'configuraciones' => [
                 ['name' => 'Nombre Comercial', 'msg' => 'Nombre del comercio desde el cual se emitiran las facturas.', 'config' => 'nombrefantasia', 'value' => $config->nombrefantasia, 'type' => 'text'],
                 ['name' => 'Lema', 'msg' => 'Lema del comercio desde el cual se emitiran las facturas.', 'config' => 'tagline', 'value' => $config->tagline, 'type' => 'text'],
-                ['name' => 'Logo', 'msg' => 'Logo del comercio desde el cual se emitiran las facturas.', 'config' => 'logo', 'value' => $config->logo, 'type' => 'img'],
+                ['name' => 'Logo', 'msg' => 'Logo del comercio desde el cual se emitiran las facturas.', 'config' => 'logo', 'value' => 'images/logo.png', 'type' => 'img'],
                 ['name' => 'Domicilio Comercial', 'msg' => 'Domicilio del comercio desde el cual se emitirán las facturas.', 'config' => 'domiciliocomercial', 'value' => $config->domiciliocomercial, 'type' => 'text']
             ]
         ];
+
+        return [$titular, $comercial];
+    }
+
+    public function getAdvanceConfig()
+    {
+        $config = Inicialsetting::find(1);
+
+        $rutaCert = base_path('vendor/afipsdk/afip.php/src/Afip_res/cert');
+        $rutaKey = base_path('vendor/afipsdk/afip.php/src/Afip_res/key');
+
+        if (file_exists($rutaCert)) {
+            $cert = true;
+        } else {
+            $cert = false;
+        }
+        if (file_exists($rutaKey)) {
+            $key = true;
+        } else {
+            $key = false;
+        }
 
         $afip = [
             'name' => 'AFIP',
@@ -64,42 +75,18 @@ class InicialsettingsController extends Controller
         $facturacion = [
             'name' => 'Comprobantes',
             'configuraciones' => [
-                ['name' => 'Número de factura', 'msg' => 'Número establecido por el titular para la primera factura generada en el sistema. La numeración de las mismas comenzará a partir de este número.', 'config' => 'numfactura', 'value' => $config->numfactura, 'type' => 'number'],
-                ['name' => 'Número de presupuesto', 'msg' => 'Número establecido por el titular para el primer presupuesto generado en el sistema. La numeración de los mismos comenzará a partir de este número.', 'config' => 'numpresupuesto', 'value' => $config->numpresupuesto, 'type' => 'number'],
-                ['name' => 'Número de recibo', 'msg' => 'Número establecido por el titular para el primer recibo generado en el sistema. La numeración de los mismos comenzará a partir de este número.', 'config' => 'numrecibo', 'value' => $config->numrecibo, 'type' => 'number']
+                ['name' => 'Número de factura', 'msg' => 'Número establecido por el titular para la primera factura generada en el sistema. La numeración de las mismas comenzará a partir del número posterior a este.', 'config' => 'numfactura', 'value' => $config->numfactura, 'type' => 'number'],
+                ['name' => 'Número de presupuesto', 'msg' => 'Número establecido por el titular para el primer presupuesto generado en el sistema. La numeración de los mismos comenzará a partir del número posterior a este.', 'config' => 'numpresupuesto', 'value' => $config->numpresupuesto, 'type' => 'number'],
+                ['name' => 'Número de recibo', 'msg' => 'Número establecido por el titular para el primer recibo generado en el sistema. La numeración de los mismos comenzará a partir del número posterior a este.', 'config' => 'numrecibo', 'value' => $config->numrecibo, 'type' => 'number']
             ]
         ];
 
-        return ['standard' => [$titular, $comercial], 'avanzada' => [$afip, $facturacion]];
+        return [$afip, $facturacion];
     }
 
-    public function update(Request $request, $id)
+    public function updateStandardConfig(Request $request)
     {
         $configuracion = Inicialsetting::find(1);
-
-        if ($request->get('logo')) {
-            Image::make($request->get('logo'))->save(public_path('images/logo.png'));
-        }
-
-        if ($request->get('key')) {
-            if ($configuracion->cuit) {
-                $path = base_path('vendor/afipsdk/afip.php/src/Afip_res');
-                if ($request->key->getClientOriginalExtension() == 'key') {
-                    $request->key->move($path, 'key');
-                }
-            }
-        }
-
-        if ($request->get('cert')) {
-            if ($configuracion->cuit) {
-                $path = base_path('vendor/afipsdk/afip.php/src/Afip_res');
-                if ($request->cert->getClientOriginalExtension() == 'pem') {
-                    $request->cert->move($path, 'cert');
-                } else if ($request->cert->getClientOriginalExtension() == 'crt') {
-                    $request->cert->move($path, 'cert');
-                }
-            }
-        }
 
         $configuracion->provincia = $request['provincia'];
         $configuracion->localidad = $request['localidad'];
@@ -112,7 +99,63 @@ class InicialsettingsController extends Controller
         $configuracion->domiciliocomercial = $request['domiciliocomercial'];
 
         $configuracion->update();
+    }
 
-        return ['Actualizado'];
+    public function updateLogo(Request $request)
+    {
+        if ($request->get('logo')) {
+            Image::make($request->get('logo'))->save(public_path('images/logo.png'));
+        }
+    }
+
+    public function updateAdvanceConfig(Request $request)
+    {
+        $configuracion = Inicialsetting::find(1);
+
+        $configuracion->cuit = $request['cuit'];
+        $configuracion->razonsocial = $request['razonsocial'];
+        $configuracion->condicioniva = $request['condicioniva'];
+        $configuracion->inicioactividades = $request['inicioactividades'];
+        $configuracion->numfactura = $request['numfactura'];
+        $configuracion->numpresupuesto = $request['numpresupuesto'];
+        $configuracion->numrecibo = $request['numrecibo'];
+
+        $configuracion->update();
+    }
+
+    public function updateCert(Request $request)
+    {
+        $path = base_path('vendor/afipsdk/afip.php/src/Afip_res');
+        if ($request->key->getClientOriginalExtension() == 'key') {
+            $request->key->move($path, 'key');
+        }
+
+        $path = base_path('vendor/afipsdk/afip.php/src/Afip_res');
+        if ($request->cert->getClientOriginalExtension() == 'pem') {
+            $request->cert->move($path, 'cert');
+        } else if ($request->cert->getClientOriginalExtension() == 'crt') {
+            $request->cert->move($path, 'cert');
+        }
+    }
+
+    public function checkNecesaryConfig()
+    {
+        $config = Inicialsetting::find(1);
+        $necesaryConfig = false;
+
+        if (!$config->cuit || !$config->razonsocial || !$config->direccion || !$config->condicioniva || !$config->inicioactividades || !$config->puntoventa) {
+            $necesaryConfig = false;
+        } else {
+            $rutaCert = base_path('vendor/afipsdk/afip.php/src/Afip_res/cert');
+            $rutaKey = base_path('vendor/afipsdk/afip.php/src/Afip_res/key');
+
+            if (!file_exists($rutaCert) || !file_exists($rutaKey)) {
+                $necesaryConfig = false;
+            } else {
+                $necesaryConfig = true;
+            }
+        }
+
+        return json_encode($necesaryConfig);
     }
 }

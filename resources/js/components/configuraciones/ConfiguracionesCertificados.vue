@@ -1,105 +1,104 @@
 <template>
     <div>
-        <template>
-            <!-- Barra de progreso circular -->
-            <div class="loading" v-show="process">
-                <v-layout justify-center>
-                    <v-progress-circular :size="70" :width="7" color="primary" indeterminate></v-progress-circular>
-                </v-layout>
-            </div>
-        </template>
-        <v-card v-show="!process">
-            <v-card-text>
-                <v-layout justify-space-between wrap>
-                    <v-flex xs12 sm6>
-                        <div class="fileContainer">
-                            <div class="fileButton">
-                                Archivo .key
-                                <input
-                                    class="fileInput"
-                                    type="file"
-                                    id="fileKey"
-                                    ref="fileKey"
-                                    v-on:change="setFileKey()"
-                                />
-                            </div>
-                            <transition name="card">
-                                <div v-if="!valueKey">
-                                    <v-card
-                                        class="mx-auto fileContent"
-                                        color="primary"
-                                        dark
-                                        v-show="fileKey != null"
-                                    >
-                                        <v-card-text>
-                                            <v-icon class="fileIcon">fas fa-file fa-4x</v-icon>
-                                        </v-card-text>
-                                        <v-card-text>
-                                            <div class="fileName">{{ keyName }}</div>
-                                        </v-card-text>
-                                    </v-card>
-                                </div>
-                                <div v-else>
-                                    <v-card class="mx-auto fileContent" color="primary" dark>
-                                        <v-card-text>
-                                            <v-icon class="fileIcon">fas fa-file fa-4x</v-icon>
-                                        </v-card-text>
-                                        <v-card-text>
-                                            <div class="fileName">archivo.key</div>
-                                        </v-card-text>
-                                    </v-card>
-                                </div>
-                            </transition>
+        <v-snackbar color="primary" v-model="snackbarCertificados" :timeout="6000" right top>
+            Archivos Cargados
+            <v-btn color="white" flat @click="snackbarAvanzada = false" icon>
+                <v-icon>fas fa-times</v-icon>
+            </v-btn>
+        </v-snackbar>
+        <v-layout justify-space-between wrap>
+            <v-flex xs12 sm6>
+                <div class="fileContainer">
+                    <div class="fileButton">
+                        Archivo .key
+                        <input
+                            class="fileInput"
+                            type="file"
+                            id="fileKey"
+                            ref="fileKey"
+                            v-on:change="setFileKey()"
+                        />
+                    </div>
+                    <transition name="card">
+                        <div v-if="!valueKey">
+                            <v-card
+                                class="mx-auto fileContent"
+                                color="primary"
+                                dark
+                                v-show="fileKey != null"
+                            >
+                                <v-card-text>
+                                    <v-icon class="fileIcon">fas fa-file fa-4x</v-icon>
+                                </v-card-text>
+                                <v-card-text>
+                                    <div class="fileName">{{ keyName }}</div>
+                                </v-card-text>
+                            </v-card>
                         </div>
-                    </v-flex>
-                    <v-flex xs12 sm6>
-                        <div class="fileContainer">
-                            <div class="fileButton">
-                                Archivo .crt
-                                <input
-                                    class="fileInput"
-                                    type="file"
-                                    id="fileCert"
-                                    ref="fileCert"
-                                    v-on:change="setFileCert()"
-                                />
-                            </div>
-                            <transition name="card">
-                                <div v-if="!valueCert">
-                                    <v-card
-                                        class="mx-auto fileContent"
-                                        color="primary"
-                                        dark
-                                        v-show="fileCert != null"
-                                    >
-                                        <v-card-text>
-                                            <v-icon class="fileIcon">fas fa-file fa-4x</v-icon>
-                                        </v-card-text>
-                                        <v-card-text>
-                                            <div class="fileName">{{ keyCert }}</div>
-                                        </v-card-text>
-                                    </v-card>
-                                </div>
-                                <div v-else>
-                                    <v-card class="mx-auto fileContent" color="primary" dark>
-                                        <v-card-text>
-                                            <v-icon class="fileIcon">fas fa-file fa-4x</v-icon>
-                                        </v-card-text>
-                                        <v-card-text>
-                                            <div class="fileName">archivo.cert</div>
-                                        </v-card-text>
-                                    </v-card>
-                                </div>
-                            </transition>
+                        <div v-else>
+                            <v-card class="mx-auto fileContent" color="primary" dark>
+                                <v-card-text>
+                                    <v-icon class="fileIcon">fas fa-file fa-4x</v-icon>
+                                </v-card-text>
+                                <v-card-text>
+                                    <div class="fileName">archivo.key</div>
+                                </v-card-text>
+                            </v-card>
                         </div>
-                    </v-flex>
-                </v-layout>
-                <br />
-                <v-layout justify-center>
-                    <v-btn color="primary" @click="submitFile()">Cargar</v-btn>
-                </v-layout>
-            </v-card-text>
-        </v-card>
+                    </transition>
+                </div>
+            </v-flex>
+            <v-flex xs12 sm6>
+                <div class="fileContainer">
+                    <div class="fileButton">
+                        Archivo .crt
+                        <input
+                            class="fileInput"
+                            type="file"
+                            id="fileCert"
+                            ref="fileCert"
+                            v-on:change="setFileCert()"
+                        />
+                    </div>
+                    <transition name="card">
+                        <div v-if="!valueCert">
+                            <v-card
+                                class="mx-auto fileContent"
+                                color="primary"
+                                dark
+                                v-show="fileCert != null"
+                            >
+                                <v-card-text>
+                                    <v-icon class="fileIcon">fas fa-file fa-4x</v-icon>
+                                </v-card-text>
+                                <v-card-text>
+                                    <div class="fileName">{{ keyCert }}</div>
+                                </v-card-text>
+                            </v-card>
+                        </div>
+                        <div v-else>
+                            <v-card class="mx-auto fileContent" color="primary" dark>
+                                <v-card-text>
+                                    <v-icon class="fileIcon">fas fa-file fa-4x</v-icon>
+                                </v-card-text>
+                                <v-card-text>
+                                    <div class="fileName">archivo.cert</div>
+                                </v-card-text>
+                            </v-card>
+                        </div>
+                    </transition>
+                </div>
+            </v-flex>
+        </v-layout>
+        <br />
+        <v-layout justify-center>
+            <v-btn
+                :loading="process"
+                :disabled="fileKey != null && fileCert != null && process != true ? false : true"
+                color="primary"
+                @click="submitFile()"
+            >Cargar</v-btn>
+        </v-layout>
     </div>
 </template>
 
@@ -119,7 +118,8 @@ export default {
             keyName: "",
             fileCert: null,
             keyCert: "",
-            process: false
+            process: false,
+            snackbarCertificados: false
         };
     },
 
@@ -127,23 +127,19 @@ export default {
         submitFile() {
             if (this.fileKey != null && this.fileCert != null) {
                 this.process = true;
-                let formData = new FormData();
+                var formData = new FormData();
                 formData.append("key", this.fileKey);
                 formData.append("cert", this.fileCert);
 
                 axios
-                    .put("/api/configuracion/1", formData, {
+                    .post("/api/config/update/cert", formData, {
                         headers: {
                             "Content-Type": "multipart/form-data"
                         }
                     })
                     .then(response => {
-                        this.fileKey = null;
-                        this.fileCert = null;
-                        this.keyName = "";
-                        this.keyCert = "";
+                        this.snackbarCertificados = true;
                         this.process = false;
-                        this.$router.push("/configuraciones");
                     })
                     .catch(error => {
                         console.log(error);

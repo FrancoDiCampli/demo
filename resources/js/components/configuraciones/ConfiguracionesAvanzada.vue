@@ -1,5 +1,5 @@
 <template>
-    <div v-if="avanzada != null">
+    <div>
         <v-snackbar color="primary" v-model="snackbarAvanzada" :timeout="6000" right top>
             Datos Actualizados
             <v-btn color="white" flat @click="snackbarAvanzada = false" icon>
@@ -40,7 +40,7 @@
                                                     <v-flex xs2 s8>
                                                         <v-layout justify-end>
                                                             <v-btn
-                                                                @click="updateConfig()"
+                                                                @click="updateAdvanceConfig()"
                                                                 color="primary"
                                                                 flat
                                                                 icon
@@ -70,7 +70,7 @@
                                                     <v-flex xs2 s8>
                                                         <v-layout justify-end>
                                                             <v-btn
-                                                                @click="updateConfig()"
+                                                                @click="updateAdvanceConfig()"
                                                                 color="primary"
                                                                 flat
                                                                 icon
@@ -84,10 +84,22 @@
                                         </v-layout>
                                     </div>
                                     <div v-else-if="config.type == 'file'">
-                                        <ConfiguracionesCertificados
-                                            :valueCert="config.valueCert"
-                                            :valueKey="config.valueKey"
-                                        ></ConfiguracionesCertificados>
+                                        <div
+                                            v-if="avanzada[0].configuraciones[1].value != null && avanzada[0].configuraciones[1].value != ''"
+                                        >
+                                            <ConfiguracionesCertificados
+                                                :valueCert="config.valueCert"
+                                                :valueKey="config.valueKey"
+                                            ></ConfiguracionesCertificados>
+                                            <br />
+                                        </div>
+                                        <div v-else>
+                                            <v-alert :value="true" color="error">
+                                                <div
+                                                    class="text-xs-center"
+                                                >Es necesario registrar el CUIT del titular antes de cargar los certificados.</div>
+                                            </v-alert>
+                                        </div>
                                     </div>
                                     <v-divider></v-divider>
                                     <v-layout>
@@ -110,8 +122,10 @@
 // Components
 import ConfiguracionesCertificados from "./ConfiguracionesCertificados.vue";
 
-// Vuex
-import { mapState, mapMutations, mapActions } from "vuex";
+// Axios
+import axios from "axios";
+axios.defaults.headers.common["Authorization"] =
+    "Bearer " + localStorage.getItem("accsess_token");
 
 export default {
     name: "ConfiguracionesAvanzadas",
@@ -132,109 +146,41 @@ export default {
     },
 
     methods: {
-        ...mapMutations("crudx", ["fillForm"]),
-        ...mapActions("crudx", ["index", "update"]),
-
-        getConfigAvanzada: async function() {
-            let response = await this.index({ url: "/api/configuracion" });
-            this.avanzada = response.avanzada;
-            console.log(this.avanzada);
+        getConfigAvanzada() {
+            axios
+                .get("/api/config/advance")
+                .then(response => {
+                    this.avanzada = response.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         },
 
-        updateConfig: async function() {
-            // let formularioStandard = {
-            //     provincia:          this.standard[0].configuraciones[0].value,
-            //     localidad:          this.standard[0].configuraciones[1].value,
-            //     codigopostal:       this.standard[0].configuraciones[2].value,
-            //     direccion:          this.standard[0].configuraciones[3].value,
-            //     telefono:           this.standard[0].configuraciones[4].value,
-            //     email:              this.standard[0].configuraciones[5].value,
-            //     nombrefantasia:     this.standard[1].configuraciones[0].value,
-            //     tagline:            this.standard[1].configuraciones[1].value,
-            //     logo:               this.logo.generateDataUrl(),
-            //     domiciliocomercial: this.standard[1].configuraciones[3].value
-            // };
-            // await this.fillForm(formularioStandard);
-            // await this.update({url: '/api/configuracion/1'});
-            // this.snackbarStandard = true;
+        updateAdvanceConfig: async function() {
+            let formularioAvanzado = {
+                cuit: this.avanzada[0].configuraciones[1].value,
+                razonsocial: this.avanzada[0].configuraciones[2].value,
+                condicioniva: this.avanzada[0].configuraciones[3].value,
+                inicioactividades: this.avanzada[0].configuraciones[4].value,
+                numfactura: this.avanzada[1].configuraciones[0].value,
+                numpresupuesto: this.avanzada[1].configuraciones[1].value,
+                numrecibo: this.avanzada[1].configuraciones[2].value
+            };
+
+            axios
+                .post("/api/config/update/advance", formularioAvanzado)
+                .then(response => {
+                    this.snackbarAvanzada = true;
+                    this.getConfigAvanzada();
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         }
     }
 };
 </script>
 
 <style>
-.fileContainer {
-    padding: 8px 32px;
-    width: auto;
-}
-
-.fileButton {
-    overflow: hidden;
-    display: inline-block;
-    position: relative;
-    cursor: pointer;
-    width: 100%;
-    height: 35px;
-    line-height: 35px;
-    padding: 0 1.5rem;
-    color: #26a69a;
-    font-size: 16px;
-    font-weight: 600;
-    font-family: "Roboto", sans-serif;
-    letter-spacing: 0.8px;
-    text-align: center;
-    text-decoration: none;
-    text-transform: uppercase;
-    vertical-align: middle;
-    white-space: nowrap;
-    outline: none;
-    border: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    border-radius: 2px;
-    transition: all 0.3s ease-out;
-    border: solid 0.5px #26a69a;
-}
-
-.fileInput {
-    cursor: pointer;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 99;
-    font-size: 50px;
-    opacity: 0;
-    -moz-opacity: 0;
-    filter: Alpha(opacity=0);
-}
-
-.fileContent {
-    width: 100%;
-    height: 150px;
-    margin: 6px;
-    text-align: center;
-}
-
-.fileIcon {
-    margin-top: 16px;
-}
-
-.fileName {
-    font-size: 16px;
-    margin-top: -16px;
-}
-
-.card-enter-active,
-.card-leave-active {
-    transition: all 5s;
-}
-.card-enter,
-.card-leave-to {
-    opacity: 0;
-    transform: translateY(-30px);
-    transition: all 5s;
-}
 </style>

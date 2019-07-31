@@ -7,12 +7,12 @@
             <v-toolbar-title @click="$router.push('/')" style="cursor: pointer;">Gepetto</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items>
-                <v-btn to="/login" flat v-show="token == null">Login</v-btn>
+                <v-btn to="/login" flat v-show="token == null">Iniciar Sesión</v-btn>
             </v-toolbar-items>
         </v-toolbar>
         <v-divider></v-divider>
 
-        <div v-if="unauthenticatedUser">
+        <div v-if="!unconfigured">
             <v-toolbar
                 v-show="token !== null"
                 :color="screenWidth <= 600 ? 'primary' : 'transparent'"
@@ -180,6 +180,16 @@
                 </v-list>
             </v-navigation-drawer>
         </div>
+        <div v-else>
+            <v-toolbar color="secondary" class="elevation-0" v-show="token != null">
+                <v-toolbar-title>Gepetto</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-toolbar-items>
+                    <v-btn @click="exit()" flat>Cerrar Sesión</v-btn>
+                </v-toolbar-items>
+            </v-toolbar>
+            <v-divider></v-divider>
+        </div>
 
         <br />
 
@@ -201,13 +211,12 @@
 import axios from "axios";
 
 // Vuex
-import { mapState, mapActions, mapGetters } from "vuex";
+import { mapState, mapActions, mapMutations, mapGetters } from "vuex";
 
 export default {
     name: "App",
     data() {
         return {
-            unauthenticatedUser: false,
             mobileDrawer: false,
             notificationDrawer: false,
             sellerItems: [
@@ -295,19 +304,17 @@ export default {
         };
     },
 
+    created() {
+        this.checkConfig();
+    },
+
     mounted() {
         if (this.token !== null) {
             this.getUser();
         }
-
-        if (this.$user.to.name != "unauthenticated") {
-            this.unauthenticatedUser = true;
-        } else {
-            this.unauthenticatedUser = false;
-        }
     },
     computed: {
-        ...mapState("auth", ["rol", "token"]),
+        ...mapState("auth", ["rol", "token", "unconfigured"]),
         ...mapState("crudx", ["notifications"]),
         ...mapGetters("auth", ["account"]),
 
@@ -327,8 +334,31 @@ export default {
         }
     },
     methods: {
+        ...mapMutations("auth", ["changeUnconfigured"]),
         ...mapActions("auth", ["getUser", "logout"]),
         ...mapActions("crudx", ["index", "show"]),
+
+        checkConfig() {
+            let token = localStorage.getItem("accsess_token");
+            if (token) {
+                axios
+                    .get("/api/config/necesary")
+                    .then(response => {
+                        console.log(response.data);
+                        if (!response.data) {
+                            this.changeUnconfigured(true);
+                            this.$user.set({ role: "unconfigured" });
+                        } else {
+                            this.changeUnconfigured(false);
+                            this.$user.set({ role: this.role });
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        },
+
         exit: async function() {
             await this.logout();
             this.$router.push("/");

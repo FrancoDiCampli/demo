@@ -125,8 +125,6 @@ class InicialsettingsController extends Controller
 
     public function updateCert(Request $request)
     {
-        $configuracion = Inicialsetting::find(1);
-
         $path = base_path('vendor/afipsdk/afip.php/src/Afip_res');
         if ($request->key->getClientOriginalExtension() == 'key') {
             $request->key->move($path, 'key');
@@ -145,8 +143,7 @@ class InicialsettingsController extends Controller
         $config = Inicialsetting::find(1);
         $necesaryConfig = false;
 
-        if(!$config->cuit || !$config->razonsocial || !$config->direccion || !$config->condicioniva || !$config->inicioactividades || !$config->puntoventa)
-        {
+        if (!$config->cuit || !$config->razonsocial || !$config->direccion || !$config->condicioniva || !$config->inicioactividades || !$config->puntoventa) {
             $necesaryConfig = false;
         } else {
             $rutaCert = base_path('vendor/afipsdk/afip.php/src/Afip_res/cert');

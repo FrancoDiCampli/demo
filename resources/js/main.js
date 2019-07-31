@@ -14,7 +14,7 @@ import Croppa from "vue-croppa";
 import "vue-croppa/dist/vue-croppa.css";
 Vue.use(Croppa);
 
-// CCharts
+// VCharts
 import VCharts from "v-charts";
 Vue.use(VCharts);
 
@@ -25,27 +25,16 @@ let token = localStorage.getItem("accsess_token");
 if (token) {
     axios.defaults.headers.common["Authorization"] = "Bearer " + token;
     axios
-        .get("/api/config/necesary")
+        .get("/api/user")
         .then(response => {
-            if (response.data) {
-                axios
-                    .get("/api/user")
-                    .then(response => {
-                        Vue.prototype.$user.set({
-                            role: response.data.rol.role
-                        });
-                    })
-                    .catch(error => {
-                        commit("fillErrors", error.response.data);
-                        state.inProcess = false;
-                        throw new Error(error);
-                    });
-            } else {
-                Vue.prototype.$user.set({ role: "unauthenticated" });
-            }
+            Vue.prototype.$user.set({
+                role: response.data.rol.role
+            });
         })
         .catch(error => {
-            console.log(error);
+            commit("fillErrors", error.response.data);
+            state.inProcess = false;
+            throw new Error(error);
         });
 } else {
     Vue.prototype.$user.set({ role: "visitor" });

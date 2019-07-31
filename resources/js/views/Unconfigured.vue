@@ -17,6 +17,7 @@
         </v-layout>
         <br />
         <v-layout justify-center>
+            <v-btn @click="$router.push('/configuraciones')" color="primary">Configuraciones</v-btn>
             <v-btn @click="exit()" color="primary" outline>Cerrar Sesión</v-btn>
         </v-layout>
     </div>

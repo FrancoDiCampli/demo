@@ -2,7 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
 import NotFound from "./views/NotFound.vue";
-import Unauthenticated from "./views/Unauthenticated.vue";
+import Unconfigured from "./views/Unconfigured.vue";
 
 //_______________________VIEWS_______________________//
 
@@ -56,9 +56,9 @@ import ConfiguracionesIndex from "./views/configuraciones/index.vue";
 
 const visitorOnly = [
     {
-        role: "unauthenticated",
+        role: "unconfigured",
         access: false,
-        redirect: "unauthenticated"
+        redirect: "unconfigured"
     },
     {
         role: "visitor",
@@ -83,9 +83,9 @@ const visitorOnly = [
 
 const allUsers = [
     {
-        role: "unauthenticated",
+        role: "unconfigured",
         access: false,
-        redirect: "unauthenticated"
+        redirect: "unconfigured"
     },
     {
         role: "visitor",
@@ -108,9 +108,9 @@ const allUsers = [
 
 const adminSuperAdmin = [
     {
-        role: "unauthenticated",
+        role: "unconfigured",
         access: false,
-        redirect: "unauthenticated"
+        redirect: "unconfigured"
     },
     {
         role: "visitor",
@@ -134,9 +134,9 @@ const adminSuperAdmin = [
 
 const superAdminOnly = [
     {
-        role: "unauthenticated",
+        role: "unconfigured",
         access: false,
-        redirect: "unauthenticated"
+        redirect: "unconfigured"
     },
     {
         role: "visitor",
@@ -172,9 +172,9 @@ export default new Router({
             component: Home
         },
         {
-            path: "/unauthenticated",
-            name: "unauthenticated",
-            component: Unauthenticated
+            path: "/unconfigured",
+            name: "unconfigured",
+            component: Unconfigured
         },
         {
             path: "*",
@@ -387,7 +387,7 @@ export default new Router({
             meta: {
                 permissions: [
                     {
-                        role: "unauthenticated",
+                        role: "unconfigured",
                         access: true
                     },
                     {

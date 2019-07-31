@@ -127,11 +127,7 @@
                         </v-card-text>
                     </div>
                     <div v-else>
-                        <v-img
-                            class="hidden-sm-and-up"
-                            :src="showData.articulo.foto"
-                            height="250px"
-                        >
+                        <v-img class="hidden-sm-and-up" height="250px">
                             <v-layout column fill-height>
                                 <v-card-title>
                                     <v-spacer></v-spacer>
@@ -329,6 +325,7 @@ export default {
         updateProducto: async function() {
             if (this.$refs.productosEditForm.validate()) {
                 let id = this.form.id;
+                this.form.foto = this.foto.generateDataUrl();
                 await this.update({ url: "/api/articulos/" + id });
                 await this.show({ url: "/api/articulos/" + id });
                 this.mode = "show";

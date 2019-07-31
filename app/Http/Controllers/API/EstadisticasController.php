@@ -23,6 +23,69 @@ class EstadisticasController extends Controller
         $this->middleware('auth');
     }
 
+    public function compras(Request $request)
+    {
+        $remitos = Remito::orderBy('fecha', 'ASC')->get();
+        $inicio = $remitos->first();
+        $ultima = $remitos->last();
+        $from = $request->get('desde', $inicio->fecha);
+        $to = $request->get('hasta', $ultima->fecha);
+        $desde = new Carbon($from);
+        $hasta = new Carbon($to);
+        $comprasFechas = [];
+        $fecs = collect();
+        $suppliers = collect();
+
+        $remitos = Remito::where('fecha', '>=', $desde->format('Ymd'))
+            ->where('fecha', '<=', $hasta->format('Ymd'))
+            ->orderBy('fecha', 'ASC')
+            ->take($request->get('limit', null))
+            ->get();
+
+        foreach ($remitos as $remito) {
+            $fecs->push($remito->fecha);
+            $supplier = Supplier::find($remito->supplier_id);
+            $suppliers->push($supplier);
+        }
+
+        // Fechas
+        $auxFechas = $fecs->unique();
+        foreach ($auxFechas as $value) {
+            $remis = Remito::where('fecha', $value)->get();
+            array_push($comprasFechas, $remis);
+        };
+        $columnsFechas = ['fecha', 'total'];
+        $rowsFechas = collect();
+        $total = 0;
+        for ($i = 0; $i < count($comprasFechas); $i++) {
+            $otro = $comprasFechas[$i];
+            foreach ($otro as $a) {
+                $total += $a->total;
+            }
+            $fecha = $comprasFechas[$i][0]->fecha;
+            $fechaNew = new Carbon($fecha);
+            $rowsFechas->push([
+                'fecha' =>
+                $fechaNew->format('d-m-Y'),
+                'total' => $total
+            ]);
+            $total = 0;
+        };
+        $comprasFechasChart = collect();
+        $comprasFechasChart->put('columns', $columnsFechas);
+        $comprasFechasChart->put('rows', $rowsFechas);
+        // Fin Fechas
+
+        $compras = [
+            'fechas' => ['desde' => $desde->format('Y-m-d'), 'hasta' => $hasta->format('Y-m-d')],
+            'comprasFecha' => $remitos,
+            'comprasFechaChart' => $comprasFechasChart,
+            'total' => count(Remito::all()),
+        ];
+
+        return ['compras' => $compras];
+    }
+
     public function ventas(Request $request)
     {
         // Traer todas la facturas y los detalles

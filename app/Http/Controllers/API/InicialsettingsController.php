@@ -17,12 +17,17 @@ class InicialsettingsController extends Controller
     public function index()
     {
         $config = Inicialsetting::find(1);
-        if ($config->cert) {
+
+        $rutaCert = base_path('vendor/afipsdk/afip.php/src/Afip_res/cert');
+        $rutaKey = base_path('vendor/afipsdk/afip.php/src/Afip_res/key');
+
+        if (file_exists($rutaCert)) {
             $cert = true;
         } else {
             $cert = false;
         }
-        if ($config->key) {
+
+        if (file_exists($rutaKey)) {
             $key = true;
         } else {
             $key = false;

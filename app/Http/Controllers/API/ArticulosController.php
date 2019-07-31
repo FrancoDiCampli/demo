@@ -87,7 +87,7 @@ class ArticulosController extends Controller
 
         // FOTO
         if ($request->get('foto') != $articulo->foto) {
-            $carpeta = '/img/articulos/';
+            $carpeta = public_path() . '/img/articulos/';
             if (!file_exists($carpeta)) {
                 mkdir($carpeta, 0777, true);
             }

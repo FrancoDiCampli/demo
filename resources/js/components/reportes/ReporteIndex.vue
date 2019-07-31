@@ -107,7 +107,91 @@
             <v-tab-item>
                 <v-card>
                     <v-card-text>
-                        <ReporteCompras></ReporteCompras>
+                        <v-layout justify-space-around wrap>
+                            <v-flex xs12 sm6 px-3>
+                                <v-dialog
+                                    ref="comprasDesde"
+                                    v-model="modalComprasDesde"
+                                    :return-value.sync="fechaComprasDesde"
+                                    persistent
+                                    lazy
+                                    full-width
+                                    width="290px"
+                                >
+                                    <template v-slot:activator="{ on }">
+                                        <v-text-field
+                                            v-model="fechaComprasDesde"
+                                            label="Fecha Desde"
+                                            box
+                                            readonly
+                                            v-on="on"
+                                        ></v-text-field>
+                                    </template>
+                                    <v-date-picker
+                                        v-model="fechaComprasDesde"
+                                        @change="getCompras()"
+                                        scrollable
+                                        locale="es"
+                                        format="YYYYMMDD"
+                                        color="primary"
+                                    >
+                                        <v-spacer></v-spacer>
+                                        <v-btn
+                                            flat
+                                            color="primary"
+                                            @click="modalComprasDesde = false"
+                                        >Cancel</v-btn>
+                                        <v-btn
+                                            flat
+                                            color="primary"
+                                            @click="$refs.comprasDesde.save(fechaComprasDesde)"
+                                        >OK</v-btn>
+                                    </v-date-picker>
+                                </v-dialog>
+                            </v-flex>
+                            <v-flex xs12 sm6 px-3>
+                                <v-dialog
+                                    ref="comprasHasta"
+                                    v-model="modalComprasHasta"
+                                    :return-value.sync="fechaComprasHasta"
+                                    persistent
+                                    lazy
+                                    full-width
+                                    width="290px"
+                                >
+                                    <template v-slot:activator="{ on }">
+                                        <v-text-field
+                                            v-model="fechaComprasHasta"
+                                            label="Fecha Hasta"
+                                            box
+                                            readonly
+                                            v-on="on"
+                                        ></v-text-field>
+                                    </template>
+                                    <v-date-picker
+                                        v-model="fechaComprasHasta"
+                                        @change="getCompras()"
+                                        scrollable
+                                        locale="es"
+                                        format="YYYYMMDD"
+                                        color="primary"
+                                    >
+                                        <v-spacer></v-spacer>
+                                        <v-btn
+                                            flat
+                                            color="primary"
+                                            @click="modalComprasHasta = false"
+                                        >Cancel</v-btn>
+                                        <v-btn
+                                            flat
+                                            color="primary"
+                                            @click="$refs.comprasHasta.save(fechaComprasHasta)"
+                                        >OK</v-btn>
+                                    </v-date-picker>
+                                </v-dialog>
+                            </v-flex>
+                        </v-layout>
+                        <ReporteCompras :compras="compras.compras"></ReporteCompras>
                     </v-card-text>
                 </v-card>
             </v-tab-item>
@@ -130,6 +214,7 @@ import ReporteInventario from "./ReporteInventarios.vue";
 
 // Vuex
 import { mapActions, mapState } from "vuex";
+import { async } from "q";
 
 export default {
     name: "Reportes",
@@ -141,7 +226,13 @@ export default {
             fechaVentasDesde: null,
             fechaVentasHasta: null,
             ventasLimit: 5,
-            ventas: null
+            modalComprasDesde: false,
+            modalComprasHasta: false,
+            fechaComprasDesde: null,
+            fechaComprasHasta: null,
+            comprasLimit: 5,
+            ventas: null,
+            compras: null
         };
     },
 
@@ -157,10 +248,34 @@ export default {
 
     mounted() {
         this.getVentas();
+        this.getCompras();
     },
 
     methods: {
         ...mapActions("crudx", ["index"]),
+
+        getCompras: async function() {
+            this.compras = await this.index({
+                url: "/api/estadisticas/compras",
+                limit: this.comprasLimit,
+                desde: this.fechaComprasDesde,
+                hasta: this.fechaComprasHasta
+            });
+            if (
+                this.fechaComprasDesde == null ||
+                this.fechaComprasDesde == ""
+            ) {
+                this.fechaComprasDesde = this.compras.compras.fechas.desde;
+            }
+            if (
+                this.fechaComprasHasta == null ||
+                this.fechaComprasHasta == ""
+            ) {
+                this.fechaComprasHasta = this.compras.compras.fechas.hasta;
+            }
+
+            console.log(this.compras);
+        },
 
         getVentas: async function() {
             this.ventas = await this.index({

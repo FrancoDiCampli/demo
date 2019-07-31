@@ -51,7 +51,7 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('remitos', 'API\RemitosController');
 
     /*Configuraciones*/
-    // Route::apiResource('configuracion', 'API\InicialsettingsController', ['only' => ['index', 'update']]);
+    Route::get('/config/necesary', 'API\InicialsettingsController@checkNecesaryConfig');
     Route::get('/config/standard', 'API\InicialsettingsController@getStandardConfig');
     Route::get('/config/advance', 'API\InicialsettingsController@getAdvanceConfig');
     Route::post('/config/update/standard', 'API\InicialsettingsController@updateStandardConfig');

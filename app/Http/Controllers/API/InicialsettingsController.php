@@ -127,22 +127,38 @@ class InicialsettingsController extends Controller
     {
         $configuracion = Inicialsetting::find(1);
 
-        if ($request->get('key')) {
-            $path = base_path('vendor/afipsdk/afip.php/src/Afip_res/');
-            if ($request->key->getClientOriginalExtension() == 'key') {
-                $request->key->move($path, 'key');
+        $path = base_path('vendor/afipsdk/afip.php/src/Afip_res');
+        if ($request->key->getClientOriginalExtension() == 'key') {
+            $request->key->move($path, 'key');
+        }
+
+        $path = base_path('vendor/afipsdk/afip.php/src/Afip_res');
+        if ($request->cert->getClientOriginalExtension() == 'pem') {
+            $request->cert->move($path, 'cert');
+        } else if ($request->cert->getClientOriginalExtension() == 'crt') {
+            $request->cert->move($path, 'cert');
+        }
+    }
+
+    public function checkNecesaryConfig()
+    {
+        $config = Inicialsetting::find(1);
+        $necesaryConfig = false;
+
+        if(!$config->cuit || !$config->razonsocial || !$config->direccion || !$config->condicioniva || !$config->inicioactividades || !$config->puntoventa)
+        {
+            $necesaryConfig = false;
+        } else {
+            $rutaCert = base_path('vendor/afipsdk/afip.php/src/Afip_res/cert');
+            $rutaKey = base_path('vendor/afipsdk/afip.php/src/Afip_res/key');
+
+            if (!file_exists($rutaCert) || !file_exists($rutaKey)) {
+                $necesaryConfig = false;
+            } else {
+                $necesaryConfig = true;
             }
         }
 
-        if ($request->get('cert')) {
-            $path = base_path('vendor/afipsdk/afip.php/src/Afip_res/');
-            if ($request->cert->getClientOriginalExtension() == 'pem') {
-                $request->cert->move($path, 'cert');
-            } else if ($request->cert->getClientOriginalExtension() == 'crt') {
-                $request->cert->move($path, 'cert');
-            }
-        }
-
-        return $request;
+        return json_encode($necesaryConfig);
     }
 }

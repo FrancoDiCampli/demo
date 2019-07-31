@@ -91,6 +91,7 @@
                                                 :valueCert="config.valueCert"
                                                 :valueKey="config.valueKey"
                                             ></ConfiguracionesCertificados>
+                                            <br />
                                         </div>
                                         <div v-else>
                                             <v-alert :value="true" color="error">

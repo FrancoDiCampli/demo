@@ -26,12 +26,9 @@ class CreateInicialsettingsTable extends Migration
             $table->string('condicioniva')->nullable();
             $table->string('inicioactividades')->nullable();
             $table->integer('puntoventa')->nullable();
-            $table->string('logo')->nullable();
             $table->string('nombrefantasia')->nullable();
             $table->string('domiciliocomercial')->nullable();
             $table->string('tagline')->nullable();
-            $table->string('cert')->nullable();
-            $table->string('key')->nullable();
             $table->bigInteger('numfactura')->nullable();
             $table->bigInteger('numremito')->nullable();
             $table->bigInteger('numpresupuesto')->nullable();

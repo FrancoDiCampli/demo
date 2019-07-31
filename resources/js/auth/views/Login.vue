@@ -55,8 +55,14 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+// Vuex
+import { mapState, mapActions, mapMutations } from "vuex";
+
+// Components
 import LoginForm from "../components/auth_components/LoginForm.vue";
+
+// Axios
+import axios from "axios";
 
 export default {
     name: "Login",
@@ -70,13 +76,30 @@ export default {
     },
 
     methods: {
+        ...mapMutations("auth", ["changeUnconfigured"]),
         ...mapActions("auth", ["login", "getUser"]),
+
         loginValidate: async function() {
             if (this.$refs.loginForm.validate()) {
                 await this.login();
                 let userData = await this.getUser();
-                this.$user.set({ role: userData.rol.role });
-                this.$router.push("/account");
+
+                axios
+                    .get("/api/config/necesary")
+                    .then(response => {
+                        if (!response.data) {
+                            this.changeUnconfigured(true);
+                            this.$user.set({ role: "unconfigured" });
+                            this.$router.push("/unconfigured");
+                        } else {
+                            this.changeUnconfigured(false);
+                            this.$user.set({ role: userData.rol.role });
+                            this.$router.push("/account");
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
             }
         }
     }

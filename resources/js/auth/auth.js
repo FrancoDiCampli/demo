@@ -7,6 +7,7 @@ const state = {
     profile: "",
     rol: "",
     permission: {},
+    unconfigured: false,
     form: {},
     errors: null
 };
@@ -41,6 +42,10 @@ const mutations = {
 
     fillPermission(state, permission) {
         state.permission = permission;
+    },
+
+    changeUnconfigured(state, value) {
+        state.unconfigured = value;
     },
 
     fillForm(state, form) {

@@ -7,166 +7,189 @@
             <v-toolbar-title @click="$router.push('/')" style="cursor: pointer;">Gepetto</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items>
-                <v-btn to="/login" flat v-show="token == null">Login</v-btn>
+                <v-btn to="/login" flat v-show="token == null">Iniciar Sesión</v-btn>
             </v-toolbar-items>
         </v-toolbar>
         <v-divider></v-divider>
 
-        <v-toolbar
-            v-show="token !== null"
-            :color="screenWidth <= 600 ? 'primary' : 'transparent'"
-            :absolute="screenWidth <= 600 ? false : true"
-            dark
-            class="elevation-0"
-        >
-            <v-btn class="hidden-sm-and-up" flat icon @click.stop="mobileDrawer = !mobileDrawer">
-                <v-icon>fas fa-bars</v-icon>
-            </v-btn>
-            <v-spacer></v-spacer>
-            <v-btn flat icon @click="notificationDrawer = !notificationDrawer">
-                <div v-if="notifications.length > 0">
-                    <v-badge left color="error">
-                        <template v-slot:badge>
-                            <div v-if="notifications.length <= 99">
-                                <span>{{ notifications.length }}</span>
-                            </div>
-                            <div v-else>
-                                <span>99+</span>
-                            </div>
-                        </template>
+        <div v-if="!unconfigured">
+            <v-toolbar
+                v-show="token !== null"
+                :color="screenWidth <= 600 ? 'primary' : 'transparent'"
+                :absolute="screenWidth <= 600 ? false : true"
+                dark
+                class="elevation-0"
+            >
+                <v-btn
+                    class="hidden-sm-and-up"
+                    flat
+                    icon
+                    @click.stop="mobileDrawer = !mobileDrawer"
+                >
+                    <v-icon>fas fa-bars</v-icon>
+                </v-btn>
+                <v-spacer></v-spacer>
+                <v-btn flat icon @click="notificationDrawer = !notificationDrawer">
+                    <div v-if="notifications.length > 0">
+                        <v-badge left color="error">
+                            <template v-slot:badge>
+                                <div v-if="notifications.length <= 99">
+                                    <span>{{ notifications.length }}</span>
+                                </div>
+                                <div v-else>
+                                    <span>99+</span>
+                                </div>
+                            </template>
+                            <v-icon :color="screenWidth <= 600 ? 'white' : 'primary'">fas fa-bell</v-icon>
+                        </v-badge>
+                    </div>
+                    <div v-else>
                         <v-icon :color="screenWidth <= 600 ? 'white' : 'primary'">fas fa-bell</v-icon>
-                    </v-badge>
-                </div>
-                <div v-else>
-                    <v-icon :color="screenWidth <= 600 ? 'white' : 'primary'">fas fa-bell</v-icon>
-                </div>
-            </v-btn>
-        </v-toolbar>
-
-        <!-- Sidenav Notificaciones -->
-        <v-navigation-drawer
-            v-show="token !== null"
-            v-model="notificationDrawer"
-            right
-            fixed
-            hide-overlay
-            temporary
-        >
-            <v-list dense>
-                <div v-for="alert in notifications" :key="alert.iden">
-                    <v-list-tile my-2 @click="goNotification(alert)">
-                        <v-list-tile-action>
-                            <v-icon :color="alert.color">{{ alert.icon }}</v-icon>
-                        </v-list-tile-action>
-                        <v-list-tile-content>
-                            <v-list-tile-title :class="alert.color+'--text'">{{ alert.msg }}</v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
-                </div>
-            </v-list>
-        </v-navigation-drawer>
-
-        <!-- Sidenav Principal -->
-        <v-navigation-drawer
-            v-show="token !== null"
-            v-model="drawer"
-            :mini-variant="screenWidth > 600 ? mini : false"
-            :hide-overlay="screenWidth > 600"
-            :stateless="screenWidth > 600"
-            :fixed="screenWidth > 600"
-            :absolute="screenWidth <= 600"
-            :temporary="screenWidth <= 600"
-        >
-            <!-- Imagén de perfil y nombre de usuario -->
-            <v-toolbar flat class="transparent">
-                <v-list class="pa-0">
-                    <v-list-tile avatar>
-                        <v-avatar @click="mini = false" class="profile-list" size="50">
-                            <span class="title">{{ account.profile }}</span>
-                        </v-avatar>
-
-                        <v-list-tile-content @click="$router.push('/account')" style="cursor: pointer; margin: 15px 0 0 15px;">
-                            <v-list-tile-title class="primary--text">
-                                <b>{{ account.user.name }}</b>
-                            </v-list-tile-title>
-                        </v-list-tile-content>
-
-                        <v-list-tile-action style="margin-top: 15px;" v-show="screenWidth > 600">
-                            <v-btn icon @click.stop="mini = !mini" flat color="primary">
-                                <v-icon>fas fa-angle-left</v-icon>
-                            </v-btn>
-                        </v-list-tile-action>
-                    </v-list-tile>
-                </v-list>
+                    </div>
+                </v-btn>
             </v-toolbar>
 
-            <!-- Lita de acciones -->
-            <v-list class="pt-0" dense>
-                <br />
-                <v-divider></v-divider>
+            <!-- Sidenav Notificaciones -->
+            <v-navigation-drawer
+                v-show="token !== null"
+                v-model="notificationDrawer"
+                right
+                fixed
+                hide-overlay
+                temporary
+            >
+                <v-list dense>
+                    <div v-for="alert in notifications" :key="alert.iden">
+                        <v-list-tile my-2 @click="goNotification(alert)">
+                            <v-list-tile-action>
+                                <v-icon :color="alert.color">{{ alert.icon }}</v-icon>
+                            </v-list-tile-action>
+                            <v-list-tile-content>
+                                <v-list-tile-title :class="alert.color+'--text'">{{ alert.msg }}</v-list-tile-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                    </div>
+                </v-list>
+            </v-navigation-drawer>
 
-                <!-- Acciones del vendedor -->
-                <div v-for="item in sellerItems" :key="item.title">
-                    <div
-                        v-show="
+            <!-- Sidenav Principal -->
+            <v-navigation-drawer
+                v-show="token !== null"
+                v-model="drawer"
+                :mini-variant="screenWidth > 600 ? mini : false"
+                :hide-overlay="screenWidth > 600"
+                :stateless="screenWidth > 600"
+                :fixed="screenWidth > 600"
+                :absolute="screenWidth <= 600"
+                :temporary="screenWidth <= 600"
+            >
+                <!-- Imagén de perfil y nombre de usuario -->
+                <v-toolbar flat class="transparent">
+                    <v-list class="pa-0">
+                        <v-list-tile avatar>
+                            <v-avatar @click="mini = false" class="profile-list" size="50">
+                                <span class="title">{{ account.profile }}</span>
+                            </v-avatar>
+
+                            <v-list-tile-content
+                                @click="$router.push('/account')"
+                                style="cursor: pointer; margin: 15px 0 0 15px;"
+                            >
+                                <v-list-tile-title class="primary--text">
+                                    <b>{{ account.user.name }}</b>
+                                </v-list-tile-title>
+                            </v-list-tile-content>
+
+                            <v-list-tile-action
+                                style="margin-top: 15px;"
+                                v-show="screenWidth > 600"
+                            >
+                                <v-btn icon @click.stop="mini = !mini" flat color="primary">
+                                    <v-icon>fas fa-angle-left</v-icon>
+                                </v-btn>
+                            </v-list-tile-action>
+                        </v-list-tile>
+                    </v-list>
+                </v-toolbar>
+
+                <!-- Lita de acciones -->
+                <v-list class="pt-0" dense>
+                    <br />
+                    <v-divider></v-divider>
+
+                    <!-- Acciones del vendedor -->
+                    <div v-for="item in sellerItems" :key="item.title">
+                        <div
+                            v-show="
                         item.rol == 'seller' && rol == 'seller' ||
                         item.rol == 'seller' && rol == 'admin' ||
                         item.rol == 'seller' && rol == 'superAdmin'
                     "
-                    >
-                        <v-list-tile :to="item.url">
-                            <v-list-tile-action>
-                                <v-icon>{{ item.icon }}</v-icon>
-                            </v-list-tile-action>
+                        >
+                            <v-list-tile :to="item.url">
+                                <v-list-tile-action>
+                                    <v-icon>{{ item.icon }}</v-icon>
+                                </v-list-tile-action>
 
-                            <v-list-tile-content>
-                                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
-                        <v-divider v-show="item.divider"></v-divider>
-                    </div>
-                    <div
-                        v-show="item.rol == 'admin' && rol == 'admin' ||
+                                <v-list-tile-content>
+                                    <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                                </v-list-tile-content>
+                            </v-list-tile>
+                            <v-divider v-show="item.divider"></v-divider>
+                        </div>
+                        <div
+                            v-show="item.rol == 'admin' && rol == 'admin' ||
                         item.rol == 'admin' && rol == 'superAdmin'
                     "
-                    >
-                        <v-list-tile :to="item.url">
-                            <v-list-tile-action>
-                                <v-icon>{{ item.icon }}</v-icon>
-                            </v-list-tile-action>
+                        >
+                            <v-list-tile :to="item.url">
+                                <v-list-tile-action>
+                                    <v-icon>{{ item.icon }}</v-icon>
+                                </v-list-tile-action>
 
-                            <v-list-tile-content>
-                                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
-                        <v-divider v-show="item.divider"></v-divider>
+                                <v-list-tile-content>
+                                    <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                                </v-list-tile-content>
+                            </v-list-tile>
+                            <v-divider v-show="item.divider"></v-divider>
+                        </div>
+                        <div v-show="item.rol == 'superAdmin' && rol == 'superAdmin'">
+                            <v-list-tile :to="item.url">
+                                <v-list-tile-action>
+                                    <v-icon>{{ item.icon }}</v-icon>
+                                </v-list-tile-action>
+
+                                <v-list-tile-content>
+                                    <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                                </v-list-tile-content>
+                            </v-list-tile>
+                            <v-divider v-show="item.divider"></v-divider>
+                        </div>
                     </div>
-                    <div v-show="item.rol == 'superAdmin' && rol == 'superAdmin'">
-                        <v-list-tile :to="item.url">
-                            <v-list-tile-action>
-                                <v-icon>{{ item.icon }}</v-icon>
-                            </v-list-tile-action>
 
-                            <v-list-tile-content>
-                                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
-                        <v-divider v-show="item.divider"></v-divider>
-                    </div>
-                </div>
+                    <!-- Cerrar Sesión -->
+                    <v-list-tile @click="exit()">
+                        <v-list-tile-action>
+                            <v-icon>fas fa-sign-out-alt</v-icon>
+                        </v-list-tile-action>
 
-                <!-- Cerrar Sesión -->
-                <v-list-tile @click="exit()">
-                    <v-list-tile-action>
-                        <v-icon>fas fa-sign-out-alt</v-icon>
-                    </v-list-tile-action>
-
-                    <v-list-tile-content>
-                        <v-list-tile-title>Cerrar Sesión</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-            </v-list>
-        </v-navigation-drawer>
+                        <v-list-tile-content>
+                            <v-list-tile-title>Cerrar Sesión</v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                </v-list>
+            </v-navigation-drawer>
+        </div>
+        <div v-else>
+            <v-toolbar color="secondary" class="elevation-0" v-show="token != null">
+                <v-toolbar-title>Gepetto</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-toolbar-items>
+                    <v-btn @click="exit()" flat>Cerrar Sesión</v-btn>
+                </v-toolbar-items>
+            </v-toolbar>
+            <v-divider></v-divider>
+        </div>
 
         <br />
 
@@ -188,7 +211,7 @@
 import axios from "axios";
 
 // Vuex
-import { mapState, mapActions, mapGetters } from "vuex";
+import { mapState, mapActions, mapMutations, mapGetters } from "vuex";
 
 export default {
     name: "App",
@@ -281,13 +304,17 @@ export default {
         };
     },
 
+    created() {
+        this.checkConfig();
+    },
+
     mounted() {
         if (this.token !== null) {
             this.getUser();
         }
     },
     computed: {
-        ...mapState("auth", ["rol", "token"]),
+        ...mapState("auth", ["rol", "token", "unconfigured"]),
         ...mapState("crudx", ["notifications"]),
         ...mapGetters("auth", ["account"]),
 
@@ -307,8 +334,31 @@ export default {
         }
     },
     methods: {
+        ...mapMutations("auth", ["changeUnconfigured"]),
         ...mapActions("auth", ["getUser", "logout"]),
         ...mapActions("crudx", ["index", "show"]),
+
+        checkConfig() {
+            let token = localStorage.getItem("accsess_token");
+            if (token) {
+                axios
+                    .get("/api/config/necesary")
+                    .then(response => {
+                        console.log(response.data);
+                        if (!response.data) {
+                            this.changeUnconfigured(true);
+                            this.$user.set({ role: "unconfigured" });
+                        } else {
+                            this.changeUnconfigured(false);
+                            this.$user.set({ role: this.role });
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        },
+
         exit: async function() {
             await this.logout();
             this.$router.push("/");

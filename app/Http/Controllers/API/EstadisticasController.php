@@ -91,10 +91,16 @@ class EstadisticasController extends Controller
         // Traer todas la facturas y los detalles
         $facturas = Factura::orderBy('fecha', 'ASC')->get();
         // Establecer la fecha desde y hasta
-        $inicio = $facturas->first();
-        $ultima = $facturas->last();
-        $from = $request->get('desde', $inicio->fecha);
-        $to = $request->get('hasta', $ultima->fecha);
+        if (count($facturas) > 0) {
+            $inicio = $facturas->first();
+            $ultima = $facturas->last();
+            $from = $request->get('desde', $inicio->fecha);
+            $to = $request->get('hasta', $ultima->fecha);
+        } else {
+            $from = $request->get('desde', now());
+            $to = $request->get('hasta', now());
+        }
+
         $desde = new Carbon($from);
         $hasta = new Carbon($to);
         $ventasFecha = [];
@@ -112,11 +118,15 @@ class EstadisticasController extends Controller
         $facturas = Factura::where('fecha', '>=', $desde->format('Ymd'))->where('fecha', '<=', $hasta->format('Ymd'))->orderBy('fecha', 'ASC')->take($request->get('limit', null))->get();
 
         foreach ($facturas as $factura) {
-            $fecs->push($factura->fecha);
             $seller = User::find($factura->user_id);
             $sellers->push($seller);
             $client = Cliente::find($factura->cliente_id);
             $clients->push($client);
+        }
+
+        $facturas2 = Factura::where('fecha', '>=', $desde->format('Ymd'))->where('fecha', '<=', $hasta->format('Ymd'))->orderBy('fecha', 'ASC')->get();
+        foreach ($facturas2 as $factura) {
+            $fecs->push($factura->fecha);
         }
 
         // Fechas

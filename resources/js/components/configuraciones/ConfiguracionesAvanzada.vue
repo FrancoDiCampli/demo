@@ -163,6 +163,7 @@ export default {
                 razonsocial: this.avanzada[0].configuraciones[2].value,
                 condicioniva: this.avanzada[0].configuraciones[3].value,
                 inicioactividades: this.avanzada[0].configuraciones[4].value,
+                puntoventa: this.avanzada[0].configuraciones[5].value,
                 numfactura: this.avanzada[1].configuraciones[0].value,
                 numpresupuesto: this.avanzada[1].configuraciones[1].value,
                 numrecibo: this.avanzada[1].configuraciones[2].value

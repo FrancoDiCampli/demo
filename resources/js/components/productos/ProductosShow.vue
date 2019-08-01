@@ -127,7 +127,11 @@
                         </v-card-text>
                     </div>
                     <div v-else>
-                        <v-img class="hidden-sm-and-up" height="250px">
+                        <v-img
+                            class="hidden-sm-and-up"
+                            :src="showData.articulo.foto"
+                            height="250px"
+                        >
                             <v-layout column fill-height>
                                 <v-card-title>
                                     <v-spacer></v-spacer>

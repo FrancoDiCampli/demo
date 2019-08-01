@@ -1,6 +1,5 @@
 <template>
     <div>
-        <v-btn @click="log()">log</v-btn>
         <!-- Productos Table -->
         <v-tabs
             v-model="tabsProductos"
@@ -192,10 +191,6 @@ export default {
                 limit: this.limit
             });
             this.loadingButton = false;
-        },
-
-        log() {
-            console.log(this.data);
         }
     }
 };

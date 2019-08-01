@@ -78,6 +78,7 @@ export default {
     methods: {
         ...mapMutations("auth", ["changeUnconfigured"]),
         ...mapActions("auth", ["login", "getUser"]),
+        ...mapActions("crudx", ["getNotifications"]),
 
         loginValidate: async function() {
             if (this.$refs.loginForm.validate()) {
@@ -96,6 +97,8 @@ export default {
                             this.$user.set({ role: userData.rol.role });
                             this.$router.push("/account");
                         }
+
+                        this.getNotifications();
                     })
                     .catch(error => {
                         console.log(error);

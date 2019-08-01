@@ -68,7 +68,8 @@ class InicialsettingsController extends Controller
                 ['name' => 'Cuit', 'msg' => 'Cuit del titular. Se usará en los servicios proporcionados por AFIP.', 'config' => 'cuit', 'value' => $config->cuit, 'type' => 'number'],
                 ['name' => 'Razón social', 'msg' => 'Nombre y Apellido del titular. (Debe coincidir con los datos ingresados en AFIP).', 'config' => 'razonsocial', 'value' => $config->razonsocial, 'type' => 'text'],
                 ['name' => 'Condición frente al IVA', 'msg' => 'Condición frente al iva del titular. esta será usada para establecer el tipo de facturas que se puede realizar en el sistema.', 'config' => 'condicioniva', 'value' => $config->condicioniva, 'type' => 'select', 'items' => ['RESPONSABLE MONOTRIBUTO']],
-                ['name' => 'Inicio de actividades', 'msg' => 'Fecha de inicio de las actividades tributarias del titular. (Debe coincidir con los datos ingresados en AFIP)', 'config' => 'inicioactividades', 'value' => $config->inicioactividades, 'type' => 'text']
+                ['name' => 'Inicio de actividades', 'msg' => 'Fecha de inicio de las actividades tributarias del titular. (Debe coincidir con los datos ingresados en AFIP)', 'config' => 'inicioactividades', 'value' => $config->inicioactividades, 'type' => 'text'],
+                ['name' => 'Punto de Venta', 'msg' => 'Punto de venta del titular.', 'config' => 'puntoventa', 'value' => $config->puntoventa, 'type' => 'number']
             ]
         ];
 
@@ -116,6 +117,7 @@ class InicialsettingsController extends Controller
         $configuracion->razonsocial = $request['razonsocial'];
         $configuracion->condicioniva = $request['condicioniva'];
         $configuracion->inicioactividades = $request['inicioactividades'];
+        $configuracion->puntoventa = $request['puntoventa'];
         $configuracion->numfactura = $request['numfactura'];
         $configuracion->numpresupuesto = $request['numpresupuesto'];
         $configuracion->numrecibo = $request['numrecibo'];

@@ -1,9 +1,14 @@
 <template>
     <div>
         <v-card>
-            <v-btn dark fab fixed right bottom @click="goBack()" color="primary">
-                <v-icon>fas fa-chevron-left</v-icon>
-            </v-btn>
+            <v-tooltip left>
+                <template v-slot:activator="{ on }">
+                    <v-btn dark fab fixed right bottom @click="goBack()" color="primary" v-on="on">
+                        <v-icon>fas fa-chevron-left</v-icon>
+                    </v-btn>
+                </template>
+                <span>Volver</span>
+            </v-tooltip>
             <!-- Header -->
             <v-card-text>
                 <v-layout justify-space-between>

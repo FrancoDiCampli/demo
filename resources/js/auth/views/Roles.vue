@@ -1,16 +1,22 @@
 <template>
     <div>
-        <v-btn
-            dark
-            fab
-            fixed
-            right
-            bottom
-            @click="createRolesDialog = !createRolesDialog"
-            color="primary"
-        >
-            <v-icon>fas fa-plus</v-icon>
-        </v-btn>
+        <v-tooltip left>
+            <template v-slot:activator="{ on }">
+                <v-btn
+                    dark
+                    fab
+                    fixed
+                    right
+                    bottom
+                    @click="createRolesDialog = !createRolesDialog"
+                    color="primary"
+                    v-on="on"
+                >
+                    <v-icon>fas fa-plus</v-icon>
+                </v-btn>
+            </template>
+            <span>Nuevo Rol</span>
+        </v-tooltip>
 
         <v-dialog v-model="createRolesDialog" width="500" persistent>
             <v-card>

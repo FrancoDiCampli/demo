@@ -33,12 +33,18 @@
                                     <div>
                                         <v-layout justify-start>
                                             <div v-if="articulo.vencido">
-                                                <div
-                                                    class="tringle-left-button"
-                                                    style="color: #FF8F00;"
-                                                >
-                                                    <i class="fas fa-clock icon"></i>
-                                                </div>
+                                                <v-tooltip right>
+                                                    <template v-slot:activator="{ on }">
+                                                        <div
+                                                            class="tringle-left-button"
+                                                            style="color: #FF8F00;"
+                                                            v-on="on"
+                                                        >
+                                                            <i class="fas fa-clock icon"></i>
+                                                        </div>
+                                                    </template>
+                                                    <span>Vencido</span>
+                                                </v-tooltip>
                                             </div>
                                             <div v-else-if="!articulo.vencido">
                                                 <div
@@ -47,32 +53,52 @@
                                                     articulo.stock > 0
                                                     "
                                                 >
-                                                    <div
-                                                        class="tringle-left-button"
-                                                        style="color: #FF8F00;"
-                                                    >
-                                                        <i class="fas fa-box-open icon"></i>
-                                                    </div>
+                                                    <v-tooltip right>
+                                                        <template v-slot:activator="{ on }">
+                                                            <div
+                                                                class="tringle-left-button"
+                                                                style="color: #FF8F00;"
+                                                                v-on="on"
+                                                            >
+                                                                <i class="fas fa-box-open icon"></i>
+                                                            </div>
+                                                        </template>
+                                                        <span>Necesita Reposición</span>
+                                                    </v-tooltip>
                                                 </div>
                                                 <div
                                                     v-else-if="articulo.stock == 0 || articulo.inventarios.length <= 0"
                                                 >
-                                                    <div
-                                                        class="tringle-left-button"
-                                                        style="color: #FF5252;"
-                                                    >
-                                                        <i class="fas fa-exclamation-circle icon"></i>
-                                                    </div>
+                                                    <v-tooltip right>
+                                                        <template v-slot:activator="{ on }">
+                                                            <div
+                                                                class="tringle-left-button"
+                                                                style="color: #FF5252;"
+                                                                v-on="on"
+                                                            >
+                                                                <i
+                                                                    class="fas fa-exclamation-circle icon"
+                                                                ></i>
+                                                            </div>
+                                                        </template>
+                                                        <span>Sin Stock</span>
+                                                    </v-tooltip>
                                                 </div>
                                                 <div
                                                     v-else-if="articulo.stock > articulo.stockminimo"
                                                 >
-                                                    <div
-                                                        class="tringle-left-button"
-                                                        style="color: #4CAF50;"
-                                                    >
-                                                        <i class="fas fa-check icon"></i>
-                                                    </div>
+                                                    <v-tooltip right>
+                                                        <template v-slot:activator="{ on }">
+                                                            <div
+                                                                class="tringle-left-button"
+                                                                style="color: #4CAF50;"
+                                                                v-on="on"
+                                                            >
+                                                                <i class="fas fa-check icon"></i>
+                                                            </div>
+                                                        </template>
+                                                        <span>Stock Suficiente</span>
+                                                    </v-tooltip>
                                                 </div>
                                             </div>
                                         </v-layout>

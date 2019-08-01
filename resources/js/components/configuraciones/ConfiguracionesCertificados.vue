@@ -2,7 +2,7 @@
     <div>
         <v-snackbar color="primary" v-model="snackbarCertificados" :timeout="6000" right top>
             Archivos Cargados
-            <v-btn color="white" flat @click="snackbarAvanzada = false" icon>
+            <v-btn color="white" flat @click="snackbarCertificados = false" icon>
                 <v-icon>fas fa-times</v-icon>
             </v-btn>
         </v-snackbar>

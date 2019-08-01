@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="usuarios != null">
         <!-- Users Table -->
         <template>
             <v-data-table hide-actions :headers="headers" :items="data">
@@ -102,6 +102,7 @@ export default {
 
     data() {
         return {
+            usuarios: null,
             editUsersDialog: false,
             deleteUsersDialog: false,
             userID: null,
@@ -127,15 +128,20 @@ export default {
     },
 
     mounted() {
-        this.index({ url: "/api/users" });
+        this.getUsuarios();
     },
 
     methods: {
         ...mapActions("crudx", ["index", "edit", "update", "destroy"]),
         ...mapActions("auth", ["getUser"]),
 
+        getUsuarios: async function() {
+            let response = await this.index({ url: "/api/users" });
+            this.usuarios = response;
+        },
+
         closeEdit: async function() {
-            await this.index({ url: "/api/users" });
+            await this.getUsuarios();
             this.editUsersDialog = false;
         },
 
@@ -143,14 +149,14 @@ export default {
             if (this.$refs.userForm.validate()) {
                 await this.update({ url: "/api/users/" + this.form.id });
                 this.$refs.userForm.reset();
-                this.index({ url: "/api/users" });
+                this.getUsuarios();
                 this.editUsersDialog = false;
             }
         },
 
         erase: async function() {
             await this.destroy({ url: "/api/users/" + this.userID });
-            this.index({ url: "/api/users" });
+            this.getUsuarios();
             this.userID = null;
             this.deleteUsersDialog = false;
         }

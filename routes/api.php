@@ -76,6 +76,9 @@ Route::middleware('auth:api')->group(function () {
     Route::get('estadisticas/compras', 'API\EstadisticasController@compras');
 });
 
-// Auth Routes
+/*Auth*/
 Route::post('/login', 'AuthController@login');
 Route::post('/register', 'AuthController@register');
+
+/*Configuraciones*/
+Route::get('/config/comercial', 'API\InicialsettingsController@getComercialConfig');

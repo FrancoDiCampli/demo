@@ -29,6 +29,10 @@
                         <v-text-field
                             @keyup="findCliente()"
                             v-model="form.cliente"
+                            :hint="clienteSearchTable ? '' : 'Escriba para buscar un cliente'"
+                            persistent-hint
+                            clearable
+                            clear-icon="fas fa-times"
                             :rules="[rules.required]"
                             label="Cliente"
                             box
@@ -146,7 +150,7 @@
             <!-- Presupuestos Productos -->
             <div>
                 <!-- Formulario -->
-                <v-form ref="formDetalles">
+                <v-form ref="formDetalles" @submit.prevent="fillDetalles()">
                     <v-layout justify-space-around wrap>
                         <v-flex xs12 px-3>
                             <!-- Input Buscar Productos -->
@@ -154,6 +158,11 @@
                                 @keyup="findProducto()"
                                 autofocus
                                 v-model="form.producto"
+                                :hint="productoSearchTable ? '' : 'Escriba para buscar un producto'"
+                                persistent-hint
+                                clearable
+                                ref="productos"
+                                clear-icon="fas fa-times"
                                 label="Producto"
                                 box
                             ></v-text-field>
@@ -207,8 +216,7 @@
                             <v-text-field
                                 type="number"
                                 v-model="cantidad"
-                                :disabled="form.producto_id ? false : true"
-                                @keyup.enter="fillDetalles()"
+                                ref="cantidad"
                                 label="Cantidad"
                                 box
                             ></v-text-field>
@@ -223,6 +231,9 @@
                         <v-flex xs12 sm4 px-3>
                             <v-text-field v-model="subtotalProdcuto" label="Subtotal" disabled box></v-text-field>
                         </v-flex>
+                    </v-layout>
+                    <v-layout justify-center style="margin-top: -20px;">
+                        <v-btn type="submit" color="primary" flat>Agregar</v-btn>
                     </v-layout>
                 </v-form>
                 <!-- Tabla Detalles -->
@@ -492,8 +503,8 @@ export default {
                 this.numPresupuesto =
                     Number(response.presupuestos[0].numpresupuesto) + 1;
             } else {
-                let response = await this.index({ url: "/api/configuracion" });
-                this.numPresupuesto = response.numpresupuesto;
+                let response = await this.index({ url: "/api/config" });
+                this.numPresupuesto = response.numpresupuesto + 1;
             }
         },
 
@@ -502,13 +513,13 @@ export default {
         // Buscar los Clientes
         findCliente: async function() {
             this.detallesCliente = [];
-            this.clienteSearchTable = true;
             if (this.form.cliente == "0") {
                 // Establecer Cliente Como Consumidor Final
                 this.detallesCliente = [];
                 this.form.cliente_id = 1;
                 this.form.cliente = "CONSUMIDOR FINAL";
             } else if (this.form.cliente) {
+                this.clienteSearchTable = true;
                 // Buscar Cliente
                 let response = await this.index({
                     url: "/api/clientes",
@@ -528,7 +539,8 @@ export default {
             // Establecer la Razon Social y el Id del Cliente en el Formulario
             this.form.cliente = cliente.razonsocial;
             this.form.cliente_id = cliente.id;
-
+            // Focus en productos
+            this.$refs.productos.focus();
             // Establecer el Detalle de Clientes
             axios
                 .get("/api/clientes/" + cliente.id)
@@ -547,9 +559,9 @@ export default {
             // Reiniciar Cantidad y Precio
             this.cantidad = null;
             this.form.precio = null;
-            this.productoSearchTable = true;
             // Buscar Productos
             if (this.form.producto) {
+                this.productoSearchTable = true;
                 let response = await this.index({
                     url: "/api/articulos",
                     buscarArticulo: this.form.producto,
@@ -569,6 +581,8 @@ export default {
             this.form.producto_id = producto.id;
             this.form.producto = producto.articulo;
             this.form.precio = producto.precio;
+            // Focus en cantidad
+            this.$refs.cantidad.focus();
         },
 
         //LLenar Array de Detalles
@@ -606,7 +620,8 @@ export default {
                     this.detalles.push(detalle);
                     this.form.detalle = this.detalles;
                 }
-
+                // Focus en productos
+                this.$refs.productos.focus();
                 // Reiniciar el Formulario de Detalles
                 this.form.producto_id = null;
                 this.$refs.formDetalles.reset();

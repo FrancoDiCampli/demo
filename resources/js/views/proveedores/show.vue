@@ -1,8 +1,13 @@
 <template>
     <div>
-        <v-btn dark fab fixed right bottom @click="goBack()" color="primary">
-            <v-icon>fas fa-chevron-left</v-icon>
-        </v-btn>
+        <v-tooltip left>
+            <template v-slot:activator="{ on }">
+                <v-btn dark fab fixed right bottom @click="goBack()" color="primary" v-on="on">
+                    <v-icon>fas fa-chevron-left</v-icon>
+                </v-btn>
+            </template>
+            <span>Volver</span>
+        </v-tooltip>
         <div v-if="showData.proveedor">
             <ProveedoresShow></ProveedoresShow>
         </div>

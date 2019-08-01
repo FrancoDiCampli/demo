@@ -1,10 +1,23 @@
 <template>
     <div>
         <!-- Boton para agreagar facturas -->
-        <v-btn dark fab fixed right bottom @click="$router.push('/ventas/nueva')" color="primary">
-            <v-icon>fas fa-plus</v-icon>
-        </v-btn>
-
+        <v-tooltip left>
+            <template v-slot:activator="{ on }">
+                <v-btn
+                    dark
+                    fab
+                    fixed
+                    right
+                    bottom
+                    @click="$router.push('/ventas/nueva')"
+                    color="primary"
+                    v-on="on"
+                >
+                    <v-icon>fas fa-plus</v-icon>
+                </v-btn>
+            </template>
+            <span>Nueva Venta</span>
+        </v-tooltip>
         <!-- Index de factura -->
         <v-card>
             <v-card-text>

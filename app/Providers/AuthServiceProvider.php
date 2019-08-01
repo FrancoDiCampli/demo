@@ -31,11 +31,18 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Passport::tokensCan([
-            // Users Tokens
-            'users-index' => 'Listar Usuarios',
-            'users-store' => 'Guardar Usuarios',
-            'users-update' => 'Editar Usuarios',
-            'users-destroy' => 'Eliminar Usuarios',
+            // Tokens de Usuario
+            'users-index' => 'Listar usuarios',
+            'users-store' => 'Guardar usuarios',
+            'users-update' => 'Editar usuarios',
+            'users-destroy' => 'Eliminar usuarios',
+
+            // Tokens de Roles
+            'roles-index' => 'Listar roles',
+            'roles-show' => 'Ver roles',
+            'roles-store' => 'Guardar roles',
+            'roles-update' => 'Editar roles',
+            'roles-destroy' => 'Eliminar roles',
 
             // Tokens de Articulos
             'articulos-index' => 'Listar productos',
@@ -70,9 +77,20 @@ class AuthServiceProvider extends ServiceProvider
             'presupuestos-show' => 'Facturar un Presupuesto',
             'presupuestos-destroy' => 'Eliminar presupuestos',
 
+            // Tokens de Proveedores
+            'supplier-index' => 'Listar proveedores',
+            'supplier-show' => 'Ver proveedores',
+            'supplier-store' => 'Guardar proveedores',
+            'supplier-update' => 'Editar proveedores',
+            'supplier-destroy' => 'Eliminar proveedores',
+
             // Tokens de Remitos
             'remitos-index' => 'Listar compras',
             'remitos-store' => 'Guardar compras',
+
+            // Tokens de Configuraciones
+            'configuraciones-standard' => 'Ver y editar las configuraciones standard',
+            'configuraciones-avanzada' => 'Ver y editar las configuraciones avanzadas',
         ]);
     }
 }

@@ -8,9 +8,26 @@ use App\Http\Controllers\Controller;
 
 class UsersMyController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('scopes:users-index')->only('index');
+        $this->middleware('scopes:users-store')->only('store');
+        $this->middleware('scopes:users-update')->only('update');
+        $this->middleware('scopes:users-destroy')->only('destroy');
+    }
+
     public function index()
     {
-        return User::get();
+        $user = User::find(auth()->user()->id);
+        $rol = $user->role_id;
+
+        if ($rol == 1) {
+            return User::all();
+        } else {
+            return User::where('id', '<>', 1)->get();
+        }
     }
 
     public function store(Request $request)

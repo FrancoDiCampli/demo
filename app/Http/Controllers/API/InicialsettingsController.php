@@ -11,7 +11,20 @@ class InicialsettingsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('getComercialConfig');
+        $this->middleware('scopes:configuraciones-standard')->only('getStandardConfig', 'updateStandardConfig', 'updateLogo');
+        $this->middleware('scopes:configuraciones-avanzada')->only('getAdvanceConfig', 'updateAdvanceConfig', 'updateCert');
+    }
+
+    public function getConfig()
+    {
+        return Inicialsetting::find(1);
+    }
+
+    public function getComercialConfig()
+    {
+        $config = Inicialsetting::find(1);
+        return ['nombre' => $config->nombrefantasia, 'lema' => $config->tagline];
     }
 
     public function getStandardConfig()
@@ -129,14 +142,14 @@ class InicialsettingsController extends Controller
     {
         $path = base_path('vendor/afipsdk/afip.php/src/Afip_res');
         if ($request->key->getClientOriginalExtension() == 'key') {
-            $request->key->move($path, 'key');
+            $request->key->move($path, 'key', 0777, true);
         }
 
         $path = base_path('vendor/afipsdk/afip.php/src/Afip_res');
         if ($request->cert->getClientOriginalExtension() == 'pem') {
             $request->cert->move($path, 'cert');
         } else if ($request->cert->getClientOriginalExtension() == 'crt') {
-            $request->cert->move($path, 'cert');
+            $request->cert->move($path, 'cert', 0777, true);
         }
     }
 

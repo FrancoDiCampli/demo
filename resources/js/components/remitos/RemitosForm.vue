@@ -22,6 +22,10 @@
                         <v-text-field
                             @keyup="findProveedor()"
                             v-model="form.supplier"
+                            :hint="proveedoresSearchTable ? '' : 'Escriba para buscar un proveedor'"
+                            persistent-hint
+                            clearable
+                            clear-icon="fas fa-times"
                             :rules="[rules.required]"
                             label="Proveedor"
                             box
@@ -106,7 +110,7 @@
                 </v-layout>
             </div>
             <!---------------------->
-            <v-form ref="formDetalles">
+            <v-form ref="formDetalles" @submit.prevent="fillDetalles()">
                 <!-- Compras Productos -->
                 <div>
                     <v-layout justify-space-around wrap>
@@ -116,6 +120,10 @@
                                 @keyup="findProducto()"
                                 autofocus
                                 v-model="form.producto"
+                                :hint="productosSearchTable ? '' : 'Escriba para buscar un producto'"
+                                persistent-hint
+                                clearable
+                                clear-icon="fas fa-times"
                                 :disabled="blockProducto"
                                 label="Producto"
                                 box
@@ -206,7 +214,6 @@
                         <v-flex xs12 sm4 px-3>
                             <v-text-field
                                 type="number"
-                                @keyup.enter="fillDetalles()"
                                 v-model="cantidad"
                                 :disabled="blockDetalles"
                                 label="Cantidad"
@@ -261,7 +268,6 @@
                         <v-flex xs12 sm4 px-3>
                             <v-text-field
                                 v-model="form.preciounitario"
-                                @keyup.enter="fillDetalles()"
                                 label="Precio de Compra"
                                 :disabled="blockDetalles"
                                 box
@@ -271,6 +277,9 @@
                         <v-flex xs12 sm4 px-3>
                             <v-text-field v-model="subtotalProdcuto" label="Subtotal" disabled box></v-text-field>
                         </v-flex>
+                    </v-layout>
+                    <v-layout justify-center style="margin-top: -20px;">
+                        <v-btn type="submit" color="primary" flat>Agregar</v-btn>
                     </v-layout>
                 </div>
                 <!---------------------->
@@ -632,9 +641,9 @@ export default {
         // Buscar los proveedores
         findProveedor: async function() {
             this.detallesProveedor = [];
-            this.proveedoresSearchTable = true;
             this.notProveedor = true;
-            if (this.form.supplier != null && this.form.supplier != "") {
+            if (this.form.supplier) {
+                this.proveedoresSearchTable = true;
                 let response = await this.index({
                     url: "/api/suppliers",
                     buscarProveedor: this.form.supplier,
@@ -690,13 +699,11 @@ export default {
         //_________________________Methods Productos________________________//
         // Buscar Producto
         findProducto: async function() {
-            // Reiniciar Cantidad, Precio y el Producto Seleccionado
-
-            // Activar Tabla de Busqueda
-            this.productosSearchTable = true;
             this.productoSelected = null;
             // Buscar Productos
             if (this.form.producto) {
+                // Activar Tabla de Busqueda
+                this.productosSearchTable = true;
                 let response = await this.index({
                     url: "/api/articulos",
                     buscarArticulo: this.form.producto,

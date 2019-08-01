@@ -170,7 +170,7 @@ class FacturasController extends Controller
         if ($request->get('solicitarCae') && $factura->pagada) {
             $this->solicitarCae($factura->id);
         }
-        return (['message' => 'actualizado']);
+        return $factura->id;
     }
     // FACTURACION ELECTRONICA
     public function solicitarCAE($id)
@@ -246,7 +246,7 @@ class FacturasController extends Controller
             $factura->fecha = now()->format('Ymd');
             $factura->save();
         }
-        return (['message' => 'guardado']);
+        return $factura->id;
     }
     // CALCULA EL DIGITO VERIFICADOR PARA EL CODIGO DE BARRAS
     function digitoVerificador($nroCodBar)

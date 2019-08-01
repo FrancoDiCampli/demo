@@ -329,6 +329,7 @@ export default {
         updateProducto: async function() {
             if (this.$refs.productosEditForm.validate()) {
                 let id = this.form.id;
+                this.form.foto = this.foto.generateDataUrl();
                 await this.update({ url: "/api/articulos/" + id });
                 await this.show({ url: "/api/articulos/" + id });
                 this.mode = "show";

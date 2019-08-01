@@ -804,7 +804,7 @@ export default {
                     if (this.tipo == "REMITO X") {
                         this.remitosPDF(resID);
                     } else {
-                        this.facturaPDF(resId);
+                        this.facturaPDF(resID);
                     }
                     //Reset Formularios
                     this.detalles = [];

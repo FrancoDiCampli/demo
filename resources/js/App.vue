@@ -344,7 +344,6 @@ export default {
                 axios
                     .get("/api/config/necesary")
                     .then(response => {
-                        console.log(response.data);
                         if (!response.data) {
                             this.changeUnconfigured(true);
                             this.$user.set({ role: "unconfigured" });

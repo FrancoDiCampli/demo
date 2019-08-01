@@ -126,7 +126,6 @@
                                         <div v-else>{{ factura.item.id }}</div>
                                     </td>
                                     <td>{{ factura.item.total }}</td>
-                                    <td class="hidden-xs-only">{{ factura.item.condicionventa }}</td>
                                 </template>
                             </v-data-table>
                         </v-flex>
@@ -258,7 +257,35 @@
             <v-divider></v-divider>
             <v-expand-transition>
                 <v-card-text v-show="showVentasCondiciones">
-                    <ve-pie :data="ventas.ventasCondiciones"></ve-pie>
+                    <v-layout justify-space-around>
+                        <v-flex xs12 sm7 lg6 px-3>
+                            <ve-pie :data="ventasCondicionesChart"></ve-pie>
+                        </v-flex>
+
+                        <v-flex xs12 sm5 lg6 px-3>
+                            <v-data-table
+                                :items="ventas.condiciones"
+                                select-all
+                                item-key="condicion"
+                                hide-actions
+                                hide-headers
+                            >
+                                <template v-slot:items="condicion">
+                                    <tr :active="condicion.selected" @click="setCondiciones()">
+                                        <td>
+                                            <v-checkbox
+                                                :input-value="condicion.selected"
+                                                primary
+                                                hide-details
+                                                color="primary"
+                                            ></v-checkbox>
+                                        </td>
+                                        <td>{{ condicion.item }}</td>
+                                    </tr>
+                                </template>
+                            </v-data-table>
+                        </v-flex>
+                    </v-layout>
                 </v-card-text>
             </v-expand-transition>
         </v-card>
@@ -284,8 +311,7 @@ export default {
             headersFacturasFecha: [
                 { text: "Tipo", sortable: false, class: "hidden-xs-only" },
                 { text: "Nº Factura", sortable: false },
-                { text: "Importe", sortable: false },
-                { text: "Condición", sortable: false, class: "hidden-xs-only" }
+                { text: "Importe", sortable: false }
             ],
             headersVendedores: [
                 { text: "Nombre", sortable: false },
@@ -293,6 +319,10 @@ export default {
             ],
             ventasVendedoresChart: {
                 columns: ["vendedor", "totalVendido"],
+                rows: []
+            },
+            ventasCondicionesChart: {
+                columns: ["condicion", "totalVendido"],
                 rows: []
             },
             showVentasFechas: true,
@@ -333,6 +363,7 @@ export default {
             console.log(this.ventas);
 
             this.toggleAllVendedores();
+            this.setCondiciones();
         },
 
         loadMoreVentas: async function() {
@@ -372,6 +403,18 @@ export default {
                         vendedor.vendedor === this.selectedVendedores[i].name
                 );
                 this.ventasVendedoresChart.rows.push(find);
+            }
+        },
+
+        setCondiciones() {
+            this.ventasCondicionesChart.rows = [];
+
+            for (let i = 0; i < this.ventas.condiciones.length; i++) {
+                let find = this.ventas.ventasCondiciones.rows.find(
+                    condicion =>
+                        condicion.condicion === this.ventas.condiciones[i]
+                );
+                this.ventasCondicionesChart.rows.push(find);
             }
         }
     }

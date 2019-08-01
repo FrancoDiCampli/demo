@@ -23,69 +23,6 @@ class EstadisticasController extends Controller
         $this->middleware('auth');
     }
 
-    public function compras(Request $request)
-    {
-        $remitos = Remito::orderBy('fecha', 'ASC')->get();
-        $inicio = $remitos->first();
-        $ultima = $remitos->last();
-        $from = $request->get('desde', $inicio->fecha);
-        $to = $request->get('hasta', $ultima->fecha);
-        $desde = new Carbon($from);
-        $hasta = new Carbon($to);
-        $comprasFechas = [];
-        $fecs = collect();
-        $suppliers = collect();
-
-        $remitos = Remito::where('fecha', '>=', $desde->format('Ymd'))
-            ->where('fecha', '<=', $hasta->format('Ymd'))
-            ->orderBy('fecha', 'ASC')
-            ->take($request->get('limit', null))
-            ->get();
-
-        foreach ($remitos as $remito) {
-            $fecs->push($remito->fecha);
-            $supplier = Supplier::find($remito->supplier_id);
-            $suppliers->push($supplier);
-        }
-
-        // Fechas
-        $auxFechas = $fecs->unique();
-        foreach ($auxFechas as $value) {
-            $remis = Remito::where('fecha', $value)->get();
-            array_push($comprasFechas, $remis);
-        };
-        $columnsFechas = ['fecha', 'total'];
-        $rowsFechas = collect();
-        $total = 0;
-        for ($i = 0; $i < count($comprasFechas); $i++) {
-            $otro = $comprasFechas[$i];
-            foreach ($otro as $a) {
-                $total += $a->total;
-            }
-            $fecha = $comprasFechas[$i][0]->fecha;
-            $fechaNew = new Carbon($fecha);
-            $rowsFechas->push([
-                'fecha' =>
-                $fechaNew->format('d-m-Y'),
-                'total' => $total
-            ]);
-            $total = 0;
-        };
-        $comprasFechasChart = collect();
-        $comprasFechasChart->put('columns', $columnsFechas);
-        $comprasFechasChart->put('rows', $rowsFechas);
-        // Fin Fechas
-
-        $compras = [
-            'fechas' => ['desde' => $desde->format('Y-m-d'), 'hasta' => $hasta->format('Y-m-d')],
-            'comprasFecha' => $remitos,
-            'comprasFechaChart' => $comprasFechasChart,
-            'total' => count(Remito::all()),
-        ];
-
-        return ['compras' => $compras];
-    }
-
     public function ventas(Request $request)
     {
         // Traer todas la facturas y los detalles
@@ -259,16 +196,144 @@ class EstadisticasController extends Controller
         return ['ventas' => $ventas];
     }
 
-    public function ventasProductos(Request $request)
+    public function compras(Request $request)
+    {
+        $remitos = Remito::orderBy('fecha', 'ASC')->get();
+
+        if (count($remitos) > 0) {
+            $inicio = $remitos->first();
+            $ultima = $remitos->last();
+            $from = $request->get('desde', $inicio->fecha);
+            $to = $request->get('hasta', $ultima->fecha);
+        } else {
+            $from = $request->get('desde', now());
+            $to = $request->get('hasta', now());
+        }
+
+        $desde = new Carbon($from);
+        $hasta = new Carbon($to);
+        $comprasFechas = [];
+        $fecs = collect();
+        $suppliers = collect();
+        $proveedores = [];
+        $comprasProveedores = [];
+
+        $remitos = Remito::where('fecha', '>=', $desde->format('Ymd'))
+            ->where('fecha', '<=', $hasta->format('Ymd'))
+            ->orderBy('fecha', 'ASC')
+            ->take($request->get('limit', null))
+            ->get();
+
+        foreach ($remitos as $remito) {
+            $supplier = Supplier::find($remito->supplier_id);
+            $suppliers->push($supplier);
+        }
+
+        $remitos2 = Remito::where('fecha', '>=', $desde->format('Ymd'))->where('fecha', '<=', $hasta->format('Ymd'))->orderBy('fecha', 'ASC')->get();
+        foreach ($remitos2 as $remito) {
+            $fecs->push($remito->fecha);
+        }
+
+        // Fechas
+        $auxFechas = $fecs->unique();
+        foreach ($auxFechas as $value) {
+            $remis = Remito::where('fecha', $value)->get();
+            array_push($comprasFechas, $remis);
+        };
+        $columnsFechas = ['fecha', 'total'];
+        $rowsFechas = collect();
+        $total = 0;
+        for ($i = 0; $i < count($comprasFechas); $i++) {
+            $otro = $comprasFechas[$i];
+            foreach ($otro as $a) {
+                $total += $a->total;
+            }
+            $fecha = $comprasFechas[$i][0]->fecha;
+            $fechaNew = new Carbon($fecha);
+            $rowsFechas->push([
+                'fecha' =>
+                $fechaNew->format('d-m-Y'),
+                'total' => $total
+            ]);
+            $total = 0;
+        };
+        $comprasFechasChart = collect();
+        $comprasFechasChart->put('columns', $columnsFechas);
+        $comprasFechasChart->put('rows', $rowsFechas);
+        // Fin Fechas
+
+        // Proveedores
+        $auxProveedores = $suppliers->unique();
+        foreach ($auxProveedores as $key) {
+            $rems = Remito::where('user_id', $key->id)
+                ->where('fecha', '>=', $desde->format('Ymd'))
+                ->where('fecha', '<=', $hasta->format('Ymd'))
+                ->orderBy('fecha', 'ASC')
+                ->get();
+            array_push($proveedores, $key);
+            array_push($comprasProveedores, $rems);
+        }
+        $columnsProveedores = ['vendedor', 'totalVendido'];
+        $rowsProveedores = collect();
+        $total = 0;
+        for ($i = 0; $i < count($comprasProveedores); $i++) {
+            $otro = $comprasProveedores[$i];
+            foreach ($otro as $a) {
+                $total += $a->total;
+            }
+            $rowsProveedores->push([
+                'vendedor' => $proveedores[$i]->razonsocial,
+                'totalVendido' =>  $total
+            ]);
+            $total = 0;
+        };
+        $comprasProveedores = collect();
+        $comprasProveedores->put('columns', $columnsProveedores);
+        $comprasProveedores->put('rows', $rowsProveedores);
+        // Fin Proveedores
+
+        $compras = [
+            'fechas' => ['desde' => $desde->format('Y-m-d'), 'hasta' => $hasta->format('Y-m-d')],
+            'comprasFecha' => $remitos,
+            'comprasFechasChart' => $comprasFechasChart,
+            'proveedores' => $proveedores,
+            'comprasProveedores' => $comprasProveedores,
+            'total' => count(Remito::all()),
+        ];
+
+        return ['compras' => $compras];
+    }
+
+    public function detalles(Request $request)
     {
         $products = collect();
         $productos = [];
         $ventasProductos = [];
 
-        $detalles = DB::table('articulo_factura')->orderBy('created_at', 'ASC')->get();
+        $detallesVentas = DB::table('articulo_factura')->orderBy('created_at', 'ASC')->get();
+        if (count($detallesVentas) > 0) {
+            $inicio = $detallesVentas->first();
+            $ultima = $detallesVentas->last();
+            $from = $request->get('desde', $inicio->created_at);
+            $to = $request->get('hasta', $ultima->created_at);
+        } else {
+            $from = $request->get('desde', now());
+            $to = $request->get('hasta', now());
+        }
+        $desde = new Carbon($from);
+        $hasta = new Carbon($to);
+
+        // $detallesVentas = DB::table('articulo_factura')->orderBy('created_at', 'ASC')->get();
+
+        $detallesVentas = DB::table('articulo_factura')
+            ->where('created_at', '>=', $desde->format('Y-m-d'))
+            ->where('created_at', '<=', $hasta->format('Y-m-d'))
+            ->take($request->get('limit', null))
+            ->orderBy('created_at', 'ASC')->get();
+
 
         // Productos
-        foreach ($detalles as $detalle) {
+        foreach ($detallesVentas as $detalle) {
             $detalle->articulo_id;
             $product = Articulo::find($detalle->articulo_id);
             $products->push($product);
@@ -279,5 +344,30 @@ class EstadisticasController extends Controller
             array_push($productos, $article);
             array_push($ventasProductos, $det);
         }
+        $columnsProductos = ['producto', 'totalVendido'];
+        $rowsProductos = collect();
+        $total = 0;
+        for ($i = 0; $i < count($ventasProductos); $i++) {
+            $otro = $ventasProductos[$i];
+            foreach ($otro as $a) {
+                $total += $a->cantidad;
+            }
+            $rowsProductos->push([
+                'producto' => $productos[$i]->articulo,
+                'totalVendido' =>  $total
+            ]);
+            $total = 0;
+        };
+        $ventasProductosChart = collect();
+        $ventasProductosChart->put('columns', $columnsProductos);
+        $ventasProductosChart->put('rows', $rowsProductos);
+
+        $detalles = [
+            'productos' =>  $productos,
+            'ventasProductos' =>  $ventasProductos,
+            'ventasProductosChart' => $ventasProductosChart
+        ];
+
+        return ['detalles' => $detalles];
     }
 }

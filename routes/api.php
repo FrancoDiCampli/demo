@@ -72,7 +72,7 @@ Route::middleware('auth:api')->group(function () {
 
     // Reportes
     Route::get('estadisticas/ventas', 'API\EstadisticasController@ventas');
-    Route::get('estadisticas/inventarios', 'API\EstadisticasController@inventarios');
+    Route::get('estadisticas/detalles', 'API\EstadisticasController@detalles');
     Route::get('estadisticas/compras', 'API\EstadisticasController@compras');
 });
 

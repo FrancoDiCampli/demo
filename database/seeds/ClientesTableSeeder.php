@@ -24,6 +24,6 @@ class ClientesTableSeeder extends Seeder
             'condicioniva' => 'CONSUMIDOR FINAL'
         ]);
 
-        factory(Cliente::class, 9)->create();
+        // factory(Cliente::class, 9)->create();
     }
 }

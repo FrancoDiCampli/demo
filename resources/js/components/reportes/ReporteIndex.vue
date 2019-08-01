@@ -7,8 +7,12 @@
             <v-tab-item>
                 <ReporteVentas></ReporteVentas>
             </v-tab-item>
-            <v-tab-item>Compras</v-tab-item>
-            <v-tab-item>Productos</v-tab-item>
+            <v-tab-item>
+                <ReporteCompras></ReporteCompras>
+            </v-tab-item>
+            <v-tab-item>
+                <ReporteInventario></ReporteInventario>
+            </v-tab-item>
         </v-tabs>
     </div>
 </template>

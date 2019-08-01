@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-Route::middleware('auth:api')->group(function () {
+Route::middleware('auth:api', 'throttle:7000,1')->group(function () {
 
     /*Auth*/
     Route::get('/user', 'AuthController@user');
@@ -72,7 +72,7 @@ Route::middleware('auth:api')->group(function () {
 
     // Reportes
     Route::get('estadisticas/ventas', 'API\EstadisticasController@ventas');
-    Route::get('estadisticas/inventarios', 'API\EstadisticasController@inventarios');
+    Route::get('estadisticas/detalles', 'API\EstadisticasController@detalles');
     Route::get('estadisticas/compras', 'API\EstadisticasController@compras');
 });
 

@@ -135,30 +135,31 @@
                             <v-layout column fill-height>
                                 <v-card-title>
                                     <v-spacer></v-spacer>
-
-                                    <v-menu style="margin: 15px 0px;">
-                                        <template v-slot:activator="{ on }">
-                                            <v-btn
-                                                absolute
-                                                right
-                                                flat
-                                                icon
-                                                dark
-                                                color="white"
-                                                v-on="on"
-                                            >
-                                                <v-icon size="medium">fas fa-ellipsis-v</v-icon>
-                                            </v-btn>
-                                        </template>
-                                        <v-list>
-                                            <v-list-tile @click="editProducto()">
-                                                <v-list-tile-title>Editar</v-list-tile-title>
-                                            </v-list-tile>
-                                            <v-list-tile @click="mode = 'delete'">
-                                                <v-list-tile-title>Eliminar</v-list-tile-title>
-                                            </v-list-tile>
-                                        </v-list>
-                                    </v-menu>
+                                    <div v-if="rol == 'superAdmin' || rol == 'admin'">
+                                        <v-menu style="margin: 15px 0px;">
+                                            <template v-slot:activator="{ on }">
+                                                <v-btn
+                                                    absolute
+                                                    right
+                                                    flat
+                                                    icon
+                                                    dark
+                                                    color="white"
+                                                    v-on="on"
+                                                >
+                                                    <v-icon size="medium">fas fa-ellipsis-v</v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <v-list>
+                                                <v-list-tile @click="editProducto()">
+                                                    <v-list-tile-title>Editar</v-list-tile-title>
+                                                </v-list-tile>
+                                                <v-list-tile @click="mode = 'delete'">
+                                                    <v-list-tile-title>Eliminar</v-list-tile-title>
+                                                </v-list-tile>
+                                            </v-list>
+                                        </v-menu>
+                                    </div>
                                 </v-card-title>
 
                                 <v-spacer></v-spacer>
@@ -181,21 +182,31 @@
                         </v-img>
                         <div class="hidden-xs-only">
                             <br />
-                            <v-menu>
-                                <template v-slot:activator="{ on }">
-                                    <v-btn absolute right flat icon dark color="primary" v-on="on">
-                                        <v-icon size="medium">fas fa-ellipsis-v</v-icon>
-                                    </v-btn>
-                                </template>
-                                <v-list>
-                                    <v-list-tile @click="editProducto()">
-                                        <v-list-tile-title>Editar</v-list-tile-title>
-                                    </v-list-tile>
-                                    <v-list-tile @click="mode = 'delete'">
-                                        <v-list-tile-title>Eliminar</v-list-tile-title>
-                                    </v-list-tile>
-                                </v-list>
-                            </v-menu>
+                            <div v-if="rol == 'superAdmin' || rol == 'admin'">
+                                <v-menu>
+                                    <template v-slot:activator="{ on }">
+                                        <v-btn
+                                            absolute
+                                            right
+                                            flat
+                                            icon
+                                            dark
+                                            color="primary"
+                                            v-on="on"
+                                        >
+                                            <v-icon size="medium">fas fa-ellipsis-v</v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <v-list>
+                                        <v-list-tile @click="editProducto()">
+                                            <v-list-tile-title>Editar</v-list-tile-title>
+                                        </v-list-tile>
+                                        <v-list-tile @click="mode = 'delete'">
+                                            <v-list-tile-title>Eliminar</v-list-tile-title>
+                                        </v-list-tile>
+                                    </v-list>
+                                </v-menu>
+                            </div>
                             <v-flex xs12>
                                 <v-layout justify-center>
                                     <v-avatar size="200">
@@ -305,7 +316,8 @@ export default {
     },
 
     computed: {
-        ...mapState("crudx", ["inProcess", "form", "showData"])
+        ...mapState("crudx", ["inProcess", "form", "showData"]),
+        ...mapState("auth", ["rol"])
     },
 
     methods: {

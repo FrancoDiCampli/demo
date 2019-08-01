@@ -12,6 +12,11 @@ class SuppliersController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('scopes:supplier-index')->only('index');
+        $this->middleware('scopes:supplier-show')->only('show');
+        $this->middleware('scopes:supplier-store')->only('store');
+        $this->middleware('scopes:supplier-update')->only('update');
+        $this->middleware('scopes:supplier-destroy')->only('destroy');
     }
 
     public function index(Request $request)

@@ -10,6 +10,16 @@ use App\Http\Controllers\Controller;
 
 class RolesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('scopes:roles-index')->only('index');
+        $this->middleware('scopes:roles-show')->only('show');
+        $this->middleware('scopes:roles-store')->only('store');
+        $this->middleware('scopes:roles-update')->only('update');
+        $this->middleware('scopes:roles-destroy')->only('destroy');
+    }
+
     public function index()
     {
         $user = User::find(auth()->user()->id);

@@ -1,17 +1,23 @@
 <template>
     <div>
         <!-- Boton para agregar un nuevo Producto -->
-        <v-btn
-            dark
-            fab
-            fixed
-            right
-            bottom
-            color="primary"
-            @click="$router.push('/productos/nuevo')"
-        >
-            <v-icon>fas fa-plus</v-icon>
-        </v-btn>
+        <v-tooltip left>
+            <template v-slot:activator="{ on }">
+                <v-btn
+                    dark
+                    fab
+                    fixed
+                    right
+                    bottom
+                    color="primary"
+                    @click="$router.push('/productos/nuevo')"
+                    v-on="on"
+                >
+                    <v-icon>fas fa-plus</v-icon>
+                </v-btn>
+            </template>
+            <span>Nuevo Producto</span>
+        </v-tooltip>
         <!-- Index Productos -->
         <ProductosIndex></ProductosIndex>
     </div>

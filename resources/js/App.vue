@@ -4,7 +4,7 @@
 
         <!-- Navbar Inicial (Solo visible antes de iniciar sesión) -->
         <v-toolbar color="secondary" class="elevation-0" v-show="token == null">
-            <v-toolbar-title @click="$router.push('/')" style="cursor: pointer;">Gepetto</v-toolbar-title>
+            <v-toolbar-title @click="$router.push('/')" style="cursor: pointer;">{{ comerce.nombre }}</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items>
                 <v-btn to="/login" flat v-show="token == null">Iniciar Sesión</v-btn>
@@ -217,6 +217,7 @@ export default {
     name: "App",
     data() {
         return {
+            comerce: [],
             mobileDrawer: false,
             notificationDrawer: false,
             sellerItems: [
@@ -288,7 +289,7 @@ export default {
                     icon: "fas fa-cog",
                     url: "/configuraciones",
                     divider: false,
-                    rol: "superAdmin"
+                    rol: "admin"
                 },
                 {
                     title: "Mi Cuenta",
@@ -312,6 +313,8 @@ export default {
         if (this.token !== null) {
             this.getUser();
         }
+
+        this.getComercialConfig();
     },
     computed: {
         ...mapState("auth", ["rol", "token", "unconfigured"]),
@@ -356,6 +359,17 @@ export default {
                         console.log(error);
                     });
             }
+        },
+
+        getComercialConfig() {
+            axios
+                .get("/api/config/comercial")
+                .then(response => {
+                    this.comerce = response.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         },
 
         exit: async function() {

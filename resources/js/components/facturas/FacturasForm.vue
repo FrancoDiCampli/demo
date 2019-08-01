@@ -39,6 +39,10 @@
                         <v-text-field
                             @keyup="findCliente()"
                             v-model="form.cliente"
+                            :hint="clienteSearchTable ? '' : 'Escriba para buscar un cliente'"
+                            persistent-hint
+                            clearable
+                            clear-icon="fas fa-times"
                             :rules="[rules.required]"
                             label="Cliente"
                             box
@@ -131,7 +135,7 @@
             <!-- Facturas Productos -->
             <div>
                 <!-- Formulario -->
-                <v-form ref="formDetalles">
+                <v-form ref="formDetalles" @submit.prevent="fillDetalles()">
                     <v-layout justify-space-around wrap>
                         <v-flex xs12 px-3>
                             <!-- Input Buscar Productos -->
@@ -139,6 +143,11 @@
                                 @keyup="findProducto()"
                                 autofocus
                                 v-model="form.producto"
+                                :hint="ProductoSearchTable ? '' : 'Escriba para buscar un producto'"
+                                persistent-hint
+                                clearable
+                                ref="productos"
+                                clear-icon="fas fa-times"
                                 label="Producto"
                                 box
                             ></v-text-field>
@@ -195,10 +204,9 @@
                             <v-text-field
                                 type="number"
                                 v-model="cantidad"
-                                :disabled="form.producto_id ? false : true"
                                 :rules="[rules.maxStock]"
-                                @keyup.enter="fillDetalles()"
                                 label="Cantidad"
+                                ref="cantidad"
                                 box
                             ></v-text-field>
                         </v-flex>
@@ -212,6 +220,9 @@
                         <v-flex xs12 sm4 px-3>
                             <v-text-field v-model="subtotalProdcuto" label="Subtotal" disabled box></v-text-field>
                         </v-flex>
+                    </v-layout>
+                    <v-layout justify-center style="margin-top: -20px;">
+                        <v-btn type="submit" color="primary" flat>Agregar</v-btn>
                     </v-layout>
                 </v-form>
                 <!-- Tabla Detalles -->
@@ -540,13 +551,13 @@ export default {
             if (response.facturas.length > 0) {
                 this.numFactura = Number(response.facturas[0].numfactura) + 1;
             } else {
-                let response = await this.index({ url: "/api/configuracion" });
-                this.numFactura = response.numfactura;
+                let response = await this.index({ url: "/api/config" });
+                this.numFactura = response.numfactura + 1;
             }
         },
 
         getPoint: async function() {
-            let response = await this.index({ url: "/api/configuracion" });
+            let response = await this.index({ url: "/api/config" });
             this.point = response.puntoventa;
         },
 
@@ -586,7 +597,6 @@ export default {
         // Buscar los Clientes
         findCliente: async function() {
             this.detailClient = [];
-            this.clienteSearchTable = true;
             if (this.form.cliente == "0") {
                 // Establecer Cliente Como Consumidor Final
                 this.detallesCliente = [];
@@ -595,6 +605,7 @@ export default {
                 this.condicion = "CONTADO";
             } else if (this.form.cliente) {
                 // Buscar Cliente
+                this.clienteSearchTable = true;
                 let response = await this.index({
                     url: "/api/clientes",
                     buscarCliente: this.form.cliente,
@@ -613,7 +624,8 @@ export default {
             // Establecer la Razon Social y el Id del Cliente en el Formulario
             this.form.cliente = cliente.razonsocial;
             this.form.cliente_id = cliente.id;
-
+            // Focus en productos
+            this.$refs.productos.focus();
             // Establecer el Detalle de Clientes
             axios
                 .get("/api/clientes/" + cliente.id)
@@ -633,9 +645,9 @@ export default {
             this.cantidad = null;
             this.form.precio = null;
             this.stock = 0;
-            this.ProductoSearchTable = true;
             // Buscar Productos
             if (this.form.producto) {
+                this.ProductoSearchTable = true;
                 let response = await this.index({
                     url: "/api/articulos",
                     buscarArticulo: this.form.producto,
@@ -657,7 +669,8 @@ export default {
                 this.form.producto_id = producto.id;
                 this.form.producto = producto.articulo;
                 this.form.precio = producto.precio;
-
+                // focus en cantidad
+                this.$refs.cantidad.focus();
                 var find = this.detalles.find(
                     detalle => detalle.producto === producto.articulo
                 );
@@ -706,7 +719,9 @@ export default {
                     this.detalles.push(detalle);
                     this.form.detalle = this.detalles;
                 }
-
+                // Focus en productos
+                this.ProductoSearchTable = false;
+                this.$refs.productos.focus();
                 // Reiniciar el Formulario de Detalles
                 this.form.producto_id = null;
                 this.$refs.formDetalles.reset();

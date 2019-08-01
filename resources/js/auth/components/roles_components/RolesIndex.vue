@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="roles != null">
         <!-- Roles Table -->
         <v-data-table :headers="headers" hide-actions :items="data" expand item-key="id">
             <template v-slot:items="rol">
@@ -123,6 +123,7 @@ export default {
 
     data() {
         return {
+            roles: null,
             editRolesDialog: false,
             deleteRolesDialog: false,
             roleID: null,
@@ -151,14 +152,19 @@ export default {
     },
 
     mounted() {
-        this.index({ url: "/api/roles" });
+        this.getRoles();
     },
 
     methods: {
         ...mapActions("crudx", ["index", "edit", "update", "destroy"]),
 
+        getRoles: async function() {
+            let response = await this.index({ url: "/api/roles" });
+            this.roles = response;
+        },
+
         closeEdit: async function() {
-            await this.index({ url: "/api/roles" });
+            await this.getRoles();
             this.editRolesDialog = false;
         },
 
@@ -181,14 +187,14 @@ export default {
                 this.form.description = description;
                 await this.update({ url: "/api/roles/" + this.form.id });
                 this.$refs.roleForm.reset();
-                this.index({ url: "/api/roles" });
+                this.getRoles();
                 this.editRolesDialog = false;
             }
         },
 
         erase: async function() {
             await this.destroy({ url: "/api/roles/" + this.roleID });
-            this.index({ url: "/api/roles" });
+            this.getRoles();
             this.roleID = null;
             this.deleteRolesDialog = false;
         },

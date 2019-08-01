@@ -1,16 +1,22 @@
 <template>
     <div>
-        <v-btn
-            dark
-            fab
-            fixed
-            right
-            bottom
-            @click="createUsersDialog = !createUsersDialog"
-            color="primary"
-        >
-            <v-icon>fas fa-plus</v-icon>
-        </v-btn>
+        <v-tooltip left>
+            <template v-slot:activator="{ on }">
+                <v-btn
+                    dark
+                    fab
+                    fixed
+                    right
+                    bottom
+                    @click="createUsersDialog = !createUsersDialog"
+                    color="primary"
+                    v-on="on"
+                >
+                    <v-icon>fas fa-plus</v-icon>
+                </v-btn>
+            </template>
+            <span>Nuevo Usuario</span>
+        </v-tooltip>
 
         <v-dialog v-model="createUsersDialog" width="500" persistent>
             <v-card>

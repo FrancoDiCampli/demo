@@ -1,10 +1,23 @@
 <template>
     <div>
-        <!-- Boton para agregar un nuevo cliente -->
-        <v-btn dark fab fixed right bottom @click="$router.push('/proveedores/nuevo')" color="primary">
-            <v-icon>fas fa-plus</v-icon>
-        </v-btn>
-
+        <!-- Boton para agregar un nuevo proveedor -->
+        <v-tooltip left>
+            <template v-slot:activator="{ on }">
+                <v-btn
+                    dark
+                    fab
+                    fixed
+                    right
+                    bottom
+                    @click="$router.push('/proveedores/nuevo')"
+                    color="primary"
+                    v-on="on"
+                >
+                    <v-icon>fas fa-plus</v-icon>
+                </v-btn>
+            </template>
+            <span>Nuevo Proveedor</span>
+        </v-tooltip>
         <!-- Index Cliente -->
         <v-card>
             <v-card-text>

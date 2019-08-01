@@ -401,8 +401,7 @@ export default new Router({
                     },
                     {
                         role: "admin",
-                        access: false,
-                        redirect: "account"
+                        access: true,
                     },
                     {
                         role: "seller",

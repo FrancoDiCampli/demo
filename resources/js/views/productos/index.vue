@@ -1,23 +1,26 @@
 <template>
     <div>
         <!-- Boton para agregar un nuevo Producto -->
-        <v-tooltip left>
-            <template v-slot:activator="{ on }">
-                <v-btn
-                    dark
-                    fab
-                    fixed
-                    right
-                    bottom
-                    color="primary"
-                    @click="$router.push('/productos/nuevo')"
-                    v-on="on"
-                >
-                    <v-icon>fas fa-plus</v-icon>
-                </v-btn>
-            </template>
-            <span>Nuevo Producto</span>
-        </v-tooltip>
+        <div v-if="rol == 'superAdmin' || rol == 'admin'">
+            <v-tooltip left>
+                <template v-slot:activator="{ on }">
+                    <v-btn
+                        dark
+                        fab
+                        fixed
+                        right
+                        bottom
+                        color="primary"
+                        @click="$router.push('/productos/nuevo')"
+                        v-on="on"
+                    >
+                        <v-icon>fas fa-plus</v-icon>
+                    </v-btn>
+                </template>
+                <span>Nuevo Producto</span>
+            </v-tooltip>
+        </div>
+
         <!-- Index Productos -->
         <ProductosIndex></ProductosIndex>
     </div>
@@ -46,7 +49,8 @@ export default {
     },
 
     computed: {
-        ...mapState("crudx", ["inProcess"])
+        ...mapState("crudx", ["inProcess"]),
+        ...mapState("auth", ["rol"])
     },
 
     methods: {

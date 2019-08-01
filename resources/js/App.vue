@@ -4,7 +4,10 @@
 
         <!-- Navbar Inicial (Solo visible antes de iniciar sesión) -->
         <v-toolbar color="secondary" class="elevation-0" v-show="token == null">
-            <v-toolbar-title @click="$router.push('/')" style="cursor: pointer;">{{ comerce.nombre }}</v-toolbar-title>
+            <v-toolbar-title
+                @click="$router.push('/')"
+                style="cursor: pointer;"
+            >{{ comerce.nombre }}</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items>
                 <v-btn to="/login" flat v-show="token == null">Iniciar Sesión</v-btn>
@@ -254,14 +257,14 @@ export default {
                     icon: "fas fa-truck-moving",
                     url: "/proveedores",
                     divider: false,
-                    rol: "seller"
+                    rol: "admin"
                 },
                 {
                     title: "Compras",
                     icon: "fas fa-shopping-cart",
                     url: "/compras",
                     divider: false,
-                    rol: "seller"
+                    rol: "admin"
                 },
                 {
                     title: "Reportes",

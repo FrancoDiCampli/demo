@@ -1,5 +1,6 @@
 <template>
     <div v-if="ventas != null">
+        <!-- Grafico Ventas Fecha -->
         <v-card>
             <v-card-title @click="showVentasFechas = !showVentasFechas" style="cursor: pointer;">
                 <v-layout justify-center>
@@ -101,7 +102,7 @@
                     </v-layout>
                     <v-layout justify-space-around>
                         <v-flex xs12 px-3>
-                            <ve-line :data="ventas.ventasFechaChart"></ve-line>
+                            <ve-line :legend-visible="false" :data="ventas.ventasFechaChart"></ve-line>
                         </v-flex>
                     </v-layout>
                     <v-layout justify-space-around>
@@ -143,6 +144,7 @@
             </v-expand-transition>
         </v-card>
         <br />
+        <!-- Grafico Ventas Vendedores -->
         <v-card>
             <v-card-title
                 @click="showVentasVendedores = !showVentasVendedores"
@@ -161,11 +163,11 @@
             <v-divider></v-divider>
             <v-expand-transition>
                 <v-card-text v-show="showVentasVendedores">
-                    <v-layout justify-space-around>
-                        <v-flex xs12 sm5 lg6 px-3>
-                            <ve-pie :data="ventasVendedoresChart"></ve-pie>
+                    <v-layout justify-space-around wrap>
+                        <v-flex xs12 sm6 lg8 px-3>
+                            <ve-pie :legend-visible="false" :data="ventasVendedoresChart"></ve-pie>
                         </v-flex>
-                        <v-flex xs12 sm7 lg6 px-3>
+                        <v-flex xs12 sm6 lg4 px-3>
                             <v-data-table
                                 v-model="selectedVendedores"
                                 :headers="headersVendedores"
@@ -206,7 +208,6 @@
                                             ></v-checkbox>
                                         </td>
                                         <td>{{ vendedor.item.name }}</td>
-                                        <td>{{ vendedor.item.email }}</td>
                                     </tr>
                                 </template>
                             </v-data-table>
@@ -234,7 +235,77 @@
             <v-divider></v-divider>
             <v-expand-transition>
                 <v-card-text v-show="showVentasClientes">
-                    <ve-pie :data="ventas.ventasClientes"></ve-pie>
+                    <v-layout justify-space-around wrap>
+                        <v-flex xs12 sm6 px-3>
+                            <!-- Input Clientes -->
+                            <v-text-field
+                                @keyup="findCliente()"
+                                v-model="cliente"
+                                :hint="clienteSearchTable ? '' : 'Escriba para buscar un cliente'"
+                                persistent-hint
+                                clearable
+                                clear-icon="fas fa-times"
+                                label="Cliente"
+                                box
+                            ></v-text-field>
+                            <!-- Tabla Buscar Clientes -->
+                            <transition name="expand">
+                                <div v-show="clienteSearchTable">
+                                    <div v-if="inProcess" class="search-table">
+                                        <v-layout justify-center>
+                                            <v-flex xs12 pa-3>
+                                                <v-layout justify-center>
+                                                    <v-progress-circular
+                                                        indeterminate
+                                                        color="primary"
+                                                    ></v-progress-circular>
+                                                </v-layout>
+                                            </v-flex>
+                                        </v-layout>
+                                    </div>
+                                    <div v-else>
+                                        <v-data-table
+                                            no-data-text="El cliente no se encuentra en la base de datos."
+                                            hide-actions
+                                            hide-headers
+                                            :items="clientes"
+                                            class="search-table"
+                                        >
+                                            <template v-slot:items="cliente">
+                                                <tr
+                                                    @click="fillClientes(cliente.item)"
+                                                    style="cursor: pointer;"
+                                                >
+                                                    <td>{{ cliente.item.documentounico }}</td>
+                                                    <td>{{ cliente.item.razonsocial }}</td>
+                                                </tr>
+                                            </template>
+                                        </v-data-table>
+                                    </div>
+                                </div>
+                            </transition>
+                            <br />
+                            <v-data-table :items="clientesCompareTable" hide-actions hide-headers>
+                                <template v-slot:items="cliente">
+                                    <td>{{ cliente.item }}</td>
+                                    <td>
+                                        <v-btn
+                                            @click="removeCliente(cliente.item)"
+                                            :disabled="cliente.item == 'CONSUMIDOR FINAL'"
+                                            flat
+                                            icon
+                                            color="primary"
+                                        >
+                                            <v-icon size="medium">fas fa-times</v-icon>
+                                        </v-btn>
+                                    </td>
+                                </template>
+                            </v-data-table>
+                        </v-flex>
+                        <v-flex xs12 sm6 px-3>
+                            <ve-pie :legend-visible="false" :data="ventasClientesChart"></ve-pie>
+                        </v-flex>
+                    </v-layout>
                 </v-card-text>
             </v-expand-transition>
         </v-card>
@@ -257,33 +328,9 @@
             <v-divider></v-divider>
             <v-expand-transition>
                 <v-card-text v-show="showVentasCondiciones">
-                    <v-layout justify-space-around>
-                        <v-flex xs12 sm7 lg6 px-3>
-                            <ve-pie :data="ventasCondicionesChart"></ve-pie>
-                        </v-flex>
-
-                        <v-flex xs12 sm5 lg6 px-3>
-                            <v-data-table
-                                :items="ventas.condiciones"
-                                select-all
-                                item-key="condicion"
-                                hide-actions
-                                hide-headers
-                            >
-                                <template v-slot:items="condicion">
-                                    <tr :active="condicion.selected" @click="setCondiciones()">
-                                        <td>
-                                            <v-checkbox
-                                                :input-value="condicion.selected"
-                                                primary
-                                                hide-details
-                                                color="primary"
-                                            ></v-checkbox>
-                                        </td>
-                                        <td>{{ condicion.item }}</td>
-                                    </tr>
-                                </template>
-                            </v-data-table>
+                    <v-layout justify-center>
+                        <v-flex xs12>
+                            <ve-pie :legend-visible="false" :data="ventasCondicionesChart"></ve-pie>
                         </v-flex>
                     </v-layout>
                 </v-card-text>
@@ -301,34 +348,48 @@ export default {
 
     data() {
         return {
+            // Data General
             ventas: null,
+            ventasLimit: 5,
+
+            // Data Ventas Fecha
+            showVentasFechas: true,
             modalVentasDesde: false,
             modalVentasHasta: false,
             fechaVentasDesde: null,
             fechaVentasHasta: null,
-            ventasLimit: 5,
-            selectedVendedores: [],
             headersFacturasFecha: [
                 { text: "Tipo", sortable: false, class: "hidden-xs-only" },
                 { text: "Nº Factura", sortable: false },
                 { text: "Importe", sortable: false }
             ],
-            headersVendedores: [
-                { text: "Nombre", sortable: false },
-                { text: "Email", sortable: false }
-            ],
+
+            // Data Ventas Vendedores
+            showVentasVendedores: true,
+            selectedVendedores: [],
+            headersVendedores: [{ text: "Vendedor", sortable: false }],
             ventasVendedoresChart: {
                 columns: ["vendedor", "totalVendido"],
                 rows: []
             },
+
+            // Data Ventas Clientes
+            showVentasClientes: true,
+            cliente: null,
+            clientes: [],
+            clientesCompareTable: ["CONSUMIDOR FINAL"],
+            clienteSearchTable: false,
+            ventasClientesChart: {
+                columns: ["cliente", "totalComprado"],
+                rows: []
+            },
+
+            // Data Ventas Condiciones
+            showVentasCondiciones: true,
             ventasCondicionesChart: {
                 columns: ["condicion", "totalVendido"],
                 rows: []
-            },
-            showVentasFechas: true,
-            showVentasVendedores: true,
-            showVentasCondiciones: true,
-            showVentasClientes: true
+            }
         };
     },
 
@@ -343,6 +404,7 @@ export default {
     methods: {
         ...mapActions("crudx", ["index"]),
 
+        // Metodos Generales
         getVentas: async function() {
             let response = await this.index({
                 url: "/api/estadisticas/ventas",
@@ -363,6 +425,7 @@ export default {
             console.log(this.ventas);
 
             this.toggleAllVendedores();
+            this.compareClientes();
             this.setCondiciones();
         },
 
@@ -385,6 +448,7 @@ export default {
             }
         },
 
+        // Metodos Vendedores
         toggleAllVendedores() {
             if (this.selectedVendedores.length) {
                 this.selectedVendedores = [];
@@ -406,6 +470,49 @@ export default {
             }
         },
 
+        // Metodos Clientes
+        findCliente: async function() {
+            if (this.cliente) {
+                // Buscar Cliente
+                this.clienteSearchTable = true;
+                let response = await this.index({
+                    url: "/api/clientes",
+                    buscarCliente: this.cliente,
+                    limit: 5
+                });
+                this.clientes = response.clientes;
+            }
+        },
+
+        fillClientes(client) {
+            let cliente = client.razonsocial;
+            this.clientesCompareTable.push(cliente);
+            this.cliente = null;
+            this.clientes = [];
+            this.clienteSearchTable = false;
+            this.compareClientes();
+        },
+
+        removeCliente(cliente) {
+            let index = this.clientesCompareTable.indexOf(cliente);
+            this.clientesCompareTable.splice(index, 1);
+            this.compareClientes();
+        },
+
+        compareClientes() {
+            this.ventasClientesChart.rows = [];
+            for (let i = 0; i < this.clientesCompareTable.length; i++) {
+                let find = this.ventas.ventasClientes.rows.find(
+                    cliente => cliente.cliente === this.clientesCompareTable[i]
+                );
+
+                if (find) {
+                    this.ventasClientesChart.rows.push(find);
+                }
+            }
+        },
+
+        // Metodos Condiciones
         setCondiciones() {
             this.ventasCondicionesChart.rows = [];
 

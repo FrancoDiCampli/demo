@@ -26,7 +26,7 @@ class UsersMyController extends Controller
         if ($rol == 1) {
             return User::all();
         } else {
-            return User::where('id', '<>', 1)->get();
+            return User::where('role_id', '<>', 1)->get();
         }
     }
 

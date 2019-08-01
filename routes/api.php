@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-Route::middleware('auth:api')->group(function () {
+Route::middleware('auth:api', 'throttle:7000,1')->group(function () {
 
     /*Auth*/
     Route::get('/user', 'AuthController@user');

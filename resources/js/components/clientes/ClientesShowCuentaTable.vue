@@ -13,6 +13,7 @@
             </v-layout>
             <v-tab>Activas</v-tab>
             <v-tab>Todas</v-tab>
+            <v-tab>Recibos</v-tab>
             <v-tab-item>
                 <v-card flat>
                     <v-card-text>
@@ -154,28 +155,6 @@
                                                 @click="cuenta.expanded = !cuenta.expanded"
                                                 style="cursor: pointer;"
                                             >{{ cuenta.item.estado }}</td>
-                                            <td>
-                                                <v-menu
-                                                    :disabled="cuenta.item.movimientos.length <= 1"
-                                                >
-                                                    <template v-slot:activator="{ on }">
-                                                        <v-btn
-                                                            flat
-                                                            icon
-                                                            dark
-                                                            :color="cuenta.item.movimientos.length <= 1 ? 'grey' : 'primary'"
-                                                            v-on="on"
-                                                        >
-                                                            <v-icon size="medium">fas fa-ellipsis-v</v-icon>
-                                                        </v-btn>
-                                                    </template>
-                                                    <v-list>
-                                                        <v-list-tile>
-                                                            <v-list-tile-title>Imprimir Recibo</v-list-tile-title>
-                                                        </v-list-tile>
-                                                    </v-list>
-                                                </v-menu>
-                                            </td>
                                         </tr>
                                     </template>
                                     <template v-slot:expand="cuenta">
@@ -217,6 +196,60 @@
                                                 </v-list>
                                             </v-card-text>
                                         </v-card>
+                                    </template>
+                                </v-data-table>
+                            </v-flex>
+                        </v-layout>
+                    </v-card-text>
+                </v-card>
+            </v-tab-item>
+            <v-tab-item>
+                <v-card flat>
+                    <v-card-text>
+                        <v-layout justify-space-between>
+                            <v-flex v-show="showData.recibos.length > 0">
+                                <v-data-table
+                                    :expand="false"
+                                    item-key="id"
+                                    hide-actions
+                                    :items="showData.recibos"
+                                >
+                                    <template v-slot:headers="props">
+                                        <tr>
+                                            <th>Nº Recibo</th>
+                                            <th>Fecha</th>
+                                            <th>Importe</th>
+                                            <th></th>
+                                        </tr>
+                                    </template>
+                                    <template v-slot:items="recibo">
+                                        <tr>
+                                            <td>{{recibo.item.numrecibo}}</td>
+                                            <td>{{recibo.item.fecha}}</td>
+                                            <td>{{recibo.item.total}}</td>
+                                            <td>
+                                                <v-menu>
+                                                    <template v-slot:activator="{ on }">
+                                                        <v-btn
+                                                            flat
+                                                            icon
+                                                            dark
+                                                            color="primary"
+                                                            v-on="on"
+                                                        >
+                                                            <v-icon size="medium">fas fa-ellipsis-v</v-icon>
+                                                        </v-btn>
+                                                    </template>
+                                                    <v-list>
+                                                        <v-list-tile
+                                                            @click="StreamrecibosPDF(recibo.item.id)"
+                                                        >
+                                                            <v-list-tile-title>Imprimir</v-list-tile-title>
+                                                        </v-list-tile>
+                                                    </v-list>
+                                                </v-menu>
+                                            </td>
+                                        </tr>
                                     </template>
                                 </v-data-table>
                             </v-flex>
@@ -284,8 +317,7 @@ export default {
                     sortable: false,
                     class: "hidden-sm-and-down"
                 },
-                { text: "Estado", sortable: false },
-                { text: "", sortable: false }
+                { text: "Estado", sortable: false }
             ],
             selected: [],
             state: true,
@@ -389,6 +421,10 @@ export default {
             });
         },
 
+        StreamrecibosPDF(id) {
+            window.open("/api/recibosPDF/" + id);
+        },
+
         pagarCuentas: async function() {
             if (this.selected.length > 0) {
                 this.loadingButton = true;
@@ -402,6 +438,7 @@ export default {
                 this.loadingButton = false;
                 this.pagarCuentasDialog = false;
                 this.snackbar = true;
+                this.pagoTotal = null;
             }
         }
     }

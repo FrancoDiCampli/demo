@@ -19,7 +19,7 @@ class PdfController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     public function facturasPDF($id)
@@ -54,6 +54,8 @@ class PdfController extends Controller
         $presupuesto = Presupuesto::find($id);
         $fecha = new Carbon($presupuesto->fecha);
         $presupuesto->fecha = $fecha->format('d-m-Y');
+        $vencimiento = new Carbon($presupuesto->vencimiento);
+        $presupuesto->vencimiento = $vencimiento->format('d-m-Y');
         $cliente = Cliente::find($presupuesto->cliente_id);
         $detalles = DB::table('articulo_presupuesto')->where('presupuesto_id', $presupuesto->id)->get();
         $pdf = app('dompdf.wrapper')->loadView('presupuestosPDF', compact('configuracion', 'presupuesto', 'detalles', 'cliente'))->setPaper('A4');
@@ -83,7 +85,11 @@ class PdfController extends Controller
         $cliente = Cliente::find($factura->cliente_id);
         // $pagos = DB::table('pago_recibo')->where('recibo_id', $recibo->id)->get();
         $pagos = $recibo->pagos;
-        $pdf = app('dompdf.wrapper')->loadView('recibosPDF', compact('configuracion', 'recibo', 'pagos', 'cuenta', 'cliente'))->setPaper('A5');
-        return $pdf->download();
+        foreach ($pagos as $pay) {
+            $fecha = new Carbon($pay->fecha);
+            $pay->fecha = $fecha->format('d-m-Y');
+        }
+        $pdf = app('dompdf.wrapper')->loadView('recibosPDF', compact('configuracion', 'recibo', 'pagos', 'cuenta', 'cliente'))->setPaper('A4');
+        return $pdf->stream();
     }
 }

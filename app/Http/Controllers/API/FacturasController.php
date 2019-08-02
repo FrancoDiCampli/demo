@@ -33,10 +33,21 @@ class FacturasController extends Controller
             $fecha = new Carbon($factura->fecha);
             $factura->fecha = $fecha->format('d-m-Y');
         }
-        return [
-            'facturas' => $facturas->take($request->get('limit', null)),
-            'total' => $facturas->count()
-        ];
+        $eliminadas = Factura::onlyTrashed()->get();
+
+        if ($facturas->count() <= $request->get('limit')) {
+            return [
+                'facturas' => $facturas,
+                'total' => $facturas->count(),
+                'eliminadas' => $eliminadas
+            ];
+        } else {
+            return [
+                'facturas' => $facturas->take($request->get('limit', null)),
+                'total' => $facturas->count(),
+                'eliminadas' => $eliminadas
+            ];
+        }
     }
     public function store(Request $request)
     {

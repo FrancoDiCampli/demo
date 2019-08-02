@@ -784,12 +784,8 @@ export default {
                 articulo_id: this.form.producto_id
             });
             if (response.length > 0) {
-                if (response[0].supplier) {
-                    if (this.form.supplier_id != response[0].supplier.id) {
-                        this.proveedorDistinto = true;
-                    } else {
-                        this.proveedorDistinto = false;
-                    }
+                if (this.form.supplier_id != response[0].supplier.id) {
+                    this.proveedorDistinto = true;
                 } else {
                     this.proveedorDistinto = false;
                 }
@@ -889,7 +885,6 @@ export default {
         //Guardar Compra
         saveCompra: async function() {
             if (this.$refs.formCompra.validate()) {
-                //Descomentar para Guardar
                 //Guardar Compras
                 let resID = await this.save({ url: "/api/remitos" });
                 //Imprimir PDF de Compras

@@ -7,6 +7,11 @@ class SuppliersTableSeeder extends Seeder
 {
     public function run()
     {
-        factory(Supplier::class, 10)->create();
+        Supplier::create([
+            'razonsocial' => 'CONSUMIDOR FINAL',
+            'cuit' => 00000000000,
+            'direccion' => 'N/D',
+            'telefono' => 'N/D',
+        ]);
     }
 }

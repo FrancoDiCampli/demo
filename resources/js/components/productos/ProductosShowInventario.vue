@@ -64,6 +64,7 @@
                                         v-model="form.cantidad"
                                         label="Cantidad"
                                         box
+                                        type="number"
                                         :rules="
                                             movimiento == 'ALTA' || movimiento == 'INCREMENTO' || movimiento == 'MODIFICACION' ? 
                                             [rules.required] : 
@@ -86,7 +87,6 @@
                                             <v-text-field
                                                 v-model="form.vencimiento"
                                                 label="Fecha de Vencimiento"
-                                                :disabled="disabledInputs"
                                                 :rules="[rules.required]"
                                                 box
                                                 readonly
@@ -119,6 +119,7 @@
                                     <v-text-field
                                         @keyup="findSuppliers()"
                                         v-model="form.supplier"
+                                        :rules="[rules.required]"
                                         :disabled="disabledInputs"
                                         label="Proveedor"
                                         box
@@ -366,13 +367,8 @@ export default {
             if (response.length > 0) {
                 this.cantidadMaxima = response[0].cantidad;
                 this.form.vencimiento = response[0].vencimiento;
-                if (response[0].supplier) {
-                    this.form.supplier_id = response[0].supplier.id;
-                    this.form.supplier = response[0].supplier.razonsocial;
-                } else {
-                    this.form.supplier_id = null;
-                    this.form.supplier = null;
-                }
+                this.form.supplier_id = response[0].supplier.id;
+                this.form.supplier = response[0].supplier.razonsocial;
             } else {
                 this.cantidadMaxima = 999999999;
                 this.form.vencimiento = null;

@@ -106,7 +106,7 @@
                         </v-flex>
                     </v-layout>
                     <br />
-                    <ProductosForm mode="create"></ProductosForm>
+                    <ProductosForm mode="create" :disabledProveedor="false"></ProductosForm>
                     <v-layout justify-center>
                         <v-btn :disabled="process" type="submit" color="primary">Guardar</v-btn>
                     </v-layout>

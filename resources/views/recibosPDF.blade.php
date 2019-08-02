@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Recibo</title>
     <style>
         body {
             font-family: 'Calibri', sans-serif;
@@ -13,6 +12,14 @@
 
         h1 {
             font-size: 30px;
+        }
+
+        h2 {
+            font-size: 25px;
+        }
+
+        h3 {
+            font-size: 20px;
         }
 
         h4 {
@@ -23,8 +30,38 @@
             text-align: center;
         }
 
-        .header p {
+        table {
+            display: table;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        tr {
+            display: table-row;
+        }
+
+        td {
+            display: table-column;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+
+        th {
+            text-align: center;
             font-size: 10px;
+            padding: 2px;
+            background-color: #aaaaaa;
+        }
+
+        tr.body th {
+            text-align: center;
+            font-size: 10px;
+            padding: 2px;
+            background-color: #ffffff;
         }
 
         .container {
@@ -32,89 +69,116 @@
             padding: 0;
         }
 
-        .header {
-            border: solid 1px black;
-            border-radius: 10px;
+        .pre-header {
             width: 100%;
-            height: 35mm;
+            height: 10mm;
+            border: 1px solid black;
+            text-align: center;
+            line-height: 10px;
+        }
+
+        .header {
+            width: 100%;
+            height: 45mm;
             display: block;
         }
 
         .header-left {
             width: 50%;
-            text-align: center;
-            line-height: 4px;
+            height: 45mm;
+            border: solid 1px black;
+            border-top: none;
+            border-right: none;
             float: left;
-        }
-
-        .header-middle {
-            width: 10%;
-            height: 15mm;
-            border: 1px solid black;
-            border-radius: 5px;
-            background-color: white;
-            position: absolute;
-            margin-left: 45%;
-            margin-top: 30mm;
-        }
-
-        .header-middle .type {
-            position: absolute;
-            margin-left: 3.5mm;
-            margin-top: 3mm;
-        }
-
-        .header-right {
-            width: 40%;
-            border: solid 2px black;
-            text-align: center;
-            float: right;
-            margin: -12px 10px 0px 10px;
-        }
-
-        .title {
-            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-            margin-top: -2px;
-        }
-
-        .teacher {
-            font-style: italic;
             margin-top: -20px;
         }
 
-        .date {
-            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-            margin-top: -5px;
+        .header-left p {
+            line-height: 5px;
+            font-size: 12px;
+            margin-left: 20px;
         }
 
-        .condition {
-            line-height: 2mm;
-            margin-top: 25px;
+        .header-left h2 {
+            margin-bottom: 40px;
         }
 
-        .body {
+        .header-right {
+            width: 50%;
+            height: 45mm;
+            border: solid 1px black;
+            border-left: none;
+            border-top: none;
+            float: right;
+            margin-top: -20px;
+        }
+
+        .header-right p {
+            line-height: 5px;
+            font-size: 12px;
+            text-align: right;
+            margin-right: 20px;
+        }
+
+        .header-middle {
+            width: 70px;
+            height: 70px;
+            border: 1px solid black;
+            background-color: white;
+            border-top: none;
+            position: absolute;
+            margin-left: 45%;
+            text-align: center;
+            line-height: 5px;
+        }
+
+        .header-middle h1 {
+            font-size: 45px;
+            margin-top: 45px;
+        }
+
+        .type {
+            margin: 0;
+        }
+
+        .v-divider {
+            width: 0px;
+            height: 100px;
+            border: 1px solid black;
+            position: absolute;
+            margin-left: 50%;
+            margin-top: 70px;
+        }
+
+        .pre-body {
             width: 100%;
-            height: 90mm;
-            padding: 2mm;
+            height: 45mm;
+            border: solid 1px black;
+            border-top: none;
+            margin-top: -40px;
+        }
+
+        .pre-body p {
+            line-height: 8px;
+            margin-left: 20px;
         }
 
         .footer {
+            position: absolute;
+            bottom: 0;
+        }
+
+        .footer .details {
             border: solid 1px black;
             width: 100%;
-            height: 30mm;
-            padding: 2mm;
+            line-height: 8px;
+            padding-top: 15px;
+            padding-right: 15px;
+            text-align: right;
         }
 
-        .footer-left {
-            width: 30%;
-            line-height: 25px;
-            float: left;
-        }
-
-        .footer-right {
-            width: 70%;
-            line-height: 25px;
-            float: right;
+        .page-break {
+            page-break-after: always;
         }
     </style>
 </head>
@@ -122,112 +186,68 @@
 <body>
 
     <div class="container">
+        <div class="pre-header">
+            <h2><b>ORIGINAL</b></h2>
+        </div>
         <div class="header">
             <br>
-            <div class="header-left">
-                <h1><b>{{$configuracion->nombrefantasia}}</b></h1>
-                <h4>{{$configuracion->tagline}}</h4>
-                <p>{{$configuracion->domiciliocomercial}}</p>
-                <p>CEL: {{$configuracion->telefono}}</p>
-                <p>{{$configuracion->codigopostal}} {{$configuracion->localidad}} - {{$configuracion->provincia}}</p>
-            </div>
             <div class="header-middle">
-                <h1 class="type">X</h1>
+                <div class="type">
+                    <h1><b>X</b></h1>
+                </div>
             </div>
+            <div class="header-left">
+                <h2 class="center">{{$configuracion->nombrefantasia}}</h2>
+                <p><b>Razón Social: </b>{{$configuracion->razonsocial}}</p>
+                <p><b>Domicilio Comercial: </b>{{$configuracion->domiciliocomercial}}</p>
+                <p><b>Condición Frente al IVA: </b>{{$configuracion->condicioniva}}</p>
+            </div>
+            <div class="v-divider"></div>
             <div class="header-right">
-                <h1 class="condition"><b>Recibo</b></h1>
-                <h2 class="title">Nº. 000{{$recibo->numrecibo}}</h2>
-                <h5 class="date">Fecha: {{$recibo->fecha}}</h5>
+                <h2 class="center">RECIBO</h2>
+                <p><b>Punto de Venta: </b>0000{{$configuracion->puntoventa}}<b> Comprobante Nº: </b>{{$recibo->numrecibo}}</p>
+                <p><b>Fecha de Emisión: </b>{{$recibo->fecha}}</p>
+                <p><b>Cuit: </b>{{$configuracion->cuit}}</p>
+                <p><b>Ingresos Brutos: </b>{{$configuracion->cuit}}</p>
+                <p><b>Inicio de Actividades: </b>{{$configuracion->inicioactividades}}</p>
             </div>
         </div>
         <br><br>
-        <div class="body">
-            <hr>
-            <p><b>Cliente: </b>{{$cliente->razonsocial}}</p>
-            <hr>
+        <div class="pre-body">
+            <br>
+            <p><b>CUIT: </b>{{$cliente->documentounico}}</p>
+            <p><b>Razón Social: </b>{{$cliente->razonsocial}}</p>
+            <p><b>Condición Frente al IVA: </b>{{$cliente->condicioniva}}</p>
             <p><b>Domicilio: </b>{{$cliente->direccion}}</p>
-            <hr>
-            <p><b>Recibimos la suma de: </b>$ {{$recibo->total}}</p>
-
-            <p><b>En Concepto de:
-                    <br>
-                    @foreach($pagos as $pago)
-                </b>Pago Cuenta Nº. {{$pago->ctacte_id}} - Importe: $ {{$pago->importe}}</p>
-            @if($cuenta->saldo == 0)
-            <p><b>CUENTA CANCELADA</b></p>
-            @else
-            <p><b>SALDO Cuenta Nº. {{$pago->ctacte_id}} : $ {{$pago->ctacte->saldo}}</b></p>
-            @endif
-            @endforeach
-
-
-
+        </div>
+        <br>
+        <div class="body">
+            <table>
+                <tr>
+                    <th>Pago Nº</th>
+                    <th>Importe</th>
+                    <th>Fecha</th>
+                    <th>Nº Cuenta Corriente</th>
+                </tr>
+                @foreach($pagos as $pago)
+                <tr class="body">
+                    <th>{{$pago->numpago}}</th>
+                    <th>{{$pago->importe}}</th>
+                    <th>{{$pago->fecha}}</th>
+                    <th>{{$pago->ctacte_id}}</th>
+                </tr>
+                @endforeach
+            </table>
         </div>
         <br>
         <div class="footer">
-            <div class="footer-left">
-                <p><b>SON: </b>$ {{$recibo->total}}</p>
-            </div>
-            <div class="footer-right">
-                <p><b>Firma: </b>...........................................................</p>
-                <p><b>Aclaración: </b>..................................................</p>
+            <div class="details">
+                <p><b>Total: </b>${{$recibo->total}}</p>
             </div>
         </div>
     </div>
 
-    <div class="container">
-        <div class="header">
-            <br>
-            <div class="header-left">
-                <h1><b>{{$configuracion->nombrefantasia}}</b></h1>
-                <h4>{{$configuracion->tagline}}</h4>
-                <p>{{$configuracion->domiciliocomercial}}</p>
-                <p>CEL: {{$configuracion->telefono}}</p>
-                <p>{{$configuracion->codigopostal}} {{$configuracion->localidad}} - {{$configuracion->provincia}}</p>
-            </div>
-            <div class="header-middle">
-                <h1 class="type">X</h1>
-            </div>
-            <div class="header-right">
-                <h1 class="condition"><b>Recibo</b></h1>
-                <h2 class="title">Nº. 000{{$recibo->numrecibo}}</h2>
-                <h5 class="date">Fecha: {{$recibo->fecha}}</h5>
-            </div>
-        </div>
-        <br><br>
-        <div class="body">
-            <p class="center"><b>Duplicado</b></p>
-            <hr>
-            <p><b>Cliente: </b>{{$cliente->razonsocial}}</p>
-            <hr>
-            <p><b>Domicilio: </b>{{$cliente->direccion}}</p>
-            <hr>
-            <p><b>Recibimos la suma de: </b>$ {{$recibo->total}}</p>
-
-            <p><b>En Concepto de:
-                    <br>
-                    @foreach($pagos as $pago)
-                </b>Pago Cuenta Nº. {{$pago->ctacte_id}} - Importe: $ {{$pago->importe}}</p>
-            @if($cuenta->saldo == 0)
-            <p><b>CUENTA CANCELADA</b></p>
-            @else
-            <p><b>SALDO Cuenta Nº. {{$pago->ctacte_id}} : $ {{$pago->ctacte->saldo}}</b></p>
-            @endif
-            @endforeach
-
-        </div>
-        <br>
-        <div class="footer">
-            <div class="footer-left">
-                <p><b>SON: </b>$ {{$recibo->total}}</p>
-            </div>
-            <div class="footer-right">
-                <p><b>Firma: </b>...........................................................</p>
-                <p><b>Aclaración: </b>..................................................</p>
-            </div>
-        </div>
-    </div>
-
+    <div class="page-break"></div>
 </body>
 
 </html>

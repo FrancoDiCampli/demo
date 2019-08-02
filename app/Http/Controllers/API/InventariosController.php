@@ -52,6 +52,7 @@ class InventariosController extends Controller
                 $actualizar->cantidad = $actualizar->cantidad - $data['cantidad'];
                 $mov->tipo = $request['movimiento'];
             }
+            $actualizar->vencimiento = $request->get('vencimiento');
             $actualizar->save();
             $mov->inventario_id = $actualizar->id;
         } else {

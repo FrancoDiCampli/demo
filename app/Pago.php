@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pago extends Model
 {
-    protected $fillable = ['ctacte_id','numpago','importe','fecha'];
+    protected $fillable = ['ctacte_id', 'numpago', 'importe', 'fecha'];
 
     public function ctacte()
     {
         return $this->belongsTo('App\Cuentacorriente', 'ctacte_id');
     }
 
-    public function recibos()
+    public function recibo()
     {
         return $this->belongsToMany('App\Recibo');
     }

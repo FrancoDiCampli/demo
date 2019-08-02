@@ -31,10 +31,18 @@ class PresupuestosController extends Controller
             $fecha = new Carbon($presupuesto->fecha);
             $presupuesto->fecha = $fecha->format('d-m-Y');
         }
-        return [
-            'presupuestos' => $presupuestos->take($request->get('limit', null)),
-            'total' => $presupuestos->count()
-        ];
+
+        if ($presupuestos->count() <= $request->get('limit')) {
+            return [
+                'presupuestos' => $presupuestos,
+                'total' => $presupuestos->count(),
+            ];
+        } else {
+            return [
+                'presupuestos' => $presupuestos->take($request->get('limit', null)),
+                'total' => $presupuestos->count(),
+            ];
+        }
     }
 
     public function store(Request $request)

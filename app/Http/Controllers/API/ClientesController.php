@@ -93,6 +93,7 @@ class ClientesController extends Controller
         }
 
         // CUENTAS CORRIENTES DEL CLIENTE Y MOVIMIENTOS DE LAS MISMAS
+        $auxRecibos = collect();
         if (count($cuentas) > 0) {
             for ($i = 0; $i < count($cuentas); $i++) {
                 $cuentas[$i]['numfactura'] = $cuentas[$i]->factura['numfactura'];
@@ -102,16 +103,32 @@ class ClientesController extends Controller
                 $cuentas[$i]['ultimopago'] = $ultimo->format('d-m-Y');
                 $cuentas[$i]['movimientos'] = $cuentas[$i]->movimientos;
                 $aux = $cuentas[$i]->movimientos;
+
                 $cuentas[$i]['movimientos'];
                 foreach ($cuentas[$i]['movimientos'] as $aux) {
                     $fechamov = new Carbon($aux->fecha);
                     $aux->fecha = $fechamov->format('d-m-Y');
                 }
+                $pagos = $cuentas[$i]->pagos;
+                // $recibos = [];
+                foreach ($pagos as $pago) {
+                    $auxRecibos->push($pago->recibo);
+                }
+                // array_collapse($recibos);
+                // $cuentas[$i]['recibos'] = $recibos;
+
                 unset($aux);
             }
         }
+        $recibosCol = collect();
+        foreach ($auxRecibos as $rec) {
+            $fecha = new Carbon($rec[0]->fecha);
+            $rec[0]->fecha = $fecha->format('d-m-Y');
+            $recibosCol->push($rec[0]);
+        }
+        $recibos = $recibosCol->keyBy('id')->values();
 
-        return compact('cliente', 'facturas', 'cuentas');
+        return compact('cliente', 'facturas', 'cuentas', 'recibos');
     }
 
     public function update(UpdateCliente $request, $id)

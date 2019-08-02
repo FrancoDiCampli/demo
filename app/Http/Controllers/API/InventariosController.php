@@ -41,19 +41,6 @@ class InventariosController extends Controller
         $actualizar = Inventario::where('lote', $data['lote'])->where('articulo_id', $data['articulo_id'])->get()->first();
         $articulo = Articulo::find($data['articulo_id']);
 
-        if (
-            $articulo->costo <> $request['costo'] * 1 ||
-            $articulo->utilidades <> $request['utilidades'] * 1 ||
-            $articulo->alicuota <> $request['alicuota'] * 1 ||
-            $articulo->precio <> $request['precio'] * 1
-        ) {
-            $articulo->costo = $request['costo'] * 1;
-            $articulo->utilidades = $request['utilidades'] * 1;
-            $articulo->alicuota = $request['alicuota'] * 1;
-            $articulo->precio = $request['precio'] * 1;
-            $articulo->save();
-        }
-
         if ($actualizar) {
             if ($request['movimiento'] == 'INCREMENTO') {
                 $actualizar->cantidad = $actualizar->cantidad + $data['cantidad'];

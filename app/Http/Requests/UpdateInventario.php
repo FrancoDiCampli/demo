@@ -28,7 +28,7 @@ class UpdateInventario extends FormRequest
             'lote' => 'min:1',
             'vencimiento' => 'date|date_format:Y-m-d',
             'articulo_id' => 'required',
-            'supplier_id' => 'required'
+            'supplier_id' => 'nullable'
         ];
     }
 }

@@ -110,7 +110,6 @@
                                         @keyup="findSuppliers()"
                                         v-model="form.supplier"
                                         :disabled="disabledInputs"
-                                        :rules="[rules.required]"
                                         label="Proveedor"
                                         box
                                     ></v-text-field>
@@ -181,7 +180,9 @@
                     <td>{{ inventario.item.cantidad }}</td>
                     <td>{{ inventario.item.lote }}</td>
                     <td class="hidden-xs-only">{{ inventario.item.vencimiento }}</td>
-                    <td>{{ inventario.item.proveedor.razonsocial }}</td>
+                    <td
+                        v-if="inventario.item.proveedor != null"
+                    >{{ inventario.item.proveedor.razonsocial }}</td>
                 </template>
             </v-data-table>
         </div>

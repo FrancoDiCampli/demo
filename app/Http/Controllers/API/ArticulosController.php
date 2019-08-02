@@ -132,7 +132,11 @@ class ArticulosController extends Controller
         $lotes = $this->lotes($id);
         foreach ($inventarios as $inventario) {
             $inv = collect($inventario);
-            $inv->put('proveedor', $inventario->proveedor);
+            if ($inventario->proveedor) {
+                $inv->put('proveedor', $inventario->proveedor);
+            } else {
+                $inv->put('proveedor', null);
+            }
         }
         return ['articulo' => $articulo, 'stock' => $stock, 'inventarios' => $inventarios, 'lotes' => $lotes, 'marca' => $marca, 'categoria' => $categoria];
     }

@@ -106,7 +106,7 @@ class NotificationsController extends Controller
                     'type' => 'cliente',
                     'icon' => 'fas fa-user-clock',
                     'item' => 'El cliente ' . $cliente->razonsocial,
-                    'msg' => 'No ha cumplido con el pago a su vencimiento',
+                    'msg' => 'No ha cumplido con el pago',
                     'color' => 'error',
                     'url' => '/clientes/show/' . $cliente->id
                 ]);

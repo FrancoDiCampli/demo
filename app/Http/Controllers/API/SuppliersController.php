@@ -56,7 +56,7 @@ class SuppliersController extends Controller
             'razonsocial' => 'required|min:1|max:190|unique:suppliers,razonsocial,' . $supplier->id,
             'cuit' => 'required|min:11|max:11|unique:suppliers,cuit,' . $supplier->id,
             'direccion' => 'required|min:1|max:190',
-            'telefono' => 'required|min:8|max:13'
+            'telefono' => 'required|min:6|max:13'
         ]);
 
         $data['razonsocial'] = ucwords($data['razonsocial']);

@@ -232,7 +232,7 @@ class FacturasController extends Controller
                 'MonCotiz'         => 1, // Cotización de la moneda usada (1 para pesos argentinos)
             );
             $cuituser = Inicialsetting::all()->first()->cuit;
-            $afip = new Afip(array('CUIT' => $cuituser, 'production' => true));
+            $afip = new Afip(array('CUIT' => $cuituser, 'production' => false));
             $res = $afip->ElectronicBilling->CreateNextVoucher($data);
             $fec = str_replace('-', '', $res['CAEFchVto']);
             $nroCodBar = $cuituser . $atributos['codcomprobante'] . '0000' . $atributos['puntoventa'] . $res['CAE'] . $fec;

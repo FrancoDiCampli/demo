@@ -304,8 +304,12 @@ export default {
                 url: "/api/articulos",
                 limit: 1
             });
-
-            this.categoriaLastId = response.articulos[0].id;
+            if(response.articulos.length > 0) {
+                this.categoriaLastId = response.articulos[0].id;
+            } else {
+                this.categoriaLastId = 0;
+            }
+            
         }
     }
 };

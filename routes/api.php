@@ -51,6 +51,7 @@ Route::middleware('auth:api', 'throttle:7000,1')->group(function () {
     Route::apiResource('remitos', 'API\RemitosController');
 
     /*Configuraciones*/
+    Route::get('/config', 'API\InicialsettingsController@getConfig');
     Route::get('/config/necesary', 'API\InicialsettingsController@checkNecesaryConfig');
     Route::get('/config/standard', 'API\InicialsettingsController@getStandardConfig');
     Route::get('/config/advance', 'API\InicialsettingsController@getAdvanceConfig');

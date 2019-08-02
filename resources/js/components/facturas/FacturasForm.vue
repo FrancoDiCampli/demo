@@ -551,8 +551,7 @@ export default {
             if (response.facturas.length > 0) {
                 this.numFactura = Number(response.facturas[0].numfactura) + 1;
             } else {
-                let response = await this.index({ url: "/api/config" });
-                this.numFactura = response.numfactura + 1;
+                this.numFactura = 1;
             }
         },
 

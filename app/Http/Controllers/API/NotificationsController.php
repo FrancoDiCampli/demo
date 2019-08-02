@@ -31,7 +31,8 @@ class NotificationsController extends Controller
                     'id' => $proStock->id,
                     'type' => 'producto',
                     'icon' => 'fas fa-exclamation-circle',
-                    'msg' => 'El producto ' . $proStock->articulo . ' necesita reposición',
+                    'item' => 'El producto ' . $proStock->articulo,
+                    'msg' => 'Necesita reposición',
                     'color' => 'error',
                     'url' => '/productos/show/' . $proStock->id
                 ]);
@@ -40,7 +41,8 @@ class NotificationsController extends Controller
                     'id' => $proStock->id,
                     'type' => 'producto',
                     'icon' => 'fas fa-box-open',
-                    'msg' => 'El producto ' . $proStock->articulo . ' no posee suficiente stock',
+                    'item' => 'El producto ' . $proStock->articulo,
+                    'msg' => 'No posee suficiente stock',
                     'color' => 'warning',
                     'url' => '/productos/show/' . $proStock->id
                 ]);
@@ -77,7 +79,8 @@ class NotificationsController extends Controller
                     'id' => $article->id,
                     'type' => 'producto',
                     'icon' => 'fas fa-clock',
-                    'msg' => 'El producto ' . $article->articulo . ' ha vencido',
+                    'item' => 'El producto ' . $article->articulo,
+                    'msg' => 'Ha vencido',
                     'color' => 'warning',
                     'url' => '/productos/show/' . $article->id
                 ]);
@@ -102,7 +105,8 @@ class NotificationsController extends Controller
                     'id' => $cliente->id,
                     'type' => 'cliente',
                     'icon' => 'fas fa-user-clock',
-                    'msg' => 'El cliente ' . $cliente->razonsocial . ' no ha cumplido con el pago a su vencimiento',
+                    'item' => 'El cliente ' . $cliente->razonsocial,
+                    'msg' => 'No ha cumplido con el pago a su vencimiento',
                     'color' => 'error',
                     'url' => '/clientes/show/' . $cliente->id
                 ]);

@@ -8,9 +8,15 @@
                 <h2>Stock: {{ showData.stock }}</h2>
             </v-flex>
             <!-- botón para agregar un nuevo inventario -->
-            <v-flex>
-                <v-layout justify-end px-3>
-                    <v-btn flat icon color="primary" @click="panelControl()">
+            <v-flex px-3>
+                <v-layout justify-end>
+                    <v-btn
+                        v-show="rol == 'superAdmin' || rol == 'admin'"
+                        flat
+                        icon
+                        color="primary"
+                        @click="panelControl()"
+                    >
                         <v-icon v-show="!formPanel[0]" size="medium">fas fa-plus</v-icon>
                         <v-icon v-show="formPanel[0]" size="medium">fas fa-times</v-icon>
                     </v-btn>
@@ -18,7 +24,11 @@
             </v-flex>
         </v-layout>
         <!-- formulario para agregar o modificar un inventario -->
-        <v-expansion-panel v-model="formPanel" expand>
+        <v-expansion-panel
+            v-show="rol == 'superAdmin' || rol == 'admin'"
+            v-model="formPanel"
+            expand
+        >
             <v-expansion-panel-content expand-icon="fas fa-plus">
                 <v-card>
                     <v-card-text>
@@ -286,7 +296,8 @@ export default {
     },
 
     computed: {
-        ...mapState("crudx", ["showData", "form", "inProcess"])
+        ...mapState("crudx", ["showData", "form", "inProcess"]),
+        ...mapState("auth", ["rol"])
     },
 
     mounted() {

@@ -34,10 +34,17 @@ class ClientesController extends Controller
             ->where('documentounico', '<>', 0)
             ->buscar($request);
 
-        return [
-            'clientes' => $clientes->take($request->get('limit', null))->get(),
-            'total' => $clientes->count()
-        ];
+        if ($clientes->count() <= $request->get('limit')) {
+            return [
+                'clientes' => $clientes->get(),
+                'total' => $clientes->count()
+            ];
+        } else {
+            return [
+                'clientes' => $clientes->take($request->get('limit', null))->get(),
+                'total' => $clientes->count()
+            ];
+        }
     }
 
     public function store(StoreCliente $request)
@@ -153,7 +160,7 @@ class ClientesController extends Controller
     {
         $num = $num * 1;
         $cuituser = Inicialsetting::all()->first()->cuit;
-        $afip = new Afip(array('CUIT' => $cuituser, 'production' => true));
+        $afip = new Afip(array('CUIT' => $cuituser, 'production' => false));
         $contribuyente = $afip->RegisterScopeFour->GetTaxpayerDetails($num);
         return json_encode($contribuyente);
     }

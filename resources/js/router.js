@@ -4,6 +4,9 @@ import Home from "./views/Home.vue";
 import NotFound from "./views/NotFound.vue";
 import Unconfigured from "./views/Unconfigured.vue";
 
+//Eliminar
+import Pendientes from "./views/Pendientes.vue";
+
 //_______________________VIEWS_______________________//
 
 // Ventas Views
@@ -179,6 +182,16 @@ export default new Router({
         {
             path: "*",
             component: NotFound
+        },
+
+        // Eliminar
+        {
+            path: "/pendientes",
+            name: "pendientes",
+            component: Pendientes,
+            meta: {
+                permissions: superAdminOnly
+            }
         },
 
         // Ventas Routes

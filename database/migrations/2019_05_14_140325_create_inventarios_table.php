@@ -19,7 +19,7 @@ class CreateInventariosTable extends Migration
             $table->integer('lote')->nullable();
             $table->date('vencimiento');
             $table->unsignedBigInteger('articulo_id');
-            $table->unsignedBigInteger('supplier_id');
+            $table->unsignedBigInteger('supplier_id')->nullable();
             $table->timestamps();
 
             $table->foreign('articulo_id')->references('id')->on('articulos');

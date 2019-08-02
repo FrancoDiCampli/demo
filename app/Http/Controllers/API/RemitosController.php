@@ -129,6 +129,8 @@ class RemitosController extends Controller
 
             Movimiento::create($data);
         }
+
+        return $remito->id;
     }
 
     public function show($id)

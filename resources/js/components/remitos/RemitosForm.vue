@@ -784,8 +784,12 @@ export default {
                 articulo_id: this.form.producto_id
             });
             if (response.length > 0) {
-                if (this.form.supplier_id != response[0].supplier.id) {
-                    this.proveedorDistinto = true;
+                if (response[0].supplier) {
+                    if (this.form.supplier_id != response[0].supplier.id) {
+                        this.proveedorDistinto = true;
+                    } else {
+                        this.proveedorDistinto = false;
+                    }
                 } else {
                     this.proveedorDistinto = false;
                 }
@@ -866,9 +870,9 @@ export default {
 
         //_________________________Methods Generales________________________//
         // Imprimir Compra
-        remitosPDF: function(id) {
+        comprasPDF: function(id) {
             axios({
-                url: "/api/remitosPDF/" + id,
+                url: "/api/comprasPDF/" + id,
                 method: "GET",
                 responseType: "blob"
             }).then(response => {
@@ -885,12 +889,11 @@ export default {
         //Guardar Compra
         saveCompra: async function() {
             if (this.$refs.formCompra.validate()) {
-                console.log(this.form);
                 //Descomentar para Guardar
                 //Guardar Compras
                 let resID = await this.save({ url: "/api/remitos" });
                 //Imprimir PDF de Compras
-                this.remitosPDF(resID);
+                this.comprasPDF(resID);
                 //Reset Formularios
                 this.detalles = [];
                 await this.$refs.formDetalles.reset();

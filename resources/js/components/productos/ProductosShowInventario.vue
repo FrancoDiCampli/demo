@@ -366,8 +366,13 @@ export default {
             if (response.length > 0) {
                 this.cantidadMaxima = response[0].cantidad;
                 this.form.vencimiento = response[0].vencimiento;
-                this.form.supplier = response[0].supplier.razonsocial;
-                this.form.supplier_id = response[0].supplier.id;
+                if (response[0].supplier) {
+                    this.form.supplier_id = response[0].supplier.id;
+                    this.form.supplier = response[0].supplier.razonsocial;
+                } else {
+                    this.form.supplier_id = null;
+                    this.form.supplier = null;
+                }
             } else {
                 this.cantidadMaxima = 999999999;
                 this.form.vencimiento = null;

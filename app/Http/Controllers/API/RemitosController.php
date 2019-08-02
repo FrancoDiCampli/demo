@@ -36,10 +36,17 @@ class RemitosController extends Controller
             $remitos->push($rem);
         }
 
-        return [
-            'remitos' => $remitos->take($request->get('limit', null)),
-            'total' => $remitos->count()
-        ];
+        if ($remitos->count() <= $request->get('limit')) {
+            return [
+                'remitos' => $remitos,
+                'total' => $remitos->count(),
+            ];
+        } else {
+            return [
+                'remitos' => $remitos->take($request->get('limit', null)),
+                'total' => $remitos->count(),
+            ];
+        }
     }
 
     public function store(Request $request)

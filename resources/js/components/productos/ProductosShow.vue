@@ -108,7 +108,10 @@
                                     </v-flex>
                                 </v-layout>
                                 <br />
-                                <ProductosForm mode="edit"></ProductosForm>
+                                <ProductosForm
+                                    mode="edit"
+                                    :disabledProveedor="form.inventarios.length > 0 ? true : false"
+                                ></ProductosForm>
                                 <v-layout justify-center>
                                     <v-btn
                                         :disabled="inProcess"
@@ -336,6 +339,8 @@ export default {
             this.form.marca = this.showData.articulo.marca.marca;
 
             this.mode = "edit";
+
+            console.log(this.form);
         },
 
         updateProducto: async function() {

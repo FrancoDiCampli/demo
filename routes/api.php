@@ -69,7 +69,7 @@ Route::middleware('auth:api', 'throttle:7000,1')->group(function () {
     Route::get('remitosPDF/{id}', 'API\PdfController@remitosPDF');
     Route::get('presupuestosPDF/{id}', 'API\PdfController@presupuestosPDF');
     Route::get('comprasPDF/{id}', 'API\PdfController@comprasPDF');
-    Route::get('recibosPDF/{id}', 'API\PdfController@recibosPDF');
+
 
     // Reportes
     Route::get('estadisticas/ventas', 'API\EstadisticasController@ventas');
@@ -83,3 +83,5 @@ Route::post('/register', 'AuthController@register');
 
 /*Configuraciones*/
 Route::get('/config/comercial', 'API\InicialsettingsController@getComercialConfig');
+
+Route::get('recibosPDF/{id}', 'API\PdfController@recibosPDF');

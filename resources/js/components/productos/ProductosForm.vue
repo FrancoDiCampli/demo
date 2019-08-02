@@ -132,7 +132,7 @@
             <v-flex xs12 sm6 px-3>
                 <v-text-field
                     v-model="form.codprov"
-                    :disabled="mode == 'edit'"
+                    :disabled="disabledProveedor"
                     label="Codigo del Proveedor"
                     box
                 ></v-text-field>
@@ -155,7 +155,7 @@ import axios from "axios";
 export default {
     name: "ProductosForm",
 
-    props: ["mode"],
+    props: ["mode", "disabledProveedor"],
 
     data() {
         return {
@@ -304,12 +304,11 @@ export default {
                 url: "/api/articulos",
                 limit: 1
             });
-            if(response.articulos.length > 0) {
+            if (response.articulos.length > 0) {
                 this.categoriaLastId = response.articulos[0].id;
             } else {
                 this.categoriaLastId = 0;
             }
-            
         }
     }
 };

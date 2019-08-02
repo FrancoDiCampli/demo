@@ -115,38 +115,38 @@ export default {
             pendientesUrgente: [
                 {
                     label: "Validación de Stock en el detalles de facturas",
-                    value: false
+                    value: true
                 },
                 {
                     label: "Valido hasta en presupuestos PDF",
-                    value: false
+                    value: true
                 },
                 {
                     label: "Corregir PDF pagos",
-                    value: false
+                    value: true
                 },
                 {
                     label: "Nuevo tab recibos",
-                    value: false
+                    value: true
                 },
                 {
                     label: "Botón imprimir recibo",
-                    value: false
+                    value: true
                 },
                 {
                     label: "Resetear variable totol a pagar",
-                    value: false
+                    value: true
                 }
             ],
             pendientesImportantes: [
                 {
                     label: "Proveedor Consumidor Final seeder",
-                    value: false
+                    value: true
                 },
                 {
                     label:
                         "Productos codigo proveedor editar si no tiene inventarios",
-                    value: false
+                    value: true
                 }
             ],
             pendientesBajo: [
@@ -160,11 +160,11 @@ export default {
                 },
                 {
                     label: "Controladores Verificar limite Index",
-                    value: false
+                    value: true
                 },
                 {
                     label: "Show Soft Deletes",
-                    value: false
+                    value: true
                 },
                 {
                     label: "Botón de notificaciones FIX",

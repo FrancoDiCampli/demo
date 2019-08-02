@@ -19,11 +19,7 @@
             <span>Nueva Venta</span>
         </v-tooltip>
         <!-- Index de factura -->
-        <v-card>
-            <v-card-text>
-                <FacturasIndex></FacturasIndex>
-            </v-card-text>
-        </v-card>
+        <FacturasIndex></FacturasIndex>
     </div>
 </template>
 

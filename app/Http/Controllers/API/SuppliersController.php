@@ -24,10 +24,17 @@ class SuppliersController extends Controller
         $suppliers = Supplier::orderBy('razonsocial', 'asc')
             ->buscar($request);
 
-        return [
-            'proveedores' => $suppliers->take($request->get('limit', null))->get(),
-            'total' => $suppliers->count()
-        ];
+        if ($suppliers->count() <= $request->get('limit')) {
+            return [
+                'proveedores' => $suppliers->get(),
+                'total' => $suppliers->count(),
+            ];
+        } else {
+            return [
+                'proveedores' => $suppliers->take($request->get('limit', null))->get(),
+                'total' => $suppliers->count(),
+            ];
+        }
     }
 
     public function store(Request $request)

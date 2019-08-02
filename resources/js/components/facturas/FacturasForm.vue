@@ -143,6 +143,7 @@
                                 @keyup="findProducto()"
                                 autofocus
                                 v-model="form.producto"
+                                :rules="[rules.required]"
                                 :hint="ProductoSearchTable ? '' : 'Escriba para buscar un producto'"
                                 persistent-hint
                                 clearable
@@ -204,7 +205,7 @@
                             <v-text-field
                                 type="number"
                                 v-model="cantidad"
-                                :rules="[rules.maxStock]"
+                                :rules="[rules.maxStock, rules.required]"
                                 label="Cantidad"
                                 ref="cantidad"
                                 box
@@ -655,6 +656,7 @@ export default {
 
                 this.productos = response.articulos;
             }
+            this.$refs.formDetalles.resetValidation();
         },
 
         // Seleccionar Producto
@@ -685,7 +687,7 @@ export default {
 
         //LLenar Array de Detalles
         fillDetalles() {
-            if (this.cantidad) {
+            if (this.$refs.formDetalles.validate()) {
                 var find = this.detalles.find(
                     detalle => detalle.producto === this.form.producto
                 );
@@ -724,6 +726,7 @@ export default {
                 // Reiniciar el Formulario de Detalles
                 this.form.producto_id = null;
                 this.$refs.formDetalles.reset();
+                this.$refs.formDetalles.resetValidation();
                 this.stock = 0;
             }
         },

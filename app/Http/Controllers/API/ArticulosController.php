@@ -50,10 +50,17 @@ class ArticulosController extends Controller
             $articulos->push($art);
         }
 
-        return [
-            'articulos' => $articulos->take($request->get('limit', null)),
-            'total' => $articulos->count()
-        ];
+        if ($articulos->count() <= $request->get('limit')) {
+            return [
+                'articulos' => $articulos,
+                'total' => $articulos->count()
+            ];
+        } else {
+            return [
+                'articulos' => $articulos->take($request->get('limit', null)),
+                'total' => $articulos->count()
+            ];
+        }
     }
 
     public function store(StoreArticulo $request)
@@ -132,11 +139,7 @@ class ArticulosController extends Controller
         $lotes = $this->lotes($id);
         foreach ($inventarios as $inventario) {
             $inv = collect($inventario);
-            if ($inventario->proveedor) {
-                $inv->put('proveedor', $inventario->proveedor);
-            } else {
-                $inv->put('proveedor', null);
-            }
+            $inv->put('proveedor', $inventario->proveedor);
         }
         return ['articulo' => $articulo, 'stock' => $stock, 'inventarios' => $inventarios, 'lotes' => $lotes, 'marca' => $marca, 'categoria' => $categoria];
     }

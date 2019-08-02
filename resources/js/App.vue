@@ -32,7 +32,12 @@
                     <v-icon>fas fa-bars</v-icon>
                 </v-btn>
                 <v-spacer></v-spacer>
-                <v-btn flat icon @click="notificationDrawer = !notificationDrawer">
+                <v-btn
+                    :disabled="notifications.length <= 0"
+                    flat
+                    icon
+                    @click="notificationDrawer = !notificationDrawer"
+                >
                     <div v-if="notifications.length > 0">
                         <v-badge left color="error">
                             <template v-slot:badge>
@@ -61,17 +66,24 @@
                 hide-overlay
                 temporary
             >
-                <v-list dense>
-                    <div v-for="alert in notifications" :key="alert.iden">
-                        <v-list-tile my-2 @click="goNotification(alert)">
-                            <v-list-tile-action>
-                                <v-icon :color="alert.color">{{ alert.icon }}</v-icon>
-                            </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title :class="alert.color+'--text'">{{ alert.msg }}</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
-                    </div>
+                <v-list two-line>
+                    <template>
+                        <div v-for="alert in notifications" :key="alert.iden">
+                            <v-list-tile @click="goNotification(alert)">
+                                <v-list-tile-action>
+                                    <v-icon :color="alert.color">{{ alert.icon }}</v-icon>
+                                </v-list-tile-action>
+                                <v-list-tile-content>
+                                    <v-list-tile-title
+                                        :class="alert.color+'--text'"
+                                    >{{ alert.item }}</v-list-tile-title>
+                                    <v-list-tile-sub-title
+                                        :class="alert.color+'--text'"
+                                    >{{ alert.msg }}</v-list-tile-sub-title>
+                                </v-list-tile-content>
+                            </v-list-tile>
+                        </div>
+                    </template>
                 </v-list>
             </v-navigation-drawer>
 
@@ -315,9 +327,11 @@ export default {
     mounted() {
         if (this.token !== null) {
             this.getUser();
+            this.getNotifications();
         }
 
         this.getComercialConfig();
+        
     },
     computed: {
         ...mapState("auth", ["rol", "token", "unconfigured"]),
@@ -342,7 +356,7 @@ export default {
     methods: {
         ...mapMutations("auth", ["changeUnconfigured"]),
         ...mapActions("auth", ["getUser", "logout"]),
-        ...mapActions("crudx", ["index", "show"]),
+        ...mapActions("crudx", ["index", "show", "getNotifications"]),
 
         checkConfig() {
             let token = localStorage.getItem("accsess_token");

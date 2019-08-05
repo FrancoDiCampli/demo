@@ -14,6 +14,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateCliente;
 use function GuzzleHttp\json_encode;
 use Intervention\Image\Facades\Image;
+use PhpParser\Error;
+use Error as GlobalError;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ClientesController extends Controller
 {
@@ -168,8 +171,36 @@ class ClientesController extends Controller
     public function destroy($id)
     {
         $cliente = Cliente::findOrFail($id);
-        $cliente->delete();
-        return ['message' => 'eliminado'];
+        $facturas = $cliente->facturas;
+        foreach ($facturas as $factura) {
+            $fecha = new Carbon($factura->fecha);
+            $factura->fecha = $fecha->format('d-m-Y');
+        }
+        $cuentas = collect();
+
+        if (count($facturas) > 0) {
+            for ($i = 0; $i < count($facturas); $i++) {
+                if ($facturas[$i]->cuenta <> null) {
+                    $cuentas->push($facturas[$i]->cuenta);
+                }
+            }
+        }
+
+        $cond = true;
+        if (count($cuentas) > 0) {
+            for ($i = 0; $i < count($cuentas); $i++) {
+                if ($cuentas[$i]->estado == 'ACTIVA') {
+                    $cond = false;
+                }
+            }
+        }
+
+        if ($cond) {
+            $cliente->delete();
+            return ['message' => 'eliminado'];
+        } else {
+            return ['message' => 'El cliente posee cuentas activas'];
+        }
     }
 
     // BUSCA EN AFIP LOS DATOS CORRESPONDIENTES DE UNA CUIT

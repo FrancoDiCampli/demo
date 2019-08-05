@@ -22,6 +22,7 @@ class SuppliersController extends Controller
     public function index(Request $request)
     {
         $suppliers = Supplier::orderBy('razonsocial', 'asc')
+            ->where('cuit', '<>', 0)
             ->buscar($request);
 
         if ($suppliers->count() <= $request->get('limit')) {

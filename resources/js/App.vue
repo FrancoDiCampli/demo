@@ -20,8 +20,10 @@
                 v-show="token !== null"
                 :color="screenWidth <= 600 ? 'primary' : 'transparent'"
                 :absolute="screenWidth <= 600 ? false : true"
+                :app="screenWidth <= 600 ? true : false"
                 dark
                 class="elevation-0"
+                style="position: fixed;"
             >
                 <v-btn
                     class="hidden-sm-and-up"
@@ -331,7 +333,6 @@ export default {
         }
 
         this.getComercialConfig();
-        
     },
     computed: {
         ...mapState("auth", ["rol", "token", "unconfigured"]),

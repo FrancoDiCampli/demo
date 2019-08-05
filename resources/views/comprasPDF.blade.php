@@ -103,6 +103,11 @@
             margin-bottom: 40px;
         }
 
+        .header-left .header-social {
+            width: 89%;
+            overflow: hidden;
+        }
+
         .header-right {
             width: 50%;
             height: 45mm;
@@ -197,9 +202,8 @@
                 </div>
             </div>
             <div class="header-left">
-                <h2 class="center">{{$proveedor->razonsocial}}</h2>
-
-                <p><b>Domicilio Comercial: </b>{{$proveedor->direccion}}</p>
+                <h2 class="center header-social">{{$proveedor->razonsocial}}</h2>
+                <p><b>Domicilio: </b>{{$proveedor->direccion}}</p>
             </div>
             <div class="v-divider"></div>
             <div class="header-right">

@@ -31,7 +31,12 @@
                     <!-- Componente Formulario -->
                     <ClientesForm mode="create"></ClientesForm>
                     <v-layout justify-center>
-                        <v-btn :disabled="inProcess" type="submit" color="primary">Guardar</v-btn>
+                        <v-btn
+                            :loading="inProcess"
+                            :disabled="inProcess"
+                            type="submit"
+                            color="primary"
+                        >Guardar</v-btn>
                     </v-layout>
                 </v-form>
             </v-card-text>
@@ -69,12 +74,10 @@ export default {
 
         saveCliente: async function() {
             if (this.$refs.clientesForm.validate()) {
-                this.process = true;
                 await this.save({ url: "/api/clientes" });
                 await this.index({ url: "/api/clientes" });
                 this.$refs.clientesForm.resetValidation();
                 this.$refs.clientesForm.reset();
-                this.process = false;
                 this.$router.push("/clientes");
             }
         },

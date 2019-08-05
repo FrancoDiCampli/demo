@@ -104,30 +104,54 @@
                             </v-tabs>
                         </div>
                         <div v-else-if="mode == 'delete'">
-                            <v-alert :value="true" color="error">
-                                <h2 class="text-xs-center">¿Estas Seguro?</h2>
-                                <br />
-                                <v-divider dark></v-divider>
-                                <br />
-                                <p class="text-xs-center">¿Realmente deseas eliminar este Cliente?</p>
-                                <p class="text-xs-center">Este Cambio es Irreversible</p>
-                                <br />
-                                <v-layout justify-center>
-                                    <v-btn
-                                        :disabled="inProcess"
-                                        @click="mode = 'show'"
-                                        class="elevation-0 red--text"
-                                        color="white"
-                                    >Cancelar</v-btn>
-                                    <v-btn
-                                        :loading="inProcess"
-                                        :disabled="inProcess"
-                                        @click="deleteCliente()"
-                                        outline
-                                        color="white"
-                                    >Eliminar</v-btn>
-                                </v-layout>
-                            </v-alert>
+                            <div v-if="!checkCuentas">
+                                <v-alert :value="true" color="error">
+                                    <h2 class="text-xs-center">¿Estas Seguro?</h2>
+                                    <br />
+                                    <v-divider dark></v-divider>
+                                    <br />
+                                    <p
+                                        class="text-xs-center"
+                                    >¿Realmente deseas eliminar este Cliente?</p>
+                                    <p class="text-xs-center">Este Cambio es Irreversible</p>
+                                    <br />
+                                    <v-layout justify-center>
+                                        <v-btn
+                                            :disabled="inProcess"
+                                            @click="mode = 'show'"
+                                            class="elevation-0 red--text"
+                                            color="white"
+                                        >Cancelar</v-btn>
+                                        <v-btn
+                                            :loading="inProcess"
+                                            :disabled="inProcess"
+                                            @click="deleteCliente()"
+                                            outline
+                                            color="white"
+                                        >Eliminar</v-btn>
+                                    </v-layout>
+                                </v-alert>
+                            </div>
+                            <div v-else>
+                                <v-alert :value="true" color="error">
+                                    <h2 class="text-xs-center">No es posible eliminar el cliente</h2>
+                                    <br />
+                                    <v-divider dark></v-divider>
+                                    <br />
+                                    <p
+                                        class="text-xs-center"
+                                    >El cliente no puede ser eliminado ya que tiene cuentas corrientes activas</p>
+                                    <br />
+                                    <v-layout justify-center>
+                                        <v-btn
+                                            :disabled="inProcess"
+                                            @click="mode = 'show'"
+                                            class="elevation-0 red--text"
+                                            color="white"
+                                        >Cancelar</v-btn>
+                                    </v-layout>
+                                </v-alert>
+                            </div>
                         </div>
                     </div>
                 </v-card>
@@ -151,7 +175,8 @@ export default {
 
     data() {
         return {
-            mode: "show"
+            mode: "show",
+            checkCuentas: false
         };
     },
 
@@ -201,12 +226,18 @@ export default {
         },
 
         deleteCliente: async function() {
-            await this.destroy({
+            let response = await this.destroy({
                 url: "/api/clientes/" + this.showData.cliente.id
             });
-            await this.index({ url: "/api/clientes" });
-            this.mode = "show";
-            this.$router.push("/clientes");
+
+            if (response.message == "eliminado") {
+                this.checkCuentas = false;
+                await this.index({ url: "/api/clientes" });
+                this.mode = "show";
+                this.$router.push("/clientes");
+            } else {
+                this.checkCuentas = true;
+            }
         }
     }
 };

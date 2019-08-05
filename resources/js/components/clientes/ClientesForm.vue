@@ -164,6 +164,14 @@ export default {
         } else if (this.mode == "create") {
             this.documentoExistente = null;
         }
+
+        let preData = {
+            provincia: "Chaco",
+            localidad: "Villa-Ángela",
+            codigopostal: 3540
+        };
+
+        this.fillForm(preData);
     },
 
     methods: {

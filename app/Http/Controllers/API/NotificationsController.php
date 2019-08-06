@@ -92,10 +92,11 @@ class NotificationsController extends Controller
 
         foreach ($cuentas as $cuenta) {
             if ($cuenta->ultimopago == null) {
-                $ultimopago = new Carbon($cuenta->updated_at);
+                $ultimopago = new Carbon($cuenta->alta);
             } else {
                 $ultimopago = new Carbon($cuenta->ultimopago);
             }
+
             $hoy = now();
             $diff = $hoy->diffInDays($ultimopago);
             if ($diff > 30) {
@@ -108,7 +109,7 @@ class NotificationsController extends Controller
                     'item' => 'El cliente ' . $cliente->razonsocial,
                     'msg' => 'No ha cumplido con el pago',
                     'color' => 'error',
-                    'url' => '/clientes/show/' . $cliente->id
+                    'url' => '/clientes/show/' . $cliente->id,
                 ]);
             }
         }

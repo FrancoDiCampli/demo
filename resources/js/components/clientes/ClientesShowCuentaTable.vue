@@ -71,9 +71,81 @@
                                                 v-show="!pagar"
                                                 class="hidden-sm-and-down"
                                             >{{ cuenta.item.alta }}</td>
-                                            <td
-                                                class="hidden-sm-and-down"
-                                            >{{ cuenta.item.ultimopago }}</td>
+                                            <td>
+                                                <div v-if="cuenta.item.diferencia >= 30">
+                                                    <v-menu
+                                                        v-model="cuenta.item.menuDiff"
+                                                        :close-on-content-click="false"
+                                                        :nudge-width="200"
+                                                        max-width="350px"
+                                                        left
+                                                        offset-x
+                                                    >
+                                                        <template v-slot:activator="{ on }">
+                                                            <v-btn
+                                                                color="error"
+                                                                flat
+                                                                icon
+                                                                v-on="on"
+                                                                @click="setRecargo(cuenta.item.saldo)"
+                                                            >
+                                                                <v-icon>fas fa-exclamation-circle</v-icon>
+                                                            </v-btn>
+                                                        </template>
+
+                                                        <v-card>
+                                                            <v-list>
+                                                                <v-list-tile>
+                                                                    <v-list-tile-content>
+                                                                        <v-list-tile-title
+                                                                            class="text-xs-center error--text"
+                                                                        >Esta cuenta esta vencida hace {{ cuenta.item.diferencia }} días</v-list-tile-title>
+                                                                        <v-list-tile-sub-title
+                                                                            class="text-xs-center"
+                                                                        >Si lo desea, establezca el porcentaje a recargar</v-list-tile-sub-title>
+                                                                    </v-list-tile-content>
+                                                                </v-list-tile>
+                                                            </v-list>
+
+                                                            <v-divider></v-divider>
+
+                                                            <v-layout justify-center wrap>
+                                                                <v-flex xs10 px-2 mt-3>
+                                                                    <v-text-field
+                                                                        v-model="recargo"
+                                                                        label="Recargo %"
+                                                                        box
+                                                                    ></v-text-field>
+                                                                </v-flex>
+                                                                <v-flex xs10 px-2>
+                                                                    <v-text-field
+                                                                        v-model="nuevoSaldo"
+                                                                        disabled
+                                                                        label="Saldo"
+                                                                        box
+                                                                    ></v-text-field>
+                                                                </v-flex>
+                                                            </v-layout>
+
+                                                            <v-card-actions>
+                                                                <v-layout justify-center mb-2>
+                                                                    <v-btn
+                                                                        color="primary"
+                                                                        outline
+                                                                        @click="cuenta.item.menuDiff = false; resetRecargo()"
+                                                                    >Cancelar</v-btn>
+                                                                    <v-btn
+                                                                        :disabled="recargo != null && recargo != '' ? false : true"
+                                                                        color="primary"
+                                                                        @click="recargar(cuenta.item.id); cuenta.item.menuDiff = false"
+                                                                    >Guardar</v-btn>
+                                                                </v-layout>
+                                                            </v-card-actions>
+                                                        </v-card>
+                                                    </v-menu>
+                                                </div>
+                                                <div>{{ cuenta.item.ultimopago }}</div>
+                                            </td>
                                             <td v-show="pagar && cuenta.selected">
                                                 <v-layout justify-center>
                                                     <input
@@ -324,12 +396,32 @@ export default {
             pagarCuentasDialog: false,
             snackbar: false,
             pagoTotal: null,
-            loadingButton: false
+            loadingButton: false,
+            recargo: null,
+            saldoActual: null
         };
     },
 
     computed: {
         ...mapState("crudx", ["showData", "form"]),
+
+        nuevoSaldo: {
+            set() {},
+            get() {
+                if (
+                    this.recargo != null &&
+                    this.recargo != "" &&
+                    this.saldoActual != null
+                ) {
+                    let saldo = Number(this.saldoActual);
+                    let value = Number((saldo * this.recargo) / 100);
+                    saldo += value;
+                    return saldo.toFixed(2);
+                } else {
+                    return null;
+                }
+            }
+        },
 
         saldo: {
             set() {},
@@ -339,7 +431,7 @@ export default {
                     for (let i = 0; i < this.showData.cuentas.length; i++) {
                         saldo += this.showData.cuentas[i].saldo * 1;
                     }
-                    return saldo;
+                    return saldo.toFixed(2);
                 } else {
                     return null;
                 }
@@ -393,6 +485,7 @@ export default {
             if (this.selected.length > 0) {
                 for (let i = 0; i < this.selected.length; i++) {
                     this.pagoTotal += Number(this.selected[i].value);
+                    this.pagoTotal = this.pagoTotal.toFixed(2);
                 }
                 this.pagarCuentasDialog = true;
             }
@@ -439,6 +532,39 @@ export default {
                 this.pagarCuentasDialog = false;
                 this.snackbar = true;
                 this.pagoTotal = null;
+            }
+        },
+
+        setRecargo(saldo) {
+            this.saldoActual = saldo;
+        },
+
+        resetRecargo() {
+            this.recargo = null;
+            this.saldoActual = null;
+        },
+
+        recargar(id) {
+            if (this.recargo != null && this.recargo != "") {
+                let formulario = {
+                    id: Number(id),
+                    nuevoSaldo: Number(this.nuevoSaldo)
+                };
+
+                axios
+                    .post("/api/recargar", formulario)
+                    .then(response => {
+                        this.show({
+                            url: "/api/clientes/" + this.showData.cliente.id
+                        });
+                        this.resetRecargo();
+                        this.snackbar = true;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            } else {
+                this.resetRecargo();
             }
         }
     }

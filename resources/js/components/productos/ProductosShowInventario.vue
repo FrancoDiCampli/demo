@@ -119,6 +119,8 @@
                                     <v-text-field
                                         @keyup="findSuppliers()"
                                         v-model="form.supplier"
+                                        clearable
+                                        clear-icon="fas fa-times"
                                         :rules="[rules.required]"
                                         :disabled="disabledInputs"
                                         label="Proveedor"
@@ -305,6 +307,9 @@ export default {
     mounted() {
         this.movimientosControl();
         this.lotesControl();
+
+        this.form.supplier_id = 1;
+        this.form.supplier = "CONSUMIDOR FINAL";
     },
 
     methods: {
@@ -319,10 +324,14 @@ export default {
             if (this.formPanel[0]) {
                 this.$refs.inventariosForm.reset();
                 this.formPanel = [false];
+                this.form.supplier_id = 1;
+                this.form.supplier = "CONSUMIDOR FINAL";
             } else {
                 await this.movimientosControl();
                 await this.lotesControl();
                 this.formPanel = [true];
+                this.form.supplier_id = 1;
+                this.form.supplier = "CONSUMIDOR FINAL";
             }
         },
 
@@ -380,14 +389,19 @@ export default {
 
         // Buscar Proveedor
         findSuppliers: async function() {
-            this.form.supplier_id = null;
-            this.proveedorSearchTable = true;
-            let response = await this.index({
-                url: "/api/suppliers",
-                buscarProveedor: this.form.supplier,
-                limit: 5
-            });
-            this.suppliers = response.proveedores;
+            if (this.form.supplier == "0") {
+                this.form.supplier_id = 1;
+                this.form.supplier = "CONSUMIDOR FINAL";
+            } else if (this.form.supplier) {
+                this.form.supplier_id = null;
+                this.proveedorSearchTable = true;
+                let response = await this.index({
+                    url: "/api/suppliers",
+                    buscarProveedor: this.form.supplier,
+                    limit: 5
+                });
+                this.suppliers = response.proveedores;
+            }
         },
 
         // Seleccionar Proveedor

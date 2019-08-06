@@ -31,6 +31,7 @@ Route::middleware('auth:api', 'throttle:7000,1')->group(function () {
 
     /*CuentasCorrientes*/
     Route::post('/pagarcuentas', 'API\CuentacorrientesController@pagar');
+    Route::post('/recargar', 'API\CuentacorrientesController@recargar');
 
     /*Articulos*/
     Route::apiResource('articulos', 'API\ArticulosController', ['except' => ['create', 'edit']]);
@@ -69,7 +70,6 @@ Route::middleware('auth:api', 'throttle:7000,1')->group(function () {
     Route::get('remitosPDF/{id}', 'API\PdfController@remitosPDF');
     Route::get('presupuestosPDF/{id}', 'API\PdfController@presupuestosPDF');
     Route::get('comprasPDF/{id}', 'API\PdfController@comprasPDF');
-
 
     // Reportes
     Route::get('estadisticas/ventas', 'API\EstadisticasController@ventas');

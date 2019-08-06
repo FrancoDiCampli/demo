@@ -92,4 +92,11 @@ class CuentacorrientesController extends Controller
         $recibo->pagos()->attach($aux);
         return $recibo->id;
     }
+
+    public function recargar(Request $request)
+    {
+        $cuenta = Cuentacorriente::find($request->get('id'));
+        $cuenta->saldo = $request->get('nuevoSaldo');
+        $cuenta->update();
+    }
 }

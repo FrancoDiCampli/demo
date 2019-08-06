@@ -14,9 +14,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateCliente;
 use function GuzzleHttp\json_encode;
 use Intervention\Image\Facades\Image;
-use PhpParser\Error;
-use Error as GlobalError;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ClientesController extends Controller
 {
@@ -102,8 +99,12 @@ class ClientesController extends Controller
                 $cuentas[$i]['numfactura'] = $cuentas[$i]->factura['numfactura'];
                 $alta = new Carbon($cuentas[$i]['alta']);
                 $cuentas[$i]['alta'] = $alta->format('d-m-Y');
-                $ultimo = new Carbon($cuentas[$i]['ultimopago']);
-                $cuentas[$i]['ultimopago'] = $ultimo->format('d-m-Y');
+
+                if ($cuentas[$i]['ultimopago'] != null) {
+                    $ultimo = new Carbon($cuentas[$i]['ultimopago']);
+                    $cuentas[$i]['ultimopago'] = $ultimo->format('d-m-Y');
+                }
+
                 $cuentas[$i]['movimientos'] = $cuentas[$i]->movimientos;
                 $aux = $cuentas[$i]->movimientos;
 
@@ -113,12 +114,21 @@ class ClientesController extends Controller
                     $aux->fecha = $fechamov->format('d-m-Y');
                 }
                 $pagos = $cuentas[$i]->pagos;
-                // $recibos = [];
                 foreach ($pagos as $pago) {
                     $auxRecibos->push($pago->recibo);
                 }
-                // array_collapse($recibos);
-                // $cuentas[$i]['recibos'] = $recibos;
+
+                if ($cuentas[$i]->estado == 'ACTIVA') {
+                    if ($cuentas[$i]->ultimopago == null) {
+                        $ultimopago = new Carbon($cuentas[$i]->updated_at);
+                    } else {
+                        $ultimopago = new Carbon($cuentas[$i]->ultimopago);
+                    }
+                    $hoy = now();
+                    $diff = $hoy->diffInDays($ultimopago);
+                    $cuentas[$i]['diferencia'] = $diff;
+                    $cuentas[$i]['menuDiff'] = false;
+                }
 
                 unset($aux);
             }

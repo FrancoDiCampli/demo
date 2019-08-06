@@ -634,6 +634,11 @@ export default {
         }
     },
 
+    mounted() {
+        this.form.supplier_id = 1;
+        this.form.supplier = "CONSUMIDOR FINAL";
+    },
+
     methods: {
         ...mapActions("crudx", ["index", "save"]),
 
@@ -642,7 +647,10 @@ export default {
         findProveedor: async function() {
             this.detallesProveedor = [];
             this.notProveedor = true;
-            if (this.form.supplier) {
+            if (this.form.supplier == "0") {
+                this.form.supplier_id = 1;
+                this.form.supplier = "CONSUMIDOR FINAL";
+            } else if (this.form.supplier) {
                 this.proveedoresSearchTable = true;
                 let response = await this.index({
                     url: "/api/suppliers",

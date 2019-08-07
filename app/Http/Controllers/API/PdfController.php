@@ -19,7 +19,7 @@ class PdfController extends Controller
 {
     public function __construct()
     {
-        // $this->middleware('auth');
+        $this->middleware('auth');
     }
 
     public function facturasPDF($id)
@@ -90,6 +90,6 @@ class PdfController extends Controller
             $pay->fecha = $fecha->format('d-m-Y');
         }
         $pdf = app('dompdf.wrapper')->loadView('recibosPDF', compact('configuracion', 'recibo', 'pagos', 'cuenta', 'cliente'))->setPaper('A4');
-        return $pdf->stream();
+        return $pdf->download();
     }
 }

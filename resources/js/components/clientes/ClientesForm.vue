@@ -224,6 +224,7 @@ export default {
                 .then(response => {
                     if (response.data != null) {
                         this.fillData(response.data);
+                        console.log(response.data);
                     } else {
                         this.process = false;
                     }
@@ -240,18 +241,6 @@ export default {
             // Documento y Condición de Iva
             if (data.tipoClave == "CUIL") {
                 formData.condicioniva = "CONSUMIDOR FINAL";
-            } else if (data.tipoClave == "CUIT") {
-                for (let i = 0; i < data.impuesto.length; i++) {
-                    if (data.impuesto[i].estado == "ACTIVO") {
-                        if (data.impuesto[i].idImpuesto == 20) {
-                            formData.condicioniva = "RESPONSABLE MONOTRIBUTO";
-                        } else if (data.impuesto[i].idImpuesto == 30) {
-                            formData.condicioniva = "IVA RESPONSABLE INSCRIPTO";
-                        } else if (data.impuesto[i].idImpuesto == 32) {
-                            formData.condicioniva = "IVA SUJENTO EXENTO";
-                        }
-                    }
-                }
             }
 
             // Razon Social
@@ -272,7 +261,7 @@ export default {
             if (data.domicilio.length) {
                 for (let i = 0; i < data.domicilio.length; i++) {
                     if (data.domicilio[i].tipoDomicilio == "FISCAL") {
-                        formData.codigopostal = data.domicilio[i].codPostal;
+                        formData.codigopostal = data.domicilio[i].codigoPostal;
                         formData.direccion = data.domicilio[i].direccion;
                         formData.provincia =
                             data.domicilio[i].descripcionProvincia;
@@ -280,7 +269,7 @@ export default {
                     }
                 }
             } else {
-                formData.codigopostal = data.domicilio.codPostal;
+                formData.codigopostal = data.domicilio.codigoPostal;
                 formData.direccion = data.domicilio.direccion;
                 formData.provincia = data.domicilio.descripcionProvincia;
                 formData.localidad = data.domicilio.localidad;

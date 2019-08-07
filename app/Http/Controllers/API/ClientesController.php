@@ -4,10 +4,8 @@ namespace App\Http\Controllers\API;
 
 use Afip;
 use App\Cliente;
-use App\Factura;
 use Carbon\Carbon;
 use App\Inicialsetting;
-use App\Cuentacorriente;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreCliente;
 use App\Http\Controllers\Controller;
@@ -218,8 +216,8 @@ class ClientesController extends Controller
     {
         $num = $num * 1;
         $cuituser = Inicialsetting::all()->first()->cuit;
-        $afip = new Afip(array('CUIT' => $cuituser, 'production' => false));
-        $contribuyente = $afip->RegisterScopeFour->GetTaxpayerDetails($num);
+        $afip = new Afip(array('CUIT' => $cuituser, 'production' => true));
+        $contribuyente = $afip->RegisterScopeThirteen->GetTaxpayerDetails($num);
         return json_encode($contribuyente);
     }
 }

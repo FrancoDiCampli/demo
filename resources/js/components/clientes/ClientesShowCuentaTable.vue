@@ -314,7 +314,7 @@
                                                     </template>
                                                     <v-list>
                                                         <v-list-tile
-                                                            @click="StreamrecibosPDF(recibo.item.id)"
+                                                            @click="recibosPDF(recibo.item.id)"
                                                         >
                                                             <v-list-tile-title>Imprimir</v-list-tile-title>
                                                         </v-list-tile>
@@ -512,10 +512,6 @@ export default {
                 document.body.appendChild(link);
                 link.click();
             });
-        },
-
-        StreamrecibosPDF(id) {
-            window.open("/api/recibosPDF/" + id);
         },
 
         pagarCuentas: async function() {

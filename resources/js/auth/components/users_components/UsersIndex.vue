@@ -40,7 +40,7 @@
                 <v-divider></v-divider>
                 <v-card-text>
                     <v-form ref="userForm" @submit.prevent="updateUser()">
-                        <UsersForm></UsersForm>
+                        <UsersForm mode="edit"></UsersForm>
                         <br />
                         <v-layout justify-end>
                             <v-btn

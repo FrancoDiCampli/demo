@@ -248,6 +248,68 @@
     </div>
 
     <div class="page-break"></div>
+
+    <div class="container">
+        <div class="pre-header">
+            <h2><b>DUPLICADO</b></h2>
+        </div>
+        <div class="header">
+            <br>
+            <div class="header-middle">
+                <div class="type">
+                    <h1><b>X</b></h1>
+                </div>
+            </div>
+            <div class="header-left">
+                <h2 class="center">{{$configuracion->nombrefantasia}}</h2>
+                <p><b>Razón Social: </b>{{$configuracion->razonsocial}}</p>
+                <p><b>Domicilio Comercial: </b>{{$configuracion->domiciliocomercial}}</p>
+                <p><b>Condición Frente al IVA: </b>{{$configuracion->condicioniva}}</p>
+            </div>
+            <div class="v-divider"></div>
+            <div class="header-right">
+                <h2 class="center">RECIBO</h2>
+                <p><b>Punto de Venta: </b>0000{{$configuracion->puntoventa}}<b> Comprobante Nº: </b>{{$recibo->numrecibo}}</p>
+                <p><b>Fecha de Emisión: </b>{{$recibo->fecha}}</p>
+                <p><b>Cuit: </b>{{$configuracion->cuit}}</p>
+                <p><b>Ingresos Brutos: </b>{{$configuracion->cuit}}</p>
+                <p><b>Inicio de Actividades: </b>{{$configuracion->inicioactividades}}</p>
+            </div>
+        </div>
+        <br><br>
+        <div class="pre-body">
+            <br>
+            <p><b>CUIT: </b>{{$cliente->documentounico}}</p>
+            <p><b>Razón Social: </b>{{$cliente->razonsocial}}</p>
+            <p><b>Condición Frente al IVA: </b>{{$cliente->condicioniva}}</p>
+            <p><b>Domicilio: </b>{{$cliente->direccion}}</p>
+        </div>
+        <br>
+        <div class="body">
+            <table>
+                <tr>
+                    <th>Pago Nº</th>
+                    <th>Importe</th>
+                    <th>Fecha</th>
+                    <th>Nº Cuenta Corriente</th>
+                </tr>
+                @foreach($pagos as $pago)
+                <tr class="body">
+                    <th>{{$pago->numpago}}</th>
+                    <th>{{$pago->importe}}</th>
+                    <th>{{$pago->fecha}}</th>
+                    <th>{{$pago->ctacte_id}}</th>
+                </tr>
+                @endforeach
+            </table>
+        </div>
+        <br>
+        <div class="footer">
+            <div class="details">
+                <p><b>Total: </b>${{$recibo->total}}</p>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

@@ -443,7 +443,7 @@ export default {
             detallesProveedor: [],
             proveedores: [],
             proveedoresSearchTable: false,
-            notProveedor: true,
+            notProveedor: false,
             //_________________________Data Productos________________________//
             productosSearchTable: false,
             productos: [],
@@ -732,7 +732,7 @@ export default {
             // Seleccionar Producto
             this.form.producto_id = producto.id;
             this.form.producto = producto.articulo;
-            this.form.preciounitario = producto.precio;
+            this.form.preciounitario = producto.costo;
         },
 
         //____________________Methods Lotes Movimientos_____________________//

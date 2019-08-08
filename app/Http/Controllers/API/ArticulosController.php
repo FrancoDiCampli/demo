@@ -96,7 +96,7 @@ class ArticulosController extends Controller
         if ($request->get('foto') != $articulo->foto) {
             $carpeta = public_path() . '/img/articulos/';
             if (!file_exists($carpeta)) {
-                mkdir($carpeta, 0777, true);
+                mkdir($carpeta, 777, true);
             }
             $eliminar = $articulo->foto;
             if (file_exists($eliminar)) {
@@ -104,7 +104,7 @@ class ArticulosController extends Controller
             }
             $image = $request->get('foto');
             $name = time() . '.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-            Image::make($request->get('foto'))->save(public_path('img/articulos/') . $name);
+            Image::make($request->get('foto'))->save(public_path('img/articulos/') . $name,);
             $foto = '/img/articulos/' . $name;
         } else {
             $foto = $articulo->foto;

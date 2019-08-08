@@ -73,7 +73,6 @@ const actions = {
                 .then(response => {
                     commit("fillData", response.data);
                     state.inProcess = false;
-                    dispatch("getNotifications");
                     resolve(response.data);
                 })
                 .catch(error => {
@@ -93,7 +92,6 @@ const actions = {
                 .then(response => {
                     commit("fillShowData", response.data);
                     state.inProcess = false;
-                    dispatch("getNotifications");
                     resolve(response.data);
                 })
                 .catch(error => {

@@ -26,7 +26,7 @@
                 <v-divider></v-divider>
                 <v-card-text>
                     <v-form ref="usersForm" @submit.prevent="saveUser">
-                        <UsersForm></UsersForm>
+                        <UsersForm mode="create"></UsersForm>
                         <br />
                         <v-layout justify-end>
                             <v-btn

@@ -24,7 +24,7 @@
             <v-flex xs12 px-3>
                 <v-text-field
                     v-model="form.password"
-                    :rules="[rules.required, rules.max, rules.min]"
+                    :rules="mode == 'create' ? [rules.required, rules.max, rules.min] : []"
                     :append-icon="password ? 'fas fa-eye' : 'fas fa-eye-slash'"
                     @click:append="password = !password"
                     :type="password ? 'text' : 'password'"
@@ -37,7 +37,7 @@
             <v-flex xs12 px-3>
                 <v-text-field
                     v-model="form.password_confirm"
-                    :rules="[rules.required, rules.max, rules.min]"
+                    :rules="mode == 'create' ? [rules.required, rules.max, rules.min] : []"
                     :append-icon="confirm_password ? 'fas fa-eye' : 'fas fa-eye-slash'"
                     @click:append="confirm_password = !confirm_password"
                     :type="confirm_password ? 'text' : 'password'"
@@ -72,6 +72,8 @@ import { mapState, mapActions } from "vuex";
 
 export default {
     name: "UsersForm",
+
+    props: ["mode"],
 
     data() {
         return {
